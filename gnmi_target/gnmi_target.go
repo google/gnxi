@@ -23,9 +23,9 @@ import (
 	"golang.org/x/net/context"
 
 	log "github.com/golang/glog"
+	"github.com/google/gnxi/credentials"
+	"github.com/google/gnxi/target"
 	"github.com/openconfig/gnmi/proto/gnmi"
-	"github.com/samribeiro/gnmi/credentials"
-	"github.com/samribeiro/gnmi/target"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/reflection"

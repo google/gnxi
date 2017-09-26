@@ -23,10 +23,10 @@ import (
 
 	log "github.com/golang/glog"
 	"github.com/golang/protobuf/proto"
+	"github.com/google/gnxi/client"
+	"github.com/google/gnxi/credentials"
 	"github.com/kylelemons/godebug/pretty"
 	"github.com/openconfig/gnmi/proto/gnmi"
-	"github.com/samribeiro/gnmi/client"
-	"github.com/samribeiro/gnmi/credentials"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
