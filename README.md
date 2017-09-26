@@ -9,7 +9,7 @@
 
 A collection of tools for Network Management that use the gNMI and gNOI protocols.
 
-## Tools
+### Summary
 
 _Note_: At this stage these tools are intended for testing and as reference implementation of the protocol.
 
