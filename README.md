@@ -1,3 +1,10 @@
+
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![GoDoc](https://godoc.org/github.com/google/gnxi?status.svg)](https://godoc.org/github.com/google/gnxi)
+[![Go Report Card](https://goreportcard.com/badge/github.com/google/gnxi)](https://goreportcard.com/report/github.com/google/gnxi)
+[![Build Status](https://travis-ci.org/google/gnxi.svg?branch=master)](https://travis-ci.org/google/gnxi)
+[![codecov.io](https://codecov.io/github/google/gnxi/coverage.svg?branch=master)](https://codecov.io/github/google/gnxi?branch=master)
+
 # gNxI Tools
 
 A collection of tools that perform functions specific to the gNMI protocol using Openconfig models.
