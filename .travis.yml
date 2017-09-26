@@ -1,0 +1,17 @@
+language: go
+
+go:
+  - master
+  - 1.8.x
+
+notifications:
+  email: false
+
+before_install:
+  - go get -t -v ./...
+
+script:
+  - ./test.sh
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
