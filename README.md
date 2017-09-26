@@ -7,22 +7,46 @@
 
 # gNxI Tools
 
-A collection of tools that perform functions specific to the gNMI protocol using Openconfig models.
+A collection of tools for Network Management that use the gNMI and gNOI protocols.
 
 *  See [gNMI Protocol documentation](https://github.com/openconfig/reference/tree/master/rpc/gnmi).
+*  See [gNOI Protocol documentation](https://github.com/openconfig/reference/tree/master/rpc/gnoi).
 *  See [Openconfig documentation](http://www.openconfig.net/).
 
-## gNMI Get
+## Tools
 
-A simple shell binary that performs a GET against a gNMI Target.
+_Note_: At this stage these tools are intended for testing and as reference implementation of the protocol.
 
-See [gNMI Get](./gnmi_get) documentation.
+*  [gNMI Get](./gnmi_get)
+*  [gNMI Target](./gnmi_target)
 
-## gNMI Target
+## Getting Started
 
-A simple shell binary that simulates a gNMI Target.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See Docker for instructions on how to test against network equipment.
 
-See [gNMI Target](./gnmi_target) documentation.
+### Prerequisites
+
+Install __go__ in your system https://golang.org/doc/install.
+
+### Clone
+
+Clone the project to your __go__ source folder:
+```
+mkdir -p $GOPATH/src/github.com/google/
+cd $GOPATH/src/github.com/google/
+git clone https://github.com/google/gnxi.git
+```
+
+### Running
+
+```
+cd $GOPATH/src/github.com/google/gnxi/gnmi_get
+go run ./gnmi_get.go
+```
+
+## Docker
+
+[FAUCET](https://github.com/faucetsdn/faucet) currently includes a [Dockerfile](https://github.com/faucetsdn/faucet/blob/master/Dockerfile.gnmi) to setup the environment that facilitates testing these tools against network equipment. See the [gNMI FAUCET documentation](https://github.com/faucetsdn/faucet/tree/master/gnmi) for more information.
 
 ## Disclaimer
 
