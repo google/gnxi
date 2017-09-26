@@ -9,16 +9,18 @@
 
 A collection of tools for Network Management that use the gNMI and gNOI protocols.
 
-*  See [gNMI Protocol documentation](https://github.com/openconfig/reference/tree/master/rpc/gnmi).
-*  See [gNOI Protocol documentation](https://github.com/openconfig/reference/tree/master/rpc/gnoi).
-*  See [Openconfig documentation](http://www.openconfig.net/).
-
 ## Tools
 
 _Note_: At this stage these tools are intended for testing and as reference implementation of the protocol.
 
 *  [gNMI Get](./gnmi_get)
 *  [gNMI Target](./gnmi_target)
+
+### Documentation
+
+*  See [gNMI Protocol documentation](https://github.com/openconfig/reference/tree/master/rpc/gnmi).
+*  See [gNOI Protocol documentation](https://github.com/openconfig/reference/tree/master/rpc/gnoi).
+*  See [Openconfig documentation](http://www.openconfig.net/).
 
 ## Getting Started
 
@@ -38,6 +40,8 @@ git clone https://github.com/google/gnxi.git
 ```
 
 ### Running
+
+To run the binaries:
 
 ```
 cd $GOPATH/src/github.com/google/gnxi/gnmi_get
