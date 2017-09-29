@@ -13,83 +13,121 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// Binary gnmi_target behaves as a gNMI Target.
+// Package gnmi_target implements an in-memory gnmi target for device config.
 package main
+
+// Typical usage:
+// go run gnmi_target.go -bind :10161 \
+//		-config openconfig-openflow.json \
+//		-ca ca.pem -cert target_cert.pem -key target_key.pem \
+//		-username foo -password bar
 
 import (
 	"flag"
+	"fmt"
+	"io/ioutil"
 	"net"
-
-	"golang.org/x/net/context"
+	"os"
+	"reflect"
 
 	log "github.com/golang/glog"
-	"github.com/google/gnxi/credentials"
-	"github.com/google/gnxi/target"
-	"github.com/openconfig/gnmi/proto/gnmi"
+	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/reflection"
+	"google.golang.org/grpc/status"
+
+	"github.com/google/gnxi/credentials"
+	"github.com/google/gnxi/utils/target/gnmi/model_data"
+	"github.com/google/gnxi/utils/target/gnmi/model_data/gostruct"
+	"github.com/google/gnxi/utils/target/gnmi/server"
+
+	pb "github.com/openconfig/gnmi/proto/gnmi"
 )
 
-var (
-	bind = flag.String("bind_address", ":32123", "Bind to address:port or just :port.")
-)
-
-type subscriber struct {
-	grpc.ServerStream
+type target struct {
+	*server.Server
 }
 
-func (subs *subscriber) Send(m *gnmi.SubscribeResponse) error {
-	return nil
+func new(model *server.Model, config []byte) (*target, error) {
+	s, err := server.NewServer(model, config, nil)
+	if err != nil {
+		return nil, err
+	}
+	return &target{Server: s}, nil
 }
 
-func (subs *subscriber) Recv() (*gnmi.SubscribeRequest, error) {
-	return nil, nil
-}
-
-type server struct{}
-
-func (s *server) Capabilities(ctx context.Context, in *gnmi.CapabilityRequest) (*gnmi.CapabilityResponse, error) {
-	log.Infoln("served Capabilities request")
-	return nil, grpc.Errorf(codes.Unimplemented, "Capabilities() is not implemented.")
-}
-
-func (s *server) Get(ctx context.Context, in *gnmi.GetRequest) (*gnmi.GetResponse, error) {
+// Get overrides the Get func of server.Server to provide user auth.
+func (t *target) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, error) {
 	msg, ok := credentials.AuthorizeUser(ctx)
 	if !ok {
-		log.Infoln("denied a Get request,", msg)
-		return nil, grpc.Errorf(codes.PermissionDenied, msg)
+		log.Infof("denied a Get request: %v", msg)
+		return nil, status.Error(codes.PermissionDenied, msg)
 	}
-	log.Infoln("served a Get request, ", msg)
-	return target.ReflectGetRequest(in), nil
+	log.Infof("allowed a Get request: %v", msg)
+	return t.Server.Get(ctx, req)
 }
 
-func (s *server) Set(ctx context.Context, in *gnmi.SetRequest) (*gnmi.SetResponse, error) {
-	log.Infoln("served a Set request")
-	return nil, grpc.Errorf(codes.Unimplemented, "Set() is not implemented.")
+// Set overrides the Set func of server.Server to provide user auth.
+func (t *target) Set(ctx context.Context, req *pb.SetRequest) (*pb.SetResponse, error) {
+	msg, ok := credentials.AuthorizeUser(ctx)
+	if !ok {
+		log.Infof("denied a Get request: %v", msg)
+		return nil, status.Error(codes.PermissionDenied, msg)
+	}
+	log.Infof("allowed a Get request: %v", msg)
+	return t.Server.Set(ctx, req)
 }
 
-func (s *server) Subscribe(subs gnmi.GNMI_SubscribeServer) error {
-	log.Infoln("served a Subscribe request")
-	return grpc.Errorf(codes.Unimplemented, "Subscribe() is not implemented.")
-}
+var (
+	bindAddr   = flag.String("bind", ":10161", "Bind to address:port or just :port.")
+	configFile = flag.String("config", "", "IETF JSON file for target startup config")
+)
 
 func main() {
+	model := server.NewModel(model_data.ModelData,
+		reflect.TypeOf((*gostruct.Device)(nil)),
+		gostruct.SchemaTree["Device"],
+		gostruct.Unmarshal)
+
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, "Supported models:\n")
+		for _, m := range model.SupportedModels() {
+			fmt.Fprintf(os.Stderr, "  %s\n", m)
+		}
+		fmt.Fprintf(os.Stderr, "\n")
+		fmt.Fprintf(os.Stderr, "Usage of %s:\n", os.Args[0])
+		flag.PrintDefaults()
+	}
+
 	flag.Parse()
 
-	s := grpc.NewServer(credentials.ServerCredentials()...)
+	opts := credentials.ServerCredentials()
+	g := grpc.NewServer(opts...)
 
-	gnmi.RegisterGNMIServer(s, &server{})
-	reflection.Register(s)
+	var configData []byte
+	if *configFile != "" {
+		var err error
+		configData, err = ioutil.ReadFile(*configFile)
+		if err != nil {
+			log.Exitf("error in reading config file: %v", err)
+		}
+	}
+	t, err := new(model, configData)
+	if err != nil {
+		log.Exitf("error in creating gnmi target: %v", err)
+	}
+	pb.RegisterGNMIServer(g, t)
+	reflection.Register(g)
 
-	log.Infoln("starting to listen on", *bind)
-	listen, err := net.Listen("tcp", *bind)
+	log.Infof("starting to listen on", *bindAddr)
+	listen, err := net.Listen("tcp", *bindAddr)
 	if err != nil {
 		log.Exitf("failed to listen: %v", err)
 	}
 
-	log.Infoln("starting to serve")
-	if err := s.Serve(listen); err != nil {
+	log.Info("starting to serve")
+	if err := g.Serve(listen); err != nil {
 		log.Exitf("failed to serve: %v", err)
 	}
 }
