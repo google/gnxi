@@ -44,7 +44,7 @@ func TestToGNMIPath(t *testing.T) {
 		expectOK: true,
 		want: &pb.Path{
 			Elem: []*pb.PathElem{
-				&pb.PathElem{Name: "a"},
+				{Name: "a"},
 			},
 		},
 	}, {
@@ -53,7 +53,7 @@ func TestToGNMIPath(t *testing.T) {
 		expectOK: true,
 		want: &pb.Path{
 			Elem: []*pb.PathElem{
-				&pb.PathElem{Name: "a"},
+				{Name: "a"},
 			},
 		},
 	}, {
@@ -62,8 +62,8 @@ func TestToGNMIPath(t *testing.T) {
 		expectOK: true,
 		want: &pb.Path{
 			Elem: []*pb.PathElem{
-				&pb.PathElem{Name: "a"},
-				&pb.PathElem{Name: "b"},
+				{Name: "a"},
+				{Name: "b"},
 			},
 		},
 	}, {
@@ -72,9 +72,9 @@ func TestToGNMIPath(t *testing.T) {
 		expectOK: true,
 		want: &pb.Path{
 			Elem: []*pb.PathElem{
-				&pb.PathElem{Name: "a"},
-				&pb.PathElem{Name: "b"},
-				&pb.PathElem{Name: "c"},
+				{Name: "a"},
+				{Name: "b"},
+				{Name: "c"},
 			},
 		},
 	}, {
@@ -83,9 +83,9 @@ func TestToGNMIPath(t *testing.T) {
 		expectOK: true,
 		want: &pb.Path{
 			Elem: []*pb.PathElem{
-				&pb.PathElem{Name: "a"},
-				&pb.PathElem{Name: "b", Key: map[string]string{"k": "10"}},
-				&pb.PathElem{Name: "c"},
+				{Name: "a"},
+				{Name: "b", Key: map[string]string{"k": "10"}},
+				{Name: "c"},
 			},
 		},
 	}, {
@@ -94,9 +94,9 @@ func TestToGNMIPath(t *testing.T) {
 		expectOK: true,
 		want: &pb.Path{
 			Elem: []*pb.PathElem{
-				&pb.PathElem{Name: "a"},
-				&pb.PathElem{Name: "b", Key: map[string]string{"k1": "10", "k2": "10.10.10.10/24"}},
-				&pb.PathElem{Name: "c"},
+				{Name: "a"},
+				{Name: "b", Key: map[string]string{"k1": "10", "k2": "10.10.10.10/24"}},
+				{Name: "c"},
 			},
 		},
 	}, {

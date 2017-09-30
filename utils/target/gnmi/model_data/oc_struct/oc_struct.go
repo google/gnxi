@@ -6656,146 +6656,146 @@ var (
 // correspond with the leaf. The type is represented as a reflect.Type. The naming
 // of the map ensures that there are no clashes with valid YANG identifiers.
 var ΛEnumTypes = map[string][]reflect.Type{
-	"/components/component/state/type": []reflect.Type{
+	"/components/component/state/type": {
 		reflect.TypeOf((E_OpenconfigPlatformTypes_OPENCONFIG_HARDWARE_COMPONENT)(0)),
 		reflect.TypeOf((E_OpenconfigPlatformTypes_OPENCONFIG_SOFTWARE_COMPONENT)(0)),
 	},
-	"/interfaces/interface/config/type": []reflect.Type{
+	"/interfaces/interface/config/type": {
 		reflect.TypeOf((E_IETFInterfaces_InterfaceType)(0)),
 	},
-	"/interfaces/interface/state/admin-status": []reflect.Type{
+	"/interfaces/interface/state/admin-status": {
 		reflect.TypeOf((E_OpenconfigInterfaces_Interfaces_Interface_State_AdminStatus)(0)),
 	},
-	"/interfaces/interface/state/oper-status": []reflect.Type{
+	"/interfaces/interface/state/oper-status": {
 		reflect.TypeOf((E_OpenconfigInterfaces_Interfaces_Interface_State_AdminStatus)(0)),
 	},
-	"/interfaces/interface/state/type": []reflect.Type{
+	"/interfaces/interface/state/type": {
 		reflect.TypeOf((E_IETFInterfaces_InterfaceType)(0)),
 	},
-	"/interfaces/interface/subinterfaces/subinterface/state/admin-status": []reflect.Type{
+	"/interfaces/interface/subinterfaces/subinterface/state/admin-status": {
 		reflect.TypeOf((E_OpenconfigInterfaces_Interfaces_Interface_State_AdminStatus)(0)),
 	},
-	"/interfaces/interface/subinterfaces/subinterface/state/oper-status": []reflect.Type{
+	"/interfaces/interface/subinterfaces/subinterface/state/oper-status": {
 		reflect.TypeOf((E_OpenconfigInterfaces_Interfaces_Interface_State_AdminStatus)(0)),
 	},
-	"/system/aaa/accounting/config/accounting-method": []reflect.Type{
+	"/system/aaa/accounting/config/accounting-method": {
 		reflect.TypeOf((E_OpenconfigAaaTypes_AAA_METHOD_TYPE)(0)),
 	},
-	"/system/aaa/accounting/events/event/config/event-type": []reflect.Type{
+	"/system/aaa/accounting/events/event/config/event-type": {
 		reflect.TypeOf((E_OpenconfigAaaTypes_AAA_ACCOUNTING_EVENT_TYPE)(0)),
 	},
-	"/system/aaa/accounting/events/event/config/record": []reflect.Type{
+	"/system/aaa/accounting/events/event/config/record": {
 		reflect.TypeOf((E_OpenconfigSystem_System_Aaa_Accounting_Events_Event_Config_Record)(0)),
 	},
-	"/system/aaa/accounting/events/event/event-type": []reflect.Type{
+	"/system/aaa/accounting/events/event/event-type": {
 		reflect.TypeOf((E_OpenconfigAaaTypes_AAA_ACCOUNTING_EVENT_TYPE)(0)),
 	},
-	"/system/aaa/accounting/events/event/state/event-type": []reflect.Type{
+	"/system/aaa/accounting/events/event/state/event-type": {
 		reflect.TypeOf((E_OpenconfigAaaTypes_AAA_ACCOUNTING_EVENT_TYPE)(0)),
 	},
-	"/system/aaa/accounting/events/event/state/record": []reflect.Type{
+	"/system/aaa/accounting/events/event/state/record": {
 		reflect.TypeOf((E_OpenconfigSystem_System_Aaa_Accounting_Events_Event_Config_Record)(0)),
 	},
-	"/system/aaa/accounting/state/accounting-method": []reflect.Type{
+	"/system/aaa/accounting/state/accounting-method": {
 		reflect.TypeOf((E_OpenconfigAaaTypes_AAA_METHOD_TYPE)(0)),
 	},
-	"/system/aaa/authentication/config/authentication-method": []reflect.Type{
+	"/system/aaa/authentication/config/authentication-method": {
 		reflect.TypeOf((E_OpenconfigAaaTypes_AAA_METHOD_TYPE)(0)),
 	},
-	"/system/aaa/authentication/state/authentication-method": []reflect.Type{
+	"/system/aaa/authentication/state/authentication-method": {
 		reflect.TypeOf((E_OpenconfigAaaTypes_AAA_METHOD_TYPE)(0)),
 	},
-	"/system/aaa/authentication/users/user/config/role": []reflect.Type{
+	"/system/aaa/authentication/users/user/config/role": {
 		reflect.TypeOf((E_OpenconfigAaaTypes_SYSTEM_DEFINED_ROLES)(0)),
 	},
-	"/system/aaa/authentication/users/user/state/role": []reflect.Type{
+	"/system/aaa/authentication/users/user/state/role": {
 		reflect.TypeOf((E_OpenconfigAaaTypes_SYSTEM_DEFINED_ROLES)(0)),
 	},
-	"/system/aaa/authorization/config/authorization-method": []reflect.Type{
+	"/system/aaa/authorization/config/authorization-method": {
 		reflect.TypeOf((E_OpenconfigAaaTypes_AAA_METHOD_TYPE)(0)),
 	},
-	"/system/aaa/authorization/events/event/config/event-type": []reflect.Type{
+	"/system/aaa/authorization/events/event/config/event-type": {
 		reflect.TypeOf((E_OpenconfigAaaTypes_AAA_AUTHORIZATION_EVENT_TYPE)(0)),
 	},
-	"/system/aaa/authorization/events/event/event-type": []reflect.Type{
+	"/system/aaa/authorization/events/event/event-type": {
 		reflect.TypeOf((E_OpenconfigAaaTypes_AAA_AUTHORIZATION_EVENT_TYPE)(0)),
 	},
-	"/system/aaa/authorization/events/event/state/event-type": []reflect.Type{
+	"/system/aaa/authorization/events/event/state/event-type": {
 		reflect.TypeOf((E_OpenconfigAaaTypes_AAA_AUTHORIZATION_EVENT_TYPE)(0)),
 	},
-	"/system/aaa/authorization/state/authorization-method": []reflect.Type{
+	"/system/aaa/authorization/state/authorization-method": {
 		reflect.TypeOf((E_OpenconfigAaaTypes_AAA_METHOD_TYPE)(0)),
 	},
-	"/system/aaa/server-groups/server-group/config/type": []reflect.Type{
+	"/system/aaa/server-groups/server-group/config/type": {
 		reflect.TypeOf((E_OpenconfigAaaTypes_AAA_SERVER_TYPE)(0)),
 	},
-	"/system/aaa/server-groups/server-group/state/type": []reflect.Type{
+	"/system/aaa/server-groups/server-group/state/type": {
 		reflect.TypeOf((E_OpenconfigAaaTypes_AAA_SERVER_TYPE)(0)),
 	},
-	"/system/logging/console/selectors/selector/config/facility": []reflect.Type{
+	"/system/logging/console/selectors/selector/config/facility": {
 		reflect.TypeOf((E_OpenconfigSystemLogging_SYSLOG_FACILITY)(0)),
 	},
-	"/system/logging/console/selectors/selector/config/severity": []reflect.Type{
+	"/system/logging/console/selectors/selector/config/severity": {
 		reflect.TypeOf((E_OpenconfigSystemLogging_SyslogSeverity)(0)),
 	},
-	"/system/logging/console/selectors/selector/facility": []reflect.Type{
+	"/system/logging/console/selectors/selector/facility": {
 		reflect.TypeOf((E_OpenconfigSystemLogging_SYSLOG_FACILITY)(0)),
 	},
-	"/system/logging/console/selectors/selector/severity": []reflect.Type{
+	"/system/logging/console/selectors/selector/severity": {
 		reflect.TypeOf((E_OpenconfigSystemLogging_SyslogSeverity)(0)),
 	},
-	"/system/logging/console/selectors/selector/state/facility": []reflect.Type{
+	"/system/logging/console/selectors/selector/state/facility": {
 		reflect.TypeOf((E_OpenconfigSystemLogging_SYSLOG_FACILITY)(0)),
 	},
-	"/system/logging/console/selectors/selector/state/severity": []reflect.Type{
+	"/system/logging/console/selectors/selector/state/severity": {
 		reflect.TypeOf((E_OpenconfigSystemLogging_SyslogSeverity)(0)),
 	},
-	"/system/logging/remote-servers/remote-server/selectors/selector/config/facility": []reflect.Type{
+	"/system/logging/remote-servers/remote-server/selectors/selector/config/facility": {
 		reflect.TypeOf((E_OpenconfigSystemLogging_SYSLOG_FACILITY)(0)),
 	},
-	"/system/logging/remote-servers/remote-server/selectors/selector/config/severity": []reflect.Type{
+	"/system/logging/remote-servers/remote-server/selectors/selector/config/severity": {
 		reflect.TypeOf((E_OpenconfigSystemLogging_SyslogSeverity)(0)),
 	},
-	"/system/logging/remote-servers/remote-server/selectors/selector/facility": []reflect.Type{
+	"/system/logging/remote-servers/remote-server/selectors/selector/facility": {
 		reflect.TypeOf((E_OpenconfigSystemLogging_SYSLOG_FACILITY)(0)),
 	},
-	"/system/logging/remote-servers/remote-server/selectors/selector/severity": []reflect.Type{
+	"/system/logging/remote-servers/remote-server/selectors/selector/severity": {
 		reflect.TypeOf((E_OpenconfigSystemLogging_SyslogSeverity)(0)),
 	},
-	"/system/logging/remote-servers/remote-server/selectors/selector/state/facility": []reflect.Type{
+	"/system/logging/remote-servers/remote-server/selectors/selector/state/facility": {
 		reflect.TypeOf((E_OpenconfigSystemLogging_SYSLOG_FACILITY)(0)),
 	},
-	"/system/logging/remote-servers/remote-server/selectors/selector/state/severity": []reflect.Type{
+	"/system/logging/remote-servers/remote-server/selectors/selector/state/severity": {
 		reflect.TypeOf((E_OpenconfigSystemLogging_SyslogSeverity)(0)),
 	},
-	"/system/ntp/ntp-keys/ntp-key/config/key-type": []reflect.Type{
+	"/system/ntp/ntp-keys/ntp-key/config/key-type": {
 		reflect.TypeOf((E_OpenconfigSystem_NTP_AUTH_TYPE)(0)),
 	},
-	"/system/ntp/ntp-keys/ntp-key/state/key-type": []reflect.Type{
+	"/system/ntp/ntp-keys/ntp-key/state/key-type": {
 		reflect.TypeOf((E_OpenconfigSystem_NTP_AUTH_TYPE)(0)),
 	},
-	"/system/ntp/servers/server/config/association-type": []reflect.Type{
+	"/system/ntp/servers/server/config/association-type": {
 		reflect.TypeOf((E_OpenconfigSystem_System_Ntp_Servers_Server_Config_AssociationType)(0)),
 	},
-	"/system/ntp/servers/server/state/association-type": []reflect.Type{
+	"/system/ntp/servers/server/state/association-type": {
 		reflect.TypeOf((E_OpenconfigSystem_System_Ntp_Servers_Server_Config_AssociationType)(0)),
 	},
-	"/system/openflow/agent/config/failure-mode": []reflect.Type{
+	"/system/openflow/agent/config/failure-mode": {
 		reflect.TypeOf((E_OpenconfigOpenflow_FailureMode)(0)),
 	},
-	"/system/openflow/agent/state/failure-mode": []reflect.Type{
+	"/system/openflow/agent/state/failure-mode": {
 		reflect.TypeOf((E_OpenconfigOpenflow_FailureMode)(0)),
 	},
-	"/system/openflow/controllers/controller/connections/connection/config/transport": []reflect.Type{
+	"/system/openflow/controllers/controller/connections/connection/config/transport": {
 		reflect.TypeOf((E_OpenconfigOpenflow_Transport)(0)),
 	},
-	"/system/openflow/controllers/controller/connections/connection/state/transport": []reflect.Type{
+	"/system/openflow/controllers/controller/connections/connection/state/transport": {
 		reflect.TypeOf((E_OpenconfigOpenflow_Transport)(0)),
 	},
-	"/system/ssh-server/config/protocol-version": []reflect.Type{
+	"/system/ssh-server/config/protocol-version": {
 		reflect.TypeOf((E_OpenconfigSystem_System_SshServer_Config_ProtocolVersion)(0)),
 	},
-	"/system/ssh-server/state/protocol-version": []reflect.Type{
+	"/system/ssh-server/state/protocol-version": {
 		reflect.TypeOf((E_OpenconfigSystem_System_SshServer_Config_ProtocolVersion)(0)),
 	},
 }

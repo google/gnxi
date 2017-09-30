@@ -41,9 +41,9 @@ var (
 
 // splitPath splits a string representation of path into []string. Path
 // elements are separated by '/'. String splitting scans from left to right. A
-// '[' marks the begining of a List key value pair substring. A List key value
+// '[' marks the beginning of a List key value pair substring. A List key value
 // pair string ends at the first ']' encountered. Neither an escaped '[', i.e.,
-// `\[`, nor an escaped ']', i.e., `\]`, serves as the bondary of a List key
+// `\[`, nor an escaped ']', i.e., `\]`, serves as the boundary of a List key
 // value pair string.
 //
 // Within a List key value string, '/', '[' and ']' are treated differently:

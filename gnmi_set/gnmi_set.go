@@ -59,7 +59,7 @@ func main() {
 	}
 	setRequest := &pb.SetRequest{
 		Replace: []*pb.Update{
-			&pb.Update{
+			{
 				Path: &pb.Path{},
 				Val:  pbValConfig,
 			},
