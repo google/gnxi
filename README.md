@@ -11,9 +11,11 @@ A collection of tools for Network Management that use the gNMI and gNOI protocol
 
 ### Summary
 
-_Note_: At this stage these tools are intended for testing and as reference implementation of the protocol.
+_Note_: These tools are intended for testing and as reference implementation of the protocol.
 
-*  [gNMI Get](./gnmi_get)
+*  [gNMI Capabilities](./gnmi_capabilities)
+*  [gNMI Set](./gnmi_get)
+*  [gNMI Get](./gnmi_set)
 *  [gNMI Target](./gnmi_target)
 
 ### Documentation

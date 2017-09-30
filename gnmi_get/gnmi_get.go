@@ -13,16 +13,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// Binary gnmi_get performs a get request against a gnmi target.
+// Binary gnmi_get performs a get request against a gNMI target.
 package main
-
-// Typical usage:
-// go run gnmi_get.go \
-//		-xpath "/system/openflow/agent/config/datapath-id" \
-//		-xpath "/system/openflow/agent/config/backoff-interval" \
-//		-target_addr localhost:10161 -target_name www.example.com \
-//		-ca ca.crt -cert client.crt -key client.key \
-//		-username foo -password bar
 
 import (
 	"flag"
@@ -32,11 +24,11 @@ import (
 
 	log "github.com/golang/glog"
 	"github.com/golang/protobuf/proto"
-	"github.com/kylelemons/godebug/pretty"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	"github.com/google/gnxi/credentials"
+	"github.com/google/gnxi/utils"
+	"github.com/google/gnxi/utils/credentials"
 	"github.com/google/gnxi/utils/xpath"
 
 	pb "github.com/openconfig/gnmi/proto/gnmi"
@@ -57,19 +49,10 @@ var (
 	xPathFlags   arrayFlags
 	pbPathFlags  arrayFlags
 	targetAddr   = flag.String("target_addr", "localhost:10161", "The target address in the format of host:port")
-	targetName   = flag.String("target_name", "www.example.com", "The target name use to verify the hostname returned by TLS handshake")
+	targetName   = flag.String("target_name", "hostname.com", "The target name use to verify the hostname returned by TLS handshake")
 	timeOut      = flag.Duration("time_out", 10*time.Second, "Timeout for the Get request, 10 seconds by default")
 	encodingName = flag.String("encoding", "JSON_IETF", "value encoding format to be used")
-	usePretty    = flag.Bool("pretty", false, "Shows PROTOs using Pretty package instead of PROTO Text Marshal")
 )
-
-func display(m proto.Message) {
-	if *usePretty {
-		pretty.Print(m)
-		return
-	}
-	fmt.Println(proto.MarshalTextString(m))
-}
 
 func main() {
 	flag.Var(&xPathFlags, "xpath", "xpath of the config node to be fetched")
@@ -117,14 +100,15 @@ func main() {
 		Encoding: pb.Encoding(encoding),
 		Path:     pbPathList,
 	}
-	getResponse, err := cli.Get(ctx, getRequest)
-	if err != nil {
-		log.Exitf("fetch config from the path failed: %v", err)
-	}
 
 	fmt.Println("== getRequest:")
-	display(getRequest)
+	utils.PrintProto(getRequest)
+
+	getResponse, err := cli.Get(ctx, getRequest)
+	if err != nil {
+		log.Exitf("Get failed: %v", err)
+	}
 
 	fmt.Println("== getResponse:")
-	display(getResponse)
+	utils.PrintProto(getResponse)
 }

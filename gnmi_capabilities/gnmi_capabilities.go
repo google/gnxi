@@ -13,14 +13,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// Binary gnmi_capabilities gets the encoding and model list that the target
-// supports.
+// Binary gnmi_capabilities performs a capabilities request to a gNMI target.
 package main
-
-// Typical usage:
-// go run gnmi_capabilities.go
-//		-target_addr localhost:10161 -target_name www.example.com \
-//		-ca ca.crt -cert client.crt -key client.key
 
 import (
 	"flag"
@@ -28,33 +22,25 @@ import (
 	"time"
 
 	log "github.com/golang/glog"
-	"github.com/golang/protobuf/proto"
-	"github.com/kylelemons/godebug/pretty"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	"github.com/google/gnxi/credentials"
+	"github.com/google/gnxi/utils"
+	"github.com/google/gnxi/utils/credentials"
 
 	pb "github.com/openconfig/gnmi/proto/gnmi"
 )
 
 var (
 	targetAddr = flag.String("target_addr", "localhost:10161", "The target address in the format of host:port")
-	targetName = flag.String("target_name", "www.example.com", "The target name use to verify the hostname returned by TLS handshake")
+	targetName = flag.String("target_name", "hostname.com", "The target name use to verify the hostname returned by TLS handshake")
 	timeOut    = flag.Duration("time_out", 10*time.Second, "Timeout for the Get request, 10 seconds by default")
 	usePretty  = flag.Bool("pretty", false, "Shows PROTOs using Pretty package instead of PROTO Text Marshal")
 )
 
-func display(m proto.Message) {
-	if *usePretty {
-		pretty.Print(m)
-		return
-	}
-	fmt.Println(proto.MarshalTextString(m))
-}
-
 func main() {
 	flag.Parse()
+
 	opts := credentials.ClientCredentials(*targetName)
 	conn, err := grpc.Dial(*targetAddr, opts...)
 	if err != nil {
@@ -73,5 +59,5 @@ func main() {
 	}
 
 	fmt.Println("== capabilitiesResponse:")
-	display(capResponse)
+	utils.PrintProto(capResponse)
 }

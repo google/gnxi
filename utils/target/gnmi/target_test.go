@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package server
+package gnmi
 
 import (
 	"encoding/json"
@@ -32,7 +32,7 @@ import (
 )
 
 var (
-	// model is the model for test config server.
+	// model is the model for test config target.
 	model = &Model{
 		modelData:       model_data.ModelData,
 		structRootType:  reflect.TypeOf((*oc_struct.Device)(nil)),
@@ -42,19 +42,19 @@ var (
 )
 
 func TestCapabilities(t *testing.T) {
-	s, err := NewServer(model, nil, nil)
+	s, err := NewTarget(model, nil, nil)
 	if err != nil {
-		t.Fatalf("error in creating server: %v", err)
+		t.Fatalf("error in creating target: %v", err)
 	}
 	resp, err := s.Capabilities(nil, &pb.CapabilityRequest{})
 	if err != nil {
 		t.Fatalf("got error %v, want nil", err)
 	}
 	if !reflect.DeepEqual(resp.GetSupportedModels(), model.modelData) {
-		t.Errorf("got supported models %v\nare not the same as\nmodel supported by the server %v", resp.GetSupportedModels(), model.modelData)
+		t.Errorf("got supported models %v\nare not the same as\nmodel supported by the target %v", resp.GetSupportedModels(), model.modelData)
 	}
 	if !reflect.DeepEqual(resp.GetSupportedEncodings(), supportedEncodings) {
-		t.Errorf("got supported encodings %v\nare not the same as\nencodings supported by the server %v", resp.GetSupportedEncodings(), supportedEncodings)
+		t.Errorf("got supported encodings %v\nare not the same as\nencodings supported by the target %v", resp.GetSupportedEncodings(), supportedEncodings)
 	}
 }
 
@@ -72,9 +72,9 @@ func TestGet(t *testing.T) {
 	  }
 	}`
 
-	s, err := NewServer(model, []byte(jsonConfigRoot), nil)
+	s, err := NewTarget(model, []byte(jsonConfigRoot), nil)
 	if err != nil {
-		t.Fatalf("error in creating server: %v", err)
+		t.Fatalf("error in creating target: %v", err)
 	}
 
 	tds := []struct {
@@ -173,9 +173,8 @@ func TestGet(t *testing.T) {
 	}
 }
 
-// runTestGet requests a path from the server by Get grpc call, and compares if
-// the return code and response value are expected.
-func runTestGet(t *testing.T, s *Server, textPbPath string, wantRetCode codes.Code, wantRespVal interface{}) {
+// runTestGet requests a path from the target by Get grpc call, and compares if the return code and response value are expected.
+func runTestGet(t *testing.T, s *Target, textPbPath string, wantRetCode codes.Code, wantRespVal interface{}) {
 	// Send request
 	var pbPath pb.Path
 	if err := proto.UnmarshalText(textPbPath, &pbPath); err != nil {
@@ -391,13 +390,12 @@ func TestSet(t *testing.T) {
 	}
 }
 
-// runTestSet sets the json config to an empty server, then checks if the return
-// code is expected.
+// runTestSet sets the json config to an empty target, then checks if the return code is expected.
 func runTestSet(t *testing.T, config string, wantRetCode codes.Code) {
-	// Create a new server with empty config
-	s, err := NewServer(model, nil, nil)
+	// Create a new target with empty config
+	s, err := NewTarget(model, nil, nil)
 	if err != nil {
-		t.Fatalf("error in creating config server: %v", err)
+		t.Fatalf("error in creating config target: %v", err)
 	}
 
 	// Send request
