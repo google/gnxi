@@ -13,14 +13,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// Package gnmi_target implements an in-memory gnmi target for device config.
+// Binary gnmi_target implements a gNMI Target with in-memory configuration and telemetry.
 package main
-
-// Typical usage:
-// go run gnmi_target.go -bind :10161 \
-//		-config openconfig-openflow.json \
-//		-ca ca.pem -cert target_cert.pem -key target_key.pem \
-//		-username foo -password bar
 
 import (
 	"flag"
@@ -37,27 +31,32 @@ import (
 	"google.golang.org/grpc/reflection"
 	"google.golang.org/grpc/status"
 
-	"github.com/google/gnxi/credentials"
+	"github.com/google/gnxi/utils/credentials"
+	"github.com/google/gnxi/utils/target/gnmi"
 	"github.com/google/gnxi/utils/target/gnmi/model_data"
-	"github.com/google/gnxi/utils/target/gnmi/model_data/gostruct"
-	"github.com/google/gnxi/utils/target/gnmi/server"
+	"github.com/google/gnxi/utils/target/gnmi/model_data/oc_struct"
 
 	pb "github.com/openconfig/gnmi/proto/gnmi"
 )
 
+var (
+	bindAddr   = flag.String("bind", ":10161", "Bind to address:port or just :port")
+	configFile = flag.String("config", "", "IETF JSON file for target startup config")
+)
+
 type target struct {
-	*server.Server
+	*gnmi.Target
 }
 
-func new(model *server.Model, config []byte) (*target, error) {
-	s, err := server.NewServer(model, config, nil)
+func newTarget(model *gnmi.Model, config []byte) (*target, error) {
+	s, err := gnmi.NewTarget(model, config, nil)
 	if err != nil {
 		return nil, err
 	}
-	return &target{Server: s}, nil
+	return &target{Target: s}, nil
 }
 
-// Get overrides the Get func of server.Server to provide user auth.
+// Get overrides the Get func of gnmi.Target to provide user auth.
 func (t *target) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, error) {
 	msg, ok := credentials.AuthorizeUser(ctx)
 	if !ok {
@@ -65,10 +64,10 @@ func (t *target) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, 
 		return nil, status.Error(codes.PermissionDenied, msg)
 	}
 	log.Infof("allowed a Get request: %v", msg)
-	return t.Server.Get(ctx, req)
+	return t.Target.Get(ctx, req)
 }
 
-// Set overrides the Set func of server.Server to provide user auth.
+// Set overrides the Set func of gnmi.Target to provide user auth.
 func (t *target) Set(ctx context.Context, req *pb.SetRequest) (*pb.SetResponse, error) {
 	msg, ok := credentials.AuthorizeUser(ctx)
 	if !ok {
@@ -76,19 +75,14 @@ func (t *target) Set(ctx context.Context, req *pb.SetRequest) (*pb.SetResponse, 
 		return nil, status.Error(codes.PermissionDenied, msg)
 	}
 	log.Infof("allowed a Get request: %v", msg)
-	return t.Server.Set(ctx, req)
+	return t.Target.Set(ctx, req)
 }
 
-var (
-	bindAddr   = flag.String("bind", ":10161", "Bind to address:port or just :port.")
-	configFile = flag.String("config", "", "IETF JSON file for target startup config")
-)
-
 func main() {
-	model := server.NewModel(model_data.ModelData,
-		reflect.TypeOf((*gostruct.Device)(nil)),
-		gostruct.SchemaTree["Device"],
-		gostruct.Unmarshal)
+	model := gnmi.NewModel(model_data.ModelData,
+		reflect.TypeOf((*oc_struct.Device)(nil)),
+		oc_struct.SchemaTree["Device"],
+		oc_struct.Unmarshal)
 
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, "Supported models:\n")
@@ -113,7 +107,7 @@ func main() {
 			log.Exitf("error in reading config file: %v", err)
 		}
 	}
-	t, err := new(model, configData)
+	t, err := newTarget(model, configData)
 	if err != nil {
 		log.Exitf("error in creating gnmi target: %v", err)
 	}

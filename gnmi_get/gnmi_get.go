@@ -13,29 +13,22 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// Binary gnmi_get performs a get request against a gnmi target.
+// Binary gnmi_get performs a get request against a gNMI target.
 package main
-
-// Typical usage:
-// go run gnmi_get.go \
-//		-xpath "/system/openflow/agent/config/datapath-id" \
-//		-xpath "/system/openflow/agent/config/backoff-interval" \
-//		-target_addr localhost:10161 -target_name www.example.com \
-//		-ca ca.pem -cert client_cert.pem -key client_key.pem \
-//		-username foo -password bar
 
 import (
 	"flag"
 	"fmt"
+	"strings"
 	"time"
 
 	log "github.com/golang/glog"
 	"github.com/golang/protobuf/proto"
-	"github.com/kylelemons/godebug/pretty"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	"github.com/google/gnxi/credentials"
+	"github.com/google/gnxi/utils"
+	"github.com/google/gnxi/utils/credentials"
 	"github.com/google/gnxi/utils/xpath"
 
 	pb "github.com/openconfig/gnmi/proto/gnmi"
@@ -53,21 +46,13 @@ func (i *arrayFlags) Set(value string) error {
 }
 
 var (
-	xPathFlags  arrayFlags
-	pbPathFlags arrayFlags
-	targetAddr  = flag.String("target_addr", "localhost:10161", "The target address in the format of host:port")
-	targetName  = flag.String("target_name", "www.example.com", "The target name use to verify the hostname returned by TLS handshake")
-	timeOut     = flag.Duration("time_out", 10*time.Second, "Timeout for the Get request, 10 seconds by default.")
-	usePretty   = flag.Bool("pretty", false, "Shows PROTOs using Pretty package instead of PROTO Text Marshal.")
+	xPathFlags   arrayFlags
+	pbPathFlags  arrayFlags
+	targetAddr   = flag.String("target_addr", "localhost:10161", "The target address in the format of host:port")
+	targetName   = flag.String("target_name", "hostname.com", "The target name use to verify the hostname returned by TLS handshake")
+	timeOut      = flag.Duration("time_out", 10*time.Second, "Timeout for the Get request, 10 seconds by default")
+	encodingName = flag.String("encoding", "JSON_IETF", "value encoding format to be used")
 )
-
-func display(m proto.Message) {
-	if *usePretty {
-		pretty.Print(m)
-		return
-	}
-	fmt.Println(proto.MarshalTextString(m))
-}
 
 func main() {
 	flag.Var(&xPathFlags, "xpath", "xpath of the config node to be fetched")
@@ -86,9 +71,13 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), *timeOut)
 	defer cancel()
 
-	capResponse, err := cli.Capabilities(ctx, &pb.CapabilityRequest{})
-	if err != nil {
-		log.Exitf("error in getting capabilities: %v", err)
+	encoding, ok := pb.Encoding_value[*encodingName]
+	if !ok {
+		var gnmiEncodingList []string
+		for _, name := range pb.Encoding_name {
+			gnmiEncodingList = append(gnmiEncodingList, name)
+		}
+		log.Exitf("Supported encodings: %s", strings.Join(gnmiEncodingList, ", "))
 	}
 
 	var pbPathList []*pb.Path
@@ -108,18 +97,18 @@ func main() {
 	}
 
 	getRequest := &pb.GetRequest{
-		Path:      pbPathList,
-		Encoding:  pb.Encoding_JSON_IETF,
-		UseModels: capResponse.GetSupportedModels(),
-	}
-	getResponse, err := cli.Get(ctx, getRequest)
-	if err != nil {
-		log.Exitf("fetch config from the path failed: %v", err)
+		Encoding: pb.Encoding(encoding),
+		Path:     pbPathList,
 	}
 
 	fmt.Println("== getRequest:")
-	display(getRequest)
+	utils.PrintProto(getRequest)
+
+	getResponse, err := cli.Get(ctx, getRequest)
+	if err != nil {
+		log.Exitf("Get failed: %v", err)
+	}
 
 	fmt.Println("== getResponse:")
-	display(getResponse)
+	utils.PrintProto(getResponse)
 }

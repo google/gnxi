@@ -13,17 +13,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// Package gnmi_set sets (replaces) the target config with the specified config file.
+// Binary gnmi_set performs a set request against a gNMI target with the specified config file.
 package main
-
-// Typical usage:
-// go run gnmi_set.go -config openconfig-openflow.json \
-//		-target_addr localhost:10161 -target_name www.example.com \
-//		-ca ca.pem -cert client_cert.pem -key client_key.pem \
-//		-username foo -password bar
 
 import (
 	"flag"
+	"fmt"
 	"io/ioutil"
 	"time"
 
@@ -31,15 +26,16 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	"github.com/google/gnxi/credentials"
+	"github.com/google/gnxi/utils"
+	"github.com/google/gnxi/utils/credentials"
 
 	pb "github.com/openconfig/gnmi/proto/gnmi"
 )
 
 var (
 	targetAddr = flag.String("target_addr", "localhost:10161", "The target address in the format of host:port")
-	targetName = flag.String("target_name", "www.example.com", "The target name use to verify the hostname returned by TLS handshake")
-	timeOut    = flag.Duration("time_out", 10*time.Second, "Timeout for the Get request, 10 seconds by default.")
+	targetName = flag.String("target_name", "hostname.com", "The target name use to verify the hostname returned by TLS handshake")
+	timeOut    = flag.Duration("time_out", 10*time.Second, "Timeout for the Get request, 10 seconds by default")
 	configFile = flag.String("config", "", "IETF JSON config file to replace the current config of the target")
 )
 
@@ -61,17 +57,24 @@ func main() {
 			JsonIetfVal: jsonConfig,
 		},
 	}
-	req := &pb.SetRequest{
+	setRequest := &pb.SetRequest{
 		Replace: []*pb.Update{
-			&pb.Update{
+			{
 				Path: &pb.Path{},
 				Val:  pbValConfig,
 			},
 		},
 	}
 
+	fmt.Println("== getRequest:")
+	utils.PrintProto(setRequest)
+
 	cli := pb.NewGNMIClient(conn)
-	if _, err := cli.Set(context.Background(), req); err != nil {
-		log.Exitf("set config to the target failed: %v", err)
+	setResponse, err := cli.Set(context.Background(), setRequest)
+	if err != nil {
+		log.Exitf("Set failed: %v", err)
 	}
+
+	fmt.Println("== getResponse:")
+	utils.PrintProto(setResponse)
 }
