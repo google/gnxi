@@ -32,6 +32,7 @@ import (
 	"google.golang.org/grpc/status"
 
 	"github.com/google/gnxi/gnmi"
+	"github.com/google/gnxi/gnmi/modeldata"
 	"github.com/google/gnxi/gnmi/modeldata/gostruct"
 	"github.com/google/gnxi/utils/credentials"
 
@@ -39,20 +40,20 @@ import (
 )
 
 var (
-	bindAddr   = flag.String("bind", ":10161", "Bind to address:port or just :port")
+	bindAddr   = flag.String("bind_address", ":10161", "Bind to address:port or just :port")
 	configFile = flag.String("config", "", "IETF JSON file for target startup config")
 )
 
-type Server struct {
+type server struct {
 	*gnmi.Server
 }
 
-func newTarget(model *gnmi.Model, config []byte) (*target, error) {
+func newServer(model *gnmi.Model, config []byte) (*server, error) {
 	s, err := gnmi.NewServer(model, config, nil)
 	if err != nil {
 		return nil, err
 	}
-	return &target{Server: s}, nil
+	return &server{Server: s}, nil
 }
 
 // Get overrides the Get func of gnmi.Target to provide user auth.
@@ -63,7 +64,7 @@ func (s *server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, 
 		return nil, status.Error(codes.PermissionDenied, msg)
 	}
 	log.Infof("allowed a Get request: %v", msg)
-	return s.Target.Get(ctx, req)
+	return s.Server.Get(ctx, req)
 }
 
 // Set overrides the Set func of gnmi.Target to provide user auth.
@@ -74,7 +75,7 @@ func (s *server) Set(ctx context.Context, req *pb.SetRequest) (*pb.SetResponse, 
 		return nil, status.Error(codes.PermissionDenied, msg)
 	}
 	log.Infof("allowed a Get request: %v", msg)
-	return s.Target.Set(ctx, req)
+	return s.Server.Set(ctx, req)
 }
 
 func main() {
@@ -113,7 +114,7 @@ func main() {
 	pb.RegisterGNMIServer(g, s)
 	reflection.Register(g)
 
-	log.Infof("starting to listen on", *bindAddr)
+	log.Infof("starting to listen on %s", *bindAddr)
 	listen, err := net.Listen("tcp", *bindAddr)
 	if err != nil {
 		log.Exitf("failed to listen: %v", err)
