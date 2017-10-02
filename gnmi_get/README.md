@@ -20,7 +20,7 @@ gnmi_get \
   -key client.key \
   -cert client.crt \
   -ca ca.crt \
-  -username foo
-  -password bar
+  -username foo \
+  -password bar \
   -alsologtostderr
 ```
