@@ -31,10 +31,9 @@ import (
 	"google.golang.org/grpc/reflection"
 	"google.golang.org/grpc/status"
 
+	"github.com/google/gnxi/gnmi"
+	"github.com/google/gnxi/gnmi/modeldata/gostruct"
 	"github.com/google/gnxi/utils/credentials"
-	"github.com/google/gnxi/utils/target/gnmi"
-	"github.com/google/gnxi/utils/target/gnmi/model_data"
-	"github.com/google/gnxi/utils/target/gnmi/model_data/gostruct"
 
 	pb "github.com/openconfig/gnmi/proto/gnmi"
 )
@@ -44,42 +43,42 @@ var (
 	configFile = flag.String("config", "", "IETF JSON file for target startup config")
 )
 
-type target struct {
-	*gnmi.Target
+type Server struct {
+	*gnmi.Server
 }
 
 func newTarget(model *gnmi.Model, config []byte) (*target, error) {
-	s, err := gnmi.NewTarget(model, config, nil)
+	s, err := gnmi.NewServer(model, config, nil)
 	if err != nil {
 		return nil, err
 	}
-	return &target{Target: s}, nil
+	return &target{Server: s}, nil
 }
 
 // Get overrides the Get func of gnmi.Target to provide user auth.
-func (t *target) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, error) {
+func (s *server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, error) {
 	msg, ok := credentials.AuthorizeUser(ctx)
 	if !ok {
 		log.Infof("denied a Get request: %v", msg)
 		return nil, status.Error(codes.PermissionDenied, msg)
 	}
 	log.Infof("allowed a Get request: %v", msg)
-	return t.Target.Get(ctx, req)
+	return s.Target.Get(ctx, req)
 }
 
 // Set overrides the Set func of gnmi.Target to provide user auth.
-func (t *target) Set(ctx context.Context, req *pb.SetRequest) (*pb.SetResponse, error) {
+func (s *server) Set(ctx context.Context, req *pb.SetRequest) (*pb.SetResponse, error) {
 	msg, ok := credentials.AuthorizeUser(ctx)
 	if !ok {
 		log.Infof("denied a Get request: %v", msg)
 		return nil, status.Error(codes.PermissionDenied, msg)
 	}
 	log.Infof("allowed a Get request: %v", msg)
-	return t.Target.Set(ctx, req)
+	return s.Target.Set(ctx, req)
 }
 
 func main() {
-	model := gnmi.NewModel(model_data.ModelData,
+	model := gnmi.NewModel(modeldata.ModelData,
 		reflect.TypeOf((*gostruct.Device)(nil)),
 		gostruct.SchemaTree["Device"],
 		gostruct.Unmarshal)
@@ -107,11 +106,11 @@ func main() {
 			log.Exitf("error in reading config file: %v", err)
 		}
 	}
-	t, err := newTarget(model, configData)
+	s, err := newServer(model, configData)
 	if err != nil {
 		log.Exitf("error in creating gnmi target: %v", err)
 	}
-	pb.RegisterGNMIServer(g, t)
+	pb.RegisterGNMIServer(g, s)
 	reflection.Register(g)
 
 	log.Infof("starting to listen on", *bindAddr)

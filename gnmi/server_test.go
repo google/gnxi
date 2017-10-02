@@ -1,4 +1,19 @@
-package server
+/* Copyright 2017 Google Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+package gnmi
 
 import (
 	"encoding/json"
@@ -12,14 +27,14 @@ import (
 
 	pb "github.com/openconfig/gnmi/proto/gnmi"
 
-	"github.com/google/gnxi/utils/target/gnmi/model_data"
-	"github.com/google/gnxi/utils/target/gnmi/model_data/gostruct"
+	"github.com/google/gnxi/gnmi/modeldata"
+	"github.com/google/gnxi/gnmi/modeldata/gostruct"
 )
 
 var (
 	// model is the model for test config server.
 	model = &Model{
-		modelData:       model_data.ModelData,
+		modelData:       modeldata.ModelData,
 		structRootType:  reflect.TypeOf((*gostruct.Device)(nil)),
 		schemaTreeRoot:  gostruct.SchemaTree["Device"],
 		jsonUnmarshaler: gostruct.Unmarshal,
@@ -158,8 +173,7 @@ func TestGet(t *testing.T) {
 	}
 }
 
-// runTestGet requests a path from the server by Get grpc call, and compares if
-// the return code and response value are expected.
+// runTestGet requests a path from the server by Get grpc call, and compares if the return code and response value are expected.
 func runTestGet(t *testing.T, s *Server, textPbPath string, wantRetCode codes.Code, wantRespVal interface{}) {
 	// Send request
 	var pbPath pb.Path
@@ -376,8 +390,7 @@ func TestSet(t *testing.T) {
 	}
 }
 
-// runTestSet sets the json config to an empty server, then checks if the return
-// code is expected.
+// runTestSet sets the json config to an empty server, then checks if the return code is expected.
 func runTestSet(t *testing.T, config string, wantRetCode codes.Code) {
 	// Create a new server with empty config
 	s, err := NewServer(model, nil, nil)

@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// Package gnmi implements a gnmi target to mock a device with YANG models.
+// Package gnmi implements a gnmi server to mock a device with YANG models.
 package gnmi
 
 import (
@@ -49,25 +49,22 @@ var (
 	supportedEncodings = []pb.Encoding{pb.Encoding_JSON, pb.Encoding_JSON_IETF}
 )
 
-// Target struct maintains the data structure for device config and implements
-// the interface of gnmi target. It supports Capabilities, Get, and Set APIs.
+// Server struct maintains the data structure for device config and implements the interface of gnmi server. It supports Capabilities, Get, and Set APIs.
 // Typical usage:
-//	g := grpc.NewTarget()
-//	s, err := Target.NewTarget(model, config, callback)
-//	pb.RegisterGNMITarget(g, s)
+//	g := grpc.NewServer()
+//	s, err := Server.NewServer(model, config, callback)
+//	pb.NewServer(g, s)
 //	reflection.Register(g)
 //	listen, err := net.Listen("tcp", ":8080")
 //	g.Serve(listen)
 //
-// For a real device, apply the config changes to the hardware in the callback
-// function:
+// For a real device, apply the config changes to the hardware in the callback function:
 // func callback(config ygot.ValidatedGoStruct) error {
-//		// Apply the config to your device and return nil if success. If fail,
-//		// rollback all changes and return error.
+//		// Apply the config to your device and return nil if success. If fail, rollback all changes and return error.
 //		//
 //		// Do something ...
 // }
-type Target struct {
+type Server struct {
 	model    *Model
 	callback ConfigCallback
 
@@ -75,22 +72,21 @@ type Target struct {
 	mu     sync.RWMutex // mu is the RW lock to protect the access to config
 }
 
-// NewTarget creates an instance of Target with given json config.
-func NewTarget(model *Model, config []byte, callback ConfigCallback) (*Target, error) {
+// NewServer creates an instance of Server with given json config.
+func NewServer(model *Model, config []byte, callback ConfigCallback) (*Server, error) {
 	rootStruct, err := model.NewConfigStruct(config)
 	if err != nil {
 		return nil, err
 	}
-	return &Target{
+	return &Server{
 		model:    model,
 		config:   rootStruct,
 		callback: callback,
 	}, nil
 }
 
-// checkEncodingAndModel checks whether encoding and models are supported by the
-// target. Return error if anything is unsupported.
-func (s *Target) checkEncodingAndModel(encoding pb.Encoding, models []*pb.ModelData) error {
+// checkEncodingAndModel checks whether encoding and models are supported by the server. Return error if anything is unsupported.
+func (s *Server) checkEncodingAndModel(encoding pb.Encoding, models []*pb.ModelData) error {
 	hasSupportedEncoding := false
 	for _, supportedEncoding := range supportedEncodings {
 		if encoding == supportedEncoding {
@@ -116,8 +112,7 @@ func (s *Target) checkEncodingAndModel(encoding pb.Encoding, models []*pb.ModelD
 	return nil
 }
 
-// getGNMIServiceVersion returns a pointer to the gNMI service version string.
-// The method is non-trivial because of the way it is defined in the proto file.
+// getGNMIServiceVersion returns a pointer to the gNMI service version string. The method is non-trivial because of the way it is defined in the proto file.
 func getGNMIServiceVersion() (*string, error) {
 	gzB, _ := (&pb.Update{}).Descriptor()
 	r, err := gzip.NewReader(bytes.NewReader(gzB))
@@ -152,10 +147,8 @@ func gnmiFullPath(prefix, path *pb.Path) *pb.Path {
 	return fullPath
 }
 
-// processOperation validates the operation to be applied to the device, updates
-// the json tree of the config struct, and then calls the callback function to
-// apply the operation to the device hardware.
-func (s *Target) processOperation(jsonTree *map[string]interface{}, op pb.UpdateResult_Operation, prefix, path *pb.Path, val *pb.TypedValue) (*pb.UpdateResult, error) {
+// processOperation validates the operation to be applied to the device, updates the json tree of the config struct, and then calls the callback function to apply the operation to the device hardware.
+func (s *Server) processOperation(jsonTree *map[string]interface{}, op pb.UpdateResult_Operation, prefix, path *pb.Path, val *pb.TypedValue) (*pb.UpdateResult, error) {
 	if !reflect.DeepEqual(path, pbRootPath) || op != pb.UpdateResult_REPLACE {
 		return nil, status.Error(codes.Unimplemented, "only support setting the entire config tree with one REPLACE")
 	}
@@ -193,7 +186,7 @@ func (s *Target) processOperation(jsonTree *map[string]interface{}, op pb.Update
 }
 
 // Capabilities returns supported encodings and supported models.
-func (s *Target) Capabilities(ctx context.Context, req *pb.CapabilityRequest) (*pb.CapabilityResponse, error) {
+func (s *Server) Capabilities(ctx context.Context, req *pb.CapabilityRequest) (*pb.CapabilityResponse, error) {
 	ver, err := getGNMIServiceVersion()
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "error in getting gnmi service version: %v", err)
@@ -206,7 +199,7 @@ func (s *Target) Capabilities(ctx context.Context, req *pb.CapabilityRequest) (*
 }
 
 // Get implements the Get RPC in gNMI spec.
-func (s *Target) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, error) {
+func (s *Server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, error) {
 	if req.GetType() != pb.GetRequest_ALL {
 		return nil, status.Errorf(codes.Unimplemented, "unsupported request type: %s", pb.GetRequest_DataType_name[int32(req.GetType())])
 	}
@@ -295,7 +288,7 @@ func (s *Target) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, 
 }
 
 // Set implements the Set RPC in gNMI spec.
-func (s *Target) Set(ctx context.Context, req *pb.SetRequest) (*pb.SetResponse, error) {
+func (s *Server) Set(ctx context.Context, req *pb.SetRequest) (*pb.SetResponse, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -351,6 +344,6 @@ func (s *Target) Set(ctx context.Context, req *pb.SetRequest) (*pb.SetResponse, 
 }
 
 // Subscribe method is not implemented.
-func (s *Target) Subscribe(stream pb.GNMI_SubscribeServer) error {
+func (s *Server) Subscribe(stream pb.GNMI_SubscribeServer) error {
 	return status.Error(codes.Unimplemented, "Subscribe is not implemented.")
 }

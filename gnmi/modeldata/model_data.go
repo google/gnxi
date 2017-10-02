@@ -13,12 +13,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// Package model_data contains the following model data in gnmi proto struct:
+// Package modeldata contains the following model data in gnmi proto struct:
 //	openconfig-interfaces 2.0.0,
 //	openconfig-openflow 0.1.0,
 //	openconfig-platform 0.5.0,
 //	openconfig-system 0.2.0.
-package model_data
+package modeldata
 
 import (
 	pb "github.com/openconfig/gnmi/proto/gnmi"
