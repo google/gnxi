@@ -35,7 +35,6 @@ var (
 	targetAddr = flag.String("target_addr", "localhost:10161", "The target address in the format of host:port")
 	targetName = flag.String("target_name", "hostname.com", "The target name use to verify the hostname returned by TLS handshake")
 	timeOut    = flag.Duration("time_out", 10*time.Second, "Timeout for the Get request, 10 seconds by default")
-	usePretty  = flag.Bool("pretty", false, "Shows PROTOs using Pretty package instead of PROTO Text Marshal")
 )
 
 func main() {
