@@ -34,7 +34,7 @@ import (
 	"github.com/google/gnxi/utils/credentials"
 	"github.com/google/gnxi/utils/target/gnmi"
 	"github.com/google/gnxi/utils/target/gnmi/model_data"
-	"github.com/google/gnxi/utils/target/gnmi/model_data/oc_struct"
+	"github.com/google/gnxi/utils/target/gnmi/model_data/gostruct"
 
 	pb "github.com/openconfig/gnmi/proto/gnmi"
 )
@@ -80,9 +80,9 @@ func (t *target) Set(ctx context.Context, req *pb.SetRequest) (*pb.SetResponse, 
 
 func main() {
 	model := gnmi.NewModel(model_data.ModelData,
-		reflect.TypeOf((*oc_struct.Device)(nil)),
-		oc_struct.SchemaTree["Device"],
-		oc_struct.Unmarshal)
+		reflect.TypeOf((*gostruct.Device)(nil)),
+		gostruct.SchemaTree["Device"],
+		gostruct.Unmarshal)
 
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, "Supported models:\n")

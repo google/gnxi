@@ -28,16 +28,16 @@ import (
 	pb "github.com/openconfig/gnmi/proto/gnmi"
 
 	"github.com/google/gnxi/utils/target/gnmi/model_data"
-	"github.com/google/gnxi/utils/target/gnmi/model_data/oc_struct"
+	"github.com/google/gnxi/utils/target/gnmi/model_data/gostruct"
 )
 
 var (
 	// model is the model for test config target.
 	model = &Model{
 		modelData:       model_data.ModelData,
-		structRootType:  reflect.TypeOf((*oc_struct.Device)(nil)),
-		schemaTreeRoot:  oc_struct.SchemaTree["Device"],
-		jsonUnmarshaler: oc_struct.Unmarshal,
+		structRootType:  reflect.TypeOf((*gostruct.Device)(nil)),
+		schemaTreeRoot:  gostruct.SchemaTree["Device"],
+		jsonUnmarshaler: gostruct.Unmarshal,
 	}
 )
 
