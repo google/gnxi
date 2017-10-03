@@ -83,11 +83,17 @@ func NewServer(model *Model, config []byte, callback ConfigCallback) (*Server, e
 	if err != nil {
 		return nil, err
 	}
-	return &Server{
+	s := &Server{
 		model:    model,
 		config:   rootStruct,
 		callback: callback,
-	}, nil
+	}
+	if config != nil && s.callback != nil {
+		if err := s.callback(pb.UpdateResult_REPLACE, pbRootPath, rootStruct, nil); err != nil {
+			return nil, err
+		}
+	}
+	return s, nil
 }
 
 // checkEncodingAndModel checks whether encoding and models are supported by the server. Return error if anything is unsupported.
