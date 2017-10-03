@@ -7,7 +7,8 @@
 
 # gNxI Tools
 
-gNxi - gRPC Network Management/Operations Interface
+*   gNMI - gRPC Network Management Interface
+*   gNOI - gRPC Network Operations Interface
 
 A collection of tools for Network Management that use the gNMI and gNOI protocols.
 
