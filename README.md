@@ -6,7 +6,8 @@
 [![codecov.io](https://codecov.io/github/google/gnxi/coverage.svg?branch=master)](https://codecov.io/github/google/gnxi?branch=master)
 
 # gNxI Tools
-gRPC Network Management/Operations Interface Tools
+
+gNxi - gRPC Network Management/Operations Interface
 
 A collection of tools for Network Management that use the gNMI and gNOI protocols.
 
