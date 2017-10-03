@@ -173,7 +173,8 @@ func TestGet(t *testing.T) {
 	}
 }
 
-// runTestGet requests a path from the server by Get grpc call, and compares if the return code and response value are expected.
+// runTestGet requests a path from the server by Get grpc call, and compares if
+// the return code and response value are expected.
 func runTestGet(t *testing.T, s *Server, textPbPath string, wantRetCode codes.Code, wantRespVal interface{}) {
 	// Send request
 	var pbPath pb.Path
@@ -390,7 +391,8 @@ func TestSet(t *testing.T) {
 	}
 }
 
-// runTestSet sets the json config to an empty server, then checks if the return code is expected.
+// runTestSet sets the json config to an empty server, then checks if the return
+// code is expected.
 func runTestSet(t *testing.T, config string, wantRetCode codes.Code) {
 	// Create a new server with empty config
 	s, err := NewServer(model, nil, nil)
