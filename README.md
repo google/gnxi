@@ -5,7 +5,7 @@
 [![Build Status](https://travis-ci.org/google/gnxi.svg?branch=master)](https://travis-ci.org/google/gnxi)
 [![codecov.io](https://codecov.io/github/google/gnxi/coverage.svg?branch=master)](https://codecov.io/github/google/gnxi?branch=master)
 
-# gNxI Tools
+# gNxI Tools - gRPC Network Management/Operations Interface Tools
 
 A collection of tools for Network Management that use the gNMI and gNOI protocols.
 
