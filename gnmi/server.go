@@ -42,7 +42,7 @@ import (
 )
 
 // ConfigCallback is the signature of the function to apply a validated config to the physical device.
-type ConfigCallback func(ygot.ValidatedGoStruct) error
+type ConfigCallback func(pb.UpdateResult_Operation, *pb.Path, interface{}, ygot.ValidatedGoStruct) error
 
 var (
 	pbRootPath         = &pb.Path{}
@@ -58,9 +58,14 @@ var (
 //	listen, err := net.Listen("tcp", ":8080")
 //	g.Serve(listen)
 //
-// For a real device, apply the config changes to the hardware in the callback function:
-// func callback(config ygot.ValidatedGoStruct) error {
-//		// Apply the config to your device and return nil if success. If fail, rollback all changes and return error.
+// For a real device, apply the config changes to the hardware in the callback function.
+// Arguments:
+//		op: operation type.
+//		path: gnmi path of the config node to be modified.
+//		nodeConfig: new config to be applied to the path on the device. nil means to delete.
+//		rootConfig: the root config of the device before the node is modified.
+// func callback(op pb.UpdateResult_Operation, path pb.Path, nodeConfig interface{}, rootConfig ygot.ValidatedGoStruct) error {
+//		// Apply the config to your device and return nil if success. return error if fails.
 //		//
 //		// Do something ...
 // }
@@ -112,7 +117,8 @@ func (s *Server) checkEncodingAndModel(encoding pb.Encoding, models []*pb.ModelD
 	return nil
 }
 
-// getGNMIServiceVersion returns a pointer to the gNMI service version string. The method is non-trivial because of the way it is defined in the proto file.
+// getGNMIServiceVersion returns a pointer to the gNMI service version string.
+// The method is non-trivial because of the way it is defined in the proto file.
 func getGNMIServiceVersion() (*string, error) {
 	gzB, _ := (&pb.Update{}).Descriptor()
 	r, err := gzip.NewReader(bytes.NewReader(gzB))
@@ -147,12 +153,15 @@ func gnmiFullPath(prefix, path *pb.Path) *pb.Path {
 	return fullPath
 }
 
-// processOperation validates the operation to be applied to the device, updates the json tree of the config struct, and then calls the callback function to apply the operation to the device hardware.
+// processOperation validates the operation to be applied to the device, updates
+// the json tree of the config struct, and then calls the callback function to
+// apply the operation to the device hardware.
 func (s *Server) processOperation(jsonTree *map[string]interface{}, op pb.UpdateResult_Operation, prefix, path *pb.Path, val *pb.TypedValue) (*pb.UpdateResult, error) {
 	if !reflect.DeepEqual(path, pbRootPath) || op != pb.UpdateResult_REPLACE {
 		return nil, status.Error(codes.Unimplemented, "only support setting the entire config tree with one REPLACE")
 	}
 
+	// Validate the operation
 	node, stat := ygotutils.NewNode(s.model.structRootType, path)
 	if stat.GetCode() != int32(cpb.Code_OK) {
 		return nil, status.Errorf(codes.NotFound, "path %v is not found in the config structure: %v", path, stat)
@@ -169,12 +178,8 @@ func (s *Server) processOperation(jsonTree *map[string]interface{}, op pb.Update
 	if err := nodeStruct.Validate(); err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "config data validation fails: %v", err)
 	}
-	if s.callback != nil {
-		if err := s.callback(nodeStruct); err != nil {
-			return nil, status.Errorf(codes.Aborted, "error in applying operation to device: %v", err)
-		}
-	}
 
+	// Merge validated changes to a json tree
 	tree, err := ygot.ConstructIETFJSON(nodeStruct, &ygot.RFC7951JSONConfig{})
 	if err != nil {
 		msg := fmt.Sprintf("error in constructing IETF JSON tree from config struct: %v", err)
@@ -182,6 +187,16 @@ func (s *Server) processOperation(jsonTree *map[string]interface{}, op pb.Update
 		return nil, status.Error(codes.Internal, msg)
 	}
 	*jsonTree = tree
+
+	// Apply the validated operation to the device
+	if s.callback != nil {
+		if errApplyOp := s.callback(op, path, nodeStruct, s.config); errApplyOp != nil {
+			if errRollback := s.callback(pb.UpdateResult_REPLACE, pbRootPath, s.config, s.config); errRollback != nil {
+				return nil, status.Errorf(codes.Internal, "error in rollback the failed operation (%v): %v", errApplyOp, errRollback)
+			}
+			return nil, status.Errorf(codes.Aborted, "error in applying operation to device: %v", errApplyOp)
+		}
+	}
 	return &pb.UpdateResult{Path: path, Op: op}, nil
 }
 
@@ -233,10 +248,7 @@ func (s *Server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, 
 		nodeStruct, ok := node.(ygot.GoStruct)
 		// Leaf node case
 		if !ok {
-			if reflect.ValueOf(node).Kind() == reflect.Ptr {
-				node = reflect.ValueOf(node).Elem().Interface()
-			}
-			val, err := value.FromScalar(node)
+			val, err := value.FromScalar(reflect.ValueOf(node).Elem().Interface())
 			if err != nil {
 				msg := fmt.Sprintf("leaf node %v does not contain a scalar type value: %v", path, err)
 				log.Error(msg)
