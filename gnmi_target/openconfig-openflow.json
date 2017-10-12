@@ -1,6 +1,31 @@
 {
-  "openconfig-system:openconfig-openflow:system": {
-    "openflow": {
+  "openconfig-system:system": {
+    "aaa": {
+      "authentication": {
+        "admin-user": {
+          "config": {
+            "admin-password": "password"
+          }
+        },
+        "config": {
+          "authentication-method": [
+            "openconfig-aaa-types:LOCAL"
+          ]
+        }
+      }
+    },
+    "clock": {
+      "config": {
+        "timezone-name": "Europe/Stockholm"
+      }
+    },
+    "config": {
+      "domain-name": "google.com",
+      "hostname": "switch_a",
+      "login-banner": "Hello!",
+      "motd-banner": "Hi There!"
+    },
+    "openconfig-openflow:openflow": {
       "agent": {
         "config": {
           "backoff-interval": 5,
@@ -35,33 +60,6 @@
           }
         ]
       }
-    }
-  },
-  "openconfig-system:system": {
-    "aaa": {
-      "authentication": {
-        "admin-user": {
-          "config": {
-            "admin-password": "password"
-          }
-        },
-        "config": {
-          "authentication-method": [
-            "openconfig-aaa-types:LOCAL"
-          ]
-        }
-      }
-    },
-    "clock": {
-      "config": {
-        "timezone-name": "Europe/Stockholm"
-      }
-    },
-    "config": {
-      "domain-name": "google.com",
-      "hostname": "switch_a",
-      "login-banner": "Hello!",
-      "motd-banner": "Hi There!"
     }
   }
 }
