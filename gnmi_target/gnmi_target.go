@@ -71,10 +71,10 @@ func (s *server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, 
 func (s *server) Set(ctx context.Context, req *pb.SetRequest) (*pb.SetResponse, error) {
 	msg, ok := credentials.AuthorizeUser(ctx)
 	if !ok {
-		log.Infof("denied a Get request: %v", msg)
+		log.Infof("denied a Set request: %v", msg)
 		return nil, status.Error(codes.PermissionDenied, msg)
 	}
-	log.Infof("allowed a Get request: %v", msg)
+	log.Infof("allowed a Set request: %v", msg)
 	return s.Server.Set(ctx, req)
 }
 
