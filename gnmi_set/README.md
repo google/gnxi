@@ -13,7 +13,9 @@ go install github.com/google/gnxi/gnmi_set
 
 ```
 gnmi_set \
-  -config openconfig-openflow.json \
+  -json_replace maxbackoff.json \
+  -json_replace backoffinterval.json \
+  -json_update maxbackoff.json \
   -target_addr localhost:10161 \
   -target_name hostname.com \
   -key client.key \

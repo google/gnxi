@@ -1,0 +1,11 @@
+{
+  "openconfig-system:system": {
+    "openconfig-openflow:openflow": {
+      "agent": {
+        "config": {
+          "backoff-interval": 6
+        }
+      }
+    }
+  }
+}

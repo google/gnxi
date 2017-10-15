@@ -32,15 +32,50 @@ import (
 	pb "github.com/openconfig/gnmi/proto/gnmi"
 )
 
+type arrayFlags []string
+
+func (i *arrayFlags) String() string {
+	return "my string representation"
+}
+
+func (i *arrayFlags) Set(value string) error {
+	*i = append(*i, value)
+	return nil
+}
+
 var (
-	targetAddr = flag.String("target_addr", "localhost:10161", "The target address in the format of host:port")
-	targetName = flag.String("target_name", "hostname.com", "The target name use to verify the hostname returned by TLS handshake")
-	timeOut    = flag.Duration("time_out", 10*time.Second, "Timeout for the Get request, 10 seconds by default")
-	configFile = flag.String("config", "", "IETF JSON config file to replace the current config of the target")
+	jsonUpdate  arrayFlags
+	jsonReplace arrayFlags
+	targetAddr  = flag.String("target_addr", "localhost:10161", "The target address in the format of host:port")
+	targetName  = flag.String("target_name", "hostname.com", "The target name use to verify the hostname returned by TLS handshake")
+	timeOut     = flag.Duration("time_out", 10*time.Second, "Timeout for the Get request, 10 seconds by default")
 )
 
+func jsonToUpdate(jsonFiles arrayFlags, pbUpdates *[]*pb.Update) error {
+	for _, jsonFile := range jsonFiles {
+		jsonConfig, err := ioutil.ReadFile(jsonFile)
+		if err != nil {
+			return fmt.Errorf("error reading json file: %v", err)
+		}
+		pbValConfig := &pb.TypedValue{
+			Value: &pb.TypedValue_JsonIetfVal{
+				JsonIetfVal: jsonConfig,
+			},
+		}
+		update := &pb.Update{
+			Path: &pb.Path{},
+			Val:  pbValConfig,
+		}
+		*pbUpdates = append(*pbUpdates, update)
+	}
+	return nil
+}
+
 func main() {
+	flag.Var(&jsonUpdate, "json_update", "IETF JSON files to use as update")
+	flag.Var(&jsonReplace, "json_replace", "IETF JSON files to use as replace")
 	flag.Parse()
+
 	opts := credentials.ClientCredentials(*targetName)
 	conn, err := grpc.Dial(*targetAddr, opts...)
 	if err != nil {
@@ -48,22 +83,17 @@ func main() {
 	}
 	defer conn.Close()
 
-	jsonConfig, err := ioutil.ReadFile(*configFile)
-	if err != nil {
-		log.Exitf("error in reading config file: %v", err)
-	}
-	pbValConfig := &pb.TypedValue{
-		Value: &pb.TypedValue_JsonIetfVal{
-			JsonIetfVal: jsonConfig,
-		},
-	}
 	setRequest := &pb.SetRequest{
-		Replace: []*pb.Update{
-			{
-				Path: &pb.Path{},
-				Val:  pbValConfig,
-			},
-		},
+		Replace: []*pb.Update{},
+		Update:  []*pb.Update{},
+	}
+
+	if err := jsonToUpdate(jsonUpdate, &setRequest.Update); err != nil {
+		log.Exit(err)
+	}
+
+	if err := jsonToUpdate(jsonReplace, &setRequest.Replace); err != nil {
+		log.Exit(err)
 	}
 
 	fmt.Println("== getRequest:")
