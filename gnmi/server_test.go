@@ -22,6 +22,7 @@ import (
 
 	"github.com/golang/protobuf/proto"
 	"github.com/openconfig/gnmi/value"
+	"github.com/openconfig/ygot/ygot"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
@@ -231,185 +232,285 @@ func runTestGet(t *testing.T, s *Server, textPbPath string, wantRetCode codes.Co
 	}
 }
 
-func TestSet(t *testing.T) {
-	interfacesValidConfig := `{
-		"interfaces": {
-			"interface": [
-				{
-					"config": {
-						"name": "gateway"
-					},
-					"name": "eth1"
-				}
-			]
-		}
-	}`
-	interfacesNonExistingField := `{
-		"interfaces": {
-			"interface": [
-				{
-					"config": {
-						"name": "gateway"
-					},
-					"hostname": "eth1"
-				}
-			]
-		}
-	}`
-	interfacesWrongDataTypeStruct4List := `{
-		"interfaces": {
-			"interface": {
-				"config": {
-					"name": "gateway"
-				},
-				"name": "eth1"
-			}
-		}
-	}`
-	interfacesWrongDataTypeString4Struct := `{
-		"interfaces": {
-			"interface": [
-				{
-					"config": "foo",
-					"name": "eth1"
-				}
-			]
-		}
-	}`
+type SetTestCase struct {
+	desc        string                    // description of test case
+	initConfig  string                    // config before the operation
+	op          pb.UpdateResult_Operation // operation type
+	textPbPath  string                    // text format of gnmi Path proto
+	val         *pb.TypedValue            // value for UPDATE/REPLACE operations. always nil for DELETE
+	wantRetCode codes.Code                // grpc return code
+	wantConfig  string                    // config after the operation
+}
 
-	openflowValidConfig := `{
-		"openconfig-openflow:system": {
-			"openflow": {
-				"agent": {
-					"config": {
-						"backoff-interval": 5,
-						"datapath-id": "00:16:3e:00:00:00:00:00",
-						"failure-mode": "SECURE",
-						"inactivity-probe": 10,
-						"max-backoff": 10
-					}
-				}
-			}
-		},
+func TestReplace(t *testing.T) {
+	systemConfig := `{
 		"system": {
+			"clock": {
+				"config": {
+					"timezone-name": "Europe/Stockholm"
+				}
+			},
 			"config": {
-				"domain-name": "google.com",
 				"hostname": "switch_a",
-				"login-banner": "Hello!",
-				"motd-banner": "Hi There!"
+				"login-banner": "Hello!"
 			}
 		}
 	}`
-	openflowWrongDataFormatDpid := `{
-		"openconfig-openflow:system": {
-			"openflow": {
-				"agent": {
-					"config": {
-						"backoff-interval": 5,
-						"datapath-id": "123456",
-						"failure-mode": "SECURE",
-						"inactivity-probe": 10,
-						"max-backoff": 10
-					}
-				}
-			}
-		},
-	}`
-	openflowWrongDataTypeFloat4Int := `{
-		"openconfig-openflow:system": {
-			"openflow": {
-				"agent": {
-					"config": {
-						"backoff-interval": 5.0,
-						"datapath-id": "00:16:3e:00:00:00:00:00",
-						"failure-mode": "SECURE",
-						"inactivity-probe": 10,
-						"max-backoff": 10
-					}
-				}
-			}
-		},
-	}`
-	openflowWrongDataTypeString4Int := `{
-		"openconfig-openflow:system": {
-			"openflow": {
-				"agent": {
-					"config": {
-						"backoff-interval": "5",
-						"datapath-id": "00:16:3e:00:00:00:00:00",
-						"failure-mode": "SECURE",
-						"inactivity-probe": 10,
-						"max-backoff": 10
-					}
-				}
-			}
-		},
-	}`
 
-	tds := []struct {
-		desc        string
-		config      string
-		wantRetCode codes.Code
-	}{{
-		desc:        "interfaces valid config",
-		config:      interfacesValidConfig,
+	tests := []SetTestCase{{
+		desc:       "replace root",
+		initConfig: `{}`,
+		op:         pb.UpdateResult_REPLACE,
+		val: &pb.TypedValue{
+			Value: &pb.TypedValue_JsonIetfVal{
+				JsonIetfVal: []byte(systemConfig),
+			}},
 		wantRetCode: codes.OK,
+		wantConfig:  systemConfig,
 	}, {
-		desc:        "interfaces config with non-existing field",
-		config:      interfacesNonExistingField,
-		wantRetCode: codes.InvalidArgument,
-	}, {
-		desc:        "interfaces config with wrong data type: struct for list",
-		config:      interfacesWrongDataTypeStruct4List,
-		wantRetCode: codes.InvalidArgument,
-	}, {
-		desc:        "interfaces config with wrong data type: string for struct",
-		config:      interfacesWrongDataTypeString4Struct,
-		wantRetCode: codes.InvalidArgument,
-	}, {
-		desc:        "openflow valid config",
-		config:      openflowValidConfig,
+		desc:       "replace a subtree",
+		initConfig: `{}`,
+		op:         pb.UpdateResult_REPLACE,
+		textPbPath: `
+			elem: <name: "system" >
+			elem: <name: "clock" >
+		`,
+		val: &pb.TypedValue{
+			Value: &pb.TypedValue_JsonIetfVal{
+				JsonIetfVal: []byte(`{"config": {"timezone-name": "US/New York"}}`),
+			},
+		},
 		wantRetCode: codes.OK,
+		wantConfig: `{
+			"system": {
+				"clock": {
+					"config": {
+						"timezone-name": "US/New York"
+					}
+				}
+			}
+		}`,
 	}, {
-		desc:        "openflow config with wrong data format: DPID",
-		config:      openflowWrongDataFormatDpid,
-		wantRetCode: codes.InvalidArgument,
+		desc:       "replace a keyed list subtree",
+		initConfig: `{}`,
+		op:         pb.UpdateResult_REPLACE,
+		textPbPath: `
+			elem: <name: "components" >
+			elem: <
+				name: "component"
+				key: <key: "name" value: "swpri1-1-1" >
+			>`,
+		val: &pb.TypedValue{
+			Value: &pb.TypedValue_JsonIetfVal{
+				JsonIetfVal: []byte(`{"config": {"name": "swpri1-1-1"}}`),
+			},
+		},
+		wantRetCode: codes.OK,
+		wantConfig: `{
+			"components": {
+				"component": [
+					{
+						"name": "swpri1-1-1",
+						"config": {
+							"name": "swpri1-1-1"
+						}
+					}
+				]
+			}
+		}`,
 	}, {
-		desc:        "openflow config with wrong data type: float for int",
-		config:      openflowWrongDataTypeFloat4Int,
-		wantRetCode: codes.InvalidArgument,
+		desc: "replace node with int type attribute in its precedent path",
+		initConfig: `{
+			"system": {
+				"openflow": {
+					"controllers": {
+						"controller": [
+							{
+								"config": {
+									"name": "main"
+								},
+								"name": "main"
+							}
+						]
+					}
+				}
+			}
+		}`,
+		op: pb.UpdateResult_REPLACE,
+		textPbPath: `
+			elem: <name: "system" >
+			elem: <name: "openflow" >
+			elem: <name: "controllers" >
+			elem: <
+				name: "controller"
+				key: <key: "name" value: "main" >
+			>
+			elem: <name: "connections" >
+			elem: <
+				name: "connection"
+				key: <key: "aux-id" value: "0" >
+			>
+			elem: <name: "config" >
+		`,
+		val: &pb.TypedValue{
+			Value: &pb.TypedValue_JsonIetfVal{
+				JsonIetfVal: []byte(`{"address": "192.0.2.10", "aux-id": 0}`),
+			},
+		},
+		wantRetCode: codes.OK,
+		wantConfig: `{
+			"system": {
+				"openflow": {
+					"controllers": {
+						"controller": [
+							{
+								"config": {
+									"name": "main"
+								},
+								"connections": {
+									"connection": [
+										{
+											"aux-id": 0,
+											"config": {
+												"address": "192.0.2.10",
+												"aux-id": 0
+											}
+										}
+									]
+								},
+								"name": "main"
+							}
+						]
+					}
+				}
+			}
+		}`,
 	}, {
-		desc:        "openflow config wrong data type: string for int",
-		config:      openflowWrongDataTypeString4Int,
-		wantRetCode: codes.InvalidArgument,
+		desc:       "replace a leaf node of int type",
+		initConfig: `{}`,
+		op:         pb.UpdateResult_REPLACE,
+		textPbPath: `
+			elem: <name: "system" >
+			elem: <name: "openflow" >
+			elem: <name: "agent" >
+			elem: <name: "config" >
+			elem: <name: "backoff-interval" >
+		`,
+		val: &pb.TypedValue{
+			Value: &pb.TypedValue_IntVal{IntVal: 5},
+		},
+		wantRetCode: codes.OK,
+		wantConfig: `{
+			"system": {
+				"openflow": {
+					"agent": {
+						"config": {
+							"backoff-interval": 5
+						}
+					}
+				}
+			}
+		}`,
+	}, {
+		desc:       "replace a leaf node of string type",
+		initConfig: `{}`,
+		op:         pb.UpdateResult_REPLACE,
+		textPbPath: `
+			elem: <name: "system" >
+			elem: <name: "openflow" >
+			elem: <name: "agent" >
+			elem: <name: "config" >
+			elem: <name: "datapath-id" >
+		`,
+		val: &pb.TypedValue{
+			Value: &pb.TypedValue_StringVal{StringVal: "00:16:3e:00:00:00:00:00"},
+		},
+		wantRetCode: codes.OK,
+		wantConfig: `{
+			"system": {
+				"openflow": {
+					"agent": {
+						"config": {
+							"datapath-id": "00:16:3e:00:00:00:00:00"
+						}
+					}
+				}
+			}
+		}`,
+	}, {
+		desc:       "replace a leaf node of enum type",
+		initConfig: `{}`,
+		op:         pb.UpdateResult_REPLACE,
+		textPbPath: `
+			elem: <name: "system" >
+			elem: <name: "openflow" >
+			elem: <name: "agent" >
+			elem: <name: "config" >
+			elem: <name: "failure-mode" >
+		`,
+		val: &pb.TypedValue{
+			Value: &pb.TypedValue_StringVal{StringVal: "SECURE"},
+		},
+		wantRetCode: codes.OK,
+		wantConfig: `{
+			"system": {
+				"openflow": {
+					"agent": {
+						"config": {
+							"failure-mode": "SECURE"
+						}
+					}
+				}
+			}
+		}`,
+	}, {
+		desc:       "replace an non-existing leaf node",
+		initConfig: `{}`,
+		op:         pb.UpdateResult_REPLACE,
+		textPbPath: `
+			elem: <name: "system" >
+			elem: <name: "openflow" >
+			elem: <name: "agent" >
+			elem: <name: "config" >
+			elem: <name: "foo-bar" >
+		`,
+		val: &pb.TypedValue{
+			Value: &pb.TypedValue_StringVal{StringVal: "SECURE"},
+		},
+		wantRetCode: codes.NotFound,
+		wantConfig:  `{}`,
 	}}
 
-	for _, td := range tds {
-		t.Run(td.desc, func(t *testing.T) {
-			runTestSet(t, td.config, td.wantRetCode)
+	for _, tc := range tests {
+		t.Run(tc.desc, func(t *testing.T) {
+			runTestSet(t, model, tc)
 		})
 	}
 }
 
-// runTestSet sets the json config to an empty server, then checks if the return
-// code is expected.
-func runTestSet(t *testing.T, config string, wantRetCode codes.Code) {
+func runTestSet(t *testing.T, m *Model, tc SetTestCase) {
 	// Create a new server with empty config
-	s, err := NewServer(model, nil, nil)
+	s, err := NewServer(m, []byte(tc.initConfig), nil)
 	if err != nil {
 		t.Fatalf("error in creating config server: %v", err)
 	}
 
 	// Send request
-	upd := &pb.Update{
-		Path: pbRootPath,
-		Val: &pb.TypedValue{
-			Value: &pb.TypedValue_JsonIetfVal{
-				JsonIetfVal: []byte(config),
-			},
-		},
+	var pbPath pb.Path
+	if err := proto.UnmarshalText(tc.textPbPath, &pbPath); err != nil {
+		t.Fatalf("error in unmarshaling path: %v", err)
 	}
-	req := &pb.SetRequest{Replace: []*pb.Update{upd}}
+	var req *pb.SetRequest
+	switch tc.op {
+	case pb.UpdateResult_DELETE:
+		req = &pb.SetRequest{Delete: []*pb.Path{&pbPath}}
+	case pb.UpdateResult_REPLACE:
+		req = &pb.SetRequest{Replace: []*pb.Update{&pb.Update{Path: &pbPath, Val: tc.val}}}
+	case pb.UpdateResult_UPDATE:
+		req = &pb.SetRequest{Update: []*pb.Update{&pb.Update{Path: &pbPath, Val: tc.val}}}
+	default:
+		t.Fatalf("invalid op type: %v", tc.op)
+	}
 	_, err = s.Set(nil, req)
 
 	// Check return code
@@ -417,7 +518,24 @@ func runTestSet(t *testing.T, config string, wantRetCode codes.Code) {
 	if !ok {
 		t.Fatal("got a non-grpc error from grpc call")
 	}
-	if gotRetStatus.Code() != wantRetCode {
-		t.Fatalf("got return code %v, want %v", gotRetStatus.Code(), wantRetCode)
+	if gotRetStatus.Code() != tc.wantRetCode {
+		t.Fatalf("got return code %v, want %v\nerror message: %v", gotRetStatus.Code(), tc.wantRetCode, err)
+	}
+
+	// Check server config
+	wantConfigStruct, err := m.NewConfigStruct([]byte(tc.wantConfig))
+	if err != nil {
+		t.Fatalf("wantConfig data cannot be loaded as a config struct: %v", err)
+	}
+	wantConfigJSON, err := ygot.ConstructIETFJSON(wantConfigStruct, &ygot.RFC7951JSONConfig{})
+	if err != nil {
+		t.Fatalf("error in constructing IETF JSON tree from wanted config: %v", err)
+	}
+	gotConfigJSON, err := ygot.ConstructIETFJSON(s.config, &ygot.RFC7951JSONConfig{})
+	if err != nil {
+		t.Fatalf("error in constructing IETF JSON tree from server config: %v", err)
+	}
+	if !reflect.DeepEqual(gotConfigJSON, wantConfigJSON) {
+		t.Fatalf("got server config %v\nwant: %v", gotConfigJSON, wantConfigJSON)
 	}
 }

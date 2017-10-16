@@ -23,6 +23,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"reflect"
+	"strconv"
 	"sync"
 	"time"
 
@@ -123,6 +124,123 @@ func (s *Server) checkEncodingAndModel(encoding pb.Encoding, models []*pb.ModelD
 	return nil
 }
 
+func (s *Server) doDelete(jsonTree map[string]interface{}, prefix, path *pb.Path) (*pb.UpdateResult, error) {
+	return nil, status.Error(codes.Unimplemented, "delete operation is unsupported")
+}
+
+// doRepaceOrUpdate validates the replace or update operation to be applied to
+// the device, modifies the json tree of the config struct, then calls the
+// callback function to apply the operation to the device hardware.
+func (s *Server) doRepaceOrUpdate(jsonTree map[string]interface{}, op pb.UpdateResult_Operation, prefix, path *pb.Path, val *pb.TypedValue) (*pb.UpdateResult, error) {
+	if op != pb.UpdateResult_REPLACE {
+		return nil, status.Error(codes.Unimplemented, "only support REPLACE operation")
+	}
+
+	// Validate the operation
+	fullPath := gnmiFullPath(prefix, path)
+	emptyNode, stat := ygotutils.NewNode(s.model.structRootType, fullPath)
+	if stat.GetCode() != int32(cpb.Code_OK) {
+		return nil, status.Errorf(codes.NotFound, "path %v is not found in the config structure: %v", fullPath, stat)
+	}
+	var nodeVal interface{}
+	nodeStruct, ok := emptyNode.(ygot.ValidatedGoStruct)
+	if ok {
+		if err := s.model.jsonUnmarshaler(val.GetJsonIetfVal(), nodeStruct); err != nil {
+			return nil, status.Errorf(codes.InvalidArgument, "unmarshaling json data to config struct fails: %v", err)
+		}
+		if err := nodeStruct.Validate(); err != nil {
+			return nil, status.Errorf(codes.InvalidArgument, "config data validation fails: %v", err)
+		}
+		var err error
+		if nodeVal, err = ygot.ConstructIETFJSON(nodeStruct, &ygot.RFC7951JSONConfig{}); err != nil {
+			msg := fmt.Sprintf("error in constructing IETF JSON tree from config struct: %v", err)
+			log.Error(msg)
+			return nil, status.Error(codes.Internal, msg)
+		}
+	} else {
+		var err error
+		if nodeVal, err = value.ToScalar(val); err != nil {
+			return nil, status.Errorf(codes.Internal, "cannot convert leaf node to scalar type: %v", err)
+		}
+	}
+
+	// Update json tree of the device config
+	var curNode interface{} = jsonTree
+	for i, elem := range fullPath.Elem {
+		switch node := curNode.(type) {
+		case map[string]interface{}:
+			// Set node value
+			if i == len(fullPath.Elem)-1 {
+				if elem.GetKey() == nil {
+					node[elem.Name] = nodeVal
+					break
+				}
+
+				n, ok := nodeVal.(map[string]interface{})
+				if !ok {
+					return nil, status.Errorf(codes.InvalidArgument, "expect a map[string]interface{}, got %T", nodeVal)
+				}
+				m, err := getOrCreateKeyedListEntry(node, elem)
+				if err != nil {
+					return nil, err
+				}
+				for k, v := range n {
+					v0, ok := m[k]
+					if ok && !reflect.DeepEqual(v, v0) {
+						return nil, status.Errorf(codes.InvalidArgument, "cannot set reference leaf node to a new value: %v", k)
+					}
+					m[k] = v
+				}
+				break
+			}
+
+			// Search next node
+			if elem.GetKey() == nil {
+				var ok bool
+				if curNode, ok = node[elem.Name]; !ok {
+					node[elem.Name] = make(map[string]interface{})
+					curNode = node[elem.Name]
+				}
+				break
+			}
+			var grpcStatusError error
+			if curNode, grpcStatusError = getOrCreateKeyedListEntry(node, elem); grpcStatusError != nil {
+				return nil, grpcStatusError
+			}
+		case []interface{}:
+			return nil, status.Errorf(codes.NotFound, "uncompatible path elem: %v", elem)
+		default:
+			return nil, status.Errorf(codes.Internal, "wrong node type: %v", reflect.TypeOf(curNode))
+		}
+	}
+	if reflect.DeepEqual(fullPath, pbRootPath) { // Replace/Update root
+		if op == pb.UpdateResult_UPDATE {
+			return nil, status.Error(codes.Unimplemented, "update the root of config tree is unsupported")
+		}
+		nodeValAsTree, ok := nodeVal.(map[string]interface{})
+		if !ok {
+			return nil, status.Errorf(codes.InvalidArgument, "expect a tree to replace the root, got a scalar value: %T", nodeVal)
+		}
+		for k := range jsonTree {
+			delete(jsonTree, k)
+		}
+		for k, v := range nodeValAsTree {
+			jsonTree[k] = v
+		}
+	}
+
+	// Apply the validated operation to the device
+	if s.callback != nil {
+		if applyErr := s.callback(op, path, nodeStruct, s.config); applyErr != nil {
+			if rollbackErr := s.callback(pb.UpdateResult_REPLACE, pbRootPath, s.config, s.config); rollbackErr != nil {
+				return nil, status.Errorf(codes.Internal, "error in rollback the failed operation (%v): %v", applyErr, rollbackErr)
+			}
+			return nil, status.Errorf(codes.Aborted, "error in applying operation to device: %v", applyErr)
+		}
+	}
+	return &pb.UpdateResult{Path: path, Op: op}, nil
+}
+
 // getGNMIServiceVersion returns a pointer to the gNMI service version string.
 // The method is non-trivial because of the way it is defined in the proto file.
 func getGNMIServiceVersion() (*string, error) {
@@ -147,6 +265,63 @@ func getGNMIServiceVersion() (*string, error) {
 	return ver.(*string), nil
 }
 
+// getOrCreateKeyedListEntry finds the keyed list entry from node that matches
+// the path elem. If entry is not found, creates a new entry in the keyed list.
+// If the list does not exist, creates the list first. Returns nil with grpc
+// status error if unsuccessful.
+func getOrCreateKeyedListEntry(node map[string]interface{}, elem *pb.PathElem) (map[string]interface{}, error) {
+	curNode, ok := node[elem.Name]
+	// Create a keyed list as node child and initialize an entry
+	if !ok {
+		m := make(map[string]interface{})
+		for k, v := range elem.Key {
+			m[k] = v
+			if vAsNum, err := strconv.ParseFloat(v, 64); err == nil {
+				m[k] = vAsNum
+			}
+		}
+		node[elem.Name] = []interface{}{m}
+		return m, nil
+	}
+
+	// Search entry in keyed list
+	keyedList, ok := curNode.([]interface{})
+	if !ok {
+		return nil, status.Error(codes.NotFound, "no attribute found in the path node")
+	}
+	for _, n := range keyedList {
+		m, ok := n.(map[string]interface{})
+		if !ok {
+			return nil, status.Errorf(codes.Internal, "wrong keyed list entry type: %v", reflect.TypeOf(n))
+		}
+		keyMatching := true
+		for k, v := range elem.Key {
+			attrVal, ok := m[k]
+			if !ok {
+				return nil, status.Errorf(codes.NotFound, "attribute %v not found in the path node", k)
+			}
+			if v != fmt.Sprintf("%v", attrVal) {
+				keyMatching = false
+				break
+			}
+		}
+		if keyMatching {
+			return m, nil
+		}
+	}
+
+	// Create an entry in keyed list
+	m := make(map[string]interface{})
+	for k, v := range elem.Key {
+		m[k] = v
+		if vAsNum, err := strconv.ParseFloat(v, 64); err == nil {
+			m[k] = vAsNum
+		}
+	}
+	node[elem.Name] = append(keyedList, m)
+	return m, nil
+}
+
 // gnmiFullPath builds the full path from the prefix and path.
 func gnmiFullPath(prefix, path *pb.Path) *pb.Path {
 	fullPath := &pb.Path{Origin: path.Origin}
@@ -157,53 +332,6 @@ func gnmiFullPath(prefix, path *pb.Path) *pb.Path {
 		fullPath.Elem = append(prefix.GetElem(), path.GetElem()...)
 	}
 	return fullPath
-}
-
-// processOperation validates the operation to be applied to the device, updates
-// the json tree of the config struct, and then calls the callback function to
-// apply the operation to the device hardware.
-func (s *Server) processOperation(jsonTree *map[string]interface{}, op pb.UpdateResult_Operation, prefix, path *pb.Path, val *pb.TypedValue) (*pb.UpdateResult, error) {
-	if !reflect.DeepEqual(path, pbRootPath) || op != pb.UpdateResult_REPLACE {
-		return nil, status.Error(codes.Unimplemented, "only support setting the entire config tree with one REPLACE")
-	}
-
-	// Validate the operation
-	node, stat := ygotutils.NewNode(s.model.structRootType, path)
-	if stat.GetCode() != int32(cpb.Code_OK) {
-		return nil, status.Errorf(codes.NotFound, "path %v is not found in the config structure: %v", path, stat)
-	}
-	nodeStruct, ok := node.(ygot.ValidatedGoStruct)
-	if !ok {
-		msg := "the created node structure is not compatible to ygot.ValidatedGoStruct interface"
-		log.Error(msg)
-		return nil, status.Error(codes.Internal, msg)
-	}
-	if err := s.model.jsonUnmarshaler(val.GetJsonIetfVal(), nodeStruct); err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "unmarshaling json data to config struct fails: %v", err)
-	}
-	if err := nodeStruct.Validate(); err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "config data validation fails: %v", err)
-	}
-
-	// Merge validated changes to a json tree
-	tree, err := ygot.ConstructIETFJSON(nodeStruct, &ygot.RFC7951JSONConfig{})
-	if err != nil {
-		msg := fmt.Sprintf("error in constructing IETF JSON tree from config struct: %v", err)
-		log.Error(msg)
-		return nil, status.Error(codes.Internal, msg)
-	}
-	*jsonTree = tree
-
-	// Apply the validated operation to the device
-	if s.callback != nil {
-		if errApplyOp := s.callback(op, path, nodeStruct, s.config); errApplyOp != nil {
-			if errRollback := s.callback(pb.UpdateResult_REPLACE, pbRootPath, s.config, s.config); errRollback != nil {
-				return nil, status.Errorf(codes.Internal, "error in rollback the failed operation (%v): %v", errApplyOp, errRollback)
-			}
-			return nil, status.Errorf(codes.Aborted, "error in applying operation to device: %v", errApplyOp)
-		}
-	}
-	return &pb.UpdateResult{Path: path, Op: op}, nil
 }
 
 // Capabilities returns supported encodings and supported models.
@@ -332,23 +460,23 @@ func (s *Server) Set(ctx context.Context, req *pb.SetRequest) (*pb.SetResponse, 
 	var results []*pb.UpdateResult
 
 	for _, path := range req.GetDelete() {
-		res, err := s.processOperation(&jsonTree, pb.UpdateResult_DELETE, prefix, path, nil)
-		if err != nil {
-			return nil, err
+		res, grpcStatusError := s.doDelete(jsonTree, prefix, path)
+		if grpcStatusError != nil {
+			return nil, grpcStatusError
 		}
 		results = append(results, res)
 	}
 	for _, upd := range req.GetReplace() {
-		res, err := s.processOperation(&jsonTree, pb.UpdateResult_REPLACE, prefix, upd.GetPath(), upd.GetVal())
-		if err != nil {
-			return nil, err
+		res, grpcStatusError := s.doRepaceOrUpdate(jsonTree, pb.UpdateResult_REPLACE, prefix, upd.GetPath(), upd.GetVal())
+		if grpcStatusError != nil {
+			return nil, grpcStatusError
 		}
 		results = append(results, res)
 	}
 	for _, upd := range req.GetUpdate() {
-		res, err := s.processOperation(&jsonTree, pb.UpdateResult_UPDATE, prefix, upd.GetPath(), upd.GetVal())
-		if err != nil {
-			return nil, err
+		res, grpcStatusError := s.doRepaceOrUpdate(jsonTree, pb.UpdateResult_UPDATE, prefix, upd.GetPath(), upd.GetVal())
+		if grpcStatusError != nil {
+			return nil, grpcStatusError
 		}
 		results = append(results, res)
 	}
