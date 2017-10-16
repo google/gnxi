@@ -548,35 +548,11 @@ func (s *Server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, 
 		nodeStruct, ok := node.(ygot.GoStruct)
 		// Return leaf node.
 		if !ok {
-			fmt.Printf("node.Type = %v\n", reflect.TypeOf(node).Name())
-			fmt.Printf("node.Kind = %v\n", reflect.ValueOf(node).Kind())
-			fmt.Printf("node.Kind = %v\n", reflect.ValueOf(node).Kind() == reflect.Ptr || reflect.ValueOf(node).Kind() == reflect.Interface)
-			fmt.Printf("--reflect.ValueOf(node) = %T\n", reflect.ValueOf(node))
-			var val *pb.TypedValue
-			var err error
-			kind := reflect.ValueOf(node).Kind()
-			if kind == reflect.Ptr || kind == reflect.Interface {
-				val, err = value.FromScalar(reflect.ValueOf(node).Elem().Interface())
-				if err != nil {
-					msg := fmt.Sprintf("leaf node %v does not contain a scalar type value: %v", path, err)
-					log.Error(msg)
-					return nil, status.Error(codes.Internal, msg)
-				}
-			} else if kind == reflect.Int64 {
-				enumName := reflect.TypeOf(node).Name()
-				enumMap, ok := gostruct.ΛEnum[enumName]
-				if !ok {
-					return nil, status.Error(codes.Internal, "not an enumeration type")
-				}
-				intVal, ok := node.(int64)
-				if !ok {
-					return nil, status.Error(codes.Internal, "not an int64 type")
-				}
-				val = &pb.TypedValue{
-					Value: pb.TypedValue_StringVal{
-						StringVal: enumMap[intVal].Name,
-					},
-				}
+			val, err := value.FromScalar(reflect.ValueOf(node).Elem().Interface())
+			if err != nil {
+				msg := fmt.Sprintf("leaf node %v does not contain a scalar type value: %v", path, err)
+				log.Error(msg)
+				return nil, status.Error(codes.Internal, msg)
 			}
 			update := &pb.Update{Path: path, Val: val}
 			notifications[i] = &pb.Notification{
