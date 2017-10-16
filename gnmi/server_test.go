@@ -488,6 +488,71 @@ func TestReplace(t *testing.T) {
 	}
 }
 
+func TestUpdate(t *testing.T) {
+	tests := []SetTestCase{{
+		desc: "update leaf node",
+		initConfig: `{
+			"system": {
+				"config": {
+					"hostname": "switch_a"
+				}
+			}
+		}`,
+		op: pb.UpdateResult_UPDATE,
+		textPbPath: `
+			elem: <name: "system" >
+			elem: <name: "config" >
+			elem: <name: "domain-name" >
+		`,
+		val: &pb.TypedValue{
+			Value: &pb.TypedValue_StringVal{StringVal: "foo.bar.com"},
+		},
+		wantRetCode: codes.OK,
+		wantConfig: `{
+			"system": {
+				"config": {
+					"domain-name": "foo.bar.com",
+					"hostname": "switch_a"
+				}
+			}
+		}`,
+	}, {
+		desc: "update subtree",
+		initConfig: `{
+			"system": {
+				"config": {
+					"hostname": "switch_a"
+				}
+			}
+		}`,
+		op: pb.UpdateResult_UPDATE,
+		textPbPath: `
+			elem: <name: "system" >
+			elem: <name: "config" >
+		`,
+		val: &pb.TypedValue{
+			Value: &pb.TypedValue_JsonIetfVal{
+				JsonIetfVal: []byte(`{"domain-name": "foo.bar.com", "hostname": "switch_a"}`),
+			},
+		},
+		wantRetCode: codes.OK,
+		wantConfig: `{
+			"system": {
+				"config": {
+					"domain-name": "foo.bar.com",
+					"hostname": "switch_a"
+				}
+			}
+		}`,
+	}}
+
+	for _, tc := range tests {
+		t.Run(tc.desc, func(t *testing.T) {
+			runTestSet(t, model, tc)
+		})
+	}
+}
+
 func runTestSet(t *testing.T, m *Model, tc SetTestCase) {
 	// Create a new server with empty config
 	s, err := NewServer(m, []byte(tc.initConfig), nil)

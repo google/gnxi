@@ -132,10 +132,6 @@ func (s *Server) doDelete(jsonTree map[string]interface{}, prefix, path *pb.Path
 // the device, modifies the json tree of the config struct, then calls the
 // callback function to apply the operation to the device hardware.
 func (s *Server) doRepaceOrUpdate(jsonTree map[string]interface{}, op pb.UpdateResult_Operation, prefix, path *pb.Path, val *pb.TypedValue) (*pb.UpdateResult, error) {
-	if op != pb.UpdateResult_REPLACE {
-		return nil, status.Error(codes.Unimplemented, "only support REPLACE operation")
-	}
-
 	// Validate the operation
 	fullPath := gnmiFullPath(prefix, path)
 	emptyNode, stat := ygotutils.NewNode(s.model.structRootType, fullPath)
@@ -172,24 +168,13 @@ func (s *Server) doRepaceOrUpdate(jsonTree map[string]interface{}, op pb.UpdateR
 			// Set node value
 			if i == len(fullPath.Elem)-1 {
 				if elem.GetKey() == nil {
-					node[elem.Name] = nodeVal
+					if grpcStatusError := setPathWithoutAttribute(op, node, elem, nodeVal); grpcStatusError != nil {
+						return nil, grpcStatusError
+					}
 					break
 				}
-
-				n, ok := nodeVal.(map[string]interface{})
-				if !ok {
-					return nil, status.Errorf(codes.InvalidArgument, "expect a map[string]interface{}, got %T", nodeVal)
-				}
-				m, err := getOrCreateKeyedListEntry(node, elem)
-				if err != nil {
-					return nil, err
-				}
-				for k, v := range n {
-					v0, ok := m[k]
-					if ok && !reflect.DeepEqual(v, v0) {
-						return nil, status.Errorf(codes.InvalidArgument, "cannot set reference leaf node to a new value: %v", k)
-					}
-					m[k] = v
+				if grpcStatusError := setPathWithAttribute(op, node, elem, nodeVal); grpcStatusError != nil {
+					return nil, grpcStatusError
 				}
 				break
 			}
@@ -210,7 +195,7 @@ func (s *Server) doRepaceOrUpdate(jsonTree map[string]interface{}, op pb.UpdateR
 		case []interface{}:
 			return nil, status.Errorf(codes.NotFound, "uncompatible path elem: %v", elem)
 		default:
-			return nil, status.Errorf(codes.Internal, "wrong node type: %v", reflect.TypeOf(curNode))
+			return nil, status.Errorf(codes.Internal, "wrong node type: %T", curNode)
 		}
 	}
 	if reflect.DeepEqual(fullPath, pbRootPath) { // Replace/Update root
@@ -292,7 +277,7 @@ func getOrCreateKeyedListEntry(node map[string]interface{}, elem *pb.PathElem) (
 	for _, n := range keyedList {
 		m, ok := n.(map[string]interface{})
 		if !ok {
-			return nil, status.Errorf(codes.Internal, "wrong keyed list entry type: %v", reflect.TypeOf(n))
+			return nil, status.Errorf(codes.Internal, "wrong keyed list entry type: %T", n)
 		}
 		keyMatching := true
 		for k, v := range elem.Key {
@@ -332,6 +317,60 @@ func gnmiFullPath(prefix, path *pb.Path) *pb.Path {
 		fullPath.Elem = append(prefix.GetElem(), path.GetElem()...)
 	}
 	return fullPath
+}
+
+// setPathWithAttribute replaces or updates a child node of curNode in the IETF
+// JSON config tree, where the child node is indexed by pathElem with attribute.
+// The function returns grpc status error if unsuccessful.
+func setPathWithAttribute(op pb.UpdateResult_Operation, curNode map[string]interface{}, pathElem *pb.PathElem, nodeVal interface{}) error {
+	nodeValAsTree, ok := nodeVal.(map[string]interface{})
+	if !ok {
+		return status.Errorf(codes.InvalidArgument, "expect nodeVal is a json node of map[string]interface{}, received %T", nodeVal)
+	}
+	m, grpcStatusErr := getOrCreateKeyedListEntry(curNode, pathElem)
+	if grpcStatusErr != nil {
+		return grpcStatusErr
+	}
+	if op == pb.UpdateResult_REPLACE {
+		for k := range m {
+			delete(m, k)
+		}
+	}
+	for attrKey, attrVal := range pathElem.GetKey() {
+		m[attrKey] = attrVal
+		if asNum, err := strconv.ParseFloat(attrVal, 64); err == nil {
+			m[attrKey] = asNum
+		}
+		for k, v := range nodeValAsTree {
+			if k == attrKey && fmt.Sprintf("%v", v) != attrVal {
+				return status.Errorf(codes.InvalidArgument, "invalid config data: %v is a path attribute", k)
+			}
+		}
+	}
+	for k, v := range nodeValAsTree {
+		m[k] = v
+	}
+	return nil
+}
+
+// setPathWithoutAttribute replaces or updates a child node of curNode in the
+// IETF config tree, where the child node is indexed by pathElem without
+// attribute. The function returns grpc status error if unsuccessful.
+func setPathWithoutAttribute(op pb.UpdateResult_Operation, curNode map[string]interface{}, pathElem *pb.PathElem, nodeVal interface{}) error {
+	target, hasElem := curNode[pathElem.Name]
+	nodeValAsTree, nodeValIsTree := nodeVal.(map[string]interface{})
+	if op == pb.UpdateResult_REPLACE || !hasElem || !nodeValIsTree {
+		curNode[pathElem.Name] = nodeVal
+		return nil
+	}
+	targetAsTree, ok := target.(map[string]interface{})
+	if !ok {
+		return status.Errorf(codes.Internal, "error in setting path: expect map[string]interface{} to update, got %T", target)
+	}
+	for k, v := range nodeValAsTree {
+		targetAsTree[k] = v
+	}
+	return nil
 }
 
 // Capabilities returns supported encodings and supported models.
