@@ -446,6 +446,19 @@ func gnmiFullPath(prefix, path *pb.Path) *pb.Path {
 	return fullPath
 }
 
+// isNIl checks if an interface is nil or its value is nil.
+func isNil(i interface{}) bool {
+	if i == nil {
+		return true
+	}
+	switch kind := reflect.ValueOf(i).Kind(); kind {
+	case reflect.Chan, reflect.Func, reflect.Interface, reflect.Map, reflect.Ptr, reflect.Slice:
+		return reflect.ValueOf(i).IsNil()
+	default:
+		return false
+	}
+}
+
 // setPathWithAttribute replaces or updates a child node of curNode in the IETF
 // JSON config tree, where the child node is indexed by pathElem with attribute.
 // The function returns grpc status error if unsuccessful.
@@ -539,7 +552,7 @@ func (s *Server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, 
 			return nil, status.Error(codes.Unimplemented, "deprecated path element type is unsupported")
 		}
 		node, stat := ygotutils.GetNode(s.model.schemaTreeRoot, s.config, fullPath)
-		if stat.GetCode() != int32(cpb.Code_OK) {
+		if isNil(node) || stat.GetCode() != int32(cpb.Code_OK) {
 			return nil, status.Errorf(codes.NotFound, "path %v not found", fullPath)
 		}
 
@@ -569,7 +582,7 @@ func (s *Server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, 
 					},
 				}
 			default:
-				return nil, status.Error(codes.Internal, "unexpected kind of leaf node type: %v %v", node, kind)
+				return nil, status.Errorf(codes.Internal, "unexpected kind of leaf node type: %v %v", node, kind)
 			}
 
 			update := &pb.Update{Path: path, Val: val}

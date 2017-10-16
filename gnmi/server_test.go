@@ -95,6 +95,13 @@ func TestGet(t *testing.T) {
 		wantRetCode codes.Code
 		wantRespVal interface{}
 	}{{
+		desc: "get valid but non-existing node",
+		textPbPath: `
+			elem: <name: "system" >
+			elem: <name: "clock" >
+		`,
+		wantRetCode: codes.NotFound,
+	}, {
 		desc:        "root node",
 		wantRetCode: codes.OK,
 		wantRespVal: jsonConfigRoot,
