@@ -62,7 +62,7 @@ var (
 // Arguments:
 //		op: operation type.
 //		path: gnmi path of the config node to be modified.
-//		nodeConfig: new config to be applied to the path on the device. nil means to delete.
+//		nodeConfig: new config to be applied to the path on the device.
 //		rootConfig: the root config of the device before the node is modified.
 // func callback(op pb.UpdateResult_Operation, path pb.Path, nodeConfig interface{}, rootConfig ygot.ValidatedGoStruct) error {
 //		// Apply the config to your device and return nil if success. return error if fails.
@@ -89,7 +89,7 @@ func NewServer(model *Model, config []byte, callback ConfigCallback) (*Server, e
 		callback: callback,
 	}
 	if config != nil && s.callback != nil {
-		if err := s.callback(pb.UpdateResult_REPLACE, pbRootPath, rootStruct, nil); err != nil {
+		if err := s.callback(pb.UpdateResult_REPLACE, pbRootPath, rootStruct, s.config); err != nil {
 			return nil, err
 		}
 	}
