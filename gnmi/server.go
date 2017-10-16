@@ -43,7 +43,7 @@ import (
 )
 
 // ConfigCallback is the signature of the function to apply a validated config to the physical device.
-type ConfigCallback func(pb.UpdateResult_Operation, *pb.Path, interface{}, ygot.ValidatedGoStruct) error
+type ConfigCallback func(ygot.ValidatedGoStruct, ygot.ValidatedGoStruct) error
 
 var (
 	pbRootPath         = &pb.Path{}
@@ -61,11 +61,9 @@ var (
 //
 // For a real device, apply the config changes to the hardware in the callback function.
 // Arguments:
-//		op: operation type.
-//		path: gnmi path of the config node to be modified.
-//		nodeConfig: new config to be applied to the path on the device.
-//		rootConfig: the root config of the device before the node is modified.
-// func callback(op pb.UpdateResult_Operation, path pb.Path, nodeConfig interface{}, rootConfig ygot.ValidatedGoStruct) error {
+//		newConfig: new root config to be applied on the device.
+//		oldConfig: old root config of the device before the node is modified.
+// func callback(newConfig, oldConfig ygot.ValidatedGoStruct) error {
 //		// Apply the config to your device and return nil if success. return error if fails.
 //		//
 //		// Do something ...
@@ -90,7 +88,7 @@ func NewServer(model *Model, config []byte, callback ConfigCallback) (*Server, e
 		callback: callback,
 	}
 	if config != nil && s.callback != nil {
-		if err := s.callback(pb.UpdateResult_REPLACE, pbRootPath, rootStruct, s.config); err != nil {
+		if err := s.callback(rootStruct, s.config); err != nil {
 			return nil, err
 		}
 	}
@@ -166,11 +164,15 @@ func (s *Server) doDelete(jsonTree map[string]interface{}, prefix, path *pb.Path
 		}
 	}
 	// TODO (leguo): Need validation. Return error if fails.
+	newConfig, err := s.toGoStruct(jsonTree)
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
 
 	// Apply the validated operation to the device.
 	if pathDeleted && s.callback != nil {
-		if applyErr := s.callback(pb.UpdateResult_DELETE, path, nil, s.config); applyErr != nil {
-			if rollbackErr := s.callback(pb.UpdateResult_REPLACE, pbRootPath, s.config, s.config); rollbackErr != nil {
+		if applyErr := s.callback(newConfig, s.config); applyErr != nil {
+			if rollbackErr := s.callback(s.config, s.config); rollbackErr != nil {
 				return nil, status.Errorf(codes.Internal, "error in rollback the failed operation (%v): %v", applyErr, rollbackErr)
 			}
 			return nil, status.Errorf(codes.Aborted, "error in applying operation to device: %v", applyErr)
@@ -267,11 +269,15 @@ func (s *Server) doRepaceOrUpdate(jsonTree map[string]interface{}, op pb.UpdateR
 			jsonTree[k] = v
 		}
 	}
+	newConfig, err := s.toGoStruct(jsonTree)
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
 
 	// Apply the validated operation to the device.
 	if s.callback != nil {
-		if applyErr := s.callback(op, path, nodeStruct, s.config); applyErr != nil {
-			if rollbackErr := s.callback(pb.UpdateResult_REPLACE, pbRootPath, s.config, s.config); rollbackErr != nil {
+		if applyErr := s.callback(newConfig, s.config); applyErr != nil {
+			if rollbackErr := s.callback(s.config, s.config); rollbackErr != nil {
 				return nil, status.Errorf(codes.Internal, "error in rollback the failed operation (%v): %v", applyErr, rollbackErr)
 			}
 			return nil, status.Errorf(codes.Aborted, "error in applying operation to device: %v", applyErr)
@@ -281,6 +287,18 @@ func (s *Server) doRepaceOrUpdate(jsonTree map[string]interface{}, op pb.UpdateR
 		Path: path,
 		Op:   op,
 	}, nil
+}
+
+func (s *Server) toGoStruct(jsonTree map[string]interface{}) (ygot.ValidatedGoStruct, error) {
+	jsonDump, err := json.Marshal(jsonTree)
+	if err != nil {
+		return nil, fmt.Errorf("error in marshaling IETF JSON tree to bytes: %v", err)
+	}
+	goStruct, err := s.model.NewConfigStruct(jsonDump)
+	if err != nil {
+		return nil, fmt.Errorf("error in creating config struct from IETF JSON data: %v", err)
+	}
+	return goStruct, nil
 }
 
 // getGNMIServiceVersion returns a pointer to the gNMI service version string.
@@ -530,11 +548,35 @@ func (s *Server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, 
 		nodeStruct, ok := node.(ygot.GoStruct)
 		// Return leaf node.
 		if !ok {
-			val, err := value.FromScalar(reflect.ValueOf(node).Elem().Interface())
-			if err != nil {
-				msg := fmt.Sprintf("leaf node %v does not contain a scalar type value: %v", path, err)
-				log.Error(msg)
-				return nil, status.Error(codes.Internal, msg)
+			fmt.Printf("node.Type = %v\n", reflect.TypeOf(node).Name())
+			fmt.Printf("node.Kind = %v\n", reflect.ValueOf(node).Kind())
+			fmt.Printf("node.Kind = %v\n", reflect.ValueOf(node).Kind() == reflect.Ptr || reflect.ValueOf(node).Kind() == reflect.Interface)
+			fmt.Printf("--reflect.ValueOf(node) = %T\n", reflect.ValueOf(node))
+			var val *pb.TypedValue
+			var err error
+			kind := reflect.ValueOf(node).Kind()
+			if kind == reflect.Ptr || kind == reflect.Interface {
+				val, err = value.FromScalar(reflect.ValueOf(node).Elem().Interface())
+				if err != nil {
+					msg := fmt.Sprintf("leaf node %v does not contain a scalar type value: %v", path, err)
+					log.Error(msg)
+					return nil, status.Error(codes.Internal, msg)
+				}
+			} else if kind == reflect.Int64 {
+				enumName := reflect.TypeOf(node).Name()
+				enumMap, ok := gostruct.ΛEnum[enumName]
+				if !ok {
+					return nil, status.Error(codes.Internal, "not an enumeration type")
+				}
+				intVal, ok := node.(int64)
+				if !ok {
+					return nil, status.Error(codes.Internal, "not an int64 type")
+				}
+				val = &pb.TypedValue{
+					Value: pb.TypedValue_StringVal{
+						StringVal: enumMap[intVal].Name,
+					},
+				}
 			}
 			update := &pb.Update{Path: path, Val: val}
 			notifications[i] = &pb.Notification{
