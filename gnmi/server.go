@@ -548,12 +548,30 @@ func (s *Server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, 
 		nodeStruct, ok := node.(ygot.GoStruct)
 		// Return leaf node.
 		if !ok {
-			val, err := value.FromScalar(reflect.ValueOf(node).Elem().Interface())
-			if err != nil {
-				msg := fmt.Sprintf("leaf node %v does not contain a scalar type value: %v", path, err)
-				log.Error(msg)
-				return nil, status.Error(codes.Internal, msg)
+			var val *pb.TypedValue
+			switch kind := reflect.ValueOf(node).Kind(); kind {
+			case reflect.Ptr, reflect.Interface:
+				var err error
+				val, err = value.FromScalar(reflect.ValueOf(node).Elem().Interface())
+				if err != nil {
+					msg := fmt.Sprintf("leaf node %v does not contain a scalar type value: %v", path, err)
+					log.Error(msg)
+					return nil, status.Error(codes.Internal, msg)
+				}
+			case reflect.Int64:
+				enumMap, ok := s.model.enumData[reflect.TypeOf(node).Name()]
+				if !ok {
+					return nil, status.Error(codes.Internal, "not a GoStruct enumeration type")
+				}
+				val = &pb.TypedValue{
+					Value: &pb.TypedValue_StringVal{
+						StringVal: enumMap[reflect.ValueOf(node).Int()].Name,
+					},
+				}
+			default:
+				return nil, status.Error(codes.Internal, "unexpected kind of leaf node type: %v %v", node, kind)
 			}
+
 			update := &pb.Update{Path: path, Val: val}
 			notifications[i] = &pb.Notification{
 				Timestamp: ts,

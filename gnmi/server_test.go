@@ -39,6 +39,7 @@ var (
 		structRootType:  reflect.TypeOf((*gostruct.Device)(nil)),
 		schemaTreeRoot:  gostruct.SchemaTree["Device"],
 		jsonUnmarshaler: gostruct.Unmarshal,
+		enumData:        gostruct.ΛEnum,
 	}
 )
 
@@ -61,6 +62,16 @@ func TestCapabilities(t *testing.T) {
 
 func TestGet(t *testing.T) {
 	jsonConfigRoot := `{
+		"system": {
+			"openflow": {
+				"agent": {
+					"config": {
+						"failure-mode": "SECURE",
+						"max-backoff": 10
+					}
+				}
+			}
+		},
 	  "components": {
 	    "component": [
 	      {
@@ -88,82 +99,104 @@ func TestGet(t *testing.T) {
 		wantRetCode: codes.OK,
 		wantRespVal: jsonConfigRoot,
 	}, {
+		desc: "get non-enum type",
+		textPbPath: `
+					elem: <name: "system" >
+					elem: <name: "openflow" >
+					elem: <name: "agent" >
+					elem: <name: "config" >
+					elem: <name: "max-backoff" >
+				`,
+		wantRetCode: codes.OK,
+		wantRespVal: uint64(10),
+	}, {
+		desc: "get enum type",
+		textPbPath: `
+					elem: <name: "system" >
+					elem: <name: "openflow" >
+					elem: <name: "agent" >
+					elem: <name: "config" >
+					elem: <name: "failure-mode" >
+				`,
+		wantRetCode: codes.OK,
+		wantRespVal: "SECURE",
+	}, {
 		desc:        "root child node",
 		textPbPath:  `elem: <name: "components" >`,
 		wantRetCode: codes.OK,
 		wantRespVal: `{
-			"component": [{
-				"config": {
-		        	"name": "gateway"
-				},
-		        "name": "swpri1-1-1"
-			}]}`,
+							"component": [{
+								"config": {
+						        	"name": "gateway"
+								},
+						        "name": "swpri1-1-1"
+							}]}`,
 	}, {
 		desc: "node with attribute",
 		textPbPath: `
-				elem: <name: "components" >
-				elem: <
-					name: "component"
-					key: <key: "name" value: "swpri1-1-1" >
-				>`,
+								elem: <name: "components" >
+								elem: <
+									name: "component"
+									key: <key: "name" value: "swpri1-1-1" >
+								>`,
 		wantRetCode: codes.OK,
 		wantRespVal: `{
-				"config": {"name": "gateway"},
-				"name": "swpri1-1-1"
-			}`,
+								"config": {"name": "gateway"},
+								"name": "swpri1-1-1"
+							}`,
 	}, {
 		desc: "node with attribute in its parent",
 		textPbPath: `
-				elem: <name: "components" >
-				elem: <
-					name: "component"
-					key: <key: "name" value: "swpri1-1-1" >
-				>
-				elem: <name: "config" >`,
+								elem: <name: "components" >
+								elem: <
+									name: "component"
+									key: <key: "name" value: "swpri1-1-1" >
+								>
+								elem: <name: "config" >`,
 		wantRetCode: codes.OK,
 		wantRespVal: `{"name": "gateway"}`,
 	}, {
 		desc: "ref leaf node",
 		textPbPath: `
-				elem: <name: "components" >
-				elem: <
-					name: "component"
-					key: <key: "name" value: "swpri1-1-1" >
-				>
-				elem: <name: "name" >`,
+								elem: <name: "components" >
+								elem: <
+									name: "component"
+									key: <key: "name" value: "swpri1-1-1" >
+								>
+								elem: <name: "name" >`,
 		wantRetCode: codes.OK,
 		wantRespVal: "swpri1-1-1",
 	}, {
 		desc: "regular leaf node",
 		textPbPath: `
-				elem: <name: "components" >
-				elem: <
-					name: "component"
-					key: <key: "name" value: "swpri1-1-1" >
-				>
-				elem: <name: "config" >
-				elem: <name: "name" >`,
+								elem: <name: "components" >
+								elem: <
+									name: "component"
+									key: <key: "name" value: "swpri1-1-1" >
+								>
+								elem: <name: "config" >
+								elem: <name: "name" >`,
 		wantRetCode: codes.OK,
 		wantRespVal: "gateway",
 	}, {
 		desc: "non-existing node: wrong path name",
 		textPbPath: `
-				elem: <name: "components" >
-				elem: <
-					name: "component"
-					key: <key: "foo" value: "swpri1-1-1" >
-				>
-				elem: <name: "bar" >`,
+								elem: <name: "components" >
+								elem: <
+									name: "component"
+									key: <key: "foo" value: "swpri1-1-1" >
+								>
+								elem: <name: "bar" >`,
 		wantRetCode: codes.NotFound,
 	}, {
 		desc: "non-existing node: wrong path attribute",
 		textPbPath: `
-				elem: <name: "components" >
-				elem: <
-					name: "component"
-					key: <key: "foo" value: "swpri2-2-2" >
-				>
-				elem: <name: "name" >`,
+								elem: <name: "components" >
+								elem: <
+									name: "component"
+									key: <key: "foo" value: "swpri2-2-2" >
+								>
+								elem: <name: "name" >`,
 		wantRetCode: codes.NotFound,
 	}}
 
@@ -227,8 +260,9 @@ func runTestGet(t *testing.T, s *Server, textPbPath string, wantRetCode codes.Co
 			wantRespVal = wantJSONStruct
 		}
 	}
+
 	if !reflect.DeepEqual(gotVal, wantRespVal) {
-		t.Errorf("got: %v,\nwant %v", gotVal, wantRespVal)
+		t.Errorf("got: %v (%T),\nwant %v (%T)", gotVal, gotVal, wantRespVal, wantRespVal)
 	}
 }
 

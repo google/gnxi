@@ -34,6 +34,7 @@ import (
 	"github.com/google/gnxi/gnmi"
 	"github.com/google/gnxi/gnmi/modeldata"
 	"github.com/google/gnxi/gnmi/modeldata/gostruct"
+
 	"github.com/google/gnxi/utils/credentials"
 
 	pb "github.com/openconfig/gnmi/proto/gnmi"
@@ -82,7 +83,8 @@ func main() {
 	model := gnmi.NewModel(modeldata.ModelData,
 		reflect.TypeOf((*gostruct.Device)(nil)),
 		gostruct.SchemaTree["Device"],
-		gostruct.Unmarshal)
+		gostruct.Unmarshal,
+		gostruct.ΛEnum)
 
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, "Supported models:\n")
