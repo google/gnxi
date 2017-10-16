@@ -20,6 +20,8 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"strconv"
+	"strings"
 	"time"
 
 	log "github.com/golang/glog"
@@ -28,6 +30,7 @@ import (
 
 	"github.com/google/gnxi/utils"
 	"github.com/google/gnxi/utils/credentials"
+	"github.com/google/gnxi/utils/xpath"
 
 	pb "github.com/openconfig/gnmi/proto/gnmi"
 )
@@ -44,36 +47,82 @@ func (i *arrayFlags) Set(value string) error {
 }
 
 var (
-	jsonUpdate  arrayFlags
-	jsonReplace arrayFlags
-	targetAddr  = flag.String("target_addr", "localhost:10161", "The target address in the format of host:port")
-	targetName  = flag.String("target_name", "hostname.com", "The target name use to verify the hostname returned by TLS handshake")
-	timeOut     = flag.Duration("time_out", 10*time.Second, "Timeout for the Get request, 10 seconds by default")
+	deleteOpt  arrayFlags
+	replaceOpt arrayFlags
+	updateOpt  arrayFlags
+	targetAddr = flag.String("target_addr", "localhost:10161", "The target address in the format of host:port")
+	targetName = flag.String("target_name", "hostname.com", "The target name use to verify the hostname returned by TLS handshake")
+	timeOut    = flag.Duration("time_out", 10*time.Second, "Timeout for the Get request, 10 seconds by default")
 )
 
-func jsonToUpdate(jsonFiles arrayFlags, pbUpdates *[]*pb.Update) error {
-	for _, jsonFile := range jsonFiles {
-		jsonConfig, err := ioutil.ReadFile(jsonFile)
+func buildPbUpdateList(pathValuePairs []string) []*pb.Update {
+	var pbUpdateList []*pb.Update
+	for _, item := range pathValuePairs {
+		pathValuePair := strings.SplitN(item, ":", 2)
+		// TODO (leguo): check if any path attribute contains ':'
+		if len(pathValuePair) != 2 || len(pathValuePair[1]) == 0 {
+			log.Exitf("invalid path-value pair: %v", item)
+		}
+		pbPath, err := xpath.ToGNMIPath(pathValuePair[0])
 		if err != nil {
-			return fmt.Errorf("error reading json file: %v", err)
+			log.Exitf("error in parsing xpath %q to gnmi path", pathValuePair[0])
 		}
-		pbValConfig := &pb.TypedValue{
-			Value: &pb.TypedValue_JsonIetfVal{
-				JsonIetfVal: jsonConfig,
-			},
+		var pbVal *pb.TypedValue
+		if pathValuePair[1][0] == '@' {
+			jsonFile := pathValuePair[1][1:]
+			jsonConfig, err := ioutil.ReadFile(jsonFile)
+			if err != nil {
+				log.Exitf("cannot read data from file %v", jsonFile)
+			}
+			pbVal = &pb.TypedValue{
+				Value: &pb.TypedValue_JsonIetfVal{
+					JsonIetfVal: jsonConfig,
+				},
+			}
+		} else {
+			if strVal, err := strconv.Unquote(pathValuePair[1]); err == nil {
+				pbVal = &pb.TypedValue{
+					Value: &pb.TypedValue_StringVal{
+						StringVal: strVal,
+					},
+				}
+			} else {
+				if intVal, err := strconv.ParseInt(pathValuePair[1], 10, 64); err == nil {
+					pbVal = &pb.TypedValue{
+						Value: &pb.TypedValue_IntVal{
+							IntVal: intVal,
+						},
+					}
+				} else if floatVal, err := strconv.ParseFloat(pathValuePair[1], 32); err == nil {
+					pbVal = &pb.TypedValue{
+						Value: &pb.TypedValue_FloatVal{
+							FloatVal: float32(floatVal),
+						},
+					}
+				} else if boolVal, err := strconv.ParseBool(pathValuePair[1]); err == nil {
+					pbVal = &pb.TypedValue{
+						Value: &pb.TypedValue_BoolVal{
+							BoolVal: boolVal,
+						},
+					}
+				} else {
+					pbVal = &pb.TypedValue{
+						Value: &pb.TypedValue_StringVal{
+							StringVal: pathValuePair[1],
+						},
+					}
+				}
+			}
 		}
-		update := &pb.Update{
-			Path: &pb.Path{},
-			Val:  pbValConfig,
-		}
-		*pbUpdates = append(*pbUpdates, update)
+		pbUpdateList = append(pbUpdateList, &pb.Update{Path: pbPath, Val: pbVal})
 	}
-	return nil
+	return pbUpdateList
 }
 
 func main() {
-	flag.Var(&jsonUpdate, "json_update", "IETF JSON files to use as update")
-	flag.Var(&jsonReplace, "json_replace", "IETF JSON files to use as replace")
+	flag.Var(&deleteOpt, "delete", "xpath to be deleted.")
+	flag.Var(&replaceOpt, "replace", "xpath:value pair to be replaced. Value can be numeric, boolean, string, or IETF JSON file (. starts with '@').")
+	flag.Var(&updateOpt, "update", "xpath:value pair to be updated. Value can be numeric, boolean, string, or IETF JSON file (. starts with '@').")
 	flag.Parse()
 
 	opts := credentials.ClientCredentials(*targetName)
@@ -83,17 +132,21 @@ func main() {
 	}
 	defer conn.Close()
 
+	var deleteList []*pb.Path
+	for _, xPath := range deleteOpt {
+		pbPath, err := xpath.ToGNMIPath(xPath)
+		if err != nil {
+			log.Exitf("error in parsing xpath %q to gnmi path", xPath)
+		}
+		deleteList = append(deleteList, pbPath)
+	}
+	replaceList := buildPbUpdateList(replaceOpt)
+	updateList := buildPbUpdateList(updateOpt)
+
 	setRequest := &pb.SetRequest{
-		Replace: []*pb.Update{},
-		Update:  []*pb.Update{},
-	}
-
-	if err := jsonToUpdate(jsonUpdate, &setRequest.Update); err != nil {
-		log.Exit(err)
-	}
-
-	if err := jsonToUpdate(jsonReplace, &setRequest.Replace); err != nil {
-		log.Exit(err)
+		Delete:  deleteList,
+		Replace: replaceList,
+		Update:  updateList,
 	}
 
 	fmt.Println("== getRequest:")
