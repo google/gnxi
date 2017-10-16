@@ -11,17 +11,20 @@ go install github.com/google/gnxi/gnmi_set
 
 ## Run
 
+Run gnmi\_set -help to see usage. For example:
+
 ```
 gnmi_set \
-  -json_replace maxbackoff.json \
-  -json_replace backoffinterval.json \
-  -json_update maxbackoff.json \
+  -delete /system/openflow/agent/config/max-backoff \
+  -replace /system/clock:@clock-config.json \
+  -replace /system/openflow/agent/config/max-backoff:12 \
+  -update /system/clock/config/timezone-name:"US/New York" \
   -target_addr localhost:10161 \
   -target_name hostname.com \
   -key client.key \
   -cert client.crt \
   -ca ca.crt \
-  -username foo
+  -username foo \
   -password bar
   -alsologtostderr
 ```
