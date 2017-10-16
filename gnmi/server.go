@@ -252,7 +252,7 @@ func (s *Server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, 
 		ts := time.Now().UnixNano()
 
 		nodeStruct, ok := node.(ygot.GoStruct)
-		// Leaf node case
+		// Return leaf node
 		if !ok {
 			val, err := value.FromScalar(reflect.ValueOf(node).Elem().Interface())
 			if err != nil {
@@ -269,10 +269,20 @@ func (s *Server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, 
 			continue
 		}
 
-		// Subtree case
+		// Return all leaf nodes of the sub-tree
 		if len(req.GetUseModels()) != len(s.model.modelData) || req.GetEncoding() != pb.Encoding_JSON_IETF {
-			return nil, status.Error(codes.Unimplemented, "serializing config subtree into multiple leaf updates is unsupported")
+			results, err := ygot.TogNMINotifications(nodeStruct, ts, ygot.GNMINotificationsConfig{UsePathElem: true, PathElemPrefix: fullPath.Elem})
+			if err != nil {
+				return nil, status.Errorf(codes.Internal, "error in serializing GoStruct to notifications: %v", err)
+			}
+			if len(results) != 1 {
+				return nil, status.Errorf(codes.Internal, "ygot.TogNMINotifications() return %d notifications instead of one", len(results))
+			}
+			notifications[i] = results[0]
+			continue
 		}
+
+		// Return IETF JSON for the sub-tree
 		jsonTree, err := ygot.ConstructIETFJSON(nodeStruct, &ygot.RFC7951JSONConfig{})
 		if err != nil {
 			msg := fmt.Sprintf("error in constructing IETF JSON tree from requested node: %v", err)
@@ -302,6 +312,7 @@ func (s *Server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, 
 			Update:    []*pb.Update{update},
 		}
 	}
+
 	return &pb.GetResponse{Notification: notifications}, nil
 }
 
