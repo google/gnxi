@@ -124,15 +124,69 @@ func (s *Server) checkEncodingAndModel(encoding pb.Encoding, models []*pb.ModelD
 	return nil
 }
 
+// doDelete deletes the path from the json tree if the path exists. If success,
+// it calls the callback function to apply the change to the device hardware.
 func (s *Server) doDelete(jsonTree map[string]interface{}, prefix, path *pb.Path) (*pb.UpdateResult, error) {
-	return nil, status.Error(codes.Unimplemented, "delete operation is unsupported")
+	// Update json tree of the device config
+	var curNode interface{} = jsonTree
+	pathDeleted := false
+	fullPath := gnmiFullPath(prefix, path)
+	for i, elem := range fullPath.Elem { // Delete sub-tree or leaf node.
+		node, ok := curNode.(map[string]interface{})
+		if !ok {
+			break
+		}
+
+		// Delete node
+		if i == len(fullPath.Elem)-1 {
+			if elem.GetKey() == nil {
+				delete(node, elem.Name)
+				pathDeleted = true
+				break
+			}
+			pathDeleted = deleteKeyedListEntry(node, elem)
+			break
+		}
+
+		// Search next node
+		if elem.GetKey() == nil {
+			var ok bool
+			if curNode, ok = node[elem.Name]; !ok {
+				break
+			}
+			continue
+		}
+		if curNode = getKeyedListEntry(node, elem, false); curNode == nil {
+			break
+		}
+	}
+	if reflect.DeepEqual(fullPath, pbRootPath) { // Delete root
+		for k := range jsonTree {
+			delete(jsonTree, k)
+		}
+	}
+	// TODO (leguo): Need validation. Return error if fails.
+
+	// Apply the validated operation to the device.
+	if pathDeleted && s.callback != nil {
+		if applyErr := s.callback(pb.UpdateResult_DELETE, path, nil, s.config); applyErr != nil {
+			if rollbackErr := s.callback(pb.UpdateResult_REPLACE, pbRootPath, s.config, s.config); rollbackErr != nil {
+				return nil, status.Errorf(codes.Internal, "error in rollback the failed operation (%v): %v", applyErr, rollbackErr)
+			}
+			return nil, status.Errorf(codes.Aborted, "error in applying operation to device: %v", applyErr)
+		}
+	}
+	return &pb.UpdateResult{
+		Path: path,
+		Op:   pb.UpdateResult_DELETE,
+	}, nil
 }
 
 // doRepaceOrUpdate validates the replace or update operation to be applied to
 // the device, modifies the json tree of the config struct, then calls the
 // callback function to apply the operation to the device hardware.
 func (s *Server) doRepaceOrUpdate(jsonTree map[string]interface{}, op pb.UpdateResult_Operation, prefix, path *pb.Path, val *pb.TypedValue) (*pb.UpdateResult, error) {
-	// Validate the operation
+	// Validate the operation.
 	fullPath := gnmiFullPath(prefix, path)
 	emptyNode, stat := ygotutils.NewNode(s.model.structRootType, fullPath)
 	if stat.GetCode() != int32(cpb.Code_OK) {
@@ -160,12 +214,12 @@ func (s *Server) doRepaceOrUpdate(jsonTree map[string]interface{}, op pb.UpdateR
 		}
 	}
 
-	// Update json tree of the device config
+	// Update json tree of the device config.
 	var curNode interface{} = jsonTree
 	for i, elem := range fullPath.Elem {
 		switch node := curNode.(type) {
 		case map[string]interface{}:
-			// Set node value
+			// Set node value.
 			if i == len(fullPath.Elem)-1 {
 				if elem.GetKey() == nil {
 					if grpcStatusError := setPathWithoutAttribute(op, node, elem, nodeVal); grpcStatusError != nil {
@@ -179,7 +233,7 @@ func (s *Server) doRepaceOrUpdate(jsonTree map[string]interface{}, op pb.UpdateR
 				break
 			}
 
-			// Search next node
+			// Search next node.
 			if elem.GetKey() == nil {
 				var ok bool
 				if curNode, ok = node[elem.Name]; !ok {
@@ -188,9 +242,9 @@ func (s *Server) doRepaceOrUpdate(jsonTree map[string]interface{}, op pb.UpdateR
 				}
 				break
 			}
-			var grpcStatusError error
-			if curNode, grpcStatusError = getOrCreateKeyedListEntry(node, elem); grpcStatusError != nil {
-				return nil, grpcStatusError
+			curNode = getKeyedListEntry(node, elem, true)
+			if curNode == nil {
+				return nil, status.Errorf(codes.NotFound, "path elem not found: %v", elem)
 			}
 		case []interface{}:
 			return nil, status.Errorf(codes.NotFound, "uncompatible path elem: %v", elem)
@@ -198,7 +252,7 @@ func (s *Server) doRepaceOrUpdate(jsonTree map[string]interface{}, op pb.UpdateR
 			return nil, status.Errorf(codes.Internal, "wrong node type: %T", curNode)
 		}
 	}
-	if reflect.DeepEqual(fullPath, pbRootPath) { // Replace/Update root
+	if reflect.DeepEqual(fullPath, pbRootPath) { // Replace/Update root.
 		if op == pb.UpdateResult_UPDATE {
 			return nil, status.Error(codes.Unimplemented, "update the root of config tree is unsupported")
 		}
@@ -214,7 +268,7 @@ func (s *Server) doRepaceOrUpdate(jsonTree map[string]interface{}, op pb.UpdateR
 		}
 	}
 
-	// Apply the validated operation to the device
+	// Apply the validated operation to the device.
 	if s.callback != nil {
 		if applyErr := s.callback(op, path, nodeStruct, s.config); applyErr != nil {
 			if rollbackErr := s.callback(pb.UpdateResult_REPLACE, pbRootPath, s.config, s.config); rollbackErr != nil {
@@ -223,7 +277,10 @@ func (s *Server) doRepaceOrUpdate(jsonTree map[string]interface{}, op pb.UpdateR
 			return nil, status.Errorf(codes.Aborted, "error in applying operation to device: %v", applyErr)
 		}
 	}
-	return &pb.UpdateResult{Path: path, Op: op}, nil
+	return &pb.UpdateResult{
+		Path: path,
+		Op:   op,
+	}, nil
 }
 
 // getGNMIServiceVersion returns a pointer to the gNMI service version string.
@@ -250,14 +307,17 @@ func getGNMIServiceVersion() (*string, error) {
 	return ver.(*string), nil
 }
 
-// getOrCreateKeyedListEntry finds the keyed list entry from node that matches
-// the path elem. If entry is not found, creates a new entry in the keyed list.
-// If the list does not exist, creates the list first. Returns nil with grpc
-// status error if unsuccessful.
-func getOrCreateKeyedListEntry(node map[string]interface{}, elem *pb.PathElem) (map[string]interface{}, error) {
+// getKeyedListEntry finds the keyed list entry in node by the name and key of
+// path elem. If entry is not found and createIfNotExist is true, an empty entry
+// will be created (the list will be created if necessary).
+func getKeyedListEntry(node map[string]interface{}, elem *pb.PathElem, createIfNotExist bool) map[string]interface{} {
 	curNode, ok := node[elem.Name]
-	// Create a keyed list as node child and initialize an entry
 	if !ok {
+		if !createIfNotExist {
+			return nil
+		}
+
+		// Create a keyed list as node child and initialize an entry.
 		m := make(map[string]interface{})
 		for k, v := range elem.Key {
 			m[k] = v
@@ -266,24 +326,25 @@ func getOrCreateKeyedListEntry(node map[string]interface{}, elem *pb.PathElem) (
 			}
 		}
 		node[elem.Name] = []interface{}{m}
-		return m, nil
+		return m
 	}
 
-	// Search entry in keyed list
+	// Search entry in keyed list.
 	keyedList, ok := curNode.([]interface{})
 	if !ok {
-		return nil, status.Error(codes.NotFound, "no attribute found in the path node")
+		return nil
 	}
 	for _, n := range keyedList {
 		m, ok := n.(map[string]interface{})
 		if !ok {
-			return nil, status.Errorf(codes.Internal, "wrong keyed list entry type: %T", n)
+			log.Errorf("wrong keyed list entry type: %T", n)
+			return nil
 		}
 		keyMatching := true
 		for k, v := range elem.Key {
 			attrVal, ok := m[k]
 			if !ok {
-				return nil, status.Errorf(codes.NotFound, "attribute %v not found in the path node", k)
+				return nil
 			}
 			if v != fmt.Sprintf("%v", attrVal) {
 				keyMatching = false
@@ -291,11 +352,14 @@ func getOrCreateKeyedListEntry(node map[string]interface{}, elem *pb.PathElem) (
 			}
 		}
 		if keyMatching {
-			return m, nil
+			return m
 		}
 	}
+	if !createIfNotExist {
+		return nil
+	}
 
-	// Create an entry in keyed list
+	// Create an entry in keyed list.
 	m := make(map[string]interface{})
 	for k, v := range elem.Key {
 		m[k] = v
@@ -304,7 +368,52 @@ func getOrCreateKeyedListEntry(node map[string]interface{}, elem *pb.PathElem) (
 		}
 	}
 	node[elem.Name] = append(keyedList, m)
-	return m, nil
+	return m
+}
+
+// deleteKeyedListEntry deletes the keyed list entry from node that matches the
+// path elem. If the entry is the only one in keyed list, deletes the entire
+// list. If the entry is found and deleted, the function returns true. If it is
+// not found, the function returns false.
+func deleteKeyedListEntry(node map[string]interface{}, elem *pb.PathElem) bool {
+	curNode, ok := node[elem.Name]
+	if !ok {
+		return false
+	}
+
+	keyedList, ok := curNode.([]interface{})
+	if !ok {
+		return false
+	}
+	for i, n := range keyedList {
+		m, ok := n.(map[string]interface{})
+		if !ok {
+			log.Errorf("expect map[string]interface{} for a keyed list entry, got %T", n)
+			return false
+		}
+		keyMatching := true
+		for k, v := range elem.Key {
+			attrVal, ok := m[k]
+			if !ok {
+				return false
+			}
+			if v != fmt.Sprintf("%v", attrVal) {
+				keyMatching = false
+				break
+			}
+		}
+		if keyMatching {
+			listLen := len(keyedList)
+			if listLen == 1 {
+				delete(node, elem.Name)
+				return true
+			}
+			keyedList[i] = keyedList[listLen-1]
+			node[elem.Name] = keyedList[0 : listLen-1]
+			return true
+		}
+	}
+	return false
 }
 
 // gnmiFullPath builds the full path from the prefix and path.
@@ -327,9 +436,9 @@ func setPathWithAttribute(op pb.UpdateResult_Operation, curNode map[string]inter
 	if !ok {
 		return status.Errorf(codes.InvalidArgument, "expect nodeVal is a json node of map[string]interface{}, received %T", nodeVal)
 	}
-	m, grpcStatusErr := getOrCreateKeyedListEntry(curNode, pathElem)
-	if grpcStatusErr != nil {
-		return grpcStatusErr
+	m := getKeyedListEntry(curNode, pathElem, true)
+	if m == nil {
+		return status.Errorf(codes.NotFound, "path elem not found: %v", pathElem)
 	}
 	if op == pb.UpdateResult_REPLACE {
 		for k := range m {
@@ -403,7 +512,7 @@ func (s *Server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, 
 	defer s.mu.RUnlock()
 
 	for i, path := range paths {
-		// Get schema node for path from config struct
+		// Get schema node for path from config struct.
 		fullPath := path
 		if prefix != nil {
 			fullPath = gnmiFullPath(prefix, path)
@@ -419,7 +528,7 @@ func (s *Server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, 
 		ts := time.Now().UnixNano()
 
 		nodeStruct, ok := node.(ygot.GoStruct)
-		// Return leaf node
+		// Return leaf node.
 		if !ok {
 			val, err := value.FromScalar(reflect.ValueOf(node).Elem().Interface())
 			if err != nil {
@@ -436,7 +545,7 @@ func (s *Server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, 
 			continue
 		}
 
-		// Return all leaf nodes of the sub-tree
+		// Return all leaf nodes of the sub-tree.
 		if len(req.GetUseModels()) != len(s.model.modelData) || req.GetEncoding() != pb.Encoding_JSON_IETF {
 			results, err := ygot.TogNMINotifications(nodeStruct, ts, ygot.GNMINotificationsConfig{UsePathElem: true, PathElemPrefix: fullPath.Elem})
 			if err != nil {
@@ -449,7 +558,7 @@ func (s *Server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, 
 			continue
 		}
 
-		// Return IETF JSON for the sub-tree
+		// Return IETF JSON for the sub-tree.
 		jsonTree, err := ygot.ConstructIETFJSON(nodeStruct, &ygot.RFC7951JSONConfig{})
 		if err != nil {
 			msg := fmt.Sprintf("error in constructing IETF JSON tree from requested node: %v", err)
