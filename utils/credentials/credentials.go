@@ -24,17 +24,18 @@ import (
 	"io/ioutil"
 
 	"golang.org/x/net/context"
-
-	log "github.com/golang/glog"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/metadata"
+
+	log "github.com/golang/glog"
 )
 
 var (
 	ca             = flag.String("ca", "", "CA certificate file.")
 	cert           = flag.String("cert", "", "Certificate file.")
 	key            = flag.String("key", "", "Private key file.")
+	insecure       = flag.Bool("insecure", false, "Skip TLS validation,")
 	authorizedUser = userCredentials{}
 	usernameKey    = "username"
 	passwordKey    = "password"
@@ -89,12 +90,17 @@ func LoadCertificates() ([]tls.Certificate, *x509.CertPool) {
 func ClientCredentials(server string) []grpc.DialOption {
 	opts := []grpc.DialOption{}
 
-	certificates, certPool := LoadCertificates()
-	opts = append(opts, grpc.WithTransportCredentials(credentials.NewTLS(&tls.Config{
-		ServerName:   server, // This is required and must match the certificate CN.
-		Certificates: certificates,
-		RootCAs:      certPool,
-	})))
+	tlsConfig := &tls.Config{}
+	if *insecure {
+		tlsConfig.InsecureSkipVerify = true
+	} else {
+		certificates, certPool := LoadCertificates()
+		tlsConfig.ServerName = server
+		tlsConfig.Certificates = certificates
+		tlsConfig.RootCAs = certPool
+	}
+
+	opts = append(opts, grpc.WithTransportCredentials(credentials.NewTLS(tlsConfig)))
 
 	if authorizedUser.username != "" {
 		return append(opts, grpc.WithPerRPCCredentials(&authorizedUser))
