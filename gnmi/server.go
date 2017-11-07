@@ -614,9 +614,6 @@ func (s *Server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, 
 			log.Error(msg)
 			return nil, status.Error(codes.Internal, msg)
 		}
-		if len(path.GetElem()) == 1 {
-			jsonTree = jsonTree[path.GetElem()[0].Name].(map[string]interface{})
-		}
 		jsonDump, err := json.Marshal(jsonTree)
 		if err != nil {
 			msg := fmt.Sprintf("error in marshaling IETF JSON tree to bytes: %v", err)
