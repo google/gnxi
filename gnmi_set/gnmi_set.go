@@ -17,6 +17,7 @@ limitations under the License.
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -24,7 +25,6 @@ import (
 	"strings"
 	"time"
 
-	log "github.com/golang/glog"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
@@ -32,6 +32,7 @@ import (
 	"github.com/google/gnxi/utils/credentials"
 	"github.com/google/gnxi/utils/xpath"
 
+	log "github.com/golang/glog"
 	pb "github.com/openconfig/gnmi/proto/gnmi"
 )
 
@@ -53,7 +54,8 @@ var (
 	targetAddr = flag.String("target_addr", "localhost:10161", "The target address in the format of host:port")
 	targetName = flag.String("target_name", "hostname.com", "The target name use to verify the hostname returned by TLS handshake")
 	timeOut    = flag.Duration("time_out", 10*time.Second, "Timeout for the Get request, 10 seconds by default")
-	forceJSON  = flag.Bool("force_json", false, "Interprete values as JSON")
+	forceJSON  = flag.Bool("force_json", false, "Force Interprete values as JsonVal - TypedValue #10")
+	forceAny   = flag.Bool("force_any", false, "Force Interprete values as AnyVal - TypeValue #8")
 )
 
 func buildPbUpdateList(pathValuePairs []string) []*pb.Update {
@@ -81,9 +83,13 @@ func buildPbUpdateList(pathValuePairs []string) []*pb.Update {
 				},
 			}
 		} else if *forceJSON {
+			json, err := json.Marshal(pathValuePair[1])
+			if err != nil {
+				log.Exit(err)
+			}
 			pbVal = &pb.TypedValue{
 				Value: &pb.TypedValue_JsonVal{
-					JsonVal: []byte(pathValuePair[1]),
+					JsonVal: json,
 				},
 			}
 		} else {
