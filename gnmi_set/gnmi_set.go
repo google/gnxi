@@ -17,14 +17,15 @@ limitations under the License.
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"io/ioutil"
 	"strconv"
 	"strings"
 	"time"
+	"unicode"
 
-	log "github.com/golang/glog"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
@@ -32,6 +33,7 @@ import (
 	"github.com/google/gnxi/utils/credentials"
 	"github.com/google/gnxi/utils/xpath"
 
+	log "github.com/golang/glog"
 	pb "github.com/openconfig/gnmi/proto/gnmi"
 )
 
@@ -65,6 +67,7 @@ func buildPbUpdateList(pathValuePairs []string) []*pb.Update {
 		if len(pathValuePair) != 2 || len(pathValuePair[1]) == 0 {
 			log.Exitf("invalid path-value pair: %v", item)
 		}
+		pbPath := &pb.Path{}
 		if *forceElement {
 			pbPath.Element = strings.Split(pathValuePair[0], "/")
 		} else {
@@ -83,6 +86,16 @@ func buildPbUpdateList(pathValuePairs []string) []*pb.Update {
 			pbVal = &pb.TypedValue{
 				Value: &pb.TypedValue_JsonIetfVal{
 					JsonIetfVal: jsonConfig,
+				},
+			}
+		} else if isJSON(pathValuePair[1]) {
+			j := []byte(stripQuotes(pathValuePair[1]))
+			if !json.Valid(j) {
+				log.Exitf("Invalid JSON value:\n%s", j)
+			}
+			pbVal = &pb.TypedValue{
+				Value: &pb.TypedValue_JsonVal{
+					JsonVal: j,
 				},
 			}
 		} else {
@@ -166,4 +179,18 @@ func main() {
 
 	fmt.Println("== getResponse:")
 	utils.PrintProto(setResponse)
+}
+
+func stripQuotes(s string) string {
+	f := func(c rune) bool {
+		return unicode.In(c, unicode.Quotation_Mark)
+	}
+	// Strip any leading/trailing quotes or spaces.
+	return strings.TrimSpace(strings.TrimFunc(string(s), f))
+}
+
+// JSON data will start with a "{" character.
+func isJSON(s string) bool {
+	s = stripQuotes(s)
+	return s[0] == "{"[0]
 }
