@@ -47,15 +47,17 @@ func (i *arrayFlags) Set(value string) error {
 }
 
 var (
-	deleteOpt  arrayFlags
-	replaceOpt arrayFlags
-	updateOpt  arrayFlags
-	targetAddr = flag.String("target_addr", "localhost:10161", "The target address in the format of host:port")
-	targetName = flag.String("target_name", "hostname.com", "The target name use to verify the hostname returned by TLS handshake")
-	timeOut    = flag.Duration("time_out", 10*time.Second, "Timeout for the Get request, 10 seconds by default")
+	deleteOpt    arrayFlags
+	replaceOpt   arrayFlags
+	updateOpt    arrayFlags
+	targetAddr   = flag.String("target_addr", "localhost:10161", "The target address in the format of host:port")
+	targetName   = flag.String("target_name", "hostname.com", "The target name use to verify the hostname returned by TLS handshake")
+	timeOut      = flag.Duration("time_out", 10*time.Second, "Timeout for the Get request, 10 seconds by default")
+	forceElement = flag.Bool("force_element", false, "Store paths in \"element\" format (deprecated) vs PathElem format.")
 )
 
 func buildPbUpdateList(pathValuePairs []string) []*pb.Update {
+	var err error
 	var pbUpdateList []*pb.Update
 	for _, item := range pathValuePairs {
 		pathValuePair := strings.SplitN(item, ":", 2)
@@ -63,9 +65,13 @@ func buildPbUpdateList(pathValuePairs []string) []*pb.Update {
 		if len(pathValuePair) != 2 || len(pathValuePair[1]) == 0 {
 			log.Exitf("invalid path-value pair: %v", item)
 		}
-		pbPath, err := xpath.ToGNMIPath(pathValuePair[0])
-		if err != nil {
-			log.Exitf("error in parsing xpath %q to gnmi path", pathValuePair[0])
+		if *forceElement {
+			pbPath.Element = strings.Split(pathValuePair[0], "/")
+		} else {
+			pbPath, err = xpath.ToGNMIPath(pathValuePair[0])
+			if err != nil {
+				log.Exitf("error in parsing xpath %q to gnmi path", pathValuePair[0])
+			}
 		}
 		var pbVal *pb.TypedValue
 		if pathValuePair[1][0] == '@' {
