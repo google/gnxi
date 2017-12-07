@@ -17,6 +17,7 @@ limitations under the License.
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -88,9 +89,13 @@ func buildPbUpdateList(pathValuePairs []string) []*pb.Update {
 				},
 			}
 		} else if isJSON(pathValuePair[1]) {
+			j := []byte(stripQuotes(pathValuePair[1]))
+			if !json.Valid(j) {
+				log.Exitf("Invalid JSON value:\n%s", j)
+			}
 			pbVal = &pb.TypedValue{
 				Value: &pb.TypedValue_JsonVal{
-					JsonVal: []byte(stripQuotes(pathValuePair[1])),
+					JsonVal: j,
 				},
 			}
 		} else {
