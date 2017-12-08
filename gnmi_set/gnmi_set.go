@@ -17,14 +17,15 @@ limitations under the License.
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"io/ioutil"
 	"strconv"
 	"strings"
 	"time"
+	"unicode"
 
-	log "github.com/golang/glog"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
@@ -32,6 +33,7 @@ import (
 	"github.com/google/gnxi/utils/credentials"
 	"github.com/google/gnxi/utils/xpath"
 
+	log "github.com/golang/glog"
 	pb "github.com/openconfig/gnmi/proto/gnmi"
 )
 
@@ -47,15 +49,17 @@ func (i *arrayFlags) Set(value string) error {
 }
 
 var (
-	deleteOpt  arrayFlags
-	replaceOpt arrayFlags
-	updateOpt  arrayFlags
-	targetAddr = flag.String("target_addr", "localhost:10161", "The target address in the format of host:port")
-	targetName = flag.String("target_name", "hostname.com", "The target name use to verify the hostname returned by TLS handshake")
-	timeOut    = flag.Duration("time_out", 10*time.Second, "Timeout for the Get request, 10 seconds by default")
+	deleteOpt    arrayFlags
+	replaceOpt   arrayFlags
+	updateOpt    arrayFlags
+	targetAddr   = flag.String("target_addr", "localhost:10161", "The target address in the format of host:port")
+	targetName   = flag.String("target_name", "hostname.com", "The target name use to verify the hostname returned by TLS handshake")
+	timeOut      = flag.Duration("time_out", 10*time.Second, "Timeout for the Get request, 10 seconds by default")
+	forceElement = flag.Bool("force_element", false, "Store paths in \"element\" format (deprecated) vs PathElem format.")
 )
 
 func buildPbUpdateList(pathValuePairs []string) []*pb.Update {
+	var err error
 	var pbUpdateList []*pb.Update
 	for _, item := range pathValuePairs {
 		pathValuePair := strings.SplitN(item, ":", 2)
@@ -63,9 +67,14 @@ func buildPbUpdateList(pathValuePairs []string) []*pb.Update {
 		if len(pathValuePair) != 2 || len(pathValuePair[1]) == 0 {
 			log.Exitf("invalid path-value pair: %v", item)
 		}
-		pbPath, err := xpath.ToGNMIPath(pathValuePair[0])
-		if err != nil {
-			log.Exitf("error in parsing xpath %q to gnmi path", pathValuePair[0])
+		pbPath := &pb.Path{}
+		if *forceElement {
+			pbPath.Element = strings.Split(pathValuePair[0], "/")
+		} else {
+			pbPath, err = xpath.ToGNMIPath(pathValuePair[0])
+			if err != nil {
+				log.Exitf("error in parsing xpath %q to gnmi path", pathValuePair[0])
+			}
 		}
 		var pbVal *pb.TypedValue
 		if pathValuePair[1][0] == '@' {
@@ -77,6 +86,16 @@ func buildPbUpdateList(pathValuePairs []string) []*pb.Update {
 			pbVal = &pb.TypedValue{
 				Value: &pb.TypedValue_JsonIetfVal{
 					JsonIetfVal: jsonConfig,
+				},
+			}
+		} else if isJSON(pathValuePair[1]) {
+			j := []byte(stripQuotes(pathValuePair[1]))
+			if !json.Valid(j) {
+				log.Exitf("Invalid JSON value:\n%s", j)
+			}
+			pbVal = &pb.TypedValue{
+				Value: &pb.TypedValue_JsonVal{
+					JsonVal: j,
 				},
 			}
 		} else {
@@ -160,4 +179,18 @@ func main() {
 
 	fmt.Println("== getResponse:")
 	utils.PrintProto(setResponse)
+}
+
+func stripQuotes(s string) string {
+	f := func(c rune) bool {
+		return unicode.In(c, unicode.Quotation_Mark)
+	}
+	// Strip any leading/trailing quotes or spaces.
+	return strings.TrimSpace(strings.TrimFunc(string(s), f))
+}
+
+// JSON data will start with a "{" character.
+func isJSON(s string) bool {
+	s = stripQuotes(s)
+	return s[0] == "{"[0]
 }
