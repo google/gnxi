@@ -184,10 +184,10 @@ func (s *Server) doDelete(jsonTree map[string]interface{}, prefix, path *pb.Path
 	}, nil
 }
 
-// doRepaceOrUpdate validates the replace or update operation to be applied to
+// doReplaceOrUpdate validates the replace or update operation to be applied to
 // the device, modifies the json tree of the config struct, then calls the
 // callback function to apply the operation to the device hardware.
-func (s *Server) doRepaceOrUpdate(jsonTree map[string]interface{}, op pb.UpdateResult_Operation, prefix, path *pb.Path, val *pb.TypedValue) (*pb.UpdateResult, error) {
+func (s *Server) doReplaceOrUpdate(jsonTree map[string]interface{}, op pb.UpdateResult_Operation, prefix, path *pb.Path, val *pb.TypedValue) (*pb.UpdateResult, error) {
 	// Validate the operation.
 	fullPath := gnmiFullPath(prefix, path)
 	emptyNode, stat := ygotutils.NewNode(s.model.structRootType, fullPath)
@@ -661,14 +661,14 @@ func (s *Server) Set(ctx context.Context, req *pb.SetRequest) (*pb.SetResponse, 
 		results = append(results, res)
 	}
 	for _, upd := range req.GetReplace() {
-		res, grpcStatusError := s.doRepaceOrUpdate(jsonTree, pb.UpdateResult_REPLACE, prefix, upd.GetPath(), upd.GetVal())
+		res, grpcStatusError := s.doReplaceOrUpdate(jsonTree, pb.UpdateResult_REPLACE, prefix, upd.GetPath(), upd.GetVal())
 		if grpcStatusError != nil {
 			return nil, grpcStatusError
 		}
 		results = append(results, res)
 	}
 	for _, upd := range req.GetUpdate() {
-		res, grpcStatusError := s.doRepaceOrUpdate(jsonTree, pb.UpdateResult_UPDATE, prefix, upd.GetPath(), upd.GetVal())
+		res, grpcStatusError := s.doReplaceOrUpdate(jsonTree, pb.UpdateResult_UPDATE, prefix, upd.GetPath(), upd.GetVal())
 		if grpcStatusError != nil {
 			return nil, grpcStatusError
 		}
