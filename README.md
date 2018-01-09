@@ -55,7 +55,7 @@ go run ./gnmi_get.go
 
 ## Docker
 
-[FAUCET](https://github.com/faucetsdn/faucet) currently includes a [Dockerfile](https://github.com/faucetsdn/faucet/blob/master/Dockerfile.gnmi) to setup the environment that facilitates testing these tools against network equipment. See the [gNMI FAUCET documentation](https://github.com/faucetsdn/faucet/tree/master/gnmi) for more information.
+[FAUCET](https://github.com/faucetsdn/faucet) currently includes a [Dockerfile](https://github.com/faucetsdn/faucet/blob/master/gnmi/Dockerfile) to setup the environment that facilitates testing these tools against network equipment. See the [gNMI FAUCET documentation](https://github.com/faucetsdn/faucet/tree/master/gnmi) for more information.
 
 ## Disclaimer
 
