@@ -163,7 +163,6 @@ func (s *Server) doDelete(jsonTree map[string]interface{}, prefix, path *pb.Path
 			delete(jsonTree, k)
 		}
 	}
-	// TODO (leguo): Need validation. Return error if fails.
 	newConfig, err := s.toGoStruct(jsonTree)
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
