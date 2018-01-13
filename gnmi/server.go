@@ -43,7 +43,7 @@ import (
 )
 
 // ConfigCallback is the signature of the function to apply a validated config to the physical device.
-type ConfigCallback func(ygot.ValidatedGoStruct, ygot.ValidatedGoStruct) error
+type ConfigCallback func(ygot.ValidatedGoStruct) error
 
 var (
 	pbRootPath         = &pb.Path{}
@@ -62,8 +62,7 @@ var (
 // For a real device, apply the config changes to the hardware in the callback function.
 // Arguments:
 //		newConfig: new root config to be applied on the device.
-//		oldConfig: old root config of the device before the node is modified.
-// func callback(newConfig, oldConfig ygot.ValidatedGoStruct) error {
+// func callback(newConfig ygot.ValidatedGoStruct) error {
 //		// Apply the config to your device and return nil if success. return error if fails.
 //		//
 //		// Do something ...
@@ -88,7 +87,7 @@ func NewServer(model *Model, config []byte, callback ConfigCallback) (*Server, e
 		callback: callback,
 	}
 	if config != nil && s.callback != nil {
-		if err := s.callback(rootStruct, s.config); err != nil {
+		if err := s.callback(rootStruct); err != nil {
 			return nil, err
 		}
 	}
@@ -170,8 +169,8 @@ func (s *Server) doDelete(jsonTree map[string]interface{}, prefix, path *pb.Path
 
 	// Apply the validated operation to the device.
 	if pathDeleted && s.callback != nil {
-		if applyErr := s.callback(newConfig, s.config); applyErr != nil {
-			if rollbackErr := s.callback(s.config, s.config); rollbackErr != nil {
+		if applyErr := s.callback(newConfig); applyErr != nil {
+			if rollbackErr := s.callback(s.config); rollbackErr != nil {
 				return nil, status.Errorf(codes.Internal, "error in rollback the failed operation (%v): %v", applyErr, rollbackErr)
 			}
 			return nil, status.Errorf(codes.Aborted, "error in applying operation to device: %v", applyErr)
@@ -275,8 +274,8 @@ func (s *Server) doReplaceOrUpdate(jsonTree map[string]interface{}, op pb.Update
 
 	// Apply the validated operation to the device.
 	if s.callback != nil {
-		if applyErr := s.callback(newConfig, s.config); applyErr != nil {
-			if rollbackErr := s.callback(s.config, s.config); rollbackErr != nil {
+		if applyErr := s.callback(newConfig); applyErr != nil {
+			if rollbackErr := s.callback(s.config); rollbackErr != nil {
 				return nil, status.Errorf(codes.Internal, "error in rollback the failed operation (%v): %v", applyErr, rollbackErr)
 			}
 			return nil, status.Errorf(codes.Aborted, "error in applying operation to device: %v", applyErr)
