@@ -66,11 +66,11 @@ func (m *Model) NewConfigStruct(jsonConfig []byte) (ygot.ValidatedGoStruct, erro
 	if !ok {
 		return nil, errors.New("root node is not a ygot.ValidatedGoStruct")
 	}
-	if err := rootStruct.Validate(); err != nil {
-		return nil, err
-	}
 	if jsonConfig != nil {
 		if err := m.jsonUnmarshaler(jsonConfig, rootStruct); err != nil {
+			return nil, err
+		}
+		if err := rootStruct.Validate(); err != nil {
 			return nil, err
 		}
 	}
