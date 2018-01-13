@@ -76,7 +76,7 @@ func TestGet(t *testing.T) {
 	    "component": [
 	      {
 	        "config": {
-	          "name": "gateway"
+	          "name": "swpri1-1-1"
 	        },
 	        "name": "swpri1-1-1"
 	      }
@@ -134,7 +134,7 @@ func TestGet(t *testing.T) {
 		wantRespVal: `{
 							"component": [{
 								"config": {
-						        	"name": "gateway"
+						        	"name": "swpri1-1-1"
 								},
 						        "name": "swpri1-1-1"
 							}]}`,
@@ -148,7 +148,7 @@ func TestGet(t *testing.T) {
 								>`,
 		wantRetCode: codes.OK,
 		wantRespVal: `{
-								"config": {"name": "gateway"},
+								"config": {"name": "swpri1-1-1"},
 								"name": "swpri1-1-1"
 							}`,
 	}, {
@@ -161,7 +161,7 @@ func TestGet(t *testing.T) {
 								>
 								elem: <name: "config" >`,
 		wantRetCode: codes.OK,
-		wantRespVal: `{"name": "gateway"}`,
+		wantRespVal: `{"name": "swpri1-1-1"}`,
 	}, {
 		desc: "ref leaf node",
 		textPbPath: `
@@ -184,7 +184,7 @@ func TestGet(t *testing.T) {
 								elem: <name: "config" >
 								elem: <name: "name" >`,
 		wantRetCode: codes.OK,
-		wantRespVal: "gateway",
+		wantRespVal: "swpri1-1-1",
 	}, {
 		desc: "non-existing node: wrong path name",
 		textPbPath: `
