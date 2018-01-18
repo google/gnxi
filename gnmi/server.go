@@ -162,18 +162,20 @@ func (s *Server) doDelete(jsonTree map[string]interface{}, prefix, path *pb.Path
 			delete(jsonTree, k)
 		}
 	}
-	newConfig, err := s.toGoStruct(jsonTree)
-	if err != nil {
-		return nil, status.Error(codes.Internal, err.Error())
-	}
 
-	// Apply the validated operation to the device.
-	if pathDeleted && s.callback != nil {
-		if applyErr := s.callback(newConfig); applyErr != nil {
-			if rollbackErr := s.callback(s.config); rollbackErr != nil {
-				return nil, status.Errorf(codes.Internal, "error in rollback the failed operation (%v): %v", applyErr, rollbackErr)
+	// Apply the validated operation to the config tree and device.
+	if pathDeleted != nil {
+		newConfig, err := s.toGoStruct(jsonTree)
+		if err != nil {
+			return nil, status.Error(codes.Internal, err.Error())
+		}
+		if s.callback != nil {
+			if applyErr := s.callback(newConfig); applyErr != nil {
+				if rollbackErr := s.callback(s.config); rollbackErr != nil {
+					return nil, status.Errorf(codes.Internal, "error in rollback the failed operation (%v): %v", applyErr, rollbackErr)
+				}
+				return nil, status.Errorf(codes.Aborted, "error in applying operation to device: %v", applyErr)
 			}
-			return nil, status.Errorf(codes.Aborted, "error in applying operation to device: %v", applyErr)
 		}
 	}
 	return &pb.UpdateResult{
