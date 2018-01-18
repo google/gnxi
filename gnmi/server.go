@@ -128,6 +128,7 @@ func (s *Server) doDelete(jsonTree map[string]interface{}, prefix, path *pb.Path
 	var curNode interface{} = jsonTree
 	pathDeleted := false
 	fullPath := gnmiFullPath(prefix, path)
+	schema := s.model.schemaTreeRoot
 	for i, elem := range fullPath.Elem { // Delete sub-tree or leaf node.
 		node, ok := curNode.(map[string]interface{})
 		if !ok {
@@ -145,15 +146,7 @@ func (s *Server) doDelete(jsonTree map[string]interface{}, prefix, path *pb.Path
 			break
 		}
 
-		// Search next node
-		if elem.GetKey() == nil {
-			var ok bool
-			if curNode, ok = node[elem.Name]; !ok {
-				break
-			}
-			continue
-		}
-		if curNode = getKeyedListEntry(node, elem, false); curNode == nil {
+		if curNode, schema = getChildNode(node, schema, elem, false); curNode == nil {
 			break
 		}
 	}
@@ -164,7 +157,7 @@ func (s *Server) doDelete(jsonTree map[string]interface{}, prefix, path *pb.Path
 	}
 
 	// Apply the validated operation to the config tree and device.
-	if pathDeleted != nil {
+	if pathDeleted {
 		newConfig, err := s.toGoStruct(jsonTree)
 		if err != nil {
 			return nil, status.Error(codes.Internal, err.Error())
@@ -218,6 +211,7 @@ func (s *Server) doReplaceOrUpdate(jsonTree map[string]interface{}, op pb.Update
 
 	// Update json tree of the device config.
 	var curNode interface{} = jsonTree
+	schema := s.model.schemaTreeRoot
 	for i, elem := range fullPath.Elem {
 		switch node := curNode.(type) {
 		case map[string]interface{}:
@@ -235,17 +229,7 @@ func (s *Server) doReplaceOrUpdate(jsonTree map[string]interface{}, op pb.Update
 				break
 			}
 
-			// Search next node.
-			if elem.GetKey() == nil {
-				var ok bool
-				if curNode, ok = node[elem.Name]; !ok {
-					node[elem.Name] = make(map[string]interface{})
-					curNode = node[elem.Name]
-				}
-				break
-			}
-			curNode = getKeyedListEntry(node, elem, true)
-			if curNode == nil {
+			if curNode, schema = getChildNode(node, schema, elem, true); curNode == nil {
 				return nil, status.Errorf(codes.NotFound, "path elem not found: %v", elem)
 			}
 		case []interface{}:
@@ -359,6 +343,7 @@ func getKeyedListEntry(node map[string]interface{}, elem *pb.PathElem, createIfN
 			return nil
 		}
 		keyMatching := true
+		// must be exactly match
 		for k, v := range elem.Key {
 			attrVal, ok := m[k]
 			if !ok {
