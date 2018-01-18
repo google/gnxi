@@ -1,6 +1,10 @@
 package gnmi
 
 import (
+	"fmt"
+	"strconv"
+
+	log "github.com/golang/glog"
 	"github.com/openconfig/goyang/pkg/yang"
 
 	pb "github.com/openconfig/gnmi/proto/gnmi"
@@ -30,4 +34,69 @@ func getChildNode(node map[string]interface{}, schema *yang.Entry, elem *pb.Path
 
 	nextNode = getKeyedListEntry(node, elem, createIfNotExist)
 	return nextNode, nextSchema
+}
+
+// getKeyedListEntry finds the keyed list entry in node by the name and key of
+// path elem. If entry is not found and createIfNotExist is true, an empty entry
+// will be created (the list will be created if necessary).
+func getKeyedListEntry(node map[string]interface{}, elem *pb.PathElem, createIfNotExist bool) map[string]interface{} {
+	curNode, ok := node[elem.Name]
+	if !ok {
+		if !createIfNotExist {
+			return nil
+		}
+
+		// Create a keyed list as node child and initialize an entry.
+		m := make(map[string]interface{})
+		for k, v := range elem.Key {
+			m[k] = v
+			if vAsNum, err := strconv.ParseFloat(v, 64); err == nil {
+				m[k] = vAsNum
+			}
+		}
+		node[elem.Name] = []interface{}{m}
+		return m
+	}
+
+	// Search entry in keyed list.
+	keyedList, ok := curNode.([]interface{})
+	if !ok {
+		return nil
+	}
+	for _, n := range keyedList {
+		m, ok := n.(map[string]interface{})
+		if !ok {
+			log.Errorf("wrong keyed list entry type: %T", n)
+			return nil
+		}
+		keyMatching := true
+		// must be exactly match
+		for k, v := range elem.Key {
+			attrVal, ok := m[k]
+			if !ok {
+				return nil
+			}
+			if v != fmt.Sprintf("%v", attrVal) {
+				keyMatching = false
+				break
+			}
+		}
+		if keyMatching {
+			return m
+		}
+	}
+	if !createIfNotExist {
+		return nil
+	}
+
+	// Create an entry in keyed list.
+	m := make(map[string]interface{})
+	for k, v := range elem.Key {
+		m[k] = v
+		if vAsNum, err := strconv.ParseFloat(v, 64); err == nil {
+			m[k] = vAsNum
+		}
+	}
+	node[elem.Name] = append(keyedList, m)
+	return m
 }
