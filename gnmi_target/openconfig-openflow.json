@@ -20,10 +20,10 @@
       }
     },
     "config": {
-      "domain-name": "google.com",
-      "hostname": "switch_a",
-      "login-banner": "Hello!",
-      "motd-banner": "Hi There!"
+      "hostname": "zz-tri-dev01",
+      "domain-name": "foo.bar.com",
+      "login-banner": "This device is for authorized use only",
+      "motd-banner": "Welcome to Open vSwitch"
     },
     "openconfig-openflow:openflow": {
       "agent": {
