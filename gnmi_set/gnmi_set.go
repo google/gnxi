@@ -149,7 +149,7 @@ func main() {
 		Update:  updateList,
 	}
 
-	fmt.Println("== getRequest:")
+	fmt.Println("== setRequest:")
 	utils.PrintProto(setRequest)
 
 	cli := pb.NewGNMIClient(conn)
