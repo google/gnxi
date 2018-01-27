@@ -17,6 +17,7 @@ limitations under the License.
 package main
 
 import (
+	"bytes"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -74,6 +75,7 @@ func buildPbUpdateList(pathValuePairs []string) []*pb.Update {
 			if err != nil {
 				log.Exitf("cannot read data from file %v", jsonFile)
 			}
+			jsonConfig = bytes.Trim(jsonConfig, " \r\n\t")
 			pbVal = &pb.TypedValue{
 				Value: &pb.TypedValue_JsonIetfVal{
 					JsonIetfVal: jsonConfig,
