@@ -1,4 +1,14 @@
 {
+  "openconfig-interfaces:interfaces": {
+    "interface": [
+      {
+        "name": "admin",
+        "config": {
+          "name": "admin"
+        }
+      }
+    ]
+  },
   "openconfig-system:system": {
     "aaa": {
       "authentication": {
