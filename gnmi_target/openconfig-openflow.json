@@ -62,6 +62,14 @@
                     "priority": 1,
                     "source-interface": "admin",
                     "transport": "TLS"
+                  },
+                  "state": {
+                    "address": "192.0.2.10",
+                    "aux-id": 0,
+                    "port": 6633,
+                    "priority": 1,
+                    "source-interface": "admin",
+                    "transport": "TLS"
                   }
                 }
               ]
