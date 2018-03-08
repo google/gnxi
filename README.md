@@ -33,7 +33,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-Install __go__ in your system https://golang.org/doc/install.
+Install __go__ in your system https://golang.org/doc/install. Requires golang1.7+.
 
 ### Clone
 
