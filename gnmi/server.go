@@ -528,7 +528,7 @@ func (s *Server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, 
 		}
 
 		// Return IETF JSON for the sub-tree.
-		jsonTree, err := ygot.ConstructIETFJSON(nodeStruct, &ygot.RFC7951JSONConfig{})
+		jsonTree, err := ygot.ConstructIETFJSON(nodeStruct, &ygot.RFC7951JSONConfig{AppendModuleName: true,})
 		if err != nil {
 			msg := fmt.Sprintf("error in constructing IETF JSON tree from requested node: %v", err)
 			log.Error(msg)
