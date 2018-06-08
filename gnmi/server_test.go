@@ -62,8 +62,8 @@ func TestCapabilities(t *testing.T) {
 
 func TestGet(t *testing.T) {
 	jsonConfigRoot := `{
-		"system": {
-			"openflow": {
+		"openconfig-system:system": {
+			"openconfig-openflow:openflow": {
 				"agent": {
 					"config": {
 						"failure-mode": "SECURE",
@@ -72,7 +72,7 @@ func TestGet(t *testing.T) {
 				}
 			}
 		},
-	  "components": {
+	  "openconfig-platform:components": {
 	    "component": [
 	      {
 	        "config": {
@@ -132,7 +132,7 @@ func TestGet(t *testing.T) {
 		textPbPath:  `elem: <name: "components" >`,
 		wantRetCode: codes.OK,
 		wantRespVal: `{
-							"component": [{
+							"openconfig-platform:component": [{
 								"config": {
 						        	"name": "swpri1-1-1"
 								},
@@ -148,8 +148,8 @@ func TestGet(t *testing.T) {
 								>`,
 		wantRetCode: codes.OK,
 		wantRespVal: `{
-								"config": {"name": "swpri1-1-1"},
-								"name": "swpri1-1-1"
+								"openconfig-platform:config": {"name": "swpri1-1-1"},
+								"openconfig-platform:name": "swpri1-1-1"
 							}`,
 	}, {
 		desc: "node with attribute in its parent",
@@ -161,7 +161,7 @@ func TestGet(t *testing.T) {
 								>
 								elem: <name: "config" >`,
 		wantRetCode: codes.OK,
-		wantRespVal: `{"name": "swpri1-1-1"}`,
+		wantRespVal: `{"openconfig-platform:name": "swpri1-1-1"}`,
 	}, {
 		desc: "ref leaf node",
 		textPbPath: `
@@ -1120,9 +1120,9 @@ func runTestSet(t *testing.T, m *Model, tc gnmiSetTestCase) {
 	case pb.UpdateResult_DELETE:
 		req = &pb.SetRequest{Delete: []*pb.Path{&pbPath}}
 	case pb.UpdateResult_REPLACE:
-		req = &pb.SetRequest{Replace: []*pb.Update{&pb.Update{Path: &pbPath, Val: tc.val}}}
+		req = &pb.SetRequest{Replace: []*pb.Update{{Path: &pbPath, Val: tc.val}}}
 	case pb.UpdateResult_UPDATE:
-		req = &pb.SetRequest{Update: []*pb.Update{&pb.Update{Path: &pbPath, Val: tc.val}}}
+		req = &pb.SetRequest{Update: []*pb.Update{{Path: &pbPath, Val: tc.val}}}
 	default:
 		t.Fatalf("invalid op type: %v", tc.op)
 	}
