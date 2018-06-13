@@ -24,6 +24,7 @@ import (
 	"github.com/openconfig/goyang/pkg/yang"
 	"github.com/openconfig/ygot/experimental/ygotutils"
 	"github.com/openconfig/ygot/ygot"
+	"github.com/openconfig/ygot/ytypes"
 
 	pb "github.com/openconfig/gnmi/proto/gnmi"
 	cpb "google.golang.org/genproto/googleapis/rpc/code"
