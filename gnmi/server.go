@@ -515,7 +515,7 @@ func (s *Server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, 
 		}
 
 		// Return all leaf nodes of the sub-tree.
-		if len(req.GetUseModels()) != len(s.model.modelData) || req.GetEncoding() != pb.Encoding_JSON_IETF {
+		if len(req.GetUseModels()) != len(s.model.modelData) && req.GetEncoding() != pb.Encoding_JSON_IETF {
 			results, err := ygot.TogNMINotifications(nodeStruct, ts, ygot.GNMINotificationsConfig{UsePathElem: true, PathElemPrefix: fullPath.Elem})
 			if err != nil {
 				return nil, status.Errorf(codes.Internal, "error in serializing GoStruct to notifications: %v", err)
@@ -528,7 +528,7 @@ func (s *Server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, 
 		}
 
 		// Return IETF JSON for the sub-tree.
-		jsonTree, err := ygot.ConstructIETFJSON(nodeStruct, &ygot.RFC7951JSONConfig{AppendModuleName: true,})
+		jsonTree, err := ygot.ConstructIETFJSON(nodeStruct, &ygot.RFC7951JSONConfig{AppendModuleName: true})
 		if err != nil {
 			msg := fmt.Sprintf("error in constructing IETF JSON tree from requested node: %v", err)
 			log.Error(msg)
