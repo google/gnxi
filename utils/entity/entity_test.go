@@ -1,6 +1,7 @@
 package entity
 
 import (
+	"crypto/x509"
 	"path/filepath"
 	"testing"
 )
@@ -92,5 +93,39 @@ func TestEntityFromFile(t *testing.T) {
 		if err := test.child.SignedBy(test.parent); (err != nil) != test.fail {
 			t.Errorf("%s not signed by %s", test.childName, test.parentName)
 		}
+	}
+}
+
+func TestFromSigningRequest(t *testing.T) {
+	e, err := NewEntity(Template("requester"))
+	if err != nil {
+		t.Fatal("failed to create an Entity:", err)
+	}
+	csrDER, err := e.SigningRequest()
+	if err != nil {
+		t.Fatal("failed to create a CSR:", err)
+	}
+
+	csr, err := x509.ParseCertificateRequest(csrDER)
+	if err != nil {
+		t.Fatal("failed to parse a CSR in DER enconding:", err)
+	}
+
+	if err = csr.CheckSignature(); err != nil {
+		t.Fatal("CSR signature check failed:", err)
+	}
+
+	ne, err := FromSigningRequest(csr)
+	if err != nil {
+		t.Fatal("failed to create an Entity from a CSR:", err)
+	}
+
+	root, err := CreateSelfSigned("root")
+	if err != nil {
+		t.Fatal("failed to create a Self Signed Certificate:", err)
+	}
+
+	if err := ne.SignWith(root); err != nil {
+		t.Fatal("failed to sign a CSR generated Entity:", err)
 	}
 }
