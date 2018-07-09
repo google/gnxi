@@ -11,27 +11,27 @@ func testPath(name string) string {
 }
 
 func TestEntity(t *testing.T) {
-	root, err := CreateSelfSigned("root")
+	root, err := CreateSelfSigned("root", nil)
 	if err != nil {
 		t.Fatal("CreateSelfSigned(root):", err)
 	}
 
-	clientCA, err := CreateSignedCA("clientCA", root)
+	clientCA, err := CreateSignedCA("clientCA", nil, root)
 	if err != nil {
 		t.Fatal("CreateSignedCA(clientCA):", err)
 	}
 
-	targetCA, err := CreateSignedCA("targetCA", root)
+	targetCA, err := CreateSignedCA("targetCA", nil, root)
 	if err != nil {
 		t.Fatal("CreateSignedCA(targetCA):", err)
 	}
 
-	client, err := CreateSigned("client", clientCA)
+	client, err := CreateSigned("client", nil, clientCA)
 	if err != nil {
 		t.Fatal("CreateSigned(client):", err)
 	}
 
-	target, err := CreateSigned("target", targetCA)
+	target, err := CreateSigned("target", nil, targetCA)
 	if err != nil {
 		t.Fatal("CreateSigned(client):", err)
 	}
@@ -97,7 +97,7 @@ func TestEntityFromFile(t *testing.T) {
 }
 
 func TestFromSigningRequest(t *testing.T) {
-	e, err := NewEntity(Template("requester"))
+	e, err := NewEntity(Template("requester"), nil)
 	if err != nil {
 		t.Fatal("failed to create an Entity:", err)
 	}
@@ -120,7 +120,7 @@ func TestFromSigningRequest(t *testing.T) {
 		t.Fatal("failed to create an Entity from a CSR:", err)
 	}
 
-	root, err := CreateSelfSigned("root")
+	root, err := CreateSelfSigned("root", nil)
 	if err != nil {
 		t.Fatal("failed to create a Self Signed Certificate:", err)
 	}
