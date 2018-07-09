@@ -5,6 +5,7 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"fmt"
+	"io"
 	"net"
 	"sync"
 	"testing"
@@ -344,7 +345,6 @@ func TestCertServer(t *testing.T) {
 }
 
 func TestCertManager(t *testing.T) {
-
 	privateKey := "some random key"
 
 	t.Run("Lock & Unlock", func(t *testing.T) {
@@ -367,12 +367,7 @@ func TestCertManager(t *testing.T) {
 
 	now := time.Now()
 	nowTime = func() time.Time { return now }
-	cmpOpts := []cmp.Option{
-		cmpopts.IgnoreUnexported(sync.Mutex{}),
-		// cmpopts.IgnoreUnexported(rsa.PrivateKey{}),
-		// cmpopts.IgnoreUnexported(rsa.PublicKey{}),
-		cmp.AllowUnexported(CertManager{}),
-	}
+	cmpOpts := []cmp.Option{cmpopts.IgnoreUnexported(sync.Mutex{}), cmp.AllowUnexported(CertManager{})}
 	expectCert1, err := DecodeCert([]byte(exampleCertPEM1))
 	if err != nil {
 		t.Fatal("failed DecodeCert:", err)
@@ -420,7 +415,7 @@ func TestCertManager(t *testing.T) {
 			CaCertificate: []*pb.Certificate{examplePbCert1, examplePbCert1, examplePbCert1},
 		}
 		if err := cm.Install(param); err == nil {
-			t.Errorf("expected failed Install: %v", err)
+			t.Errorf("expected failed Install")
 		}
 	})
 
@@ -629,6 +624,38 @@ func TestCertManager(t *testing.T) {
 		}
 		if !cmp.Equal(want509Certs, got509Certs, cmpOpts...) {
 			t.Errorf("x509 Certificates: (-want +got):\n%s", cmp.Diff(want509Certs, got509Certs, cmpOpts...))
+		}
+	})
+
+	cm := NewCertManager(privateKey)
+	createCSR = func(rand io.Reader, template *x509.CertificateRequest, priv interface{}) (csr []byte, err error) {
+		return []byte("hello"), nil
+	}
+	t.Run(("GenCSR unsupported certificate type"), func(t *testing.T) {
+		_, err := cm.GenCSR(&pb.CSRParams{KeyType: pb.KeyType_KT_RSA})
+		if err == nil {
+			t.Errorf("expected failed GenCSR")
+		}
+	})
+
+	t.Run(("GenCSR unsupported key type"), func(t *testing.T) {
+		_, err := cm.GenCSR(&pb.CSRParams{Type: pb.CertificateType_CT_X509})
+		if err == nil {
+			t.Errorf("expected failed GenCSR")
+		}
+	})
+
+	t.Run(("GenCSR"), func(t *testing.T) {
+		want := &pb.CSR{
+			Type: pb.CertificateType_CT_X509,
+			Csr:  []byte("hello"),
+		}
+		got, err := cm.GenCSR(&pb.CSRParams{Type: pb.CertificateType_CT_X509, KeyType: pb.KeyType_KT_RSA})
+		if err != nil {
+			t.Errorf("failed GenCSR: %v", err)
+		}
+		if !Equal(want, got) {
+			t.Errorf("GenCSR: (-want +got):\n%s", Diff(want, got))
 		}
 	})
 }

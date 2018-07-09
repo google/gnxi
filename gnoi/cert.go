@@ -2,9 +2,12 @@ package gnoi
 
 import (
 	"crypto"
+	"crypto/rand"
 	"crypto/tls"
 	"crypto/x509"
+	"crypto/x509/pkix"
 	"fmt"
+	"net"
 	"sync"
 	"time"
 
@@ -13,7 +16,7 @@ import (
 	pb "github.com/google/gnxi/gnoi/certpb"
 )
 
-// CertInterface does blah.
+// CertInterface provides the necessary methods to handle the Certificate Management service.
 type CertInterface interface {
 	GenCSR(*pb.CSRParams) (*pb.CSR, error)
 	Get() ([]*pb.CertificateInfo, error)
@@ -22,17 +25,17 @@ type CertInterface interface {
 	Rotate(*pb.LoadCertificateRequest) (func(), func(), error)
 }
 
-// CertServer does blah.
+// CertServer is a CertificateManagement service.
 type CertServer struct {
 	certInterface CertInterface
 }
 
-// NewCertServer does blah.
+// NewCertServer returns a CertServer.
 func NewCertServer(cm CertInterface) *CertServer {
 	return &CertServer{certInterface: cm}
 }
 
-// Rotate does blah.
+// Rotate allows rotating a certificate.
 func (s *CertServer) Rotate(stream pb.CertificateManagement_RotateServer) error {
 	var resp *pb.RotateCertificateRequest
 	var err error
@@ -93,7 +96,7 @@ func (s *CertServer) Rotate(stream pb.CertificateManagement_RotateServer) error 
 	return nil
 }
 
-// Install does blah.
+// Install installs a certificate.
 func (s *CertServer) Install(stream pb.CertificateManagement_InstallServer) error {
 	var resp *pb.InstallCertificateRequest
 	var err error
@@ -140,23 +143,23 @@ func (s *CertServer) Install(stream pb.CertificateManagement_InstallServer) erro
 	return nil
 }
 
-// GetCertificates does blah.
+// GetCertificates returns installed certificates.
 func (s *CertServer) GetCertificates(ctx context.Context, request *pb.GetCertificatesRequest) (*pb.GetCertificatesResponse, error) {
 	certInfo, err := s.certInterface.Get()
 	return &pb.GetCertificatesResponse{CertificateInfo: certInfo}, err
 }
 
-// RevokeCertificates does blah.
+// RevokeCertificates revokes certificates.
 func (s *CertServer) RevokeCertificates(ctx context.Context, request *pb.RevokeCertificatesRequest) (*pb.RevokeCertificatesResponse, error) {
 	return s.certInterface.Revoke(request)
 }
 
-// CanGenerateCSR does blah.
+// CanGenerateCSR returns if it can generate CSRs with the given properties.
 func (s *CertServer) CanGenerateCSR(ctx context.Context, request *pb.CanGenerateCSRRequest) (*pb.CanGenerateCSRResponse, error) {
 	return &pb.CanGenerateCSRResponse{CanGenerate: request.KeyType == pb.KeyType_KT_RSA && request.CertificateType == pb.CertificateType_CT_X509 && request.KeySize >= 128}, nil
 }
 
-// CertManager does blah.
+// CertManager manages Certificates and CA Bundles.
 type CertManager struct {
 	privateKey crypto.PrivateKey
 
@@ -169,7 +172,7 @@ type CertManager struct {
 	muLock sync.Mutex
 }
 
-// NewCertManager does blah.
+// NewCertManager returns a CertManager.
 func NewCertManager(p crypto.PrivateKey) *CertManager {
 	return &CertManager{
 		privateKey:   p,
@@ -190,7 +193,7 @@ func toSlices(certs []*pb.Certificate) [][]byte {
 
 var nowTime = time.Now
 
-// Certificates does blah.
+// Certificates returns the list of Certificates and CA certificates.
 func (cm *CertManager) Certificates() ([]*tls.Certificate, []*x509.Certificate) {
 	certs := []*tls.Certificate{}
 	caBundle := []*x509.Certificate{}
@@ -234,13 +237,46 @@ func (cm *CertManager) unlock(certID string) {
 	return
 }
 
-// GenCSR does blah.
-func (cm *CertManager) GenCSR(params *pb.CSRParams) (*pb.CSR, error) {
+var createCSR = x509.CreateCertificateRequest
 
-	return nil, nil
+// GenCSR generates and returns a CSR based on the provided parameters.
+func (cm *CertManager) GenCSR(params *pb.CSRParams) (*pb.CSR, error) {
+	if params.Type != pb.CertificateType_CT_X509 {
+		return nil, fmt.Errorf("certificate type %q not supported", params.Type)
+	}
+	if params.KeyType != pb.KeyType_KT_RSA {
+		return nil, fmt.Errorf("key type %q not supported", params.KeyType)
+	}
+
+	subject := pkix.Name{
+		Country:            []string{params.Country},
+		Organization:       []string{params.Organization},
+		OrganizationalUnit: []string{params.OrganizationalUnit},
+		CommonName:         params.CommonName,
+	}
+	template := &x509.CertificateRequest{
+		Subject:            subject,
+		EmailAddresses:     []string{params.EmailId},
+		SignatureAlgorithm: x509.SHA256WithRSA,
+	}
+
+	address := net.ParseIP(params.IpAddress)
+	if address != nil {
+		template.IPAddresses = []net.IP{address}
+	} else {
+		template.DNSNames = []string{params.IpAddress}
+	}
+	csr, err := createCSR(rand.Reader, template, cm.privateKey)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create CSR: %v", err)
+	}
+	return &pb.CSR{
+		Type: pb.CertificateType_CT_X509,
+		Csr:  csr,
+	}, nil
 }
 
-// Get does blah.
+// Get returns all the Certificates and their Certificate IDs.
 func (cm *CertManager) Get() ([]*pb.CertificateInfo, error) {
 	cm.mu.Lock()
 	defer cm.mu.Unlock()
@@ -258,7 +294,7 @@ func (cm *CertManager) Get() ([]*pb.CertificateInfo, error) {
 	return r, nil
 }
 
-// Install does blah.
+// Install installs new Certificates and CA Bundles.
 func (cm *CertManager) Install(r *pb.LoadCertificateRequest) error {
 	certID := r.CertificateId
 	if err := cm.lock(certID); err != nil {
@@ -289,7 +325,7 @@ func (cm *CertManager) Install(r *pb.LoadCertificateRequest) error {
 	return nil
 }
 
-// Revoke does blah.
+// Revoke revokes Certificates.
 func (cm *CertManager) Revoke(req *pb.RevokeCertificatesRequest) (*pb.RevokeCertificatesResponse, error) {
 	cm.mu.Lock()
 	defer cm.mu.Unlock()
@@ -321,7 +357,7 @@ func (cm *CertManager) Revoke(req *pb.RevokeCertificatesRequest) (*pb.RevokeCert
 	return resp, nil
 }
 
-// Rotate does blah.
+// Rotate rotates Certificates and CA Bundles.
 func (cm *CertManager) Rotate(r *pb.LoadCertificateRequest) (func(), func(), error) {
 	certID := r.CertificateId
 	if err := cm.lock(certID); err != nil {
