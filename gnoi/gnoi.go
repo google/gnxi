@@ -10,6 +10,8 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
+
+	"github.com/google/gnxi/utils/entity"
 )
 
 var (
@@ -44,13 +46,13 @@ func NewServer(privateKey crypto.PrivateKey) (*Server, error) {
 // PrepareEncrypted prepares a gRPC server with the CertificateManagement service
 // running with encryption but without authentication.
 func (s *Server) PrepareEncrypted() (*grpc.Server, error) {
-	certificate, err := CreateSelfSignedCert(s.privateKey)
+	e, err := entity.CreateSelfSigned("gNOI server", s.privateKey)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create self signed certificate: %v", err)
 	}
 	opts := []grpc.ServerOption{grpc.Creds(credentials.NewTLS(&tls.Config{
 		ClientAuth:   tls.RequireAnyClientCert,
-		Certificates: []tls.Certificate{*certificate},
+		Certificates: []tls.Certificate{*e.Certificate},
 		ClientCAs:    nil,
 	}))}
 	return grpc.NewServer(opts...), nil
