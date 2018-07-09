@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"golang.org/x/net/context"
+	"google.golang.org/grpc"
 
 	pb "github.com/google/gnxi/gnoi/certpb"
 )
@@ -31,8 +32,13 @@ type CertServer struct {
 }
 
 // NewCertServer returns a CertServer.
-func NewCertServer(cm CertInterface) *CertServer {
-	return &CertServer{certInterface: cm}
+func NewCertServer(certiInterface CertInterface) *CertServer {
+	return &CertServer{certInterface: certiInterface}
+}
+
+// Register registers the server into the gRPC server provided.
+func (s *CertServer) Register(g *grpc.Server) {
+	pb.RegisterCertificateManagementServer(g, s)
 }
 
 // Rotate allows rotating a certificate.
@@ -173,9 +179,9 @@ type CertManager struct {
 }
 
 // NewCertManager returns a CertManager.
-func NewCertManager(p crypto.PrivateKey) *CertManager {
+func NewCertManager(privateKey crypto.PrivateKey) *CertManager {
 	return &CertManager{
-		privateKey:   p,
+		privateKey:   privateKey,
 		certs:        map[string]*x509.Certificate{},
 		certsModTime: map[string]time.Time{},
 		caBundle:     []*x509.Certificate{},
@@ -194,23 +200,23 @@ func toSlices(certs []*pb.Certificate) [][]byte {
 var nowTime = time.Now
 
 // Certificates returns the list of Certificates and CA certificates.
-func (cm *CertManager) Certificates() ([]*tls.Certificate, []*x509.Certificate) {
-	certs := []*tls.Certificate{}
-	caBundle := []*x509.Certificate{}
+func (cm *CertManager) Certificates() ([]tls.Certificate, *x509.CertPool) {
+	certs := []tls.Certificate{}
+	certPool := x509.NewCertPool()
 
 	cm.mu.Lock()
 	defer cm.mu.Unlock()
 	for _, cert := range cm.certs {
-		certs = append(certs, &tls.Certificate{
+		certs = append(certs, tls.Certificate{
 			Leaf:        cert,
 			Certificate: [][]byte{cert.Raw},
 			PrivateKey:  cm.privateKey,
 		})
 	}
 	for _, cert := range cm.caBundle {
-		caBundle = append(caBundle, cert)
+		certPool.AddCert(cert)
 	}
-	return certs, caBundle
+	return certs, certPool
 }
 
 func (cm *CertManager) locked(certID string) bool {

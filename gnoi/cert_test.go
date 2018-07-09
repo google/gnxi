@@ -614,16 +614,12 @@ func TestCertManager(t *testing.T) {
 			caBundle:     []*x509.Certificate{expectCert1, expectCert1, expectCert1},
 			locks:        map[string]bool{certID3: true},
 		}
-		wantTLSCerts := []*tls.Certificate{
-			&tls.Certificate{Leaf: expectCert1, Certificate: [][]byte{expectCert1.Raw}, PrivateKey: privateKey},
+		wantTLSCerts := []tls.Certificate{
+			tls.Certificate{Leaf: expectCert1, Certificate: [][]byte{expectCert1.Raw}, PrivateKey: privateKey},
 		}
-		want509Certs := []*x509.Certificate{expectCert1, expectCert1, expectCert1}
-		gotTLSCerts, got509Certs := cm.Certificates()
+		gotTLSCerts, _ := cm.Certificates()
 		if !cmp.Equal(wantTLSCerts, gotTLSCerts, cmpOpts...) {
 			t.Errorf("TLS Certificates: (-want +got):\n%s", cmp.Diff(wantTLSCerts, gotTLSCerts, cmpOpts...))
-		}
-		if !cmp.Equal(want509Certs, got509Certs, cmpOpts...) {
-			t.Errorf("x509 Certificates: (-want +got):\n%s", cmp.Diff(want509Certs, got509Certs, cmpOpts...))
 		}
 	})
 
