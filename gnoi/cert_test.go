@@ -367,7 +367,7 @@ func TestCertManager(t *testing.T) {
 
 	now := time.Now()
 	nowTime = func() time.Time { return now }
-	cmpOpts := []cmp.Option{cmpopts.IgnoreUnexported(sync.Mutex{}), cmp.AllowUnexported(CertManager{})}
+	cmpOpts := []cmp.Option{cmpopts.IgnoreUnexported(sync.RWMutex{}), cmp.AllowUnexported(CertManager{})}
 	expectCert1, err := DecodeCert([]byte(exampleCertPEM1))
 	if err != nil {
 		t.Fatal("failed DecodeCert:", err)
@@ -620,6 +620,52 @@ func TestCertManager(t *testing.T) {
 		gotTLSCerts, _ := cm.Certificates()
 		if !cmp.Equal(wantTLSCerts, gotTLSCerts, cmpOpts...) {
 			t.Errorf("TLS Certificates: (-want +got):\n%s", cmp.Diff(wantTLSCerts, gotTLSCerts, cmpOpts...))
+		}
+	})
+
+	t.Run(("Empty"), func(t *testing.T) {
+		tests := []struct {
+			cm   *CertManager
+			want bool
+		}{
+			{
+				cm: &CertManager{
+					certs:        map[string]*x509.Certificate{},
+					certsModTime: map[string]time.Time{},
+					caBundle:     []*x509.Certificate{},
+					locks:        map[string]bool{},
+				},
+				want: true,
+			},
+			{
+				cm: &CertManager{
+					certs:    map[string]*x509.Certificate{certID1: expectCert1},
+					caBundle: []*x509.Certificate{},
+					locks:    map[string]bool{},
+				},
+				want: false,
+			},
+			{
+				cm: &CertManager{
+					certs:    map[string]*x509.Certificate{},
+					caBundle: []*x509.Certificate{},
+					locks:    map[string]bool{certID3: true},
+				},
+				want: false,
+			},
+			{
+				cm: &CertManager{
+					certs:    map[string]*x509.Certificate{certID1: expectCert1},
+					caBundle: []*x509.Certificate{expectCert1},
+					locks:    map[string]bool{},
+				},
+				want: false,
+			},
+		}
+		for _, test := range tests {
+			if test.cm.Empty() != test.want {
+				t.Errorf("Expected %v but got %v for:\nlen(certs): %d\nlen(caBundle): %d\nlen(locks): %d", test.want, !test.want, len(test.cm.certs), len(test.cm.caBundle), len(test.cm.locks))
+			}
 		}
 	})
 

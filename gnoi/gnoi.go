@@ -19,42 +19,47 @@ var (
 
 // Server does blah.
 type Server struct {
-	privateKey  crypto.PrivateKey
-	certServer  *CertServer
-	certManager *CertManager
+	certServer         *CertServer
+	certManager        *CertManager
+	defaultCertificate *tls.Certificate
 }
 
 // NewServer does blah.
-func NewServer(privateKey crypto.PrivateKey) (*Server, error) {
-	if privateKey == nil {
-		var err error
-		privateKey, err = rsa.GenerateKey(rand.Reader, rsaBitSize)
-		if err != nil {
-			return nil, fmt.Errorf("failed to generate private key: %v", err)
+func NewServer(privateKey crypto.PrivateKey, defaultCertificate *tls.Certificate) (*Server, error) {
+	if defaultCertificate == nil {
+		if privateKey == nil {
+			var err error
+			privateKey, err = rsa.GenerateKey(rand.Reader, rsaBitSize)
+			if err != nil {
+				return nil, fmt.Errorf("failed to generate private key: %v", err)
+			}
 		}
+		e, err := entity.CreateSelfSigned("gNOI server", privateKey)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create self signed certificate: %v", err)
+		}
+		defaultCertificate = e.Certificate
 	}
-	certManager := NewCertManager(privateKey)
+
+	certManager := NewCertManager(defaultCertificate.PrivateKey)
 	certServer := NewCertServer(certManager)
 	return &Server{
-		privateKey:  privateKey,
-		certServer:  certServer,
-		certManager: certManager,
+		certServer:         certServer,
+		certManager:        certManager,
+		defaultCertificate: defaultCertificate,
 	}, nil
 }
 
 // PrepareEncrypted prepares a gRPC server with the CertificateManagement service
 // running with encryption but without authentication.
-func (s *Server) PrepareEncrypted() (*grpc.Server, error) {
-	e, err := entity.CreateSelfSigned("gNOI server", s.privateKey)
-	if err != nil {
-		return nil, fmt.Errorf("failed to create self signed certificate: %v", err)
-	}
+func (s *Server) PrepareEncrypted() *grpc.Server {
+
 	opts := []grpc.ServerOption{grpc.Creds(credentials.NewTLS(&tls.Config{
 		ClientAuth:   tls.RequireAnyClientCert,
-		Certificates: []tls.Certificate{*e.Certificate},
+		Certificates: []tls.Certificate{*s.defaultCertificate},
 		ClientCAs:    nil,
 	}))}
-	return grpc.NewServer(opts...), nil
+	return grpc.NewServer(opts...)
 }
 
 // PrepareAuthenticated prepares a gRPC server with the CertificateManagement service
@@ -75,6 +80,11 @@ func (s *Server) PrepareAuthenticated() *grpc.Server {
 // RegCertificateManagement registers the Certificate Management service in the gRPC Server.
 func (s *Server) RegCertificateManagement(g *grpc.Server) {
 	s.certServer.Register(g)
+}
+
+// HasCredentials returns true if the Certificate Manager has certificates configured.
+func (s *Server) HasCredentials() bool {
+	return !s.certManager.Empty()
 }
 
 // func Client(targetAddr string, certificates []tls.Certificate, caPool *x509.CertPool) error {

@@ -172,10 +172,10 @@ type CertManager struct {
 	certs        map[string]*x509.Certificate
 	certsModTime map[string]time.Time
 	caBundle     []*x509.Certificate
-	mu           sync.Mutex
+	mu           sync.RWMutex
 
 	locks  map[string]bool
-	muLock sync.Mutex
+	muLock sync.RWMutex
 }
 
 // NewCertManager returns a CertManager.
@@ -204,8 +204,8 @@ func (cm *CertManager) Certificates() ([]tls.Certificate, *x509.CertPool) {
 	certs := []tls.Certificate{}
 	certPool := x509.NewCertPool()
 
-	cm.mu.Lock()
-	defer cm.mu.Unlock()
+	cm.mu.RLock()
+	defer cm.mu.RUnlock()
 	for _, cert := range cm.certs {
 		certs = append(certs, tls.Certificate{
 			Leaf:        cert,
@@ -219,9 +219,19 @@ func (cm *CertManager) Certificates() ([]tls.Certificate, *x509.CertPool) {
 	return certs, certPool
 }
 
+// Empty returns true if there are no certificates, no ca certificates installed and
+// no changes in progress.
+func (cm *CertManager) Empty() bool {
+	cm.mu.RLock()
+	defer cm.mu.RUnlock()
+	cm.muLock.RLock()
+	defer cm.muLock.RUnlock()
+	return len(cm.certs) == 0 && len(cm.caBundle) == 0 && len(cm.locks) == 0
+}
+
 func (cm *CertManager) locked(certID string) bool {
-	cm.muLock.Lock()
-	defer cm.muLock.Unlock()
+	cm.muLock.RLock()
+	defer cm.muLock.RUnlock()
 	_, ok := cm.locks[certID]
 	return ok
 }
@@ -284,8 +294,8 @@ func (cm *CertManager) GenCSR(params *pb.CSRParams) (*pb.CSR, error) {
 
 // Get returns all the Certificates and their Certificate IDs.
 func (cm *CertManager) Get() ([]*pb.CertificateInfo, error) {
-	cm.mu.Lock()
-	defer cm.mu.Unlock()
+	cm.mu.RLock()
+	defer cm.mu.RUnlock()
 	r := []*pb.CertificateInfo{}
 	for certID, cert := range cm.certs {
 		r = append(r, &pb.CertificateInfo{

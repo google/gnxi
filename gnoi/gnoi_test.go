@@ -9,14 +9,11 @@ import (
 )
 
 func TestServer(t *testing.T) {
-	s, err := NewServer(nil)
+	s, err := NewServer(nil, nil)
 	if err != nil {
 		t.Fatal("failed to Create Server:", err)
 	}
-	g, err := s.PrepareEncrypted()
-	if err != nil {
-		t.Fatal("failed to prepare encrypted gRPC Server:", err)
-	}
+	g := s.PrepareEncrypted()
 
 	// g = s.PrepareAuthenticated()
 	s.RegCertificateManagement(g)
