@@ -6,7 +6,9 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"crypto/x509/pkix"
+	"encoding/pem"
 	"fmt"
+	"io"
 	"net"
 	"sync"
 	"time"
@@ -253,7 +255,16 @@ func (cm *CertManager) unlock(certID string) {
 	return
 }
 
-var createCSR = x509.CreateCertificateRequest
+var createCSR = func(rand io.Reader, template *x509.CertificateRequest, priv interface{}) ([]byte, error) {
+	der, err := x509.CreateCertificateRequest(rand, template, priv)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create CSR: %v", err)
+	}
+	return pem.EncodeToMemory(&pem.Block{
+		Type:  "CERTIFICATE REQUEST",
+		Bytes: der,
+	}), nil
+}
 
 // GenCSR generates and returns a CSR based on the provided parameters.
 func (cm *CertManager) GenCSR(params *pb.CSRParams) (*pb.CSR, error) {
@@ -282,13 +293,13 @@ func (cm *CertManager) GenCSR(params *pb.CSRParams) (*pb.CSR, error) {
 	} else {
 		template.DNSNames = []string{params.IpAddress}
 	}
-	csr, err := createCSR(rand.Reader, template, cm.privateKey)
+	pemCSR, err := createCSR(rand.Reader, template, cm.privateKey)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create CSR: %v", err)
 	}
 	return &pb.CSR{
 		Type: pb.CertificateType_CT_X509,
-		Csr:  csr,
+		Csr:  pemCSR,
 	}, nil
 }
 
@@ -431,26 +442,198 @@ func NewCertClient(c *grpc.ClientConn) *CertClient {
 }
 
 // Rotate rotates a certificate.
-func (c *CertClient) Rotate(ctx context.Context, params pkix.Name, sign func(*x509.CertificateRequest) *x509.Certificate, validate func() bool) error {
+func (c *CertClient) Rotate(ctx context.Context, certID string, params pkix.Name, sign func(*x509.CertificateRequest) (*x509.Certificate, error), validate func() bool) error {
+	stream, err := c.client.Rotate(ctx)
+	if err != nil {
+		return fmt.Errorf("failed stream: %v", err)
+	}
+	if err = stream.Send(&pb.RotateCertificateRequest{
+		RotateRequest: &pb.RotateCertificateRequest_GenerateCsr{
+			GenerateCsr: &pb.GenerateCSRRequest{
+				CsrParams: &pb.CSRParams{
+					Type:       pb.CertificateType_CT_X509,
+					MinKeySize: 128,
+					KeyType:    pb.KeyType_KT_RSA,
+					CommonName: params.CommonName,
+					// Country:            params.Country,
+					// Organization:       params.Organization,
+					// OrganizationalUnit: params.OrganizationalUnit,
+				},
+			},
+		},
+	}); err != nil {
+		return fmt.Errorf("failed to send GenerateCSRRequest: %v", err)
+	}
+	var req *pb.RotateCertificateResponse
+	if req, err = stream.Recv(); err != nil {
+		return fmt.Errorf("failed to receive RotateCertificateResponse: %v", err)
+	}
+	genCSR := req.GetGeneratedCsr()
+	if genCSR == nil || genCSR.Csr == nil {
+		return fmt.Errorf("expected GenerateCSRRequest, got something else")
+	}
+
+	derCSR, _ := pem.Decode(genCSR.Csr.Csr)
+	if derCSR == nil {
+		return fmt.Errorf("failed to decode CSR PEM block")
+	}
+
+	csr, err := x509.ParseCertificateRequest(derCSR.Bytes)
+	if err != nil {
+		return fmt.Errorf("failed to parse CSR DER")
+	}
+
+	signedCert, err := sign(csr)
+	if err != nil {
+		return fmt.Errorf("failed to sign the CSR: %v", err)
+	}
+
+	certPEM := EncodeCert(signedCert)
+
+	if err = stream.Send(&pb.RotateCertificateRequest{
+		RotateRequest: &pb.RotateCertificateRequest_LoadCertificate{
+			LoadCertificate: &pb.LoadCertificateRequest{
+				Certificate: &pb.Certificate{
+					Type:        pb.CertificateType_CT_X509,
+					Certificate: certPEM,
+				},
+				KeyPair:       nil,
+				CertificateId: certID,
+			},
+		},
+	}); err != nil {
+		return fmt.Errorf("failed to send LoadCertificateRequest: %v", err)
+	}
+	if req, err = stream.Recv(); err != nil {
+		return fmt.Errorf("failed to receive RotateCertificateResponse: %v", err)
+	}
+	loadCertificateResponse := req.GetLoadCertificate()
+	if loadCertificateResponse == nil {
+		return fmt.Errorf("expected LoadCertificateResponse, got something else")
+	}
+
+	// Verify here.
+	if err := stream.Send(&pb.RotateCertificateRequest{
+		RotateRequest: &pb.RotateCertificateRequest_FinalizeRotation{FinalizeRotation: &pb.FinalizeRequest{}},
+	}); err != nil {
+		return fmt.Errorf("failed to send LoadCertificateRequest: %v", err)
+	}
 	return nil
 }
 
 // Install installs a certificate.
-func (c *CertClient) Install(ctx context.Context, params pkix.Name, signer func(*x509.CertificateRequest) *x509.Certificate) error {
+func (c *CertClient) Install(ctx context.Context, certID string, params pkix.Name, sign func(*x509.CertificateRequest) (*x509.Certificate, error)) error {
+	stream, err := c.client.Install(ctx)
+	if err != nil {
+		return fmt.Errorf("failed stream: %v", err)
+	}
+
+	if err = stream.Send(&pb.InstallCertificateRequest{
+		InstallRequest: &pb.InstallCertificateRequest_GenerateCsr{
+			GenerateCsr: &pb.GenerateCSRRequest{CsrParams: &pb.CSRParams{
+				Type:       pb.CertificateType_CT_X509,
+				MinKeySize: 128,
+				KeyType:    pb.KeyType_KT_RSA,
+				CommonName: params.CommonName,
+				// Country:            params.Country,
+				// Organization:       params.Organization,
+				// OrganizationalUnit: params.OrganizationalUnit,
+			}},
+		},
+	}); err != nil {
+		return fmt.Errorf("failed to send GenerateCSRRequest: %v", err)
+	}
+
+	var req *pb.InstallCertificateResponse
+	if req, err = stream.Recv(); err != nil {
+		return fmt.Errorf("failed to receive InstallCertificateResponse: %v", err)
+	}
+
+	genCSR := req.GetGeneratedCsr()
+	if genCSR == nil || genCSR.Csr == nil {
+		return fmt.Errorf("expected GenerateCSRRequest, got something else")
+	}
+
+	derCSR, _ := pem.Decode(genCSR.Csr.Csr)
+	if derCSR == nil {
+		return fmt.Errorf("failed to decode CSR PEM block")
+	}
+
+	csr, err := x509.ParseCertificateRequest(derCSR.Bytes)
+	if err != nil {
+		return fmt.Errorf("failed to parse CSR DER")
+	}
+
+	signedCert, err := sign(csr)
+	if err != nil {
+		return fmt.Errorf("failed to sign the CSR: %v", err)
+	}
+
+	certPEM := EncodeCert(signedCert)
+
+	if err = stream.Send(&pb.InstallCertificateRequest{
+		InstallRequest: &pb.InstallCertificateRequest_LoadCertificate{
+			LoadCertificate: &pb.LoadCertificateRequest{
+				Certificate: &pb.Certificate{
+					Type:        pb.CertificateType_CT_X509,
+					Certificate: certPEM,
+				},
+				KeyPair:       nil,
+				CertificateId: certID,
+			},
+		},
+	}); err != nil {
+		return fmt.Errorf("failed to send LoadCertificateRequest: %v", err)
+	}
+
+	if req, err = stream.Recv(); err != nil {
+		return fmt.Errorf("failed to receive InstallCertificateResponse: %v", err)
+	}
+	loadCertificateResponse := req.GetLoadCertificate()
+	if loadCertificateResponse == nil {
+		return fmt.Errorf("expected LoadCertificateResponse, got something else")
+	}
 	return nil
 }
 
 // GetCertificates gets a map of certificates in the target, certID to certificate
-func (c *CertClient) GetCertificates(ctx context.Context) (map[string]x509.Certificate, error) {
-	return nil, nil
+func (c *CertClient) GetCertificates(ctx context.Context) (map[string]*x509.Certificate, error) {
+	out, err := c.client.GetCertificates(ctx, &pb.GetCertificatesRequest{})
+	if err != nil {
+		return nil, err
+	}
+	ret := map[string]*x509.Certificate{}
+	for _, certInfo := range out.CertificateInfo {
+		if certInfo.Certificate == nil {
+			continue
+		}
+		x509Cert, err := DecodeCert(certInfo.Certificate.Certificate)
+		if err != nil {
+			return nil, fmt.Errorf("failed to decode certificate: %v", err)
+		}
+		ret[certInfo.CertificateId] = x509Cert
+	}
+	return ret, nil
 }
 
 // RevokeCertificates revokes certificates in the target, returns a map of certID to error for the ones that failed to be revoked.
 func (c *CertClient) RevokeCertificates(ctx context.Context, certIDs []string) (map[string]string, error) {
-	return nil, nil
+	out, err := c.client.RevokeCertificates(ctx, &pb.RevokeCertificatesRequest{CertificateId: certIDs})
+	if err != nil {
+		return nil, err
+	}
+	ret := map[string]string{}
+	for _, revError := range out.CertificateRevocationError {
+		ret[revError.CertificateId] = revError.ErrorMessage
+	}
+	return ret, nil
 }
 
 // CanGenerateCSR checks if the target can generate a CSR.
 func (c *CertClient) CanGenerateCSR(ctx context.Context) (bool, error) {
-	return false, nil
+	out, err := c.client.CanGenerateCSR(ctx, &pb.CanGenerateCSRRequest{})
+	if err != nil {
+		return false, err
+	}
+	return out.CanGenerate, nil
 }
