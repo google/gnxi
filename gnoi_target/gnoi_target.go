@@ -1,5 +1,42 @@
 package main
 
+import (
+	"flag"
+	"net"
+
+	"github.com/google/gnxi/gnoi"
+
+	log "github.com/golang/glog"
+)
+
+var (
+	conString = "127.0.0.1:45444"
+)
+
+func main() {
+	flag.Parse()
+
+	log.Info("Starting gNOI server.")
+	g, err := gnoi.NewServer(nil, nil)
+	if err != nil {
+		log.Fatal("Failed to create gNOI Server:", err)
+	}
+
+	listen, err := net.Listen("tcp", conString)
+	if err != nil {
+		log.Fatal("Failed to listen:", err)
+	}
+
+	grpcServer := g.PrepareEncrypted()
+	g.RegCertificateManagement(grpcServer)
+
+	if err := grpcServer.Serve(listen); err != nil {
+		log.Fatal("Failed to serve:", err)
+	}
+
+	log.Info("Graceful exit.")
+}
+
 // NewBootstrappingServer returns a new BootstrappingServer.
 // func NewBootstrappingServer(privateKey crypto.PrivateKey, defaultCertificate *tls.Certificate) (*BootstrappingServer, error) {
 // 	s, err := NewServer(privateKey, defaultCertificate)
@@ -45,5 +82,3 @@ package main
 //
 // 	return serve, stop
 // }
-
-func main() {}

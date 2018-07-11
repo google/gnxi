@@ -86,34 +86,3 @@ func (s *Server) RegCertificateManagement(g *grpc.Server) {
 func (s *Server) HasCredentials() bool {
 	return !s.certManager.Empty()
 }
-
-// func Client(targetAddr string, certificates []tls.Certificate, caPool *x509.CertPool) error {
-// 	opts := []grpc.DialOption{}
-// 	tlsConfig := &tls.Config{}
-//
-// 	tlsConfig.InsecureSkipVerify = true
-// 	tlsConfig.ServerName = "server"
-// 	tlsConfig.Certificates = certificates
-// 	tlsConfig.RootCAs = caPool
-// 	opts = append(opts, grpc.WithTransportCredentials(credentials.NewTLS(tlsConfig)))
-//
-// 	conn, err := grpc.Dial(targetAddr, opts...)
-// 	if err != nil {
-// 		log.Exitf("Dialing to %q failed: %v", targetAddr, err)
-// 	}
-// 	defer conn.Close()
-//
-// 	client := pb.NewCertificateManagementClient(conn)
-//
-// 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
-// 	defer cancel()
-//
-// 	_, err = client.GetCertificates(ctx, &pb.GetCertificatesRequest{})
-// 	if err != nil {
-// 		log.Errorf("Hello failed: %v", err)
-// 	} else {
-// 		log.Info("Received Hello")
-// 	}
-//
-// 	return err
-// }

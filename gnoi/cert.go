@@ -631,7 +631,11 @@ func (c *CertClient) RevokeCertificates(ctx context.Context, certIDs []string) (
 
 // CanGenerateCSR checks if the target can generate a CSR.
 func (c *CertClient) CanGenerateCSR(ctx context.Context) (bool, error) {
-	out, err := c.client.CanGenerateCSR(ctx, &pb.CanGenerateCSRRequest{})
+	out, err := c.client.CanGenerateCSR(ctx, &pb.CanGenerateCSRRequest{
+		KeyType:         pb.KeyType_KT_RSA,
+		CertificateType: pb.CertificateType_CT_X509,
+		KeySize:         128,
+	})
 	if err != nil {
 		return false, err
 	}
