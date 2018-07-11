@@ -8,10 +8,9 @@ import (
 	"crypto/tls"
 	"fmt"
 
+	"github.com/google/gnxi/utils/entity"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
-
-	"github.com/google/gnxi/utils/entity"
 )
 
 var (

@@ -409,3 +409,38 @@ func (cm *CertManager) Rotate(r *pb.LoadCertificateRequest) (func(), func(), err
 
 	return accept, rollback, nil
 }
+
+// CertClient is a Certificate Management service client.
+type CertClient struct {
+	client pb.CertificateManagementClient
+}
+
+// NewCertClient returns a new CertClient.
+func NewCertClient(c *grpc.ClientConn) *CertClient {
+	return &CertClient{client: pb.NewCertificateManagementClient(c)}
+}
+
+// Rotate rotates a certificate.
+func (c *CertClient) Rotate(ctx context.Context, params pkix.Name, sign func(*x509.CertificateRequest) *x509.Certificate, validate func() bool) error {
+	return nil
+}
+
+// Install installs a certificate.
+func (c *CertClient) Install(ctx context.Context, params pkix.Name, signer func(*x509.CertificateRequest) *x509.Certificate) error {
+	return nil
+}
+
+// GetCertificates gets a map of certificates in the target, certID to certificate
+func (c *CertClient) GetCertificates(ctx context.Context) (map[string]x509.Certificate, error) {
+	return nil, nil
+}
+
+// RevokeCertificates revokes certificates in the target, returns a map of certID to error for the ones that failed to be revoked.
+func (c *CertClient) RevokeCertificates(ctx context.Context, certIDs []string) (map[string]string, error) {
+	return nil, nil
+}
+
+// CanGenerateCSR checks if the target can generate a CSR.
+func (c *CertClient) CanGenerateCSR(ctx context.Context) (bool, error) {
+	return false, nil
+}
