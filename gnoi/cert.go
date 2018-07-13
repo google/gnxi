@@ -9,13 +9,13 @@ import (
 	"encoding/pem"
 	"fmt"
 	"io"
-	"net"
 	"sync"
 	"time"
 
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
+	log "github.com/golang/glog"
 	pb "github.com/google/gnxi/gnoi/certpb"
 )
 
@@ -48,17 +48,25 @@ func (s *CertServer) Rotate(stream pb.CertificateManagement_RotateServer) error 
 	var resp *pb.RotateCertificateRequest
 	var err error
 
+	log.Info("Start Rotate request.")
+
 	if resp, err = stream.Recv(); err != nil {
-		return fmt.Errorf("failed to receive RotateCertificateRequest: %v", err)
+		rerr := fmt.Errorf("failed to receive RotateCertificateRequest: %v", err)
+		log.Error(rerr)
+		return rerr
 	}
 	genCSRRequest := resp.GetGenerateCsr()
 	if genCSRRequest == nil {
-		return fmt.Errorf("expected GenerateCSRRequest, got something else")
+		rerr := fmt.Errorf("expected GenerateCSRRequest, got something else")
+		log.Error(rerr)
+		return rerr
 	}
 
 	csr, err := s.certInterface.GenCSR(genCSRRequest.CsrParams)
 	if err != nil {
-		return fmt.Errorf("failed to generate CSR: %v", err)
+		rerr := fmt.Errorf("failed to generate CSR: %v", err)
+		log.Error(rerr)
+		return rerr
 	}
 
 	if err = stream.Send(&pb.RotateCertificateResponse{
@@ -66,20 +74,28 @@ func (s *CertServer) Rotate(stream pb.CertificateManagement_RotateServer) error 
 			GeneratedCsr: &pb.GenerateCSRResponse{Csr: csr},
 		},
 	}); err != nil {
-		return fmt.Errorf("failed to send GenerateCSRResponse: %v", err)
+		rerr := fmt.Errorf("failed to send GenerateCSRResponse: %v", err)
+		log.Error(rerr)
+		return rerr
 	}
 
 	if resp, err = stream.Recv(); err != nil {
-		return fmt.Errorf("failed to receive RotateCertificateRequest: %v", err)
+		rerr := fmt.Errorf("failed to receive RotateCertificateRequest: %v", err)
+		log.Error(rerr)
+		return rerr
 	}
 	loadCertificateRequest := resp.GetLoadCertificate()
 	if loadCertificateRequest == nil {
-		return fmt.Errorf("expected LoadCertificateRequest, got something else")
+		rerr := fmt.Errorf("expected LoadCertificateRequest, got something else")
+		log.Error(rerr)
+		return rerr
 	}
 
 	rotateAccept, rotateBack, err := s.certInterface.Rotate(loadCertificateRequest)
 	if err != nil {
-		return fmt.Errorf("failed to load the Certificate: %v", err)
+		rerr := fmt.Errorf("failed to load the Certificate: %v", err)
+		log.Error(rerr)
+		return rerr
 	}
 
 	if err = stream.Send(&pb.RotateCertificateResponse{
@@ -87,19 +103,26 @@ func (s *CertServer) Rotate(stream pb.CertificateManagement_RotateServer) error 
 			LoadCertificate: &pb.LoadCertificateResponse{},
 		},
 	}); err != nil {
-		return fmt.Errorf("failed to send LoadCertificateResponse: %v", err)
+		rerr := fmt.Errorf("failed to send LoadCertificateResponse: %v", err)
+		log.Error(rerr)
+		return rerr
 	}
 
 	if resp, err = stream.Recv(); err != nil {
 		rotateBack()
-		return fmt.Errorf("rolling back - failed to receive RotateCertificateRequest: %v", err)
+		rerr := fmt.Errorf("rolling back - failed to receive RotateCertificateRequest: %v", err)
+		log.Error(rerr)
+		return rerr
 	}
 	finalize := resp.GetFinalizeRotation()
 	if finalize == nil {
 		rotateBack()
-		return fmt.Errorf("expected FinalizeRequest, got something else")
+		rerr := fmt.Errorf("expected FinalizeRequest, got something else")
+		log.Error(rerr)
+		return rerr
 	}
 	rotateAccept()
+	log.Info("Success Rotate request.")
 
 	return nil
 }
@@ -108,18 +131,25 @@ func (s *CertServer) Rotate(stream pb.CertificateManagement_RotateServer) error 
 func (s *CertServer) Install(stream pb.CertificateManagement_InstallServer) error {
 	var resp *pb.InstallCertificateRequest
 	var err error
+	log.Info("Start Install request.")
 
 	if resp, err = stream.Recv(); err != nil {
-		return fmt.Errorf("failed to receive InstallCertificateRequest: %v", err)
+		rerr := fmt.Errorf("failed to receive InstallCertificateRequest: %v", err)
+		log.Error(rerr)
+		return rerr
 	}
 	genCSRRequest := resp.GetGenerateCsr()
 	if genCSRRequest == nil {
-		return fmt.Errorf("expected GenerateCSRRequest, got something else")
+		rerr := fmt.Errorf("expected GenerateCSRRequest, got something else")
+		log.Error(rerr)
+		return rerr
 	}
 
 	csr, err := s.certInterface.GenCSR(genCSRRequest.CsrParams)
 	if err != nil {
-		return fmt.Errorf("failed to generate CSR: %v", err)
+		rerr := fmt.Errorf("failed to generate CSR: %v", err)
+		log.Error(rerr)
+		return rerr
 	}
 
 	if err = stream.Send(&pb.InstallCertificateResponse{
@@ -127,18 +157,26 @@ func (s *CertServer) Install(stream pb.CertificateManagement_InstallServer) erro
 			GeneratedCsr: &pb.GenerateCSRResponse{Csr: csr},
 		},
 	}); err != nil {
-		return fmt.Errorf("failed to send GenerateCSRResponse: %v", err)
+		rerr := fmt.Errorf("failed to send GenerateCSRResponse: %v", err)
+		log.Error(rerr)
+		return rerr
 	}
 
 	if resp, err = stream.Recv(); err != nil {
-		return fmt.Errorf("failed to receive InstallCertificateRequest: %v", err)
+		rerr := fmt.Errorf("failed to receive InstallCertificateRequest: %v", err)
+		log.Error(rerr)
+		return rerr
 	}
 	loadCertificateRequest := resp.GetLoadCertificate()
 	if loadCertificateRequest == nil {
-		return fmt.Errorf("expected LoadCertificateRequest, got something else")
+		rerr := fmt.Errorf("expected LoadCertificateRequest, got something else")
+		log.Error(rerr)
+		return rerr
 	}
 	if err := s.certInterface.Install(loadCertificateRequest); err != nil {
-		return fmt.Errorf("failed to load the Certificate: %v", err)
+		rerr := fmt.Errorf("failed to load the Certificate: %v", err)
+		log.Error(rerr)
+		return rerr
 	}
 
 	if err := stream.Send(&pb.InstallCertificateResponse{
@@ -146,24 +184,31 @@ func (s *CertServer) Install(stream pb.CertificateManagement_InstallServer) erro
 			LoadCertificate: &pb.LoadCertificateResponse{},
 		},
 	}); err != nil {
-		return fmt.Errorf("failed to send LoadCertificateResponse: %v", err)
+		rerr := fmt.Errorf("failed to send LoadCertificateResponse: %v", err)
+		log.Error(rerr)
+		return rerr
 	}
+
+	log.Info("Success Install request.")
 	return nil
 }
 
 // GetCertificates returns installed certificates.
 func (s *CertServer) GetCertificates(ctx context.Context, request *pb.GetCertificatesRequest) (*pb.GetCertificatesResponse, error) {
+	log.Info("GetCertificates request.")
 	certInfo, err := s.certInterface.Get()
 	return &pb.GetCertificatesResponse{CertificateInfo: certInfo}, err
 }
 
 // RevokeCertificates revokes certificates.
 func (s *CertServer) RevokeCertificates(ctx context.Context, request *pb.RevokeCertificatesRequest) (*pb.RevokeCertificatesResponse, error) {
+	log.Info("RevokeCertificates request.")
 	return s.certInterface.Revoke(request)
 }
 
 // CanGenerateCSR returns if it can generate CSRs with the given properties.
 func (s *CertServer) CanGenerateCSR(ctx context.Context, request *pb.CanGenerateCSRRequest) (*pb.CanGenerateCSRResponse, error) {
+	log.Info("CanGenerateCSR request.")
 	return &pb.CanGenerateCSRResponse{CanGenerate: request.KeyType == pb.KeyType_KT_RSA && request.CertificateType == pb.CertificateType_CT_X509 && request.KeySize >= 128}, nil
 }
 
@@ -242,7 +287,9 @@ func (cm *CertManager) lock(certID string) error {
 	cm.muLock.Lock()
 	defer cm.muLock.Unlock()
 	if _, ok := cm.locks[certID]; ok {
-		return fmt.Errorf("an operation with certID %q is already in progress", certID)
+		err := fmt.Errorf("an operation with certID %q is already in progress", certID)
+		log.Error(err)
+		return err
 	}
 	cm.locks[certID] = true
 	return nil
@@ -283,16 +330,9 @@ func (cm *CertManager) GenCSR(params *pb.CSRParams) (*pb.CSR, error) {
 	}
 	template := &x509.CertificateRequest{
 		Subject:            subject,
-		EmailAddresses:     []string{params.EmailId},
 		SignatureAlgorithm: x509.SHA256WithRSA,
 	}
 
-	address := net.ParseIP(params.IpAddress)
-	if address != nil {
-		template.IPAddresses = []net.IP{address}
-	} else {
-		template.DNSNames = []string{params.IpAddress}
-	}
 	pemCSR, err := createCSR(rand.Reader, template, cm.privateKey)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create CSR: %v", err)
@@ -349,6 +389,7 @@ func (cm *CertManager) Install(r *pb.LoadCertificateRequest) error {
 		cm.caBundle = certificates
 	}
 
+	log.Infof("Got %d certificates and %d ca certificates.", len(cm.certs), len(cm.caBundle))
 	return nil
 }
 
@@ -381,6 +422,7 @@ func (cm *CertManager) Revoke(req *pb.RevokeCertificatesRequest) (*pb.RevokeCert
 		}
 		resp.CertificateRevocationError = append(resp.CertificateRevocationError, revErr)
 	}
+	log.Infof("Got %d certificates and %d ca certificates.", len(cm.certs), len(cm.caBundle))
 	return resp, nil
 }
 
@@ -422,12 +464,14 @@ func (cm *CertManager) Rotate(r *pb.LoadCertificateRequest) (func(), func(), err
 			cm.caBundle = oldCABundle
 		}
 		cm.unlock(certID)
+		log.Infof("Got %d certificates and %d ca certificates.", len(cm.certs), len(cm.caBundle))
 	}
 
 	accept := func() {
 		cm.unlock(certID)
 	}
 
+	log.Infof("Got %d certificates and %d ca certificates.", len(cm.certs), len(cm.caBundle))
 	return accept, rollback, nil
 }
 
@@ -442,7 +486,7 @@ func NewCertClient(c *grpc.ClientConn) *CertClient {
 }
 
 // Rotate rotates a certificate.
-func (c *CertClient) Rotate(ctx context.Context, certID string, params pkix.Name, sign func(*x509.CertificateRequest) (*x509.Certificate, error), validate func() bool) error {
+func (c *CertClient) Rotate(ctx context.Context, certID string, params pkix.Name, sign func(*x509.CertificateRequest) (*x509.Certificate, error), caBundle []*x509.Certificate, validate func() error) error {
 	stream, err := c.client.Rotate(ctx)
 	if err != nil {
 		return fmt.Errorf("failed stream: %v", err)
@@ -490,6 +534,14 @@ func (c *CertClient) Rotate(ctx context.Context, certID string, params pkix.Name
 
 	certPEM := EncodeCert(signedCert)
 
+	caCertificates := []*pb.Certificate{}
+	for _, caCert := range caBundle {
+		caCertificates = append(caCertificates, &pb.Certificate{
+			Type:        pb.CertificateType_CT_X509,
+			Certificate: EncodeCert(caCert),
+		})
+	}
+
 	if err = stream.Send(&pb.RotateCertificateRequest{
 		RotateRequest: &pb.RotateCertificateRequest_LoadCertificate{
 			LoadCertificate: &pb.LoadCertificateRequest{
@@ -499,6 +551,7 @@ func (c *CertClient) Rotate(ctx context.Context, certID string, params pkix.Name
 				},
 				KeyPair:       nil,
 				CertificateId: certID,
+				CaCertificate: caCertificates,
 			},
 		},
 	}); err != nil {
@@ -512,7 +565,10 @@ func (c *CertClient) Rotate(ctx context.Context, certID string, params pkix.Name
 		return fmt.Errorf("expected LoadCertificateResponse, got something else")
 	}
 
-	// Verify here.
+	if err := validate(); err != nil {
+		return fmt.Errorf("failed to validate rotated certificate: %v", err)
+	}
+
 	if err := stream.Send(&pb.RotateCertificateRequest{
 		RotateRequest: &pb.RotateCertificateRequest_FinalizeRotation{FinalizeRotation: &pb.FinalizeRequest{}},
 	}); err != nil {
@@ -522,7 +578,7 @@ func (c *CertClient) Rotate(ctx context.Context, certID string, params pkix.Name
 }
 
 // Install installs a certificate.
-func (c *CertClient) Install(ctx context.Context, certID string, params pkix.Name, sign func(*x509.CertificateRequest) (*x509.Certificate, error)) error {
+func (c *CertClient) Install(ctx context.Context, certID string, params pkix.Name, sign func(*x509.CertificateRequest) (*x509.Certificate, error), caBundle []*x509.Certificate) error {
 	stream, err := c.client.Install(ctx)
 	if err != nil {
 		return fmt.Errorf("failed stream: %v", err)
@@ -571,6 +627,14 @@ func (c *CertClient) Install(ctx context.Context, certID string, params pkix.Nam
 
 	certPEM := EncodeCert(signedCert)
 
+	caCertificates := []*pb.Certificate{}
+	for _, caCert := range caBundle {
+		caCertificates = append(caCertificates, &pb.Certificate{
+			Type:        pb.CertificateType_CT_X509,
+			Certificate: EncodeCert(caCert),
+		})
+	}
+
 	if err = stream.Send(&pb.InstallCertificateRequest{
 		InstallRequest: &pb.InstallCertificateRequest_LoadCertificate{
 			LoadCertificate: &pb.LoadCertificateRequest{
@@ -580,6 +644,7 @@ func (c *CertClient) Install(ctx context.Context, certID string, params pkix.Nam
 				},
 				KeyPair:       nil,
 				CertificateId: certID,
+				CaCertificate: caCertificates,
 			},
 		},
 	}); err != nil {
