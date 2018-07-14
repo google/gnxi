@@ -4,7 +4,6 @@ import (
 	"flag"
 	"net"
 	"sync"
-	"time"
 
 	"github.com/google/gnxi/gnoi"
 	"google.golang.org/grpc"
@@ -40,8 +39,9 @@ func main() {
 	}
 
 	bootstrapping := false
-	for {
-		if bootstrapping != !g.HasCredentials() {
+	notifier := func(certs, caCerts int) {
+		hasCredentials := certs != 0 && caCerts != 0
+		if bootstrapping != !hasCredentials {
 			if bootstrapping {
 				log.Info("Found Credentials, setting Provisioned state.")
 				grpcServer.GracefulStop()
@@ -58,6 +58,10 @@ func main() {
 			bootstrapping = !bootstrapping
 			go serve()
 		}
-		time.Sleep(time.Second)
 	}
+
+	g.RegisterNotifier(notifier)
+	notifier(0, 0)
+
+	select {}
 }

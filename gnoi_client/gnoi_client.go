@@ -10,7 +10,8 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/google/gnxi/gnoi"
+	"github.com/google/gnxi/gnoi/cert"
+
 	"github.com/google/gnxi/utils/entity"
 	"github.com/kylelemons/godebug/pretty"
 	"google.golang.org/grpc"
@@ -24,7 +25,7 @@ var (
 	myClientCA *entity.Entity
 	myTargetCA *entity.Entity
 	conString  = "127.0.0.1:45444"
-	client     *gnoi.CertClient
+	client     *cert.Client
 )
 
 func sign(csr *x509.CertificateRequest) (*x509.Certificate, error) {
@@ -94,7 +95,7 @@ func gnoiEncrypted(c tls.Certificate) *grpc.ClientConn {
 		log.Fatal("Failed dial to %q: %v", conString, err)
 	}
 
-	client = gnoi.NewCertClient(conn)
+	client = cert.NewClient(conn)
 	return conn
 }
 
@@ -113,7 +114,7 @@ func gnoiAuthenticated(c tls.Certificate) *grpc.ClientConn {
 		log.Fatal("Failed dial to %q: %v", conString, err)
 	}
 
-	client = gnoi.NewCertClient(conn)
+	client = cert.NewClient(conn)
 	return conn
 }
 
@@ -148,7 +149,7 @@ func main() {
 	install("id1", "targetCert")
 	encryptedConn.Close()
 
-	time.Sleep(3 * time.Second)
+	time.Sleep(1 * time.Second)
 
 	authenticatedConn := gnoiAuthenticated(*clientCert.Certificate)
 	getCerts()

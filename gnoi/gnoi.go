@@ -8,6 +8,7 @@ import (
 	"crypto/tls"
 	"fmt"
 
+	"github.com/google/gnxi/gnoi/cert"
 	"github.com/google/gnxi/utils/entity"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
@@ -19,8 +20,8 @@ var (
 
 // Server does blah.
 type Server struct {
-	certServer         *CertServer
-	certManager        *CertManager
+	certServer         *cert.Server
+	certManager        *cert.Manager
 	defaultCertificate *tls.Certificate
 }
 
@@ -41,8 +42,8 @@ func NewServer(privateKey crypto.PrivateKey, defaultCertificate *tls.Certificate
 		defaultCertificate = e.Certificate
 	}
 
-	certManager := NewCertManager(defaultCertificate.PrivateKey)
-	certServer := NewCertServer(certManager)
+	certManager := cert.NewManager(defaultCertificate.PrivateKey)
+	certServer := cert.NewServer(certManager)
 	return &Server{
 		certServer:         certServer,
 		certManager:        certManager,
@@ -85,4 +86,10 @@ func (s *Server) RegCertificateManagement(g *grpc.Server) {
 // HasCredentials returns true if the Certificate Manager has certificates configured.
 func (s *Server) HasCredentials() bool {
 	return !s.certManager.Empty()
+}
+
+// RegisterNotifier registers a function that will be called everytime the number
+// of Certificates or CA Certificates changes.
+func (s *Server) RegisterNotifier(f cert.Notifier) {
+	s.certManager.RegisterNotifier(f)
 }

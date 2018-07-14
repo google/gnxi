@@ -1,4 +1,4 @@
-package gnoi
+package cert
 
 import (
 	"crypto/x509"
