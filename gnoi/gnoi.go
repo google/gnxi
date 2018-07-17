@@ -67,7 +67,7 @@ func (s *Server) PrepareEncrypted() *grpc.Server {
 // running with full encryption and authentication.
 func (s *Server) PrepareAuthenticated() *grpc.Server {
 	config := func(*tls.ClientHelloInfo) (*tls.Config, error) {
-		tlsCerts, x509Pool := s.certManager.Certificates()
+		tlsCerts, x509Pool := s.certManager.TLSCertificates()
 		return &tls.Config{
 			ClientAuth:   tls.RequireAndVerifyClientCert,
 			Certificates: tlsCerts,
@@ -81,11 +81,6 @@ func (s *Server) PrepareAuthenticated() *grpc.Server {
 // RegCertificateManagement registers the Certificate Management service in the gRPC Server.
 func (s *Server) RegCertificateManagement(g *grpc.Server) {
 	s.certServer.Register(g)
-}
-
-// HasCredentials returns true if the Certificate Manager has certificates configured.
-func (s *Server) HasCredentials() bool {
-	return !s.certManager.Empty()
 }
 
 // RegisterNotifier registers a function that will be called everytime the number

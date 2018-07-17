@@ -25,7 +25,7 @@ func Diff(x, y interface{}) string {
 }
 
 // EncodeCert encodes a x509.Certificate into a PEM block.
-func EncodeCert(cert *x509.Certificate) []byte {
+func x509toPEM(cert *x509.Certificate) []byte {
 	return pem.EncodeToMemory(&pem.Block{
 		Type:  "CERTIFICATE",
 		Bytes: cert.Raw,
@@ -33,7 +33,7 @@ func EncodeCert(cert *x509.Certificate) []byte {
 }
 
 // DecodeCert decodes a PEM block into a x509.Certificate.
-func DecodeCert(bytes []byte) (*x509.Certificate, error) {
+func PEMtox509(bytes []byte) (*x509.Certificate, error) {
 	certDERBlock, _ := pem.Decode(bytes)
 	if certDERBlock == nil {
 		return nil, fmt.Errorf("failed to decode PEM block")
@@ -43,17 +43,4 @@ func DecodeCert(bytes []byte) (*x509.Certificate, error) {
 		return nil, fmt.Errorf("failed to decode DER bytes")
 	}
 	return certificate, nil
-}
-
-// DecodeCerts decodes a slice of PEM blocks into a slice of x509.Certificate.
-func DecodeCerts(certs [][]byte) ([]*x509.Certificate, error) {
-	res := []*x509.Certificate{}
-	for _, cert := range certs {
-		decoded, err := DecodeCert(cert)
-		if err != nil {
-			return nil, err
-		}
-		res = append(res, decoded)
-	}
-	return res, nil
 }

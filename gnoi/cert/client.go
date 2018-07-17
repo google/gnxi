@@ -68,13 +68,13 @@ func (c *Client) Rotate(ctx context.Context, certID string, params pkix.Name, si
 		return fmt.Errorf("failed to sign the CSR: %v", err)
 	}
 
-	certPEM := EncodeCert(signedCert)
+	certPEM := x509toPEM(signedCert)
 
 	caCertificates := []*pb.Certificate{}
 	for _, caCert := range caBundle {
 		caCertificates = append(caCertificates, &pb.Certificate{
 			Type:        pb.CertificateType_CT_X509,
-			Certificate: EncodeCert(caCert),
+			Certificate: x509toPEM(caCert),
 		})
 	}
 
@@ -161,13 +161,13 @@ func (c *Client) Install(ctx context.Context, certID string, params pkix.Name, s
 		return fmt.Errorf("failed to sign the CSR: %v", err)
 	}
 
-	certPEM := EncodeCert(signedCert)
+	certPEM := x509toPEM(signedCert)
 
 	caCertificates := []*pb.Certificate{}
 	for _, caCert := range caBundle {
 		caCertificates = append(caCertificates, &pb.Certificate{
 			Type:        pb.CertificateType_CT_X509,
-			Certificate: EncodeCert(caCert),
+			Certificate: x509toPEM(caCert),
 		})
 	}
 
@@ -208,7 +208,7 @@ func (c *Client) GetCertificates(ctx context.Context) (map[string]*x509.Certific
 		if certInfo.Certificate == nil {
 			continue
 		}
-		x509Cert, err := DecodeCert(certInfo.Certificate.Certificate)
+		x509Cert, err := PEMtox509(certInfo.Certificate.Certificate)
 		if err != nil {
 			return nil, fmt.Errorf("failed to decode certificate: %v", err)
 		}
