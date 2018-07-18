@@ -199,7 +199,7 @@ func revoke() {
 
 	revoked, err := client.RevokeCertificates(ctx, []string{*certID})
 	if err != nil {
-		log.Exitf("Failed RevokeCertificates:", err)
+		log.Exit("Failed RevokeCertificates:", err)
 	}
 	log.Info("RevokeCertificates:\n", pretty.Sprint(revoked))
 }
@@ -211,7 +211,7 @@ func check() {
 
 	resp, err := client.CanGenerateCSR(ctx)
 	if err != nil {
-		log.Exitf("Failed CanGenerateCSR:", err)
+		log.Exit("Failed CanGenerateCSR:", err)
 	}
 	log.Info("CanGenerateCSR:\n", pretty.Sprint(resp))
 }
@@ -223,7 +223,7 @@ func get() {
 
 	resp, err := client.GetCertificates(ctx)
 	if err != nil {
-		log.Exitf("Failed GetCertificates:", err)
+		log.Exit("Failed GetCertificates:", err)
 	}
 
 	pretty.DefaultFormatter[reflect.TypeOf(&x509.Certificate{})] = func(c *x509.Certificate) string {
