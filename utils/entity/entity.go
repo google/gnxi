@@ -1,7 +1,23 @@
+/* Copyright 2018 Google Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 // Package entity provides a lightweight method for generating certificates.
 package entity
 
 import (
+	"crypto"
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/sha1"
@@ -15,14 +31,16 @@ import (
 )
 
 var (
-	bigInt     = big.NewInt(0).Lsh(big.NewInt(1), 128)
-	rsaBitSize = 2048
-	randReader = rand.Reader
+	bigInt         = big.NewInt(0).Lsh(big.NewInt(1), 128)
+	rsaBitSize     = 2048
+	randReader     = rand.Reader
+	certMaxPathLen = 5
+	certExpiration = (365 * 24 * time.Hour)
 )
 
 // CreateSelfSigned creates an Entity with a self signed certificate.
-func CreateSelfSigned(cn string) (*Entity, error) {
-	ca, err := NewEntity(TemplateCA(cn))
+func CreateSelfSigned(cn string, priv crypto.PrivateKey) (*Entity, error) {
+	ca, err := NewEntity(TemplateCA(cn), priv)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create a new Entity: %v", err)
 	}
@@ -33,8 +51,8 @@ func CreateSelfSigned(cn string) (*Entity, error) {
 }
 
 // CreateSignedCA creates an Entity with a CA certificate signed by parent.
-func CreateSignedCA(cn string, parent *Entity) (*Entity, error) {
-	ca, err := NewEntity(TemplateCA(cn))
+func CreateSignedCA(cn string, priv crypto.PrivateKey, parent *Entity) (*Entity, error) {
+	ca, err := NewEntity(TemplateCA(cn), priv)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create a new Entity: %v", err)
 	}
@@ -45,8 +63,8 @@ func CreateSignedCA(cn string, parent *Entity) (*Entity, error) {
 }
 
 // CreateSigned creates an Entity with a certificate signed by parent.
-func CreateSigned(cn string, parent *Entity) (*Entity, error) {
-	ca, err := NewEntity(Template(cn))
+func CreateSigned(cn string, priv crypto.PrivateKey, parent *Entity) (*Entity, error) {
+	ca, err := NewEntity(Template(cn), priv)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create a new Entity: %v", err)
 	}
@@ -56,10 +74,11 @@ func CreateSigned(cn string, parent *Entity) (*Entity, error) {
 	return ca, nil
 }
 
-// Entity contains a certificate, associated template and private key.
+// Entity contains a certificate, associated template, public and private keys.
 type Entity struct {
 	Template    *x509.Certificate
-	PrivateKey  *rsa.PrivateKey
+	PrivateKey  crypto.PrivateKey
+	PublicKey   crypto.PublicKey
 	Certificate *tls.Certificate
 }
 
@@ -73,21 +92,63 @@ func FromFile(certFile, privKeyFile string) (*Entity, error) {
 		return nil, fmt.Errorf("failed to parse certificate: %v", err)
 	}
 
-	privKey, ok := cert.PrivateKey.(*rsa.PrivateKey)
-	if !ok {
-		return nil, fmt.Errorf("failed to parse private key, not a rsa.PrivateKey type")
+	return &Entity{PrivateKey: cert.PrivateKey, Certificate: &cert}, nil
+}
+
+// FromSigningRequest creates the boilerplate for a new certificate out of a Signing Request.
+func FromSigningRequest(csr *x509.CertificateRequest) (*Entity, error) {
+	template := &x509.Certificate{
+		BasicConstraintsValid: true,
+		DNSNames:              csr.DNSNames,
+		ExtKeyUsage:           []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth, x509.ExtKeyUsageServerAuth},
+		KeyUsage:              x509.KeyUsageDigitalSignature | x509.KeyUsageKeyEncipherment,
+		MaxPathLen:            certMaxPathLen,
+		MaxPathLenZero:        true,
+		NotAfter:              time.Now().Add(certExpiration),
+		NotBefore:             time.Now(),
+		SignatureAlgorithm:    csr.SignatureAlgorithm,
+		Subject:               csr.Subject,
+		Signature:             csr.Signature,
+		Extensions:            csr.Extensions,
+		Version:               csr.Version,
+		ExtraExtensions:       csr.ExtraExtensions,
+		EmailAddresses:        csr.EmailAddresses,
+		IPAddresses:           csr.IPAddresses,
+		// URIs:                  csr.URIs,
+		PublicKeyAlgorithm: csr.PublicKeyAlgorithm,
 	}
-	return &Entity{PrivateKey: privKey, Certificate: &cert}, nil
+	var err error
+	if template.SubjectKeyId, err = keyID(csr.PublicKey); err != nil {
+		return nil, fmt.Errorf("failed to generate Subject Key ID: %v", err)
+	}
+	if template.SerialNumber, err = rand.Int(randReader, bigInt); err != nil {
+		return nil, fmt.Errorf("failed to randomize a big int: %v", err)
+	}
+	return &Entity{Template: template, PublicKey: csr.PublicKey}, nil
 }
 
 // NewEntity creates the boilerplate for a new certificate out of a template.
-func NewEntity(template *x509.Certificate) (*Entity, error) {
+func NewEntity(template *x509.Certificate, privateKey crypto.PrivateKey) (*Entity, error) {
 	priv, err := rsa.GenerateKey(randReader, rsaBitSize)
 	if err != nil {
 		return nil, fmt.Errorf("failed to generate key: %v", err)
 	}
+	if privateKey != nil {
+		priv = privateKey.(*rsa.PrivateKey)
+	}
+	if template.SubjectKeyId, err = keyID(priv.Public()); err != nil {
+		return nil, fmt.Errorf("failed to generate Subject Key ID: %v", err)
+	}
 
-	pk, ok := (priv.Public()).(*rsa.PublicKey)
+	if template.SerialNumber, err = rand.Int(randReader, bigInt); err != nil {
+		return nil, fmt.Errorf("failed to randomize a big int: %v", err)
+	}
+
+	return &Entity{Template: template, PrivateKey: priv, PublicKey: priv.Public(), Certificate: nil}, nil
+}
+
+func keyID(pub crypto.PublicKey) ([]byte, error) {
+	pk, ok := pub.(*rsa.PublicKey)
 	if !ok {
 		return nil, fmt.Errorf("failed to parse public key, not a rsa.PublicKey type")
 	}
@@ -96,15 +157,7 @@ func NewEntity(template *x509.Certificate) (*Entity, error) {
 		return nil, fmt.Errorf("failed to marshal public key: %v", err)
 	}
 	subjectKeyID := sha1.Sum(pkBytes)
-	template.SubjectKeyId = subjectKeyID[:]
-
-	serialNumber, err := rand.Int(randReader, bigInt)
-	if err != nil {
-		return nil, fmt.Errorf("failed to randomize a big int: %v", err)
-	}
-	template.SerialNumber = serialNumber
-
-	return &Entity{Template: template, PrivateKey: priv, Certificate: nil}, nil
+	return subjectKeyID[:], nil
 }
 
 // SignWith signs the boilerplate certificate with the parent certificate.
@@ -119,7 +172,7 @@ func (e *Entity) SignWith(parent *Entity) error {
 
 	e.Template.Issuer = parentTemplate.Subject
 	e.Template.AuthorityKeyId = parentTemplate.SubjectKeyId
-	derCert, err := x509.CreateCertificate(randReader, e.Template, parentTemplate, e.PrivateKey.Public(), parent.PrivateKey)
+	derCert, err := x509.CreateCertificate(randReader, e.Template, parentTemplate, e.PublicKey, parent.PrivateKey)
 	if err != nil {
 		return fmt.Errorf("failed to create certificate: %v", err)
 	}
@@ -134,6 +187,21 @@ func (e *Entity) SignWith(parent *Entity) error {
 	e.Certificate = tlsCert
 
 	return nil
+}
+
+// SigningRequest generates a Certificate Signing Request out of the Entity.
+func (e *Entity) SigningRequest() ([]byte, error) {
+	csr := &x509.CertificateRequest{
+		Attributes:      []pkix.AttributeTypeAndValueSET{},
+		DNSNames:        e.Template.DNSNames,
+		EmailAddresses:  e.Template.EmailAddresses,
+		ExtraExtensions: e.Template.ExtraExtensions,
+		IPAddresses:     e.Template.IPAddresses,
+		// URIs:               e.Template.URIs,
+		SignatureAlgorithm: e.Template.SignatureAlgorithm,
+		Subject:            e.Template.Subject,
+	}
+	return x509.CreateCertificateRequest(randReader, csr, e.PrivateKey)
 }
 
 // SignedBy returns error if the certificate is not signed by parent.
@@ -172,7 +240,7 @@ func Template(cn string) *x509.Certificate {
 		ExtKeyUsage: []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth, x509.ExtKeyUsageServerAuth},
 		// IsCA,
 		KeyUsage:       x509.KeyUsageDigitalSignature | x509.KeyUsageKeyEncipherment,
-		MaxPathLen:     5,
+		MaxPathLen:     certMaxPathLen,
 		MaxPathLenZero: true,
 		NotAfter:       time.Now().Add(24 * 365 * time.Hour),
 		NotBefore:      time.Now(),

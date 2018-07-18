@@ -1,6 +1,22 @@
+/* Copyright 2018 Google Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 package entity
 
 import (
+	"crypto/x509"
 	"path/filepath"
 	"testing"
 )
@@ -10,27 +26,27 @@ func testPath(name string) string {
 }
 
 func TestEntity(t *testing.T) {
-	root, err := CreateSelfSigned("root")
+	root, err := CreateSelfSigned("root", nil)
 	if err != nil {
 		t.Fatal("CreateSelfSigned(root):", err)
 	}
 
-	clientCA, err := CreateSignedCA("clientCA", root)
+	clientCA, err := CreateSignedCA("clientCA", nil, root)
 	if err != nil {
 		t.Fatal("CreateSignedCA(clientCA):", err)
 	}
 
-	targetCA, err := CreateSignedCA("targetCA", root)
+	targetCA, err := CreateSignedCA("targetCA", nil, root)
 	if err != nil {
 		t.Fatal("CreateSignedCA(targetCA):", err)
 	}
 
-	client, err := CreateSigned("client", clientCA)
+	client, err := CreateSigned("client", nil, clientCA)
 	if err != nil {
 		t.Fatal("CreateSigned(client):", err)
 	}
 
-	target, err := CreateSigned("target", targetCA)
+	target, err := CreateSigned("target", nil, targetCA)
 	if err != nil {
 		t.Fatal("CreateSigned(client):", err)
 	}
@@ -92,5 +108,39 @@ func TestEntityFromFile(t *testing.T) {
 		if err := test.child.SignedBy(test.parent); (err != nil) != test.fail {
 			t.Errorf("%s not signed by %s", test.childName, test.parentName)
 		}
+	}
+}
+
+func TestFromSigningRequest(t *testing.T) {
+	e, err := NewEntity(Template("requester"), nil)
+	if err != nil {
+		t.Fatal("failed to create an Entity:", err)
+	}
+	csrDER, err := e.SigningRequest()
+	if err != nil {
+		t.Fatal("failed to create a CSR:", err)
+	}
+
+	csr, err := x509.ParseCertificateRequest(csrDER)
+	if err != nil {
+		t.Fatal("failed to parse a CSR in DER enconding:", err)
+	}
+
+	if err = csr.CheckSignature(); err != nil {
+		t.Fatal("CSR signature check failed:", err)
+	}
+
+	ne, err := FromSigningRequest(csr)
+	if err != nil {
+		t.Fatal("failed to create an Entity from a CSR:", err)
+	}
+
+	root, err := CreateSelfSigned("root", nil)
+	if err != nil {
+		t.Fatal("failed to create a Self Signed Certificate:", err)
+	}
+
+	if err := ne.SignWith(root); err != nil {
+		t.Fatal("failed to sign a CSR generated Entity:", err)
 	}
 }
