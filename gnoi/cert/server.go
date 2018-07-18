@@ -1,7 +1,24 @@
+/* Copyright 2018 Google Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 package cert
 
 import (
+	"crypto/x509"
 	"crypto/x509/pkix"
+	"encoding/pem"
 	"fmt"
 
 	"github.com/google/gnxi/gnoi/cert/pb"
@@ -11,12 +28,12 @@ import (
 	log "github.com/golang/glog"
 )
 
-// CertInterface provides the necessary methods to handle the Certificate Management service.
+// ManagerInterface provides the necessary methods to handle the Certificate Management service.
 type ManagerInterface interface {
 	Install(string, []byte, [][]byte) error
 	Rotate(string, []byte, [][]byte) (func(), func(), error)
 	GenCSR(pkix.Name) ([]byte, error)
-	GetCertInfo() ([]*CertInfo, error)
+	GetCertInfo() ([]*Info, error)
 	Revoke([]string) ([]string, map[string]string, error)
 }
 
@@ -254,6 +271,16 @@ func (s *Server) Rotate(stream pb.CertificateManagement_RotateServer) error {
 	return nil
 }
 
+// EncodeCert encodes a x509.Certificate into a PEM block.
+func x509toPEM(cert *x509.Certificate) []byte {
+	return pem.EncodeToMemory(&pem.Block{
+		Type:  "CERTIFICATE",
+		Bytes: cert.Raw,
+	})
+}
+
+var certPEMEncoder = x509toPEM
+
 // GetCertificates returns installed certificates.
 func (s *Server) GetCertificates(ctx context.Context, request *pb.GetCertificatesRequest) (*pb.GetCertificatesResponse, error) {
 	certInfo, err := s.manager.GetCertInfo()
@@ -269,7 +296,7 @@ func (s *Server) GetCertificates(ctx context.Context, request *pb.GetCertificate
 			CertificateId: ci.certID,
 			Certificate: &pb.Certificate{
 				Type:        pb.CertificateType_CT_X509,
-				Certificate: x509toPEM(ci.cert),
+				Certificate: certPEMEncoder(ci.cert),
 			},
 			ModificationTime: ci.updated.UnixNano(),
 		})

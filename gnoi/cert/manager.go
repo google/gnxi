@@ -1,3 +1,18 @@
+/* Copyright 2018 Google Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 package cert
 
 import (
@@ -15,8 +30,8 @@ import (
 	log "github.com/golang/glog"
 )
 
-// CertInfo contains information about a x509 Certificate.
-type CertInfo struct {
+// Info contains information about a x509 Certificate.
+type Info struct {
 	certID  string
 	cert    *x509.Certificate
 	updated time.Time
@@ -29,7 +44,7 @@ type Notifier func(int, int)
 type Manager struct {
 	privateKey crypto.PrivateKey
 
-	certInfo  map[string]*CertInfo
+	certInfo  map[string]*Info
 	caBundle  []*x509.Certificate
 	locks     map[string]bool
 	notifiers []Notifier
@@ -40,7 +55,7 @@ type Manager struct {
 func NewManager(privateKey crypto.PrivateKey) *Manager {
 	return &Manager{
 		privateKey: privateKey,
-		certInfo:   map[string]*CertInfo{},
+		certInfo:   map[string]*Info{},
 		caBundle:   []*x509.Certificate{},
 		locks:      map[string]bool{},
 		notifiers:  []Notifier{},
@@ -49,7 +64,7 @@ func NewManager(privateKey crypto.PrivateKey) *Manager {
 
 var nowTime = time.Now
 
-// Certificates returns a list of TLS Certificates and a x509 Pool of CA Certificates.
+// TLSCertificates returns a list of TLS Certificates and a x509 Pool of CA Certificates.
 func (cm *Manager) TLSCertificates() ([]tls.Certificate, *x509.CertPool) {
 	cm.mu.RLock()
 	defer cm.mu.RUnlock()
@@ -89,9 +104,22 @@ func (cm *Manager) notify() {
 	}
 }
 
+// PEMtox509 decodes a PEM block into a x509.Certificate.
+func PEMtox509(bytes []byte) (*x509.Certificate, error) {
+	certDERBlock, _ := pem.Decode(bytes)
+	if certDERBlock == nil {
+		return nil, fmt.Errorf("failed to decode PEM block")
+	}
+	certificate, err := x509.ParseCertificate(certDERBlock.Bytes)
+	if err != nil {
+		return nil, fmt.Errorf("failed to decode DER bytes")
+	}
+	return certificate, nil
+}
+
 var certPEMDecoder = PEMtox509
 
-// update adds or updates a Certificate.
+// update installs or rotates a Certificate.
 func (cm *Manager) update(requireExisting bool, certID string, pemCert []byte, pemCACerts [][]byte) (func(), func(), error) {
 	cm.mu.Lock()
 	defer cm.mu.Unlock()
@@ -113,7 +141,7 @@ func (cm *Manager) update(requireExisting bool, certID string, pemCert []byte, p
 	}
 
 	oldCertInfo := cm.certInfo[certID]
-	cm.certInfo[certID] = &CertInfo{
+	cm.certInfo[certID] = &Info{
 		cert:    x509Cert,
 		updated: nowTime(),
 		certID:  certID,
@@ -194,12 +222,12 @@ func (cm *Manager) GenCSR(subject pkix.Name) ([]byte, error) {
 	return pemCSR, nil
 }
 
-// GetCertificates returns all the Certificates, Certificate IDs and updated times.
-func (cm *Manager) GetCertInfo() ([]*CertInfo, error) {
+// GetCertInfo returns all the Certificates, Certificate IDs and updated times.
+func (cm *Manager) GetCertInfo() ([]*Info, error) {
 	cm.mu.RLock()
 	defer cm.mu.RUnlock()
 
-	certInfo := []*CertInfo{}
+	certInfo := []*Info{}
 	for _, ci := range cm.certInfo {
 		certInfo = append(certInfo, ci)
 	}
