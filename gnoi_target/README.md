@@ -3,6 +3,11 @@
 A simple shell binary that implements a gNOI Target with the Certificate
 Management service, supporting bootstrapping mode.
 
+## Certificate Management service
+
+This service provides a set of RPCs to Install, Rotate & Revoke Certificates and
+CA Bundles in a Target. See [gNOI Cert proto definition](https://github.com/openconfig/gnoi/blob/master/cert/cert.proto) for more.
+
 ## Bootstrapping mode
 
 This target starts in bootstrapping mode allowing any encrypted TLS connection
@@ -14,6 +19,8 @@ Once a Certificate and a CA Certificate bundle is installed via the gNOI service
 the Target changes its connection to authenticated mode. In this mode, only
 authenticated TLS connections using the gNOI installed Certificates and CA
 bundle, are allowed.
+
+
 
 ## Certificates and Key types supported
 
