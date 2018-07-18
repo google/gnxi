@@ -3,14 +3,14 @@
 A simple shell binary that performs Certificate Management client operations
 against a gNOI Target.
 
-# Certificates
+## Certificates
 
 Only the Root certificate and private key are required for this client. The
 client will generate a client certificate and sign target signing requests
 (CSRs) with it. However this is not recommended for Operations where an external
 Signing Authority is recommended.
 
-# gNOI Certificate Management operations
+## gNOI Certificate Management operations
 
 *   `-op provision` installs a Certificate and CA Bundle on a Target that is in
     bootstrapping mode, accepting encrypted TLS connections;
