@@ -515,28 +515,42 @@ func (s *Server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, 
 		}
 
 		// Return all leaf nodes of the sub-tree.
-		if len(req.GetUseModels()) != len(s.model.modelData) && req.GetEncoding() != pb.Encoding_JSON_IETF {
-			results, err := ygot.TogNMINotifications(nodeStruct, ts, ygot.GNMINotificationsConfig{UsePathElem: true, PathElemPrefix: fullPath.Elem})
-			if err != nil {
-				return nil, status.Errorf(codes.Internal, "error in serializing GoStruct to notifications: %v", err)
+
+		// if len(req.GetUseModels()) != len(s.model.modelData) {
+		// 	results, err := ygot.TogNMINotifications(nodeStruct, ts, ygot.GNMINotificationsConfig{UsePathElem: true, PathElemPrefix: fullPath.Elem})
+		// 	if err != nil {
+		// 		return nil, status.Errorf(codes.Internal, "error in serializing GoStruct to notifications: %v", err)
+		// 	}
+		// 	if len(results) != 1 {
+		// 		return nil, status.Errorf(codes.Internal, "ygot.TogNMINotifications() return %d notifications instead of one", len(results))
+		// 	}
+		// 	notifications[i] = results[0]
+		// 	continue
+		// }
+
+		// Return IETF JSON by default.
+		jsonEncoder := func() (map[string]interface{}, error) {
+			return ygot.ConstructIETFJSON(nodeStruct, &ygot.RFC7951JSONConfig{AppendModuleName: true})
+		}
+		jsonType := "IETF"
+
+		if req.GetEncoding() == pb.Encoding_JSON {
+			jsonEncoder = func() (map[string]interface{}, error) {
+				return ygot.ConstructInternalJSON(nodeStruct)
 			}
-			if len(results) != 1 {
-				return nil, status.Errorf(codes.Internal, "ygot.TogNMINotifications() return %d notifications instead of one", len(results))
-			}
-			notifications[i] = results[0]
-			continue
+			jsonType = "Internal"
 		}
 
-		// Return IETF JSON for the sub-tree.
-		jsonTree, err := ygot.ConstructIETFJSON(nodeStruct, &ygot.RFC7951JSONConfig{AppendModuleName: true})
+		jsonTree, err := jsonEncoder()
 		if err != nil {
-			msg := fmt.Sprintf("error in constructing IETF JSON tree from requested node: %v", err)
+			msg := fmt.Sprintf("error in constructing %s JSON tree from requested node: %v", jsonType, err)
 			log.Error(msg)
 			return nil, status.Error(codes.Internal, msg)
 		}
+
 		jsonDump, err := json.Marshal(jsonTree)
 		if err != nil {
-			msg := fmt.Sprintf("error in marshaling IETF JSON tree to bytes: %v", err)
+			msg := fmt.Sprintf("error in marshaling %s JSON tree to bytes: %v", jsonType, err)
 			log.Error(msg)
 			return nil, status.Error(codes.Internal, msg)
 		}
