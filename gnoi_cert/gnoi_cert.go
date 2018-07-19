@@ -71,24 +71,18 @@ func main() {
 	case "provision":
 		certIDCheck()
 		provision()
-		break
 	case "install":
 		certIDCheck()
 		install()
-		break
 	case "rotate":
 		certIDCheck()
 		rotate()
-		break
 	case "revoke":
 		revoke()
-		break
 	case "check":
 		check()
-		break
 	case "get":
 		get()
-		break
 	default:
 		log.Exitf("Unknown operation: %q", *op)
 	}
