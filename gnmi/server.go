@@ -533,12 +533,18 @@ func (s *Server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, 
 			return ygot.ConstructIETFJSON(nodeStruct, &ygot.RFC7951JSONConfig{AppendModuleName: true})
 		}
 		jsonType := "IETF"
+		buildUpdate := func(b []byte) *pb.Update {
+			return &pb.Update{Path: path, Val: &pb.TypedValue{Value: &pb.TypedValue_JsonIetfVal{JsonIetfVal: b}}}
+		}
 
 		if req.GetEncoding() == pb.Encoding_JSON {
 			jsonEncoder = func() (map[string]interface{}, error) {
 				return ygot.ConstructInternalJSON(nodeStruct)
 			}
 			jsonType = "Internal"
+			buildUpdate = func(b []byte) *pb.Update {
+				return &pb.Update{Path: path, Val: &pb.TypedValue{Value: &pb.TypedValue_JsonVal{JsonVal: b}}}
+			}
 		}
 
 		jsonTree, err := jsonEncoder()
@@ -554,14 +560,8 @@ func (s *Server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, 
 			log.Error(msg)
 			return nil, status.Error(codes.Internal, msg)
 		}
-		update := &pb.Update{
-			Path: path,
-			Val: &pb.TypedValue{
-				Value: &pb.TypedValue_JsonIetfVal{
-					JsonIetfVal: jsonDump,
-				},
-			},
-		}
+
+		update := buildUpdate(jsonDump)
 		notifications[i] = &pb.Notification{
 			Timestamp: ts,
 			Prefix:    prefix,
