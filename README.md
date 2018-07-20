@@ -20,7 +20,7 @@ _Note_: These tools are intended for testing and as reference implementation of 
 *  [gNMI Set](./gnmi_set)
 *  [gNMI Get](./gnmi_get)
 *  [gNMI Target](./gnmi_target)
-*  [gNMI Cert](./gnoi_cert)
+*  [gNOI Cert](./gnoi_cert)
 *  [gNOI Target](./gnoi_target)
 
 ### Documentation
