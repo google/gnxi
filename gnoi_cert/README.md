@@ -7,8 +7,8 @@ against a gNOI Target.
 
 Only the Root certificate and private key are required for this client. The
 client will generate a client certificate and sign target signing requests
-(CSRs) with it. However this is not recommended for Operations where an external
-Signing Authority is recommended.
+(CSRs) with it. However this is not recommended for operations where an external
+signing authority is recommended.
 
 ## gNOI Certificate Management operations
 
