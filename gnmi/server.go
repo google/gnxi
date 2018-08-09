@@ -20,12 +20,16 @@ import (
 	"bytes"
 	"compress/gzip"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"reflect"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
+
+	"github.com/openconfig/ygot/ytypes"
 
 	"golang.org/x/net/context"
 	"google.golang.org/grpc/codes"
@@ -35,6 +39,7 @@ import (
 	"github.com/golang/protobuf/proto"
 	"github.com/openconfig/gnmi/value"
 	"github.com/openconfig/ygot/experimental/ygotutils"
+	"github.com/openconfig/ygot/util"
 	"github.com/openconfig/ygot/ygot"
 
 	dpb "github.com/golang/protobuf/protoc-gen-go/descriptor"
@@ -175,6 +180,64 @@ func (s *Server) doDelete(jsonTree map[string]interface{}, prefix, path *pb.Path
 		Path: path,
 		Op:   pb.UpdateResult_DELETE,
 	}, nil
+}
+
+// UpdateState update state node in Server config. The type of val must
+// exactly matchs node's type.
+func (s *Server) UpdateState(path *pb.Path, val interface{}) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	checkStateNode := false
+	for _, i := range path.GetElem() {
+		if strings.Compare(i.GetName(), "state") == 0 {
+			checkStateNode = true
+			break
+		}
+	}
+	if !checkStateNode {
+		log.Error("failed update state: target node is not state node")
+		return errors.New("target node is not state node")
+	}
+
+	nodePathName := path.GetElem()[len(path.GetElem())-1].GetName()
+	parentPath := &pb.Path{
+		Elem:   path.Elem[:len(path.GetElem())-1],
+		Target: path.GetTarget(),
+		Origin: path.GetOrigin(),
+	}
+	parentNode, _, err := ytypes.GetOrCreateNode(s.model.schemaTreeRoot, s.config, parentPath)
+	if err != nil {
+		return fmt.Errorf("failed retrive parent node of target node: %v", err)
+	}
+
+	emptyNode, stat := ygotutils.NewNode(s.model.structRootType, path)
+	if stat.GetCode() != int32(cpb.Code_OK) {
+		return fmt.Errorf("path %v is not found in the config structure: %v", path, stat)
+	}
+	_, ok := emptyNode.(ygot.ValidatedGoStruct)
+	if ok {
+		return fmt.Errorf("Update JSON IETF state is not supported")
+	}
+
+	if reflect.ValueOf(parentNode).Kind() != reflect.Ptr {
+		return fmt.Errorf("type of parent node is %v, not go struct pointer", reflect.ValueOf(parentNode).Kind())
+	}
+	parentType := reflect.TypeOf(reflect.ValueOf(parentNode).Elem().Interface())
+	fieldName := ""
+	for i := 0; i < parentType.NumField(); i++ {
+		pathTag := parentType.Field(i).Tag.Get("path")
+		if strings.Compare(nodePathName, pathTag) == 0 {
+			fieldName = parentType.Field(i).Name
+		}
+	}
+	if len(fieldName) == 0 {
+		return fmt.Errorf("path %v is not found in the config structure", path)
+	}
+	if err := util.UpdateField(parentNode, fieldName, val); err != nil {
+		return fmt.Errorf("failed update state: %v", err)
+	}
+	return nil
 }
 
 // doReplaceOrUpdate validates the replace or update operation to be applied to
