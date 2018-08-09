@@ -514,19 +514,9 @@ func (s *Server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, 
 			continue
 		}
 
-		// Return all leaf nodes of the sub-tree.
-
-		// if len(req.GetUseModels()) != len(s.model.modelData) {
-		// 	results, err := ygot.TogNMINotifications(nodeStruct, ts, ygot.GNMINotificationsConfig{UsePathElem: true, PathElemPrefix: fullPath.Elem})
-		// 	if err != nil {
-		// 		return nil, status.Errorf(codes.Internal, "error in serializing GoStruct to notifications: %v", err)
-		// 	}
-		// 	if len(results) != 1 {
-		// 		return nil, status.Errorf(codes.Internal, "ygot.TogNMINotifications() return %d notifications instead of one", len(results))
-		// 	}
-		// 	notifications[i] = results[0]
-		// 	continue
-		// }
+		if req.GetUseModels() != nil {
+			return nil, status.Errorf(codes.Unimplemented, "filtering Get using use_models is unsupported, got: %v", req.GetUseModels())
+		}
 
 		// Return IETF JSON by default.
 		jsonEncoder := func() (map[string]interface{}, error) {
