@@ -20,6 +20,8 @@ import (
 	"reflect"
 	"testing"
 
+	"github.com/google/gnxi/utils/xpath"
+
 	"github.com/golang/protobuf/proto"
 	"github.com/openconfig/gnmi/value"
 	"github.com/openconfig/ygot/ygot"
@@ -42,6 +44,75 @@ var (
 		enumData:        gostruct.ΛEnum,
 	}
 )
+
+func TestUpdateState(t *testing.T) {
+	jsonConfigRoot := `{
+		"openconfig-system:system": {
+			"openconfig-openflow:openflow": {
+				"agent": {
+					"config": {
+						"max-backoff": 10
+					}
+				}
+			}
+		}
+	}`
+
+	s, err := NewServer(model, []byte(jsonConfigRoot), nil)
+	if err != nil {
+		t.Fatalf("error in creating server: %v", err)
+	}
+	pathStr := "system/openflow/agent/state/max-backoff"
+	pbPath, err := xpath.ToGNMIPath(pathStr)
+	if err != nil {
+		t.Fatal("error in converting string path to gnmi proto path")
+	}
+
+	tds := []struct {
+		path      *pb.Path
+		val       interface{}
+		wantValue interface{}
+	}{
+		{
+			path:      pbPath,
+			val:       uint32(11),
+			wantValue: uint64(11),
+		},
+		{
+			path:      pbPath,
+			val:       uint32(10),
+			wantValue: uint64(10),
+		},
+	}
+
+	for _, td := range tds {
+		if err := s.UpdateState(td.path, td.val); err != nil {
+			t.Fatalf("failed update state:%v", err)
+		}
+		req := &pb.GetRequest{
+			Path: []*pb.Path{td.path},
+		}
+		resp, err := s.Get(nil, req)
+		if err != nil {
+			t.Fatalf("cannot get node's value in service config")
+		}
+		if len(resp.Notification) != 1 {
+			t.Fatalf("got %d notifications, want 1", len(resp.Notification))
+		}
+		if len(resp.Notification[0].Update) != 1 {
+			t.Fatalf("got %d updates int the notification, want 1", len(resp.Notification[0].Update))
+		}
+		val := resp.Notification[0].Update[0].GetVal()
+		var gotVal interface{}
+		gotVal, err = value.ToScalar(val)
+		if err != nil {
+			t.Errorf("got: %v, want a scalar value", gotVal)
+		}
+		if !reflect.DeepEqual(gotVal, td.wantValue) {
+			t.Errorf("got %v (%T), want %v (%T)", gotVal, gotVal, td.wantValue, td.wantValue)
+		}
+	}
+}
 
 func TestCapabilities(t *testing.T) {
 	s, err := NewServer(model, nil, nil)
