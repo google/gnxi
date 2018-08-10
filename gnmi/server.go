@@ -622,3 +622,11 @@ func (s *Server) Set(ctx context.Context, req *pb.SetRequest) (*pb.SetResponse, 
 func (s *Server) Subscribe(stream pb.GNMI_SubscribeServer) error {
 	return status.Error(codes.Unimplemented, "Subscribe is not implemented.")
 }
+
+// InternalUpdate is an experimental feature to let the server update its
+// internal states. Use it with your own risk.
+func (s *Server) InternalUpdate(fp func(config ygot.ValidatedGoStruct) error) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	return fp(s.config)
+}
