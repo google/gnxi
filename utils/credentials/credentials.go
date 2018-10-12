@@ -35,7 +35,8 @@ var (
 	ca             = flag.String("ca", "", "CA certificate file.")
 	cert           = flag.String("cert", "", "Certificate file.")
 	key            = flag.String("key", "", "Private key file.")
-	insecure       = flag.Bool("insecure", false, "Skip TLS validation,")
+	insecure       = flag.Bool("insecure", false, "Skip TLS validation.")
+	notls          = flag.Bool("notls", false, "Disable TLS validation. If true, no need to specify TLS related options.")
 	authorizedUser = userCredentials{}
 	usernameKey    = "username"
 	passwordKey    = "password"
@@ -88,19 +89,23 @@ func LoadCertificates() ([]tls.Certificate, *x509.CertPool) {
 
 // ClientCredentials generates gRPC DialOptions for existing credentials.
 func ClientCredentials(server string) []grpc.DialOption {
+
 	opts := []grpc.DialOption{}
 
-	tlsConfig := &tls.Config{}
-	if *insecure {
-		tlsConfig.InsecureSkipVerify = true
+	if *notls {
+		opts = append(opts, grpc.WithInsecure())
 	} else {
-		certificates, certPool := LoadCertificates()
-		tlsConfig.ServerName = server
-		tlsConfig.Certificates = certificates
-		tlsConfig.RootCAs = certPool
+		tlsConfig := &tls.Config{}
+		if *insecure {
+			tlsConfig.InsecureSkipVerify = true
+		} else {
+			certificates, certPool := LoadCertificates()
+			tlsConfig.ServerName = server
+			tlsConfig.Certificates = certificates
+			tlsConfig.RootCAs = certPool
+		}
+		opts = append(opts, grpc.WithTransportCredentials(credentials.NewTLS(tlsConfig)))
 	}
-
-	opts = append(opts, grpc.WithTransportCredentials(credentials.NewTLS(tlsConfig)))
 
 	if authorizedUser.username != "" {
 		return append(opts, grpc.WithPerRPCCredentials(&authorizedUser))
@@ -110,7 +115,19 @@ func ClientCredentials(server string) []grpc.DialOption {
 
 // ServerCredentials generates gRPC ServerOptions for existing credentials.
 func ServerCredentials() []grpc.ServerOption {
+	if *notls {
+		return []grpc.ServerOption{}
+	}
+
 	certificates, certPool := LoadCertificates()
+
+	if *insecure {
+		return []grpc.ServerOption{grpc.Creds(credentials.NewTLS(&tls.Config{
+			ClientAuth:   tls.VerifyClientCertIfGiven,
+			Certificates: certificates,
+			ClientCAs:    certPool,
+		}))}
+	}
 
 	return []grpc.ServerOption{grpc.Creds(credentials.NewTLS(&tls.Config{
 		ClientAuth:   tls.RequireAndVerifyClientCert,
