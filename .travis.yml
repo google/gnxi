@@ -2,7 +2,7 @@ language: go
 
 go:
   - master
-  - 1.8.x
+  - 1.10.x
 
 notifications:
   email: false
