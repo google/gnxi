@@ -59,11 +59,11 @@ var (
 func buildPbUpdateList(pathValuePairs []string) []*pb.Update {
 	var pbUpdateList []*pb.Update
 	for _, item := range pathValuePairs {
-		splitIndex := strings.LastIndexAny(item, ":")
-		if splitIndex < 1 {
+		pathValuePair := strings.SplitN(item, ":", 2)
+		// TODO (leguo): check if any path attribute contains ':'
+		if len(pathValuePair) != 2 || len(pathValuePair[1]) == 0 {
 			log.Exitf("invalid path-value pair: %v", item)
 		}
-		pathValuePair := []string{item[:splitIndex], item[(splitIndex + 1):]}
 		pbPath, err := xpath.ToGNMIPath(pathValuePair[0])
 		if err != nil {
 			log.Exitf("error in parsing xpath %q to gnmi path", pathValuePair[0])
