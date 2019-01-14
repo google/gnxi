@@ -19,6 +19,7 @@ interacting with Network Elements which support OpenConfig and gNMI.
 
 Current supported gNMI features:
 - GetRequest
+- SetRequest (Update, Replace, Delete)
 - Target hostname override
 - Auto-loads Target cert from Target if not specified
 - User/password based authentication
@@ -26,28 +27,28 @@ Current supported gNMI features:
 
 Current unsupported gNMI features:
 - Subscribe
-- SetRequest
-- Multiple xpaths
 """
 
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 import argparse
+import json
 import logging
 import os
 import re
 import ssl
+import sys
 import six
 try:
-  import gnmi_pb2  # pylint: disable=g-import-not-at-top
+  import gnmi_pb2
 except ImportError:
   print('ERROR: Ensure you have grpcio-tools installed; eg\n'
         'sudo apt-get install -y pip\n'
         'sudo pip install --no-binary=protobuf -I grpcio-tools==1.15.0')
-import gnmi_pb2_grpc  # pylint: disable=g-import-not-at-top
+import gnmi_pb2_grpc
 
-__version__ = '0.2'
+__version__ = '0.3'
 
 _RE_PATH_COMPONENT = re.compile(r'''
 ^
@@ -67,6 +68,18 @@ class XpathError(Error):
   """Error parsing xpath provided."""
 
 
+class ValError(Error):
+  """Error parsing provided val from CLI."""
+
+
+class JsonReadError(Error):
+  """Error parsing provided JSON file."""
+
+
+class FindTypeError(Error):
+  """Error identifying type of provided value."""
+
+
 def _create_parser():
   """Create parser for arguments passed into the program from the CLI.
 
@@ -84,15 +97,21 @@ def _create_parser():
                       required=True)
   parser.add_argument('-p', '--port', type=str, help='The port the gNMI Target '
                       'is listening on', required=True)
-  parser.add_argument('-u', '--username', type=str, help='Username to use'
+  parser.add_argument('-user', '--username', type=str, help='Username to use'
                       'when establishing a gNMI Channel to the Target',
                       required=False)
-  parser.add_argument('-w', '--password', type=str, help='Password to use'
+  parser.add_argument('-pass', '--password', type=str, help='Password to use'
                       'when establishing a gNMI Channel to the Target',
                       required=False)
-  parser.add_argument('-m', '--mode', choices=['get', 'set', 'subscribe'],
-                      help='Mode of operation when interacting with network'
-                      ' element. Default=get', default='get')
+  parser.add_argument('-m', '--mode', choices=[
+      'get', 'set-update', 'set-replace', 'set-delete', 'subscribe'], help=
+                      'Mode of operation when interacting with network element.'
+                      ' Default=get. If set, it can be either value \nor JSON '
+                      'file (prepend filename with "@")', default='get')
+  parser.add_argument('-val', '--value', type=str, help='Value for SetRequest.'
+                      '\nCan be Leaf value or JSON file. If JSON file, prepend'
+                      ' with "@"; eg "@interfaces.json".',
+                      required=False)
   parser.add_argument('-pkey', '--private_key', type=str, help='Fully'
                       'quallified path to Private key to use when establishing'
                       'a gNMI Channel to the Target', required=False)
@@ -107,10 +126,14 @@ def _create_parser():
                       'in the GetRequest or Subscirbe', required=True)
   parser.add_argument('-o', '--host_override', type=str, help='Use this as '
                       'Targets hostname/peername when checking it\'s'
-                      'certificate CN. You can check the cert with:\nopenssl'
+                      'certificate CN. You can check the cert with:\nopenssl '
                       'x509 -in certificate.crt -text -noout', required=False)
-  parser.add_argument('-v', '--verbose', type=str, help='Print verbose messages'
-                      'to the terminal', required=False)
+  parser.add_argument('-f', '--format', type=str, action='store', help='Format '
+                      'of the GetResponse to be printed. Default=JSON.',
+                      choices=['json', 'protobuff'], default='json',
+                      required=False)
+  parser.add_argument('-V', '--version', help='Print program version',
+                      action='store_true', required=False)
   parser.add_argument('-d', '--debug', help='Enable gRPC debugging',
                       required=False, action='store_true')
   return parser
@@ -158,7 +181,7 @@ def _parse_path(p_names):
 
 
 def _create_stub(creds, target, port, host_override):
-  """Creates a gNMI GetRequest.
+  """Creates a gNMI Stub.
 
   Args:
     creds: (object) of gNMI Credentials class used to build the secure channel.
@@ -175,6 +198,54 @@ def _create_stub(creds, target, port, host_override):
   else:
     channel = gnmi_pb2_grpc.grpc.secure_channel(target + ':' + port, creds)
   return gnmi_pb2_grpc.gNMIStub(channel)
+
+
+def _format_type(json_value):
+  """Helper to determine the Python type of the provided value from CLI.
+
+  Args:
+    json_value: (str) Value providing from CLI.
+
+  Returns:
+    json_value: The provided input coerced into proper Python Type.
+  """
+  if (json_value.startswith('-') and json_value[1:].isdigit()) or (
+      json_value.isdigit()):
+    return int(json_value)
+  if (json_value.startswith('-') and json_value[1].isdigit()) or (
+      json_value[0].isdigit()):
+    return float(json_value)
+  if json_value.capitalize() == 'True':
+    return True
+  if json_value.capitalize() == 'False':
+    return False
+  return json_value  # The value is a string.
+
+
+def _get_val(json_value):
+  """Get the gNMI val for path definition.
+
+  Args:
+    json_value: (str) JSON_IETF or file.
+
+  Returns:
+    gnmi_pb2.TypedValue()
+  """
+  val = gnmi_pb2.TypedValue()
+  if '@' in json_value:
+    try:
+      set_json = json.loads(six.moves.builtins.open(
+          json_value.strip('@'), 'rb').read())
+    except (IOError, ValueError) as e:
+      raise JsonReadError('Error while loading JSON: %s' % str(e))
+    val.json_ietf_val = json.dumps(set_json)
+    return val
+  coerced_val = _format_type(json_value)
+  type_to_value = {bool: 'bool_val', int: 'int_val', float: 'float_val',
+                   str: 'string_val'}
+  if type_to_value.get(type(coerced_val)):
+    setattr(val, type_to_value.get(type(coerced_val)), coerced_val)
+  return val
 
 
 def _get(stub, paths, username, password):
@@ -194,6 +265,34 @@ def _get(stub, paths, username, password):
         gnmi_pb2.GetRequest(path=[paths], encoding='JSON_IETF'),
         metadata=[('username', username), ('password', password)])
   return stub.Get(gnmi_pb2.GetRequest(path=[paths], encoding='JSON_IETF'))
+
+
+def _set(stub, paths, set_type, username, password, json_value):
+  """Create a gNMI SetRequest.
+
+  Args:
+    stub: (class) gNMI Stub used to build the secure channel.
+    paths: gNMI Path
+    set_type: (str) Type of gNMI SetRequest.
+    username: (str) Username used when building the channel.
+    password: (str) Password used when building the channel.
+    json_value: (str) JSON_IETF or file.
+
+  Returns:
+    a gnmi_pb2.SetResponse object representing a gNMI SetResponse.
+  """
+  if json_value:  # Specifying ONLY a path is possible.
+    val = _get_val(json_value)
+  path_val = gnmi_pb2.Update(path=paths, val=val,)
+
+  kwargs = {}
+  if username:
+    kwargs = {'metadata': [('username', username), ('password', password)]}
+  if set_type == 'delete':
+    return stub.Set(gnmi_pb2.SetRequest(delete=[paths]), **kwargs)
+  elif set_type == 'update':
+    return stub.Set(gnmi_pb2.SetRequest(update=[path_val]), **kwargs)
+  return stub.Set(gnmi_pb2.SetRequest(replace=[path_val]), **kwargs)
 
 
 def _build_creds(target, port, root_cert, cert_chain, private_key):
@@ -228,30 +327,58 @@ def _build_creds(target, port, root_cert, cert_chain, private_key):
 def main():
   argparser = _create_parser()
   args = vars(argparser.parse_args())
+  if args['version']:
+    print(__version__)
+    sys.exit()
+  if args['debug']:
+    os.environ['GRPC_TRACE'] = 'all'
+    os.environ['GRPC_VERBOSITY'] = 'DEBUG'
   mode = args['mode']
   target = args['target']
   port = args['port']
   root_cert = args['root_cert']
   cert_chain = args['cert_chain']
+  json_value = args['value']
   private_key = args['private_key']
   xpath = args['xpath']
   host_override = args['host_override']
   user = args['username']
   password = args['password']
-  if mode in ('set', 'subscribe'):
-    print('Mode %s not available in this version' % mode)
-    return
-  if args['debug']:
-    os.environ['GRPC_TRACE'] = 'all'
-    os.environ['GRPC_VERBOSITY'] = 'DEBUG'
+  form = args['format']
   paths = _parse_path(_path_names(xpath))
   creds = _build_creds(target, port, root_cert, cert_chain, private_key)
   stub = _create_stub(creds, target, port, host_override)
   if mode == 'get':
-    print('Performing GetRequest, encoding=JSON_IETF', ' to ', target,
+    print('Performing GetRequest, encoding=JSON_IETF', 'to', target,
           ' with the following gNMI Path\n', '-'*25, '\n', paths)
     response = _get(stub, paths, user, password)
-    print('The GetResponse is below\n' + '-'*25 + '\n', response)
+    print('The GetResponse is below\n' + '-'*25 + '\n')
+    if form == 'protobuff':
+      print(response)
+    elif response.notification[0].update[0].val.json_ietf_val:
+      print(json.dumps(json.loads(response.notification[0].update[0].val.
+                                  json_ietf_val), indent=2))
+    else:
+      print('JSON Format specified, but gNMI Response was not json_ietf_val')
+      print(response)
+  elif mode == 'set-update':
+    print('Performing SetRequest Update, encoding=JSON_IETF', ' to ', target,
+          ' with the following gNMI Path\n', '-'*25, '\n', paths, json_value)
+    response = _set(stub, paths, 'update', user, password, json_value)
+    print('The SetRequest response is below\n' + '-'*25 + '\n', response)
+  elif mode == 'set-replace':
+    print('Performing SetRequest Replace, encoding=JSON_IETF', ' to ', target,
+          ' with the following gNMI Path\n', '-'*25, '\n', paths)
+    response = _set(stub, paths, 'replace', user, password, json_value)
+    print('The SetRequest response is below\n' + '-'*25 + '\n', response)
+  elif mode == 'set-delete':
+    print('Performing SetRequest Delete, encoding=JSON_IETF', ' to ', target,
+          ' with the following gNMI Path\n', '-'*25, '\n', paths)
+    response = _set(stub, paths, 'delete', user, password, json_value)
+    print('The SetRequest response is below\n' + '-'*25 + '\n', response)
+  elif mode == 'subscribe':
+    print('This mode not available in this version')
+    sys.exit()
 
 
 if __name__ == '__main__':
