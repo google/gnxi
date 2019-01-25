@@ -1,11 +1,8 @@
 /* Copyright 2017 Google Inc.
-
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
-
     https://www.apache.org/licenses/LICENSE-2.0
-
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -54,16 +51,17 @@ var (
 	targetAddr = flag.String("target_addr", "localhost:10161", "The target address in the format of host:port")
 	targetName = flag.String("target_name", "hostname.com", "The target name use to verify the hostname returned by TLS handshake")
 	timeOut    = flag.Duration("time_out", 10*time.Second, "Timeout for the Get request, 10 seconds by default")
+	leafList   = flag.String("leaf_list_node", "false", "Set this flag to true to update leaf list node value.")
 )
 
 func buildPbUpdateList(pathValuePairs []string) []*pb.Update {
 	var pbUpdateList []*pb.Update
 	for _, item := range pathValuePairs {
-		pathValuePair := strings.SplitN(item, ":", 2)
-		// TODO (leguo): check if any path attribute contains ':'
-		if len(pathValuePair) != 2 || len(pathValuePair[1]) == 0 {
+		splitIndex := strings.LastIndexAny(item, ":")
+		if splitIndex < 1 {
 			log.Exitf("invalid path-value pair: %v", item)
 		}
+		pathValuePair := []string{item[:splitIndex], item[(splitIndex + 1):]}
 		pbPath, err := xpath.ToGNMIPath(pathValuePair[0])
 		if err != nil {
 			log.Exitf("error in parsing xpath %q to gnmi path", pathValuePair[0])
@@ -89,7 +87,20 @@ func buildPbUpdateList(pathValuePairs []string) []*pb.Update {
 					},
 				}
 			} else {
-				if intVal, err := strconv.ParseInt(pathValuePair[1], 10, 64); err == nil {
+				if *leafList == "true" {
+					v := strings.Split(pathValuePair[1],",")
+					sa := &pb.ScalarArray{Element: make([]*pb.TypedValue, len(v))}
+					for x, s := range v {
+						if t, err := strconv.ParseInt(s, 10, 64); err == nil {
+							sa.Element[x] = &pb.TypedValue{Value: &pb.TypedValue_IntVal{t}}
+						} else {
+							sa.Element[x] = &pb.TypedValue{Value: &pb.TypedValue_StringVal{s}}
+						}
+					}
+					pbVal = &pb.TypedValue{
+						Value: &pb.TypedValue_LeaflistVal{ sa },
+					}
+				} else if intVal, err := strconv.ParseInt(pathValuePair[1], 10, 64); err == nil {
 					pbVal = &pb.TypedValue{
 						Value: &pb.TypedValue_IntVal{
 							IntVal: intVal,
