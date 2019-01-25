@@ -4,22 +4,36 @@ A simple Python script that performs interactions with gNMI Targets.
 
 ## Dependencies
 
+The dependencies can be installed to you system python environment or within a virtual environment.
+
+System Python Installation
 ```
 sudo pip install --no-binary=protobuf -I grpcio-tools==1.15.0
+```
+
+Virtualenv Installation
+```
+# install virtualenv
+pip install virtualenv
+
+# create a virtual environment
+virtualenv venv
+. venv/bin/activate
+pip install -r requirements.txt
 ```
 
 ## Usage Examples
 gNMI GetRequests. Substitute where applicable.
 ```
-python py_gnmicli.py -m get -t <gnmi_target_addr> -p <port> -x <xpath> -u <user> -w <password> [Optional] -rcert <CA certificate>
+python py_gnmicli.py -m get -t <gnmi_target_addr> -p <port> -x <xpath> -user <user> -pass <password> [Optional] -rcert <CA certificate>
 ```
 gNMI GetRequest for an Access Point target, who's hostname is "ap-1", with an xpath of root for access-points model:
 ```
-python py_gnmicli.py -m get -t example.net -x /access-points/access-point[hostname=ap-1]/ -u admin -w admin -p 8080 -o openconfig.example.com
+python py_gnmicli.py -m get -t example.net -x /access-points/access-point[hostname=ap-1]/ -user admin -pass admin -p 8080 -o openconfig.example.com
 ```
 gNMI GetRequest for an Access Point target, who's hostname is "ap-1", with an xpath of the config container of Radio with ID 0:
 ```
-python py_gnmicli.py -m get -t example.net -x /access-points/access-point[hostname=ap-1]/radios/radio[id=0]/config -u admin -w admin -p 8080 -o openconfig.example.com
+python py_gnmicli.py -m get -t example.net -x /access-points/access-point[hostname=ap-1]/radios/radio[id=0]/config -user admin -pass admin -p 8080 -o openconfig.example.com
 ```
 gNMI SetRequest Replace for an Access Point target, who's hostname is "ap-1", with an xpath of the channel config leaf of Radio with ID 0 (This would assign channel 165 to this Radio):
 ```
