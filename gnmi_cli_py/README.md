@@ -4,7 +4,7 @@ A simple Python script that performs interactions with gNMI Targets.
 
 ## Dependencies
 
-The dependencies can be installed to you system python environment or within a virtual environment.
+The dependencies can be installed to either (1) your host's python environment or (2) within a python virtual environment.
 
 System Python Installation
 ```
