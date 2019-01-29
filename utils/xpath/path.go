@@ -42,9 +42,10 @@ import (
 //    elem: <name: "counters" >
 func ToGNMIPath(xpath string) (*pb.Path, error) {
 	var origin string
-	if strings.ContainsAny(xpath, ":") {
-		splits := strings.Split(xpath, ":")
-		origin, xpath = splits[0], splits[1]
+	i := strings.Index(xpath, ":")
+	if i != -1 {
+		origin = xpath[:i]
+		xpath = xpath[i+1:]
 	}
 	xpathElements, err := ParseStringPath(xpath)
 	if err != nil {
