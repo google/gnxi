@@ -238,7 +238,7 @@ def _get_val(json_value):
           json_value.strip('@'), 'rb').read())
     except (IOError, ValueError) as e:
       raise JsonReadError('Error while loading JSON: %s' % str(e))
-    val.json_ietf_val = json.dumps(set_json)
+    val.json_ietf_val = json.dumps(set_json).encode('utf-8')
     return val
   coerced_val = _format_type(json_value)
   type_to_value = {bool: 'bool_val', int: 'int_val', float: 'float_val',
