@@ -173,8 +173,11 @@ def _parse_path(p_names):
     if not word_search:  # Invalid path specified.
       raise XpathError('xpath component parse error: %s' % word)
     if word_search.group('key') is not None:  # A path key was provided.
+      tmp_key = {}
+      for x in re.findall(r'\[([^]]*)\]', word):
+        tmp_key[x.split("=")[0]] = x.split("=")[-1]
       gnmi_elems.append(gnmi_pb2.PathElem(name=word_search.group(
-          'pname'), key={word_search.group('key'): word_search.group('value')}))
+          'pname'), key=tmp_key))
     else:
       gnmi_elems.append(gnmi_pb2.PathElem(name=word, key={}))
   return gnmi_pb2.Path(elem=gnmi_elems)
