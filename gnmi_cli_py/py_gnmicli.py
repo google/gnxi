@@ -43,9 +43,8 @@ import six
 try:
   import gnmi_pb2
 except ImportError:
-  print('ERROR: Ensure you have grpcio-tools installed; eg\n'
-        'sudo apt-get install -y pip\n'
-        'sudo pip install --no-binary=protobuf -I grpcio-tools==1.15.0')
+  print('ERROR: Ensure you\'ve installed dependencies from requirements.txt\n'
+        'eg, pip install -r requirements.txt')
 import gnmi_pb2_grpc
 
 __version__ = '0.3'
@@ -122,6 +121,9 @@ def _create_parser():
                       'quallified path to Certificate chain to use when'
                       'establishing a gNMI Channel to the Target', default=None,
                       required=False)
+  parser.add_argument('-g', '--get_cert', help='Obtain certificate from gNMI '
+                      'Target when establishing secure gRPC channel.',
+                      required=False, action='store_true')
   parser.add_argument('-x', '--xpath', type=str, help='The gNMI path utilized'
                       'in the GetRequest or Subscirbe', required=True)
   parser.add_argument('-o', '--host_override', type=str, help='Use this as '
@@ -295,33 +297,46 @@ def _set(stub, paths, set_type, username, password, json_value):
   return stub.Set(gnmi_pb2.SetRequest(replace=[path_val]), **kwargs)
 
 
-def _build_creds(target, port, root_cert, cert_chain, private_key):
+def _build_creds(target, port, get_cert, certs):
   """Define credentials used in gNMI Requests.
 
   Args:
     target: (str) gNMI Target.
     port: (str) gNMI Target IP port.
-    root_cert: (str) Root certificate file to use in the gRPC secure channel.
-    cert_chain: (str) Certificate chain file to use in the gRPC secure channel.
-    private_key: (str) Private key file to use in the gRPC secure channel.
+    get_cert: (str) Certificate should be obtained from Target for gRPC channel.
+    certs: (dict) Certificates to use in building the gRPC channel.
 
   Returns:
     a gRPC.ssl_channel_credentials object.
   """
-  if not root_cert:
-    logging.warning('No certificate supplied, obtaining from Target')
-    root_cert = ssl.get_server_certificate((target, port)).encode('utf-8')
+  if get_cert:
+    logging.info('Obtaining certificate from Target')
+    rcert = ssl.get_server_certificate((target, port)).encode('utf-8')
     return gnmi_pb2_grpc.grpc.ssl_channel_credentials(
-        root_certificates=root_cert, private_key=None, certificate_chain=None)
-  elif not cert_chain:
-    logging.info('Only user/pass in use for Authentication')
-    return gnmi_pb2_grpc.grpc.ssl_channel_credentials(
-        root_certificates=six.moves.builtins.open(root_cert, 'rb').read(),
-        private_key=None, certificate_chain=None)
+        root_certificates=rcert, private_key=certs['private_key'],
+        certificate_chain=certs['cert_chain'])
   return gnmi_pb2_grpc.grpc.ssl_channel_credentials(
-      root_certificates=six.moves.builtins.open(root_cert, 'rb').read(),
-      private_key=six.moves.builtins.open(private_key, 'rb').read(),
-      certificate_chain=six.moves.builtins.open(cert_chain, 'rb').read())
+    root_certificates=certs['root_cert'], private_key=certs['private_key'],
+    certificate_chain=certs['cert_chain'])
+
+
+def _open_certs(**kwargs):
+  """Opens provided certificate files.
+
+  Args:
+    root_cert: (str) Root certificate file to use in the gRPC channel.
+    cert_chain: (str) Certificate chain file to use in the gRPC channel.
+    private_key: (str) Private key file to use in the gRPC channel.
+
+  Returns:
+    root_cert: (str) Root certificate to use in the gRPC channel.
+    cert_chain: (str) Certificate chain to use in the gRPC channel.
+    private_key: (str) Private key to use in the gRPC channel.
+  """
+  for key, value in kwargs.items():
+    if value:
+      kwargs[key] = six.moves.builtins.open(value, 'rb').read()
+  return kwargs
 
 
 def main():
@@ -336,6 +351,7 @@ def main():
   mode = args['mode']
   target = args['target']
   port = args['port']
+  get_cert = args['get_cert']
   root_cert = args['root_cert']
   cert_chain = args['cert_chain']
   json_value = args['value']
@@ -346,7 +362,10 @@ def main():
   password = args['password']
   form = args['format']
   paths = _parse_path(_path_names(xpath))
-  creds = _build_creds(target, port, root_cert, cert_chain, private_key)
+  kwargs = {'root_cert': root_cert, 'cert_chain': cert_chain,
+            'private_key': private_key}
+  certs = _open_certs(**kwargs)
+  creds = _build_creds(target, port, get_cert, certs)
   stub = _create_stub(creds, target, port, host_override)
   if mode == 'get':
     print('Performing GetRequest, encoding=JSON_IETF', 'to', target,
