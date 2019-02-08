@@ -12,19 +12,19 @@ You may also need to pip install setuptools.
 ## Usage Examples
 gNMI GetRequests. Substitute where applicable.
 ```
-python py_gnmicli.py -m get -t <gnmi_target_addr> -p <port> -x <xpath> -u <user> -w <password> [Optional] -rcert <CA certificate>
+python py_gnmicli.py -m get -t <gnmi_target_addr> -p <port> -x <xpath> -user <user> -pass <password> [Optional] -rcert <CA certificate>
 ```
-gNMI GetRequest for an Access Point target, who's hostname is "ap-1", with an xpath of root for access-points model:
+gNMI GetRequest for an Access Point target, who's hostname is "ap-1", with an xpath of root for access-points model. This gNMI Target is using a self-signed certificate, therefore we pass the --get_cert (-g) option, accompanied by the --host_override (-o). This automatically fetches the Certificate from the Target for building the gRPC channel. Host override is due to the Target self-signed certificate not including the IP/Hostname in the CN or SAN.
 ```
-python py_gnmicli.py -m get -t example.net -x /access-points/access-point[hostname=ap-1]/ -u admin -w admin -p 8080 -o openconfig.example.com
+python py_gnmicli.py -m get -t example.net -x /access-points/access-point[hostname=ap-1]/ -user admin -pass admin -p 8080 -o openconfig.example.com
 ```
-gNMI GetRequest for an Access Point target, who's hostname is "ap-1", with an xpath of the config container of Radio with ID 0:
+gNMI GetRequest for an Access Point target, who's hostname is "ap-1", with an xpath of the config container of Radio with ID 0. This Target is using a valid signed certificate from a public CA; therefore no need for -o or -g options:
 ```
-python py_gnmicli.py -m get -t example.net -x /access-points/access-point[hostname=ap-1]/radios/radio[id=0]/config -u admin -w admin -p 8080 -o openconfig.example.com
+python py_gnmicli.py -m get -t example.net -x /access-points/access-point[hostname=ap-1]/radios/radio[id=0]/config -user admin -pass admin -p 8080
 ```
-gNMI SetRequest Replace for an Access Point target, who's hostname is "ap-1", with an xpath of the channel config leaf of Radio with ID 0 (This would assign channel 165 to this Radio):
+gNMI SetRequest Replace for an Access Point target, who's hostname is "ap-1", with an xpath of the channel config leaf of Radio with ID 0 (This would assign channel 165 to this Radio). This Target is using a certificate which was signed by an internal CA; therefore we are providing the -rcert option, which provides the internal CA cert to the client for use in building the secure gRPC channel. This internal CA cert was obtained off-line:
 ```
-python py_gnmicli.py -t example.net -p 443 -m set-replace -x /access-points/access-point[hostname=test-ap1]/radios/radio[id=0]/config/channel -o openconfig.example.com -user admin -pass admi -rcert ca.cert.pem -val 165
+python py_gnmicli.py -t example.net -p 443 -m set-replace -x /access-points/access-point[hostname=test-ap1]/radios/radio[id=0]/config/channel -user admin -pass admin -rcert ca.cert.pem -val 165
 ```
 The above SetRequest Replace would output the following to stdout:
 ```
@@ -92,11 +92,11 @@ The SetRequest response is below
 }
 ```
 
-Note on certificates. If no root certificate is supplied (option: -rcert), it will be automatically downloaded from the Target at runtime. If the gNMI Target is utilizing a self-signed certificate it may also be required to supply the hostname utilized in the certificate (option: --host_override)
+If the gNMI Target is utilizing a self-signed certificate it may also be required to supply the hostname utilized in the certificate (option: --host_override)
 
 For example:
 ```
-python py_gnmicli.py -t target1.example.com -p 443 -m get -x /access-points/access-point[hostname=test-ap1]/radios/radio[id=0]/config -o openconfig.mojonetworks.com -user admin -pass admin -rcert ca.cert.pem
+python py_gnmicli.py -t target1.example.com -p 443 -m get -x /access-points/access-point[hostname=test-ap1]/radios/radio[id=0]/config -o openconfig.mojonetworks.com -user admin -pass admin -g
 ```
 
 ### Notable Options
