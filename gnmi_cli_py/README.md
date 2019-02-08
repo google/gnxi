@@ -91,7 +91,6 @@ The SetRequest response is below
   op: REPLACE
 }
 ```
-
 If the gNMI Target is utilizing a self-signed certificate it may also be required to supply the hostname utilized in the certificate (option: --host_override)
 
 For example:
