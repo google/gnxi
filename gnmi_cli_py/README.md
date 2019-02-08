@@ -5,8 +5,9 @@ A simple Python script that performs interactions with gNMI Targets.
 ## Dependencies
 
 ```
-sudo pip install --no-binary=protobuf -I grpcio-tools==1.15.0
+pip install -r requirements.txt
 ```
+You may also need to pip install setuptools.
 
 ## Usage Examples
 gNMI GetRequests. Substitute where applicable.
