@@ -136,6 +136,8 @@ def _create_parser():
                       action='store_true', required=False)
   parser.add_argument('-d', '--debug', help='Enable gRPC debugging',
                       required=False, action='store_true')
+  parser.add_argument('-n', '--notls', help='gRPC insecure mode',
+                      required=False, action='store_true')
   return parser
 
 
@@ -192,11 +194,14 @@ def _create_stub(creds, target, port, host_override):
   Returns:
     a gnmi_pb2_grpc object representing a gNMI Stub.
   """
-  if host_override:
-    channel = gnmi_pb2_grpc.grpc.secure_channel(target + ':' + port, creds, ((
-        'grpc.ssl_target_name_override', host_override,),))
+  if creds:
+    if host_override:
+      channel = gnmi_pb2_grpc.grpc.secure_channel(target + ':' + port, creds, ((
+          'grpc.ssl_target_name_override', host_override,),))
+    else:
+      channel = gnmi_pb2_grpc.grpc.secure_channel(target + ':' + port, creds)
   else:
-    channel = gnmi_pb2_grpc.grpc.secure_channel(target + ':' + port, creds)
+      channel = gnmi_pb2_grpc.grpc.insecure_channel(target + ':' + port)
   return gnmi_pb2_grpc.gNMIStub(channel)
 
 
@@ -336,6 +341,7 @@ def main():
   mode = args['mode']
   target = args['target']
   port = args['port']
+  notls = args['notls']
   root_cert = args['root_cert']
   cert_chain = args['cert_chain']
   json_value = args['value']
@@ -347,6 +353,8 @@ def main():
   form = args['format']
   paths = _parse_path(_path_names(xpath))
   creds = _build_creds(target, port, root_cert, cert_chain, private_key)
+  if notls:
+    creds = None
   stub = _create_stub(creds, target, port, host_override)
   if mode == 'get':
     print('Performing GetRequest, encoding=JSON_IETF', 'to', target,
