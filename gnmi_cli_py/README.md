@@ -4,10 +4,24 @@ A simple Python script that performs interactions with gNMI Targets.
 
 ## Dependencies
 
+The dependencies can be installed to either (1) your host's python environment or (2) within a python virtual environment.
+
+System Python Installation
 ```
 pip install -r requirements.txt
 ```
 You may also need to pip install setuptools.
+
+Virtualenv Installation
+```
+# install virtualenv
+pip install virtualenv
+
+# create a virtual environment
+virtualenv venv
+. venv/bin/activate
+pip install -r requirements.txt
+```
 
 ## Usage Examples
 gNMI GetRequests. Substitute where applicable.
