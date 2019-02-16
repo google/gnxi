@@ -117,3 +117,4 @@ python py_gnmicli.py -t target1.example.com -p 443 -m get -x /access-points/acce
 * Pay special attention when utilizing a JSON file as the val when performing SetRequests. It MUST be preceded by an '@'; else it is assumed that you are providing a leaf value directly.
 * The host_override (-o) option is most likely needed, if the Target is utilizing a self-signed certificate (unless the root CA is trusted on the host machine).
 * Use the debug flag (-d) when troubleshooting/reporting gRPC errors.
+* If the target isn't using TLS tunnels with its gRPC comms, use the notls (-n) option. This is not common and should only be used within a controlled environment (i.e. not over the internet).
