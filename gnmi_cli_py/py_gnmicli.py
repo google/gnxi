@@ -305,7 +305,7 @@ def _set(stub, paths, set_type, username, password, json_value):
   return stub.Set(gnmi_pb2.SetRequest(replace=[path_val]), **kwargs)
 
 
-def _build_creds(target, port, get_cert, certs):
+def _build_creds(target, port, get_cert, certs, notls):
   """Define credentials used in gNMI Requests.
 
   Args:
@@ -376,7 +376,7 @@ def main():
   kwargs = {'root_cert': root_cert, 'cert_chain': cert_chain,
             'private_key': private_key}
   certs = _open_certs(**kwargs)
-  creds = _build_creds(target, port, get_cert, certs)
+  creds = _build_creds(target, port, get_cert, certs, notls)
   stub = _create_stub(creds, target, port, host_override)
   if mode == 'get':
     print('Performing GetRequest, encoding=JSON_IETF', 'to', target,
