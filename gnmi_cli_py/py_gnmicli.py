@@ -138,6 +138,8 @@ def _create_parser():
                       action='store_true', required=False)
   parser.add_argument('-d', '--debug', help='Enable gRPC debugging',
                       required=False, action='store_true')
+  parser.add_argument('-n', '--notls', help='gRPC insecure mode',
+                      required=False, action='store_true')
   return parser
 
 
@@ -197,11 +199,14 @@ def _create_stub(creds, target, port, host_override):
   Returns:
     a gnmi_pb2_grpc object representing a gNMI Stub.
   """
-  if host_override:
-    channel = gnmi_pb2_grpc.grpc.secure_channel(target + ':' + port, creds, ((
-        'grpc.ssl_target_name_override', host_override,),))
+  if creds:
+    if host_override:
+      channel = gnmi_pb2_grpc.grpc.secure_channel(target + ':' + port, creds, ((
+          'grpc.ssl_target_name_override', host_override,),))
+    else:
+      channel = gnmi_pb2_grpc.grpc.secure_channel(target + ':' + port, creds)
   else:
-    channel = gnmi_pb2_grpc.grpc.secure_channel(target + ':' + port, creds)
+      channel = gnmi_pb2_grpc.grpc.insecure_channel(target + ':' + port)
   return gnmi_pb2_grpc.gNMIStub(channel)
 
 
@@ -312,6 +317,8 @@ def _build_creds(target, port, get_cert, certs):
   Returns:
     a gRPC.ssl_channel_credentials object.
   """
+  if notls:
+    return
   if get_cert:
     logging.info('Obtaining certificate from Target')
     rcert = ssl.get_server_certificate((target, port)).encode('utf-8')
@@ -354,6 +361,7 @@ def main():
   mode = args['mode']
   target = args['target']
   port = args['port']
+  notls = args['notls']
   get_cert = args['get_cert']
   root_cert = args['root_cert']
   cert_chain = args['cert_chain']
