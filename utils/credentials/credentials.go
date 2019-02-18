@@ -98,6 +98,9 @@ func ClientCredentials(server string) []grpc.DialOption {
 		tlsConfig := &tls.Config{}
 		if *insecure {
 			tlsConfig.InsecureSkipVerify = true
+			certificates, certPool := LoadCertificates()
+			tlsConfig.Certificates = certificates
+			tlsConfig.RootCAs = certPool
 		} else {
 			certificates, certPool := LoadCertificates()
 			tlsConfig.ServerName = server
