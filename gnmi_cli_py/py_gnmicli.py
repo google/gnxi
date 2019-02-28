@@ -46,13 +46,14 @@ except ImportError:
   print('ERROR: Ensure you\'ve installed dependencies from requirements.txt\n'
         'eg, pip install -r requirements.txt')
 import gnmi_pb2_grpc
+import grpc
 
 __version__ = '0.3'
 
 _RE_PATH_COMPONENT = re.compile(r'''
 ^
 (?P<pname>[^[]+)  # gNMI path name
-(\[(?P<key>\w+)   # gNMI path key
+(\[(?P<key>[a-zA-Z0-9\-]+)   # gNMI path key
 =
 (?P<value>.*)    # gNMI path value
 \])?$
@@ -140,6 +141,20 @@ def _create_parser():
                       required=False, action='store_true')
   parser.add_argument('-n', '--notls', help='gRPC insecure mode',
                       required=False, action='store_true')
+  parser.add_argument('--interval', default=10, type=int,
+                      help='sample interval (default: 10s)')
+  parser.add_argument('--timeout', type=int, help='subscription'
+                      'duration in seconds (default: none)')
+  parser.add_argument('--heartbeat', default=0, type=int, help='heartbeat interval (default: None)')
+  parser.add_argument('--aggregate', action='store_true', help='allow aggregation')
+  parser.add_argument('--suppress', action='store_true', help='suppress redundant')
+  parser.add_argument('--submode', default=2, type=int,
+                      help='subscription mode [0=TARGET_DEFINED, 1=ON_CHANGE, 2=SAMPLE]')
+  parser.add_argument('--subscribe_mode', default=0, type=int, help='[0=STREAM, 1=ONCE, 2=POLL]')
+  parser.add_argument('--encoding', default=0, type=int, help='[0=JSON, 1=BYTES, 2=PROTO, 3=ASCII, 4=JSON_IETF]')
+  parser.add_argument('--qos', default=0, type=int, help='')
+  parser.add_argument('--use_alias', action='store_true', help='use alias')
+  parser.add_argument('--prefix', default='', help='gRPC path prefix (default: none)')
   return parser
 
 
@@ -248,7 +263,7 @@ def _get_val(json_value):
           json_value.strip('@'), 'rb').read())
     except (IOError, ValueError) as e:
       raise JsonReadError('Error while loading JSON: %s' % str(e))
-    val.json_ietf_val = json.dumps(set_json)
+    val.json_ietf_val = json.dumps(set_json).encode('utf-8')
     return val
   coerced_val = _format_type(json_value)
   type_to_value = {bool: 'bool_val', int: 'int_val', float: 'float_val',
@@ -349,6 +364,68 @@ def _open_certs(**kwargs):
   return kwargs
 
 
+def gen_request(paths, opt):
+    """Create subscribe request for passed xpath.
+    Args:
+        paths: (str) gNMI path.
+        opt: (dict) Command line argument passed for subscribe reqeust.
+    Returns:
+      gNMI SubscribeRequest object.
+    """
+    mysubs = []
+    mysub = gnmi_pb2.Subscription(path=paths, mode=opt["submode"], sample_interval=opt["interval"]*1000000000, heartbeat_interval=opt['heartbeat']*1000000000, suppress_redundant=opt['suppress'])
+    mysubs.append(mysub)
+    if opt["prefix"]:
+        myprefix = _parse_path(_path_names(opt["prefix"]))
+    else:
+        myprefix = None
+
+    if opt["qos"]:
+        myqos = gnmi_pb2.QOSMarking(marking=opt["qos"])
+    else:
+        myqos = None
+    mysblist = gnmi_pb2.SubscriptionList(prefix=myprefix, mode=opt['subscribe_mode'], allow_aggregation=opt['aggregate'], encoding=opt['encoding'], subscription=mysubs, use_aliases=opt['use_alias'], qos=myqos)
+    mysubreq = gnmi_pb2.SubscribeRequest(subscribe=mysblist)
+
+    print('Sending SubscribeRequest\n'+str(mysubreq))
+    yield mysubreq
+
+
+def subscribe_start(stub, options, req_iterator):
+  """ RPC Start for Subscribe reqeust
+  Args:
+      stub: (class) gNMI Stub used to build the secure channel.
+      options: (dict) Command line argument passed for subscribe reqeust.
+      req_iterator: gNMI Subscribe Request from gen_request.
+  Returns:
+      Start Subscribe and printing response of gNMI Subscribe Response.
+  """
+  metadata = [('username', options['username']), ('password', options['password'])]
+  try:
+      responses = stub.Subscribe(req_iterator, options['timeout'], metadata=metadata)
+      for response in responses:
+          if response.HasField('sync_response'):
+              print('Sync Response received\n'+str(response))
+          elif response.HasField('error'):
+              print('gNMI Error '+str(response.error.code)+' received\n'+str(response.error.message) + str(response.error))
+          elif response.HasField('update'):
+              dt = {}
+              for x in range (len(response.update.update)):
+                dt['timestamp'] = response.update.timestamp
+                dt[response.update.update[x].path.elem[-1].name] = response.update.update[x].val.uint_val
+                # print("Timestamp: %s Val: %s Element Name: %s" % (response.update.timestamp, response.update.update[x].val, response.update.update[x].path.elem[-1].name))
+              print(dt)
+              print(response)
+          else:
+              print('Unknown response received:\n'+str(response))
+  except KeyboardInterrupt:
+      print("Subscribe Session stopped by user.")
+  except grpc.RpcError as x:
+      print("grpc.RpcError received:\n%s" %x)
+  except Exception as err:
+      print(err)
+
+
 def main():
   argparser = _create_parser()
   args = vars(argparser.parse_args())
@@ -407,8 +484,8 @@ def main():
     response = _set(stub, paths, 'delete', user, password, json_value)
     print('The SetRequest response is below\n' + '-'*25 + '\n', response)
   elif mode == 'subscribe':
-    print('This mode not available in this version')
-    sys.exit()
+    request_iterator = gen_request(paths, args)
+    subscribe_start(stub, args, request_iterator)
 
 
 if __name__ == '__main__':
