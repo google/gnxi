@@ -40,6 +40,10 @@ gNMI SetRequest Replace for an Access Point target, who's hostname is "ap-1", wi
 ```
 python py_gnmicli.py -t example.net -p 443 -m set-replace -x /access-points/access-point[hostname=test-ap1]/radios/radio[id=0]/config/channel -user admin -pass admin -rcert ca.cert.pem -val 165
 ```
+gNMI Subscribe request with Subscribe Mode STREAM and Submode SAMPLE with sample interval 5 seconds.
+```
+python py_gnmicli.py -t example.net -p 443 -m subscribe -x /access-points/access-point[hostname=test-ap1]/radios/radio[id=0]/config/channel -user admin -pass admin -g -o openconfig.com --interval 5 --subscribe_mode 0 --submode 2
+```
 The above SetRequest Replace would output the following to stdout:
 ```
 Performing SetRequest Replace, encoding=JSON_IETF  to  openconfig.example.com with the following gNMI Path
