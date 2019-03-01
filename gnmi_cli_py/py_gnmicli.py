@@ -409,12 +409,6 @@ def subscribe_start(stub, options, req_iterator):
           elif response.HasField('error'):
               print('gNMI Error '+str(response.error.code)+' received\n'+str(response.error.message) + str(response.error))
           elif response.HasField('update'):
-              dt = {}
-              for x in range (len(response.update.update)):
-                dt['timestamp'] = response.update.timestamp
-                dt[response.update.update[x].path.elem[-1].name] = response.update.update[x].val.uint_val
-                # print("Timestamp: %s Val: %s Element Name: %s" % (response.update.timestamp, response.update.update[x].val, response.update.update[x].path.elem[-1].name))
-              print(dt)
               print(response)
           else:
               print('Unknown response received:\n'+str(response))
