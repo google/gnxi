@@ -169,9 +169,31 @@ def _path_names(xpath):
   Returns:
     list of gNMI path names.
   """
-  if not xpath or xpath == '/':  # A blank xpath was provided at CLI.
-    return []
-  return xpath.strip().strip('/').split('/')  # Remove leading and trailing '/'.
+  path = []
+  insidebracket = False
+  begin = 0
+  end = 0
+  xpath=xpath+'/'
+  while end < len(xpath):
+      if xpath[end] == "/":
+          if insidebracket == False:
+              if end > begin:
+                  path.append(xpath[begin:end])
+              end = end + 1
+              begin = end
+          else:
+              end = end + 1
+      elif xpath[end] == "[":
+          if (end==0 or xpath[end-1]!='\\') and insidebracket == False:
+              insidebracket = True
+          end = end + 1
+      elif xpath[end] == "]":
+          if (end==0 or xpath[end-1]!='\\') and insidebracket == True:
+              insidebracket = False
+          end = end + 1
+      else:
+          end = end + 1
+  return path
 
 
 def _parse_path(p_names):
