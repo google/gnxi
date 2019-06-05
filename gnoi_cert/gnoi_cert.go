@@ -25,6 +25,7 @@ import (
 	"fmt"
 	"reflect"
 	"time"
+	"io/ioutil"
 
 	"github.com/google/gnxi/gnoi/cert"
 	"github.com/google/gnxi/utils/entity"
@@ -39,6 +40,7 @@ var (
 	certID     = flag.String("cert_id", "", "Certificate Management certificate ID.")
 	op         = flag.String("op", "get", "Certificate Management operation, one of: provision, install, rotate, get, revoke, check")
 	ca         = flag.String("ca", "", "CA certificate file.")
+	certf      = flag.String("cert", "", "Certificate file.")
 	key        = flag.String("key", "", "Private key file.")
 	targetCN   = flag.String("target_name", "", "Common Name of the target.")
 	targetAddr = flag.String("target_addr", "localhost:10161", "The target address in the format of host:port")
@@ -52,15 +54,15 @@ var (
 func main() {
 	flag.Parse()
 
-	if *ca == "" || *key == "" {
-		log.Exit("-ca and -key must be set with file locations")
+	if *ca == "" || *key == "" || *certf == "" {
+		log.Exit("-ca -cert and -key must be set with file locations")
 	}
 	if *targetCN == "" {
 		log.Exit("Must set a Common Name ID with -targetCN.")
 	}
 
 	var err error
-	if caEnt, err = entity.FromFile(*ca, *key); err != nil {
+	if caEnt, err = entity.FromFile(*certf, *key); err != nil {
 		log.Exitf("Failed to load certificate and key from file: %v", err)
 	}
 
@@ -119,7 +121,14 @@ func gnoiAuthenticated(targetName string) (*grpc.ClientConn, *cert.Client) {
 		log.Exitf("Failed to create a signed entity: %v", err)
 	}
 	caPool := x509.NewCertPool()
-	caPool.AddCert(caEnt.Certificate.Leaf)
+	caFile, err := ioutil.ReadFile(*ca);
+	if err != nil {
+		log.Exit("could not read CA certificate")
+	}
+
+	if ok := caPool.AppendCertsFromPEM(caFile); !ok {
+		log.Exit("failed to append certificate")
+	}
 
 	opts := []grpc.DialOption{grpc.WithTransportCredentials(credentials.NewTLS(
 		&tls.Config{
