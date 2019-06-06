@@ -54,6 +54,7 @@ func (c *Client) Rotate(ctx context.Context, certID string, params pkix.Name, si
 					// Organization:       params.Organization,
 					// OrganizationalUnit: params.OrganizationalUnit,
 				},
+				CertificateId:certID,
 			},
 		},
 	}); err != nil {
@@ -101,7 +102,6 @@ func (c *Client) Rotate(ctx context.Context, certID string, params pkix.Name, si
 					Certificate: certPEM,
 				},
 				KeyPair:       nil,
-				CertificateId: certID,
 				CaCertificate: caCertificates,
 			},
 		},
@@ -145,7 +145,9 @@ func (c *Client) Install(ctx context.Context, certID string, params pkix.Name, s
 				// Country:            params.Country,
 				// Organization:       params.Organization,
 				// OrganizationalUnit: params.OrganizationalUnit,
-			}},
+			  },
+			  CertificateId:certID,
+		  },
 		},
 	}); err != nil {
 		return fmt.Errorf("failed to send GenerateCSRRequest: %v", err)
@@ -194,7 +196,6 @@ func (c *Client) Install(ctx context.Context, certID string, params pkix.Name, s
 					Certificate: certPEM,
 				},
 				KeyPair:       nil,
-				CertificateId: certID,
 				CaCertificate: caCertificates,
 			},
 		},
