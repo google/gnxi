@@ -54,16 +54,22 @@ var (
 func main() {
 	flag.Parse()
 
-	if *ca == "" || *key == "" || *certf == "" {
-		log.Exit("-ca -cert and -key must be set with file locations")
+	if *ca == "" || *key == "" {
+		log.Exit("-ca and -key must be set with file locations")
 	}
 	if *targetCN == "" {
 		log.Exit("Must set a Common Name ID with -targetCN.")
 	}
 
 	var err error
-	if caEnt, err = entity.FromFile(*certf, *key); err != nil {
-		log.Exitf("Failed to load certificate and key from file: %v", err)
+	if *certf == "" {
+		if caEnt, err = entity.FromFile(*ca, *key); err != nil {
+			log.Exitf("Failed to load certificate and key from file: %v", err)
+		}
+	} else {
+		if caEnt, err = entity.FromFile(*certf, *key); err != nil {
+			log.Exitf("Failed to load certificate and key from file: %v", err)
+		}
 	}
 
 	ctx, cancel = context.WithTimeout(context.Background(), *timeOut)
@@ -121,13 +127,18 @@ func gnoiAuthenticated(targetName string) (*grpc.ClientConn, *cert.Client) {
 		log.Exitf("Failed to create a signed entity: %v", err)
 	}
 	caPool := x509.NewCertPool()
-	caFile, err := ioutil.ReadFile(*ca);
-	if err != nil {
-		log.Exit("could not read CA certificate")
-	}
 
-	if ok := caPool.AppendCertsFromPEM(caFile); !ok {
-		log.Exit("failed to append certificate")
+	if *certf == "" {
+		caPool.AddCert(caEnt.Certificate.Leaf)
+	} else {
+		caFile, err := ioutil.ReadFile(*ca);
+		if err != nil {
+			log.Exit("could not read CA certificate")
+		}
+
+		if ok := caPool.AppendCertsFromPEM(caFile); !ok {
+			log.Exit("failed to append certificate")
+		}
 	}
 
 	opts := []grpc.DialOption{grpc.WithTransportCredentials(credentials.NewTLS(
