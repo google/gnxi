@@ -101,8 +101,7 @@ func (c *Client) Rotate(ctx context.Context, certID string, params pkix.Name, si
 					Type:        pb.CertificateType_CT_X509,
 					Certificate: certPEM,
 				},
-				KeyPair:       nil,
-				CaCertificate: caCertificates,
+				CaCertificates: caCertificates,
 			},
 		},
 	}); err != nil {
@@ -195,8 +194,7 @@ func (c *Client) Install(ctx context.Context, certID string, params pkix.Name, s
 					Type:        pb.CertificateType_CT_X509,
 					Certificate: certPEM,
 				},
-				KeyPair:       nil,
-				CaCertificate: caCertificates,
+				CaCertificates: caCertificates,
 			},
 		},
 	}); err != nil {
