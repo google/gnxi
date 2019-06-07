@@ -978,8 +978,11 @@ type LoadCertificateRequest struct {
 	// Certificate Id of the above certificate. This is to be provided only when
 	// there is an externally generated key pair.
 	CertificateId string `protobuf:"bytes,3,opt,name=certificate_id,json=certificateId,proto3" json:"certificate_id,omitempty"`
-	// Optional pool of CA certificates to be used for authenticating the client.
-	CaCertificate        []*Certificate `protobuf:"bytes,4,rep,name=ca_certificate,json=caCertificate,proto3" json:"ca_certificate,omitempty"`
+	// Optional bundle of CA certificates. When not empty, the provided
+  // certificates should squash the existing bundle. This field provides a
+  // simplified means to provision a CA bundle that can be used to validate
+  // other peer's certificates.
+	CaCertificates       []*Certificate `protobuf:"bytes,4,rep,name=ca_certificates,json=caCertificate,proto3" json:"ca_certificates,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}       `json:"-"`
 	XXX_unrecognized     []byte         `json:"-"`
 	XXX_sizecache        int32          `json:"-"`
@@ -1030,9 +1033,9 @@ func (m *LoadCertificateRequest) GetCertificateId() string {
 	return ""
 }
 
-func (m *LoadCertificateRequest) GetCaCertificate() []*Certificate {
+func (m *LoadCertificateRequest) GetCaCertificates() []*Certificate {
 	if m != nil {
-		return m.CaCertificate
+		return m.CaCertificates
 	}
 	return nil
 }
