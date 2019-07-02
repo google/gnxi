@@ -122,7 +122,13 @@ func gnoiEncrypted(c tls.Certificate) (*grpc.ClientConn, *cert.Client) {
 
 // gnoiAuthenticated creates an authenticated TLS connection to the target.
 func gnoiAuthenticated(targetName string) (*grpc.ClientConn, *cert.Client) {
-	clientEnt, err := entity.CreateSigned("client", nil, caEnt)
+	var clientEnt *entity.Entity
+	var err error
+	if *certf == "" {
+		clientEnt, err = entity.CreateSigned("client", nil, caEnt)
+	} else {
+		clientEnt, err = entity.FromFile(*certf, *key)
+	}
 	if err != nil {
 		log.Exitf("Failed to create a signed entity: %v", err)
 	}
