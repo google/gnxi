@@ -388,6 +388,8 @@ def main():
     elif response.notification[0].update[0].val.json_ietf_val:
       print(json.dumps(json.loads(response.notification[0].update[0].val.
                                   json_ietf_val), indent=2))
+    elif response.notification[0].update[0].val.string_val:
+      print(response.notification[0].update[0].val.string_val)
     else:
       print('JSON Format specified, but gNMI Response was not json_ietf_val')
       print(response)
