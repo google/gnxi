@@ -240,8 +240,6 @@ func Template(cn string) *x509.Certificate {
 		ExtKeyUsage: []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth, x509.ExtKeyUsageServerAuth},
 		// IsCA,
 		KeyUsage:       x509.KeyUsageDigitalSignature | x509.KeyUsageKeyEncipherment,
-		MaxPathLen:     certMaxPathLen,
-		MaxPathLenZero: true,
 		NotAfter:       time.Now().Add(24 * 365 * time.Hour),
 		NotBefore:      time.Now(),
 		// PermittedDNSDomains,
