@@ -34,6 +34,7 @@ var (
 	bigInt         = big.NewInt(0).Lsh(big.NewInt(1), 128)
 	rsaBitSize     = 2048
 	randReader     = rand.Reader
+	certMaxPathLen = 5
 	certExpiration = (365 * 24 * time.Hour)
 )
 
@@ -213,6 +214,8 @@ func TemplateCA(cn string) *x509.Certificate {
 	ca := Template(cn)
 	ca.KeyUsage = x509.KeyUsageDigitalSignature | x509.KeyUsageCertSign | x509.KeyUsageCRLSign
 	ca.IsCA = true
+	ca.MaxPathLen = certMaxPathLen
+	ca.MaxPathLenZero = true
 	return ca
 }
 
