@@ -34,7 +34,6 @@ var (
 	bigInt         = big.NewInt(0).Lsh(big.NewInt(1), 128)
 	rsaBitSize     = 2048
 	randReader     = rand.Reader
-	certMaxPathLen = 5
 	certExpiration = (365 * 24 * time.Hour)
 )
 
