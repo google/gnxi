@@ -102,8 +102,6 @@ func FromSigningRequest(csr *x509.CertificateRequest) (*Entity, error) {
 		DNSNames:              csr.DNSNames,
 		ExtKeyUsage:           []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth, x509.ExtKeyUsageServerAuth},
 		KeyUsage:              x509.KeyUsageDigitalSignature | x509.KeyUsageKeyEncipherment,
-		MaxPathLen:            certMaxPathLen,
-		MaxPathLenZero:        true,
 		NotAfter:              time.Now().Add(certExpiration),
 		NotBefore:             time.Now(),
 		SignatureAlgorithm:    csr.SignatureAlgorithm,
