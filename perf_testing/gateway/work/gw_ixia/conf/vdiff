@@ -1,0 +1,3 @@
+vimdiff /etc/c6xx_dev0.conf c6xx_dev0.conf
+vimdiff /etc/c6xx_dev1.conf c6xx_dev1.conf
+vimdiff /etc/c6xx_dev2.conf c6xx_dev2.conf
