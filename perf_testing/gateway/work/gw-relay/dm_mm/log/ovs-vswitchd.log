@@ -1,0 +1,344 @@
+2019-06-03T23:22:12.607Z|00001|vlog|INFO|opened log file /home/esdn/work/gw-relay/dm_mm/log/ovs-vswitchd.log
+2019-06-03T23:22:12.612Z|00002|ovs_numa|INFO|Discovered 48 CPU cores on NUMA node 0
+2019-06-03T23:22:12.612Z|00003|ovs_numa|INFO|Discovered 48 CPU cores on NUMA node 1
+2019-06-03T23:22:12.612Z|00004|ovs_numa|INFO|Discovered 2 NUMA nodes and 96 CPU cores
+2019-06-03T23:22:12.612Z|00005|reconnect|INFO|unix:/home/esdn/work/gw-relay/dm_mm/run/db.sock: connecting...
+2019-06-03T23:22:12.612Z|00006|reconnect|INFO|unix:/home/esdn/work/gw-relay/dm_mm/run/db.sock: connected
+2019-06-03T23:22:12.614Z|00007|dpdk|INFO|DPDK Disabled - Use other_config:dpdk-init to enable
+2019-06-03T23:22:12.616Z|00008|bridge|INFO|ovs-vswitchd (Open vSwitch) 2.9.2
+2019-06-03T23:22:12.633Z|00009|ofproto_dpif|INFO|system@ovs-system: Datapath supports recirculation
+2019-06-03T23:22:12.633Z|00010|ofproto_dpif|INFO|system@ovs-system: VLAN header stack length probed as 2
+2019-06-03T23:22:12.633Z|00011|ofproto_dpif|INFO|system@ovs-system: MPLS label stack length probed as 1
+2019-06-03T23:22:12.633Z|00012|ofproto_dpif|INFO|system@ovs-system: Datapath supports truncate action
+2019-06-03T23:22:12.633Z|00013|ofproto_dpif|INFO|system@ovs-system: Datapath supports unique flow ids
+2019-06-03T23:22:12.633Z|00014|ofproto_dpif|INFO|system@ovs-system: Datapath does not support clone action
+2019-06-03T23:22:12.634Z|00015|ofproto_dpif|INFO|system@ovs-system: Max sample nesting level probed as 10
+2019-06-03T23:22:12.634Z|00016|ofproto_dpif|INFO|system@ovs-system: Datapath supports eventmask in conntrack action
+2019-06-03T23:22:12.634Z|00017|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_clear action
+2019-06-03T23:22:12.634Z|00018|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_state
+2019-06-03T23:22:12.634Z|00019|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_zone
+2019-06-03T23:22:12.634Z|00020|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_mark
+2019-06-03T23:22:12.634Z|00021|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_label
+2019-06-03T23:22:12.634Z|00022|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_state_nat
+2019-06-03T23:22:12.634Z|00023|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_orig_tuple
+2019-06-03T23:22:12.634Z|00024|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_orig_tuple6
+2019-06-03T23:22:12.971Z|00025|bridge|INFO|bridge dm_mm: added interface dm_mm on port 65534
+2019-06-03T23:22:12.971Z|00026|bridge|INFO|bridge dm_mm: using datapath ID 00008a85e3fce842
+2019-06-03T23:22:12.971Z|00027|connmgr|INFO|dm_mm: added service controller "punix:/home/esdn/work/gw-relay/dm_mm/run/dm_mm.mgmt"
+2019-06-03T23:22:13.224Z|00028|bridge|INFO|bridge dm_mm: added interface gre2 on port 200
+2019-06-03T23:22:13.231Z|00029|bridge|INFO|bridge dm_mm: added interface veth3 on port 201
+2019-06-03T23:22:13.240Z|00030|connmgr|INFO|dm_mm<->unix#1: 1 flow_mods in the last 0 s (1 deletes)
+2019-06-03T23:22:13.244Z|00031|connmgr|INFO|dm_mm<->unix#3: 1 flow_mods in the last 0 s (1 adds)
+2019-06-03T23:22:13.247Z|00001|ofproto_dpif_xlate(handler129)|INFO|/proc/sys/net/core/netdev_max_backlog: open failed (No such file or directory)
+2019-06-03T23:22:13.248Z|00032|connmgr|INFO|dm_mm<->unix#5: 1 flow_mods in the last 0 s (1 adds)
+2019-06-03T23:22:22.618Z|00033|memory|INFO|755020 kB peak resident set size after 10.0 seconds
+2019-06-03T23:22:22.618Z|00034|memory|INFO|handlers:65 ports:3 revalidators:23 rules:6 udpif keys:1
+2019-06-03T23:29:56.867Z|00035|bridge|INFO|bridge dm_mm: deleted interface gre2 on port 200
+2019-06-03T23:29:56.867Z|00036|bridge|INFO|bridge dm_mm: deleted interface veth3 on port 201
+2019-06-03T23:29:56.867Z|00037|bridge|INFO|bridge dm_mm: deleted interface dm_mm on port 65534
+2019-06-03T23:30:02.227Z|00002|daemon_unix(monitor)|INFO|pid 3686 died, exit status 0, exiting
+2019-06-03T23:31:59.162Z|00001|vlog|INFO|opened log file /home/esdn/work/gw-relay/dm_mm/log/ovs-vswitchd.log
+2019-06-03T23:31:59.167Z|00002|ovs_numa|INFO|Discovered 48 CPU cores on NUMA node 0
+2019-06-03T23:31:59.167Z|00003|ovs_numa|INFO|Discovered 48 CPU cores on NUMA node 1
+2019-06-03T23:31:59.167Z|00004|ovs_numa|INFO|Discovered 2 NUMA nodes and 96 CPU cores
+2019-06-03T23:31:59.167Z|00005|reconnect|INFO|unix:/home/esdn/work/gw-relay/dm_mm/run/db.sock: connecting...
+2019-06-03T23:31:59.167Z|00006|reconnect|INFO|unix:/home/esdn/work/gw-relay/dm_mm/run/db.sock: connected
+2019-06-03T23:31:59.170Z|00007|dpdk|INFO|DPDK Disabled - Use other_config:dpdk-init to enable
+2019-06-03T23:31:59.171Z|00008|bridge|INFO|ovs-vswitchd (Open vSwitch) 2.9.2
+2019-06-03T23:31:59.188Z|00009|ofproto_dpif|INFO|system@ovs-system: Datapath supports recirculation
+2019-06-03T23:31:59.188Z|00010|ofproto_dpif|INFO|system@ovs-system: VLAN header stack length probed as 2
+2019-06-03T23:31:59.188Z|00011|ofproto_dpif|INFO|system@ovs-system: MPLS label stack length probed as 1
+2019-06-03T23:31:59.188Z|00012|ofproto_dpif|INFO|system@ovs-system: Datapath supports truncate action
+2019-06-03T23:31:59.188Z|00013|ofproto_dpif|INFO|system@ovs-system: Datapath supports unique flow ids
+2019-06-03T23:31:59.188Z|00014|ofproto_dpif|INFO|system@ovs-system: Datapath does not support clone action
+2019-06-03T23:31:59.188Z|00015|ofproto_dpif|INFO|system@ovs-system: Max sample nesting level probed as 10
+2019-06-03T23:31:59.189Z|00016|ofproto_dpif|INFO|system@ovs-system: Datapath supports eventmask in conntrack action
+2019-06-03T23:31:59.189Z|00017|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_clear action
+2019-06-03T23:31:59.189Z|00018|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_state
+2019-06-03T23:31:59.189Z|00019|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_zone
+2019-06-03T23:31:59.189Z|00020|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_mark
+2019-06-03T23:31:59.189Z|00021|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_label
+2019-06-03T23:31:59.189Z|00022|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_state_nat
+2019-06-03T23:31:59.189Z|00023|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_orig_tuple
+2019-06-03T23:31:59.189Z|00024|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_orig_tuple6
+2019-06-03T23:31:59.583Z|00025|bridge|INFO|bridge dm_mm: added interface dm_mm on port 65534
+2019-06-03T23:31:59.583Z|00026|bridge|INFO|bridge dm_mm: using datapath ID 00001e98dd654140
+2019-06-03T23:31:59.584Z|00027|connmgr|INFO|dm_mm: added service controller "punix:/home/esdn/work/gw-relay/dm_mm/run/dm_mm.mgmt"
+2019-06-03T23:31:59.833Z|00028|bridge|INFO|bridge dm_mm: added interface gre2 on port 200
+2019-06-03T23:31:59.841Z|00029|bridge|INFO|bridge dm_mm: added interface veth3 on port 201
+2019-06-03T23:31:59.850Z|00030|connmgr|INFO|dm_mm<->unix#1: 1 flow_mods in the last 0 s (1 deletes)
+2019-06-03T23:31:59.854Z|00031|connmgr|INFO|dm_mm<->unix#3: 1 flow_mods in the last 0 s (1 adds)
+2019-06-03T23:31:59.855Z|00001|ofproto_dpif_xlate(handler129)|INFO|/proc/sys/net/core/netdev_max_backlog: open failed (No such file or directory)
+2019-06-03T23:31:59.857Z|00032|connmgr|INFO|dm_mm<->unix#5: 1 flow_mods in the last 0 s (1 adds)
+2019-06-03T23:32:09.173Z|00033|memory|INFO|755012 kB peak resident set size after 10.0 seconds
+2019-06-03T23:32:09.173Z|00034|memory|INFO|handlers:65 ports:3 revalidators:23 rules:6 udpif keys:1
+2019-06-04T00:32:51.733Z|00035|bridge|INFO|bridge dm_mm: deleted interface gre2 on port 200
+2019-06-04T00:32:51.733Z|00036|bridge|INFO|bridge dm_mm: deleted interface veth3 on port 201
+2019-06-04T00:32:51.733Z|00037|bridge|INFO|bridge dm_mm: deleted interface dm_mm on port 65534
+2019-06-04T00:32:52.399Z|00002|daemon_unix(monitor)|INFO|pid 4846 died, exit status 0, exiting
+2019-06-04T00:38:38.444Z|00001|vlog|INFO|opened log file /home/esdn/work/gw-relay/dm_mm/log/ovs-vswitchd.log
+2019-06-04T00:38:38.449Z|00002|ovs_numa|INFO|Discovered 48 CPU cores on NUMA node 0
+2019-06-04T00:38:38.449Z|00003|ovs_numa|INFO|Discovered 48 CPU cores on NUMA node 1
+2019-06-04T00:38:38.449Z|00004|ovs_numa|INFO|Discovered 2 NUMA nodes and 96 CPU cores
+2019-06-04T00:38:38.449Z|00005|reconnect|INFO|unix:/home/esdn/work/gw-relay/dm_mm/run/db.sock: connecting...
+2019-06-04T00:38:38.450Z|00006|reconnect|INFO|unix:/home/esdn/work/gw-relay/dm_mm/run/db.sock: connected
+2019-06-04T00:38:38.452Z|00007|dpdk|INFO|DPDK Disabled - Use other_config:dpdk-init to enable
+2019-06-04T00:38:38.453Z|00008|bridge|INFO|ovs-vswitchd (Open vSwitch) 2.9.2
+2019-06-04T00:38:38.470Z|00009|ofproto_dpif|INFO|system@ovs-system: Datapath supports recirculation
+2019-06-04T00:38:38.470Z|00010|ofproto_dpif|INFO|system@ovs-system: VLAN header stack length probed as 2
+2019-06-04T00:38:38.470Z|00011|ofproto_dpif|INFO|system@ovs-system: MPLS label stack length probed as 1
+2019-06-04T00:38:38.470Z|00012|ofproto_dpif|INFO|system@ovs-system: Datapath supports truncate action
+2019-06-04T00:38:38.470Z|00013|ofproto_dpif|INFO|system@ovs-system: Datapath supports unique flow ids
+2019-06-04T00:38:38.470Z|00014|ofproto_dpif|INFO|system@ovs-system: Datapath does not support clone action
+2019-06-04T00:38:38.470Z|00015|ofproto_dpif|INFO|system@ovs-system: Max sample nesting level probed as 10
+2019-06-04T00:38:38.470Z|00016|ofproto_dpif|INFO|system@ovs-system: Datapath supports eventmask in conntrack action
+2019-06-04T00:38:38.470Z|00017|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_clear action
+2019-06-04T00:38:38.470Z|00018|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_state
+2019-06-04T00:38:38.470Z|00019|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_zone
+2019-06-04T00:38:38.470Z|00020|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_mark
+2019-06-04T00:38:38.470Z|00021|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_label
+2019-06-04T00:38:38.470Z|00022|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_state_nat
+2019-06-04T00:38:38.471Z|00023|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_orig_tuple
+2019-06-04T00:38:38.471Z|00024|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_orig_tuple6
+2019-06-04T00:38:38.847Z|00025|bridge|INFO|bridge dm_mm: added interface dm_mm on port 65534
+2019-06-04T00:38:38.848Z|00026|bridge|INFO|bridge dm_mm: using datapath ID 0000328175f43441
+2019-06-04T00:38:38.848Z|00027|connmgr|INFO|dm_mm: added service controller "punix:/home/esdn/work/gw-relay/dm_mm/run/dm_mm.mgmt"
+2019-06-04T00:38:39.102Z|00028|bridge|INFO|bridge dm_mm: added interface gre2 on port 200
+2019-06-04T00:38:39.111Z|00029|bridge|INFO|bridge dm_mm: added interface veth3 on port 201
+2019-06-04T00:38:39.120Z|00030|connmgr|INFO|dm_mm<->unix#1: 1 flow_mods in the last 0 s (1 deletes)
+2019-06-04T00:38:39.123Z|00031|connmgr|INFO|dm_mm<->unix#3: 1 flow_mods in the last 0 s (1 adds)
+2019-06-04T00:38:39.127Z|00001|ofproto_dpif_xlate(handler129)|INFO|/proc/sys/net/core/netdev_max_backlog: open failed (No such file or directory)
+2019-06-04T00:38:39.127Z|00032|connmgr|INFO|dm_mm<->unix#5: 1 flow_mods in the last 0 s (1 adds)
+2019-06-04T00:38:48.455Z|00033|memory|INFO|755012 kB peak resident set size after 10.0 seconds
+2019-06-04T00:38:48.455Z|00034|memory|INFO|handlers:65 ports:3 revalidators:23 rules:6 udpif keys:2
+2019-06-04T00:56:57.500Z|00035|bridge|INFO|bridge dm_mm: deleted interface gre2 on port 200
+2019-06-04T00:56:57.500Z|00036|bridge|INFO|bridge dm_mm: deleted interface veth3 on port 201
+2019-06-04T00:56:57.500Z|00037|bridge|INFO|bridge dm_mm: deleted interface dm_mm on port 65534
+2019-06-04T00:56:58.231Z|00002|daemon_unix(monitor)|INFO|pid 6987 died, exit status 0, exiting
+2019-06-04T00:58:48.688Z|00001|vlog|INFO|opened log file /home/esdn/work/gw-relay/dm_mm/log/ovs-vswitchd.log
+2019-06-04T00:58:48.693Z|00002|ovs_numa|INFO|Discovered 48 CPU cores on NUMA node 0
+2019-06-04T00:58:48.693Z|00003|ovs_numa|INFO|Discovered 48 CPU cores on NUMA node 1
+2019-06-04T00:58:48.693Z|00004|ovs_numa|INFO|Discovered 2 NUMA nodes and 96 CPU cores
+2019-06-04T00:58:48.693Z|00005|reconnect|INFO|unix:/home/esdn/work/gw-relay/dm_mm/run/db.sock: connecting...
+2019-06-04T00:58:48.693Z|00006|reconnect|INFO|unix:/home/esdn/work/gw-relay/dm_mm/run/db.sock: connected
+2019-06-04T00:58:48.696Z|00007|dpdk|INFO|DPDK Disabled - Use other_config:dpdk-init to enable
+2019-06-04T00:58:48.697Z|00008|bridge|INFO|ovs-vswitchd (Open vSwitch) 2.9.2
+2019-06-04T00:58:48.714Z|00009|ofproto_dpif|INFO|system@ovs-system: Datapath supports recirculation
+2019-06-04T00:58:48.714Z|00010|ofproto_dpif|INFO|system@ovs-system: VLAN header stack length probed as 2
+2019-06-04T00:58:48.714Z|00011|ofproto_dpif|INFO|system@ovs-system: MPLS label stack length probed as 1
+2019-06-04T00:58:48.714Z|00012|ofproto_dpif|INFO|system@ovs-system: Datapath supports truncate action
+2019-06-04T00:58:48.714Z|00013|ofproto_dpif|INFO|system@ovs-system: Datapath supports unique flow ids
+2019-06-04T00:58:48.714Z|00014|ofproto_dpif|INFO|system@ovs-system: Datapath does not support clone action
+2019-06-04T00:58:48.714Z|00015|ofproto_dpif|INFO|system@ovs-system: Max sample nesting level probed as 10
+2019-06-04T00:58:48.714Z|00016|ofproto_dpif|INFO|system@ovs-system: Datapath supports eventmask in conntrack action
+2019-06-04T00:58:48.714Z|00017|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_clear action
+2019-06-04T00:58:48.714Z|00018|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_state
+2019-06-04T00:58:48.714Z|00019|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_zone
+2019-06-04T00:58:48.714Z|00020|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_mark
+2019-06-04T00:58:48.714Z|00021|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_label
+2019-06-04T00:58:48.714Z|00022|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_state_nat
+2019-06-04T00:58:48.715Z|00023|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_orig_tuple
+2019-06-04T00:58:48.715Z|00024|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_orig_tuple6
+2019-06-04T00:58:49.100Z|00025|bridge|INFO|bridge dm_mm: added interface dm_mm on port 65534
+2019-06-04T00:58:49.100Z|00026|bridge|INFO|bridge dm_mm: using datapath ID 00004a1ba9a29943
+2019-06-04T00:58:49.100Z|00027|connmgr|INFO|dm_mm: added service controller "punix:/home/esdn/work/gw-relay/dm_mm/run/dm_mm.mgmt"
+2019-06-04T00:58:49.362Z|00028|bridge|INFO|bridge dm_mm: added interface gre2 on port 200
+2019-06-04T00:58:49.370Z|00029|bridge|INFO|bridge dm_mm: added interface veth3 on port 201
+2019-06-04T00:58:49.380Z|00030|connmgr|INFO|dm_mm<->unix#1: 1 flow_mods in the last 0 s (1 deletes)
+2019-06-04T00:58:49.383Z|00031|connmgr|INFO|dm_mm<->unix#3: 1 flow_mods in the last 0 s (1 adds)
+2019-06-04T00:58:49.387Z|00001|ofproto_dpif_xlate(handler129)|INFO|/proc/sys/net/core/netdev_max_backlog: open failed (No such file or directory)
+2019-06-04T00:58:49.387Z|00032|connmgr|INFO|dm_mm<->unix#5: 1 flow_mods in the last 0 s (1 adds)
+2019-06-04T00:58:58.697Z|00033|memory|INFO|755012 kB peak resident set size after 10.0 seconds
+2019-06-04T00:58:58.697Z|00034|memory|INFO|handlers:65 ports:3 revalidators:23 rules:6 udpif keys:2
+2019-06-04T01:16:17.864Z|00035|bridge|INFO|bridge dm_mm: deleted interface gre2 on port 200
+2019-06-04T01:16:17.864Z|00036|bridge|INFO|bridge dm_mm: deleted interface veth3 on port 201
+2019-06-04T01:16:17.864Z|00037|bridge|INFO|bridge dm_mm: deleted interface dm_mm on port 65534
+2019-06-04T01:16:18.615Z|00002|daemon_unix(monitor)|INFO|pid 8902 died, exit status 0, exiting
+2019-06-04T01:18:34.648Z|00001|vlog|INFO|opened log file /home/esdn/work/gw-relay/dm_mm/log/ovs-vswitchd.log
+2019-06-04T01:18:34.653Z|00002|ovs_numa|INFO|Discovered 48 CPU cores on NUMA node 0
+2019-06-04T01:18:34.653Z|00003|ovs_numa|INFO|Discovered 48 CPU cores on NUMA node 1
+2019-06-04T01:18:34.653Z|00004|ovs_numa|INFO|Discovered 2 NUMA nodes and 96 CPU cores
+2019-06-04T01:18:34.653Z|00005|reconnect|INFO|unix:/home/esdn/work/gw-relay/dm_mm/run/db.sock: connecting...
+2019-06-04T01:18:34.654Z|00006|reconnect|INFO|unix:/home/esdn/work/gw-relay/dm_mm/run/db.sock: connected
+2019-06-04T01:18:34.656Z|00007|dpdk|INFO|DPDK Disabled - Use other_config:dpdk-init to enable
+2019-06-04T01:18:34.657Z|00008|bridge|INFO|ovs-vswitchd (Open vSwitch) 2.9.2
+2019-06-04T01:18:34.674Z|00009|ofproto_dpif|INFO|system@ovs-system: Datapath supports recirculation
+2019-06-04T01:18:34.674Z|00010|ofproto_dpif|INFO|system@ovs-system: VLAN header stack length probed as 2
+2019-06-04T01:18:34.674Z|00011|ofproto_dpif|INFO|system@ovs-system: MPLS label stack length probed as 1
+2019-06-04T01:18:34.674Z|00012|ofproto_dpif|INFO|system@ovs-system: Datapath supports truncate action
+2019-06-04T01:18:34.674Z|00013|ofproto_dpif|INFO|system@ovs-system: Datapath supports unique flow ids
+2019-06-04T01:18:34.674Z|00014|ofproto_dpif|INFO|system@ovs-system: Datapath does not support clone action
+2019-06-04T01:18:34.674Z|00015|ofproto_dpif|INFO|system@ovs-system: Max sample nesting level probed as 10
+2019-06-04T01:18:34.674Z|00016|ofproto_dpif|INFO|system@ovs-system: Datapath supports eventmask in conntrack action
+2019-06-04T01:18:34.675Z|00017|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_clear action
+2019-06-04T01:18:34.675Z|00018|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_state
+2019-06-04T01:18:34.675Z|00019|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_zone
+2019-06-04T01:18:34.675Z|00020|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_mark
+2019-06-04T01:18:34.675Z|00021|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_label
+2019-06-04T01:18:34.675Z|00022|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_state_nat
+2019-06-04T01:18:34.675Z|00023|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_orig_tuple
+2019-06-04T01:18:34.675Z|00024|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_orig_tuple6
+2019-06-04T01:18:35.047Z|00025|bridge|INFO|bridge dm_mm: added interface dm_mm on port 65534
+2019-06-04T01:18:35.047Z|00026|bridge|INFO|bridge dm_mm: using datapath ID 00007283af665845
+2019-06-04T01:18:35.048Z|00027|connmgr|INFO|dm_mm: added service controller "punix:/home/esdn/work/gw-relay/dm_mm/run/dm_mm.mgmt"
+2019-06-04T01:18:35.298Z|00028|bridge|INFO|bridge dm_mm: added interface gre2 on port 200
+2019-06-04T01:18:35.307Z|00029|bridge|INFO|bridge dm_mm: added interface veth3 on port 201
+2019-06-04T01:18:35.316Z|00030|connmgr|INFO|dm_mm<->unix#1: 1 flow_mods in the last 0 s (1 deletes)
+2019-06-04T01:18:35.319Z|00031|connmgr|INFO|dm_mm<->unix#3: 1 flow_mods in the last 0 s (1 adds)
+2019-06-04T01:18:35.323Z|00001|ofproto_dpif_xlate(handler129)|INFO|/proc/sys/net/core/netdev_max_backlog: open failed (No such file or directory)
+2019-06-04T01:18:35.324Z|00032|connmgr|INFO|dm_mm<->unix#5: 1 flow_mods in the last 0 s (1 adds)
+2019-06-04T01:18:44.659Z|00033|memory|INFO|755012 kB peak resident set size after 10.0 seconds
+2019-06-04T01:18:44.659Z|00034|memory|INFO|handlers:65 ports:3 revalidators:23 rules:6 udpif keys:2
+2019-06-04T01:26:48.756Z|00035|bridge|INFO|bridge dm_mm: deleted interface gre2 on port 200
+2019-06-04T01:26:48.756Z|00036|bridge|INFO|bridge dm_mm: deleted interface veth3 on port 201
+2019-06-04T01:26:48.756Z|00037|bridge|INFO|bridge dm_mm: deleted interface dm_mm on port 65534
+2019-06-04T01:26:49.500Z|00002|daemon_unix(monitor)|INFO|pid 10732 died, exit status 0, exiting
+2019-06-04T01:28:09.597Z|00001|vlog|INFO|opened log file /home/esdn/work/gw-relay/dm_mm/log/ovs-vswitchd.log
+2019-06-04T01:28:09.602Z|00002|ovs_numa|INFO|Discovered 48 CPU cores on NUMA node 0
+2019-06-04T01:28:09.602Z|00003|ovs_numa|INFO|Discovered 48 CPU cores on NUMA node 1
+2019-06-04T01:28:09.602Z|00004|ovs_numa|INFO|Discovered 2 NUMA nodes and 96 CPU cores
+2019-06-04T01:28:09.602Z|00005|reconnect|INFO|unix:/home/esdn/work/gw-relay/dm_mm/run/db.sock: connecting...
+2019-06-04T01:28:09.602Z|00006|reconnect|INFO|unix:/home/esdn/work/gw-relay/dm_mm/run/db.sock: connected
+2019-06-04T01:28:09.605Z|00007|dpdk|INFO|DPDK Disabled - Use other_config:dpdk-init to enable
+2019-06-04T01:28:09.606Z|00008|bridge|INFO|ovs-vswitchd (Open vSwitch) 2.9.2
+2019-06-04T01:28:09.623Z|00009|ofproto_dpif|INFO|system@ovs-system: Datapath supports recirculation
+2019-06-04T01:28:09.623Z|00010|ofproto_dpif|INFO|system@ovs-system: VLAN header stack length probed as 2
+2019-06-04T01:28:09.623Z|00011|ofproto_dpif|INFO|system@ovs-system: MPLS label stack length probed as 1
+2019-06-04T01:28:09.623Z|00012|ofproto_dpif|INFO|system@ovs-system: Datapath supports truncate action
+2019-06-04T01:28:09.623Z|00013|ofproto_dpif|INFO|system@ovs-system: Datapath supports unique flow ids
+2019-06-04T01:28:09.623Z|00014|ofproto_dpif|INFO|system@ovs-system: Datapath does not support clone action
+2019-06-04T01:28:09.624Z|00015|ofproto_dpif|INFO|system@ovs-system: Max sample nesting level probed as 10
+2019-06-04T01:28:09.624Z|00016|ofproto_dpif|INFO|system@ovs-system: Datapath supports eventmask in conntrack action
+2019-06-04T01:28:09.624Z|00017|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_clear action
+2019-06-04T01:28:09.624Z|00018|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_state
+2019-06-04T01:28:09.624Z|00019|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_zone
+2019-06-04T01:28:09.624Z|00020|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_mark
+2019-06-04T01:28:09.624Z|00021|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_label
+2019-06-04T01:28:09.624Z|00022|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_state_nat
+2019-06-04T01:28:09.624Z|00023|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_orig_tuple
+2019-06-04T01:28:09.624Z|00024|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_orig_tuple6
+2019-06-04T01:28:09.991Z|00025|bridge|INFO|bridge dm_mm: added interface dm_mm on port 65534
+2019-06-04T01:28:09.992Z|00026|bridge|INFO|bridge dm_mm: using datapath ID 0000d6bb5653bb4e
+2019-06-04T01:28:09.992Z|00027|connmgr|INFO|dm_mm: added service controller "punix:/home/esdn/work/gw-relay/dm_mm/run/dm_mm.mgmt"
+2019-06-04T01:28:10.255Z|00028|bridge|INFO|bridge dm_mm: added interface gre2 on port 200
+2019-06-04T01:28:10.264Z|00029|bridge|INFO|bridge dm_mm: added interface veth3 on port 201
+2019-06-04T01:28:10.272Z|00030|connmgr|INFO|dm_mm<->unix#1: 1 flow_mods in the last 0 s (1 deletes)
+2019-06-04T01:28:10.276Z|00031|connmgr|INFO|dm_mm<->unix#3: 1 flow_mods in the last 0 s (1 adds)
+2019-06-04T01:28:10.279Z|00001|ofproto_dpif_xlate(handler129)|INFO|/proc/sys/net/core/netdev_max_backlog: open failed (No such file or directory)
+2019-06-04T01:28:10.280Z|00032|connmgr|INFO|dm_mm<->unix#5: 1 flow_mods in the last 0 s (1 adds)
+2019-06-04T01:28:19.608Z|00033|memory|INFO|755012 kB peak resident set size after 10.0 seconds
+2019-06-04T01:28:19.608Z|00034|memory|INFO|handlers:65 ports:3 revalidators:23 rules:6 udpif keys:2
+2019-06-05T15:54:39.940Z|00001|vlog|INFO|opened log file /home/esdn/work/gw-relay/dm_mm/log/ovs-vswitchd.log
+2019-06-05T15:54:39.945Z|00002|ovs_numa|INFO|Discovered 48 CPU cores on NUMA node 0
+2019-06-05T15:54:39.945Z|00003|ovs_numa|INFO|Discovered 48 CPU cores on NUMA node 1
+2019-06-05T15:54:39.945Z|00004|ovs_numa|INFO|Discovered 2 NUMA nodes and 96 CPU cores
+2019-06-05T15:54:39.945Z|00005|reconnect|INFO|unix:/home/esdn/work/gw-relay/dm_mm/run/db.sock: connecting...
+2019-06-05T15:54:39.945Z|00006|reconnect|INFO|unix:/home/esdn/work/gw-relay/dm_mm/run/db.sock: connected
+2019-06-05T15:54:39.948Z|00007|dpdk|INFO|DPDK Disabled - Use other_config:dpdk-init to enable
+2019-06-05T15:54:39.951Z|00008|ofproto_dpif|INFO|system@ovs-system: Datapath supports recirculation
+2019-06-05T15:54:39.951Z|00009|ofproto_dpif|INFO|system@ovs-system: VLAN header stack length probed as 2
+2019-06-05T15:54:39.951Z|00010|ofproto_dpif|INFO|system@ovs-system: MPLS label stack length probed as 1
+2019-06-05T15:54:39.951Z|00011|ofproto_dpif|INFO|system@ovs-system: Datapath supports truncate action
+2019-06-05T15:54:39.951Z|00012|ofproto_dpif|INFO|system@ovs-system: Datapath supports unique flow ids
+2019-06-05T15:54:39.951Z|00013|ofproto_dpif|INFO|system@ovs-system: Datapath does not support clone action
+2019-06-05T15:54:39.951Z|00014|ofproto_dpif|INFO|system@ovs-system: Max sample nesting level probed as 10
+2019-06-05T15:54:39.951Z|00015|ofproto_dpif|INFO|system@ovs-system: Datapath supports eventmask in conntrack action
+2019-06-05T15:54:39.951Z|00016|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_clear action
+2019-06-05T15:54:39.951Z|00017|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_state
+2019-06-05T15:54:39.951Z|00018|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_zone
+2019-06-05T15:54:39.951Z|00019|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_mark
+2019-06-05T15:54:39.951Z|00020|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_label
+2019-06-05T15:54:39.951Z|00021|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_state_nat
+2019-06-05T15:54:39.951Z|00022|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_orig_tuple
+2019-06-05T15:54:39.951Z|00023|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_orig_tuple6
+2019-06-05T15:54:40.240Z|00024|bridge|INFO|bridge dm_mm: added interface gre2 on port 200
+2019-06-05T15:54:40.241Z|00025|bridge|INFO|bridge dm_mm: added interface veth3 on port 201
+2019-06-05T15:54:40.245Z|00026|bridge|INFO|bridge dm_mm: added interface dm_mm on port 65534
+2019-06-05T15:54:40.246Z|00027|bridge|INFO|bridge dm_mm: using datapath ID 0000d6bb5653bb4e
+2019-06-05T15:54:40.246Z|00028|connmgr|INFO|dm_mm: added service controller "punix:/home/esdn/work/gw-relay/dm_mm/run/dm_mm.mgmt"
+2019-06-05T15:54:40.499Z|00029|bridge|INFO|ovs-vswitchd (Open vSwitch) 2.9.2
+2019-06-05T15:54:40.532Z|00030|connmgr|INFO|dm_mm<->unix#1: 1 flow_mods in the last 0 s (1 deletes)
+2019-06-05T15:54:40.534Z|00031|connmgr|INFO|dm_mm<->unix#3: 1 flow_mods in the last 0 s (1 adds)
+2019-06-05T15:54:40.536Z|00001|ofproto_dpif_xlate(handler119)|INFO|/proc/sys/net/core/netdev_max_backlog: open failed (No such file or directory)
+2019-06-05T15:54:40.539Z|00032|connmgr|INFO|dm_mm<->unix#5: 1 flow_mods in the last 0 s (1 adds)
+2019-06-05T15:54:50.057Z|00033|memory|INFO|755136 kB peak resident set size after 10.1 seconds
+2019-06-05T15:54:50.057Z|00034|memory|INFO|handlers:65 ports:3 revalidators:23 rules:6 udpif keys:2
+2019-06-05T16:25:31.065Z|00035|bridge|INFO|bridge dm_mm: deleted interface gre2 on port 200
+2019-06-05T16:25:31.065Z|00036|bridge|INFO|bridge dm_mm: deleted interface dm_mm on port 65534
+2019-06-05T16:25:31.065Z|00037|bridge|INFO|bridge dm_mm: deleted interface veth3 on port 201
+2019-06-05T16:25:31.834Z|00002|daemon_unix(monitor)|INFO|pid 3949 died, exit status 0, exiting
+2019-06-05T16:31:20.662Z|00001|vlog|INFO|opened log file /home/esdn/work/gw-relay/dm_mm/log/ovs-vswitchd.log
+2019-06-05T16:31:20.667Z|00002|ovs_numa|INFO|Discovered 48 CPU cores on NUMA node 0
+2019-06-05T16:31:20.667Z|00003|ovs_numa|INFO|Discovered 48 CPU cores on NUMA node 1
+2019-06-05T16:31:20.667Z|00004|ovs_numa|INFO|Discovered 2 NUMA nodes and 96 CPU cores
+2019-06-05T16:31:20.667Z|00005|reconnect|INFO|unix:/home/esdn/work/gw-relay/dm_mm/run/db.sock: connecting...
+2019-06-05T16:31:20.667Z|00006|reconnect|INFO|unix:/home/esdn/work/gw-relay/dm_mm/run/db.sock: connected
+2019-06-05T16:31:20.670Z|00007|dpdk|INFO|DPDK Disabled - Use other_config:dpdk-init to enable
+2019-06-05T16:31:20.670Z|00008|bridge|INFO|ovs-vswitchd (Open vSwitch) 2.9.2
+2019-06-05T16:31:20.688Z|00009|ofproto_dpif|INFO|system@ovs-system: Datapath supports recirculation
+2019-06-05T16:31:20.688Z|00010|ofproto_dpif|INFO|system@ovs-system: VLAN header stack length probed as 2
+2019-06-05T16:31:20.688Z|00011|ofproto_dpif|INFO|system@ovs-system: MPLS label stack length probed as 1
+2019-06-05T16:31:20.688Z|00012|ofproto_dpif|INFO|system@ovs-system: Datapath supports truncate action
+2019-06-05T16:31:20.688Z|00013|ofproto_dpif|INFO|system@ovs-system: Datapath supports unique flow ids
+2019-06-05T16:31:20.688Z|00014|ofproto_dpif|INFO|system@ovs-system: Datapath does not support clone action
+2019-06-05T16:31:20.688Z|00015|ofproto_dpif|INFO|system@ovs-system: Max sample nesting level probed as 10
+2019-06-05T16:31:20.688Z|00016|ofproto_dpif|INFO|system@ovs-system: Datapath supports eventmask in conntrack action
+2019-06-05T16:31:20.688Z|00017|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_clear action
+2019-06-05T16:31:20.688Z|00018|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_state
+2019-06-05T16:31:20.688Z|00019|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_zone
+2019-06-05T16:31:20.688Z|00020|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_mark
+2019-06-05T16:31:20.688Z|00021|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_label
+2019-06-05T16:31:20.688Z|00022|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_state_nat
+2019-06-05T16:31:20.688Z|00023|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_orig_tuple
+2019-06-05T16:31:20.688Z|00024|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_orig_tuple6
+2019-06-05T16:31:21.061Z|00025|bridge|INFO|bridge dm_mm: added interface dm_mm on port 65534
+2019-06-05T16:31:21.061Z|00026|bridge|INFO|bridge dm_mm: using datapath ID 0000b24e8c67be42
+2019-06-05T16:31:21.061Z|00027|connmgr|INFO|dm_mm: added service controller "punix:/home/esdn/work/gw-relay/dm_mm/run/dm_mm.mgmt"
+2019-06-05T16:31:21.310Z|00028|bridge|INFO|bridge dm_mm: added interface gre2 on port 200
+2019-06-05T16:31:21.319Z|00029|bridge|INFO|bridge dm_mm: added interface veth3 on port 201
+2019-06-05T16:31:21.328Z|00030|connmgr|INFO|dm_mm<->unix#1: 1 flow_mods in the last 0 s (1 deletes)
+2019-06-05T16:31:21.332Z|00001|ofproto_dpif_xlate(handler119)|INFO|/proc/sys/net/core/netdev_max_backlog: open failed (No such file or directory)
+2019-06-05T16:31:21.332Z|00031|connmgr|INFO|dm_mm<->unix#3: 1 flow_mods in the last 0 s (1 adds)
+2019-06-05T16:31:21.336Z|00032|connmgr|INFO|dm_mm<->unix#5: 1 flow_mods in the last 0 s (1 adds)
+2019-06-05T16:31:30.673Z|00033|memory|INFO|755012 kB peak resident set size after 10.0 seconds
+2019-06-05T16:31:30.673Z|00034|memory|INFO|handlers:65 ports:3 revalidators:23 rules:6 udpif keys:2
+2019-06-05T16:38:23.773Z|00035|bridge|INFO|bridge dm_mm: deleted interface gre2 on port 200
+2019-06-05T16:38:23.773Z|00036|bridge|INFO|bridge dm_mm: deleted interface veth3 on port 201
+2019-06-05T16:38:23.773Z|00037|bridge|INFO|bridge dm_mm: deleted interface dm_mm on port 65534
+2019-06-05T16:38:24.544Z|00002|daemon_unix(monitor)|INFO|pid 6062 died, exit status 0, exiting
+2019-06-05T19:17:23.993Z|00001|vlog|INFO|opened log file /home/esdn/work/gw-relay/dm_mm/log/ovs-vswitchd.log
+2019-06-05T19:17:23.998Z|00002|ovs_numa|INFO|Discovered 48 CPU cores on NUMA node 0
+2019-06-05T19:17:23.998Z|00003|ovs_numa|INFO|Discovered 48 CPU cores on NUMA node 1
+2019-06-05T19:17:23.998Z|00004|ovs_numa|INFO|Discovered 2 NUMA nodes and 96 CPU cores
+2019-06-05T19:17:23.998Z|00005|reconnect|INFO|unix:/home/esdn/work/gw-relay/dm_mm/run/db.sock: connecting...
+2019-06-05T19:17:23.998Z|00006|reconnect|INFO|unix:/home/esdn/work/gw-relay/dm_mm/run/db.sock: connected
+2019-06-05T19:17:24.001Z|00007|dpdk|INFO|DPDK Disabled - Use other_config:dpdk-init to enable
+2019-06-05T19:17:24.001Z|00008|bridge|INFO|ovs-vswitchd (Open vSwitch) 2.9.2
+2019-06-05T19:17:24.018Z|00009|ofproto_dpif|INFO|system@ovs-system: Datapath supports recirculation
+2019-06-05T19:17:24.018Z|00010|ofproto_dpif|INFO|system@ovs-system: VLAN header stack length probed as 2
+2019-06-05T19:17:24.018Z|00011|ofproto_dpif|INFO|system@ovs-system: MPLS label stack length probed as 1
+2019-06-05T19:17:24.019Z|00012|ofproto_dpif|INFO|system@ovs-system: Datapath supports truncate action
+2019-06-05T19:17:24.019Z|00013|ofproto_dpif|INFO|system@ovs-system: Datapath supports unique flow ids
+2019-06-05T19:17:24.019Z|00014|ofproto_dpif|INFO|system@ovs-system: Datapath does not support clone action
+2019-06-05T19:17:24.019Z|00015|ofproto_dpif|INFO|system@ovs-system: Max sample nesting level probed as 10
+2019-06-05T19:17:24.019Z|00016|ofproto_dpif|INFO|system@ovs-system: Datapath supports eventmask in conntrack action
+2019-06-05T19:17:24.019Z|00017|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_clear action
+2019-06-05T19:17:24.019Z|00018|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_state
+2019-06-05T19:17:24.019Z|00019|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_zone
+2019-06-05T19:17:24.019Z|00020|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_mark
+2019-06-05T19:17:24.019Z|00021|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_label
+2019-06-05T19:17:24.019Z|00022|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_state_nat
+2019-06-05T19:17:24.019Z|00023|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_orig_tuple
+2019-06-05T19:17:24.019Z|00024|ofproto_dpif|INFO|system@ovs-system: Datapath supports ct_orig_tuple6
+2019-06-05T19:17:24.423Z|00025|bridge|INFO|bridge dm_mm: added interface dm_mm on port 65534
+2019-06-05T19:17:24.423Z|00026|bridge|INFO|bridge dm_mm: using datapath ID 0000420916d0374f
+2019-06-05T19:17:24.423Z|00027|connmgr|INFO|dm_mm: added service controller "punix:/home/esdn/work/gw-relay/dm_mm/run/dm_mm.mgmt"
+2019-06-05T19:17:24.700Z|00028|bridge|INFO|bridge dm_mm: added interface gre2 on port 200
+2019-06-05T19:17:24.706Z|00029|bridge|INFO|bridge dm_mm: added interface veth3 on port 201
+2019-06-05T19:17:24.714Z|00030|connmgr|INFO|dm_mm<->unix#1: 1 flow_mods in the last 0 s (1 deletes)
+2019-06-05T19:17:24.716Z|00031|connmgr|INFO|dm_mm<->unix#3: 1 flow_mods in the last 0 s (1 adds)
+2019-06-05T19:17:24.719Z|00032|connmgr|INFO|dm_mm<->unix#5: 1 flow_mods in the last 0 s (1 adds)
+2019-06-05T19:17:24.722Z|00001|ofproto_dpif_xlate(handler112)|INFO|/proc/sys/net/core/netdev_max_backlog: open failed (No such file or directory)
+2019-06-05T19:17:34.003Z|00033|memory|INFO|821540 kB peak resident set size after 10.0 seconds
+2019-06-05T19:17:34.003Z|00034|memory|INFO|handlers:71 ports:3 revalidators:25 rules:6 udpif keys:1
+2019-06-05T20:05:40.877Z|00001|fatal_signal(handler150)|WARN|terminating with signal 15 (Terminated)

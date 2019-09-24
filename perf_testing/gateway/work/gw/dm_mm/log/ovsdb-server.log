@@ -1,0 +1,422 @@
+2019-06-03T23:22:12.574Z|00001|vlog|INFO|opened log file /home/esdn/work/gw-relay/dm_mm/log/ovsdb-server.log
+2019-06-03T23:22:12.581Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-03T23:22:12.623Z|00003|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-03T23:22:12.624Z|00004|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-03T23:22:22.591Z|00005|memory|INFO|4936 kB peak resident set size after 10.0 seconds
+2019-06-03T23:22:22.591Z|00006|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-03T23:30:02.301Z|00002|daemon_unix(monitor)|INFO|pid 3676 died, exit status 0, exiting
+2019-06-03T23:31:59.131Z|00001|vlog|INFO|opened log file /home/esdn/work/gw-relay/dm_mm/log/ovsdb-server.log
+2019-06-03T23:31:59.139Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-03T23:31:59.144Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-03T23:31:59.144Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-03T23:31:59.156Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-03T23:31:59.156Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-03T23:31:59.179Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-03T23:31:59.179Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-03T23:32:09.149Z|00009|memory|INFO|5024 kB peak resident set size after 10.0 seconds
+2019-06-03T23:32:09.149Z|00010|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-04T00:32:52.473Z|00002|daemon_unix(monitor)|INFO|pid 4836 died, exit status 0, exiting
+2019-06-04T00:38:38.411Z|00001|vlog|INFO|opened log file /home/esdn/work/gw-relay/dm_mm/log/ovsdb-server.log
+2019-06-04T00:38:38.420Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-04T00:38:38.425Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-04T00:38:38.425Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-04T00:38:38.438Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-04T00:38:38.438Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-04T00:38:38.461Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-04T00:38:38.461Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-04T00:38:48.430Z|00009|memory|INFO|4856 kB peak resident set size after 10.0 seconds
+2019-06-04T00:38:48.430Z|00010|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-04T00:56:58.304Z|00002|daemon_unix(monitor)|INFO|pid 6977 died, exit status 0, exiting
+2019-06-04T00:58:48.655Z|00001|vlog|INFO|opened log file /home/esdn/work/gw-relay/dm_mm/log/ovsdb-server.log
+2019-06-04T00:58:48.663Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-04T00:58:48.669Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-04T00:58:48.669Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-04T00:58:48.681Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-04T00:58:48.681Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-04T00:58:48.704Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-04T00:58:48.704Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-04T00:58:58.673Z|00009|memory|INFO|4892 kB peak resident set size after 10.0 seconds
+2019-06-04T00:58:58.673Z|00010|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-04T01:16:18.690Z|00002|daemon_unix(monitor)|INFO|pid 8892 died, exit status 0, exiting
+2019-06-04T01:18:34.615Z|00001|vlog|INFO|opened log file /home/esdn/work/gw-relay/dm_mm/log/ovsdb-server.log
+2019-06-04T01:18:34.624Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-04T01:18:34.629Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-04T01:18:34.629Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-04T01:18:34.642Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-04T01:18:34.642Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-04T01:18:34.665Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-04T01:18:34.665Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-04T01:18:44.634Z|00009|memory|INFO|4916 kB peak resident set size after 10.0 seconds
+2019-06-04T01:18:44.634Z|00010|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-04T01:26:49.577Z|00002|daemon_unix(monitor)|INFO|pid 10722 died, exit status 0, exiting
+2019-06-04T01:28:09.563Z|00001|vlog|INFO|opened log file /home/esdn/work/gw-relay/dm_mm/log/ovsdb-server.log
+2019-06-04T01:28:09.572Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-04T01:28:09.578Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-04T01:28:09.578Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-04T01:28:09.614Z|00005|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-04T01:28:09.614Z|00006|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-04T01:28:19.582Z|00007|memory|INFO|4868 kB peak resident set size after 10.0 seconds
+2019-06-04T01:28:19.582Z|00008|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-05T15:54:39.904Z|00001|vlog|INFO|opened log file /home/esdn/work/gw-relay/dm_mm/log/ovsdb-server.log
+2019-06-05T15:54:39.913Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-05T15:54:39.919Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-05T15:54:39.919Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-05T15:54:39.932Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-05T15:54:39.932Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-05T15:54:40.507Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-05T15:54:40.507Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-05T15:54:49.922Z|00009|memory|INFO|5084 kB peak resident set size after 10.0 seconds
+2019-06-05T15:54:49.922Z|00010|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-05T16:25:31.910Z|00002|daemon_unix(monitor)|INFO|pid 3938 died, exit status 0, exiting
+2019-06-05T16:31:20.633Z|00001|vlog|INFO|opened log file /home/esdn/work/gw-relay/dm_mm/log/ovsdb-server.log
+2019-06-05T16:31:20.639Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-05T16:31:20.644Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-05T16:31:20.644Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-05T16:31:20.655Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-05T16:31:20.655Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-05T16:31:20.678Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-05T16:31:20.679Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-05T16:31:30.647Z|00009|memory|INFO|4936 kB peak resident set size after 10.0 seconds
+2019-06-05T16:31:30.647Z|00010|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-05T16:38:24.618Z|00002|daemon_unix(monitor)|INFO|pid 6052 died, exit status 0, exiting
+2019-06-05T19:17:23.958Z|00001|vlog|INFO|opened log file /home/esdn/work/gw-relay/dm_mm/log/ovsdb-server.log
+2019-06-05T19:17:23.968Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-05T19:17:23.974Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-05T19:17:23.974Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-05T19:17:23.986Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-05T19:17:23.986Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-05T19:17:24.009Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-05T19:17:24.009Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-05T19:17:33.978Z|00009|memory|INFO|4940 kB peak resident set size after 10.0 seconds
+2019-06-05T19:17:33.978Z|00010|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-05T20:05:40.877Z|00011|fatal_signal|WARN|terminating with signal 15 (Terminated)
+2019-06-05T21:59:06.804Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-05T21:59:06.815Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-05T21:59:06.821Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-05T21:59:06.821Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-05T21:59:07.485Z|00005|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-05T21:59:07.485Z|00006|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-05T21:59:16.824Z|00007|memory|INFO|4880 kB peak resident set size after 10.0 seconds
+2019-06-05T21:59:16.824Z|00008|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-05T23:02:26.804Z|00002|daemon_unix(monitor)|INFO|pid 3472 died, exit status 0, exiting
+2019-06-05T23:04:52.707Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-05T23:04:52.718Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-05T23:04:52.724Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-05T23:04:52.724Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-05T23:04:52.736Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-05T23:04:52.736Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-05T23:04:52.761Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-05T23:04:52.761Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-05T23:05:02.728Z|00009|memory|INFO|4912 kB peak resident set size after 10.0 seconds
+2019-06-05T23:05:02.728Z|00010|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-05T23:40:40.371Z|00002|daemon_unix(monitor)|INFO|pid 5565 died, exit status 0, exiting
+2019-06-05T23:43:51.024Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-05T23:43:51.035Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-05T23:43:51.042Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-05T23:43:51.042Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-05T23:43:51.054Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-05T23:43:51.054Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-05T23:43:51.079Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-05T23:43:51.079Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-05T23:44:01.045Z|00009|memory|INFO|4912 kB peak resident set size after 10.0 seconds
+2019-06-05T23:44:01.045Z|00010|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-06T00:01:58.451Z|00002|daemon_unix(monitor)|INFO|pid 6848 died, exit status 0, exiting
+2019-06-06T00:03:52.563Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-06T00:03:52.575Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-06T00:03:52.581Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-06T00:03:52.581Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-06T00:03:52.595Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-06T00:03:52.595Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-06T00:03:52.621Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-06T00:03:52.621Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-06T00:04:02.585Z|00009|memory|INFO|5016 kB peak resident set size after 10.0 seconds
+2019-06-06T00:04:02.585Z|00010|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-06T00:12:33.840Z|00002|daemon_unix(monitor)|INFO|pid 7724 died, exit status 0, exiting
+2019-06-06T00:21:51.644Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-06T00:21:51.656Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-06T00:21:51.662Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-06T00:21:51.662Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-06T00:21:51.676Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-06T00:21:51.676Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-06T00:21:51.701Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-06T00:21:51.701Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-06T00:22:01.666Z|00009|memory|INFO|4836 kB peak resident set size after 10.0 seconds
+2019-06-06T00:22:01.666Z|00010|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-06T00:22:08.935Z|00002|daemon_unix(monitor)|INFO|pid 8394 died, exit status 0, exiting
+2019-06-06T00:25:34.268Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-06T00:25:34.280Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-06T00:25:34.286Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-06T00:25:34.286Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-06T00:25:34.298Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-06T00:25:34.298Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-06T00:25:34.324Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-06T00:25:34.324Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-06T00:25:44.291Z|00009|memory|INFO|4988 kB peak resident set size after 10.0 seconds
+2019-06-06T00:25:44.291Z|00010|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-06T01:01:18.291Z|00002|daemon_unix(monitor)|INFO|pid 9493 died, exit status 0, exiting
+2019-06-06T01:03:14.137Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-06T01:03:14.148Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-06T01:03:14.154Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-06T01:03:14.154Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-06T01:03:14.168Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-06T01:03:14.168Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-06T01:03:14.194Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-06T01:03:14.194Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-06T01:03:20.647Z|00002|daemon_unix(monitor)|INFO|pid 10164 died, exit status 0, exiting
+2019-06-06T01:04:05.268Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-06T01:04:05.280Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-06T01:04:05.286Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-06T01:04:05.286Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-06T01:04:05.299Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-06T01:04:05.300Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-06T01:04:05.326Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-06T01:04:05.326Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-06T01:04:15.289Z|00009|memory|INFO|4972 kB peak resident set size after 10.0 seconds
+2019-06-06T01:04:15.289Z|00010|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-06T16:16:16.044Z|00002|daemon_unix(monitor)|INFO|pid 10868 died, exit status 0, exiting
+2019-06-06T16:25:09.896Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-06T16:25:09.908Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-06T16:25:09.913Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-06T16:25:09.914Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-06T16:25:09.927Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-06T16:25:09.927Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-06T16:25:09.953Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-06T16:25:09.953Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-06T16:25:19.918Z|00009|memory|INFO|4860 kB peak resident set size after 10.0 seconds
+2019-06-06T16:25:19.918Z|00010|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-06T16:32:59.632Z|00002|daemon_unix(monitor)|INFO|pid 21918 died, exit status 0, exiting
+2019-06-06T16:34:33.204Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-06T16:34:33.218Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-06T16:34:33.224Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-06T16:34:33.224Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-06T16:34:33.237Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-06T16:34:33.237Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-06T16:34:33.263Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-06T16:34:33.264Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-06T16:34:43.227Z|00009|memory|INFO|4988 kB peak resident set size after 10.0 seconds
+2019-06-06T16:34:43.227Z|00010|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-06T16:42:26.416Z|00002|daemon_unix(monitor)|INFO|pid 22835 died, exit status 0, exiting
+2019-06-06T16:46:05.277Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-06T16:46:05.289Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-06T16:46:05.296Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-06T16:46:05.296Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-06T16:46:05.310Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-06T16:46:05.310Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-06T16:46:05.336Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-06T16:46:05.336Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-06T16:46:15.298Z|00009|memory|INFO|4884 kB peak resident set size after 10.0 seconds
+2019-06-06T16:46:15.298Z|00010|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-06T17:46:47.476Z|00002|daemon_unix(monitor)|INFO|pid 23678 died, exit status 0, exiting
+2019-06-06T17:51:30.680Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-06T17:51:30.692Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-06T17:51:30.698Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-06T17:51:30.698Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-06T17:51:30.712Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-06T17:51:30.712Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-06T17:51:30.738Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-06T17:51:30.738Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-06T17:51:40.702Z|00009|memory|INFO|4912 kB peak resident set size after 10.0 seconds
+2019-06-06T17:51:40.702Z|00010|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-06T17:59:16.032Z|00002|daemon_unix(monitor)|INFO|pid 25292 died, exit status 0, exiting
+2019-06-06T18:00:47.564Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-06T18:00:47.577Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-06T18:00:47.584Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-06T18:00:47.584Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-06T18:00:47.597Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-06T18:00:47.598Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-06T18:00:47.623Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-06T18:00:47.623Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-06T18:00:57.587Z|00009|memory|INFO|5044 kB peak resident set size after 10.0 seconds
+2019-06-06T18:00:57.587Z|00010|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-06T20:10:48.592Z|00011|fatal_signal|WARN|terminating with signal 15 (Terminated)
+2019-06-06T21:03:56.256Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-06T21:03:56.293Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-06T21:03:56.299Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-06T21:03:56.299Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-06T21:03:56.312Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-06T21:03:56.312Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-06T21:03:56.947Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-06T21:03:56.947Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-06T21:04:06.302Z|00009|memory|INFO|4892 kB peak resident set size after 10.0 seconds
+2019-06-06T21:04:06.302Z|00010|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-06T21:05:18.888Z|00011|jsonrpc|WARN|unix#10: receive error: Connection reset by peer
+2019-06-06T21:05:18.888Z|00012|reconnect|WARN|unix#10: connection dropped (Connection reset by peer)
+2019-06-06T21:05:19.032Z|00002|daemon_unix(monitor)|INFO|pid 69496 died, exit status 0, exiting
+2019-06-06T21:05:36.471Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-06T21:05:36.515Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-06T21:05:36.521Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-06T21:05:36.521Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-06T21:05:36.534Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-06T21:05:36.535Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-06T21:05:36.561Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-06T21:05:36.561Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-06T21:05:46.524Z|00009|memory|INFO|4912 kB peak resident set size after 10.1 seconds
+2019-06-06T21:05:46.524Z|00010|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-07T16:59:16.696Z|00002|daemon_unix(monitor)|INFO|pid 70082 died, exit status 0, exiting
+2019-06-07T16:59:28.119Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-07T16:59:28.170Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-07T16:59:28.176Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-07T16:59:28.176Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-07T16:59:28.210Z|00005|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-07T16:59:28.210Z|00006|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-07T16:59:38.181Z|00007|memory|INFO|5044 kB peak resident set size after 10.1 seconds
+2019-06-07T16:59:38.181Z|00008|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-07T20:33:35.593Z|00002|daemon_unix(monitor)|INFO|pid 73099 died, exit status 0, exiting
+2019-06-07T20:34:21.576Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-07T20:34:21.613Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-07T20:34:21.619Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-07T20:34:21.619Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-07T20:34:21.658Z|00005|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-07T20:34:21.658Z|00006|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-07T20:34:31.624Z|00007|memory|INFO|4872 kB peak resident set size after 10.0 seconds
+2019-06-07T20:34:31.624Z|00008|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-11T21:23:42.007Z|00002|daemon_unix(monitor)|INFO|pid 74005 died, exit status 0, exiting
+2019-06-11T21:25:47.006Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-11T21:25:47.047Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-11T21:25:47.053Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-11T21:25:47.053Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-11T21:25:47.067Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-11T21:25:47.067Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-11T21:25:47.093Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-11T21:25:47.093Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-11T21:25:57.057Z|00009|memory|INFO|5020 kB peak resident set size after 10.1 seconds
+2019-06-11T21:25:57.057Z|00010|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-11T22:53:19.972Z|00002|daemon_unix(monitor)|INFO|pid 81953 died, exit status 0, exiting
+2019-06-11T22:54:13.761Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-11T22:54:13.792Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-11T22:54:13.797Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-11T22:54:13.798Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-11T22:54:13.811Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-11T22:54:13.811Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-11T22:54:13.838Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-11T22:54:13.838Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-11T22:54:23.801Z|00009|memory|INFO|4892 kB peak resident set size after 10.0 seconds
+2019-06-11T22:54:23.802Z|00010|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-12T01:03:39.966Z|00002|daemon_unix(monitor)|INFO|pid 83302 died, exit status 0, exiting
+2019-06-12T01:04:20.740Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-12T01:04:20.780Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-12T01:04:20.786Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-12T01:04:20.786Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-12T01:04:20.800Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-12T01:04:20.800Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-12T01:04:20.826Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-12T01:04:20.826Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-12T01:04:30.791Z|00009|memory|INFO|4956 kB peak resident set size after 10.1 seconds
+2019-06-12T01:04:30.791Z|00010|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-12T01:04:49.671Z|00002|daemon_unix(monitor)|INFO|pid 85322 died, exit status 0, exiting
+2019-06-12T01:08:33.593Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-12T01:08:33.636Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-12T01:08:33.642Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-12T01:08:33.642Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-12T01:08:33.683Z|00005|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-12T01:08:33.683Z|00006|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-12T01:08:43.646Z|00007|memory|INFO|4852 kB peak resident set size after 10.1 seconds
+2019-06-12T01:08:43.646Z|00008|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-12T01:09:34.346Z|00002|daemon_unix(monitor)|INFO|pid 86058 died, exit status 0, exiting
+2019-06-12T01:10:11.597Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-12T01:10:11.637Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-12T01:10:11.643Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-12T01:10:11.643Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-12T01:10:11.657Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-12T01:10:11.657Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-12T01:10:11.683Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-12T01:10:11.683Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-12T01:10:21.646Z|00009|memory|INFO|4884 kB peak resident set size after 10.1 seconds
+2019-06-12T01:10:21.646Z|00010|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-13T16:03:25.111Z|00002|daemon_unix(monitor)|INFO|pid 86660 died, exit status 0, exiting
+2019-06-13T16:19:48.865Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-13T16:19:48.873Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-13T16:19:48.879Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-13T16:19:48.879Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-13T16:19:48.892Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-13T16:19:48.892Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-13T16:19:48.918Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-13T16:19:48.918Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-13T16:19:58.882Z|00009|memory|INFO|5084 kB peak resident set size after 10.0 seconds
+2019-06-13T16:19:58.882Z|00010|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-14T01:21:48.189Z|00002|daemon_unix(monitor)|INFO|pid 3480 died, exit status 0, exiting
+2019-06-14T19:57:18.604Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-14T19:57:18.607Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-14T19:57:18.610Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-14T19:57:18.610Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-14T19:57:18.616Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-14T19:57:18.616Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-14T19:57:18.627Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-14T19:57:18.627Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-14T19:57:28.618Z|00009|memory|INFO|4972 kB peak resident set size after 10.0 seconds
+2019-06-14T19:57:28.618Z|00010|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-14T20:47:16.318Z|00002|daemon_unix(monitor)|INFO|pid 27857 died, exit status 0, exiting
+2019-06-14T20:58:55.943Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-14T20:58:55.983Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-14T20:58:55.985Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-14T20:58:55.985Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-14T20:58:56.003Z|00005|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-14T20:58:56.003Z|00006|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-14T20:59:05.993Z|00007|memory|INFO|4996 kB peak resident set size after 10.1 seconds
+2019-06-14T20:59:05.993Z|00008|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-14T21:08:57.433Z|00002|daemon_unix(monitor)|INFO|pid 66913 died, exit status 0, exiting
+2019-06-14T21:09:22.227Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-14T21:09:22.255Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-14T21:09:22.258Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-14T21:09:22.258Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-14T21:09:22.263Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-14T21:09:22.263Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-14T21:09:22.274Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-14T21:09:22.274Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-14T21:09:32.264Z|00009|memory|INFO|4884 kB peak resident set size after 10.0 seconds
+2019-06-14T21:09:32.264Z|00010|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-14T21:11:01.562Z|00002|daemon_unix(monitor)|INFO|pid 73244 died, exit status 0, exiting
+2019-06-14T21:11:14.626Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-14T21:11:14.648Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-14T21:11:14.650Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-14T21:11:14.650Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-14T21:11:14.668Z|00005|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-14T21:11:14.668Z|00006|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-14T21:11:24.657Z|00007|memory|INFO|4940 kB peak resident set size after 10.0 seconds
+2019-06-14T21:11:24.658Z|00008|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-14T21:38:43.524Z|00002|daemon_unix(monitor)|INFO|pid 74943 died, exit status 0, exiting
+2019-06-14T21:39:53.551Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-14T21:39:53.567Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-14T21:39:53.570Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-14T21:39:53.570Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-14T21:39:53.587Z|00005|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-14T21:39:53.587Z|00006|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-14T21:40:03.578Z|00007|memory|INFO|5024 kB peak resident set size after 10.0 seconds
+2019-06-14T21:40:03.578Z|00008|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-14T23:33:01.704Z|00002|daemon_unix(monitor)|INFO|pid 91416 died, exit status 0, exiting
+2019-06-17T15:41:08.350Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-17T15:41:08.375Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-17T15:41:08.378Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-17T15:41:08.378Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-17T15:41:08.395Z|00005|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-17T15:41:08.395Z|00006|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-17T15:41:18.385Z|00007|memory|INFO|4956 kB peak resident set size after 10.0 seconds
+2019-06-17T15:41:18.385Z|00008|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-17T15:44:52.180Z|00002|daemon_unix(monitor)|INFO|pid 63550 died, exit status 0, exiting
+2019-06-17T15:45:07.591Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-17T15:45:07.616Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-17T15:45:07.618Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-17T15:45:07.618Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-17T15:45:07.624Z|00005|jsonrpc|WARN|unix#1: receive error: Connection reset by peer
+2019-06-17T15:45:07.625Z|00006|reconnect|WARN|unix#1: connection dropped (Connection reset by peer)
+2019-06-17T15:45:07.636Z|00007|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-17T15:45:07.636Z|00008|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-17T15:45:17.625Z|00009|memory|INFO|4996 kB peak resident set size after 10.0 seconds
+2019-06-17T15:45:17.625Z|00010|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-24T16:32:44.224Z|00002|daemon_unix(monitor)|INFO|pid 68575 died, exit status 0, exiting
+2019-06-24T16:32:51.676Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-24T16:32:51.711Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-24T16:32:51.713Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-24T16:32:51.713Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-24T16:33:01.721Z|00005|memory|INFO|4892 kB peak resident set size after 10.0 seconds
+2019-06-24T16:33:01.721Z|00006|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-06-27T00:30:10.176Z|00002|daemon_unix(monitor)|INFO|pid 70026 died, exit status 0, exiting
+2019-06-27T00:31:26.616Z|00001|vlog|INFO|opened log file /home/esdn/work/gw/dm_mm/log/ovsdb-server.log
+2019-06-27T00:31:26.647Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.9.2
+2019-06-27T00:31:26.649Z|00003|jsonrpc|WARN|unix#0: receive error: Connection reset by peer
+2019-06-27T00:31:26.649Z|00004|reconnect|WARN|unix#0: connection dropped (Connection reset by peer)
+2019-06-27T00:31:26.667Z|00005|jsonrpc|WARN|unix#3: receive error: Connection reset by peer
+2019-06-27T00:31:26.667Z|00006|reconnect|WARN|unix#3: connection dropped (Connection reset by peer)
+2019-06-27T00:31:36.657Z|00007|memory|INFO|4968 kB peak resident set size after 10.0 seconds
+2019-06-27T00:31:36.657Z|00008|memory|INFO|cells:237 json-caches:1 monitors:2 sessions:1
+2019-07-23T21:52:20.908Z|00002|daemon_unix(monitor)|INFO|pid 77963 died, exit status 0, exiting
