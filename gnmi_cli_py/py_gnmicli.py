@@ -248,7 +248,7 @@ def _get_val(json_value):
           json_value.strip('@'), 'rb').read())
     except (IOError, ValueError) as e:
       raise JsonReadError('Error while loading JSON: %s' % str(e))
-    val.json_ietf_val = json.dumps(set_json)
+    val.json_ietf_val = json.dumps(set_json).encode()
     return val
   coerced_val = _format_type(json_value)
   type_to_value = {bool: 'bool_val', int: 'int_val', float: 'float_val',
@@ -388,6 +388,8 @@ def main():
     elif response.notification[0].update[0].val.json_ietf_val:
       print(json.dumps(json.loads(response.notification[0].update[0].val.
                                   json_ietf_val), indent=2))
+    elif response.notification[0].update[0].val.string_val:
+      print(response.notification[0].update[0].val.string_val)
     else:
       print('JSON Format specified, but gNMI Response was not json_ietf_val')
       print(response)
