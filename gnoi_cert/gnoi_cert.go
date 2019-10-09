@@ -38,7 +38,7 @@ import (
 
 var (
 	certID     = flag.String("cert_id", "", "Certificate Management certificate ID.")
-	certID_list = flag.String("cert_ids", "", "Comma separated list of Certificate Management certificate IDs for revoke operation")
+	certIDs    = flag.String("cert_ids", "", "Comma separated list of Certificate Management certificate IDs for revoke operation")
 	op         = flag.String("op", "get", "Certificate Management operation, one of: provision, install, rotate, get, revoke, check")
 	ca         = flag.String("ca", "", "CA certificate file.")
 	key        = flag.String("key", "", "Private key file.")
@@ -188,11 +188,11 @@ func rotate() {
 // revoke revokes a certificate in authenticated mode.
 func revoke() {
 	
-    var cert_name_list = []string { *certID }
+    var certNames = []string { *certID }
     
-    	if *certID_list != "" {
-        	cert_name_list = strings.FieldsFunc(*certID_list, func(r rune) bool { return r == ',' })
-        	if len(cert_name_list) == 0 {
+    	if *certIDs != "" {
+        	certNames = strings.FieldsFunc(*certIDs, func(r rune) bool { return r == ',' })
+        	if len(certNames) == 0 {
             		log.Exit("Cannot specify empty certificate ID using -cert_ids")
         	}
     	} else if *certID == "" {
@@ -201,7 +201,7 @@ func revoke() {
 	conn, client := gnoiAuthenticated(*targetCN)
 	defer conn.Close()
 
-	revoked, err := client.RevokeCertificates(ctx, cert_name_list)
+	revoked, err := client.RevokeCertificates(ctx, certNames)
 	if err != nil {
 		log.Exit("Failed RevokeCertificates:", err)
 	}
