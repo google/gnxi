@@ -38,7 +38,7 @@ import (
 
 var (
 	certID     = flag.String("cert_id", "", "Certificate Management certificate ID.")
-	certID_list = flag.String("cert_ids", "", "Comma seperated list of Certificate Management certificate IDs for revoke operation")
+	certID_list = flag.String("cert_ids", "", "Comma separated list of Certificate Management certificate IDs for revoke operation")
 	op         = flag.String("op", "get", "Certificate Management operation, one of: provision, install, rotate, get, revoke, check")
 	ca         = flag.String("ca", "", "CA certificate file.")
 	key        = flag.String("key", "", "Private key file.")
