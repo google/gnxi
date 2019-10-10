@@ -187,13 +187,12 @@ func rotate() {
 
 // revoke revokes a certificate in authenticated mode.
 func revoke() {
-	
-    var certNames = []string { *certID }
+    	var revokeCertIDs  = []string { *certID }
     
     	if *certIDs != "" {
-        	certNames = strings.FieldsFunc(*certIDs, func(r rune) bool { return r == ',' })
-        	if len(certNames) == 0 {
-            		log.Exit("Cannot specify empty certificate ID using -cert_ids")
+        	revokeCertIDs  = strings.FieldsFunc(*certIDs, func(r rune) bool { return r == ',' })
+        	if len(revokeCertIDs ) == 0 {
+            		log.Exit("Must specify comma separated certificate IDs when using -cert_ids")
         	}
     	} else if *certID == "" {
                log.Exit("Must set a certificate ID with -cert_id or set multiple IDs with -cert_ids")
@@ -201,7 +200,7 @@ func revoke() {
 	conn, client := gnoiAuthenticated(*targetCN)
 	defer conn.Close()
 
-	revoked, err := client.RevokeCertificates(ctx, certNames)
+	revoked, err := client.RevokeCertificates(ctx, revokeCertIDs )
 	if err != nil {
 		log.Exit("Failed RevokeCertificates:", err)
 	}
