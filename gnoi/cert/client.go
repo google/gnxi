@@ -37,7 +37,7 @@ func NewClient(c *grpc.ClientConn) *Client {
 }
 
 // Rotate rotates a certificate.
-func (c *Client) Rotate(ctx context.Context, certID string, params pkix.Name, sign func(*x509.CertificateRequest) (*x509.Certificate, error), caBundle []*x509.Certificate, validate func() error) error {
+func (c *Client) Rotate(ctx context.Context, certID string, minKeySize uint32, params pkix.Name, ipAddress string, sign func(*x509.CertificateRequest) (*x509.Certificate, error), caBundle []*x509.Certificate, validate func() error) error {
 	stream, err := c.client.Rotate(ctx)
 	if err != nil {
 		return fmt.Errorf("failed stream: %v", err)
@@ -47,12 +47,14 @@ func (c *Client) Rotate(ctx context.Context, certID string, params pkix.Name, si
 			GenerateCsr: &pb.GenerateCSRRequest{
 				CsrParams: &pb.CSRParams{
 					Type:       pb.CertificateType_CT_X509,
-					MinKeySize: 2048,
+					MinKeySize: minKeySize,
 					KeyType:    pb.KeyType_KT_RSA,
 					CommonName: params.CommonName,
-					// Country:            params.Country,
-					// Organization:       params.Organization,
-					// OrganizationalUnit: params.OrganizationalUnit,
+					Country:            params.Country[0],
+					Organization:       params.Organization[0],
+					OrganizationalUnit: params.OrganizationalUnit[0],
+					State:              params.Province[0],
+					IpAddress:          ipAddress,
 				},
 				CertificateId:certID,
 			},
@@ -128,7 +130,7 @@ func (c *Client) Rotate(ctx context.Context, certID string, params pkix.Name, si
 }
 
 // Install installs a certificate.
-func (c *Client) Install(ctx context.Context, certID string, params pkix.Name, sign func(*x509.CertificateRequest) (*x509.Certificate, error), caBundle []*x509.Certificate) error {
+func (c *Client) Install(ctx context.Context, certID string, minKeySize uint32, params pkix.Name, ipAddress string, sign func(*x509.CertificateRequest) (*x509.Certificate, error), caBundle []*x509.Certificate) error {
 	stream, err := c.client.Install(ctx)
 	if err != nil {
 		return fmt.Errorf("failed stream: %v", err)
@@ -138,12 +140,14 @@ func (c *Client) Install(ctx context.Context, certID string, params pkix.Name, s
 		InstallRequest: &pb.InstallCertificateRequest_GenerateCsr{
 			GenerateCsr: &pb.GenerateCSRRequest{CsrParams: &pb.CSRParams{
 				Type:       pb.CertificateType_CT_X509,
-				MinKeySize: 2048,
+				MinKeySize: minKeySize,
 				KeyType:    pb.KeyType_KT_RSA,
 				CommonName: params.CommonName,
-				// Country:            params.Country,
-				// Organization:       params.Organization,
-				// OrganizationalUnit: params.OrganizationalUnit,
+				Country:            params.Country[0],
+				Organization:       params.Organization[0],
+				OrganizationalUnit: params.OrganizationalUnit[0],
+				State:              params.Province[0],
+				IpAddress:          ipAddress,
 			  },
 			  CertificateId:certID,
 		  },
