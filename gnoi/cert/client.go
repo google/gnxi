@@ -47,7 +47,7 @@ func (c *Client) Rotate(ctx context.Context, certID string, params pkix.Name, si
 			GenerateCsr: &pb.GenerateCSRRequest{
 				CsrParams: &pb.CSRParams{
 					Type:       pb.CertificateType_CT_X509,
-					MinKeySize: 128,
+					MinKeySize: 2048,
 					KeyType:    pb.KeyType_KT_RSA,
 					CommonName: params.CommonName,
 					// Country:            params.Country,
@@ -138,7 +138,7 @@ func (c *Client) Install(ctx context.Context, certID string, params pkix.Name, s
 		InstallRequest: &pb.InstallCertificateRequest_GenerateCsr{
 			GenerateCsr: &pb.GenerateCSRRequest{CsrParams: &pb.CSRParams{
 				Type:       pb.CertificateType_CT_X509,
-				MinKeySize: 128,
+				MinKeySize: 2048,
 				KeyType:    pb.KeyType_KT_RSA,
 				CommonName: params.CommonName,
 				// Country:            params.Country,
