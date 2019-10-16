@@ -194,7 +194,7 @@ func TestCanGenerateCSR(t *testing.T) {
 		},
 		{
 			in: &pb.CanGenerateCSRRequest{
-				KeySize:         128,
+				KeySize:         2048,
 				KeyType:         pb.KeyType_KT_RSA,
 				CertificateType: pb.CertificateType_CT_X509,
 			},
@@ -202,7 +202,7 @@ func TestCanGenerateCSR(t *testing.T) {
 		},
 		{
 			in: &pb.CanGenerateCSRRequest{
-				KeySize:         128,
+				KeySize:         2048,
 				KeyType:         pb.KeyType_KT_UNKNOWN,
 				CertificateType: pb.CertificateType_CT_X509,
 			},
@@ -210,7 +210,7 @@ func TestCanGenerateCSR(t *testing.T) {
 		},
 		{
 			in: &pb.CanGenerateCSRRequest{
-				KeySize:         128,
+				KeySize:         2048,
 				KeyType:         pb.KeyType_KT_RSA,
 				CertificateType: pb.CertificateType_CT_UNKNOWN,
 			},

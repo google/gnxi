@@ -332,7 +332,7 @@ func (s *Server) RevokeCertificates(ctx context.Context, request *pb.RevokeCerti
 func (s *Server) CanGenerateCSR(ctx context.Context, request *pb.CanGenerateCSRRequest) (*pb.CanGenerateCSRResponse, error) {
 	log.Info("Success CanGenerateCSR.")
 	ret := &pb.CanGenerateCSRResponse{
-		CanGenerate: request.KeyType == pb.KeyType_KT_RSA && request.CertificateType == pb.CertificateType_CT_X509 && request.KeySize >= 128 && request.KeySize <= 4096,
+		CanGenerate: request.KeyType == pb.KeyType_KT_RSA && request.CertificateType == pb.CertificateType_CT_X509 && request.KeySize >= 2048 && request.KeySize <= 4096,
 	}
 	return ret, nil
 }
