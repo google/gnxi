@@ -46,11 +46,11 @@ var (
 	targetAddr = flag.String("target_addr", "localhost:10161", "The target address in the format of host:port")
 	timeOut    = flag.Duration("time_out", 5*time.Second, "Timeout for the operation, 5 seconds by default")
 	minKeySize = flag.Uint("min_key_size", 128, "Minimum key size")
-	country 	 = flag.String("country", "US", "Country in CSR parameters")
-	state 	 	 = flag.String("state", "CA", "State in CSR parameters")
-	org 	 	 	 = flag.String("organization", "", "Organization in CSR parameters")
-	orgUnit 	 = flag.String("organizational_unit", "", "Organizational unit in CSR parameters")
-	ipAddress	 = flag.String("ip_address", "127.0.0.1", "IP address in CSR parameters")
+	country    = flag.String("country", "US", "Country in CSR parameters")
+	state      = flag.String("state", "CA", "State in CSR parameters")
+	org        = flag.String("organization", "", "Organization in CSR parameters")
+	orgUnit    = flag.String("organizational_unit", "", "Organizational unit in CSR parameters")
+	ipAddress  = flag.String("ip_address", "127.0.0.1", "IP address in CSR parameters")
 
 	caEnt  *entity.Entity
 	ctx    context.Context
@@ -197,7 +197,7 @@ func rotate() {
 // revoke revokes a certificate in authenticated mode.
 func revoke() {
     	var revokeCertIDs  = []string { *certID }
-    
+
     	if *certIDs != "" {
         	revokeCertIDs  = strings.FieldsFunc(*certIDs, func(r rune) bool { return r == ',' })
         	if len(revokeCertIDs ) == 0 {
