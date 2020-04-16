@@ -9,6 +9,10 @@ The dependencies can be installed to either (1) your host's python environment o
 System Python Installation
 ```
 pip install -r requirements.txt
+
+# Setup example
+pip install setuptools
+pip install --user --no-binary=protobuf -I grpcio-tools==1.15.0 grpcio==1.18.0
 ```
 You may also need to pip install setuptools. You do not need "futures==3.2.0" if using Python3.
 
