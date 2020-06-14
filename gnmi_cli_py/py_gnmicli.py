@@ -48,7 +48,7 @@ except ImportError:
 import gnmi_pb2_grpc
 import grpc
 
-__version__ = '0.3'
+__version__ = '0.4'
 
 _RE_PATH_COMPONENT = re.compile(r'''
 ^
@@ -328,9 +328,9 @@ def _set(stub, paths, set_type, username, password, json_value):
   Returns:
     a gnmi_pb2.SetResponse object representing a gNMI SetResponse.
   """
-  if json_value:  # Specifying ONLY a path is possible.
+  if json_value:  # Specifying ONLY a path is possible (eg delete).
     val = _get_val(json_value)
-  path_val = gnmi_pb2.Update(path=paths, val=val,)
+    path_val = gnmi_pb2.Update(path=paths, val=val,)
 
   kwargs = {}
   if username:
@@ -481,6 +481,8 @@ def main():
     elif response.notification[0].update[0].val.json_ietf_val:
       print(json.dumps(json.loads(response.notification[0].update[0].val.
                                   json_ietf_val), indent=2))
+    elif response.notification[0].update[0].val.string_val:
+      print(response.notification[0].update[0].val.string_val)
     else:
       print('JSON Format specified, but gNMI Response was not json_ietf_val')
       print(response)

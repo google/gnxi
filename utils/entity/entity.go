@@ -102,8 +102,6 @@ func FromSigningRequest(csr *x509.CertificateRequest) (*Entity, error) {
 		DNSNames:              csr.DNSNames,
 		ExtKeyUsage:           []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth, x509.ExtKeyUsageServerAuth},
 		KeyUsage:              x509.KeyUsageDigitalSignature | x509.KeyUsageKeyEncipherment,
-		MaxPathLen:            certMaxPathLen,
-		MaxPathLenZero:        true,
 		NotAfter:              time.Now().Add(certExpiration),
 		NotBefore:             time.Now(),
 		SignatureAlgorithm:    csr.SignatureAlgorithm,
@@ -214,6 +212,8 @@ func TemplateCA(cn string) *x509.Certificate {
 	ca := Template(cn)
 	ca.KeyUsage = x509.KeyUsageDigitalSignature | x509.KeyUsageCertSign | x509.KeyUsageCRLSign
 	ca.IsCA = true
+	ca.MaxPathLen = certMaxPathLen
+	ca.MaxPathLenZero = true
 	return ca
 }
 
@@ -240,8 +240,6 @@ func Template(cn string) *x509.Certificate {
 		ExtKeyUsage: []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth, x509.ExtKeyUsageServerAuth},
 		// IsCA,
 		KeyUsage:       x509.KeyUsageDigitalSignature | x509.KeyUsageKeyEncipherment,
-		MaxPathLen:     certMaxPathLen,
-		MaxPathLenZero: true,
 		NotAfter:       time.Now().Add(24 * 365 * time.Hour),
 		NotBefore:      time.Now(),
 		// PermittedDNSDomains,

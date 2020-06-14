@@ -70,6 +70,8 @@ func (s *Server) Install(stream pb.CertificateManagement_InstallServer) error {
 		return rerr
 	}
 
+	certID := genCSRRequest.CertificateId
+
 	if genCSRRequest.CsrParams.Type != pb.CertificateType_CT_X509 {
 		return fmt.Errorf("certificate type %q not supported", genCSRRequest.CsrParams.Type)
 	}
@@ -121,10 +123,9 @@ func (s *Server) Install(stream pb.CertificateManagement_InstallServer) error {
 		return rerr
 	}
 
-	certID := loadCertificateRequest.CertificateId
 	pemCert := loadCertificateRequest.Certificate.Certificate
 	pemCACerts := [][]byte{}
-	for _, cert := range loadCertificateRequest.CaCertificate {
+	for _, cert := range loadCertificateRequest.CaCertificates {
 		if cert.Type != pb.CertificateType_CT_X509 {
 			rerr := fmt.Errorf("unexpected Certificate type: %d", cert.Type)
 			log.Error(rerr)
@@ -171,6 +172,8 @@ func (s *Server) Rotate(stream pb.CertificateManagement_RotateServer) error {
 		log.Error(rerr)
 		return rerr
 	}
+
+	certID := genCSRRequest.CertificateId
 
 	if genCSRRequest.CsrParams.Type != pb.CertificateType_CT_X509 {
 		return fmt.Errorf("certificate type %q not supported", genCSRRequest.CsrParams.Type)
@@ -223,10 +226,9 @@ func (s *Server) Rotate(stream pb.CertificateManagement_RotateServer) error {
 		return rerr
 	}
 
-	certID := loadCertificateRequest.CertificateId
 	pemCert := loadCertificateRequest.Certificate.Certificate
 	pemCACerts := [][]byte{}
-	for _, cert := range loadCertificateRequest.CaCertificate {
+	for _, cert := range loadCertificateRequest.CaCertificates {
 		if cert.Type != pb.CertificateType_CT_X509 {
 			rerr := fmt.Errorf("unexpected Certificate type: %d", cert.Type)
 			log.Error(rerr)
@@ -330,7 +332,7 @@ func (s *Server) RevokeCertificates(ctx context.Context, request *pb.RevokeCerti
 func (s *Server) CanGenerateCSR(ctx context.Context, request *pb.CanGenerateCSRRequest) (*pb.CanGenerateCSRResponse, error) {
 	log.Info("Success CanGenerateCSR.")
 	ret := &pb.CanGenerateCSRResponse{
-		CanGenerate: request.KeyType == pb.KeyType_KT_RSA && request.CertificateType == pb.CertificateType_CT_X509 && request.KeySize >= 128 && request.KeySize <= 4096,
+		CanGenerate: request.KeyType == pb.KeyType_KT_RSA && request.CertificateType == pb.CertificateType_CT_X509 && request.KeySize >= 2048 && request.KeySize <= 4096,
 	}
 	return ret, nil
 }
