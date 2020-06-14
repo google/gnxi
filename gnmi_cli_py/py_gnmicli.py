@@ -395,7 +395,10 @@ def gen_request(paths, opt):
       gNMI SubscribeRequest object.
     """
     mysubs = []
-    mysub = gnmi_pb2.Subscription(path=paths, mode=opt["submode"], sample_interval=opt["interval"]*1000000000, heartbeat_interval=opt['heartbeat']*1000000000, suppress_redundant=opt['suppress'])
+    mysub = gnmi_pb2.Subscription(path=paths, mode=opt["submode"],
+      sample_interval=opt["interval"]*1000000000,
+        heartbeat_interval=opt['heartbeat']*1000000000,
+          suppress_redundant=opt['suppress'])
     mysubs.append(mysub)
     if opt["prefix"]:
         myprefix = _parse_path(_path_names(opt["prefix"]))
@@ -406,7 +409,9 @@ def gen_request(paths, opt):
         myqos = gnmi_pb2.QOSMarking(marking=opt["qos"])
     else:
         myqos = None
-    mysblist = gnmi_pb2.SubscriptionList(prefix=myprefix, mode=opt['subscribe_mode'], allow_aggregation=opt['aggregate'], encoding=opt['encoding'], subscription=mysubs, use_aliases=opt['use_alias'], qos=myqos)
+    mysblist = gnmi_pb2.SubscriptionList(prefix=myprefix, mode=opt['subscribe_mode'],
+      allow_aggregation=opt['aggregate'], encoding=opt['encoding'],
+        subscription=mysubs, use_aliases=opt['use_alias'], qos=myqos)
     mysubreq = gnmi_pb2.SubscribeRequest(subscribe=mysblist)
 
     print('Sending SubscribeRequest\n'+str(mysubreq))
@@ -429,7 +434,8 @@ def subscribe_start(stub, options, req_iterator):
           if response.HasField('sync_response'):
               print('Sync Response received\n'+str(response))
           elif response.HasField('error'):
-              print('gNMI Error '+str(response.error.code)+' received\n'+str(response.error.message) + str(response.error))
+              print('gNMI Error '+str(response.error.code)+\
+                ' received\n'+str(response.error.message) + str(response.error))
           elif response.HasField('update'):
               print(response)
           else:
