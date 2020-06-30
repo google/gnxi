@@ -15,7 +15,7 @@ type Settings struct {
 
 // Server for factory_reset service
 type Server struct {
-	pb.UnimplementedFactoryResetServer
+	pb.FactoryResetServer
 	*Settings
 }
 
@@ -32,10 +32,10 @@ func (s *Server) Register(g *grpc.Server) {
 // Start rpc will start the factory reset process
 func (s *Server) Start(ctx context.Context, req *pb.StartRequest) (*pb.StartResponse, error) {
 	resError := &pb.StartResponse_ResetError{}
-	if s.errorIfZero {
+	if req.ZeroFill && s.errorIfZero {
 		resError.ResetError = &pb.ResetError{ZeroFillUnsupported: true}
 	}
-	if s.osUnsupported {
+	if req.FactoryOs && s.osUnsupported {
 		if resError.ResetError != nil {
 			resError.ResetError.FactoryOsUnsupported = true
 		} else {
