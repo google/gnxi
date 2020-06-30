@@ -19,7 +19,7 @@ func NewClient(c *grpc.ClientConn) *Client {
 	return &Client{client: pb.NewFactoryResetClient(c)}
 }
 
-// ResetTarget requests a factory reset.
+// ResetTarget invokes gRPC start service on the server.
 func (c *Client) ResetTarget(ctx context.Context, zeroFill, rollbackOS bool) error {
 	out, err := c.client.Start(ctx, &pb.StartRequest{
 		FactoryOs: rollbackOS,
