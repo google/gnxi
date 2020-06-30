@@ -34,17 +34,15 @@ var (
 	rsaBitSize = 2048
 )
 
-// Server does blah.
+// Server represents a target
 type Server struct {
-	// Certs
 	certServer         *cert.Server
 	certManager        *cert.Manager
 	defaultCertificate *tls.Certificate
-	// Factory Reset
-	resetServer *reset.Server
+	resetServer        *reset.Server
 }
 
-// NewServer does blah.
+// NewServer returns a new server that can be used by the mock target
 func NewServer(privateKey crypto.PrivateKey, defaultCertificate *tls.Certificate) (*Server, error) {
 	if defaultCertificate == nil {
 		if privateKey == nil {
