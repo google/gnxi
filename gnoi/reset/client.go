@@ -29,10 +29,12 @@ type Client struct {
 	client pb.FactoryResetClient
 }
 
+// ResetError allows multiple error messages
 type ResetError struct {
 	Msgs []string
 }
 
+// Error concatenates a multi-line error message
 func (re *ResetError) Error() string {
 	return strings.Join(re.Msgs, "\n")
 }
