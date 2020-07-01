@@ -18,9 +18,16 @@ package reset
 import (
 	"context"
 
+	certPB "github.com/google/gnxi/gnoi/cert/pb"
 	"github.com/google/gnxi/gnoi/reset/pb"
 	"google.golang.org/grpc"
 )
+
+// CertServerInterface used to pass in cert server for factory reset
+type CertServerInterface interface {
+	GetCertificates(context.Context, *certPB.GetCertificatesRequest) (*certPB.GetCertificatesResponse, error)
+	RevokeCertificates(context.Context, *certPB.RevokeCertificatesRequest) (*certPB.RevokeCertificatesResponse, error)
+}
 
 // Settings for configurable options in Server.
 type Settings struct {
@@ -30,13 +37,14 @@ type Settings struct {
 
 // Server for factory_reset service.
 type Server struct {
+	certServer CertServerInterface
 	pb.FactoryResetServer
 	*Settings
 }
 
 // NewServer generates a new factory reset server.
-func NewServer(settings *Settings) *Server {
-	return &Server{Settings: settings}
+func NewServer(settings *Settings, certServer CertServerInterface) *Server {
+	return &Server{Settings: settings, certServer: certServer}
 }
 
 // Register registers the server into the gRPC server provided.
@@ -54,7 +62,26 @@ func (s *Server) Start(ctx context.Context, req *pb.StartRequest) (*pb.StartResp
 		return &pb.StartResponse{Response: &pb.StartResponse_ResetError{ResetError: resetError}}, nil
 	}
 
-	// TODO: Reset the target device
+	s.reset()
 
 	return &pb.StartResponse{Response: &pb.StartResponse_ResetSuccess{}}, nil
+}
+
+// reset the target device
+func (s *Server) reset() error {
+	response, err := s.certServer.GetCertificates(context.Background(), &certPB.GetCertificatesRequest{})
+	if err != nil {
+		return err
+	}
+
+	certs := []string{}
+	for _, c := range response.CertificateInfo {
+		certs = append(certs, c.CertificateId)
+	}
+
+	_, err = s.certServer.RevokeCertificates(context.Background(), &certPB.RevokeCertificatesRequest{CertificateId: certs})
+	if err != nil {
+		return err
+	}
+	return nil
 }
