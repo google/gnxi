@@ -86,14 +86,9 @@ func TestCheckResponse(t *testing.T) {
 	}
 	for _, test := range tests {
 		got := CheckResponse(test.response)
-		if got == nil && test.want == nil {
-			continue
-		} else {
-			diff := cmp.Diff(test.want, got)
-			if diff != "" {
-				t.Errorf("CheckResponse(%s): (-want +got):\n%s", test.response, diff)
-			}
-
+		diff := cmp.Diff(test.want, got)
+		if diff != "" {
+			t.Errorf("CheckResponse(%s): (-want +got):\n%s", test.response, diff)
 		}
 	}
 }
