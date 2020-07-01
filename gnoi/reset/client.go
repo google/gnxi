@@ -17,7 +17,6 @@ package reset
 
 import (
 	"context"
-	"log"
 	"strings"
 
 	"github.com/google/gnxi/gnoi/reset/pb"

@@ -15,6 +15,7 @@ limitations under the License.
 package reset
 
 import (
+	"log"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -28,26 +29,55 @@ func TestCheckResponse(t *testing.T) {
 		want     *ResetError
 	}{
 		{
-			response: initializeResponse(true, false, false, ""),
-			want:     &ResetError{[]string{"Factory OS Rollback Unsupported"}},
+			response: &pb.StartResponse{Response: &pb.StartResponse_ResetSuccess{&pb.ResetSuccess{}}},
+			want:     nil,
 		},
 		{
-			response: initializeResponse(false, true, false, ""),
-			want:     &ResetError{[]string{"Zero Filling Persistent Storage Unsupported"}},
+			response: &pb.StartResponse{Response: &pb.StartResponse_ResetError{&pb.ResetError{
+				FactoryOsUnsupported: true,
+				ZeroFillUnsupported:  false,
+				Other:                false,
+				Detail:               "",
+			}}},
+			want: &ResetError{[]string{"Factory OS Rollback Unsupported"}},
 		},
 		{
-			response: initializeResponse(false, false, true, "Unspecified Test Error"),
-			want:     &ResetError{[]string{"Unspecified Error: Unspecified Test Error"}},
+			response: &pb.StartResponse{Response: &pb.StartResponse_ResetError{&pb.ResetError{
+				FactoryOsUnsupported: false,
+				ZeroFillUnsupported:  true,
+				Other:                false,
+				Detail:               "",
+			}}},
+			want: &ResetError{[]string{"Zero Filling Persistent Storage Unsupported"}},
 		},
 		{
-			response: initializeResponse(true, true, false, ""),
+			response: &pb.StartResponse{Response: &pb.StartResponse_ResetError{&pb.ResetError{
+				FactoryOsUnsupported: false,
+				ZeroFillUnsupported:  false,
+				Other:                true,
+				Detail:               "Unspecified Test Error",
+			}}},
+			want: &ResetError{[]string{"Unspecified Error: Unspecified Test Error"}},
+		},
+		{
+			response: &pb.StartResponse{Response: &pb.StartResponse_ResetError{&pb.ResetError{
+				FactoryOsUnsupported: true,
+				ZeroFillUnsupported:  true,
+				Other:                false,
+				Detail:               "",
+			}}},
 			want: &ResetError{[]string{
 				"Factory OS Rollback Unsupported",
 				"Zero Filling Persistent Storage Unsupported",
 			}},
 		},
 		{
-			response: initializeResponse(true, true, true, "Unspecified Test Error"),
+			response: &pb.StartResponse{Response: &pb.StartResponse_ResetError{&pb.ResetError{
+				FactoryOsUnsupported: true,
+				ZeroFillUnsupported:  true,
+				Other:                true,
+				Detail:               "Unspecified Test Error",
+			}}},
 			want: &ResetError{[]string{
 				"Factory OS Rollback Unsupported",
 				"Zero Filling Persistent Storage Unsupported",
@@ -57,26 +87,15 @@ func TestCheckResponse(t *testing.T) {
 	}
 	for _, test := range tests {
 		got := CheckResponse(test.response)
-		diff := cmp.Diff(test.want, got)
-		if diff != "" {
-			t.Errorf("CheckResponse(%s): (-want +got):\n%s", test.response, diff)
-		}
-	}
-}
+		if got == nil && test.want == nil {
+			continue
+		} else {
+			diff := cmp.Diff(test.want, got)
+			log.Println(diff)
+			if diff != "" {
+				t.Errorf("CheckResponse(%s): (-want +got):\n%s", test.response, diff)
+			}
 
-func initializeResponse(factoryOSUnsupported, zeroFillUnsupported, other bool, details string) *pb.StartResponse {
-	res := &pb.StartResponse{}
-	if factoryOSUnsupported || zeroFillUnsupported || other {
-		resetError := &pb.ResetError{
-			FactoryOsUnsupported: factoryOSUnsupported,
-			ZeroFillUnsupported:  zeroFillUnsupported,
-			Other:                other,
-			Detail:               details,
 		}
-		res.Response = &pb.StartResponse_ResetError{resetError}
-	} else {
-		resetSuccess := &pb.ResetSuccess{}
-		res.Response = &pb.StartResponse_ResetSuccess{resetSuccess}
 	}
-	return res
 }
