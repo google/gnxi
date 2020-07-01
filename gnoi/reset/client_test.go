@@ -15,7 +15,6 @@ limitations under the License.
 package reset
 
 import (
-	"log"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -91,7 +90,6 @@ func TestCheckResponse(t *testing.T) {
 			continue
 		} else {
 			diff := cmp.Diff(test.want, got)
-			log.Println(diff)
 			if diff != "" {
 				t.Errorf("CheckResponse(%s): (-want +got):\n%s", test.response, diff)
 			}
