@@ -17,53 +17,51 @@ package reset
 import (
 	"testing"
 
+	"github.com/google/go-cmp/cmp"
+
 	"github.com/google/gnxi/gnoi/reset/pb"
 )
 
-func TestStart(t *testing.T) {
-	t.Run("ResetSuccess", func(t *testing.T) {
-		res := initializeResponse(false, false, false, "")
-		err := CheckResponse(res)
-		if err != nil {
-			t.Errorf("Expected no errors, got %v", err)
+func TestCheckResponse(t *testing.T) {
+	tests := []struct {
+		response *pb.StartResponse
+		want     *ResetError
+	}{
+		{
+			response: initializeResponse(true, false, false, ""),
+			want:     &ResetError{[]string{"Factory OS Rollback Unsupported"}},
+		},
+		{
+			response: initializeResponse(false, true, false, ""),
+			want:     &ResetError{[]string{"Zero Filling Persistent Storage Unsupported"}},
+		},
+		{
+			response: initializeResponse(false, false, true, "Unspecified Test Error"),
+			want:     &ResetError{[]string{"Unspecified Error: Unspecified Test Error"}},
+		},
+		{
+			response: initializeResponse(true, true, false, ""),
+			want: &ResetError{[]string{
+				"Factory OS Rollback Unsupported",
+				"Zero Filling Persistent Storage Unsupported",
+			}},
+		},
+		{
+			response: initializeResponse(true, true, true, "Unspecified Test Error"),
+			want: &ResetError{[]string{
+				"Factory OS Rollback Unsupported",
+				"Zero Filling Persistent Storage Unsupported",
+				"Unspecified Error: Unspecified Test Error",
+			}},
+		},
+	}
+	for _, test := range tests {
+		got := CheckResponse(test.response)
+		diff := cmp.Diff(test.want, got)
+		if diff != "" {
+			t.Errorf("CheckResponse(%s): (-want +got):\n%s", test.response, diff)
 		}
-	})
-
-	t.Run("ResetError OS Rollback Unsupported", func(t *testing.T) {
-		res := initializeResponse(true, false, false, "")
-		err := CheckResponse(res)
-		if err == nil {
-			t.Error("Expected OS unsupported error, no error returned")
-		}
-	})
-	t.Run("ResetError Zero Fill Unsupported", func(t *testing.T) {
-		res := initializeResponse(false, true, false, "")
-		err := CheckResponse(res)
-		if err == nil {
-			t.Error("Expected Zero Fill unsupported error, no error returned")
-		}
-	})
-	t.Run("Unspecified Error Response", func(t *testing.T) {
-		res := initializeResponse(false, false, true, "Unspecified Test Error")
-		err := CheckResponse(res)
-		if err == nil {
-			t.Error("Expected Unspecified error, no error returned")
-		}
-	})
-	t.Run("ResetError OS Rollback and Zero Fill Unsupported", func(t *testing.T) {
-		res := initializeResponse(true, true, false, "")
-		err := CheckResponse(res)
-		if err == nil {
-			t.Error("Expected OS Rollback and Zero Fill unsupported error, no error returned")
-		}
-	})
-	t.Run("ResetError OS Rollback and Zero Fill Unsupported and an Unspecified Error", func(t *testing.T) {
-		res := initializeResponse(true, true, true, "Unspecified Test Error")
-		err := CheckResponse(res)
-		if err == nil {
-			t.Error("Expected OS Rollback and Zero Fill unsupported and Unspecified error, no error returned")
-		}
-	})
+	}
 }
 
 func initializeResponse(factoryOSUnsupported, zeroFillUnsupported, other bool, details string) *pb.StartResponse {

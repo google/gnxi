@@ -17,8 +17,8 @@ package reset
 
 import (
 	"context"
-	"errors"
 	"log"
+	"strings"
 
 	"github.com/google/gnxi/gnoi/reset/pb"
 	"google.golang.org/grpc"
@@ -29,7 +29,12 @@ type Client struct {
 	client pb.FactoryResetClient
 }
 
-type MyError struct {
+type ResetError struct {
+	Msgs []string
+}
+
+func (re *ResetError) Error() string {
+	return strings.Join(re.Msgs, "\n")
 }
 
 // NewClient initializes a FactoryReset Client.
@@ -57,23 +62,19 @@ func CheckResponse(res *pb.StartResponse) error {
 		return nil
 	case *pb.StartResponse_ResetError:
 		resErr := res.GetResetError()
-		errs := ""
+		err := &ResetError{
+			Msgs: make([]string, 0),
+		}
 		if resErr.FactoryOsUnsupported {
-			out := "Factory OS Rollback Unsupported\n"
-			log.Print(out)
-			errs += out
+			err.Msgs = append(err.Msgs, "Factory OS Rollback Unsupported")
 		}
 		if resErr.ZeroFillUnsupported {
-			out := "Zero Filling Persistent Storage Unsupported\n"
-			log.Print(out)
-			errs += out
+			err.Msgs = append(err.Msgs, "Zero Filling Persistent Storage Unsupported")
 		}
 		if resErr.Other {
-			out := "Unspecified Error: " + resErr.Detail + "\n"
-			log.Println(out)
-			errs += out
+			err.Msgs = append(err.Msgs, "Unspecified Error: "+resErr.Detail)
 		}
-		return errors.New(errs)
+		return err
 	}
 	return nil
 }
