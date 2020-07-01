@@ -34,7 +34,6 @@ func (c *Client) ResetTarget(ctx context.Context, zeroFill, rollbackOS bool) err
 
 // CheckResponse checks for errors.
 func CheckResponse(res *pb.StartResponse) error {
-	log.Println(res)
 	switch res.Response.(type) {
 	case *pb.StartResponse_ResetSuccess:
 		return nil
