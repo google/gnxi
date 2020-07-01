@@ -34,7 +34,7 @@ var (
 	rsaBitSize = 2048
 )
 
-// Server represents a target
+// Server represents a target.
 type Server struct {
 	certServer         *cert.Server
 	certManager        *cert.Manager
@@ -42,7 +42,7 @@ type Server struct {
 	resetServer        *reset.Server
 }
 
-// NewServer returns a new server that can be used by the mock target
+// NewServer returns a new server that can be used by the mock target.
 func NewServer(privateKey crypto.PrivateKey, defaultCertificate *tls.Certificate) (*Server, error) {
 	if defaultCertificate == nil {
 		if privateKey == nil {
@@ -98,13 +98,13 @@ func (s *Server) PrepareAuthenticated() *grpc.Server {
 	return grpc.NewServer(opts...)
 }
 
-// Register all implemented gRPC services
+// Register all implemented gRPC services.
 func (s *Server) Register(g *grpc.Server) {
 	s.RegFactoryReset(g)
 	s.RegCertificateManagement(g)
 }
 
-// RegFactoryReset registers the gRPC server
+// RegFactoryReset registers the gRPC server.
 func (s *Server) RegFactoryReset(g *grpc.Server) {
 	s.resetServer.Register(g)
 }
