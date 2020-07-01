@@ -24,14 +24,14 @@ import (
 	"flag"
 	"fmt"
 	"reflect"
-	"time"
 	"strings"
+	"time"
 
 	"github.com/google/gnxi/gnoi/cert"
+	"github.com/google/gnxi/utils/client"
 	"github.com/google/gnxi/utils/entity"
 	"github.com/kylelemons/godebug/pretty"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials"
 
 	log "github.com/golang/glog"
 )
@@ -104,39 +104,17 @@ func certIDCheck() {
 
 // gnoiEncrypted creates an encrypted TLS connection to the target.
 func gnoiEncrypted(c tls.Certificate) (*grpc.ClientConn, *cert.Client) {
-	opts := []grpc.DialOption{grpc.WithTransportCredentials(credentials.NewTLS(
-		&tls.Config{
-			InsecureSkipVerify: true,
-			Certificates:       []tls.Certificate{c},
-			RootCAs:            nil,
-		}))}
-
-	conn, err := grpc.Dial(*targetAddr, opts...)
+	conn, err := client.GnoiEncrypted(c, *targetAddr)
 	if err != nil {
-		log.Exitf("Failed dial to %q: %v", *targetAddr, err)
+		log.Exitf("Failed dial to %q: %v", targetAddr, err)
 	}
-
 	client := cert.NewClient(conn)
 	return conn, client
 }
 
 // gnoiAuthenticated creates an authenticated TLS connection to the target.
 func gnoiAuthenticated(targetName string) (*grpc.ClientConn, *cert.Client) {
-	clientEnt, err := entity.CreateSigned("client", nil, caEnt)
-	if err != nil {
-		log.Exitf("Failed to create a signed entity: %v", err)
-	}
-	caPool := x509.NewCertPool()
-	caPool.AddCert(caEnt.Certificate.Leaf)
-
-	opts := []grpc.DialOption{grpc.WithTransportCredentials(credentials.NewTLS(
-		&tls.Config{
-			ServerName:   targetName,
-			Certificates: []tls.Certificate{*clientEnt.Certificate},
-			RootCAs:      caPool,
-		}))}
-
-	conn, err := grpc.Dial(*targetAddr, opts...)
+	conn, err := client.GnoiAuthenticated(caEnt, *targetAddr, targetName)
 	if err != nil {
 		log.Exitf("Failed dial to %q: %v", *targetAddr, err)
 	}
@@ -196,20 +174,20 @@ func rotate() {
 
 // revoke revokes a certificate in authenticated mode.
 func revoke() {
-    	var revokeCertIDs  = []string { *certID }
+	var revokeCertIDs = []string{*certID}
 
-    	if *certIDs != "" {
-        	revokeCertIDs  = strings.FieldsFunc(*certIDs, func(r rune) bool { return r == ',' })
-        	if len(revokeCertIDs ) == 0 {
-            		log.Exit("Must specify comma separated certificate IDs when using -cert_ids")
-        	}
-    	} else if *certID == "" {
-               log.Exit("Must set a certificate ID with -cert_id or set multiple IDs with -cert_ids")
+	if *certIDs != "" {
+		revokeCertIDs = strings.FieldsFunc(*certIDs, func(r rune) bool { return r == ',' })
+		if len(revokeCertIDs) == 0 {
+			log.Exit("Must specify comma separated certificate IDs when using -cert_ids")
+		}
+	} else if *certID == "" {
+		log.Exit("Must set a certificate ID with -cert_id or set multiple IDs with -cert_ids")
 	}
 	conn, client := gnoiAuthenticated(*targetCN)
 	defer conn.Close()
 
-	revoked, err := client.RevokeCertificates(ctx, revokeCertIDs )
+	revoked, err := client.RevokeCertificates(ctx, revokeCertIDs)
 	if err != nil {
 		log.Exit("Failed RevokeCertificates:", err)
 	}
