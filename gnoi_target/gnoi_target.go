@@ -61,7 +61,7 @@ func notify(certs, caCerts int) {
 			log.Info("Found Credentials, setting Provisioned state.")
 			grpcServer.GracefulStop()
 			grpcServer = gNOIServer.PrepareAuthenticated()
-			gNOIServer.RegCertificateManagement(grpcServer)
+			gNOIServer.Register(grpcServer)
 		} else {
 			log.Info("No credentials, setting Bootstrapping state.")
 			if grpcServer != nil {
