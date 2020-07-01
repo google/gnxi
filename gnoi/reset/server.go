@@ -54,7 +54,7 @@ func (s *Server) Start(ctx context.Context, req *pb.StartRequest) (*pb.StartResp
 		return &pb.StartResponse{Response: &pb.StartResponse_ResetError{ResetError: resetError}}, nil
 	}
 
-	// TODO: Reset the target device
+	// TODO: Reset the Target.
 
 	return &pb.StartResponse{Response: &pb.StartResponse_ResetSuccess{}}, nil
 }
