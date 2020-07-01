@@ -29,14 +29,14 @@ func TestStart(t *testing.T) {
 		}
 	})
 
-	t.Run("ResetError OS Rollback Impossible", func(t *testing.T) {
+	t.Run("ResetError OS Rollback Unsupported", func(t *testing.T) {
 		res := initializeResponse(true, false, false, "")
 		err := CheckResponse(res)
 		if err == nil {
 			t.Error("Expected OS unsupported error, no error returned")
 		}
 	})
-	t.Run("ResetError Zero Fill Impossible", func(t *testing.T) {
+	t.Run("ResetError Zero Fill Unsupported", func(t *testing.T) {
 		res := initializeResponse(false, true, false, "")
 		err := CheckResponse(res)
 		if err == nil {
