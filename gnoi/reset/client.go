@@ -29,12 +29,12 @@ type Client struct {
 	client pb.FactoryResetClient
 }
 
-// ResetError allows multiple error messages
+// ResetError allows the return of multiple error messages concatenated.
 type ResetError struct {
 	Msgs []string
 }
 
-// Error concatenates a multi-line error message
+// Error concatenates a multi-line error message.
 func (re *ResetError) Error() string {
 	return strings.Join(re.Msgs, "\n")
 }
@@ -51,7 +51,6 @@ func (c *Client) ResetTarget(ctx context.Context, zeroFill, rollbackOS bool) err
 		ZeroFill:  zeroFill,
 	})
 	if err != nil {
-		log.Println("Error calling Start service:", err)
 		return err
 	}
 	return CheckResponse(out)
