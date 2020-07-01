@@ -20,6 +20,7 @@ import (
 	"fmt"
 	"testing"
 
+	certPB "github.com/google/gnxi/gnoi/cert/pb"
 	"github.com/google/gnxi/gnoi/reset/pb"
 )
 
@@ -27,6 +28,17 @@ type test struct {
 	name     string
 	request  *pb.StartRequest
 	settings Settings
+}
+
+type certServerMock struct {
+	CertServerInterface
+}
+
+func (m *certServerMock) GetCertificates(ctx context.Context, req *certPB.GetCertificatesRequest) (*certPB.GetCertificatesResponse, error) {
+	return &certPB.GetCertificatesResponse{CertificateInfo: []*certPB.CertificateInfo{}}, nil
+}
+func (m *certServerMock) RevokeCertificates(ctx context.Context, req *certPB.RevokeCertificatesRequest) (*certPB.RevokeCertificatesResponse, error) {
+	return nil, nil
 }
 
 func makeTests() []test {
@@ -60,8 +72,9 @@ func makeTests() []test {
 
 func TestStart(t *testing.T) {
 	tests := makeTests()
+	mock := &certServerMock{}
 	for _, test := range tests {
-		s := NewServer(&test.settings)
+		s := NewServer(&test.settings, mock)
 		t.Run(test.name, func(t *testing.T) {
 			resp, err := s.Start(context.Background(), test.request)
 			if err != nil {

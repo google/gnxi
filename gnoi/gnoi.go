@@ -61,7 +61,7 @@ func NewServer(privateKey crypto.PrivateKey, defaultCertificate *tls.Certificate
 
 	certManager := cert.NewManager(defaultCertificate.PrivateKey)
 	certServer := cert.NewServer(certManager)
-	resetServer := reset.NewServer(&reset.Settings{})
+	resetServer := reset.NewServer(&reset.Settings{}, certServer)
 
 	return &Server{
 		certServer:         certServer,
