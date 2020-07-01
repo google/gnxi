@@ -1,9 +1,7 @@
 // This file defines a gNOI API used for factory reseting a Target.
 syntax = "proto3";
 
-package gnoi.reset;
-
-option go_package = ".;pb";
+package pb;
 
 // The FactoryReset service exported by Targets.
 service FactoryReset {

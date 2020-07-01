@@ -44,7 +44,7 @@ func NewFactoryResetClient(cc grpc.ClientConnInterface) FactoryResetClient {
 
 func (c *factoryResetClient) Start(ctx context.Context, in *StartRequest, opts ...grpc.CallOption) (*StartResponse, error) {
 	out := new(StartResponse)
-	err := c.cc.Invoke(ctx, "/gnoi.reset.FactoryReset/Start", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pb.FactoryReset/Start", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -96,7 +96,7 @@ func _FactoryReset_Start_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/gnoi.reset.FactoryReset/Start",
+		FullMethod: "/pb.FactoryReset/Start",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(FactoryResetServer).Start(ctx, req.(*StartRequest))
@@ -105,7 +105,7 @@ func _FactoryReset_Start_Handler(srv interface{}, ctx context.Context, dec func(
 }
 
 var _FactoryReset_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "gnoi.reset.FactoryReset",
+	ServiceName: "pb.FactoryReset",
 	HandlerType: (*FactoryResetServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
