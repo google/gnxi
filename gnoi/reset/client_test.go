@@ -50,6 +50,20 @@ func TestStart(t *testing.T) {
 			t.Error("Expected Unspecified error, no error returned")
 		}
 	})
+	t.Run("ResetError OS Rollback and Zero Fill Unsupported", func(t *testing.T) {
+		res := initializeResponse(true, true, false, "")
+		err := CheckResponse(res)
+		if err == nil {
+			t.Error("Expected OS Rollback and Zero Fill unsupported error, no error returned")
+		}
+	})
+	t.Run("ResetError OS Rollback and Zero Fill Unsupported and an Unspecified Error", func(t *testing.T) {
+		res := initializeResponse(true, true, true, "Unspecified Test Error")
+		err := CheckResponse(res)
+		if err == nil {
+			t.Error("Expected OS Rollback and Zero Fill unsupported and Unspecified error, no error returned")
+		}
+	})
 }
 
 func initializeResponse(factoryOSUnsupported, zeroFillUnsupported, other bool, details string) *pb.StartResponse {

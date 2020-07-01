@@ -29,6 +29,9 @@ type Client struct {
 	client pb.FactoryResetClient
 }
 
+type MyError struct {
+}
+
 // NewClient initializes a FactoryReset Client.
 func NewClient(c *grpc.ClientConn) *Client {
 	return &Client{client: pb.NewFactoryResetClient(c)}
@@ -54,18 +57,23 @@ func CheckResponse(res *pb.StartResponse) error {
 		return nil
 	case *pb.StartResponse_ResetError:
 		resErr := res.GetResetError()
+		errs := ""
 		if resErr.FactoryOsUnsupported {
-			log.Println("Factory OS Rollback Unsupported")
-			return errors.New("Factory OS Rollback Unsupported")
+			out := "Factory OS Rollback Unsupported\n"
+			log.Print(out)
+			errs += out
 		}
 		if resErr.ZeroFillUnsupported {
-			log.Println("Zero Filling Persistent Storage Unsupported")
-			return errors.New("Zero Fill Unsupported")
+			out := "Zero Filling Persistent Storage Unsupported\n"
+			log.Print(out)
+			errs += out
 		}
 		if resErr.Other {
-			log.Println(resErr.Detail)
-			return errors.New(resErr.Detail)
+			out := "Unspecified Error: " + resErr.Detail + "\n"
+			log.Println(out)
+			errs += out
 		}
+		return errors.New(errs)
 	}
 	return nil
 }
