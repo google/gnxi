@@ -86,7 +86,7 @@ func notifyCerts(certs, caCerts int) {
 }
 
 // start creates the new gNOI server.
-func start(){
+func start() {
 	resetSettings := &reset.Settings{
 		ZeroFillUnsupported:  *zeroFillUnsupported,
 		FactoryOSUnsupported: *factoryOSUnsupported,
@@ -105,12 +105,12 @@ func start(){
 // to be restarted.
 func notifyReset() {
 	log.Info("Server factory reset triggered")
-	<-time.After(resetDelay)
-	create()
+	<-time.After(*resetDelay)
+	start()
 }
 
 func main() {
-	flag.Parse()	
-	start()	
-	select {}	// Loop forever.
+	flag.Parse()
+	start()
+	select {} // Loop forever.
 }
