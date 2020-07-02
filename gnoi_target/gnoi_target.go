@@ -33,6 +33,7 @@ var (
 	grpcServer    *grpc.Server
 	muServe       sync.Mutex
 	bootstrapping bool
+	resetSettings *reset.Settings
 
 	bindAddr             = flag.String("bind_address", ":10161", "Bind to address:port or just :port")
 	zeroFillUnsupported  = flag.Bool("zero_fill_unsupported", false, "Make the target not support zero filling storage")
@@ -54,10 +55,20 @@ func serve() {
 	}
 }
 
-// notify can be called with the number of certs and ca certs installed. It will
+// notifyReset will be called when the factory reset service requires the server
+// to be restarted.
+func notifyReset() {
+	var err error
+	if gNOIServer, err = gnoi.NewServer(nil, nil, resetSettings); err != nil {
+		log.Fatal("Failed to create gNOI Server:", err)
+	}
+	gNOIServer.Register(grpcServer)
+}
+
+// notifyCerts can be called with the number of certs and ca certs installed. It will
 // (re)start the gRPC server in encrypted mode if no certs are installed. It will
 // (re)start in authenticated mode otherwise.
-func notify(certs, caCerts int) {
+func notifyCerts(certs, caCerts int) {
 	hasCredentials := certs != 0 && caCerts != 0
 	if bootstrapping != !hasCredentials {
 		if bootstrapping {
@@ -82,18 +93,14 @@ func notify(certs, caCerts int) {
 func main() {
 	flag.Parse()
 
-	resetSettings := &reset.Settings{
+	resetSettings = &reset.Settings{
 		ZeroFillUnsupported:  *zeroFillUnsupported,
 		FactoryOSUnsupported: *factoryOSUnsupported,
 	}
 
-	var err error
-	if gNOIServer, err = gnoi.NewServer(nil, nil, resetSettings); err != nil {
-		log.Fatal("Failed to create gNOI Server:", err)
-	}
-
 	// Registers a caller for whenever the number of installed certificates changes.
-	gNOIServer.RegisterNotifier(notify)
-	notify(0, 0) // Trigger bootstraping mode.
-	select {}    // Loop forever.
+	gNOIServer.RegisterCertNotifier(notifyCerts)
+	gNOIServer.RegisterResetNotifier(notifyReset)
+	notifyCerts(0, 0) // Trigger bootstraping mode.
+	select {}         // Loop forever.
 }

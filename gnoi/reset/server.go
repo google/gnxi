@@ -18,16 +18,9 @@ package reset
 import (
 	"context"
 
-	cpb "github.com/google/gnxi/gnoi/cert/pb"
 	"github.com/google/gnxi/gnoi/reset/pb"
 	"google.golang.org/grpc"
 )
-
-// CertServerInterface used to pass in cert server for factory reset.
-type CertServerInterface interface {
-	GetCertificates(context.Context, *cpb.GetCertificatesRequest) (*cpb.GetCertificatesResponse, error)
-	RevokeCertificates(context.Context, *cpb.RevokeCertificatesRequest) (*cpb.RevokeCertificatesResponse, error)
-}
 
 // Settings for configurable options in Server.
 type Settings struct {
@@ -37,14 +30,17 @@ type Settings struct {
 
 // Server for factory_reset service.
 type Server struct {
-	certServer CertServerInterface
 	pb.FactoryResetServer
 	*Settings
+	notifier Notifier
 }
 
+// Notifier for reset callback
+type Notifier func()
+
 // NewServer generates a new factory reset server.
-func NewServer(settings *Settings, certServer CertServerInterface) *Server {
-	return &Server{Settings: settings, certServer: certServer}
+func NewServer(settings *Settings) *Server {
+	return &Server{Settings: settings}
 }
 
 // Register registers the server into the gRPC server provided.
@@ -62,26 +58,19 @@ func (s *Server) Start(ctx context.Context, req *pb.StartRequest) (*pb.StartResp
 		return &pb.StartResponse{Response: &pb.StartResponse_ResetError{ResetError: resetError}}, nil
 	}
 
-	s.reset()
+	defer func() { go s.Reset() }()
 
 	return &pb.StartResponse{Response: &pb.StartResponse_ResetSuccess{}}, nil
 }
 
-// reset the target device. Clears certs and wipes OS's
-func (s *Server) reset() error {
-	// TODO: Reset the target device using the OS manager when implemented.
-	response, err := s.certServer.GetCertificates(context.Background(), &cpb.GetCertificatesRequest{})
-	if err != nil {
-		return err
+// Reset the target device. Clears certs and wipes OS's.
+func (s *Server) Reset() {
+	if s.notifier != nil {
+		s.notifier()
 	}
+}
 
-	certs := []string{}
-	for _, c := range response.CertificateInfo {
-		certs = append(certs, c.CertificateId)
-	}
-
-	if _, err = s.certServer.RevokeCertificates(context.Background(), &cpb.RevokeCertificatesRequest{CertificateId: certs}); err != nil {
-		return err
-	}
-	return nil
+// RegisterNotifier adds a callback to the server
+func (s *Server) RegisterNotifier(notifier Notifier) {
+	s.notifier = notifier
 }

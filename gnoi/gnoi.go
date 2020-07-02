@@ -61,7 +61,7 @@ func NewServer(privateKey crypto.PrivateKey, defaultCertificate *tls.Certificate
 
 	certManager := cert.NewManager(defaultCertificate.PrivateKey)
 	certServer := cert.NewServer(certManager)
-	resetServer := reset.NewServer(resetSettings, certServer)
+	resetServer := reset.NewServer(resetSettings)
 
 	return &Server{
 		certServer:         certServer,
@@ -114,8 +114,13 @@ func (s *Server) RegCertificateManagement(g *grpc.Server) {
 	s.certServer.Register(g)
 }
 
-// RegisterNotifier registers a function that will be called everytime the number
+// RegisterCertNotifier registers a function that will be called everytime the number
 // of Certificates or CA Certificates changes.
-func (s *Server) RegisterNotifier(f cert.Notifier) {
+func (s *Server) RegisterCertNotifier(f cert.Notifier) {
 	s.certManager.RegisterNotifier(f)
+}
+
+// RegisterResetNotifier registers a function that will be when the server needs to be restarted.
+func (s *Server) RegisterResetNotifier(f reset.Notifier) {
+	s.resetServer.RegisterNotifier(f)
 }

@@ -19,29 +19,18 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
-	cpb "github.com/google/gnxi/gnoi/cert/pb"
 	"github.com/google/gnxi/gnoi/reset/pb"
 )
 
-type test struct {
+type startTest struct {
 	name     string
 	request  *pb.StartRequest
 	settings Settings
 }
 
-type certServerMock struct {
-	CertServerInterface
-}
-
-func (m *certServerMock) GetCertificates(ctx context.Context, req *cpb.GetCertificatesRequest) (*cpb.GetCertificatesResponse, error) {
-	return &cpb.GetCertificatesResponse{CertificateInfo: []*cpb.CertificateInfo{}}, nil
-}
-func (m *certServerMock) RevokeCertificates(ctx context.Context, req *cpb.RevokeCertificatesRequest) (*cpb.RevokeCertificatesResponse, error) {
-	return nil, nil
-}
-
-func makeTests() []test {
+func makeStartTests() []startTest {
 	reqs := []pb.StartRequest{
 		{ZeroFill: true},
 		{ZeroFill: true, FactoryOs: true},
@@ -54,7 +43,7 @@ func makeTests() []test {
 		{true, false},
 		{true, true},
 	}
-	t := []test{}
+	t := []startTest{}
 	for _, set := range sets {
 		for _, req := range reqs {
 			name := fmt.Sprintf(
@@ -64,17 +53,18 @@ func makeTests() []test {
 				req.FactoryOs,
 				set.FactoryOSUnsupported,
 			)
-			t = append(t, test{name: name, request: &req, settings: set})
+			t = append(t, startTest{name: name, request: &req, settings: set})
 		}
 	}
 	return t
 }
 
 func TestStart(t *testing.T) {
-	tests := makeTests()
-	mock := &certServerMock{}
+	tests := makeStartTests()
 	for _, test := range tests {
-		s := NewServer(&test.settings, mock)
+		s := NewServer(&test.settings)
+		called := make(chan bool, 1)
+		s.notifier = func() { called <- true }
 		t.Run(test.name, func(t *testing.T) {
 			resp, err := s.Start(context.Background(), test.request)
 			if err != nil {
@@ -102,6 +92,12 @@ func TestStart(t *testing.T) {
 						test.request.FactoryOs,
 						response)
 				}
+			}
+			select {
+			case <-called:
+				return
+			case <-time.After(100 * time.Millisecond):
+				t.Errorf("Reset Never called")
 			}
 		})
 	}
