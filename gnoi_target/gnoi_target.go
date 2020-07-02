@@ -71,7 +71,8 @@ func notify(certs, caCerts int) {
 				grpcServer.GracefulStop()
 			}
 			grpcServer = gNOIServer.PrepareEncrypted()
-			gNOIServer.RegCertificateManagement(grpcServer)
+			// Register all gNOI services.
+			gNOIServer.Register(grpcServer)
 		}
 		bootstrapping = !bootstrapping
 		go serve()
