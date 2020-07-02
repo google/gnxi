@@ -49,7 +49,7 @@ const (
 	unavailable              = "UNAVAILABLE"
 )
 
-// NewManager for OS service module. Will manage state of OS module
+// NewManager for OS service module. Will manage state of OS module.
 func NewManager(supported map[string]bool, factoryOs *OS) *Manager {
 	return &Manager{
 		standbyState:      unsupported,
