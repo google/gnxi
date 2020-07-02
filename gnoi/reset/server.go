@@ -67,8 +67,9 @@ func (s *Server) Start(ctx context.Context, req *pb.StartRequest) (*pb.StartResp
 	return &pb.StartResponse{Response: &pb.StartResponse_ResetSuccess{}}, nil
 }
 
-// reset the target device
+// reset the target device. Clears certs and wipes OS's
 func (s *Server) reset() error {
+	// TODO: Reset the target device using the OS manager when implemented.
 	response, err := s.certServer.GetCertificates(context.Background(), &certPB.GetCertificatesRequest{})
 	if err != nil {
 		return err
