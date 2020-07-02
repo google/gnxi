@@ -100,16 +100,11 @@ func (s *Server) PrepareAuthenticated() *grpc.Server {
 
 // Register all implemented gRPC services.
 func (s *Server) Register(g *grpc.Server) {
-	s.RegFactoryReset(g)
-	s.RegCertificateManagement(g)
-}
-
-// RegFactoryReset registers the gRPC server.
-func (s *Server) RegFactoryReset(g *grpc.Server) {
+	s.certServer.Register(g)
 	s.resetServer.Register(g)
 }
 
-// RegCertificateManagement registers the Certificate Management service in the gRPC Server.
+// RegCertificateManagement registers only the Certificate Management service in the gRPC Server.
 func (s *Server) RegCertificateManagement(g *grpc.Server) {
 	s.certServer.Register(g)
 }
