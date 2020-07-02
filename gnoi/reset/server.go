@@ -17,6 +17,7 @@ package reset
 
 import (
 	"context"
+	"time"
 
 	"github.com/google/gnxi/gnoi/reset/pb"
 	"google.golang.org/grpc"
@@ -26,6 +27,7 @@ import (
 type Settings struct {
 	ZeroFillUnsupported  bool
 	FactoryOSUnsupported bool
+	ResetTime            time.Duration
 }
 
 // Server for factory_reset service.
@@ -66,6 +68,7 @@ func (s *Server) Start(ctx context.Context, req *pb.StartRequest) (*pb.StartResp
 // Reset the target device. Clears certs and wipes OS's.
 func (s *Server) Reset() {
 	if s.notifier != nil {
+		<-time.After(s.ResetTime)
 		s.notifier()
 	}
 }

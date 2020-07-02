@@ -20,6 +20,7 @@ import (
 	"flag"
 	"net"
 	"sync"
+	"time"
 
 	"github.com/google/gnxi/gnoi"
 	"github.com/google/gnxi/gnoi/reset"
@@ -96,6 +97,7 @@ func main() {
 	resetSettings = &reset.Settings{
 		ZeroFillUnsupported:  *zeroFillUnsupported,
 		FactoryOSUnsupported: *factoryOSUnsupported,
+		ResetTime:            3 * time.Second,
 	}
 
 	var err error

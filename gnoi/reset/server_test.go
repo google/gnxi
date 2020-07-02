@@ -30,7 +30,10 @@ type startTest struct {
 	settings Settings
 }
 
+const resetTime = 0
+
 func makeStartTests() []startTest {
+	
 	reqs := []pb.StartRequest{
 		{ZeroFill: true},
 		{ZeroFill: true, FactoryOs: true},
@@ -38,10 +41,10 @@ func makeStartTests() []startTest {
 		{},
 	}
 	sets := []Settings{
-		{false, false},
-		{false, true},
-		{true, false},
-		{true, true},
+		{false, false, resetTime},
+		{false, true, resetTime},
+		{true, false, resetTime},
+		{true, true, resetTime},
 	}
 	t := []startTest{}
 	for _, set := range sets {
