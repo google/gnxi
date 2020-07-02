@@ -98,6 +98,11 @@ func main() {
 		FactoryOSUnsupported: *factoryOSUnsupported,
 	}
 
+	var err error
+	if gNOIServer, err = gnoi.NewServer(nil, nil, resetSettings); err != nil {
+		log.Fatal("Failed to create gNOI Server:", err)
+	}
+
 	// Registers a caller for whenever the number of installed certificates changes.
 	gNOIServer.RegisterCertNotifier(notifyCerts)
 	gNOIServer.RegisterResetNotifier(notifyReset)
