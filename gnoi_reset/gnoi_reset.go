@@ -32,8 +32,8 @@ import (
 
 var (
 	targetAddr = flag.String("target_addr", "localhost:9399", "The target address in the format of host:port")
-	targetName = flag.String("target_name", "hostname.com", "The target name use to verify the hostname returned by TLS handshake")
-	rollbackOs = flag.Bool("rollback_os", false, "Indicate if target should attempt to return to factory os")
+	targetName = flag.String("target_name", "hostname.com", "The target name used to verify the hostname returned by TLS handshake")
+	rollbackOs = flag.Bool("rollback_os", false, "Indicate if target should attempt to revert to factory os")
 	zeroFill   = flag.Bool("zero_fill", false, "Indicate if target should attempt to overwrite persistent storage with zeroes")
 )
 
@@ -52,8 +52,7 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	err = client.ResetTarget(ctx, *rollbackOs, *zeroFill)
-	if err != nil {
+	if err = client.ResetTarget(ctx, *rollbackOs, *zeroFill); err != nil {
 		log.Errorf("Error Resetting Target: %v", err)
 	} else {
 		log.Infoln("Reset Called Successfully!")
