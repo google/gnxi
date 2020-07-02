@@ -55,7 +55,7 @@ func NewManager(supported map[string]bool, factoryOs *OS) *Manager {
 		standbyState:      unsupported,
 		supportedVersions: supported,
 		factory:           factoryOs,
-		osMap:             map[string]*OS{},
+		osMap:             map[string]*OS{factoryOs.Version: factoryOs},
 	}
 }
 
