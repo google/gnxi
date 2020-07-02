@@ -24,6 +24,7 @@ import (
 	"fmt"
 
 	"github.com/google/gnxi/gnoi/cert"
+	"github.com/google/gnxi/gnoi/reset"
 	"github.com/google/gnxi/utils/entity"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
@@ -33,14 +34,15 @@ var (
 	rsaBitSize = 2048
 )
 
-// Server does blah.
+// Server represents a target.
 type Server struct {
 	certServer         *cert.Server
 	certManager        *cert.Manager
 	defaultCertificate *tls.Certificate
+	resetServer        *reset.Server
 }
 
-// NewServer does blah.
+// NewServer returns a new server that can be used by the mock target.
 func NewServer(privateKey crypto.PrivateKey, defaultCertificate *tls.Certificate) (*Server, error) {
 	if defaultCertificate == nil {
 		if privateKey == nil {
@@ -59,10 +61,13 @@ func NewServer(privateKey crypto.PrivateKey, defaultCertificate *tls.Certificate
 
 	certManager := cert.NewManager(defaultCertificate.PrivateKey)
 	certServer := cert.NewServer(certManager)
+	resetServer := reset.NewServer(&reset.Settings{})
+
 	return &Server{
 		certServer:         certServer,
 		certManager:        certManager,
 		defaultCertificate: defaultCertificate,
+		resetServer:        resetServer,
 	}, nil
 }
 
@@ -91,6 +96,17 @@ func (s *Server) PrepareAuthenticated() *grpc.Server {
 	}
 	opts := []grpc.ServerOption{grpc.Creds(credentials.NewTLS(&tls.Config{GetConfigForClient: config}))}
 	return grpc.NewServer(opts...)
+}
+
+// Register all implemented gRPC services.
+func (s *Server) Register(g *grpc.Server) {
+	s.RegFactoryReset(g)
+	s.RegCertificateManagement(g)
+}
+
+// RegFactoryReset registers the gRPC server.
+func (s *Server) RegFactoryReset(g *grpc.Server) {
+	s.resetServer.Register(g)
 }
 
 // RegCertificateManagement registers the Certificate Management service in the gRPC Server.
