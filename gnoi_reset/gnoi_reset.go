@@ -33,8 +33,8 @@ import (
 var (
 	targetAddr = flag.String("target_addr", "", "The target address in the format of host:port")
 	targetName = flag.String("target_name", "", "The target name used to verify the hostname returned by TLS handshake")
-	rollbackOs = flag.Bool("rollback_os", false, "Indicate if target should attempt to revert to factory os")
-	zeroFill   = flag.Bool("zero_fill", false, "Indicate if target should attempt to overwrite persistent storage with zeroes")
+	rollbackOs = flag.Bool("rollback_os", false, "Target must revert to factory OS")
+	zeroFill   = flag.Bool("zero_fill", false, "Target must overwrite persistent storage with zeroes")
 	timeOut    = flag.Duration("time_out", 10*time.Second, "Timeout for ResetTarget operation, 10 seconds by default")
 )
 
