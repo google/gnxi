@@ -120,7 +120,7 @@ func (s *Server) RegisterCertNotifier(f cert.Notifier) {
 	s.certManager.RegisterNotifier(f)
 }
 
-// RegisterResetNotifier registers a function that will be when the server needs to be restarted.
+// RegisterResetNotifier registers a function that will be called when the server needs to be restarted.
 func (s *Server) RegisterResetNotifier(f reset.Notifier) {
 	s.resetServer.RegisterNotifier(f)
 }
