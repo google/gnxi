@@ -18,15 +18,15 @@ package reset
 import (
 	"context"
 
-	certPB "github.com/google/gnxi/gnoi/cert/pb"
+	cpb "github.com/google/gnxi/gnoi/cert/pb"
 	"github.com/google/gnxi/gnoi/reset/pb"
 	"google.golang.org/grpc"
 )
 
-// CertServerInterface used to pass in cert server for factory reset
+// CertServerInterface used to pass in cert server for factory reset.
 type CertServerInterface interface {
-	GetCertificates(context.Context, *certPB.GetCertificatesRequest) (*certPB.GetCertificatesResponse, error)
-	RevokeCertificates(context.Context, *certPB.RevokeCertificatesRequest) (*certPB.RevokeCertificatesResponse, error)
+	GetCertificates(context.Context, *cpb.GetCertificatesRequest) (*cpb.GetCertificatesResponse, error)
+	RevokeCertificates(context.Context, *cpb.RevokeCertificatesRequest) (*cpb.RevokeCertificatesResponse, error)
 }
 
 // Settings for configurable options in Server.
@@ -70,7 +70,7 @@ func (s *Server) Start(ctx context.Context, req *pb.StartRequest) (*pb.StartResp
 // reset the target device. Clears certs and wipes OS's
 func (s *Server) reset() error {
 	// TODO: Reset the target device using the OS manager when implemented.
-	response, err := s.certServer.GetCertificates(context.Background(), &certPB.GetCertificatesRequest{})
+	response, err := s.certServer.GetCertificates(context.Background(), &cpb.GetCertificatesRequest{})
 	if err != nil {
 		return err
 	}
@@ -80,8 +80,7 @@ func (s *Server) reset() error {
 		certs = append(certs, c.CertificateId)
 	}
 
-	_, err = s.certServer.RevokeCertificates(context.Background(), &certPB.RevokeCertificatesRequest{CertificateId: certs})
-	if err != nil {
+	if _, err = s.certServer.RevokeCertificates(context.Background(), &cpb.RevokeCertificatesRequest{CertificateId: certs}); err != nil {
 		return err
 	}
 	return nil

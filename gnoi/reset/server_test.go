@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"testing"
 
-	certPB "github.com/google/gnxi/gnoi/cert/pb"
+	cpb "github.com/google/gnxi/gnoi/cert/pb"
 	"github.com/google/gnxi/gnoi/reset/pb"
 )
 
@@ -34,10 +34,10 @@ type certServerMock struct {
 	CertServerInterface
 }
 
-func (m *certServerMock) GetCertificates(ctx context.Context, req *certPB.GetCertificatesRequest) (*certPB.GetCertificatesResponse, error) {
-	return &certPB.GetCertificatesResponse{CertificateInfo: []*certPB.CertificateInfo{}}, nil
+func (m *certServerMock) GetCertificates(ctx context.Context, req *cpb.GetCertificatesRequest) (*cpb.GetCertificatesResponse, error) {
+	return &cpb.GetCertificatesResponse{CertificateInfo: []*cpb.CertificateInfo{}}, nil
 }
-func (m *certServerMock) RevokeCertificates(ctx context.Context, req *certPB.RevokeCertificatesRequest) (*certPB.RevokeCertificatesResponse, error) {
+func (m *certServerMock) RevokeCertificates(ctx context.Context, req *cpb.RevokeCertificatesRequest) (*cpb.RevokeCertificatesResponse, error) {
 	return nil, nil
 }
 
