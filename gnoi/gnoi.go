@@ -43,7 +43,7 @@ type Server struct {
 }
 
 // NewServer returns a new server that can be used by the mock target.
-func NewServer(privateKey crypto.PrivateKey, defaultCertificate *tls.Certificate) (*Server, error) {
+func NewServer(privateKey crypto.PrivateKey, defaultCertificate *tls.Certificate, resetSettings *reset.Settings) (*Server, error) {
 	if defaultCertificate == nil {
 		if privateKey == nil {
 			var err error
@@ -61,7 +61,7 @@ func NewServer(privateKey crypto.PrivateKey, defaultCertificate *tls.Certificate
 
 	certManager := cert.NewManager(defaultCertificate.PrivateKey)
 	certServer := cert.NewServer(certManager)
-	resetServer := reset.NewServer(&reset.Settings{}, certServer)
+	resetServer := reset.NewServer(resetSettings, certServer)
 
 	return &Server{
 		certServer:         certServer,

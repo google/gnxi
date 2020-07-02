@@ -22,6 +22,7 @@ import (
 	"sync"
 
 	"github.com/google/gnxi/gnoi"
+	"github.com/google/gnxi/gnoi/reset"
 	"google.golang.org/grpc"
 
 	log "github.com/golang/glog"
@@ -33,7 +34,9 @@ var (
 	muServe       sync.Mutex
 	bootstrapping bool
 
-	bindAddr = flag.String("bind_address", ":10161", "Bind to address:port or just :port")
+	bindAddr             = flag.String("bind_address", ":10161", "Bind to address:port or just :port")
+	zeroFillUnsupported  = flag.Bool("zero_fill_unsupported", false, "Make the target not support zero filling storage")
+	factoryOSUnsupported = flag.Bool("reset_unsupported", false, "Make the target not support factory resetting OS")
 )
 
 // serve binds to an address and starts serving a gRPCServer.
@@ -78,8 +81,13 @@ func notify(certs, caCerts int) {
 func main() {
 	flag.Parse()
 
+	resetSettings := &reset.Settings{
+		ZeroFillUnsupported:  *zeroFillUnsupported,
+		FactoryOSUnsupported: *factoryOSUnsupported,
+	}
+
 	var err error
-	if gNOIServer, err = gnoi.NewServer(nil, nil); err != nil {
+	if gNOIServer, err = gnoi.NewServer(nil, nil, resetSettings); err != nil {
 		log.Fatal("Failed to create gNOI Server:", err)
 	}
 
