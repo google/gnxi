@@ -33,7 +33,7 @@ type startTest struct {
 const resetTime = 0
 
 func makeStartTests() []startTest {
-	
+
 	reqs := []pb.StartRequest{
 		{ZeroFill: true},
 		{ZeroFill: true, FactoryOs: true},
@@ -71,7 +71,7 @@ func TestStart(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			resp, err := s.Start(context.Background(), test.request)
 			if err != nil {
-				t.Fatalf("ops")
+				t.Fatalf("Couldn't call Start RPC")
 			}
 			switch response := resp.Response.(type) {
 			case *pb.StartResponse_ResetSuccess:
@@ -100,7 +100,7 @@ func TestStart(t *testing.T) {
 			case <-called:
 				return
 			case <-time.After(100 * time.Millisecond):
-				t.Errorf("Reset Never called")
+				t.Errorf("Reset never called")
 			}
 		})
 	}
