@@ -11,7 +11,7 @@ CA Bundles in a Target. See [gNOI Cert proto definition](https://github.com/open
 ## Factory Reset service
 
 This service provides an RPC to Start a factory reset of the device. This includes
-resetting all certificates on the device. See See [gNOI Cert proto definition](https://github.com/openconfig/gnoi/blob/master/factory_reset/reset.proto) for more.
+resetting all certificates on the device. See [gNOI Cert proto definition](https://github.com/openconfig/gnoi/blob/master/factory_reset/reset.proto) for more.
 
 ## Bootstrapping mode
 
