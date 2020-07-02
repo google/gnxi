@@ -30,8 +30,6 @@ type startTest struct {
 	settings Settings
 }
 
-const resetTime = 0
-
 func makeStartTests() []startTest {
 
 	reqs := []pb.StartRequest{
@@ -41,10 +39,10 @@ func makeStartTests() []startTest {
 		{},
 	}
 	sets := []Settings{
-		{false, false, resetTime},
-		{false, true, resetTime},
-		{true, false, resetTime},
-		{true, true, resetTime},
+		{false, false},
+		{false, true},
+		{true, false},
+		{true, true},
 	}
 	t := []startTest{}
 	for _, set := range sets {
@@ -65,9 +63,8 @@ func makeStartTests() []startTest {
 func TestStart(t *testing.T) {
 	tests := makeStartTests()
 	for _, test := range tests {
-		s := NewServer(&test.settings)
 		called := make(chan bool, 1)
-		s.notifier = func() { called <- true }
+		s := NewServer(&test.settings, func() { called <- true })
 		t.Run(test.name, func(t *testing.T) {
 			resp, err := s.Start(context.Background(), test.request)
 			if err != nil {

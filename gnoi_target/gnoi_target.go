@@ -29,6 +29,8 @@ import (
 	log "github.com/golang/glog"
 )
 
+const resetDelay = 3 * time.Second
+
 var (
 	gNOIServer    *gnoi.Server
 	grpcServer    *grpc.Server
@@ -59,11 +61,15 @@ func serve() {
 // notifyReset will be called when the factory reset service requires the server
 // to be restarted.
 func notifyReset() {
+	log.Info("Server factory reset triggered")
+	<-time.After(resetDelay)
 	var err error
-	if gNOIServer, err = gnoi.NewServer(nil, nil, resetSettings); err != nil {
+	if gNOIServer, err = gnoi.NewServer(nil, nil, resetSettings, notifyReset); err != nil {
 		log.Fatal("Failed to create gNOI Server:", err)
 	}
 	gNOIServer.Register(grpcServer)
+	bootstrapping = false
+	notifyCerts(0, 0)
 }
 
 // notifyCerts can be called with the number of certs and ca certs installed. It will
@@ -71,7 +77,7 @@ func notifyReset() {
 // (re)start in authenticated mode otherwise.
 func notifyCerts(certs, caCerts int) {
 	hasCredentials := certs != 0 && caCerts != 0
-	if bootstrapping != !hasCredentials {
+	if bootstrapping == hasCredentials {
 		if bootstrapping {
 			log.Info("Found Credentials, setting Provisioned state.")
 			grpcServer.GracefulStop()
@@ -97,17 +103,15 @@ func main() {
 	resetSettings = &reset.Settings{
 		ZeroFillUnsupported:  *zeroFillUnsupported,
 		FactoryOSUnsupported: *factoryOSUnsupported,
-		ResetTime:            3 * time.Second,
 	}
 
 	var err error
-	if gNOIServer, err = gnoi.NewServer(nil, nil, resetSettings); err != nil {
+	if gNOIServer, err = gnoi.NewServer(nil, nil, resetSettings, notifyReset); err != nil {
 		log.Fatal("Failed to create gNOI Server:", err)
 	}
 
 	// Registers a caller for whenever the number of installed certificates changes.
 	gNOIServer.RegisterCertNotifier(notifyCerts)
-	gNOIServer.RegisterResetNotifier(notifyReset)
 	notifyCerts(0, 0) // Trigger bootstraping mode.
 	select {}         // Loop forever.
 }

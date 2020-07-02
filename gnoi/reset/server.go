@@ -17,7 +17,6 @@ package reset
 
 import (
 	"context"
-	"time"
 
 	"github.com/google/gnxi/gnoi/reset/pb"
 	"google.golang.org/grpc"
@@ -27,8 +26,10 @@ import (
 type Settings struct {
 	ZeroFillUnsupported  bool
 	FactoryOSUnsupported bool
-	ResetTime            time.Duration
 }
+
+// Notifier for reset callback.
+type Notifier func()
 
 // Server for factory_reset service.
 type Server struct {
@@ -37,12 +38,9 @@ type Server struct {
 	notifier Notifier
 }
 
-// Notifier for reset callback
-type Notifier func()
-
 // NewServer generates a new factory reset server.
-func NewServer(settings *Settings) *Server {
-	return &Server{Settings: settings}
+func NewServer(settings *Settings, notifier Notifier) *Server {
+	return &Server{Settings: settings, notifier: notifier}
 }
 
 // Register registers the server into the gRPC server provided.
@@ -60,20 +58,7 @@ func (s *Server) Start(ctx context.Context, req *pb.StartRequest) (*pb.StartResp
 		return &pb.StartResponse{Response: &pb.StartResponse_ResetError{ResetError: resetError}}, nil
 	}
 
-	defer func() { go s.Reset() }()
+	go s.notifier()
 
 	return &pb.StartResponse{Response: &pb.StartResponse_ResetSuccess{}}, nil
-}
-
-// Reset the target device. Clears certs and wipes OS's.
-func (s *Server) Reset() {
-	if s.notifier != nil {
-		<-time.After(s.ResetTime)
-		s.notifier()
-	}
-}
-
-// RegisterNotifier adds a callback to the server
-func (s *Server) RegisterNotifier(notifier Notifier) {
-	s.notifier = notifier
 }
