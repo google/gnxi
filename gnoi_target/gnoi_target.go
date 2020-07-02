@@ -68,7 +68,7 @@ func notifyReset() {
 		log.Fatal("Failed to create gNOI Server:", err)
 	}
 	gNOIServer.Register(grpcServer)
-	bootstrapping = false
+	bootstrapping = true
 	notifyCerts(0, 0)
 }
 
