@@ -19,7 +19,7 @@ gnmi_set \
   -replace /system/clock:@clock-config.json \
   -replace /system/openflow/agent/config/max-backoff:12 \
   -update /system/clock/config/timezone-name:"US/New York" \
-  -target_addr localhost:10161 \
+  -target_addr localhost:9339 \
   -target_name hostname.com \
   -key client.key \
   -cert client.crt \

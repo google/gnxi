@@ -35,7 +35,7 @@ var (
 	muServe       sync.Mutex
 	bootstrapping bool
 
-	bindAddr             = flag.String("bind_address", ":10161", "Bind to address:port or just :port")
+	bindAddr             = flag.String("bind_address", ":9339", "Bind to address:port or just :port")
 	resetDelay           = flag.Duration("reset_delay", 3*time.Second, "Delay before resetting the service upon factory reset request, 3 seconds by default")
 	zeroFillUnsupported  = flag.Bool("zero_fill_unsupported", false, "Make the target not support zero filling storage")
 	factoryOSUnsupported = flag.Bool("reset_unsupported", false, "Make the target not support factory resetting OS")

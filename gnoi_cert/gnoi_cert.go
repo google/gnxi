@@ -43,7 +43,7 @@ var (
 	ca         = flag.String("ca", "", "CA certificate file.")
 	key        = flag.String("key", "", "Private key file.")
 	targetCN   = flag.String("target_name", "", "Common Name of the target.")
-	targetAddr = flag.String("target_addr", "localhost:10161", "The target address in the format of host:port")
+	targetAddr = flag.String("target_addr", "localhost:9339", "The target address in the format of host:port")
 	timeOut    = flag.Duration("time_out", 5*time.Second, "Timeout for the operation, 5 seconds by default")
 	minKeySize = flag.Uint("min_key_size", 128, "Minimum key size")
 	country    = flag.String("country", "US", "Country in CSR parameters")
