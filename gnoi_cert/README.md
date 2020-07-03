@@ -32,7 +32,7 @@ go install github.com/google/gnxi/gnoi_cert
 
 ```
 gnoi_cert \
-  -target_addr localhost:10161 \
+  -target_addr localhost:9339 \
   -target_name hostname.com \
   -key ca.key \
   -ca ca.crt \

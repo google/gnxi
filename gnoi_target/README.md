@@ -43,6 +43,6 @@ go install github.com/google/gnxi/gnoi_target
 
 ```
 gnoi_target \
-  -bind_address :10161 \
+  -bind_address :9339 \
   -alsologtostderr
 ```
