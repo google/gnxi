@@ -19,17 +19,19 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/google/gnxi/gnoi/reset/pb"
 )
 
-type test struct {
+type startTest struct {
 	name     string
 	request  *pb.StartRequest
 	settings Settings
 }
 
-func makeTests() []test {
+func makeStartTests() []startTest {
+
 	reqs := []pb.StartRequest{
 		{ZeroFill: true},
 		{ZeroFill: true, FactoryOs: true},
@@ -42,7 +44,7 @@ func makeTests() []test {
 		{true, false},
 		{true, true},
 	}
-	t := []test{}
+	t := []startTest{}
 	for _, set := range sets {
 		for _, req := range reqs {
 			name := fmt.Sprintf(
@@ -52,20 +54,21 @@ func makeTests() []test {
 				req.FactoryOs,
 				set.FactoryOSUnsupported,
 			)
-			t = append(t, test{name: name, request: &req, settings: set})
+			t = append(t, startTest{name: name, request: &req, settings: set})
 		}
 	}
 	return t
 }
 
 func TestStart(t *testing.T) {
-	tests := makeTests()
+	tests := makeStartTests()
 	for _, test := range tests {
-		s := NewServer(&test.settings)
+		called := make(chan bool, 1)
+		s := NewServer(&test.settings, func() { called <- true })
 		t.Run(test.name, func(t *testing.T) {
 			resp, err := s.Start(context.Background(), test.request)
 			if err != nil {
-				t.Fatalf("ops")
+				t.Fatalf("Couldn't call Start RPC")
 			}
 			switch response := resp.Response.(type) {
 			case *pb.StartResponse_ResetSuccess:
@@ -89,6 +92,12 @@ func TestStart(t *testing.T) {
 						test.request.FactoryOs,
 						response)
 				}
+			}
+			select {
+			case <-called:
+				return
+			case <-time.After(100 * time.Millisecond):
+				t.Errorf("Reset never called")
 			}
 		})
 	}

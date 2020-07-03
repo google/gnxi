@@ -28,15 +28,19 @@ type Settings struct {
 	FactoryOSUnsupported bool
 }
 
+// Notifier for reset callback.
+type Notifier func()
+
 // Server for factory_reset service.
 type Server struct {
 	pb.FactoryResetServer
 	*Settings
+	notifier Notifier
 }
 
 // NewServer generates a new factory reset server.
-func NewServer(settings *Settings) *Server {
-	return &Server{Settings: settings}
+func NewServer(settings *Settings, notifier Notifier) *Server {
+	return &Server{Settings: settings, notifier: notifier}
 }
 
 // Register registers the server into the gRPC server provided.
@@ -54,7 +58,7 @@ func (s *Server) Start(ctx context.Context, req *pb.StartRequest) (*pb.StartResp
 		return &pb.StartResponse{Response: &pb.StartResponse_ResetError{ResetError: resetError}}, nil
 	}
 
-	// TODO: Reset the Target.
+	go s.notifier()
 
 	return &pb.StartResponse{Response: &pb.StartResponse_ResetSuccess{}}, nil
 }

@@ -18,12 +18,14 @@ package gnoi
 import (
 	"net"
 	"testing"
+
+	"github.com/google/gnxi/gnoi/reset"
 )
 
 func TestServer(t *testing.T) {
 	conString := "127.0.0.1:4456"
 
-	s, err := NewServer(nil, nil)
+	s, err := NewServer(nil, nil, &reset.Settings{}, func() {})
 	if err != nil {
 		t.Fatal("failed to Create Server:", err)
 	}
