@@ -32,7 +32,7 @@ func GenerateOS(filename, version string, unit rune, size int) error {
 		return err
 	}
 	defer file.Close()
-	bufferSize, err := parseFilesize(size, unit)
+	bufferSize, err := anyToBytes(size, unit)
 	if err != nil {
 		return err
 	}
