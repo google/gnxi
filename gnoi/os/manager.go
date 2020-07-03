@@ -77,13 +77,12 @@ func (m *Manager) SetRunning(version string) error {
 
 // Install an OS. Must be fully transfered and verified beforehand.
 func (m *Manager) Install(o *OS) error {
-	if _, ok := m.osMap[o.Version]; ok {
-		return nil
-	}
 	if supported := m.supportedVersions[o.Version]; !supported {
 		return fmt.Errorf("INCOMPATIBLE")
 	}
-	m.osMap[o.Version] = o
+	if _, ok := m.osMap[o.Version]; !ok {
+		m.osMap[o.Version] = o
+	}
 	return nil
 }
 
