@@ -13,13 +13,15 @@ package osgenerator
 
 import (
 	"bufio"
-	"bytes"
 	"crypto/md5"
 	"crypto/rand"
 	"errors"
+	"fmt"
 	"math"
 	"os"
-	"time"
+
+	"github.com/golang/protobuf/proto"
+	"github.com/google/gnxi/utils/osgenerator/pb"
 )
 
 // GenerateOS creates a Mock OS file for gNOI client and target use.
@@ -36,16 +38,31 @@ func GenerateOS(filename, version string, unit rune, size int) error {
 	if err != nil {
 		return err
 	}
-	data := bytes.NewBuffer([]byte(version + "\n" + time.Now().String() + "\n"))
-	data.Grow(bufferSize + len(data.Bytes()))
 	buf := make([]byte, bufferSize)
 	rand.Read(buf)
-	data.Write(buf)
-	hash := md5.Sum(data.Bytes())
-	data.Write(hash[:])
+	hash := md5.Sum(buf)
+	cookieBuf := make([]byte, 16)
+	rand.Read(cookieBuf)
+	mockOs := &pb.MockOS{
+		Version: version,
+		Cookie:  fmt.Sprintf("%x", cookieBuf),
+		Data:    buf,
+		Hash:    hash[:],
+	}
+	out, err := proto.Marshal(mockOs)
+	if err != nil {
+		return err
+	}
 	writer := bufio.NewWriter(file)
-	_, err = data.WriteTo(writer)
-	return err
+	_, err = writer.Write(out)
+	if err != nil {
+		return err
+	}
+	err = writer.Flush()
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // parseFilesize converts filesize to bytes.

@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package pb;
+
+message MockOS {
+    string version = 1;
+    string cookie = 2;
+    bytes data  = 3;
+    bytes hash = 4;
+}
