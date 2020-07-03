@@ -21,15 +21,15 @@ import (
 
 // Manager for storing data on OS's.
 type Manager struct {
-	osMap          map[string]string
+	osMap          map[string]bool
 	runningVersion string
 	factoryVersion string
 }
 
 // NewManager for OS service module. Will manage state of OS module.
-func NewManager(factoryVersion, factoryOS string) *Manager {
+func NewManager(factoryVersion string) *Manager {
 	return &Manager{
-		osMap:          map[string]string{factoryVersion: factoryOS},
+		osMap:          map[string]bool{factoryVersion: true},
 		factoryVersion: factoryVersion,
 	}
 }
@@ -49,6 +49,6 @@ func (m *Manager) SetRunning(version string) error {
 }
 
 // Install installs an OS. It must be fully transfered and verified beforehand.
-func (m *Manager) Install(version, o string) {
-	m.osMap[version] = o
+func (m *Manager) Install(version string) {
+	m.osMap[version] = true
 }
