@@ -75,7 +75,7 @@ func (m *Manager) SetRunning(version string) error {
 	return fmt.Errorf("NON_EXISTENT_VERSION")
 }
 
-// Install an OS. Must be fully transfered and verified beforehand.
+// Install installs an OS. It must be fully transfered and verified beforehand.
 func (m *Manager) Install(o *OS) error {
 	if supported := m.supportedVersions[o.Version]; !supported {
 		return fmt.Errorf("INCOMPATIBLE")
