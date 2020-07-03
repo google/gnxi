@@ -7,4 +7,5 @@ message MockOS {
     string cookie = 2;
     bytes data  = 3;
     bytes hash = 4;
+    bool supported = 5;
 }

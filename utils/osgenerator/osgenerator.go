@@ -25,7 +25,7 @@ import (
 )
 
 // GenerateOS creates a Mock OS file for gNOI client and target use.
-func GenerateOS(filename, version string, unit rune, size int) error {
+func GenerateOS(filename, version string, unit rune, size int, supported bool) error {
 	if _, err := os.Stat(filename); !os.IsNotExist(err) {
 		return errors.New("File already exists")
 	}
@@ -44,10 +44,11 @@ func GenerateOS(filename, version string, unit rune, size int) error {
 	cookieBuf := make([]byte, 16)
 	rand.Read(cookieBuf)
 	mockOs := &pb.MockOS{
-		Version: version,
-		Cookie:  fmt.Sprintf("%x", cookieBuf),
-		Data:    buf,
-		Hash:    hash[:],
+		Version:   version,
+		Cookie:    fmt.Sprintf("%x", cookieBuf),
+		Data:      buf,
+		Hash:      hash[:],
+		Supported: supported,
 	}
 	out, err := proto.Marshal(mockOs)
 	if err != nil {
