@@ -16,84 +16,39 @@ limitations under the License.
 package os
 
 import (
-	"bytes"
 	"fmt"
-	"time"
 )
-
-// OS represents the data for a singular operating system.
-type OS struct {
-	Name,
-	Hash,
-	Version string
-	BuildDate time.Time
-	Data      *bytes.Buffer
-}
 
 // Manager for storing data on OS's.
 type Manager struct {
-	osMap             map[string]*OS
-	running           *OS
-	factory           *OS
-	supportedVersions map[string]bool
-	standbyState      StandbyState
+	osMap          map[string]string
+	runningVersion string
+	factoryVersion string
 }
 
-// StandbyState of system.
-type StandbyState string
-
-const (
-	unspecified StandbyState = "UNSPECIFIED"
-	unsupported              = "UNSUPPORTED"
-	nonExistent              = "NON_EXISTENT"
-	unavailable              = "UNAVAILABLE"
-)
-
 // NewManager for OS service module. Will manage state of OS module.
-func NewManager(supported map[string]bool, factoryOs *OS) *Manager {
+func NewManager(factoryVersion, factoryOS string) *Manager {
 	return &Manager{
-		standbyState:      unsupported,
-		supportedVersions: supported,
-		factory:           factoryOs,
-		osMap:             map[string]*OS{factoryOs.Version: factoryOs},
+		osMap:          map[string]string{factoryVersion: factoryOS},
+		factoryVersion: factoryVersion,
 	}
 }
 
 // IsRunning will tell us whether or not the OS version specified is currently running.
 func (m *Manager) IsRunning(version string) bool {
-	if m.running != nil {
-		return m.running.Version == version
-	}
-	return false
+	return version == m.runningVersion
 }
 
 // SetRunning sets the running OS to the version specified.
 func (m *Manager) SetRunning(version string) error {
-	if o, ok := m.osMap[version]; ok {
-		m.running = o
+	if _, ok := m.osMap[version]; ok {
+		m.runningVersion = version
+		return nil
 	}
 	return fmt.Errorf("NON_EXISTENT_VERSION")
 }
 
 // Install installs an OS. It must be fully transfered and verified beforehand.
-func (m *Manager) Install(o *OS) error {
-	if supported := m.supportedVersions[o.Version]; !supported {
-		return fmt.Errorf("INCOMPATIBLE")
-	}
-	if _, ok := m.osMap[o.Version]; !ok {
-		m.osMap[o.Version] = o
-	}
-	return nil
-}
-
-// Rollback to factory OS and wipes all other OS's.
-func (m *Manager) Rollback() error {
-	for _, o := range m.osMap {
-		if o.Version == m.factory.Version {
-			continue
-		}
-		delete(m.osMap, o.Version)
-	}
-	m.running = m.factory
-	return nil
+func (m *Manager) Install(version, o string) {
+	m.osMap[version] = o
 }
