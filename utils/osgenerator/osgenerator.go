@@ -9,8 +9,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-
-package main
+package osgenerator
 
 import (
 	"bufio"
@@ -18,15 +17,10 @@ import (
 	"crypto/md5"
 	"crypto/rand"
 	"errors"
-	"log"
 	"math"
 	"os"
 	"time"
 )
-
-func main() {
-	log.Println(GenerateOS("/home/phi/go/src/github.com/Jared-Mullin/osgenerator/myos.txt", "1.10a", 'G', 1))
-}
 
 // GenerateOS creates a Mock OS file for gNOI client and target use.
 func GenerateOS(filename, version string, unit rune, size int) error {
@@ -51,24 +45,21 @@ func GenerateOS(filename, version string, unit rune, size int) error {
 	data.Write(hash[:])
 	writer := bufio.NewWriter(file)
 	_, err = data.WriteTo(writer)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
-// parseFilesize converts filesize to bytes
+// parseFilesize converts filesize to bytes.
 func parseFilesize(size int, unit rune) (int, error) {
 	var multiplier int
 	switch unit {
 	case 'B':
 		multiplier = 1
 	case 'K':
-		multiplier = 1000
+		multiplier = 1024
 	case 'M':
-		multiplier = int(math.Pow(1000, 2))
+		multiplier = int(math.Pow(1024, 2))
 	case 'G':
-		multiplier = int(math.Pow(1000, 3))
+		multiplier = int(math.Pow(1024, 3))
 	default:
 		return 0, errors.New("Unknown filesize unit specified")
 	}
