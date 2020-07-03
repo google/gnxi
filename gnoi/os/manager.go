@@ -59,7 +59,7 @@ func NewManager(supported map[string]bool, factoryOs *OS) *Manager {
 	}
 }
 
-// IsRunning the version of OS specified.
+// IsRunning will tell us whether or not the OS version specified is currently running.
 func (m *Manager) IsRunning(version string) bool {
 	if m.running != nil {
 		return m.running.Version == version
@@ -67,9 +67,9 @@ func (m *Manager) IsRunning(version string) bool {
 	return false
 }
 
-// SetRunning OS to new version. OS must exist in manager.
+// SetRunning sets the running OS to the version specified.
 func (m *Manager) SetRunning(version string) error {
-	if o, ok := m.osMap[version]; ok && o != nil {
+	if o, ok := m.osMap[version]; ok {
 		m.running = o
 	}
 	return fmt.Errorf("NON_EXISTENT_VERSION")
@@ -87,7 +87,7 @@ func (m *Manager) Install(o *OS) error {
 	return nil
 }
 
-// Rollback to factory OS. Wipes all other OS's.
+// Rollback to factory OS and wipes all other OS's.
 func (m *Manager) Rollback() error {
 	for _, o := range m.osMap {
 		if o.Version == m.factory.Version {
