@@ -34,7 +34,7 @@ func GenerateOS(filename, version string, unit rune, size int) error {
 		return err
 	}
 	defer file.Close()
-	bufferSize, err := parseFilesize(size, unit)
+	bufferSize, err := anyToBytes(size, unit)
 	if err != nil {
 		return err
 	}
@@ -65,8 +65,8 @@ func GenerateOS(filename, version string, unit rune, size int) error {
 	return nil
 }
 
-// parseFilesize converts filesize to bytes.
-func parseFilesize(size int, unit rune) (int, error) {
+// anyToBytes() converts the inputted filesize from Giga/Mega/Kilobytes to bytes.
+func anyToBytes(size int, unit rune) (int, error) {
 	var multiplier int
 	switch unit {
 	case 'B':
