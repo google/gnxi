@@ -2,10 +2,11 @@
 
 This script is used to generate the required certs for use with both the client and the mock target.
 
- * CA.crt -> Certificate Authority certificate (a self-signed certificate that signs all the others).
- * CA.key -> CA Private key (should be kept very secret).
- * client.crt/target.crt -> A client or target certificate that was signed by the CA.
- * client.key/target.key -> The private key corresponding to the client or target.
+ * CA.crt  -> Certificate Authority certificate (a self-signed certificate that signs all the others).
+ * CA.key  -> CA Private key (should be kept very secret).
+ * client.crt / target.crt  -> A client or target certificate that was signed by the CA.
+ * client.key / target.key  -> The private key corresponding to the client or target.
+ * *.csr  -> A certificate signing request. Used to generate certificates.
 
 Simply run the script:
 ```
