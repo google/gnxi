@@ -35,8 +35,8 @@ openssl req \
 
 # Generate Req
 openssl req \
-        -key server.key \
-        -new -out server.csr \
+        -key target.key \
+        -new -out target.csr \
         -subj $SUBJ
 
 # Generate x509 with signed CA
@@ -72,7 +72,7 @@ openssl x509 \
         -out client.crt
 
 echo ""
-echo " == Validate Server"
+echo " == Validate Target"
 openssl verify -verbose -CAfile ca.crt target.crt
 echo ""
 echo " == Validate Client"
