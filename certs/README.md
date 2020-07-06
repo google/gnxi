@@ -12,7 +12,7 @@ Simply run the script:
 ```
 ./generate.sh
 ```
-Then pass the generated certs into the client and server:
+Then pass the generated certs into the client and target:
 
 ## Client Example
 ```
