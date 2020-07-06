@@ -13,7 +13,7 @@ go install github.com/google/gnxi/gnmi_target
 
 ```
 gnmi_target \
-  -bind_address :10161 \
+  -bind_address :9339 \
   -config openconfig-openflow.json \
   -key server.key \
   -cert server.crt \

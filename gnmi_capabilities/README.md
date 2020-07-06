@@ -13,7 +13,7 @@ go install github.com/google/gnxi/gnmi_capabilities
 
 ```
 gnmi_capabilities \
-  -target_addr localhost:10161 \
+  -target_addr localhost:9339 \
   -target_name hostname.com \
   -key client.key \
   -cert client.crt \

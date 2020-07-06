@@ -41,7 +41,7 @@ import (
 )
 
 var (
-	bindAddr   = flag.String("bind_address", ":10161", "Bind to address:port or just :port")
+	bindAddr   = flag.String("bind_address", ":9339", "Bind to address:port or just :port")
 	configFile = flag.String("config", "", "IETF JSON file for target startup config")
 )
 

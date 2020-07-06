@@ -20,8 +20,10 @@ import (
 	"flag"
 	"net"
 	"sync"
+	"time"
 
 	"github.com/google/gnxi/gnoi"
+	"github.com/google/gnxi/gnoi/reset"
 	"google.golang.org/grpc"
 
 	log "github.com/golang/glog"
@@ -33,7 +35,10 @@ var (
 	muServe       sync.Mutex
 	bootstrapping bool
 
-	bindAddr = flag.String("bind_address", ":10161", "Bind to address:port or just :port")
+	bindAddr             = flag.String("bind_address", ":9339", "Bind to address:port or just :port")
+	resetDelay           = flag.Duration("reset_delay", 3*time.Second, "Delay before resetting the service upon factory reset request, 3 seconds by default")
+	zeroFillUnsupported  = flag.Bool("zero_fill_unsupported", false, "Make the target not support zero filling storage")
+	factoryOSUnsupported = flag.Bool("reset_unsupported", false, "Make the target not support factory resetting OS")
 )
 
 // serve binds to an address and starts serving a gRPCServer.
@@ -51,42 +56,61 @@ func serve() {
 	}
 }
 
-// notify can be called with the number of certs and ca certs installed. It will
+// notifyCerts can be called with the number of certs and ca certs installed. It will
 // (re)start the gRPC server in encrypted mode if no certs are installed. It will
 // (re)start in authenticated mode otherwise.
-func notify(certs, caCerts int) {
+func notifyCerts(certs, caCerts int) {
 	hasCredentials := certs != 0 && caCerts != 0
-	if bootstrapping != !hasCredentials {
-		if bootstrapping {
-			log.Info("Found Credentials, setting Provisioned state.")
-			grpcServer.GracefulStop()
-			grpcServer = gNOIServer.PrepareAuthenticated()
-			// Only register the gNOI Cert service for bootstrapping.
-			gNOIServer.RegCertificateManagement(grpcServer)
-		} else {
-			log.Info("No credentials, setting Bootstrapping state.")
-			if grpcServer != nil {
-				grpcServer.GracefulStop()
-			}
-			grpcServer = gNOIServer.PrepareEncrypted()
-			// Register all gNOI services.
-			gNOIServer.Register(grpcServer)
-		}
-		bootstrapping = !bootstrapping
-		go serve()
+	if bootstrapping != hasCredentials {
+		// Nothing to do, either I am boostrapping and I have no
+		// certificates or I am provisioned and I have certificates.
+		return
 	}
+	if bootstrapping {
+		log.Info("Found Credentials, setting Provisioned state.")
+		grpcServer.GracefulStop()
+		grpcServer = gNOIServer.PrepareAuthenticated()
+		// Register all gNOI services.
+		gNOIServer.Register(grpcServer)
+	} else {
+		log.Info("No credentials, setting Bootstrapping state.")
+		if grpcServer != nil {
+			grpcServer.GracefulStop()
+		}
+		grpcServer = gNOIServer.PrepareEncrypted()
+		// Only register the gNOI Cert service for bootstrapping.
+		gNOIServer.RegCertificateManagement(grpcServer)
+	}
+	bootstrapping = !bootstrapping
+	go serve()
+}
+
+// start creates the new gNOI server.
+func start() {
+	resetSettings := &reset.Settings{
+		ZeroFillUnsupported:  *zeroFillUnsupported,
+		FactoryOSUnsupported: *factoryOSUnsupported,
+	}
+	var err error
+	if gNOIServer, err = gnoi.NewServer(nil, nil, resetSettings, notifyReset); err != nil {
+		log.Fatal("Failed to create gNOI Server:", err)
+	}
+	// Registers a caller for whenever the number of installed certificates changes.
+	gNOIServer.RegisterCertNotifier(notifyCerts)
+	bootstrapping = false
+	notifyCerts(0, 0) // Triggers bootstraping mode.
+}
+
+// notifyReset is called when the factory reset service requires the server
+// to be restarted.
+func notifyReset() {
+	log.Info("Server factory reset triggered")
+	<-time.After(*resetDelay)
+	start()
 }
 
 func main() {
 	flag.Parse()
-
-	var err error
-	if gNOIServer, err = gnoi.NewServer(nil, nil); err != nil {
-		log.Fatal("Failed to create gNOI Server:", err)
-	}
-
-	// Registers a caller for whenever the number of installed certificates changes.
-	gNOIServer.RegisterNotifier(notify)
-	notify(0, 0) // Trigger bootstraping mode.
-	select {}    // Loop forever.
+	start()
+	select {} // Loop forever.
 }

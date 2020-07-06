@@ -8,6 +8,12 @@ Management service, supporting bootstrapping mode.
 This service provides a set of RPCs to Install, Rotate & Revoke Certificates and
 CA Bundles in a Target. See [gNOI Cert proto definition](https://github.com/openconfig/gnoi/blob/master/cert/cert.proto) for more.
 
+## Factory Reset service
+
+This service provides an RPC to Start a factory reset of the device. This includes
+resetting all certificates on the device and setting it to bootstrapped mode.
+See [gNOI Cert proto definition](https://github.com/openconfig/gnoi/blob/master/factory_reset/reset.proto) for more.
+
 ## Bootstrapping mode
 
 This target starts in bootstrapping mode allowing any encrypted TLS connection
@@ -37,6 +43,6 @@ go install github.com/google/gnxi/gnoi_target
 
 ```
 gnoi_target \
-  -bind_address :10161 \
+  -bind_address :9339 \
   -alsologtostderr
 ```

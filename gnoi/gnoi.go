@@ -43,7 +43,7 @@ type Server struct {
 }
 
 // NewServer returns a new server that can be used by the mock target.
-func NewServer(privateKey crypto.PrivateKey, defaultCertificate *tls.Certificate) (*Server, error) {
+func NewServer(privateKey crypto.PrivateKey, defaultCertificate *tls.Certificate, resetSettings *reset.Settings, notifyReset reset.Notifier) (*Server, error) {
 	if defaultCertificate == nil {
 		if privateKey == nil {
 			var err error
@@ -61,7 +61,7 @@ func NewServer(privateKey crypto.PrivateKey, defaultCertificate *tls.Certificate
 
 	certManager := cert.NewManager(defaultCertificate.PrivateKey)
 	certServer := cert.NewServer(certManager)
-	resetServer := reset.NewServer(&reset.Settings{})
+	resetServer := reset.NewServer(resetSettings, notifyReset)
 
 	return &Server{
 		certServer:         certServer,
@@ -109,8 +109,8 @@ func (s *Server) RegCertificateManagement(g *grpc.Server) {
 	s.certServer.Register(g)
 }
 
-// RegisterNotifier registers a function that will be called everytime the number
+// RegisterCertNotifier registers a function that will be called everytime the number
 // of Certificates or CA Certificates changes.
-func (s *Server) RegisterNotifier(f cert.Notifier) {
+func (s *Server) RegisterCertNotifier(f cert.Notifier) {
 	s.certManager.RegisterNotifier(f)
 }
