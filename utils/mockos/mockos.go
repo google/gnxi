@@ -35,13 +35,13 @@ func (os *OS) Hash() {
 	os.MockOS.Hash = temp
 }
 
-// CheckHash recalculates the hash of the MockOS and checks against the embedded hash.
+// CheckHash calculates the hash of the MockOS and checks against the embedded hash.
 func (os *OS) CheckHash() bool {
 	temp := calcHash(os)
 	return bytes.Compare(os.MockOS.Hash, temp) == 0
 }
 
-// GenerateOS creates a Mock OS file for gNOI client and target use.
+// GenerateOS creates a Mock OS file for gNOI target use.
 func GenerateOS(filename, version, size string, supported bool) error {
 	if _, err := os.Stat(filename); !os.IsNotExist(err) {
 		return errors.New("File already exists")
@@ -80,7 +80,7 @@ func GenerateOS(filename, version, size string, supported bool) error {
 	return nil
 }
 
-// ValidateOS unmarshals the serialized OS proto and verifys the OS package's integrity.
+// ValidateOS unmarshals the serialized OS proto and verifies the OS package's integrity.
 func ValidateOS(filename string) (*OS, error) {
 	mockOs := &OS{}
 	file, err := os.Open(filename)
