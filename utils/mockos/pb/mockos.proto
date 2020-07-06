@@ -17,8 +17,8 @@ package pb;
 //MockOS message represents an OS package which can be used by a gNOI client or target.
 message MockOS {
     string version = 1;
-    string cookie = 2;
-    bytes data = 3;
-    bytes hash = 4;
-    bool supported = 5;
+    string cookie = 2; // Unique identifier of OS.
+    bytes padding = 3; // Random bytes to fill size.
+    bytes hash = 4; 
+    bool supported = 5; // Used to specify if OS Image is valid but not supported by target.
 }

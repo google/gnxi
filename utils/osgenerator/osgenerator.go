@@ -43,24 +43,21 @@ func GenerateOS(filename, version string, unit rune, size int, supported bool) e
 	hash := md5.Sum(buf)
 	cookieBuf := make([]byte, 16)
 	rand.Read(cookieBuf)
-	mockOs := &pb.MockOS{
+	out, err := proto.Marshal(&pb.MockOS{
 		Version:   version,
 		Cookie:    fmt.Sprintf("%x", cookieBuf),
 		Data:      buf,
 		Hash:      hash[:],
 		Supported: supported,
-	}
-	out, err := proto.Marshal(mockOs)
+	})
 	if err != nil {
 		return err
 	}
 	writer := bufio.NewWriter(file)
-	_, err = writer.Write(out)
-	if err != nil {
+	if _, err = writer.Write(out); err != nil {
 		return err
 	}
-	err = writer.Flush()
-	if err != nil {
+	if err = writer.Flush(); err != nil {
 		return err
 	}
 	return nil
