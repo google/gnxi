@@ -18,36 +18,46 @@ package os
 import "testing"
 
 func TestIsRunning(t *testing.T) {
-	t.Run("Is running after set running", func(t *testing.T) {
-		manager := NewManager("new")
-		manager.runningVersion = "new"
-		if !manager.IsRunning("new") {
-			t.Error("OS not running after being set running")
-		}
-	})
-	t.Run("Is not running", func(t *testing.T) {
-		manager := NewManager("new")
-		if manager.IsRunning("new") {
-			t.Error("OS running but not set running")
-		}
-	})
+	tests := []struct {
+		name string
+		running,
+		wantsRun bool
+	}{
+		{"Is running after set running", true, false},
+		{"Is not running", false, true},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			manager := NewManager("new")
+			if test.running {
+				manager.runningVersion = "new"
+			}
+			if manager.IsRunning("new") == test.wantsRun {
+				t.Error("OS not running after being set running")
+			}
+		})
+	}
 }
 
 func TestSetRunning(t *testing.T) {
-	t.Run("Is running if OS exists", func(t *testing.T) {
-		manager := NewManager("new")
-		err := manager.SetRunning("new")
-		if err != nil {
-			t.Errorf("Error running OS: %w", err)
-		}
-	})
-	t.Run("Is not running if OS doesn't exists", func(t *testing.T) {
-		manager := NewManager("otherNew")
-		err := manager.SetRunning("new")
-		if err == nil {
-			t.Errorf("OS is running despite not existing")
-		}
-	})
+	tests := []struct {
+		name,
+		version string
+		wantsErr bool
+	}{
+		{"Is running if OS exists", "new", false},
+		{"Is not running if OS doesn't exists", "otherNew", true},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			manager := NewManager("new")
+			err := manager.SetRunning(test.version)
+			if (err == nil) != test.wantsErr {
+				t.Errorf("Error running OS: Error is %w", err)
+			}
+		})
+	}
 }
 
 func TestInstall(t *testing.T) {
