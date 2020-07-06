@@ -24,6 +24,7 @@ import (
 	"fmt"
 
 	"github.com/google/gnxi/gnoi/cert"
+	"github.com/google/gnxi/gnoi/os"
 	"github.com/google/gnxi/gnoi/reset"
 	"github.com/google/gnxi/utils/entity"
 	"google.golang.org/grpc"
@@ -40,10 +41,11 @@ type Server struct {
 	certManager        *cert.Manager
 	defaultCertificate *tls.Certificate
 	resetServer        *reset.Server
+	osServer           *os.Server
 }
 
 // NewServer returns a new server that can be used by the mock target.
-func NewServer(privateKey crypto.PrivateKey, defaultCertificate *tls.Certificate, resetSettings *reset.Settings, notifyReset reset.Notifier) (*Server, error) {
+func NewServer(privateKey crypto.PrivateKey, defaultCertificate *tls.Certificate, resetSettings *reset.Settings, notifyReset reset.Notifier, factoryVersion string) (*Server, error) {
 	if defaultCertificate == nil {
 		if privateKey == nil {
 			var err error
@@ -62,12 +64,13 @@ func NewServer(privateKey crypto.PrivateKey, defaultCertificate *tls.Certificate
 	certManager := cert.NewManager(defaultCertificate.PrivateKey)
 	certServer := cert.NewServer(certManager)
 	resetServer := reset.NewServer(resetSettings, notifyReset)
-
+	osServer := os.NewServer(factoryVersion)
 	return &Server{
 		certServer:         certServer,
 		certManager:        certManager,
 		defaultCertificate: defaultCertificate,
 		resetServer:        resetServer,
+		osServer:           osServer,
 	}, nil
 }
 
