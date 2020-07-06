@@ -8,10 +8,23 @@ Simply run the script:
 ```
 Then pass the generated certs into the client and server:
 
-## Client example
+## Client Example
 ```
-gnoi_cert \
+gnoi_reset \
 -target_addr localhost:9399 \
 -rollback_os \
 -zero_fill \
+-ca /path/to/ca.crt \
+-cert /path/to/client.crt
+-key /path/to/client.key
+```
+
+## Target Example
+```
+gnoi_target \
+-zero_fill_unsupported \
+-reset_unsupported \
+-ca /path/to/ca.crt \
+-cert /path/to/client.crt \
+-key /path/to/client.key 
 ```
