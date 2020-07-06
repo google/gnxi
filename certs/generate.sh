@@ -24,13 +24,13 @@ openssl x509 \
         -req \
         -days 365 -out ca.crt 
 
-SUBJ="/C=NZ/ST=Test/L=Test/O=Test/OU=Test/CN=server.com"
+SUBJ="/C=NZ/ST=Test/L=Test/O=Test/OU=Test/CN=target.com"
 
-# Generate Server Private Key
+# Generate Target Private Key
 openssl req \
         -newkey rsa:2048 \
         -nodes \
-        -keyout server.key \
+        -keyout target.key \
         -subj $SUBJ
 
 # Generate Req
@@ -42,11 +42,11 @@ openssl req \
 # Generate x509 with signed CA
 openssl x509 \
         -req \
-        -in server.csr \
+        -in target.csr \
         -CA ca.crt \
         -CAkey ca.key \
         -CAcreateserial \
-        -out server.crt
+        -out target.crt
 
 SUBJ="/C=NZ/ST=Test/L=Test/O=Test/OU=Test/CN=client.com"
 
@@ -73,7 +73,7 @@ openssl x509 \
 
 echo ""
 echo " == Validate Server"
-openssl verify -verbose -CAfile ca.crt server.crt
+openssl verify -verbose -CAfile ca.crt target.crt
 echo ""
 echo " == Validate Client"
 openssl verify -verbose -CAfile ca.crt client.crt
