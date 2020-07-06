@@ -49,7 +49,7 @@ func (os *OS) CheckHash() bool {
 	} else {
 		supported = byte(0)
 	}
-	temp := md5.Sum(append([]byte(os.MockOS.Version+os.MockOS.Cookie), append(os.MockOS.Padding, byte(supported))...))
+	temp := md5.Sum(append([]byte(os.MockOS.Version+os.MockOS.Cookie), append(os.MockOS.Padding, supported)...))
 	return bytes.Compare(os.MockOS.Hash, temp[:]) == 0
 }
 
