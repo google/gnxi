@@ -42,7 +42,7 @@ func (os *OS) CheckHash() bool {
 }
 
 // GenerateOS creates a Mock OS file for gNOI client and target use.
-func GenerateOS(filename, version string, size string, supported bool) error {
+func GenerateOS(filename, version, size string, supported bool) error {
 	if _, err := os.Stat(filename); !os.IsNotExist(err) {
 		return errors.New("File already exists")
 	}
