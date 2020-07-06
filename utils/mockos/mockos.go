@@ -31,26 +31,14 @@ type OS struct {
 
 // Hash calculates the hash of the MockOS and embeds it in the package.
 func (os *OS) Hash() {
-	var supported byte
-	if os.MockOS.Supported {
-		supported = byte(1)
-	} else {
-		supported = byte(0)
-	}
-	temp := md5.Sum(append([]byte(os.MockOS.Version+os.MockOS.Cookie), append(os.MockOS.Padding, supported)...))
-	os.MockOS.Hash = temp[:]
+	temp := calcHash(os)
+	os.MockOS.Hash = temp
 }
 
 // CheckHash recalculates the hash of the MockOS and checks against the embedded hash.
 func (os *OS) CheckHash() bool {
-	var supported byte
-	if os.MockOS.Supported {
-		supported = byte(1)
-	} else {
-		supported = byte(0)
-	}
-	temp := md5.Sum(append([]byte(os.MockOS.Version+os.MockOS.Cookie), append(os.MockOS.Padding, supported)...))
-	return bytes.Compare(os.MockOS.Hash, temp[:]) == 0
+	temp := calcHash(os)
+	return bytes.Compare(os.MockOS.Hash, temp) == 0
 }
 
 // GenerateOS creates a Mock OS file for gNOI client and target use.
@@ -104,7 +92,17 @@ func ValidateOS(filename string) (*OS, error) {
 	proto.Unmarshal(buf.Bytes(), &mockOs.MockOS)
 	if mockOs.CheckHash() {
 		return mockOs, nil
-	} else {
-		return nil, errors.New("Hash check failed!")
 	}
+	return nil, errors.New("Hash check failed!")
+}
+
+func calcHash(os *OS) []byte {
+	var supported byte
+	if os.MockOS.Supported {
+		supported = byte(1)
+	} else {
+		supported = byte(0)
+	}
+	temp := md5.Sum(append([]byte(os.MockOS.Version+os.MockOS.Cookie), append(os.MockOS.Padding, supported)...))
+	return temp[:]
 }
