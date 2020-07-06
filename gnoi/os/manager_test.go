@@ -53,7 +53,7 @@ func TestSetRunning(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			manager := NewManager("new")
 			err := manager.SetRunning(test.version)
-			if (err == nil) != test.wantsErr {
+			if (err == nil) == test.wantsErr {
 				t.Errorf("Error running OS: Error is %w", err)
 			}
 		})
