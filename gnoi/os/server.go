@@ -29,8 +29,12 @@ type Server struct {
 }
 
 // NewServer returns an OS Management service.
-func NewServer(factoryVersion string) *Server {
-	return &Server{manager: NewManager(factoryVersion)}
+func NewServer(settings *Settings) *Server {
+	server := &Server{manager: NewManager(settings.factoryVersion)}
+	for _, os := range settings.installedVersions {
+		server.manager.Install(os)
+	}
+	return server
 }
 
 // Register registers the server into the the gRPC server provided.
