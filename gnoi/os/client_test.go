@@ -68,8 +68,8 @@ func generateActivateTests() []activateTest {
 		},
 		{
 			"Non Existent Version",
-			&mockClient{activate: activateErrorRPC(pb.ActivateError_NON_EXISTENT_VERSION, "detail")},
-			&ActivateError{ErrType: ActivateNonExistentVersion, Detail: "detail"},
+			&mockClient{activate: activateErrorRPC(pb.ActivateError_NON_EXISTENT_VERSION, "")},
+			&ActivateError{ErrType: ActivateNonExistentVersion},
 		},
 	}
 	return tests

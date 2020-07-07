@@ -39,7 +39,6 @@ const (
 
 // ActivateError represents an error returned by the Activate RPC.
 type ActivateError struct {
-	error
 	ErrType ActivateErrorType
 	Detail  string
 }
@@ -67,11 +66,13 @@ func (c *Client) Activate(ctx context.Context, version string) error {
 		errType := ActivateErrorType(res.GetType().String())
 		switch errType {
 		case ActivateUnspecified:
-			fallthrough
-		case ActivateNonExistentVersion:
 			return &ActivateError{
 				ErrType: errType,
 				Detail:  res.GetDetail(),
+			}
+		case ActivateNonExistentVersion:
+			return &ActivateError{
+				ErrType: errType,
 			}
 		default:
 			return fmt.Errorf("Unknown ActivateError type: %s", errType)
