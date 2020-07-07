@@ -81,10 +81,11 @@ func TestActivate(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			client := Client{client: test.client}
 			got := client.Activate(context.Background(), "version")
-			if got == nil && test.want == nil {
-				return
-			}
-			if err := got.(*ActivateError); err.ErrType != test.want.ErrType || err.Detail != test.want.Detail {
+			if got == nil || test.want == nil {
+				if (got == nil && test.want != nil) || (got != nil && test.want == nil) {
+					t.Errorf("Wanted: %v, Got: %v", test.want, got)
+				}
+			} else if err := got.(*ActivateError); err.ErrType != test.want.ErrType || err.Detail != test.want.Detail {
 				t.Errorf("Wanted: ActivateError(%v), Got: ActivateError(%v)", *test.want, *err)
 			}
 		})
