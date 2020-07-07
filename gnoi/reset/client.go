@@ -44,13 +44,13 @@ func NewClient(c *grpc.ClientConn) *Client {
 }
 
 // ResetTarget invokes gRPC start service on the server.
-func (c *Client) ResetTarget(ctx context.Context, zeroFill, rollbackOS bool) error {
+func (c *Client) ResetTarget(ctx context.Context, zeroFill, rollbackOS bool) *ResetError {
 	out, err := c.client.Start(ctx, &pb.StartRequest{
 		FactoryOs: rollbackOS,
 		ZeroFill:  zeroFill,
 	})
 	if err != nil {
-		return err
+		return &ResetError{Msgs: []string{err.Error()}}
 	}
 	return CheckResponse(out)
 }

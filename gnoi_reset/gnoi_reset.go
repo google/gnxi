@@ -58,7 +58,7 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), *timeOut)
 	defer cancel()
 
-	if err = client.ResetTarget(ctx, *rollbackOs, *zeroFill); err != nil {
+	if err := client.ResetTarget(ctx, *rollbackOs, *zeroFill); err != nil {
 		log.Errorf("Error Resetting Target: %v", err)
 	} else {
 		log.Infoln("Reset Called Successfully!")
