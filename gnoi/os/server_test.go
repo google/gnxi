@@ -57,8 +57,7 @@ func TestActivate(t *testing.T) {
 	}
 	for _, test := range tests {
 		got, _ := server.Activate(context.Background(), test.request)
-		diff := pretty.Compare(test.want.Response, got.Response)
-		if diff != "" {
+		if diff := pretty.Compare(test.want.Response, got.Response); diff != "" {
 			t.Errorf("Activate(context.Background(), %s): (-want +got):\n%s", test.request, diff)
 		}
 	}
