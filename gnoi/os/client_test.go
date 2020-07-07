@@ -31,9 +31,9 @@ type mockClient struct {
 }
 
 type activateTest struct {
-	name   string
-	client *mockClient
-	want   *ActivateError
+	name    string
+	client  *mockClient
+	wantErr bool
 }
 
 func (c *mockClient) Activate(ctx context.Context, in *pb.ActivateRequest, opts ...grpc.CallOption) (*pb.ActivateResponse, error) {
@@ -59,17 +59,17 @@ func generateActivateTests() []activateTest {
 		{
 			"Success",
 			&mockClient{activate: activateSuccessRPC},
-			nil,
+			false,
 		},
 		{
 			"Unspecified",
 			&mockClient{activate: activateErrorRPC(pb.ActivateError_UNSPECIFIED, "detail")},
-			&ActivateError{ErrType: ActivateUnspecified, Detail: "detail"},
+			true,
 		},
 		{
 			"Non Existent Version",
 			&mockClient{activate: activateErrorRPC(pb.ActivateError_NON_EXISTENT_VERSION, "")},
-			&ActivateError{ErrType: ActivateNonExistentVersion},
+			true,
 		},
 	}
 	return tests
@@ -81,10 +81,9 @@ func TestActivate(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			client := Client{client: test.client}
 			got := client.Activate(context.Background(), "version")
-			if test.want != nil {
-				err := got.(*ActivateError)
-				if err.ErrType != test.want.ErrType || err.Detail != test.want.Detail {
-					t.Errorf("want: ActivateError(%v), got: ActivateError(%v)", *test.want, *err)
+			if test.wantErr {
+				if got == nil {
+					t.Error("want error, got nil")
 				}
 			} else if got != nil {
 				t.Errorf("want <nil>, got: %v", got)

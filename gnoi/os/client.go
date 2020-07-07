@@ -28,25 +28,6 @@ type Client struct {
 	client pb.OSClient
 }
 
-// ActivateErrorType represents the Type enum in ActivateError.
-type ActivateErrorType string
-
-// Enum representing possible ActivateErrorTypes.
-const (
-	ActivateUnspecified        ActivateErrorType = "UNSPECIFIED"
-	ActivateNonExistentVersion                   = "NON_EXISTENT_VERSION"
-)
-
-// ActivateError represents an error returned by the Activate RPC.
-type ActivateError struct {
-	ErrType ActivateErrorType
-	Detail  string
-}
-
-func (e *ActivateError) Error() string {
-	return fmt.Sprintf("%s: %s", e.ErrType, e.Detail)
-}
-
 // NewClient returns a new OS service client.
 func NewClient(c *grpc.ClientConn) *Client {
 	return &Client{client: pb.NewOSClient(c)}
@@ -63,19 +44,13 @@ func (c *Client) Activate(ctx context.Context, version string) error {
 		return nil
 	case *pb.ActivateResponse_ActivateError:
 		res := out.GetActivateError()
-		errType := ActivateErrorType(res.GetType().String())
-		switch errType {
-		case ActivateUnspecified:
-			return &ActivateError{
-				ErrType: errType,
-				Detail:  res.GetDetail(),
-			}
-		case ActivateNonExistentVersion:
-			return &ActivateError{
-				ErrType: errType,
-			}
+		switch res.GetType() {
+		case pb.ActivateError_UNSPECIFIED:
+			return fmt.Errorf("Unspecified ActivateError: %s", res.GetDetail())
+		case pb.ActivateError_NON_EXISTENT_VERSION:
+			return fmt.Errorf("Non existent version: %s", version)
 		default:
-			return fmt.Errorf("Unknown ActivateError type: %s", errType)
+			return fmt.Errorf("Unknown ActivateError: %s", res.GetType())
 		}
 	}
 	return nil
