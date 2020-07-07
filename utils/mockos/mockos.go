@@ -34,18 +34,16 @@ type OS struct {
 
 // Hash calculates the hash of the MockOS and embeds it in the package.
 func (os *OS) Hash() {
-	temp := calcHash(os)
-	os.MockOS.Hash = temp[:]
+	os.MockOS.Hash = calcHash(os)
 }
 
 // CheckHash calculates the hash of the MockOS and checks against the embedded hash.
 func (os *OS) CheckHash() bool {
-	temp := calcHash(os)
-	return bytes.Compare(os.MockOS.Hash, temp[:]) == 0
+	return bytes.Compare(os.MockOS.Hash, calcHash(os)) == 0
 }
 
 // GenerateOS creates a Mock OS file for gNOI target use.
-func GenerateOS(filename, version, size string, supported bool) error {
+func GenerateOS(filename, version, size string, unsupported bool) error {
 	if _, err := os.Stat(filename); !os.IsNotExist(err) {
 		return errors.New("File already exists")
 	}
@@ -61,10 +59,10 @@ func GenerateOS(filename, version, size string, supported bool) error {
 	buf := make([]byte, bufferSize)
 	rand.Read(buf)
 	mockOs := &OS{MockOS: pb.MockOS{
-		Version:   version,
-		Cookie:    cookie,
-		Padding:   buf,
-		Supported: supported,
+		Version:     version,
+		Cookie:      cookie,
+		Padding:     buf,
+		Unsupported: unsupported,
 	}}
 	mockOs.Hash()
 	out, err := proto.Marshal(&mockOs.MockOS)
@@ -100,10 +98,11 @@ func ValidateOS(filename string) (*OS, error) {
 }
 
 // calcHash returns the md5 hash of the OS.
-func calcHash(os *OS) [16]byte {
+func calcHash(os *OS) []byte {
 	bb := []byte(os.MockOS.Version)
 	bb = append(bb, []byte(os.MockOS.Cookie)...)
 	bb = append(bb, []byte(os.MockOS.Padding)...)
-	bb = append(bb, map[bool]byte{false: 0, true: 1}[os.MockOS.Supported])
-	return md5.Sum(bb)
+	bb = append(bb, map[bool]byte{false: 0, true: 1}[os.MockOS.Unsupported])
+	hash := md5.Sum(bb)
+	return hash[:]
 }
