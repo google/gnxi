@@ -103,6 +103,5 @@ func calcHash(os *OS) []byte {
 	bb = append(bb, []byte(os.MockOS.Cookie)...)
 	bb = append(bb, []byte(os.MockOS.Padding)...)
 	bb = append(bb, map[bool]byte{false: 0, true: 1}[os.MockOS.Unsupported])
-	hash := md5.Sum(bb)
-	return hash[:]
+	return md5.Sum(bb)
 }
