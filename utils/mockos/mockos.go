@@ -17,12 +17,15 @@ import (
 	"crypto/md5"
 	"crypto/rand"
 	"errors"
-	"fmt"
 	"os"
 
 	humanize "github.com/dustin/go-humanize"
 	"github.com/golang/protobuf/proto"
 	"github.com/google/gnxi/utils/mockos/pb"
+)
+
+const (
+	cookie = "cookiestring"
 )
 
 type OS struct {
@@ -32,13 +35,13 @@ type OS struct {
 // Hash calculates the hash of the MockOS and embeds it in the package.
 func (os *OS) Hash() {
 	temp := calcHash(os)
-	os.MockOS.Hash = temp
+	os.MockOS.Hash = temp[:]
 }
 
 // CheckHash calculates the hash of the MockOS and checks against the embedded hash.
 func (os *OS) CheckHash() bool {
 	temp := calcHash(os)
-	return bytes.Compare(os.MockOS.Hash, temp) == 0
+	return bytes.Compare(os.MockOS.Hash, temp[:]) == 0
 }
 
 // GenerateOS creates a Mock OS file for gNOI target use.
@@ -57,11 +60,9 @@ func GenerateOS(filename, version, size string, supported bool) error {
 	}
 	buf := make([]byte, bufferSize)
 	rand.Read(buf)
-	cookieBuf := make([]byte, 16)
-	rand.Read(cookieBuf)
 	mockOs := &OS{MockOS: pb.MockOS{
 		Version:   version,
-		Cookie:    fmt.Sprintf("%x", cookieBuf),
+		Cookie:    cookie,
 		Padding:   buf,
 		Supported: supported,
 	}}
@@ -89,20 +90,20 @@ func ValidateOS(filename string) (*OS, error) {
 	}
 	buf := new(bytes.Buffer)
 	buf.ReadFrom(file)
-	proto.Unmarshal(buf.Bytes(), &mockOs.MockOS)
-	if mockOs.CheckHash() {
-		return mockOs, nil
+	if err = proto.Unmarshal(buf.Bytes(), &mockOs.MockOS); err != nil {
+		return nil, err
 	}
-	return nil, errors.New("Hash check failed!")
+	if !mockOs.CheckHash() {
+		return nil, errors.New("Hash check failed!")
+	}
+	return mockOs, nil
 }
 
-func calcHash(os *OS) []byte {
-	var supported byte
-	if os.MockOS.Supported {
-		supported = byte(1)
-	} else {
-		supported = byte(0)
-	}
-	temp := md5.Sum(append([]byte(os.MockOS.Version+os.MockOS.Cookie), append(os.MockOS.Padding, supported)...))
-	return temp[:]
+// calcHash returns the md5 hash of the OS.
+func calcHash(os *OS) [16]byte {
+	bb := []byte(os.MockOS.Version)
+	bb = append(bb, []byte(os.MockOS.Cookie)...)
+	bb = append(bb, []byte(os.MockOS.Padding)...)
+	bb = append(bb, map[bool]byte{false: 0, true: 1}[os.MockOS.Supported])
+	return md5.Sum(bb)
 }

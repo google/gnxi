@@ -14,6 +14,7 @@ package main
 
 import (
 	"flag"
+	"path/filepath"
 
 	log "github.com/golang/glog"
 	"github.com/google/gnxi/utils/mockos"
@@ -21,21 +22,25 @@ import (
 
 var (
 	file      = flag.String("file", "", "The name and path of the OS file")
-	version   = flag.String("version", "1.0a", "The version of the OS package")
-	size      = flag.String("size", "", "The size of the OS package's data, e.g 10M")
-	supported = flag.Bool("supported", true, "Determines if the OS package is supported by the mock target")
+	version   = flag.String("version", "", "The version of the OS package")
+	size      = flag.String("size", "1M", "The size of the OS package's data, e.g 10M")
+	supported = flag.Bool("unsupported", false, "If true, the os package is valid but unsupported by the target")
 )
 
 func main() {
 	flag.Parse()
 
-	if *file == "" || *size == "" {
+	if *file == "" || *version == "" {
 		flag.Usage()
-		log.Exit("-file and -size must be specified")
+		log.Exit("-file and -version must be specified")
 	}
 
 	if err := mockos.GenerateOS(*file, *version, *size, *supported); err != nil {
 		log.Exitf("Error Generating OS: %v", err)
 	}
-	log.Info("OS Generated Successfully")
+	path, err := filepath.Abs(*file)
+	if err != nil {
+		log.Exit(err)
+	}
+	log.Infof("OS Generated Successfully: %s", path)
 }

@@ -33,14 +33,13 @@ func TestHashValidation(t *testing.T) {
 					Hash:      []byte("Bad Hash"),
 				},
 			},
-			want: false,
 		},
 	}
 
 	for _, test := range tests {
 		got := test.os.CheckHash()
 		if got != test.want {
-			t.Errorf("Expected %v, got %v", test.want, got)
+			t.Errorf("Want %v, Got %v", test.want, got)
 		}
 	}
 }

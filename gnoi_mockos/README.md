@@ -1,6 +1,6 @@
 # gNOI Mock OS Generator
 
-A simple shell binary generates a Mock OS package for use by a gNOI client.
+A simple shell binary generates a Mock OS package to use with the gNOI_target.
 
 ## Install
 
@@ -16,5 +16,5 @@ gnoi_cert \
   -file ./myos.img \
   -version 1.10a \
   -size 100M \
-  -supported false
+  -unsupported false
 ```
