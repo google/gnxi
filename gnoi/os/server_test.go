@@ -2,10 +2,10 @@ package os
 
 import (
 	"context"
-	"reflect"
 	"testing"
 
 	"github.com/google/gnxi/gnoi/os/pb"
+	"github.com/kylelemons/godebug/pretty"
 )
 
 var (
@@ -33,15 +33,15 @@ func TestActivate(t *testing.T) {
 				Version: "99.0a",
 			},
 			want: &pb.ActivateResponse{Response: &pb.ActivateResponse_ActivateError{
-				ActivateError: &pb.ActivateError{Type: 1},
+				ActivateError: &pb.ActivateError{Type: pb.ActivateError_NON_EXISTENT_VERSION},
 			}},
 		},
 	}
 	for _, test := range tests {
 		got, _ := server.Activate(context.Background(), test.request)
-		diff := reflect.DeepEqual(test.want, got)
-		if !diff {
-			t.Errorf("Activate(context.Background(), %s): Expected %v, Got %v", test.request, test.want, got)
+		diff := pretty.Compare(test.want.Response, got.Response)
+		if diff != "" {
+			t.Errorf("Activate(context.Background(), %s): (-want +got):\n%s", test.request, diff)
 		}
 	}
 }

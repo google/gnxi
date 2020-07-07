@@ -42,7 +42,7 @@ func (s *Server) Register(g *grpc.Server) {
 func (s *Server) Activate(ctx context.Context, request *pb.ActivateRequest) (*pb.ActivateResponse, error) {
 	if err := s.manager.SetRunning(request.Version); err != nil {
 		return &pb.ActivateResponse{Response: &pb.ActivateResponse_ActivateError{
-			ActivateError: &pb.ActivateError{Type: 1},
+			ActivateError: &pb.ActivateError{Type: pb.ActivateError_NON_EXISTENT_VERSION},
 		}}, nil
 	}
 	return &pb.ActivateResponse{Response: &pb.ActivateResponse_ActivateOk{}}, nil
