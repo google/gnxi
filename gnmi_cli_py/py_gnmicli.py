@@ -24,9 +24,7 @@ Current supported gNMI features:
 - Auto-loads Target cert from Target if not specified
 - User/password based authentication
 - Certifificate based authentication
-
-Current unsupported gNMI features:
-- Subscribe
+- Subscribe request
 """
 
 from __future__ import absolute_import
@@ -48,7 +46,7 @@ except ImportError:
 import gnmi_pb2_grpc
 import grpc
 
-__version__ = '0.4'
+__version__ = '0.5'
 
 _RE_PATH_COMPONENT = re.compile(r'''
 ^
