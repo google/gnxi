@@ -105,6 +105,7 @@ func (s *Server) PrepareAuthenticated() *grpc.Server {
 func (s *Server) Register(g *grpc.Server) {
 	s.certServer.Register(g)
 	s.resetServer.Register(g)
+	s.osServer.Register(g)
 }
 
 // RegCertificateManagement registers only the Certificate Management service in the gRPC Server.
