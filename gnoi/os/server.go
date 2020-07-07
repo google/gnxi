@@ -30,8 +30,8 @@ type Server struct {
 
 // NewServer returns an OS Management service.
 func NewServer(settings *Settings) *Server {
-	server := &Server{manager: NewManager(settings.factoryVersion)}
-	for _, os := range settings.installedVersions {
+	server := &Server{manager: NewManager(settings.FactoryVersion)}
+	for _, os := range settings.InstalledVersions {
 		server.manager.Install(os)
 	}
 	return server

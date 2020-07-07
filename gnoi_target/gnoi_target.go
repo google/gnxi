@@ -19,10 +19,12 @@ package main
 import (
 	"flag"
 	"net"
+	"strings"
 	"sync"
 	"time"
 
 	"github.com/google/gnxi/gnoi"
+	"github.com/google/gnxi/gnoi/os"
 	"github.com/google/gnxi/gnoi/reset"
 	"google.golang.org/grpc"
 
@@ -39,6 +41,8 @@ var (
 	resetDelay           = flag.Duration("reset_delay", 3*time.Second, "Delay before resetting the service upon factory reset request, 3 seconds by default")
 	zeroFillUnsupported  = flag.Bool("zero_fill_unsupported", false, "Make the target not support zero filling storage")
 	factoryOSUnsupported = flag.Bool("reset_unsupported", false, "Make the target not support factory resetting OS")
+	factoryVersion       = flag.String("factoryOS_version", "1.0.0a", "Specify factory OS version, 1.0.0a by default")
+	installedVersions    = flag.String("installedOS_versions", "", "Specify installed OS versions, e.g \"1.0.1a 2.01b\"")
 )
 
 // serve binds to an address and starts serving a gRPCServer.
@@ -91,8 +95,12 @@ func start() {
 		ZeroFillUnsupported:  *zeroFillUnsupported,
 		FactoryOSUnsupported: *factoryOSUnsupported,
 	}
+	osSettings := &os.Settings{
+		FactoryVersion:    *factoryVersion,
+		InstalledVersions: strings.Split(*installedVersions, " "),
+	}
 	var err error
-	if gNOIServer, err = gnoi.NewServer(nil, nil, resetSettings, notifyReset); err != nil {
+	if gNOIServer, err = gnoi.NewServer(nil, nil, resetSettings, notifyReset, osSettings); err != nil {
 		log.Fatal("Failed to create gNOI Server:", err)
 	}
 	// Registers a caller for whenever the number of installed certificates changes.

@@ -29,8 +29,8 @@ var (
 
 func initializeServer() *Server {
 	settings := &Settings{
-		factoryVersion:    "1",
-		installedVersions: []string{"1.0.0a"},
+		FactoryVersion:    "1",
+		InstalledVersions: []string{"1.0.0a"},
 	}
 	server := NewServer(settings)
 	return server
