@@ -64,7 +64,7 @@ func main() {
 		log.Exit("-ca and -key must be set with file locations")
 	}
 	if *targetCN == "" {
-		log.Exit("Must set a Common Name ID with -targetCN.")
+		log.Exit("Must set a Common Name ID with -target_name.")
 	}
 
 	var err error
