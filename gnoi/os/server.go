@@ -1,11 +1,8 @@
 /* Copyright 2020 Google Inc.
-
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
-
     https://www.apache.org/licenses/LICENSE-2.0
-
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,15 +22,20 @@ import (
 // Server is an OS Management service.
 type Server struct {
 	pb.OSServer
-	manager *Manager
+	manager               *Manager
+	activationFailMessage string
 }
 
 // NewServer returns an OS Management service.
 func NewServer(settings *Settings) *Server {
-	server := &Server{manager: NewManager(settings.FactoryVersion)}
+	server := &Server{
+		manager:               NewManager(settings.FactoryVersion),
+		activationFailMessage: settings.ActivationFailMessage,
+	}
 	for _, os := range settings.InstalledVersions {
 		server.manager.Install(os)
 	}
+	server.manager.SetRunning(settings.FactoryVersion)
 	return server
 }
 
@@ -49,5 +51,14 @@ func (s *Server) Activate(ctx context.Context, request *pb.ActivateRequest) (*pb
 			ActivateError: &pb.ActivateError{Type: pb.ActivateError_NON_EXISTENT_VERSION},
 		}}, nil
 	}
+	s.activationFailMessage = ""
 	return &pb.ActivateResponse{Response: &pb.ActivateResponse_ActivateOk{}}, nil
+}
+
+// Verify returns the OS version currently running.
+func (s *Server) Verify(ctx context.Context, _ *pb.VerifyRequest) (*pb.VerifyResponse, error) {
+	return &pb.VerifyResponse{
+		Version:               s.manager.runningVersion,
+		ActivationFailMessage: s.activationFailMessage,
+	}, nil
 }

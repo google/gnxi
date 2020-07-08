@@ -1,11 +1,8 @@
 /* Copyright 2020 Google Inc.
-
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
-
     https://www.apache.org/licenses/LICENSE-2.0
-
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,19 +20,12 @@ import (
 	"github.com/kylelemons/godebug/pretty"
 )
 
-var (
-	server = initializeServer()
-)
-
-func initializeServer() *Server {
+func TestTargetActivate(t *testing.T) {
 	settings := &Settings{
 		FactoryVersion:    "1",
 		InstalledVersions: []string{"1.0.0a"},
 	}
 	server := NewServer(settings)
-	return server
-}
-func TestActivate(t *testing.T) {
 	tests := []struct {
 		request *pb.ActivateRequest
 		want    *pb.ActivateResponse
@@ -57,8 +47,45 @@ func TestActivate(t *testing.T) {
 	}
 	for _, test := range tests {
 		got, _ := server.Activate(context.Background(), test.request)
-		if diff := pretty.Compare(test.want.Response, got.Response); diff != "" {
+		diff := pretty.Compare(test.want.Response, got.Response)
+		if diff != "" {
 			t.Errorf("Activate(context.Background(), %s): (-want +got):\n%s", test.request, diff)
+		}
+	}
+}
+
+func TestTargetVerify(t *testing.T) {
+	tests := []struct {
+		settings *Settings
+		want     *pb.VerifyResponse
+	}{
+		{
+			settings: &Settings{
+				FactoryVersion:    "1",
+				InstalledVersions: []string{"1.0.0a", "2.0.1b"},
+			},
+			want: &pb.VerifyResponse{
+				Version: "1",
+			},
+		},
+		{
+			settings: &Settings{
+				FactoryVersion:        "2.0.1b",
+				InstalledVersions:     []string{"1.0.0a"},
+				ActivationFailMessage: "This is a test activation_fail_message",
+			},
+			want: &pb.VerifyResponse{
+				Version:               "2.0.1b",
+				ActivationFailMessage: "This is a test activation_fail_message",
+			},
+		},
+	}
+	for _, test := range tests {
+		server := NewServer(test.settings)
+		got, _ := server.Verify(context.Background(), &pb.VerifyRequest{})
+		diff := pretty.Compare(test.want, got)
+		if diff != "" {
+			t.Errorf("Verify(context.Background(), &pb.VerifyRequest{}): (-want +got):\n%s", diff)
 		}
 	}
 }

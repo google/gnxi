@@ -37,12 +37,13 @@ var (
 	muServe       sync.Mutex
 	bootstrapping bool
 
-	bindAddr             = flag.String("bind_address", ":9339", "Bind to address:port or just :port")
-	resetDelay           = flag.Duration("reset_delay", 3*time.Second, "Delay before resetting the service upon factory reset request, 3 seconds by default")
-	zeroFillUnsupported  = flag.Bool("zero_fill_unsupported", false, "Make the target not support zero filling storage")
-	factoryOSUnsupported = flag.Bool("reset_unsupported", false, "Make the target not support factory resetting OS")
-	factoryVersion       = flag.String("factoryOS_version", "1.0.0a", "Specify factory OS version, 1.0.0a by default")
-	installedVersions    = flag.String("installedOS_versions", "", "Specify installed OS versions, e.g \"1.0.1a 2.01b\"")
+	bindAddr              = flag.String("bind_address", ":9339", "Bind to address:port or just :port")
+	resetDelay            = flag.Duration("reset_delay", 3*time.Second, "Delay before resetting the service upon factory reset request, 3 seconds by default")
+	zeroFillUnsupported   = flag.Bool("zero_fill_unsupported", false, "Make the target not support zero filling storage")
+	factoryOSUnsupported  = flag.Bool("reset_unsupported", false, "Make the target not support factory resetting OS")
+	factoryVersion        = flag.String("factoryOS_version", "1.0.0a", "Specify factory OS version, 1.0.0a by default")
+	installedVersions     = flag.String("installedOS_versions", "", "Specify installed OS versions, e.g \"1.0.1a 2.01b\"")
+	activationFailMessage = flag.String("activation_fail", "", "Specify an activation fail message to simulate an OS activation failed boot")
 )
 
 // serve binds to an address and starts serving a gRPCServer.
@@ -66,7 +67,7 @@ func serve() {
 func notifyCerts(certs, caCerts int) {
 	hasCredentials := certs != 0 && caCerts != 0
 	if bootstrapping != hasCredentials {
-		// Nothing to do, either I am boostrapping and I have no
+		// Nothing to do, either I am bootstrapping and I have no
 		// certificates or I am provisioned and I have certificates.
 		return
 	}
@@ -96,8 +97,9 @@ func start() {
 		FactoryOSUnsupported: *factoryOSUnsupported,
 	}
 	osSettings := &os.Settings{
-		FactoryVersion:    *factoryVersion,
-		InstalledVersions: strings.Split(*installedVersions, " "),
+		FactoryVersion:        *factoryVersion,
+		InstalledVersions:     strings.Split(*installedVersions, " "),
+		ActivationFailMessage: *activationFailMessage,
 	}
 	var err error
 	if gNOIServer, err = gnoi.NewServer(nil, nil, resetSettings, notifyReset, osSettings); err != nil {
