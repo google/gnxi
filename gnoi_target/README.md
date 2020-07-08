@@ -44,7 +44,10 @@ go install github.com/google/gnxi/gnoi_target
 ```
 gnoi_target \
   -bind_address :9339 \
-  -factoryOS_version 1.0.0 \
+  -reset_unsupported true \
+  -zero_fill_unsupported true \
+  -factoryOS_version 1.0.0b \
   -installedVersions 1.0.1a 2.0.3b \
+  -activation_fail "Failed to boot due to..." \
   -alsologtostderr
 ```
