@@ -65,7 +65,8 @@ func main() {
 	case "verify":
 		verify()
 	default:
-		log.Error("No operation provided. Provide one with -op")
+		flag.Usage()
+		log.Error("Invalid operation provided. Provide one with -op")
 	}
 }
 
