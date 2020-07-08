@@ -24,8 +24,8 @@ import (
 	"flag"
 	"fmt"
 	"reflect"
-	"time"
 	"strings"
+	"time"
 
 	"github.com/google/gnxi/gnoi/cert"
 	"github.com/google/gnxi/utils/entity"
@@ -37,20 +37,21 @@ import (
 )
 
 var (
-	certID     = flag.String("cert_id", "", "Certificate Management certificate ID.")
-	certIDs    = flag.String("cert_ids", "", "Comma separated list of Certificate Management certificate IDs for revoke operation")
-	op         = flag.String("op", "get", "Certificate Management operation, one of: provision, install, rotate, get, revoke, check")
-	ca         = flag.String("ca", "", "CA certificate file.")
-	key        = flag.String("key", "", "Private key file.")
-	targetCN   = flag.String("target_name", "", "Common Name of the target.")
-	targetAddr = flag.String("target_addr", "localhost:9339", "The target address in the format of host:port")
-	timeOut    = flag.Duration("time_out", 5*time.Second, "Timeout for the operation, 5 seconds by default")
-	minKeySize = flag.Uint("min_key_size", 128, "Minimum key size")
-	country    = flag.String("country", "US", "Country in CSR parameters")
-	state      = flag.String("state", "CA", "State in CSR parameters")
-	org        = flag.String("organization", "", "Organization in CSR parameters")
-	orgUnit    = flag.String("organizational_unit", "", "Organizational unit in CSR parameters")
-	ipAddress  = flag.String("ip_address", "127.0.0.1", "IP address in CSR parameters")
+	certID        = flag.String("cert_id", "", "Certificate Management certificate ID.")
+	certIDs       = flag.String("cert_ids", "", "Comma separated list of Certificate Management certificate IDs for revoke operation")
+	op            = flag.String("op", "get", "Certificate Management operation, one of: provision, install, rotate, get, revoke, check")
+	ca            = flag.String("ca", "", "CA certificate file.")
+	key           = flag.String("key", "", "Private key file.")
+	targetCN      = flag.String("target_name", "", "Common Name of the target.")
+	targetAddr    = flag.String("target_addr", "localhost:9339", "The target address in the format of host:port")
+	timeOut       = flag.Duration("time_out", 5*time.Second, "Timeout for the operation, 5 seconds by default")
+	minKeySize    = flag.Uint("min_key_size", 128, "Minimum key size")
+	country       = flag.String("country", "US", "Country in CSR parameters")
+	state         = flag.String("state", "CA", "State in CSR parameters")
+	org           = flag.String("organization", "", "Organization in CSR parameters")
+	orgUnit       = flag.String("organizational_unit", "", "Organizational unit in CSR parameters")
+	ipAddress     = flag.String("ip_address", "127.0.0.1", "IP address in CSR parameters")
+	debugMessages = flag.Bool("debug_messages", false, "If true, logs sent and received proto messages")
 
 	caEnt  *entity.Entity
 	ctx    context.Context
@@ -64,7 +65,7 @@ func main() {
 		log.Exit("-ca and -key must be set with file locations")
 	}
 	if *targetCN == "" {
-		log.Exit("Must set a Common Name ID with -target_name.")
+		log.Exit("Must set a Common Name ID with -targetCN.")
 	}
 
 	var err error
@@ -164,7 +165,7 @@ func provision() {
 	defer conn.Close()
 	pkiName := pkix.Name{CommonName: *targetCN, Organization: []string{*org}, OrganizationalUnit: []string{*orgUnit}, Country: []string{*country}, Province: []string{*state}}
 
-	if err := client.Install(ctx, *certID, uint32(*minKeySize), pkiName, *ipAddress, signer, []*x509.Certificate{caEnt.Certificate.Leaf}); err != nil {
+	if err := client.Install(ctx, *certID, uint32(*minKeySize), pkiName, *ipAddress, signer, []*x509.Certificate{caEnt.Certificate.Leaf}, *debugMessages); err != nil {
 		log.Exit("Failed Install:", err)
 	}
 	log.Info("Install success")
@@ -176,7 +177,7 @@ func install() {
 	defer conn.Close()
 	pkiName := pkix.Name{CommonName: *targetCN, Organization: []string{*org}, OrganizationalUnit: []string{*orgUnit}, Country: []string{*country}, Province: []string{*state}}
 
-	if err := client.Install(ctx, *certID, uint32(*minKeySize), pkiName, *ipAddress, signer, []*x509.Certificate{caEnt.Certificate.Leaf}); err != nil {
+	if err := client.Install(ctx, *certID, uint32(*minKeySize), pkiName, *ipAddress, signer, []*x509.Certificate{caEnt.Certificate.Leaf}, *debugMessages); err != nil {
 		log.Exit("Failed Install:", err)
 	}
 	log.Info("Install success")
@@ -188,7 +189,7 @@ func rotate() {
 	defer conn.Close()
 	pkiName := pkix.Name{CommonName: *targetCN, Organization: []string{*org}, OrganizationalUnit: []string{*orgUnit}, Country: []string{*country}, Province: []string{*state}}
 
-	if err := client.Rotate(ctx, *certID, uint32(*minKeySize), pkiName, *ipAddress, signer, []*x509.Certificate{caEnt.Certificate.Leaf}, func() error { return nil }); err != nil {
+	if err := client.Rotate(ctx, *certID, uint32(*minKeySize), pkiName, *ipAddress, signer, []*x509.Certificate{caEnt.Certificate.Leaf}, func() error { return nil }, *debugMessages); err != nil {
 		log.Exit("Failed Rotate:", err)
 	}
 	log.Info("Rotate success")
@@ -196,20 +197,20 @@ func rotate() {
 
 // revoke revokes a certificate in authenticated mode.
 func revoke() {
-    	var revokeCertIDs  = []string { *certID }
+	var revokeCertIDs = []string{*certID}
 
-    	if *certIDs != "" {
-        	revokeCertIDs  = strings.FieldsFunc(*certIDs, func(r rune) bool { return r == ',' })
-        	if len(revokeCertIDs ) == 0 {
-            		log.Exit("Must specify comma separated certificate IDs when using -cert_ids")
-        	}
-    	} else if *certID == "" {
-               log.Exit("Must set a certificate ID with -cert_id or set multiple IDs with -cert_ids")
+	if *certIDs != "" {
+		revokeCertIDs = strings.FieldsFunc(*certIDs, func(r rune) bool { return r == ',' })
+		if len(revokeCertIDs) == 0 {
+			log.Exit("Must specify comma separated certificate IDs when using -cert_ids")
+		}
+	} else if *certID == "" {
+		log.Exit("Must set a certificate ID with -cert_id or set multiple IDs with -cert_ids")
 	}
 	conn, client := gnoiAuthenticated(*targetCN)
 	defer conn.Close()
 
-	revoked, err := client.RevokeCertificates(ctx, revokeCertIDs )
+	revoked, err := client.RevokeCertificates(ctx, revokeCertIDs, *debugMessages)
 	if err != nil {
 		log.Exit("Failed RevokeCertificates:", err)
 	}
@@ -233,7 +234,7 @@ func get() {
 	conn, client := gnoiAuthenticated(*targetCN)
 	defer conn.Close()
 
-	resp, err := client.GetCertificates(ctx)
+	resp, err := client.GetCertificates(ctx, *debugMessages)
 	if err != nil {
 		log.Exit("Failed GetCertificates:", err)
 	}

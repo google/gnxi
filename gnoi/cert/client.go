@@ -23,6 +23,7 @@ import (
 	"fmt"
 
 	"github.com/google/gnxi/gnoi/cert/pb"
+	"github.com/google/gnxi/utils"
 	"google.golang.org/grpc"
 )
 
@@ -37,34 +38,43 @@ func NewClient(c *grpc.ClientConn) *Client {
 }
 
 // Rotate rotates a certificate.
-func (c *Client) Rotate(ctx context.Context, certID string, minKeySize uint32, params pkix.Name, ipAddress string, sign func(*x509.CertificateRequest) (*x509.Certificate, error), caBundle []*x509.Certificate, validate func() error) error {
+func (c *Client) Rotate(ctx context.Context, certID string, minKeySize uint32, params pkix.Name, ipAddress string, sign func(*x509.CertificateRequest) (*x509.Certificate, error), caBundle []*x509.Certificate, validate func() error, debugMessages bool) error {
 	stream, err := c.client.Rotate(ctx)
 	if err != nil {
 		return fmt.Errorf("failed stream: %v", err)
 	}
-	if err = stream.Send(&pb.RotateCertificateRequest{
+	request := &pb.RotateCertificateRequest{
 		RotateRequest: &pb.RotateCertificateRequest_GenerateCsr{
 			GenerateCsr: &pb.GenerateCSRRequest{
 				CsrParams: &pb.CSRParams{
-					Type:       pb.CertificateType_CT_X509,
-					MinKeySize: minKeySize,
-					KeyType:    pb.KeyType_KT_RSA,
-					CommonName: params.CommonName,
+					Type:               pb.CertificateType_CT_X509,
+					MinKeySize:         minKeySize,
+					KeyType:            pb.KeyType_KT_RSA,
+					CommonName:         params.CommonName,
 					Country:            params.Country[0],
 					Organization:       params.Organization[0],
 					OrganizationalUnit: params.OrganizationalUnit[0],
 					State:              params.Province[0],
 					IpAddress:          ipAddress,
 				},
-				CertificateId:certID,
+				CertificateId: certID,
 			},
 		},
-	}); err != nil {
+	}
+	if debugMessages {
+		fmt.Println("== RotateCertificateRequest")
+		utils.PrintProto(request)
+	}
+	if err = stream.Send(request); err != nil {
 		return fmt.Errorf("failed to send GenerateCSRRequest: %v", err)
 	}
 	var req *pb.RotateCertificateResponse
 	if req, err = stream.Recv(); err != nil {
 		return fmt.Errorf("failed to receive RotateCertificateResponse: %v", err)
+	}
+	if debugMessages {
+		fmt.Println("== RotateCertificateResponse")
+		utils.PrintProto(req)
 	}
 	genCSR := req.GetGeneratedCsr()
 	if genCSR == nil || genCSR.Csr == nil {
@@ -95,8 +105,7 @@ func (c *Client) Rotate(ctx context.Context, certID string, minKeySize uint32, p
 			Certificate: x509toPEM(caCert),
 		})
 	}
-
-	if err = stream.Send(&pb.RotateCertificateRequest{
+	request = &pb.RotateCertificateRequest{
 		RotateRequest: &pb.RotateCertificateRequest_LoadCertificate{
 			LoadCertificate: &pb.LoadCertificateRequest{
 				Certificate: &pb.Certificate{
@@ -106,7 +115,12 @@ func (c *Client) Rotate(ctx context.Context, certID string, minKeySize uint32, p
 				CaCertificates: caCertificates,
 			},
 		},
-	}); err != nil {
+	}
+	if debugMessages {
+		fmt.Println("== RotateCertificateRequest")
+		utils.PrintProto(request)
+	}
+	if err = stream.Send(request); err != nil {
 		return fmt.Errorf("failed to send LoadCertificateRequest: %v", err)
 	}
 	if req, err = stream.Recv(); err != nil {
@@ -121,44 +135,57 @@ func (c *Client) Rotate(ctx context.Context, certID string, minKeySize uint32, p
 		return fmt.Errorf("failed to validate rotated certificate: %v", err)
 	}
 
-	if err := stream.Send(&pb.RotateCertificateRequest{
+	request = &pb.RotateCertificateRequest{
 		RotateRequest: &pb.RotateCertificateRequest_FinalizeRotation{FinalizeRotation: &pb.FinalizeRequest{}},
-	}); err != nil {
+	}
+	if err := stream.Send(request); err != nil {
 		return fmt.Errorf("failed to send LoadCertificateRequest: %v", err)
+	}
+	if debugMessages {
+		fmt.Println("== RotateCertificateRequest")
+		utils.PrintProto(request)
 	}
 	return nil
 }
 
 // Install installs a certificate.
-func (c *Client) Install(ctx context.Context, certID string, minKeySize uint32, params pkix.Name, ipAddress string, sign func(*x509.CertificateRequest) (*x509.Certificate, error), caBundle []*x509.Certificate) error {
+func (c *Client) Install(ctx context.Context, certID string, minKeySize uint32, params pkix.Name, ipAddress string, sign func(*x509.CertificateRequest) (*x509.Certificate, error), caBundle []*x509.Certificate, debugMessages bool) error {
 	stream, err := c.client.Install(ctx)
 	if err != nil {
 		return fmt.Errorf("failed stream: %v", err)
 	}
-
-	if err = stream.Send(&pb.InstallCertificateRequest{
+	request := &pb.InstallCertificateRequest{
 		InstallRequest: &pb.InstallCertificateRequest_GenerateCsr{
 			GenerateCsr: &pb.GenerateCSRRequest{CsrParams: &pb.CSRParams{
-				Type:       pb.CertificateType_CT_X509,
-				MinKeySize: minKeySize,
-				KeyType:    pb.KeyType_KT_RSA,
-				CommonName: params.CommonName,
+				Type:               pb.CertificateType_CT_X509,
+				MinKeySize:         minKeySize,
+				KeyType:            pb.KeyType_KT_RSA,
+				CommonName:         params.CommonName,
 				Country:            params.Country[0],
 				Organization:       params.Organization[0],
 				OrganizationalUnit: params.OrganizationalUnit[0],
 				State:              params.Province[0],
 				IpAddress:          ipAddress,
-			  },
-			  CertificateId:certID,
-		  },
+			},
+				CertificateId: certID,
+			},
 		},
-	}); err != nil {
+	}
+	if debugMessages {
+		fmt.Println("== InstallCertificateRequest")
+		utils.PrintProto(request)
+	}
+	if err = stream.Send(request); err != nil {
 		return fmt.Errorf("failed to send GenerateCSRRequest: %v", err)
 	}
 
 	var req *pb.InstallCertificateResponse
 	if req, err = stream.Recv(); err != nil {
 		return fmt.Errorf("failed to receive InstallCertificateResponse: %v", err)
+	}
+	if debugMessages {
+		fmt.Println("== InstallCertificateResponse")
+		utils.PrintProto(req)
 	}
 
 	genCSR := req.GetGeneratedCsr()
@@ -191,7 +218,7 @@ func (c *Client) Install(ctx context.Context, certID string, minKeySize uint32, 
 		})
 	}
 
-	if err = stream.Send(&pb.InstallCertificateRequest{
+	request = &pb.InstallCertificateRequest{
 		InstallRequest: &pb.InstallCertificateRequest_LoadCertificate{
 			LoadCertificate: &pb.LoadCertificateRequest{
 				Certificate: &pb.Certificate{
@@ -201,13 +228,23 @@ func (c *Client) Install(ctx context.Context, certID string, minKeySize uint32, 
 				CaCertificates: caCertificates,
 			},
 		},
-	}); err != nil {
+	}
+	if debugMessages {
+		fmt.Println("== InstallCertificateRequest")
+		utils.PrintProto(request)
+	}
+	if err = stream.Send(request); err != nil {
 		return fmt.Errorf("failed to send LoadCertificateRequest: %v", err)
 	}
 
 	if req, err = stream.Recv(); err != nil {
 		return fmt.Errorf("failed to receive InstallCertificateResponse: %v", err)
 	}
+	if debugMessages {
+		fmt.Println("== InstallCertificateResponse")
+		utils.PrintProto(req)
+	}
+
 	loadCertificateResponse := req.GetLoadCertificate()
 	if loadCertificateResponse == nil {
 		return fmt.Errorf("expected LoadCertificateResponse, got something else")
@@ -216,10 +253,19 @@ func (c *Client) Install(ctx context.Context, certID string, minKeySize uint32, 
 }
 
 // GetCertificates gets a map of certificates in the target, certID to certificate
-func (c *Client) GetCertificates(ctx context.Context) (map[string]*x509.Certificate, error) {
-	out, err := c.client.GetCertificates(ctx, &pb.GetCertificatesRequest{})
+func (c *Client) GetCertificates(ctx context.Context, debugMessages bool) (map[string]*x509.Certificate, error) {
+	request := &pb.GetCertificatesRequest{}
+	if debugMessages {
+		fmt.Println("== GetCertificatesRequest")
+		utils.PrintProto(request)
+	}
+	out, err := c.client.GetCertificates(ctx, request)
 	if err != nil {
 		return nil, err
+	}
+	if debugMessages {
+		fmt.Println("== GetCertificatesResponse")
+		utils.PrintProto(out)
 	}
 	ret := map[string]*x509.Certificate{}
 	for _, certInfo := range out.CertificateInfo {
@@ -236,10 +282,19 @@ func (c *Client) GetCertificates(ctx context.Context) (map[string]*x509.Certific
 }
 
 // RevokeCertificates revokes certificates in the target, returns a map of certID to error for the ones that failed to be revoked.
-func (c *Client) RevokeCertificates(ctx context.Context, certIDs []string) (map[string]string, error) {
-	out, err := c.client.RevokeCertificates(ctx, &pb.RevokeCertificatesRequest{CertificateId: certIDs})
+func (c *Client) RevokeCertificates(ctx context.Context, certIDs []string, debugMessages bool) (map[string]string, error) {
+	request := &pb.RevokeCertificatesRequest{CertificateId: certIDs}
+	if debugMessages {
+		fmt.Println("== RevokeCertificatesRequest")
+		utils.PrintProto(request)
+	}
+	out, err := c.client.RevokeCertificates(ctx, request)
 	if err != nil {
 		return nil, err
+	}
+	if debugMessages {
+		fmt.Println("== RevokeCertificatesResponse")
+		utils.PrintProto(out)
 	}
 	ret := map[string]string{}
 	for _, revError := range out.CertificateRevocationError {

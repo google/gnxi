@@ -35,7 +35,7 @@ func initializeServer() *Server {
 	server := NewServer(settings)
 	return server
 }
-func TestActivate(t *testing.T) {
+func TestTargetActivate(t *testing.T) {
 	tests := []struct {
 		request *pb.ActivateRequest
 		want    *pb.ActivateResponse

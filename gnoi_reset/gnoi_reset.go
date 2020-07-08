@@ -31,11 +31,12 @@ import (
 )
 
 var (
-	targetAddr = flag.String("target_addr", "", "The target address in the format of host:port")
-	targetName = flag.String("target_name", "", "The target name used to verify the hostname returned by TLS handshake")
-	rollbackOs = flag.Bool("rollback_os", false, "Target must revert to factory OS")
-	zeroFill   = flag.Bool("zero_fill", false, "Target must overwrite persistent storage with zeroes")
-	timeOut    = flag.Duration("time_out", 10*time.Second, "Timeout for ResetTarget operation, 10 seconds by default")
+	targetAddr    = flag.String("target_addr", "", "The target address in the format of host:port")
+	targetName    = flag.String("target_name", "", "The target name used to verify the hostname returned by TLS handshake")
+	rollbackOs    = flag.Bool("rollback_os", false, "Target must revert to factory OS")
+	zeroFill      = flag.Bool("zero_fill", false, "Target must overwrite persistent storage with zeroes")
+	timeOut       = flag.Duration("time_out", 10*time.Second, "Timeout for ResetTarget operation, 10 seconds by default")
+	debugMessages = flag.Bool("debug_messages", false, "If true, logs sent and received proto messages")
 )
 
 func main() {
@@ -58,7 +59,7 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), *timeOut)
 	defer cancel()
 
-	if err := client.ResetTarget(ctx, *rollbackOs, *zeroFill); err != nil {
+	if err := client.ResetTarget(ctx, *rollbackOs, *zeroFill, *debugMessages); err != nil {
 		log.Errorf("Error Resetting Target: %v", err)
 	} else {
 		log.Infoln("Reset Called Successfully!")
