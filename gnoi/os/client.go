@@ -56,8 +56,7 @@ func (c *Client) Activate(ctx context.Context, version string) error {
 	return nil
 }
 
-// Verify invokes the Verify RPC for the OS service.
-// It returns the running version, activation fail message and error
+// Verify invokes the Verify RPC for the OS service and it returns the running version and activation fail message or an error.
 func (c *Client) Verify(ctx context.Context) (string, string, error) {
 	out, err := c.client.Verify(ctx, &pb.VerifyRequest{})
 	if err != nil {
