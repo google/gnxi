@@ -26,6 +26,12 @@ type Manager struct {
 	factoryVersion string
 }
 
+// Settings wraps OS Server initialization options.
+type Settings struct {
+	FactoryVersion    string
+	InstalledVersions []string
+}
+
 // NewManager for OS service module. Will manage state of OS module.
 func NewManager(factoryVersion string) *Manager {
 	return &Manager{
