@@ -54,6 +54,7 @@ func main() {
 	}
 }
 
+// install the OS image onto the target.
 func install() {
 	if *osFile == "" {
 		log.Error("No OS image path provided. Provide one with -os")
@@ -62,6 +63,7 @@ func install() {
 	// TODO: Add Install RPC call
 }
 
+// activate the OS version to be used upon next reboot on the target.
 func activate() {
 	if *version == "" {
 		log.Exit("No version provided. Provide one with -version")
@@ -72,6 +74,7 @@ func activate() {
 	}
 }
 
+// verify the version of the OS running on the target.
 func verify() {
 	// TODO: Add Verify RPC call
 }
