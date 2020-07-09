@@ -41,6 +41,7 @@ func NewClient(c *grpc.ClientConn) *Client {
 
 // Install invokes the Install RPC for the OS service.
 func (c *Client) Install(ctx context.Context, imgPath, version string, printStatus bool, validateTimeout time.Duration) error {
+	// Read file to buffer.
 	file, err := ioutil.ReadFile(imgPath)
 	if err != nil {
 		return err
@@ -53,6 +54,7 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 		return err
 	}
 
+	// Send initial TransferRequest and await response.
 	if err = install.Send(&pb.InstallRequest{
 		Request: &pb.InstallRequest_TransferRequest{TransferRequest: &pb.TransferRequest{Version: version}},
 	}); err != nil {
@@ -71,6 +73,9 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 	}
 	recvErrs := make(chan error)
 	recvValidated := make(chan bool, 1)
+
+	// Goroutine to receive responses while sending requests allowing for
+	// bidirectional streaming.
 	go func() {
 		validated := false
 		for !validated {
@@ -93,6 +98,8 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 			}
 		}
 	}()
+
+	// Run until buffer is depleted, sending a chunk of the image each time.
 	for buffer.Len() > 0 {
 		b := make([]byte, chunkSize)
 		if len(recvErrs) > 0 {
@@ -110,6 +117,7 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 		}
 	}
 
+	// Await for response from asynchronous receiver or timeout.
 	select {
 	case <-time.After(validateTimeout):
 		return fmt.Errorf("Validation timed out")
