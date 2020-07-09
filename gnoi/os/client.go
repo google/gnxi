@@ -16,9 +16,12 @@ limitations under the License.
 package os
 
 import (
+	"bytes"
 	"context"
 	"fmt"
-	"os"
+	"io"
+	"io/ioutil"
+	"time"
 
 	"github.com/google/gnxi/gnoi/os/pb"
 	"google.golang.org/grpc"
@@ -29,16 +32,19 @@ type Client struct {
 	client pb.OSClient
 }
 
+const chunkSize = 5000000
+
 // NewClient returns a new OS service client.
 func NewClient(c *grpc.ClientConn) *Client {
 	return &Client{client: pb.NewOSClient(c)}
 }
 
-func (c *Client) Install(ctx context.Context, imgPath, version string) error {
-	file, err := os.Open(imgPath)
+func (c *Client) Install(ctx context.Context, imgPath, version string, printStatus bool, validateTimeout time.Duration) error {
+	file, err := ioutil.ReadFile(imgPath)
 	if err != nil {
 		return err
 	}
+	buffer := bytes.NewBuffer(file)
 	install, err := c.client.Install(ctx)
 	defer install.CloseSend()
 	if err != nil {
@@ -61,7 +67,54 @@ func (c *Client) Install(ctx context.Context, imgPath, version string) error {
 	if validated {
 		return fmt.Errorf("OS already installed on target")
 	}
-	return nil
+	recvErrs := make(chan error)
+	recvValidated := make(chan bool, 1)
+	go func() {
+		validated := false
+		for !validated {
+			resp, err := install.Recv()
+			if err != nil {
+				recvErrs <- err
+			}
+			progress, validated, err := c.validateInstallRequest(resp)
+			if err != nil {
+				recvErrs <- err
+			}
+			if validated {
+				recvValidated <- validated
+			}
+			if printStatus {
+				fmt.Printf("%d%% transferred\n", progress)
+			}
+		}
+	}()
+	for buffer.Len() > 0 {
+		b := make([]byte, chunkSize)
+		if len(recvErrs) > 0 {
+			err = <-recvErrs
+			for len(recvErrs) > 0 {
+				err = fmt.Errorf("%s; %w", (<-recvErrs).Error(), err)
+			}
+			return err
+		}
+		_, err = buffer.Read(b)
+		if err != nil && err != io.EOF {
+			return err
+		}
+		err = install.Send(&pb.InstallRequest{
+			Request: &pb.InstallRequest_TransferContent{TransferContent: b},
+		})
+		if err != nil {
+			return err
+		}
+	}
+
+	select {
+	case <-time.After(validateTimeout):
+		return fmt.Errorf("Validation timed out")
+	case <-recvValidated:
+		return nil
+	}
 }
 
 func (c *Client) validateInstallRequest(response *pb.InstallResponse) (progress uint32, validated bool, err error) {
