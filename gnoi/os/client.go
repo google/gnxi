@@ -46,6 +46,7 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 		return err
 	}
 	buffer := bytes.NewBuffer(file)
+	fileSize := uint64(buffer.Len())
 	install, err := c.client.Install(ctx)
 	defer install.CloseSend()
 	if err != nil {
@@ -88,7 +89,7 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 				return
 			}
 			if printStatus {
-				fmt.Printf("%d%% transferred\n", progress)
+				fmt.Printf("%d%% transferred\n", progress/fileSize)
 			}
 		}
 	}()
@@ -119,13 +120,13 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 	}
 }
 
-func (c *Client) validateInstallRequest(response *pb.InstallResponse) (progress uint32, validated bool, err error) {
+func (c *Client) validateInstallRequest(response *pb.InstallResponse) (progress uint64, validated bool, err error) {
 	switch resp := response.Response.(type) {
 	case *pb.InstallResponse_Validated:
 		validated = true
 		return
-	case *pb.InstallResponse_SyncProgress:
-		progress = resp.SyncProgress.GetPercentageTransferred()
+	case *pb.InstallResponse_TransferProgress:
+		progress = resp.TransferProgress.GetBytesReceived()
 		return
 	case *pb.InstallResponse_InstallError:
 		installErr := resp.InstallError
