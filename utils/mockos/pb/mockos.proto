@@ -20,5 +20,6 @@ message MockOS {
     string cookie = 2; // Unique identifier of OS.
     bytes padding = 3; // Random bytes to fill size.
     bytes hash = 4; 
-    bool unsupported = 5; // If true then the OS package is valid but unsupported by the mock target.
+    bool incompatible = 5; // If true then the OS package is valid but incompatible with the mock target.
+    string activation_fail_message = 6;
 }

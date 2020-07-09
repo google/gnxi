@@ -14,11 +14,12 @@ func TestHashValidation(t *testing.T) {
 		{
 			os: &OS{
 				MockOS: pb.MockOS{
-					Version:     "1.0a",
-					Cookie:      "yyhnueaolrkoehvxcphhkxgvcilzppoh",
-					Padding:     []byte("These are some bits to pad things out"),
-					Unsupported: true,
-					Hash:        []byte{104, 17, 158, 51, 77, 54, 186, 113, 151, 56, 105, 23, 200, 168, 255, 120},
+					Version:               "1.0a",
+					Cookie:                "yyhnueaolrkoehvxcphhkxgvcilzppoh",
+					Padding:               []byte("These are some bits to pad things out"),
+					Incompatible:          true,
+					ActivationFailMessage: "This is a test activationFailMessage",
+					Hash:                  []byte{252, 85, 174, 147, 254, 203, 37, 51, 0, 249, 102, 183, 117, 56, 23, 63},
 				},
 			},
 			want: true,
@@ -26,11 +27,12 @@ func TestHashValidation(t *testing.T) {
 		{
 			os: &OS{
 				MockOS: pb.MockOS{
-					Version:     "2.2b",
-					Cookie:      "yyhnueaolrasdfasdgdfsgdflkjsakfsdkoh",
-					Padding:     []byte("These are some bits to pad things out a lot!"),
-					Unsupported: false,
-					Hash:        []byte("Bad Hash"),
+					Version:               "2.2b",
+					Cookie:                "yyhnueaolrasdfasdgdfsgdflkjsakfsdkoh",
+					Padding:               []byte("These are some bits to pad things out a lot!"),
+					Incompatible:          true,
+					ActivationFailMessage: "This is a test activationFailMessage",
+					Hash:                  []byte("Bad Hash"),
 				},
 			},
 		},

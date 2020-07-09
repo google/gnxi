@@ -29,8 +29,7 @@ type Server struct {
 // NewServer returns an OS Management service.
 func NewServer(settings *Settings) *Server {
 	server := &Server{
-		manager:               NewManager(settings.FactoryVersion),
-		activationFailMessage: settings.ActivationFailMessage,
+		manager: NewManager(settings.FactoryVersion),
 	}
 	for _, os := range settings.InstalledVersions {
 		server.manager.Install(os)
@@ -46,12 +45,18 @@ func (s *Server) Register(g *grpc.Server) {
 
 // Activate sets the requested OS version as the version which is used at the next reboot, and reboots the Target.
 func (s *Server) Activate(ctx context.Context, request *pb.ActivateRequest) (*pb.ActivateResponse, error) {
-	if err := s.manager.SetRunning(request.Version); err != nil {
-		return &pb.ActivateResponse{Response: &pb.ActivateResponse_ActivateError{
-			ActivateError: &pb.ActivateError{Type: pb.ActivateError_NON_EXISTENT_VERSION},
-		}}, nil
+	if msg := s.manager.failMsgs[request.Version]; msg != "" {
+		s.activationFailMessage = msg
+	} else if err := s.manager.SetRunning(request.Version); err != nil {
+		return &pb.ActivateResponse{
+			Response: &pb.ActivateResponse_ActivateError{
+				ActivateError: &pb.ActivateError{
+					Type: pb.ActivateError_NON_EXISTENT_VERSION,
+				},
+			}}, nil
+	} else {
+		s.activationFailMessage = ""
 	}
-	s.activationFailMessage = ""
 	return &pb.ActivateResponse{Response: &pb.ActivateResponse_ActivateOk{}}, nil
 }
 

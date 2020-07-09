@@ -43,7 +43,7 @@ func (os *OS) CheckHash() bool {
 }
 
 // GenerateOS creates a Mock OS file for gNOI target use.
-func GenerateOS(filename, version, size string, unsupported bool) error {
+func GenerateOS(filename, version, size, activationFailMessage string, incompatible bool) error {
 	if _, err := os.Stat(filename); !os.IsNotExist(err) {
 		return errors.New("File already exists")
 	}
@@ -59,10 +59,11 @@ func GenerateOS(filename, version, size string, unsupported bool) error {
 	buf := make([]byte, bufferSize)
 	rand.Read(buf)
 	mockOs := &OS{MockOS: pb.MockOS{
-		Version:     version,
-		Cookie:      cookie,
-		Padding:     buf,
-		Unsupported: unsupported,
+		Version:               version,
+		Cookie:                cookie,
+		Padding:               buf,
+		Incompatible:          incompatible,
+		ActivationFailMessage: activationFailMessage,
 	}}
 	mockOs.Hash()
 	out, err := proto.Marshal(&mockOs.MockOS)
@@ -102,7 +103,8 @@ func calcHash(os *OS) []byte {
 	bb := []byte(os.MockOS.Version)
 	bb = append(bb, []byte(os.MockOS.Cookie)...)
 	bb = append(bb, []byte(os.MockOS.Padding)...)
-	bb = append(bb, map[bool]byte{false: 0, true: 1}[os.MockOS.Unsupported])
+	bb = append(bb, map[bool]byte{false: 0, true: 1}[os.MockOS.Incompatible])
+	bb = append(bb, []byte(os.MockOS.ActivationFailMessage)...)
 	hash := md5.Sum(bb)
 	return hash[:]
 }

@@ -48,6 +48,5 @@ gnoi_target \
   -zero_fill_unsupported true \
   -factoryOS_version 1.0.0b \
   -installedVersions 1.0.1a 2.0.3b \
-  -activation_fail "Failed to boot due to..." \
   -alsologtostderr
 ```

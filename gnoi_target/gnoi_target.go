@@ -37,13 +37,12 @@ var (
 	muServe       sync.Mutex
 	bootstrapping bool
 
-	bindAddr              = flag.String("bind_address", ":9339", "Bind to address:port or just :port")
-	resetDelay            = flag.Duration("reset_delay", 3*time.Second, "Delay before resetting the service upon factory reset request, 3 seconds by default")
-	zeroFillUnsupported   = flag.Bool("zero_fill_unsupported", false, "Make the target not support zero filling storage")
-	factoryOSUnsupported  = flag.Bool("reset_unsupported", false, "Make the target not support factory resetting OS")
-	factoryVersion        = flag.String("factoryOS_version", "1.0.0a", "Specify factory OS version, 1.0.0a by default")
-	installedVersions     = flag.String("installedOS_versions", "", "Specify installed OS versions, e.g \"1.0.1a 2.01b\"")
-	activationFailMessage = flag.String("activation_fail", "", "Specify an activation fail message to simulate an OS activation failed boot")
+	bindAddr             = flag.String("bind_address", ":9339", "Bind to address:port or just :port")
+	resetDelay           = flag.Duration("reset_delay", 3*time.Second, "Delay before resetting the service upon factory reset request, 3 seconds by default")
+	zeroFillUnsupported  = flag.Bool("zero_fill_unsupported", false, "Make the target not support zero filling storage")
+	factoryOSUnsupported = flag.Bool("reset_unsupported", false, "Make the target not support factory resetting OS")
+	factoryVersion       = flag.String("factoryOS_version", "1.0.0a", "Specify factory OS version, 1.0.0a by default")
+	installedVersions    = flag.String("installedOS_versions", "", "Specify installed OS versions, e.g \"1.0.1a 2.01b\"")
 )
 
 // serve binds to an address and starts serving a gRPCServer.
@@ -97,9 +96,8 @@ func start() {
 		FactoryOSUnsupported: *factoryOSUnsupported,
 	}
 	osSettings := &os.Settings{
-		FactoryVersion:        *factoryVersion,
-		InstalledVersions:     strings.Split(*installedVersions, " "),
-		ActivationFailMessage: *activationFailMessage,
+		FactoryVersion:    *factoryVersion,
+		InstalledVersions: strings.Split(*installedVersions, " "),
 	}
 	var err error
 	if gNOIServer, err = gnoi.NewServer(nil, nil, resetSettings, notifyReset, osSettings); err != nil {

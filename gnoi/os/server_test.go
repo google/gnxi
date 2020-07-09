@@ -68,17 +68,6 @@ func TestTargetVerify(t *testing.T) {
 				Version: "1",
 			},
 		},
-		{
-			settings: &Settings{
-				FactoryVersion:        "2.0.1b",
-				InstalledVersions:     []string{"1.0.0a"},
-				ActivationFailMessage: "This is a test activation_fail_message",
-			},
-			want: &pb.VerifyResponse{
-				Version:               "2.0.1b",
-				ActivationFailMessage: "This is a test activation_fail_message",
-			},
-		},
 	}
 	for _, test := range tests {
 		server := NewServer(test.settings)

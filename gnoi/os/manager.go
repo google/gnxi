@@ -19,15 +19,15 @@ import (
 // Manager for storing data on OS's.
 type Manager struct {
 	osMap          map[string]bool
+	failMsgs       map[string]string
 	runningVersion string
 	factoryVersion string
 }
 
 // Settings wraps OS Server initialization options.
 type Settings struct {
-	FactoryVersion        string
-	InstalledVersions     []string
-	ActivationFailMessage string
+	FactoryVersion    string
+	InstalledVersions []string
 }
 
 // NewManager for OS service module. Will manage state of OS module.
