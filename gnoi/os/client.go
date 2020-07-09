@@ -20,6 +20,7 @@ import (
 	"fmt"
 
 	"github.com/google/gnxi/gnoi/os/pb"
+	"github.com/google/gnxi/utils"
 	"google.golang.org/grpc"
 )
 
@@ -35,10 +36,13 @@ func NewClient(c *grpc.ClientConn) *Client {
 
 // Activate invokes the Activate RPC for the OS service.
 func (c *Client) Activate(ctx context.Context, version string) error {
-	out, err := c.client.Activate(ctx, &pb.ActivateRequest{Version: version})
+	request := &pb.ActivateRequest{Version: version}
+	utils.LogProto(request)
+	out, err := c.client.Activate(ctx, request)
 	if err != nil {
 		return err
 	}
+	utils.LogProto(out)
 	switch out.Response.(type) {
 	case *pb.ActivateResponse_ActivateOk:
 		return nil
