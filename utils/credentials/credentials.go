@@ -29,6 +29,7 @@ import (
 	"google.golang.org/grpc/metadata"
 
 	log "github.com/golang/glog"
+	"github.com/google/gnxi/utils/entity"
 )
 
 var (
@@ -63,12 +64,8 @@ func (a *userCredentials) RequireTransportSecurity() bool {
 	return true
 }
 
-// LoadCertificates loads certificates from file.
-func LoadCertificates() ([]tls.Certificate, *x509.CertPool) {
-	if *ca == "" || *cert == "" || *key == "" {
-		log.Exit("-ca -cert and -key must be set with file locations")
-	}
-
+// loadCerts loads the certificates from files.
+func loadCerts() ([]tls.Certificate, *x509.CertPool) {
 	certificate, err := tls.LoadX509KeyPair(*cert, *key)
 	if err != nil {
 		log.Exitf("could not load client key pair: %s", err)
@@ -85,6 +82,33 @@ func LoadCertificates() ([]tls.Certificate, *x509.CertPool) {
 	}
 
 	return []tls.Certificate{certificate}, certPool
+}
+
+// generateFromCA generates a client certificate from the provided CA.
+func generateFromCA() ([]tls.Certificate, *x509.CertPool) {
+	caEnt, err := entity.FromFile(*ca, *key)
+	if err != nil {
+		log.Exitf("Failed to load certificate and key from file: %v", err)
+	}
+	clientEnt, err := entity.CreateSigned("client", nil, caEnt)
+	if err != nil {
+		log.Exitf("Failed to create a signed entity: %v", err)
+	}
+	caPool := x509.NewCertPool()
+	caPool.AddCert(caEnt.Certificate.Leaf)
+	return []tls.Certificate{*clientEnt.Certificate}, caPool
+}
+
+// LoadCertificates loads certificates from files or from the CA.
+func LoadCertificates() ([]tls.Certificate, *x509.CertPool) {
+	if *ca != "" && *key != "" {
+		if *cert != "" {
+			return loadCerts()
+		}
+		return generateFromCA()
+	}
+	log.Exit("Please provide -ca & -key or -ca, -cert & -key")
+	return []tls.Certificate{}, &x509.CertPool{}
 }
 
 // ClientCredentials generates gRPC DialOptions for existing credentials.
