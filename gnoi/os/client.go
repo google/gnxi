@@ -39,6 +39,7 @@ func NewClient(c *grpc.ClientConn) *Client {
 	return &Client{client: pb.NewOSClient(c)}
 }
 
+// Install invokes the Install RPC for the OS service.
 func (c *Client) Install(ctx context.Context, imgPath, version string, printStatus bool, validateTimeout time.Duration) error {
 	file, err := ioutil.ReadFile(imgPath)
 	if err != nil {
@@ -91,11 +92,7 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 	for buffer.Len() > 0 {
 		b := make([]byte, chunkSize)
 		if len(recvErrs) > 0 {
-			err = <-recvErrs
-			for len(recvErrs) > 0 {
-				err = fmt.Errorf("%s; %w", (<-recvErrs).Error(), err)
-			}
-			return err
+			return c.accumulateErrors(recvErrs)
 		}
 		_, err = buffer.Read(b)
 		if err != nil && err != io.EOF {
@@ -112,6 +109,8 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 	select {
 	case <-time.After(validateTimeout):
 		return fmt.Errorf("Validation timed out")
+	case err = <-recvErrs:
+		return fmt.Errorf("%w; %s", c.accumulateErrors(recvErrs), err.Error())
 	case <-recvValidated:
 		return nil
 	}
@@ -128,13 +127,24 @@ func (c *Client) validateInstallRequest(response *pb.InstallResponse) (progress 
 	case *pb.InstallResponse_InstallError:
 		installErr := resp.InstallError
 		if installErr.GetType() == pb.InstallError_UNSPECIFIED {
-			err = fmt.Errorf("Unspecified error: %s", installErr.GetDetail())
+			err = fmt.Errorf("Unspecified InstallError error: %s", installErr.GetDetail())
 			return
 		}
 		err = fmt.Errorf("InstallError occured: %s", installErr.GetType().String())
 		return
 	}
 	return
+}
+
+func (c *Client) accumulateErrors(recvErrs chan error) error {
+	err := <-recvErrs
+	if err == nil {
+		return nil
+	}
+	for len(recvErrs) > 0 {
+		err = fmt.Errorf("%s; %w", (<-recvErrs).Error(), err)
+	}
+	return err
 }
 
 // Activate invokes the Activate RPC for the OS service.
