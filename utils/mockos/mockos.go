@@ -19,7 +19,7 @@ import (
 	"errors"
 	"os"
 
-	humanize "github.com/dustin/go-humanize"
+	"github.com/dustin/go-humanize"
 	"github.com/golang/protobuf/proto"
 	"github.com/google/gnxi/utils/mockos/pb"
 )
@@ -81,15 +81,9 @@ func GenerateOS(filename, version, size, activationFailMessage string, incompati
 }
 
 // ValidateOS unmarshals the serialized OS proto and verifies the OS package's integrity.
-func ValidateOS(filename string) (*OS, error) {
-	mockOs := &OS{}
-	file, err := os.Open(filename)
-	if err != nil {
-		return nil, err
-	}
-	buf := new(bytes.Buffer)
-	buf.ReadFrom(file)
-	if err = proto.Unmarshal(buf.Bytes(), &mockOs.MockOS); err != nil {
+func ValidateOS(buf *bytes.Buffer) (*OS, error) {
+	var mockOs *OS
+	if err := proto.Unmarshal(buf.Bytes(), &mockOs.MockOS); err != nil {
 		return nil, err
 	}
 	if !mockOs.CheckHash() {
