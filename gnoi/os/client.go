@@ -76,13 +76,16 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 			resp, err := install.Recv()
 			if err != nil {
 				recvErrs <- err
+				continue
 			}
 			progress, validated, err := c.validateInstallRequest(resp)
 			if err != nil {
 				recvErrs <- err
+				continue
 			}
 			if validated {
 				recvValidated <- validated
+				return
 			}
 			if printStatus {
 				fmt.Printf("%d%% transferred\n", progress)
