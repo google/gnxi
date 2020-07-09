@@ -18,6 +18,7 @@ package os
 import (
 	"context"
 	"fmt"
+	"os"
 
 	"github.com/google/gnxi/gnoi/os/pb"
 	"google.golang.org/grpc"
@@ -31,6 +32,56 @@ type Client struct {
 // NewClient returns a new OS service client.
 func NewClient(c *grpc.ClientConn) *Client {
 	return &Client{client: pb.NewOSClient(c)}
+}
+
+func (c *Client) Install(ctx context.Context, imgPath, version string) error {
+	file, err := os.Open(imgPath)
+	if err != nil {
+		return err
+	}
+	install, err := c.client.Install(ctx)
+	defer install.CloseSend()
+	if err != nil {
+		return err
+	}
+
+	if err = install.Send(&pb.InstallRequest{
+		Request: &pb.InstallRequest_TransferRequest{TransferRequest: &pb.TransferRequest{Version: version}},
+	}); err != nil {
+		return err
+	}
+	transferResp, err := install.Recv()
+	if err != nil {
+		return err
+	}
+	_, validated, err := c.validateInstallRequest(transferResp)
+	if err != nil {
+		return err
+	}
+	if validated {
+		return fmt.Errorf("OS already installed on target")
+	}
+	return nil
+}
+
+func (c *Client) validateInstallRequest(response *pb.InstallResponse) (progress uint32, validated bool, err error) {
+	switch resp := response.Response.(type) {
+	case *pb.InstallResponse_Validated:
+		validated = true
+		return
+	case *pb.InstallResponse_SyncProgress:
+		progress = resp.SyncProgress.GetPercentageTransferred()
+		return
+	case *pb.InstallResponse_InstallError:
+		installErr := resp.InstallError
+		if installErr.GetType() == pb.InstallError_UNSPECIFIED {
+			err = fmt.Errorf("Unspecified error: %s", installErr.GetDetail())
+			return
+		}
+		err = fmt.Errorf("InstallError occured: %s", installErr.GetType().String())
+		return
+	}
+	return
 }
 
 // Activate invokes the Activate RPC for the OS service.
