@@ -128,6 +128,7 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 	}
 }
 
+// validateInstallRequest will validate an InstallRequest.
 func (c *Client) validateInstallRequest(response *pb.InstallResponse) (progress uint64, validated bool, err error) {
 	switch resp := response.Response.(type) {
 	case *pb.InstallResponse_Validated:
@@ -152,6 +153,7 @@ func (c *Client) validateInstallRequest(response *pb.InstallResponse) (progress 
 	}
 }
 
+// accumulateErrors will deplete erros from a channel and consolidate them.
 func (c *Client) accumulateErrors(recvErrs chan error) error {
 	err := <-recvErrs
 	if err == nil {
