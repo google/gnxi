@@ -32,18 +32,6 @@ type mockClient struct {
 	verify   verifyRPC
 }
 
-type activateTest struct {
-	name    string
-	client  *mockClient
-	wantErr bool
-}
-
-type verifyTest struct {
-	name,
-	runningVersion,
-	failMessage string
-}
-
 func (c *mockClient) Activate(ctx context.Context, in *pb.ActivateRequest, opts ...grpc.CallOption) (*pb.ActivateResponse, error) {
 	return c.activate(ctx, in, opts...)
 }
@@ -67,7 +55,11 @@ func activateSuccessRPC(ctx context.Context, in *pb.ActivateRequest, opts ...grp
 }
 
 func TestActivate(t *testing.T) {
-	activateTests := []activateTest{
+	activateTests := []struct {
+		name    string
+		client  *mockClient
+		wantErr bool
+	}{
 		{
 			"Success",
 			&mockClient{activate: activateSuccessRPC},
@@ -100,7 +92,11 @@ func TestActivate(t *testing.T) {
 }
 
 func TestVerify(t *testing.T) {
-	verifyTests := []verifyTest{
+	verifyTests := []struct {
+		name,
+		runningVersion,
+		failMessage string
+	}{
 		{"Is Running", "version", ""},
 		{"Previous Activation Fail", "version", "Activation fail"},
 	}
