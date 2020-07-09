@@ -136,8 +136,12 @@ func (c *Client) validateInstallRequest(response *pb.InstallResponse) (progress 
 		}
 		err = fmt.Errorf("InstallError occured: %s", installErr.GetType().String())
 		return
+	case *pb.InstallResponse_TransferReady:
+		return
+	default:
+		err = fmt.Errorf("Unexpected response: %T(%v)", resp, resp)
+		return
 	}
-	return
 }
 
 func (c *Client) accumulateErrors(recvErrs chan error) error {
