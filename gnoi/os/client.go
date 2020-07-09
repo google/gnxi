@@ -38,16 +38,16 @@ func NewClient(c *grpc.ClientConn) *Client {
 func (c *Client) Activate(ctx context.Context, version string) error {
 	request := &pb.ActivateRequest{Version: version}
 	utils.LogProto(request)
-	out, err := c.client.Activate(ctx, request)
+	response, err := c.client.Activate(ctx, request)
 	if err != nil {
 		return err
 	}
-	utils.LogProto(out)
-	switch out.Response.(type) {
+	utils.LogProto(response)
+	switch response.Response.(type) {
 	case *pb.ActivateResponse_ActivateOk:
 		return nil
 	case *pb.ActivateResponse_ActivateError:
-		res := out.GetActivateError()
+		res := response.GetActivateError()
 		switch res.GetType() {
 		case pb.ActivateError_UNSPECIFIED:
 			return fmt.Errorf("Unspecified ActivateError: %s", res.GetDetail())

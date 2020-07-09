@@ -65,12 +65,12 @@ func (c *Client) Rotate(ctx context.Context, certID string, minKeySize uint32, p
 	if err = stream.Send(request); err != nil {
 		return fmt.Errorf("failed to send GenerateCSRRequest: %v", err)
 	}
-	var req *pb.RotateCertificateResponse
-	if req, err = stream.Recv(); err != nil {
+	var response *pb.RotateCertificateResponse
+	if response, err = stream.Recv(); err != nil {
 		return fmt.Errorf("failed to receive RotateCertificateResponse: %v", err)
 	}
-	utils.LogProto(req)
-	genCSR := req.GetGeneratedCsr()
+	utils.LogProto(response)
+	genCSR := response.GetGeneratedCsr()
 	if genCSR == nil || genCSR.Csr == nil {
 		return fmt.Errorf("expected GenerateCSRRequest, got something else")
 	}
@@ -114,11 +114,11 @@ func (c *Client) Rotate(ctx context.Context, certID string, minKeySize uint32, p
 	if err = stream.Send(request); err != nil {
 		return fmt.Errorf("failed to send LoadCertificateRequest: %v", err)
 	}
-	if req, err = stream.Recv(); err != nil {
+	if response, err = stream.Recv(); err != nil {
 		return fmt.Errorf("failed to receive RotateCertificateResponse: %v", err)
 	}
-	utils.LogProto(req)
-	loadCertificateResponse := req.GetLoadCertificate()
+	utils.LogProto(response)
+	loadCertificateResponse := response.GetLoadCertificate()
 	if loadCertificateResponse == nil {
 		return fmt.Errorf("expected LoadCertificateResponse, got something else")
 	}
@@ -165,13 +165,13 @@ func (c *Client) Install(ctx context.Context, certID string, minKeySize uint32, 
 		return fmt.Errorf("failed to send GenerateCSRRequest: %v", err)
 	}
 
-	var req *pb.InstallCertificateResponse
-	if req, err = stream.Recv(); err != nil {
+	var response *pb.InstallCertificateResponse
+	if response, err = stream.Recv(); err != nil {
 		return fmt.Errorf("failed to receive InstallCertificateResponse: %v", err)
 	}
-	utils.LogProto(req)
+	utils.LogProto(response)
 
-	genCSR := req.GetGeneratedCsr()
+	genCSR := response.GetGeneratedCsr()
 	if genCSR == nil || genCSR.Csr == nil {
 		return fmt.Errorf("expected GenerateCSRRequest, got something else")
 	}
@@ -217,11 +217,11 @@ func (c *Client) Install(ctx context.Context, certID string, minKeySize uint32, 
 		return fmt.Errorf("failed to send LoadCertificateRequest: %v", err)
 	}
 
-	if req, err = stream.Recv(); err != nil {
+	if response, err = stream.Recv(); err != nil {
 		return fmt.Errorf("failed to receive InstallCertificateResponse: %v", err)
 	}
-	utils.LogProto(req)
-	loadCertificateResponse := req.GetLoadCertificate()
+	utils.LogProto(response)
+	loadCertificateResponse := response.GetLoadCertificate()
 	if loadCertificateResponse == nil {
 		return fmt.Errorf("expected LoadCertificateResponse, got something else")
 	}
@@ -232,13 +232,13 @@ func (c *Client) Install(ctx context.Context, certID string, minKeySize uint32, 
 func (c *Client) GetCertificates(ctx context.Context) (map[string]*x509.Certificate, error) {
 	request := &pb.GetCertificatesRequest{}
 	utils.LogProto(request)
-	out, err := c.client.GetCertificates(ctx, request)
+	response, err := c.client.GetCertificates(ctx, request)
 	if err != nil {
 		return nil, err
 	}
-	utils.LogProto(out)
+	utils.LogProto(response)
 	ret := map[string]*x509.Certificate{}
-	for _, certInfo := range out.CertificateInfo {
+	for _, certInfo := range response.CertificateInfo {
 		if certInfo.Certificate == nil {
 			continue
 		}
@@ -255,13 +255,13 @@ func (c *Client) GetCertificates(ctx context.Context) (map[string]*x509.Certific
 func (c *Client) RevokeCertificates(ctx context.Context, certIDs []string) (map[string]string, error) {
 	request := &pb.RevokeCertificatesRequest{CertificateId: certIDs}
 	utils.LogProto(request)
-	out, err := c.client.RevokeCertificates(ctx, request)
+	response, err := c.client.RevokeCertificates(ctx, request)
 	if err != nil {
 		return nil, err
 	}
-	utils.LogProto(out)
+	utils.LogProto(response)
 	ret := map[string]string{}
-	for _, revError := range out.CertificateRevocationError {
+	for _, revError := range response.CertificateRevocationError {
 		ret[revError.CertificateId] = revError.ErrorMessage
 	}
 	return ret, nil
@@ -275,10 +275,10 @@ func (c *Client) CanGenerateCSR(ctx context.Context) (bool, error) {
 		KeySize:         2048,
 	}
 	utils.LogProto(request)
-	out, err := c.client.CanGenerateCSR(ctx, request)
+	response, err := c.client.CanGenerateCSR(ctx, request)
 	if err != nil {
 		return false, err
 	}
-	utils.LogProto(out)
-	return out.CanGenerate, nil
+	utils.LogProto(response)
+	return response.CanGenerate, nil
 }
