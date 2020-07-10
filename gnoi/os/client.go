@@ -117,6 +117,11 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 		}
 	}
 
+	// Send TransferEnd to notify targe that last chunk has been transfered.
+	if err = install.Send(&pb.InstallRequest{Request: &pb.InstallRequest_TransferEnd{}}); err != nil {
+		return err
+	}
+
 	// Await for response from asynchronous receiver or timeout.
 	select {
 	case <-time.After(validateTimeout):
