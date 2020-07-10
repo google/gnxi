@@ -49,10 +49,10 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 	buffer := bytes.NewBuffer(file)
 	fileSize := uint64(buffer.Len())
 	install, err := c.client.Install(ctx)
-	defer install.CloseSend()
 	if err != nil {
 		return err
 	}
+	defer install.CloseSend()
 
 	// Send initial TransferRequest and await response.
 	if err = install.Send(&pb.InstallRequest{
