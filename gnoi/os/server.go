@@ -31,8 +31,8 @@ func NewServer(settings *Settings) *Server {
 	server := &Server{
 		manager: NewManager(settings.FactoryVersion),
 	}
-	for _, os := range settings.InstalledVersions {
-		server.manager.Install(os)
+	for _, version := range settings.InstalledVersions {
+		server.manager.Install(version, "")
 	}
 	server.manager.SetRunning(settings.FactoryVersion)
 	return server

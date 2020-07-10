@@ -23,7 +23,7 @@ import (
 func TestTargetActivate(t *testing.T) {
 	settings := &Settings{
 		FactoryVersion:    "1",
-		InstalledVersions: []string{"1.0.0a"},
+		InstalledVersions: []string{"1.0.0a", "2.0.1c"},
 	}
 	server := NewServer(settings)
 	tests := []struct {
@@ -60,8 +60,7 @@ func TestTargetVerify(t *testing.T) {
 	}{
 		{
 			settings: &Settings{
-				FactoryVersion:    "1",
-				InstalledVersions: []string{"1.0.0a", "2.0.1b"},
+				FactoryVersion: "1",
 			},
 			want: &pb.VerifyResponse{
 				Version: "1",

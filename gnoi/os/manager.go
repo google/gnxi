@@ -35,6 +35,7 @@ func NewManager(factoryVersion string) *Manager {
 	return &Manager{
 		osMap:          map[string]bool{factoryVersion: true},
 		factoryVersion: factoryVersion,
+		failMsgs:       map[string]string{},
 	}
 }
 
@@ -53,6 +54,7 @@ func (m *Manager) SetRunning(version string) error {
 }
 
 // Install installs an OS. It must be fully transfered and verified beforehand.
-func (m *Manager) Install(version string) {
+func (m *Manager) Install(version, activationFailMsg string) {
 	m.osMap[version] = true
+	m.failMsgs[version] = activationFailMsg
 }
