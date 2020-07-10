@@ -20,6 +20,7 @@ import (
 	"strings"
 
 	"github.com/google/gnxi/gnoi/reset/pb"
+	"github.com/google/gnxi/utils"
 	"google.golang.org/grpc"
 )
 
@@ -45,14 +46,17 @@ func NewClient(c *grpc.ClientConn) *Client {
 
 // ResetTarget invokes gRPC start service on the server.
 func (c *Client) ResetTarget(ctx context.Context, zeroFill, rollbackOS bool) *ResetError {
-	out, err := c.client.Start(ctx, &pb.StartRequest{
+	request := &pb.StartRequest{
 		FactoryOs: rollbackOS,
 		ZeroFill:  zeroFill,
-	})
+	}
+	utils.LogProto(request)
+	response, err := c.client.Start(ctx, request)
 	if err != nil {
 		return &ResetError{Msgs: []string{err.Error()}}
 	}
-	return CheckResponse(out)
+	utils.LogProto(response)
+	return CheckResponse(response)
 }
 
 // CheckResponse checks for errors.
