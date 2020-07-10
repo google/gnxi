@@ -104,13 +104,17 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 	}()
 
 	// Read from file in chunks, sending a chunk of the image each time.
-	for n := int64(0); n < int64(fileSize); n += int64(chunkSize) {
+	for n := int64(0); n < int64(fileSize)+int64(chunkSize); n += int64(chunkSize) {
 		b := make([]byte, chunkSize)
 		if len(recvErrs) > 0 {
 			return c.accumulateErrors(recvErrs)
 		}
-		if _, err = file.ReadAt(b, n); err != nil && err != io.EOF {
+		var readSize int
+		if readSize, err = file.ReadAt(b, n); err != nil && err != io.EOF {
 			return err
+		}
+		if readSize == 0 {
+			break
 		}
 		err = install.Send(&pb.InstallRequest{
 			Request: &pb.InstallRequest_TransferContent{TransferContent: b},
