@@ -16,11 +16,10 @@ limitations under the License.
 package os
 
 import (
-	"bytes"
 	"context"
 	"fmt"
 	"io"
-	"io/ioutil"
+	"os"
 	"time"
 
 	"github.com/google/gnxi/gnoi/os/pb"
@@ -42,12 +41,16 @@ func NewClient(c *grpc.ClientConn) *Client {
 // Install invokes the Install RPC for the OS service.
 func (c *Client) Install(ctx context.Context, imgPath, version string, printStatus bool, validateTimeout time.Duration) error {
 	// Read file to buffer.
-	file, err := ioutil.ReadFile(imgPath)
+	file, err := os.Open(imgPath)
 	if err != nil {
 		return err
 	}
-	buffer := bytes.NewBuffer(file)
-	fileSize := uint64(buffer.Len())
+	fileInfo, err := file.Stat()
+	if err != nil {
+		return err
+	}
+	fileSize := uint64(fileInfo.Size())
+
 	install, err := c.client.Install(ctx)
 	if err != nil {
 		return err
@@ -99,14 +102,13 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 		}
 	}()
 
-	// Run until buffer is depleted, sending a chunk of the image each time.
-	for buffer.Len() > 0 {
+	// Read from file in chunks, sending a chunk of the image each time.
+	for n := int64(0); n < int64(fileSize); n += int64(chunkSize) {
 		b := make([]byte, chunkSize)
 		if len(recvErrs) > 0 {
 			return c.accumulateErrors(recvErrs)
 		}
-		_, err = buffer.Read(b)
-		if err != nil && err != io.EOF {
+		if _, err = file.ReadAt(b, n); err != nil && err != io.EOF {
 			return err
 		}
 		err = install.Send(&pb.InstallRequest{
