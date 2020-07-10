@@ -18,10 +18,11 @@ import (
 
 // Manager for storing data on OS's.
 type Manager struct {
-	osMap          map[string]bool
-	failMsgs       map[string]string
-	runningVersion string
-	factoryVersion string
+	osMap                 map[string]bool
+	failMsgs              map[string]string
+	runningVersion        string
+	factoryVersion        string
+	activationFailMessage string
 }
 
 // Settings wraps OS Server initialization options.
@@ -46,6 +47,9 @@ func (m *Manager) IsRunning(version string) bool {
 
 // SetRunning sets the running OS to the version specified.
 func (m *Manager) SetRunning(version string) error {
+	if m.activationFailMessage = m.failMsgs[version]; m.activationFailMessage != "" {
+		return nil
+	}
 	if _, ok := m.osMap[version]; ok {
 		m.runningVersion = version
 		return nil

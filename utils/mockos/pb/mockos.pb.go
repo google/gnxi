@@ -35,7 +35,7 @@ func (m *MockOS) Reset()         { *m = MockOS{} }
 func (m *MockOS) String() string { return proto.CompactTextString(m) }
 func (*MockOS) ProtoMessage()    {}
 func (*MockOS) Descriptor() ([]byte, []int) {
-	return fileDescriptor_mockos_926e60b6a7b73f9d, []int{0}
+	return fileDescriptor_mockos_b5486c52a59d8971, []int{0}
 }
 func (m *MockOS) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_MockOS.Unmarshal(m, b)
@@ -101,9 +101,9 @@ func init() {
 	proto.RegisterType((*MockOS)(nil), "pb.MockOS")
 }
 
-func init() { proto.RegisterFile("mockos.proto", fileDescriptor_mockos_926e60b6a7b73f9d) }
+func init() { proto.RegisterFile("mockos.proto", fileDescriptor_mockos_b5486c52a59d8971) }
 
-var fileDescriptor_mockos_926e60b6a7b73f9d = []byte{
+var fileDescriptor_mockos_b5486c52a59d8971 = []byte{
 	// 188 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x54, 0x8f, 0xc1, 0x8a, 0x83, 0x30,
 	0x10, 0x40, 0x89, 0xeb, 0x66, 0x77, 0x83, 0xa7, 0xc0, 0xee, 0xe6, 0x28, 0x9e, 0x3c, 0xf5, 0x52,

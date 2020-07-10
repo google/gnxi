@@ -21,5 +21,5 @@ message MockOS {
     bytes padding = 3; // Random bytes to fill size.
     bytes hash = 4; 
     bool incompatible = 5; // If true then the OS package is valid but incompatible with the mock target.
-    string activation_fail_message = 6;
+    string activation_fail_message = 6; // When set, activation of this OS will fail with this message.
 }

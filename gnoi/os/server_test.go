@@ -75,3 +75,50 @@ func TestTargetVerify(t *testing.T) {
 		}
 	}
 }
+
+func TestTargetVerifyFail(t *testing.T) {
+	tests := []struct {
+		settings *Settings
+		want     *pb.VerifyResponse
+	}{
+		{
+			settings: &Settings{
+				FactoryVersion: "1",
+			},
+			want: &pb.VerifyResponse{
+				Version:               "1",
+				ActivationFailMessage: "Failed to activate OS...",
+			},
+		},
+	}
+	for _, test := range tests {
+		server := NewServer(test.settings)
+		server.manager.activationFailMessage = "Failed to activate OS..."
+		got, _ := server.Verify(context.Background(), &pb.VerifyRequest{})
+		if diff := pretty.Compare(test.want, got); diff != "" {
+			t.Errorf("Verify(context.Background(), &pb.VerifyRequest{}): (-want +got):\n%s", diff)
+		}
+	}
+}
+
+func TestTargetActivateAndVerify(t *testing.T) {
+	test := struct {
+		settings *Settings
+		want     *pb.VerifyResponse
+	}{
+		settings: &Settings{
+			FactoryVersion: "1",
+		},
+		want: &pb.VerifyResponse{
+			Version:               "1",
+			ActivationFailMessage: "Failed to activate OS...",
+		},
+	}
+	server := NewServer(test.settings)
+	server.manager.Install("1.0.1a", "Failed to activate OS...")
+	server.Activate(context.Background(), &pb.ActivateRequest{Version: "1.0.1a"})
+	got, _ := server.Verify(context.Background(), &pb.VerifyRequest{})
+	if diff := pretty.Compare(test.want, got); diff != "" {
+		t.Errorf("Verify(context.Background(), &pb.VerifyRequest{}): (-want +got):\n%s", diff)
+	}
+}

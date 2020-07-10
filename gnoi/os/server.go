@@ -22,8 +22,7 @@ import (
 // Server is an OS Management service.
 type Server struct {
 	pb.OSServer
-	manager               *Manager
-	activationFailMessage string
+	manager *Manager
 }
 
 // NewServer returns an OS Management service.
@@ -45,17 +44,13 @@ func (s *Server) Register(g *grpc.Server) {
 
 // Activate sets the requested OS version as the version which is used at the next reboot, and reboots the Target.
 func (s *Server) Activate(ctx context.Context, request *pb.ActivateRequest) (*pb.ActivateResponse, error) {
-	if msg := s.manager.failMsgs[request.Version]; msg != "" {
-		s.activationFailMessage = msg
-	} else if err := s.manager.SetRunning(request.Version); err != nil {
+	if err := s.manager.SetRunning(request.Version); err != nil {
 		return &pb.ActivateResponse{
 			Response: &pb.ActivateResponse_ActivateError{
 				ActivateError: &pb.ActivateError{
 					Type: pb.ActivateError_NON_EXISTENT_VERSION,
 				},
 			}}, nil
-	} else {
-		s.activationFailMessage = ""
 	}
 	return &pb.ActivateResponse{Response: &pb.ActivateResponse_ActivateOk{}}, nil
 }
@@ -64,6 +59,6 @@ func (s *Server) Activate(ctx context.Context, request *pb.ActivateRequest) (*pb
 func (s *Server) Verify(ctx context.Context, _ *pb.VerifyRequest) (*pb.VerifyResponse, error) {
 	return &pb.VerifyResponse{
 		Version:               s.manager.runningVersion,
-		ActivationFailMessage: s.activationFailMessage,
+		ActivationFailMessage: s.manager.activationFailMessage,
 	}, nil
 }
