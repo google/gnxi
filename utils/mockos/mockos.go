@@ -21,6 +21,7 @@ import (
 
 	"github.com/dustin/go-humanize"
 	"github.com/golang/protobuf/proto"
+	osPb "github.com/google/gnxi/gnoi/os/pb"
 	"github.com/google/gnxi/utils/mockos/pb"
 )
 
@@ -81,15 +82,18 @@ func GenerateOS(filename, version, size, activationFailMessage string, incompati
 }
 
 // ValidateOS unmarshals the serialized OS proto and verifies the OS package's integrity.
-func ValidateOS(buf *bytes.Buffer) (*OS, error) {
-	var mockOs *OS
+func ValidateOS(buf *bytes.Buffer) (*OS, error, *osPb.InstallResponse_InstallError) {
+	mockOs := &OS{MockOS: pb.MockOS{}}
 	if err := proto.Unmarshal(buf.Bytes(), &mockOs.MockOS); err != nil {
-		return nil, err
+		return nil, err, &osPb.InstallResponse_InstallError{&osPb.InstallError{Type: osPb.InstallError_PARSE_FAIL}}
 	}
 	if !mockOs.CheckHash() {
-		return nil, errors.New("Hash check failed!")
+		return nil, errors.New("Hash check failed!"), &osPb.InstallResponse_InstallError{&osPb.InstallError{Type: osPb.InstallError_INTEGRITY_FAIL}}
 	}
-	return mockOs, nil
+	if mockOs.Incompatible {
+		return nil, errors.New("OS Unsupported!"), &osPb.InstallResponse_InstallError{&osPb.InstallError{Type: osPb.InstallError_INCOMPATIBLE, Detail: "Unsupported OS Version"}}
+	}
+	return mockOs, nil, nil
 }
 
 // calcHash returns the md5 hash of the OS.
