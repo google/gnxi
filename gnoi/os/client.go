@@ -20,6 +20,7 @@ import (
 	"fmt"
 
 	"github.com/google/gnxi/gnoi/os/pb"
+	"github.com/google/gnxi/utils"
 	"google.golang.org/grpc"
 )
 
@@ -35,15 +36,18 @@ func NewClient(c *grpc.ClientConn) *Client {
 
 // Activate invokes the Activate RPC for the OS service.
 func (c *Client) Activate(ctx context.Context, version string) error {
-	out, err := c.client.Activate(ctx, &pb.ActivateRequest{Version: version})
+	request := &pb.ActivateRequest{Version: version}
+	utils.LogProto(request)
+	response, err := c.client.Activate(ctx, request)
 	if err != nil {
 		return err
 	}
-	switch out.Response.(type) {
+	utils.LogProto(response)
+	switch response.Response.(type) {
 	case *pb.ActivateResponse_ActivateOk:
 		return nil
 	case *pb.ActivateResponse_ActivateError:
-		res := out.GetActivateError()
+		res := response.GetActivateError()
 		switch res.GetType() {
 		case pb.ActivateError_UNSPECIFIED:
 			return fmt.Errorf("Unspecified ActivateError: %s", res.GetDetail())
@@ -54,4 +58,15 @@ func (c *Client) Activate(ctx context.Context, version string) error {
 		}
 	}
 	return nil
+}
+
+// Verify invokes the Verify RPC for the OS service.
+func (c *Client) Verify(ctx context.Context) (version, activationFailMsg string, err error) {
+	var out *pb.VerifyResponse
+	if out, err = c.client.Verify(ctx, &pb.VerifyRequest{}); err != nil {
+		return
+	}
+	version = out.GetVersion()
+	activationFailMsg = out.GetActivationFailMessage()
+	return
 }
