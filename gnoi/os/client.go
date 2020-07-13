@@ -26,22 +26,34 @@ import (
 	"google.golang.org/grpc"
 )
 
+// image represents the methods used to interface with an image file.
+type image interface {
+	io.ReaderAt
+	Stat() (os.FileInfo, error)
+}
+
+type imageReader func(string) (image, error)
+
 // Client handles requesting OS RPCs.
 type Client struct {
 	client pb.OSClient
+	reader imageReader
 }
 
 const chunkSize = 5000000
 
 // NewClient returns a new OS service client.
-func NewClient(c *grpc.ClientConn) *Client {
-	return &Client{client: pb.NewOSClient(c)}
+func NewClient(c *grpc.ClientConn, reader imageReader) *Client {
+	return &Client{client: pb.NewOSClient(c), reader: reader}
 }
 
 // Install invokes the Install RPC for the OS service.
 func (c *Client) Install(ctx context.Context, imgPath, version string, printStatus bool, validateTimeout time.Duration) error {
 	// Open and Stat OS image.
-	file, err := os.Open(imgPath)
+	if c.reader == nil {
+		return fmt.Errorf("No reader passed to client")
+	}
+	file, err := c.reader(imgPath)
 	if err != nil {
 		return err
 	}
