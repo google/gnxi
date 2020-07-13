@@ -18,6 +18,7 @@ package main
 import (
 	"context"
 	"flag"
+	"os"
 	"time"
 
 	log "github.com/golang/glog"
@@ -53,7 +54,7 @@ func main() {
 	}
 	defer conn.Close()
 
-	client = gnoiOS.NewClient(conn)
+	client = gnoiOS.NewClient(conn, os.Open)
 	ctx, cancel = context.WithTimeout(context.Background(), *timeOut)
 	defer cancel()
 

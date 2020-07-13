@@ -27,14 +27,8 @@ import (
 	"google.golang.org/grpc"
 )
 
-// image represents the methods used to interface with an image file.
-type image interface {
-	io.ReaderAt
-	Stat() (os.FileInfo, error)
-}
-
 // imageReader function signature.
-type imageReader func(string) (image, error)
+type imageReader func(string) (*os.File, error)
 
 // Client handles requesting OS RPCs.
 type Client struct {
