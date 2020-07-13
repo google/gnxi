@@ -27,19 +27,29 @@ import (
 	"google.golang.org/grpc"
 )
 
-// imageReader function signature.
-type imageReader func(string) (*os.File, error)
-
 // Client handles requesting OS RPCs.
 type Client struct {
 	client pb.OSClient
-	read   imageReader
+	read   func(string) (file io.ReaderAt, size uint64, err error)
 }
 
 const chunkSize = 5000000
 
 // NewClient returns a new OS service client.
-func NewClient(c *grpc.ClientConn, reader imageReader) *Client {
+func NewClient(c *grpc.ClientConn) *Client {
+	reader := func(path string) (file io.ReaderAt, size uint64, err error) {
+		f, err := os.Open(path)
+		if err != nil {
+			return
+		}
+		fileInfo, err := f.Stat()
+		if err != nil {
+			return
+		}
+		size = uint64(fileInfo.Size())
+		file = f
+		return
+	}
 	return &Client{client: pb.NewOSClient(c), read: reader}
 }
 
@@ -49,15 +59,7 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 	if c.read == nil {
 		return fmt.Errorf("No reader passed to client")
 	}
-	file, err := c.read(imgPath)
-	if err != nil {
-		return err
-	}
-	fileInfo, err := file.Stat()
-	if err != nil {
-		return err
-	}
-	fileSize := uint64(fileInfo.Size())
+	file, fileSize, err := c.read(imgPath)
 
 	// Create Install client for streaming.
 	install, err := c.client.Install(ctx)

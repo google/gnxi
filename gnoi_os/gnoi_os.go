@@ -54,7 +54,7 @@ func main() {
 	}
 	defer conn.Close()
 
-	client = gnoiOS.NewClient(conn, os.Open)
+	client = gnoiOS.NewClient(conn)
 	ctx, cancel = context.WithTimeout(context.Background(), *timeOut)
 	defer cancel()
 
