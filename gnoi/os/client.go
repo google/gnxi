@@ -83,14 +83,14 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 	if err != nil {
 		return err
 	}
-	_, validated, err := c.validateInstallRequest(transferResp)
+	_, validated, err := validateInstallResponse(transferResp)
 	if err != nil {
 		return err
 	}
 	if validated {
 		return fmt.Errorf("OS already installed on target")
 	}
-	recvErrs := make(chan error)
+	recvErrs := make(chan error, chunkSize)
 	recvValidated := make(chan bool, 1)
 
 	// Goroutine to receive responses while sending requests allowing for
@@ -103,7 +103,7 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 				recvErrs <- err
 				continue
 			}
-			progress, validated, err := c.validateInstallRequest(resp)
+			progress, validated, err := validateInstallResponse(resp)
 			if err != nil {
 				recvErrs <- err
 				continue
@@ -149,14 +149,17 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 	case <-time.After(validateTimeout):
 		return fmt.Errorf("Validation timed out")
 	case err = <-recvErrs:
-		return fmt.Errorf("%w; %s", c.accumulateErrors(recvErrs), err.Error())
+		if len(recvErrs) > 0 {
+			return fmt.Errorf("%w; %s", c.accumulateErrors(recvErrs), err.Error())
+		}
+		return err
 	case <-recvValidated:
 		return nil
 	}
 }
 
-// validateInstallRequest will validate an InstallRequest.
-func (c *Client) validateInstallRequest(response *pb.InstallResponse) (progress uint64, validated bool, err error) {
+// validateInstallResponse will validate an InstallResponse.
+func validateInstallResponse(response *pb.InstallResponse) (progress uint64, validated bool, err error) {
 	switch resp := response.Response.(type) {
 	case *pb.InstallResponse_Validated:
 		validated = true
@@ -186,6 +189,7 @@ func (c *Client) accumulateErrors(recvErrs chan error) error {
 	if err == nil {
 		return nil
 	}
+
 	for len(recvErrs) > 0 {
 		err = fmt.Errorf("%s; %w", (<-recvErrs).Error(), err)
 	}
