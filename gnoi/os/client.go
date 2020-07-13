@@ -179,7 +179,7 @@ func (c *Client) validateInstallRequest(response *pb.InstallResponse) (progress 
 	}
 }
 
-// accumulateErrors will deplete erros from a channel and consolidate them.
+// accumulateErrors will deplete errors from a channel and consolidate them.
 func (c *Client) accumulateErrors(recvErrs chan error) error {
 	err := <-recvErrs
 	if err == nil {
