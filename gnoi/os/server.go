@@ -111,6 +111,7 @@ streamingProgress:
 	return nil
 }
 
+// ReceiveOS receives and parses requests from stream, storing OS package into a buffer.
 func ReceiveOS(stream pb.OS_InstallServer, errorChan chan error, updateProgress chan uint64, transferredOS chan *bytes.Buffer) {
 	bb := new(bytes.Buffer)
 	prev := 0
