@@ -81,20 +81,31 @@ func (s *Server) Install(stream pb.OS_InstallServer) error {
 		stream.Send(response)
 		return errors.New("Another install is already in progress")
 	}
-	s.manager.SetInstallInProgress(true)
-	defer s.manager.SetInstallInProgress(false)
-
+	if s.manager.IsRunning(transferRequest.Version) {
+		response = &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{
+			InstallError: &pb.InstallError{Type: pb.InstallError_INSTALL_RUN_PACKAGE},
+		}}
+		utils.LogProto(response)
+		stream.Send(response)
+		return errors.New("Attempting to force transfer an OS of the same version as the currently running OS")
+	}
 	if version := transferRequest.Version; s.manager.IsInstalled(version) {
 		response = &pb.InstallResponse{Response: &pb.InstallResponse_Validated{
 			Validated: &pb.Validated{
 				Version: version,
 			},
 		}}
+		utils.LogProto(response)
 		if err = stream.Send(response); err != nil {
 			return err
 		}
+		return nil
 	}
+	s.manager.SetInstallInProgress(true)
+	defer s.manager.SetInstallInProgress(false)
+
 	response = &pb.InstallResponse{Response: &pb.InstallResponse_TransferReady{TransferReady: &pb.TransferReady{}}}
+	utils.LogProto(response)
 	if err = stream.Send(response); err != nil {
 		return err
 	}
@@ -126,6 +137,7 @@ streamingProgress:
 		stream.Send(&pb.InstallResponse{Response: errResponse})
 		return err
 	}
+
 	s.manager.Install(mockOS.Version, mockOS.ActivationFailMessage)
 	return nil
 }
