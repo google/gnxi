@@ -22,6 +22,7 @@ import (
 	"io"
 
 	"github.com/google/gnxi/gnoi/os/pb"
+	"github.com/google/gnxi/utils"
 	"github.com/google/gnxi/utils/mockos"
 	"google.golang.org/grpc"
 )
@@ -33,7 +34,8 @@ const (
 // Server is an OS Management service.
 type Server struct {
 	pb.OSServer
-	manager *Manager
+	manager           *Manager
+	installInProgress bool
 }
 
 // NewServer returns an OS Management service.
@@ -62,28 +64,40 @@ func (s *Server) Activate(ctx context.Context, request *pb.ActivateRequest) (*pb
 
 // Install receives an OS package, validates the package and then installs the package.
 func (s *Server) Install(stream pb.OS_InstallServer) error {
-	var resp *pb.InstallRequest
+	var request *pb.InstallRequest
+	var response *pb.InstallResponse
 	var err error
-	if resp, err = stream.Recv(); err != nil {
+	if request, err = stream.Recv(); err != nil {
 		return err
 	}
-	transferRequest := resp.GetTransferRequest()
+	utils.LogProto(request)
+	transferRequest := request.GetTransferRequest()
 	if transferRequest == nil {
-		return errors.New("failed to receive TransferRequest")
+		return errors.New("Failed to receive TransferRequest")
 	}
+	if s.manager.InstallInProgress() {
+		response = &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_INSTALL_IN_PROGRESS}}}
+		utils.LogProto(response)
+		stream.Send(response)
+		return errors.New("Another install is already in progress")
+	}
+	s.manager.SetInstallInProgress(true)
+	defer s.manager.SetInstallInProgress(false)
+
 	if version := transferRequest.Version; s.manager.IsInstalled(version) {
-		if err = stream.Send(&pb.InstallResponse{Response: &pb.InstallResponse_Validated{
+		response = &pb.InstallResponse{Response: &pb.InstallResponse_Validated{
 			Validated: &pb.Validated{
 				Version: version,
 			},
-		}}); err != nil {
+		}}
+		if err = stream.Send(response); err != nil {
 			return err
 		}
 	}
-	if err = stream.Send(&pb.InstallResponse{Response: &pb.InstallResponse_TransferReady{TransferReady: &pb.TransferReady{}}}); err != nil {
+	response = &pb.InstallResponse{Response: &pb.InstallResponse_TransferReady{TransferReady: &pb.TransferReady{}}}
+	if err = stream.Send(response); err != nil {
 		return err
 	}
-
 	errorChan := make(chan error)
 	updateProgress := make(chan uint64)
 	transferredOS := make(chan *bytes.Buffer)
@@ -96,16 +110,21 @@ streamingProgress:
 		case err = <-errorChan:
 			return err
 		case size := <-updateProgress:
-			stream.Send(&pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{
+			response = &pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{
 				TransferProgress: &pb.TransferProgress{BytesReceived: size},
-			}})
+			}}
+			utils.LogProto(response)
+			if err = stream.Send(response); err != nil {
+				return err
+			}
 		case bb = <-transferredOS:
 			break streamingProgress
 		}
 	}
 	mockOS, err, errResponse := mockos.ValidateOS(bb)
 	if err != nil {
-		stream.Send(&pb.InstallResponse{Response: errResponse}})
+		stream.Send(&pb.InstallResponse{Response: errResponse})
+		return err
 	}
 	s.manager.Install(mockOS.Version, mockOS.ActivationFailMessage)
 	return nil
@@ -117,17 +136,20 @@ func ReceiveOS(stream pb.OS_InstallServer, errorChan chan error, updateProgress 
 	for {
 		in, err := stream.Recv()
 		if err == io.EOF {
+			errorChan <- nil
 			return
 		}
 		if err != nil {
 			errorChan <- err
 			return
 		}
+		utils.LogProto(in)
 		switch in.Request.(type) {
 		case *pb.InstallRequest_TransferContent:
 			bb.Write(in.GetTransferContent())
 		case *pb.InstallRequest_TransferEnd:
 			transferredOS <- bb
+			errorChan <- nil
 			return
 		default:
 			errorChan <- errors.New("Unknown request type")

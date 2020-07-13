@@ -21,9 +21,10 @@ import (
 
 // Manager for storing data on OS's.
 type Manager struct {
-	osMap          map[string]bool
-	runningVersion string
-	factoryVersion string
+	osMap             map[string]bool
+	runningVersion    string
+	factoryVersion    string
+	installInProgress bool
 }
 
 // Settings wraps OS Server initialization options.
@@ -62,4 +63,12 @@ func (m *Manager) Install(version string) {
 // IsInstalled returns true if the OS is installed.
 func (m *Manager) IsInstalled(version string) bool {
 	return m.osMap[version]
+}
+
+func (m *Manager) InstallInProgress() bool {
+	return m.installInProgress
+}
+
+func (m *Manager) SetInstallInProgress(state bool) {
+	m.installInProgress = state
 }
