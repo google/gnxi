@@ -105,7 +105,7 @@ streamingProgress:
 	}
 	mockOS, err, errResponse := mockos.ValidateOS(bb)
 	if err != nil {
-		stream.Send(&pb.InstallResponse{Response: errResponse}})
+		stream.Send(&pb.InstallResponse{Response: errResponse})
 	}
 	s.manager.Install(mockOS.Version, mockOS.ActivationFailMessage)
 	return nil
