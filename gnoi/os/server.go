@@ -134,7 +134,9 @@ streamingProgress:
 	}
 	mockOS, err, errResponse := mockos.ValidateOS(bb)
 	if err != nil {
-		stream.Send(&pb.InstallResponse{Response: errResponse})
+		response = &pb.InstallResponse{Response: errResponse}
+		utils.LogProto(response)
+		stream.Send(response)
 		return err
 	}
 
