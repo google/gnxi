@@ -22,6 +22,7 @@ import (
 	"io"
 
 	"github.com/google/gnxi/gnoi/os/pb"
+	"github.com/google/gnxi/utils/mockos"
 	"google.golang.org/grpc"
 )
 
@@ -85,36 +86,10 @@ func (s *Server) Install(stream pb.OS_InstallServer) error {
 
 	errorChan := make(chan error)
 	updateProgress := make(chan uint64)
-	transferComplete := make(chan bool)
-	bb := new(bytes.Buffer)
-	go func() {
-		prev := 0
-		for {
-			in, err := stream.Recv()
-			if err == io.EOF {
-				return
-			}
-			if err != nil {
-				errorChan <- err
-				return
-			}
-			switch in.Request.(type) {
-			case *pb.InstallRequest_TransferContent:
-				bb.Write(in.GetTransferContent())
-			case *pb.InstallRequest_TransferEnd:
-				transferComplete <- true
-				return
-			default:
-				errorChan <- errors.New("Unknown request type")
-				return
-			}
-			if curr := bb.Len() / chunkSize; curr > prev {
-				prev = curr
-				updateProgress <- uint64(bb.Len())
-			}
-		}
-	}()
+	transferredOS := make(chan *bytes.Buffer)
+	go ReceiveOS(stream, errorChan, updateProgress, transferredOS)
 
+	var bb *bytes.Buffer
 streamingProgress:
 	for {
 		select {
@@ -124,9 +99,43 @@ streamingProgress:
 			stream.Send(&pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{
 				TransferProgress: &pb.TransferProgress{BytesReceived: size},
 			}})
-		case <-transferComplete:
+		case bb = <-transferredOS:
 			break streamingProgress
 		}
 	}
+	mockOS, err, errResponse := mockos.ValidateOS(bb)
+	if err != nil {
+		stream.Send(&pb.InstallResponse{Response: errResponse}})
+	}
+	s.manager.Install(mockOS.Version, mockOS.ActivationFailMessage)
 	return nil
+}
+
+func ReceiveOS(stream pb.OS_InstallServer, errorChan chan error, updateProgress chan uint64, transferredOS chan *bytes.Buffer) {
+	bb := new(bytes.Buffer)
+	prev := 0
+	for {
+		in, err := stream.Recv()
+		if err == io.EOF {
+			return
+		}
+		if err != nil {
+			errorChan <- err
+			return
+		}
+		switch in.Request.(type) {
+		case *pb.InstallRequest_TransferContent:
+			bb.Write(in.GetTransferContent())
+		case *pb.InstallRequest_TransferEnd:
+			transferredOS <- bb
+			return
+		default:
+			errorChan <- errors.New("Unknown request type")
+			return
+		}
+		if curr := bb.Len() / chunkSize; curr > prev {
+			prev = curr
+			updateProgress <- uint64(bb.Len())
+		}
+	}
 }
