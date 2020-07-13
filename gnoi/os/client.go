@@ -33,28 +33,29 @@ type image interface {
 	Stat() (os.FileInfo, error)
 }
 
+// imageReader function signature.
 type imageReader func(string) (image, error)
 
 // Client handles requesting OS RPCs.
 type Client struct {
 	client pb.OSClient
-	reader imageReader
+	read   imageReader
 }
 
 const chunkSize = 5000000
 
 // NewClient returns a new OS service client.
 func NewClient(c *grpc.ClientConn, reader imageReader) *Client {
-	return &Client{client: pb.NewOSClient(c), reader: reader}
+	return &Client{client: pb.NewOSClient(c), read: reader}
 }
 
 // Install invokes the Install RPC for the OS service.
 func (c *Client) Install(ctx context.Context, imgPath, version string, printStatus bool, validateTimeout time.Duration) error {
 	// Open and Stat OS image.
-	if c.reader == nil {
+	if c.read == nil {
 		return fmt.Errorf("No reader passed to client")
 	}
-	file, err := c.reader(imgPath)
+	file, err := c.read(imgPath)
 	if err != nil {
 		return err
 	}
