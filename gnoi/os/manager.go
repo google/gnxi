@@ -58,3 +58,8 @@ func (m *Manager) SetRunning(version string) error {
 func (m *Manager) Install(version string) {
 	m.osMap[version] = true
 }
+
+// IsInstalled returns true if the OS is installed.
+func (m *Manager) IsInstalled(version string) bool {
+	return m.osMap[version]
+}

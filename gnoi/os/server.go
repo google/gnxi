@@ -16,10 +16,17 @@ limitations under the License.
 package os
 
 import (
+	"bytes"
 	"context"
+	"errors"
+	"io"
 
 	"github.com/google/gnxi/gnoi/os/pb"
 	"google.golang.org/grpc"
+)
+
+const (
+	chunkSize = 1000000
 )
 
 // Server is an OS Management service.
@@ -50,4 +57,76 @@ func (s *Server) Activate(ctx context.Context, request *pb.ActivateRequest) (*pb
 		}}, nil
 	}
 	return &pb.ActivateResponse{Response: &pb.ActivateResponse_ActivateOk{}}, nil
+}
+
+// Install receives an OS package, validates the package and then installs the package.
+func (s *Server) Install(stream pb.OS_InstallServer) error {
+	var resp *pb.InstallRequest
+	var err error
+	if resp, err = stream.Recv(); err != nil {
+		return err
+	}
+	transferRequest := resp.GetTransferRequest()
+	if transferRequest == nil {
+		return errors.New("failed to receive TransferRequest")
+	}
+	if version := transferRequest.Version; s.manager.IsInstalled(version) {
+		if err = stream.Send(&pb.InstallResponse{Response: &pb.InstallResponse_Validated{
+			Validated: &pb.Validated{
+				Version: version,
+			},
+		}}); err != nil {
+			return err
+		}
+	}
+	if err = stream.Send(&pb.InstallResponse{Response: &pb.InstallResponse_TransferReady{TransferReady: &pb.TransferReady{}}}); err != nil {
+		return err
+	}
+
+	errorChan := make(chan error)
+	updateProgress := make(chan uint64)
+	transferComplete := make(chan bool)
+	bb := new(bytes.Buffer)
+	go func() {
+		prev := 0
+		for {
+			in, err := stream.Recv()
+			if err == io.EOF {
+				return
+			}
+			if err != nil {
+				errorChan <- err
+				return
+			}
+			switch in.Request.(type) {
+			case *pb.InstallRequest_TransferContent:
+				bb.Write(in.GetTransferContent())
+			case *pb.InstallRequest_TransferEnd:
+				transferComplete <- true
+				return
+			default:
+				errorChan <- errors.New("Unknown request type")
+				return
+			}
+			if curr := bb.Len() / chunkSize; curr > prev {
+				prev = curr
+				updateProgress <- uint64(bb.Len())
+			}
+		}
+	}()
+
+streamingProgress:
+	for {
+		select {
+		case err = <-errorChan:
+			return err
+		case size := <-updateProgress:
+			stream.Send(&pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{
+				TransferProgress: &pb.TransferProgress{BytesReceived: size},
+			}})
+		case <-transferComplete:
+			break streamingProgress
+		}
+	}
+	return nil
 }
