@@ -30,14 +30,14 @@ import (
 // Client handles requesting OS RPCs.
 type Client struct {
 	client pb.OSClient
-	read   func(string) (file io.ReaderAt, size uint64, err error)
+	read   func(string) (file io.ReaderAt, size uint64, close func() error, err error)
 }
 
 const chunkSize = 5000000
 
 // NewClient returns a new OS service client.
 func NewClient(c *grpc.ClientConn) *Client {
-	reader := func(path string) (file io.ReaderAt, size uint64, err error) {
+	reader := func(path string) (file io.ReaderAt, size uint64, close func() error, err error) {
 		f, err := os.Open(path)
 		if err != nil {
 			return
@@ -48,6 +48,7 @@ func NewClient(c *grpc.ClientConn) *Client {
 		}
 		size = uint64(fileInfo.Size())
 		file = f
+		close = f.Close
 		return
 	}
 	return &Client{client: pb.NewOSClient(c), read: reader}
@@ -59,7 +60,11 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 	if c.read == nil {
 		return fmt.Errorf("No reader passed to client")
 	}
-	file, fileSize, err := c.read(imgPath)
+	file, fileSize, fileClose, err := c.read(imgPath)
+	if err != nil {
+		return err
+	}
+	defer fileClose()
 
 	// Create Install client for streaming.
 	install, err := c.client.Install(ctx)
