@@ -18,7 +18,6 @@ package main
 import (
 	"context"
 	"flag"
-	"os"
 	"time"
 
 	log "github.com/golang/glog"
