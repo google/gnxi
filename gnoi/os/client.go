@@ -123,7 +123,6 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 				if printStatus {
 					fmt.Printf("%d%% transferred\n", resp.TransferProgress.GetBytesReceived()/fileSize)
 				}
-				return
 			case *pb.InstallResponse_Validated:
 				utils.LogProto(response)
 				validated <- true
@@ -133,13 +132,16 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 				installErr := resp.InstallError
 				if installErr.GetType() == pb.InstallError_UNSPECIFIED {
 					err = fmt.Errorf("Unspecified InstallError error: %s", installErr.GetDetail())
+					errs <- err
 					return
 				}
 				err = fmt.Errorf("InstallError occured: %s", installErr.GetType().String())
+				errs <- err
 				return
 			default:
 				utils.LogProto(response)
 				err = fmt.Errorf("Unexpected response: %T(%v)", resp, resp)
+				errs <- err
 				return
 			}
 		}
