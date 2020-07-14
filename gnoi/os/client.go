@@ -59,7 +59,6 @@ func NewClient(c *grpc.ClientConn) *Client {
 
 // Install invokes the Install RPC for the OS service.
 func (c *Client) Install(ctx context.Context, imgPath, version string, printStatus bool, validateTimeout time.Duration) error {
-	// Open and Stat OS image.
 	file, fileSize, fileClose, err := fileReader(imgPath)
 	if err != nil {
 		return err
