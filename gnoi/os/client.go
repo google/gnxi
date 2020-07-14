@@ -22,6 +22,7 @@ import (
 	"os"
 	"time"
 
+	log "github.com/golang/glog"
 	"github.com/google/gnxi/gnoi/os/pb"
 	"github.com/google/gnxi/utils"
 	"google.golang.org/grpc"
@@ -91,6 +92,7 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 	utils.LogProto(transferResp)
 	switch resp := transferResp.Response.(type) {
 	case *pb.InstallResponse_Validated:
+		log.Info("OS already validated")
 		return nil
 	case *pb.InstallResponse_InstallError:
 		installErr := resp.InstallError
