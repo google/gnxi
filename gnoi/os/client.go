@@ -27,39 +27,40 @@ import (
 	"google.golang.org/grpc"
 )
 
+var fileReader = func(path string) (file io.ReaderAt, size uint64, close func() error, err error) {
+	var f *os.File
+	f, err = os.Open(path)
+	if err != nil {
+		return
+	}
+	var fileInfo os.FileInfo
+	fileInfo, err = f.Stat()
+	if err != nil {
+		return
+	}
+	size = uint64(fileInfo.Size())
+	file = f
+	close = f.Close
+	return
+}
+
 // Client handles requesting OS RPCs.
 type Client struct {
 	client pb.OSClient
-	read   func(string) (file io.ReaderAt, size uint64, close func() error, err error)
 }
 
 const chunkSize = 5000000
 
 // NewClient returns a new OS service client.
 func NewClient(c *grpc.ClientConn) *Client {
-	reader := func(path string) (file io.ReaderAt, size uint64, close func() error, err error) {
-		var f *os.File
-		f, err = os.Open(path)
-		if err != nil {
-			return
-		}
-		var fileInfo os.FileInfo
-		fileInfo, err = f.Stat()
-		if err != nil {
-			return
-		}
-		size = uint64(fileInfo.Size())
-		file = f
-		close = f.Close
-		return
-	}
-	return &Client{client: pb.NewOSClient(c), read: reader}
+
+	return &Client{client: pb.NewOSClient(c)}
 }
 
 // Install invokes the Install RPC for the OS service.
 func (c *Client) Install(ctx context.Context, imgPath, version string, printStatus bool, validateTimeout time.Duration) error {
 	// Open and Stat OS image.
-	file, fileSize, fileClose, err := c.read(imgPath)
+	file, fileSize, fileClose, err := fileReader(imgPath)
 	if err != nil {
 		return err
 	}
