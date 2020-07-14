@@ -63,7 +63,7 @@ func TestSetRunning(t *testing.T) {
 func TestInstall(t *testing.T) {
 	t.Run("Is installed", func(t *testing.T) {
 		manager := NewManager("new")
-		manager.Install("newer")
+		manager.Install("newer", "")
 		if _, ok := manager.osMap["newer"]; !ok {
 			t.Error("OS not installed")
 		}

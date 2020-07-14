@@ -1,11 +1,8 @@
 /* Copyright 2020 Google Inc.
-
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
-
     https://www.apache.org/licenses/LICENSE-2.0
-
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,7 +16,8 @@ import (
 	"bytes"
 	"context"
 	"errors"
-	"io"
+	"fmt"
+	"log"
 
 	"github.com/google/gnxi/gnoi/os/pb"
 	"github.com/google/gnxi/utils"
@@ -34,16 +32,21 @@ const (
 // Server is an OS Management service.
 type Server struct {
 	pb.OSServer
-	manager           *Manager
-	installInProgress bool
+	manager     *Manager
+	InstallLock chan bool
 }
 
 // NewServer returns an OS Management service.
 func NewServer(settings *Settings) *Server {
-	server := &Server{manager: NewManager(settings.FactoryVersion)}
-	for _, os := range settings.InstalledVersions {
-		server.manager.Install(os)
+	server := &Server{
+		manager:     NewManager(settings.FactoryVersion),
+		InstallLock: make(chan bool, 1),
 	}
+	for _, version := range settings.InstalledVersions {
+		server.manager.Install(version, "")
+	}
+	server.manager.SetRunning(settings.FactoryVersion)
+	server.InstallLock <- true
 	return server
 }
 
@@ -55,11 +58,22 @@ func (s *Server) Register(g *grpc.Server) {
 // Activate sets the requested OS version as the version which is used at the next reboot, and reboots the Target.
 func (s *Server) Activate(ctx context.Context, request *pb.ActivateRequest) (*pb.ActivateResponse, error) {
 	if err := s.manager.SetRunning(request.Version); err != nil {
-		return &pb.ActivateResponse{Response: &pb.ActivateResponse_ActivateError{
-			ActivateError: &pb.ActivateError{Type: pb.ActivateError_NON_EXISTENT_VERSION},
-		}}, nil
+		return &pb.ActivateResponse{
+			Response: &pb.ActivateResponse_ActivateError{
+				ActivateError: &pb.ActivateError{
+					Type: pb.ActivateError_NON_EXISTENT_VERSION,
+				},
+			}}, nil
 	}
 	return &pb.ActivateResponse{Response: &pb.ActivateResponse_ActivateOk{}}, nil
+}
+
+// Verify returns the OS version currently running.
+func (s *Server) Verify(ctx context.Context, _ *pb.VerifyRequest) (*pb.VerifyResponse, error) {
+	return &pb.VerifyResponse{
+		Version:               s.manager.runningVersion,
+		ActivationFailMessage: s.manager.activationFailMessage,
+	}, nil
 }
 
 // Install receives an OS package, validates the package and then installs the package.
@@ -74,12 +88,6 @@ func (s *Server) Install(stream pb.OS_InstallServer) error {
 	transferRequest := request.GetTransferRequest()
 	if transferRequest == nil {
 		return errors.New("Failed to receive TransferRequest")
-	}
-	if s.manager.InstallInProgress() {
-		response = &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_INSTALL_IN_PROGRESS}}}
-		utils.LogProto(response)
-		stream.Send(response)
-		return errors.New("Another install is already in progress")
 	}
 	if s.manager.IsRunning(transferRequest.Version) {
 		response = &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{
@@ -101,36 +109,30 @@ func (s *Server) Install(stream pb.OS_InstallServer) error {
 		}
 		return nil
 	}
-	s.manager.SetInstallInProgress(true)
-	defer s.manager.SetInstallInProgress(false)
+	select {
+	case <-s.InstallLock:
+		defer func() {
+			s.InstallLock <- true
+		}()
+		fmt.Println("I am in control")
+		break
+	default:
+		response = &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_INSTALL_IN_PROGRESS}}}
+		utils.LogProto(response)
+		stream.Send(response)
+		fmt.Println("Install In Progress")
+		return errors.New("Another install is already in progress")
+	}
 
 	response = &pb.InstallResponse{Response: &pb.InstallResponse_TransferReady{TransferReady: &pb.TransferReady{}}}
 	utils.LogProto(response)
 	if err = stream.Send(response); err != nil {
 		return err
 	}
-	errorChan := make(chan error)
-	updateProgress := make(chan uint64)
-	transferredOS := make(chan *bytes.Buffer)
-	go ReceiveOS(stream, errorChan, updateProgress, transferredOS)
 
-	var bb *bytes.Buffer
-streamingProgress:
-	for {
-		select {
-		case err = <-errorChan:
-			return err
-		case size := <-updateProgress:
-			response = &pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{
-				TransferProgress: &pb.TransferProgress{BytesReceived: size},
-			}}
-			utils.LogProto(response)
-			if err = stream.Send(response); err != nil {
-				return err
-			}
-		case bb = <-transferredOS:
-			break streamingProgress
-		}
+	bb, err := ReceiveOS(stream)
+	if err != nil {
+		return err
 	}
 	mockOS, err, errResponse := mockos.ValidateOS(bb)
 	if err != nil {
@@ -141,38 +143,36 @@ streamingProgress:
 	}
 
 	s.manager.Install(mockOS.Version, mockOS.ActivationFailMessage)
+	log.Println(bb.Len())
 	return nil
 }
 
-// ReceiveOS receives and parses requests from stream, storing OS package into a buffer.
-func ReceiveOS(stream pb.OS_InstallServer, errorChan chan error, updateProgress chan uint64, transferredOS chan *bytes.Buffer) {
+// ReceiveOS receives and parses requests from stream, storing OS package into a buffer, and updating the progress.
+func ReceiveOS(stream pb.OS_InstallServer) (*bytes.Buffer, error) {
 	bb := new(bytes.Buffer)
 	prev := 0
 	for {
 		in, err := stream.Recv()
-		if err == io.EOF {
-			errorChan <- nil
-			return
-		}
 		if err != nil {
-			errorChan <- err
-			return
+			return nil, err
 		}
 		utils.LogProto(in)
 		switch in.Request.(type) {
 		case *pb.InstallRequest_TransferContent:
 			bb.Write(in.GetTransferContent())
 		case *pb.InstallRequest_TransferEnd:
-			transferredOS <- bb
-			errorChan <- nil
-			return
+			return bb, nil
 		default:
-			errorChan <- errors.New("Unknown request type")
-			return
+			return nil, errors.New("Unknown request type")
 		}
 		if curr := bb.Len() / chunkSize; curr > prev {
 			prev = curr
-			updateProgress <- uint64(bb.Len())
+			if err = stream.Send(&pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{
+				TransferProgress: &pb.TransferProgress{BytesReceived: uint64(bb.Len())},
+			}}); err != nil {
+				return nil, err
+			}
+			return nil, nil
 		}
 	}
 }
