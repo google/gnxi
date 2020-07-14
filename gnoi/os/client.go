@@ -170,16 +170,14 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 		doneSend <- true
 	}()
 
-	// Send TransferEnd to notify targe that last chunk has been transfered.
-	request = &pb.InstallRequest{Request: &pb.InstallRequest_TransferEnd{}}
-	utils.LogProto(request)
-	if err = install.Send(request); err != nil {
-		return err
-	}
-
 	// Await for response from asynchronous receiver or timeout.
 	select {
 	case <-doneSend:
+		request = &pb.InstallRequest{Request: &pb.InstallRequest_TransferEnd{}}
+		utils.LogProto(request)
+		if err = install.Send(request); err != nil {
+			return err
+		}
 	case err := <-errs:
 		return err
 	}
