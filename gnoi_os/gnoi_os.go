@@ -91,5 +91,12 @@ func activate() {
 
 // verify verifies the version of the OS running on the target.
 func verify() {
-	// TODO: Add Verify RPC call
+	version, activationFailMsg, err := client.Verify(ctx)
+	if err != nil {
+		log.Exit("Failed Verify:", err)
+	}
+	if activationFailMsg != "" {
+		log.Info("Previous activation fail message:", activationFailMsg)
+	}
+	log.Info("Running OS version:", version)
 }

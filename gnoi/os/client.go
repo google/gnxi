@@ -62,10 +62,13 @@ func (c *Client) Activate(ctx context.Context, version string) error {
 
 // Verify invokes the Verify RPC for the OS service.
 func (c *Client) Verify(ctx context.Context) (version, activationFailMsg string, err error) {
+	request := &pb.VerifyRequest{}
+	utils.LogProto(request)
 	var out *pb.VerifyResponse
-	if out, err = c.client.Verify(ctx, &pb.VerifyRequest{}); err != nil {
+	if out, err = c.client.Verify(ctx, request); err != nil {
 		return
 	}
+	utils.LogProto(out)
 	version = out.GetVersion()
 	activationFailMsg = out.GetActivationFailMessage()
 	return
