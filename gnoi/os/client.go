@@ -65,12 +65,10 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 	}
 	defer fileClose()
 
-	// Create Install client for streaming.
-	var cancelStream context.CancelFunc
-	ctx, cancelStream = context.WithCancel(ctx)
+	cancelCtx, cancelStream := context.WithCancel(ctx)
 	defer cancelStream()
 
-	install, err := c.client.Install(ctx)
+	install, err := c.client.Install(cancelCtx)
 	if err != nil {
 		return err
 	}
