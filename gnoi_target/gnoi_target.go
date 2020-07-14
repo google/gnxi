@@ -66,7 +66,7 @@ func serve() {
 func notifyCerts(certs, caCerts int) {
 	hasCredentials := certs != 0 && caCerts != 0
 	if bootstrapping != hasCredentials {
-		// Nothing to do, either I am boostrapping and I have no
+		// Nothing to do, either I am bootstrapping and I have no
 		// certificates or I am provisioned and I have certificates.
 		return
 	}

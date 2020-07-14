@@ -16,5 +16,6 @@ gnoi_cert \
   -file ./myos.img \
   -version 1.10a \
   -size 100M \
-  -unsupported false
+  -activation_fail_message "I failed to activate" \
+  -incompatible false \
 ```

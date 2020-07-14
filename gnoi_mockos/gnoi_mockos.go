@@ -21,10 +21,11 @@ import (
 )
 
 var (
-	file        = flag.String("file", "", "The name and path of the OS file")
-	version     = flag.String("version", "", "The version of the OS package")
-	size        = flag.String("size", "1M", "The size of the OS package's data, e.g 10M")
-	unsupported = flag.Bool("unsupported", false, "If true, the os package is valid but unsupported by the target")
+	file                  = flag.String("file", "", "The name and path of the OS file")
+	version               = flag.String("version", "", "The version of the OS package")
+	size                  = flag.String("size", "1M", "The size of the OS package's data, e.g 10M")
+	incompatible          = flag.Bool("incompatible", false, "If true, the os package is valid but incompatible with the target")
+	activationFailMessage = flag.String("activation_fail_message", "", "If set, then the OS will fail to activate")
 )
 
 func main() {
@@ -35,7 +36,7 @@ func main() {
 		log.Exit("-file and -version must be specified")
 	}
 
-	if err := mockos.GenerateOS(*file, *version, *size, *unsupported); err != nil {
+	if err := mockos.GenerateOS(*file, *version, *size, *activationFailMessage, *incompatible); err != nil {
 		log.Exitf("Error Generating OS: %v", err)
 	}
 	path, err := filepath.Abs(*file)
