@@ -53,7 +53,6 @@ const chunkSize = 5000000
 
 // NewClient returns a new OS service client.
 func NewClient(c *grpc.ClientConn) *Client {
-
 	return &Client{client: pb.NewOSClient(c)}
 }
 
@@ -143,8 +142,10 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 			}
 		}
 	}()
+
+	// Goroutine to read from file in chunks, sending a chunk of the
+	// image each time.
 	go func() {
-		// Read from file in chunks, sending a chunk of the image each time.
 		var readSize int
 		b := make([]byte, chunkSize)
 		for n := int64(0); n < int64(fileSize)+int64(chunkSize); n += int64(chunkSize) {
