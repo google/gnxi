@@ -38,11 +38,13 @@ const chunkSize = 5000000
 // NewClient returns a new OS service client.
 func NewClient(c *grpc.ClientConn) *Client {
 	reader := func(path string) (file io.ReaderAt, size uint64, close func() error, err error) {
-		f, err := os.Open(path)
+		var f *os.File
+		f, err = os.Open(path)
 		if err != nil {
 			return
 		}
-		fileInfo, err := f.Stat()
+		var fileInfo os.FileInfo
+		fileInfo, err = f.Stat()
 		if err != nil {
 			return
 		}
@@ -57,9 +59,6 @@ func NewClient(c *grpc.ClientConn) *Client {
 // Install invokes the Install RPC for the OS service.
 func (c *Client) Install(ctx context.Context, imgPath, version string, printStatus bool, validateTimeout time.Duration) error {
 	// Open and Stat OS image.
-	if c.read == nil {
-		return fmt.Errorf("No reader passed to client")
-	}
 	file, fileSize, fileClose, err := c.read(imgPath)
 	if err != nil {
 		return err
@@ -67,133 +66,126 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 	defer fileClose()
 
 	// Create Install client for streaming.
+	var cancelStream context.CancelFunc
+	ctx, cancelStream = context.WithCancel(ctx)
+	defer cancelStream()
+
 	install, err := c.client.Install(ctx)
 	if err != nil {
 		return err
 	}
-	defer install.CloseSend()
 
 	// Send initial TransferRequest and await response.
-	if err = install.Send(&pb.InstallRequest{
+	request := &pb.InstallRequest{
 		Request: &pb.InstallRequest_TransferRequest{TransferRequest: &pb.TransferRequest{Version: version}},
-	}); err != nil {
+	}
+	utils.LogProto(request)
+	if err = install.Send(request); err != nil {
 		return err
 	}
-	transferResp, err := install.Recv()
-	if err != nil {
+	var transferResp *pb.InstallResponse
+
+	if transferResp, err = install.Recv(); err != nil {
 		return err
 	}
-	_, validated, err := validateInstallResponse(transferResp)
-	if err != nil {
-		return err
+	utils.LogProto(transferResp)
+	switch resp := transferResp.Response.(type) {
+	case *pb.InstallResponse_Validated:
+		return nil
+	case *pb.InstallResponse_InstallError:
+		installErr := resp.InstallError
+		if installErr.GetType() == pb.InstallError_UNSPECIFIED {
+			return fmt.Errorf("Unspecified InstallError error: %s", installErr.GetDetail())
+		}
+		return fmt.Errorf("InstallError occured: %s", installErr.GetType().String())
+	case *pb.InstallResponse_TransferReady:
+	default:
+		return fmt.Errorf("Unexpected response: %T(%v)", resp, resp)
 	}
-	if validated {
-		return fmt.Errorf("OS already installed on target")
-	}
-	recvErrs := make(chan error, chunkSize)
-	recvValidated := make(chan bool, 1)
+
+	errs := make(chan error, 2)
+	validated := make(chan bool, 1)
+	doneSend := make(chan bool, 1)
 
 	// Goroutine to receive responses while sending requests allowing for
 	// bidirectional streaming.
 	go func() {
-		validated := false
-		for !validated {
-			resp, err := install.Recv()
+		for {
+			response, err := install.Recv()
 			if err != nil {
-				recvErrs <- err
-				continue
-			}
-			progress, validated, err := validateInstallResponse(resp)
-			if err != nil {
-				recvErrs <- err
-				continue
-			}
-			if validated {
-				recvValidated <- validated
+				errs <- err
 				return
 			}
-			if printStatus {
-				fmt.Printf("%d%% transferred\n", progress/fileSize)
+			switch resp := response.Response.(type) {
+			case *pb.InstallResponse_TransferProgress:
+				if printStatus {
+					fmt.Printf("%d%% transferred\n", resp.TransferProgress.GetBytesReceived()/fileSize)
+				}
+				return
+			case *pb.InstallResponse_Validated:
+				utils.LogProto(response)
+				validated <- true
+				return
+			case *pb.InstallResponse_InstallError:
+				utils.LogProto(response)
+				installErr := resp.InstallError
+				if installErr.GetType() == pb.InstallError_UNSPECIFIED {
+					err = fmt.Errorf("Unspecified InstallError error: %s", installErr.GetDetail())
+					return
+				}
+				err = fmt.Errorf("InstallError occured: %s", installErr.GetType().String())
+				return
+			default:
+				utils.LogProto(response)
+				err = fmt.Errorf("Unexpected response: %T(%v)", resp, resp)
+				return
 			}
 		}
 	}()
-
-	// Read from file in chunks, sending a chunk of the image each time.
-	for n := int64(0); n < int64(fileSize)+int64(chunkSize); n += int64(chunkSize) {
-		b := make([]byte, chunkSize)
-		if len(recvErrs) > 0 {
-			return c.accumulateErrors(recvErrs)
-		}
+	go func() {
+		// Read from file in chunks, sending a chunk of the image each time.
 		var readSize int
-		if readSize, err = file.ReadAt(b, n); err != nil && err != io.EOF {
-			return err
+		b := make([]byte, chunkSize)
+		for n := int64(0); n < int64(fileSize)+int64(chunkSize); n += int64(chunkSize) {
+			if readSize, err = file.ReadAt(b, n); err != nil && err != io.EOF {
+				errs <- err
+				return
+			}
+			if readSize == 0 {
+				break
+			}
+			if err = install.Send(&pb.InstallRequest{
+				Request: &pb.InstallRequest_TransferContent{TransferContent: b[:readSize]},
+			}); err != nil {
+				errs <- err
+				return
+			}
 		}
-		if readSize == 0 {
-			break
-		}
-		err = install.Send(&pb.InstallRequest{
-			Request: &pb.InstallRequest_TransferContent{TransferContent: b},
-		})
-		if err != nil {
-			return err
-		}
-	}
+		doneSend <- true
+	}()
 
 	// Send TransferEnd to notify targe that last chunk has been transfered.
-	if err = install.Send(&pb.InstallRequest{Request: &pb.InstallRequest_TransferEnd{}}); err != nil {
+	request = &pb.InstallRequest{Request: &pb.InstallRequest_TransferEnd{}}
+	utils.LogProto(request)
+	if err = install.Send(request); err != nil {
 		return err
 	}
 
 	// Await for response from asynchronous receiver or timeout.
 	select {
+	case <-doneSend:
+	case err := <-errs:
+		return err
+	}
+
+	select {
 	case <-time.After(validateTimeout):
 		return fmt.Errorf("Validation timed out")
-	case err = <-recvErrs:
-		if len(recvErrs) > 0 {
-			return fmt.Errorf("%w; %s", c.accumulateErrors(recvErrs), err.Error())
-		}
+	case err = <-errs:
 		return err
-	case <-recvValidated:
-		return nil
+	case <-validated:
 	}
-}
-
-// validateInstallResponse will validate an InstallResponse.
-func validateInstallResponse(response *pb.InstallResponse) (progress uint64, validated bool, err error) {
-	switch resp := response.Response.(type) {
-	case *pb.InstallResponse_Validated:
-		validated = true
-		return
-	case *pb.InstallResponse_TransferProgress:
-		progress = resp.TransferProgress.GetBytesReceived()
-		return
-	case *pb.InstallResponse_InstallError:
-		installErr := resp.InstallError
-		if installErr.GetType() == pb.InstallError_UNSPECIFIED {
-			err = fmt.Errorf("Unspecified InstallError error: %s", installErr.GetDetail())
-			return
-		}
-		err = fmt.Errorf("InstallError occured: %s", installErr.GetType().String())
-		return
-	case *pb.InstallResponse_TransferReady:
-		return
-	default:
-		err = fmt.Errorf("Unexpected response: %T(%v)", resp, resp)
-		return
-	}
-}
-
-// accumulateErrors will deplete errors from a channel and consolidate them.
-func (c *Client) accumulateErrors(recvErrs chan error) error {
-	err := <-recvErrs
-	if err == nil {
-		return nil
-	}
-
-	for len(recvErrs) > 0 {
-		err = fmt.Errorf("%s; %w", (<-recvErrs).Error(), err)
-	}
-	return err
+	return nil
 }
 
 // Activate invokes the Activate RPC for the OS service.
