@@ -66,7 +66,7 @@ func (a *userCredentials) RequireTransportSecurity() bool {
 }
 
 // loadCerts loads the certificates from files.
-func loadCerts() ([]tls.Certificate, *x509.CertPool, *entity.Entity) {
+func loadCerts() ([]tls.Certificate, *x509.CertPool) {
 	certificate, err := tls.LoadX509KeyPair(*cert, *key)
 	if err != nil {
 		log.Exitf("could not load client key pair: %s", err)
@@ -81,11 +81,11 @@ func loadCerts() ([]tls.Certificate, *x509.CertPool, *entity.Entity) {
 	if ok := certPool.AppendCertsFromPEM(caFile); !ok {
 		log.Exit("failed to append CA certificate")
 	}
-	return []tls.Certificate{certificate}, certPool, &entity.Entity{Certificate: &certificate}
+	return []tls.Certificate{certificate}, certPool
 }
 
 // generateFromCA generates a client certificate from the provided CA.
-func generateFromCA() ([]tls.Certificate, *x509.CertPool, *entity.Entity) {
+func generateFromCA() ([]tls.Certificate, *x509.CertPool) {
 	caEnt, err := entity.FromFile(*ca, *caKey)
 	if err != nil {
 		log.Exitf("Failed to load certificate and key from file: %v", err)
@@ -96,11 +96,11 @@ func generateFromCA() ([]tls.Certificate, *x509.CertPool, *entity.Entity) {
 	}
 	caPool := x509.NewCertPool()
 	caPool.AddCert(caEnt.Certificate.Leaf)
-	return []tls.Certificate{*clientEnt.Certificate}, caPool, caEnt
+	return []tls.Certificate{*clientEnt.Certificate}, caPool
 }
 
 // LoadCertificates loads certificates from files or from the CA.
-func LoadCertificates() ([]tls.Certificate, *x509.CertPool, *entity.Entity) {
+func LoadCertificates() ([]tls.Certificate, *x509.CertPool) {
 	if *ca != "" {
 		if *cert != "" && *key != "" {
 			return loadCerts()
@@ -110,7 +110,7 @@ func LoadCertificates() ([]tls.Certificate, *x509.CertPool, *entity.Entity) {
 		}
 	}
 	log.Exit("Please provide -ca & -key or -ca, -cert & -ca_key")
-	return []tls.Certificate{}, &x509.CertPool{}, &entity.Entity{}
+	return []tls.Certificate{}, &x509.CertPool{}
 }
 
 // ClientCredentials generates gRPC DialOptions for existing credentials.
@@ -145,7 +145,7 @@ func ServerCredentials() []grpc.ServerOption {
 		return []grpc.ServerOption{}
 	}
 
-	certificates, certPool, _ := LoadCertificates()
+	certificates, certPool := LoadCertificates()
 
 	if *insecure {
 		return []grpc.ServerOption{grpc.Creds(credentials.NewTLS(&tls.Config{
