@@ -99,7 +99,7 @@ func generateFromCA() ([]tls.Certificate, *x509.CertPool) {
 	return []tls.Certificate{*clientEnt.Certificate}, caPool
 }
 
-// LoadCertificates loads certificates from files or from the CA.
+// LoadCertificates loads certificates from files or generates them from the CA.
 func LoadCertificates() ([]tls.Certificate, *x509.CertPool) {
 	if *ca != "" {
 		if *cert != "" && *key != "" {
