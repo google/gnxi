@@ -16,8 +16,6 @@ import (
 	"bytes"
 	"context"
 	"errors"
-	"fmt"
-	"log"
 
 	"github.com/google/gnxi/gnoi/os/pb"
 	"github.com/google/gnxi/utils"
@@ -94,7 +92,9 @@ func (s *Server) Install(stream pb.OS_InstallServer) error {
 			InstallError: &pb.InstallError{Type: pb.InstallError_INSTALL_RUN_PACKAGE},
 		}}
 		utils.LogProto(response)
-		stream.Send(response)
+		if err = stream.Send(response); err != nil {
+			return err
+		}
 		return errors.New("Attempting to force transfer an OS of the same version as the currently running OS")
 	}
 	if version := transferRequest.Version; s.manager.IsInstalled(version) {
@@ -114,13 +114,13 @@ func (s *Server) Install(stream pb.OS_InstallServer) error {
 		defer func() {
 			s.InstallLock <- true
 		}()
-		fmt.Println("I am in control")
 		break
 	default:
 		response = &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_INSTALL_IN_PROGRESS}}}
 		utils.LogProto(response)
-		stream.Send(response)
-		fmt.Println("Install In Progress")
+		if err = stream.Send(response); err != nil {
+			return err
+		}
 		return errors.New("Another install is already in progress")
 	}
 
@@ -138,12 +138,12 @@ func (s *Server) Install(stream pb.OS_InstallServer) error {
 	if err != nil {
 		response = &pb.InstallResponse{Response: errResponse}
 		utils.LogProto(response)
-		stream.Send(response)
+		if err = stream.Send(response); err != nil {
+			return err
+		}
 		return err
 	}
-
 	s.manager.Install(mockOS.Version, mockOS.ActivationFailMessage)
-	log.Println(bb.Len())
 	return nil
 }
 
@@ -167,12 +167,13 @@ func ReceiveOS(stream pb.OS_InstallServer) (*bytes.Buffer, error) {
 		}
 		if curr := bb.Len() / chunkSize; curr > prev {
 			prev = curr
-			if err = stream.Send(&pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{
+			response := &pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{
 				TransferProgress: &pb.TransferProgress{BytesReceived: uint64(bb.Len())},
-			}}); err != nil {
+			}}
+			utils.LogProto(response)
+			if err = stream.Send(response); err != nil {
 				return nil, err
 			}
-			return nil, nil
 		}
 	}
 }
