@@ -89,7 +89,7 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 	utils.LogProto(transferResp)
 	switch resp := transferResp.Response.(type) {
 	case *pb.InstallResponse_Validated:
-		log.Info("OS already validated")
+		log.Infof("OS version %s is already installed", version)
 		return nil
 	case *pb.InstallResponse_InstallError:
 		installErr := resp.InstallError
