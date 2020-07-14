@@ -81,8 +81,8 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 	if err = install.Send(request); err != nil {
 		return err
 	}
+	
 	var transferResp *pb.InstallResponse
-
 	if transferResp, err = install.Recv(); err != nil {
 		return err
 	}
