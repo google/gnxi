@@ -109,7 +109,7 @@ func LoadCertificates() ([]tls.Certificate, *x509.CertPool, *entity.Entity) {
 			return generateFromCA()
 		}
 	}
-	log.Exit("Please provide -ca & -key or -ca, -cert & -key")
+	log.Exit("Please provide -ca & -key or -ca, -cert & -ca_key")
 	return []tls.Certificate{}, &x509.CertPool{}, &entity.Entity{}
 }
 
