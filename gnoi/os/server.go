@@ -48,7 +48,6 @@ func NewServer(settings *Settings) *Server {
 	return server
 }
 
-
 // Register registers the server into the the gRPC server provided.
 func (s *Server) Register(g *grpc.Server) {
 	pb.RegisterOSServer(g, s)

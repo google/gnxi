@@ -14,11 +14,38 @@ package os
 
 import (
 	"context"
+	"crypto/rand"
+	"errors"
 	"testing"
 
 	"github.com/google/gnxi/gnoi/os/pb"
 	"github.com/kylelemons/godebug/pretty"
 )
+
+type mockStream struct {
+	pb.OS_InstallServer
+	responses chan *pb.InstallResponse
+	errorReq  *pb.InstallRequest
+}
+
+func (m mockStream) Send(res *pb.InstallResponse) error {
+	m.responses <- res
+	return nil
+}
+
+func (m mockStream) Recv() (*pb.InstallRequest, error) {
+	if request := m.errorReq; request != nil {
+		return request, nil
+	}
+	select {
+	case <-m.responses:
+		return &pb.InstallRequest{Request: &pb.InstallRequest_TransferEnd{}}, nil
+	default:
+		buf := make([]byte, 1000000)
+		rand.Read(buf)
+		return &pb.InstallRequest{Request: &pb.InstallRequest_TransferContent{TransferContent: buf}}, nil
+	}
+}
 
 func TestTargetActivate(t *testing.T) {
 	settings := &Settings{
@@ -120,5 +147,32 @@ func TestTargetActivateAndVerify(t *testing.T) {
 	got, _ := server.Verify(context.Background(), &pb.VerifyRequest{})
 	if diff := pretty.Compare(test.want, got); diff != "" {
 		t.Errorf("Verify(context.Background(), &pb.VerifyRequest{}): (-want +got):\n%s", diff)
+	}
+}
+
+func TestTargetReceiveOS(t *testing.T) {
+	tests := []struct {
+		stream *mockStream
+		err    error
+	}{
+		{
+			stream: &mockStream{
+				responses: make(chan *pb.InstallResponse, 1),
+			},
+			err: nil,
+		},
+		{
+			stream: &mockStream{
+				responses: make(chan *pb.InstallResponse, 1),
+				errorReq:  &pb.InstallRequest{Request: &pb.InstallRequest_TransferRequest{}}, // Unexpected request after transfer begins.
+			},
+			err: errors.New("Unknown request type"),
+		},
+	}
+	for _, test := range tests {
+		_, err := ReceiveOS(test.stream)
+		if diff := pretty.Compare(test.err, err); diff != "" {
+			t.Errorf("ReceiveOS(stream): (-want +got):\n%s", diff)
+		}
 	}
 }
