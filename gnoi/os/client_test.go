@@ -120,10 +120,10 @@ func readBytes(num int) func(string) (io.ReaderAt, uint64, func() error, error) 
 
 func TestInstall(t *testing.T) {
 	installTests := []struct {
-		name    string
-		reqResp []*installRequestMap
-		read    func(string) (io.ReaderAt, uint64, func() error, error)
-		err     error
+		name   string
+		reqMap []*installRequestMap
+		reader func(string) (io.ReaderAt, uint64, func() error, error)
+		err    error
 	}{
 		{
 			"Already validated",
@@ -217,12 +217,12 @@ func TestInstall(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			client := Client{
 				client: &mockClient{installClient: &mockInstallClient{
-					reqResp: test.reqResp,
+					reqResp: test.reqMap,
 					recv:    make(chan int, 2),
 					recvErr: make(chan *pb.InstallResponse_InstallError, 2),
 				}},
 			}
-			fileReader = test.read
+			fileReader = test.reader
 			if err := client.Install(context.Background(), "", "version", 100*time.Millisecond); fmt.Sprintf("%v", err) != fmt.Sprintf("%v", test.err) {
 				t.Errorf("Wanted error: **%v** but got error: **%v**", test.err, err)
 			}
