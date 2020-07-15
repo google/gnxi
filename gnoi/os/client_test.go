@@ -40,14 +40,14 @@ type mockClient struct {
 	installClient pb.OS_InstallClient
 }
 
-type InstallReqResp struct {
+type installRequestMap struct {
 	req  *pb.InstallRequest
 	resp *pb.InstallResponse
 }
 
 type mockInstallClient struct {
 	pb.OS_InstallClient
-	reqResp []*InstallReqResp
+	reqResp []*installRequestMap
 	i       int
 	recv    chan int
 	recvErr chan *pb.InstallResponse_InstallError
@@ -121,13 +121,13 @@ func readBytes(num int) func(string) (io.ReaderAt, uint64, func() error, error) 
 func TestInstall(t *testing.T) {
 	installTests := []struct {
 		name    string
-		reqResp []*InstallReqResp
+		reqResp []*installRequestMap
 		read    func(string) (io.ReaderAt, uint64, func() error, error)
 		err     error
 	}{
 		{
 			"Already validated",
-			[]*InstallReqResp{
+			[]*installRequestMap{
 				{
 					&pb.InstallRequest{Request: &pb.InstallRequest_TransferRequest{TransferRequest: &pb.TransferRequest{Version: "version"}}},
 					&pb.InstallResponse{Response: &pb.InstallResponse_Validated{Validated: &pb.Validated{}}},
@@ -138,7 +138,7 @@ func TestInstall(t *testing.T) {
 		},
 		{
 			"File size of one chunk then validated",
-			[]*InstallReqResp{
+			[]*installRequestMap{
 				{
 					&pb.InstallRequest{Request: &pb.InstallRequest_TransferRequest{TransferRequest: &pb.TransferRequest{Version: "version"}}},
 					&pb.InstallResponse{Response: &pb.InstallResponse_TransferReady{}},
@@ -157,7 +157,7 @@ func TestInstall(t *testing.T) {
 		},
 		{
 			"File size of two chunks + 1 then validated",
-			[]*InstallReqResp{
+			[]*installRequestMap{
 				{
 					&pb.InstallRequest{Request: &pb.InstallRequest_TransferRequest{TransferRequest: &pb.TransferRequest{Version: "version"}}},
 					&pb.InstallResponse{Response: &pb.InstallResponse_TransferReady{}},
@@ -184,7 +184,7 @@ func TestInstall(t *testing.T) {
 		},
 		{
 			"File size of one chunk but INCOMPATIBLE InstallError",
-			[]*InstallReqResp{
+			[]*installRequestMap{
 				{
 					&pb.InstallRequest{Request: &pb.InstallRequest_TransferRequest{TransferRequest: &pb.TransferRequest{Version: "version"}}},
 					&pb.InstallResponse{Response: &pb.InstallResponse_TransferReady{}},
@@ -199,7 +199,7 @@ func TestInstall(t *testing.T) {
 		},
 		{
 			"File size of two chunks but Unspecified InstallError",
-			[]*InstallReqResp{
+			[]*installRequestMap{
 				{
 					&pb.InstallRequest{Request: &pb.InstallRequest_TransferRequest{TransferRequest: &pb.TransferRequest{Version: "version"}}},
 					&pb.InstallResponse{Response: &pb.InstallResponse_TransferReady{}},
