@@ -143,6 +143,11 @@ func (s *Server) Install(stream pb.OS_InstallServer) error {
 		return err
 	}
 	s.manager.Install(mockOS.Version, mockOS.ActivationFailMessage)
+	response = &pb.InstallResponse{Response: &pb.InstallResponse_Validated{Validated: &pb.Validated{Version: mockOS.Version}}}
+	utils.LogProto(response)
+	if err = stream.Send(response); err != nil {
+		return err
+	}
 	return nil
 }
 
