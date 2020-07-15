@@ -24,7 +24,7 @@ import (
 )
 
 const (
-	chunkSize = 1000000
+	chunkSize = 10000000 // 10MB
 )
 
 // Server is an OS Management service.
@@ -148,7 +148,7 @@ func (s *Server) Install(stream pb.OS_InstallServer) error {
 
 // ReceiveOS receives and parses requests from stream, storing OS package into a buffer, and updating the progress.
 func ReceiveOS(stream pb.OS_InstallServer) (*bytes.Buffer, error) {
-	bb := new(bytes.Buffer)
+	bb := &bytes.Buffer{}
 	prev := 0
 	for {
 		in, err := stream.Recv()
@@ -166,11 +166,9 @@ func ReceiveOS(stream pb.OS_InstallServer) (*bytes.Buffer, error) {
 		}
 		if curr := bb.Len() / chunkSize; curr > prev {
 			prev = curr
-			response := &pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{
+			if err = stream.Send(&pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{
 				TransferProgress: &pb.TransferProgress{BytesReceived: uint64(bb.Len())},
-			}}
-			utils.LogProto(response)
-			if err = stream.Send(response); err != nil {
+			}}); err != nil {
 				return nil, err
 			}
 		}
