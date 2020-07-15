@@ -11,9 +11,9 @@ import (
 )
 
 var (
-	usePretty   = flag.Bool("pretty", false, "Shows PROTOs using Pretty package instead of PROTO Text Marshal")
-	logProto    = flag.Bool("log_proto", false, "If true it prints all sent and received PROTO messages")
-	printStatus = flag.Bool("print_status", false, "Print status of file transfer.")
+	usePretty    = flag.Bool("pretty", false, "Shows PROTOs using Pretty package instead of PROTO Text Marshal")
+	logProto     = flag.Bool("log_proto", false, "If true it prints all sent and received PROTO messages")
+	printProgess = flag.Bool("print_progress", false, "Prints progress periodically of file transfer.")
 )
 
 // PrintProto prints a Proto in a structured way.
@@ -21,10 +21,10 @@ func PrintProto(m proto.Message) {
 	fmt.Println(FormatProto(m))
 }
 
-// PrintStatus prints the percentage transferred if print_status is true
-func PrintStatus(transferred, fileSize uint64) {
-	if *printStatus {
-		fmt.Printf("%d%% transferred\n", transferred/fileSize)
+// PrintProgress prints the percentage transferred if print_status is true
+func PrintProgress(progress string) {
+	if *printProgess {
+		fmt.Println(progress)
 	}
 }
 

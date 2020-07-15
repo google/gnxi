@@ -81,7 +81,7 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 	if err = install.Send(request); err != nil {
 		return err
 	}
-	
+
 	var transferResp *pb.InstallResponse
 	if transferResp, err = install.Recv(); err != nil {
 		return err
@@ -117,10 +117,7 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 			}
 			switch resp := response.Response.(type) {
 			case *pb.InstallResponse_TransferProgress:
-				if printStatus {
-					fmt.Printf("%d%% transferred\n", resp.TransferProgress.GetBytesReceived()/fileSize)
-				}
-				utils.PrintStatus(resp.TransferProgress.GetBytesReceived(), fileSize)
+				utils.PrintProgress(fmt.Sprintf("%d%% transferred", resp.TransferProgress.GetBytesReceived()/fileSize))
 			case *pb.InstallResponse_Validated:
 				utils.LogProto(response)
 				validated <- true
