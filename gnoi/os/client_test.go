@@ -16,8 +16,15 @@ limitations under the License.
 package os
 
 import (
+	"bytes"
 	"context"
+	"crypto/rand"
+	"errors"
+	"fmt"
+	"io"
+	"reflect"
 	"testing"
+	"time"
 
 	"github.com/google/gnxi/gnoi/os/pb"
 	"google.golang.org/grpc"
@@ -28,8 +35,53 @@ type verifyRPC func(ctx context.Context, in *pb.VerifyRequest, opts ...grpc.Call
 
 type mockClient struct {
 	pb.OSClient
-	activate activateRPC
-	verify   verifyRPC
+	activate      activateRPC
+	verify        verifyRPC
+	installClient pb.OS_InstallClient
+}
+
+type InstallReqResp struct {
+	req  *pb.InstallRequest
+	resp *pb.InstallResponse
+}
+
+type mockInstallClient struct {
+	pb.OS_InstallClient
+	reqResp []*InstallReqResp
+	i       int
+	recv    chan int
+	recvErr chan *pb.InstallResponse_InstallError
+}
+
+func (c *mockInstallClient) Send(req *pb.InstallRequest) error {
+	if c.i < len(c.reqResp) {
+		if reflect.TypeOf(req.Request).String() == reflect.TypeOf(c.reqResp[c.i].req.Request).String() {
+			c.recv <- c.i
+		} else {
+			c.recvErr <- &pb.InstallResponse_InstallError{
+				InstallError: &pb.InstallError{Type: pb.InstallError_UNSPECIFIED, Detail: "Invalid command"},
+			}
+		}
+		c.i++
+	}
+	return nil
+}
+
+func (c *mockInstallClient) Recv() (*pb.InstallResponse, error) {
+	select {
+	case i := <-c.recv:
+		res := c.reqResp[i].resp
+		if res == nil {
+			<-time.After(200 * time.Millisecond)
+		}
+		return res, nil
+	case err := <-c.recvErr:
+		return &pb.InstallResponse{Response: err}, nil
+	}
+}
+
+func (c *mockInstallClient) CloseSend() error {
+	return nil
 }
 
 func (c *mockClient) Activate(ctx context.Context, in *pb.ActivateRequest, opts ...grpc.CallOption) (*pb.ActivateResponse, error) {
@@ -38,6 +90,10 @@ func (c *mockClient) Activate(ctx context.Context, in *pb.ActivateRequest, opts 
 
 func (c *mockClient) Verify(ctx context.Context, in *pb.VerifyRequest, opts ...grpc.CallOption) (*pb.VerifyResponse, error) {
 	return c.verify(ctx, in, opts...)
+}
+
+func (c *mockClient) Install(ctx context.Context, opts ...grpc.CallOption) (pb.OS_InstallClient, error) {
+	return c.installClient, nil
 }
 
 func activateErrorRPC(errType pb.ActivateError_Type, detail string) activateRPC {
@@ -52,6 +108,126 @@ func activateErrorRPC(errType pb.ActivateError_Type, detail string) activateRPC 
 func activateSuccessRPC(ctx context.Context, in *pb.ActivateRequest, opts ...grpc.CallOption) (*pb.ActivateResponse, error) {
 	return &pb.ActivateResponse{
 		Response: &pb.ActivateResponse_ActivateOk{}}, nil
+}
+
+func readBytes(num int) func(string) (io.ReaderAt, uint64, func() error, error) {
+	b := make([]byte, num)
+	rand.Read(b)
+	return func(_ string) (io.ReaderAt, uint64, func() error, error) {
+		return bytes.NewReader(b), uint64(num), func() error { return nil }, nil
+	}
+}
+
+func TestInstall(t *testing.T) {
+	installTests := []struct {
+		name    string
+		reqResp []*InstallReqResp
+		read    func(string) (io.ReaderAt, uint64, func() error, error)
+		err     error
+	}{
+		{
+			"Already validated",
+			[]*InstallReqResp{
+				{
+					&pb.InstallRequest{Request: &pb.InstallRequest_TransferRequest{TransferRequest: &pb.TransferRequest{Version: "version"}}},
+					&pb.InstallResponse{Response: &pb.InstallResponse_Validated{Validated: &pb.Validated{}}},
+				},
+			},
+			readBytes(0),
+			nil,
+		},
+		{
+			"File size of one chunk then validated",
+			[]*InstallReqResp{
+				{
+					&pb.InstallRequest{Request: &pb.InstallRequest_TransferRequest{TransferRequest: &pb.TransferRequest{Version: "version"}}},
+					&pb.InstallResponse{Response: &pb.InstallResponse_TransferReady{}},
+				},
+				{
+					&pb.InstallRequest{Request: &pb.InstallRequest_TransferContent{}},
+					&pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{TransferProgress: &pb.TransferProgress{BytesReceived: chunkSize}}},
+				},
+				{
+					&pb.InstallRequest{Request: &pb.InstallRequest_TransferEnd{}},
+					&pb.InstallResponse{Response: &pb.InstallResponse_Validated{Validated: &pb.Validated{}}},
+				},
+			},
+			readBytes(chunkSize),
+			nil,
+		},
+		{
+			"File size of two chunks + 1 then validated",
+			[]*InstallReqResp{
+				{
+					&pb.InstallRequest{Request: &pb.InstallRequest_TransferRequest{TransferRequest: &pb.TransferRequest{Version: "version"}}},
+					&pb.InstallResponse{Response: &pb.InstallResponse_TransferReady{}},
+				},
+				{
+					&pb.InstallRequest{Request: &pb.InstallRequest_TransferContent{}},
+					&pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{TransferProgress: &pb.TransferProgress{BytesReceived: chunkSize}}},
+				},
+				{
+					&pb.InstallRequest{Request: &pb.InstallRequest_TransferContent{}},
+					&pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{TransferProgress: &pb.TransferProgress{BytesReceived: (chunkSize * 2)}}},
+				},
+				{
+					&pb.InstallRequest{Request: &pb.InstallRequest_TransferContent{}},
+					&pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{TransferProgress: &pb.TransferProgress{BytesReceived: (chunkSize * 2) + 1}}},
+				},
+				{
+					&pb.InstallRequest{Request: &pb.InstallRequest_TransferEnd{}},
+					&pb.InstallResponse{Response: &pb.InstallResponse_Validated{Validated: &pb.Validated{}}},
+				},
+			},
+			readBytes((chunkSize * 2) + 1),
+			nil,
+		},
+		{
+			"File size of one chunk but INCOMPATIBLE InstallError",
+			[]*InstallReqResp{
+				{
+					&pb.InstallRequest{Request: &pb.InstallRequest_TransferRequest{TransferRequest: &pb.TransferRequest{Version: "version"}}},
+					&pb.InstallResponse{Response: &pb.InstallResponse_TransferReady{}},
+				},
+				{
+					&pb.InstallRequest{Request: &pb.InstallRequest_TransferContent{}},
+					&pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_INCOMPATIBLE}}},
+				},
+			},
+			readBytes(chunkSize),
+			errors.New("InstallError occured: INCOMPATIBLE"),
+		},
+		{
+			"File size of two chunks but Unspecified InstallError",
+			[]*InstallReqResp{
+				{
+					&pb.InstallRequest{Request: &pb.InstallRequest_TransferRequest{TransferRequest: &pb.TransferRequest{Version: "version"}}},
+					&pb.InstallResponse{Response: &pb.InstallResponse_TransferReady{}},
+				},
+				{
+					&pb.InstallRequest{Request: &pb.InstallRequest_TransferContent{}},
+					&pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_UNSPECIFIED, Detail: "Unspecified"}}},
+				},
+			},
+			readBytes(chunkSize * 2),
+			errors.New("Unspecified InstallError error: Unspecified"),
+		},
+	}
+	for _, test := range installTests {
+		t.Run(test.name, func(t *testing.T) {
+			client := Client{
+				client: &mockClient{installClient: &mockInstallClient{
+					reqResp: test.reqResp,
+					recv:    make(chan int, 2),
+					recvErr: make(chan *pb.InstallResponse_InstallError, 2),
+				}},
+			}
+			fileReader = test.read
+			if err := client.Install(context.Background(), "", "version", 100*time.Millisecond); fmt.Sprintf("%v", err) != fmt.Sprintf("%v", test.err) {
+				t.Errorf("Wanted error: **%v** but got error: **%v**", test.err, err)
+			}
+		})
+	}
 }
 
 func TestActivate(t *testing.T) {
