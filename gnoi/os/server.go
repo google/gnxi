@@ -155,20 +155,23 @@ func ReceiveOS(stream pb.OS_InstallServer) (*bytes.Buffer, error) {
 		if err != nil {
 			return nil, err
 		}
-		utils.LogProto(in)
 		switch in.Request.(type) {
 		case *pb.InstallRequest_TransferContent:
 			bb.Write(in.GetTransferContent())
 		case *pb.InstallRequest_TransferEnd:
+			utils.LogProto(in)
 			return bb, nil
 		default:
+			utils.LogProto(in)
 			return nil, errors.New("Unknown request type")
 		}
 		if curr := bb.Len() / chunkSize; curr > prev {
 			prev = curr
-			if err = stream.Send(&pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{
+			response := &pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{
 				TransferProgress: &pb.TransferProgress{BytesReceived: uint64(bb.Len())},
-			}}); err != nil {
+			}}
+			utils.LogProto(response)
+			if err = stream.Send(response); err != nil {
 				return nil, err
 			}
 		}
