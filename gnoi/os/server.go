@@ -30,21 +30,21 @@ const (
 // Server is an OS Management service.
 type Server struct {
 	pb.OSServer
-	manager     *Manager
-	InstallLock chan bool
+	manager      *Manager
+	installToken chan bool
 }
 
 // NewServer returns an OS Management service.
 func NewServer(settings *Settings) *Server {
 	server := &Server{
-		manager:     NewManager(settings.FactoryVersion),
-		InstallLock: make(chan bool, 1),
+		manager:      NewManager(settings.FactoryVersion),
+		installToken: make(chan bool, 1),
 	}
 	for _, version := range settings.InstalledVersions {
 		server.manager.Install(version, "")
 	}
 	server.manager.SetRunning(settings.FactoryVersion)
-	server.InstallLock <- true
+	server.installToken <- true
 	return server
 }
 
@@ -110,11 +110,10 @@ func (s *Server) Install(stream pb.OS_InstallServer) error {
 		return nil
 	}
 	select {
-	case <-s.InstallLock:
+	case <-s.installToken:
 		defer func() {
-			s.InstallLock <- true
+			s.installToken <- true
 		}()
-		break
 	default:
 		response = &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_INSTALL_IN_PROGRESS}}}
 		utils.LogProto(response)
