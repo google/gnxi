@@ -24,7 +24,7 @@ import (
 )
 
 const (
-	chunkSize = 10000000 // 10MB
+	targetChunkSize = 10000000 // 10MB
 )
 
 // Server is an OS Management service.
@@ -165,7 +165,7 @@ func ReceiveOS(stream pb.OS_InstallServer) (*bytes.Buffer, error) {
 			utils.LogProto(in)
 			return nil, errors.New("Unknown request type")
 		}
-		if curr := bb.Len() / chunkSize; curr > prev {
+		if curr := bb.Len() / targetChunkSize; curr > prev {
 			prev = curr
 			response := &pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{
 				TransferProgress: &pb.TransferProgress{BytesReceived: uint64(bb.Len())},
