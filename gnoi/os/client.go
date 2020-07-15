@@ -18,20 +18,173 @@ package os
 import (
 	"context"
 	"fmt"
+	"io"
+	"os"
+	"time"
 
+	log "github.com/golang/glog"
 	"github.com/google/gnxi/gnoi/os/pb"
 	"github.com/google/gnxi/utils"
 	"google.golang.org/grpc"
 )
+
+var fileReader = func(path string) (file io.ReaderAt, size uint64, close func() error, err error) {
+	var f *os.File
+	f, err = os.Open(path)
+	if err != nil {
+		return
+	}
+	var fileInfo os.FileInfo
+	fileInfo, err = f.Stat()
+	if err != nil {
+		return
+	}
+	size = uint64(fileInfo.Size())
+	file = f
+	close = f.Close
+	return
+}
 
 // Client handles requesting OS RPCs.
 type Client struct {
 	client pb.OSClient
 }
 
+const chunkSize = 5000000
+
 // NewClient returns a new OS service client.
 func NewClient(c *grpc.ClientConn) *Client {
 	return &Client{client: pb.NewOSClient(c)}
+}
+
+// Install invokes the Install RPC for the OS service.
+func (c *Client) Install(ctx context.Context, imgPath, version string, validateTimeout time.Duration) error {
+	file, fileSize, fileClose, err := fileReader(imgPath)
+	if err != nil {
+		return err
+	}
+	defer fileClose()
+
+	cancelCtx, cancelStream := context.WithCancel(ctx)
+	defer cancelStream()
+
+	install, err := c.client.Install(cancelCtx)
+	if err != nil {
+		return err
+	}
+
+	// Send initial TransferRequest and await response.
+	request := &pb.InstallRequest{
+		Request: &pb.InstallRequest_TransferRequest{TransferRequest: &pb.TransferRequest{Version: version}},
+	}
+	utils.LogProto(request)
+	if err = install.Send(request); err != nil {
+		return err
+	}
+
+	var transferResp *pb.InstallResponse
+	if transferResp, err = install.Recv(); err != nil {
+		return err
+	}
+	utils.LogProto(transferResp)
+	switch resp := transferResp.Response.(type) {
+	case *pb.InstallResponse_Validated:
+		log.Infof("OS version %s is already installed", version)
+		return nil
+	case *pb.InstallResponse_InstallError:
+		installErr := resp.InstallError
+		if installErr.GetType() == pb.InstallError_UNSPECIFIED {
+			return fmt.Errorf("Unspecified InstallError error: %s", installErr.GetDetail())
+		}
+		return fmt.Errorf("InstallError occured: %s", installErr.GetType().String())
+	case *pb.InstallResponse_TransferReady:
+	default:
+		return fmt.Errorf("Unexpected response: %T(%v)", resp, resp)
+	}
+
+	errs := make(chan error, 2)
+	validated := make(chan bool, 1)
+	doneSend := make(chan bool, 1)
+
+	// Goroutine to receive responses while sending requests allowing for
+	// bidirectional streaming.
+	go func() {
+		for {
+			response, err := install.Recv()
+			if err != nil {
+				errs <- err
+				return
+			}
+			switch resp := response.Response.(type) {
+			case *pb.InstallResponse_TransferProgress:
+				utils.PrintProgress(fmt.Sprintf("%d%% transferred", resp.TransferProgress.GetBytesReceived()/fileSize))
+			case *pb.InstallResponse_Validated:
+				utils.LogProto(response)
+				validated <- true
+				return
+			case *pb.InstallResponse_InstallError:
+				utils.LogProto(response)
+				installErr := resp.InstallError
+				if installErr.GetType() == pb.InstallError_UNSPECIFIED {
+					err = fmt.Errorf("Unspecified InstallError error: %s", installErr.GetDetail())
+					errs <- err
+					return
+				}
+				err = fmt.Errorf("InstallError occured: %s", installErr.GetType().String())
+				errs <- err
+				return
+			default:
+				utils.LogProto(response)
+				err = fmt.Errorf("Unexpected response: %T(%v)", resp, resp)
+				errs <- err
+				return
+			}
+		}
+	}()
+
+	// Goroutine to read from file in chunks, sending a chunk of the
+	// image each time.
+	go func() {
+		var readSize int
+		b := make([]byte, chunkSize)
+		for n := int64(0); n < int64(fileSize)+int64(chunkSize); n += int64(chunkSize) {
+			if readSize, err = file.ReadAt(b, n); err != nil && err != io.EOF {
+				errs <- err
+				return
+			}
+			if readSize == 0 {
+				break
+			}
+			if err = install.Send(&pb.InstallRequest{
+				Request: &pb.InstallRequest_TransferContent{TransferContent: b[:readSize]},
+			}); err != nil {
+				errs <- err
+				return
+			}
+		}
+		doneSend <- true
+	}()
+
+	// Await for response from asynchronous receiver or timeout.
+	select {
+	case <-doneSend:
+		request = &pb.InstallRequest{Request: &pb.InstallRequest_TransferEnd{}}
+		utils.LogProto(request)
+		if err = install.Send(request); err != nil {
+			return err
+		}
+	case err := <-errs:
+		return err
+	}
+
+	select {
+	case <-time.After(validateTimeout):
+		return fmt.Errorf("Validation timed out")
+	case err = <-errs:
+		return err
+	case <-validated:
+	}
+	return nil
 }
 
 // Activate invokes the Activate RPC for the OS service.
