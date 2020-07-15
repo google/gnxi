@@ -120,6 +120,7 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, printStat
 				if printStatus {
 					fmt.Printf("%d%% transferred\n", resp.TransferProgress.GetBytesReceived()/fileSize)
 				}
+				utils.PrintStatus(resp.TransferProgress.GetBytesReceived(), fileSize)
 			case *pb.InstallResponse_Validated:
 				utils.LogProto(response)
 				validated <- true
