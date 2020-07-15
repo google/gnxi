@@ -22,18 +22,18 @@ import (
 	"github.com/kylelemons/godebug/pretty"
 )
 
-type mockStream struct {
+type mockTransferStream struct {
 	pb.OS_InstallServer
 	responses chan *pb.InstallResponse
 	errorReq  *pb.InstallRequest
 }
 
-func (m mockStream) Send(res *pb.InstallResponse) error {
+func (m mockTransferStream) Send(res *pb.InstallResponse) error {
 	m.responses <- res
 	return nil
 }
 
-func (m mockStream) Recv() (*pb.InstallRequest, error) {
+func (m mockTransferStream) Recv() (*pb.InstallRequest, error) {
 	if request := m.errorReq; request != nil {
 		return request, nil
 	}
@@ -152,17 +152,17 @@ func TestTargetActivateAndVerify(t *testing.T) {
 
 func TestTargetReceiveOS(t *testing.T) {
 	tests := []struct {
-		stream *mockStream
+		stream *mockTransferStream
 		err    error
 	}{
 		{
-			stream: &mockStream{
+			stream: &mockTransferStream{
 				responses: make(chan *pb.InstallResponse, 1),
 			},
 			err: nil,
 		},
 		{
-			stream: &mockStream{
+			stream: &mockTransferStream{
 				responses: make(chan *pb.InstallResponse, 1),
 				errorReq:  &pb.InstallRequest{Request: &pb.InstallRequest_TransferRequest{}}, // Unexpected request after transfer begins.
 			},
