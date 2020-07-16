@@ -66,6 +66,9 @@ func main() {
 	if *targetCN == "" {
 		log.Exit("Must set a Common Name ID with -target_name.")
 	}
+	if *ca == "" {
+		log.Exit("-ca must be set with file locations")
+	}
 
 	ctx, cancel = context.WithTimeout(context.Background(), *timeOut)
 	defer cancel()
@@ -92,8 +95,8 @@ func main() {
 }
 
 func generateCA() {
-	if *ca == "" || *caKey == "" {
-		log.Exit("-ca and -ca_key must be set with file locations")
+	if *caKey == "" {
+		log.Exit("-ca_key must be set with file locations")
 	}
 	if *certID == "" {
 		log.Exit("Must set a certificate ID with -cert_id.")
