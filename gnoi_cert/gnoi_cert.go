@@ -139,12 +139,16 @@ func gnoiAuthenticated(targetName string) (*grpc.ClientConn, *cert.Client) {
 		signedCert = *clientEnt.Certificate
 	}
 
-	caFile, err := ioutil.ReadFile(*ca)
-	if err != nil {
-		log.Exitf("Couldn't read CA file: %v", err)
-	}
 	caPool := x509.NewCertPool()
-	caPool.AppendCertsFromPEM(caFile)
+	if caEnt != nil {
+		caPool.AddCert(caEnt.Certificate.Leaf)
+	} else {
+		caFile, err := ioutil.ReadFile(*ca)
+		if err != nil {
+			log.Exitf("Couldn't read CA file: %v", err)
+		}
+		caPool.AppendCertsFromPEM(caFile)
+	}
 
 	opts := []grpc.DialOption{grpc.WithTransportCredentials(credentials.NewTLS(
 		&tls.Config{
