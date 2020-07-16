@@ -47,15 +47,15 @@ type installRequestMap struct {
 
 type mockInstallClient struct {
 	pb.OS_InstallClient
-	reqResp []*installRequestMap
+	reqMap  []*installRequestMap
 	i       int
 	recv    chan int
 	recvErr chan *pb.InstallResponse_InstallError
 }
 
 func (c *mockInstallClient) Send(req *pb.InstallRequest) error {
-	if c.i < len(c.reqResp) {
-		if reflect.TypeOf(req.Request).String() == reflect.TypeOf(c.reqResp[c.i].req.Request).String() {
+	if c.i < len(c.reqMap) {
+		if reflect.TypeOf(req.Request) == reflect.TypeOf(c.reqMap[c.i].req.Request) {
 			c.recv <- c.i
 		} else {
 			c.recvErr <- &pb.InstallResponse_InstallError{
@@ -70,7 +70,7 @@ func (c *mockInstallClient) Send(req *pb.InstallRequest) error {
 func (c *mockInstallClient) Recv() (*pb.InstallResponse, error) {
 	select {
 	case i := <-c.recv:
-		res := c.reqResp[i].resp
+		res := c.reqMap[i].resp
 		if res == nil {
 			<-time.After(200 * time.Millisecond)
 		}
@@ -217,9 +217,9 @@ func TestInstall(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			client := Client{
 				client: &mockClient{installClient: &mockInstallClient{
-					reqResp: test.reqMap,
-					recv:    make(chan int, 2),
-					recvErr: make(chan *pb.InstallResponse_InstallError, 2),
+					reqMap:  test.reqMap,
+					recv:    make(chan int, 1),
+					recvErr: make(chan *pb.InstallResponse_InstallError, 1),
 				}},
 			}
 			fileReader = test.reader
