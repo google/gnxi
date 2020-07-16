@@ -23,9 +23,10 @@ import (
 	"crypto/x509/pkix"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"reflect"
-	"time"
 	"strings"
+	"time"
 
 	"github.com/google/gnxi/gnoi/cert"
 	"github.com/google/gnxi/utils/entity"
@@ -41,7 +42,9 @@ var (
 	certIDs    = flag.String("cert_ids", "", "Comma separated list of Certificate Management certificate IDs for revoke operation")
 	op         = flag.String("op", "get", "Certificate Management operation, one of: provision, install, rotate, get, revoke, check")
 	ca         = flag.String("ca", "", "CA certificate file.")
-	key        = flag.String("key", "", "Private key file.")
+	caKey      = flag.String("ca_key", "", "CA private key file.")
+	clientCert = flag.String("cert", "", "Certificate file.")
+	clientKey  = flag.String("key", "", "Private key file.")
 	targetCN   = flag.String("target_name", "", "Common Name of the target.")
 	targetAddr = flag.String("target_addr", "localhost:9339", "The target address in the format of host:port")
 	timeOut    = flag.Duration("time_out", 5*time.Second, "Timeout for the operation, 5 seconds by default")
@@ -60,16 +63,8 @@ var (
 func main() {
 	flag.Parse()
 
-	if *ca == "" || *key == "" {
-		log.Exit("-ca and -key must be set with file locations")
-	}
 	if *targetCN == "" {
 		log.Exit("Must set a Common Name ID with -target_name.")
-	}
-
-	var err error
-	if caEnt, err = entity.FromFile(*ca, *key); err != nil {
-		log.Exitf("Failed to load certificate and key from file: %v", err)
 	}
 
 	ctx, cancel = context.WithTimeout(context.Background(), *timeOut)
@@ -77,13 +72,13 @@ func main() {
 
 	switch *op {
 	case "provision":
-		certIDCheck()
+		generateCA()
 		provision()
 	case "install":
-		certIDCheck()
+		generateCA()
 		install()
 	case "rotate":
-		certIDCheck()
+		generateCA()
 		rotate()
 	case "revoke":
 		revoke()
@@ -96,9 +91,16 @@ func main() {
 	}
 }
 
-func certIDCheck() {
+func generateCA() {
+	if *ca == "" || *caKey == "" {
+		log.Exit("-ca and -ca_key must be set with file locations")
+	}
 	if *certID == "" {
 		log.Exit("Must set a certificate ID with -cert_id.")
+	}
+	var err error
+	if caEnt, err = entity.FromFile(*ca, *caKey); err != nil {
+		log.Exitf("Failed to load certificate and key from file: %v", err)
 	}
 }
 
@@ -122,17 +124,32 @@ func gnoiEncrypted(c tls.Certificate) (*grpc.ClientConn, *cert.Client) {
 
 // gnoiAuthenticated creates an authenticated TLS connection to the target.
 func gnoiAuthenticated(targetName string) (*grpc.ClientConn, *cert.Client) {
-	clientEnt, err := entity.CreateSigned("client", nil, caEnt)
+	var signedCert tls.Certificate
+	if *clientKey != "" && *clientCert != "" {
+		var err error
+		signedCert, err = tls.LoadX509KeyPair(*clientCert, *clientKey)
+		if err != nil {
+			log.Exitf("Failed to generate cert from file: %v", err)
+		}
+	} else {
+		clientEnt, err := entity.CreateSigned("client", nil, caEnt)
+		if err != nil {
+			log.Exitf("Failed to create a signed entity: %v", err)
+		}
+		signedCert = *clientEnt.Certificate
+	}
+
+	caFile, err := ioutil.ReadFile(*ca)
 	if err != nil {
-		log.Exitf("Failed to create a signed entity: %v", err)
+		log.Exitf("Couldn't read CA file: %v", err)
 	}
 	caPool := x509.NewCertPool()
-	caPool.AddCert(caEnt.Certificate.Leaf)
+	caPool.AppendCertsFromPEM(caFile)
 
 	opts := []grpc.DialOption{grpc.WithTransportCredentials(credentials.NewTLS(
 		&tls.Config{
 			ServerName:   targetName,
-			Certificates: []tls.Certificate{*clientEnt.Certificate},
+			Certificates: []tls.Certificate{signedCert},
 			RootCAs:      caPool,
 		}))}
 
@@ -196,20 +213,20 @@ func rotate() {
 
 // revoke revokes a certificate in authenticated mode.
 func revoke() {
-    	var revokeCertIDs  = []string { *certID }
+	var revokeCertIDs = []string{*certID}
 
-    	if *certIDs != "" {
-        	revokeCertIDs  = strings.FieldsFunc(*certIDs, func(r rune) bool { return r == ',' })
-        	if len(revokeCertIDs ) == 0 {
-            		log.Exit("Must specify comma separated certificate IDs when using -cert_ids")
-        	}
-    	} else if *certID == "" {
-               log.Exit("Must set a certificate ID with -cert_id or set multiple IDs with -cert_ids")
+	if *certIDs != "" {
+		revokeCertIDs = strings.FieldsFunc(*certIDs, func(r rune) bool { return r == ',' })
+		if len(revokeCertIDs) == 0 {
+			log.Exit("Must specify comma separated certificate IDs when using -cert_ids")
+		}
+	} else if *certID == "" {
+		log.Exit("Must set a certificate ID with -cert_id or set multiple IDs with -cert_ids")
 	}
 	conn, client := gnoiAuthenticated(*targetCN)
 	defer conn.Close()
 
-	revoked, err := client.RevokeCertificates(ctx, revokeCertIDs )
+	revoked, err := client.RevokeCertificates(ctx, revokeCertIDs)
 	if err != nil {
 		log.Exit("Failed RevokeCertificates:", err)
 	}
