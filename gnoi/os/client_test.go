@@ -120,10 +120,11 @@ func readBytes(num int) func(string) (io.ReaderAt, uint64, func() error, error) 
 
 func TestInstall(t *testing.T) {
 	installTests := []struct {
-		name   string
-		reqMap []*installRequestMap
-		reader func(string) (io.ReaderAt, uint64, func() error, error)
-		err    error
+		name    string
+		reqMap  []*installRequestMap
+		reader  func(string) (io.ReaderAt, uint64, func() error, error)
+		err     error
+		timeout time.Duration
 	}{
 		{
 			"Already validated",
@@ -135,6 +136,7 @@ func TestInstall(t *testing.T) {
 			},
 			readBytes(0),
 			nil,
+			100 * time.Millisecond,
 		},
 		{
 			"File size of one chunk then validated",
@@ -154,6 +156,7 @@ func TestInstall(t *testing.T) {
 			},
 			readBytes(chunkSize),
 			nil,
+			100 * time.Millisecond,
 		},
 		{
 			"File size of two chunks + 1 then validated",
@@ -181,6 +184,7 @@ func TestInstall(t *testing.T) {
 			},
 			readBytes((chunkSize * 2) + 1),
 			nil,
+			100 * time.Millisecond,
 		},
 		{
 			"File size of one chunk but INCOMPATIBLE InstallError",
@@ -196,6 +200,31 @@ func TestInstall(t *testing.T) {
 			},
 			readBytes(chunkSize),
 			errors.New("InstallError occured: INCOMPATIBLE"),
+			100 * time.Millisecond,
+		},
+		{
+			"TransferRequest but  INCOMPATIBLE InstallError",
+			[]*installRequestMap{
+				{
+					&pb.InstallRequest{Request: &pb.InstallRequest_TransferRequest{TransferRequest: &pb.TransferRequest{Version: "version"}}},
+					&pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_INCOMPATIBLE}}},
+				},
+			},
+			readBytes(0),
+			errors.New("InstallError occured: INCOMPATIBLE"),
+			100 * time.Millisecond,
+		},
+		{
+			"TransferRequest but Unspecified InstallError",
+			[]*installRequestMap{
+				{
+					&pb.InstallRequest{Request: &pb.InstallRequest_TransferRequest{TransferRequest: &pb.TransferRequest{Version: "version"}}},
+					&pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_UNSPECIFIED, Detail: "Unspecified"}}},
+				},
+			},
+			readBytes(0),
+			errors.New("Unspecified InstallError error: Unspecified"),
+			100 * time.Millisecond,
 		},
 		{
 			"File size of two chunks but Unspecified InstallError",
@@ -211,6 +240,27 @@ func TestInstall(t *testing.T) {
 			},
 			readBytes(chunkSize * 2),
 			errors.New("Unspecified InstallError error: Unspecified"),
+			100 * time.Millisecond,
+		},
+		{
+			"File size of one chunk then timout",
+			[]*installRequestMap{
+				{
+					&pb.InstallRequest{Request: &pb.InstallRequest_TransferRequest{TransferRequest: &pb.TransferRequest{Version: "version"}}},
+					&pb.InstallResponse{Response: &pb.InstallResponse_TransferReady{}},
+				},
+				{
+					&pb.InstallRequest{Request: &pb.InstallRequest_TransferContent{}},
+					&pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{TransferProgress: &pb.TransferProgress{BytesReceived: chunkSize}}},
+				},
+				{
+					&pb.InstallRequest{Request: &pb.InstallRequest_TransferEnd{}},
+					nil,
+				},
+			},
+			readBytes(chunkSize),
+			errors.New("Validation timed out"),
+			50 * time.Millisecond,
 		},
 	}
 	for _, test := range installTests {
@@ -223,7 +273,7 @@ func TestInstall(t *testing.T) {
 				}},
 			}
 			fileReader = test.reader
-			if err := client.Install(context.Background(), "", "version", 100*time.Millisecond); fmt.Sprintf("%v", err) != fmt.Sprintf("%v", test.err) {
+			if err := client.Install(context.Background(), "", "version", test.timeout); fmt.Sprintf("%v", err) != fmt.Sprintf("%v", test.err) {
 				t.Errorf("Wanted error: **%v** but got error: **%v**", test.err, err)
 			}
 		})
