@@ -203,7 +203,7 @@ func TestInstall(t *testing.T) {
 			100 * time.Millisecond,
 		},
 		{
-			"TransferRequest but  INCOMPATIBLE InstallError",
+			"TransferRequest but INCOMPATIBLE InstallError",
 			[]*installRequestMap{
 				{
 					&pb.InstallRequest{Request: &pb.InstallRequest_TransferRequest{TransferRequest: &pb.TransferRequest{Version: "version"}}},
