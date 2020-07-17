@@ -68,15 +68,15 @@ func main() {
 
 	switch *op {
 	case "provision":
-		caEnt = credUtils.GenerateCA()
+		caEnt = credUtils.GetCAEntity()
 		certIDCheck()
 		provision()
 	case "install":
-		caEnt = credUtils.GenerateCA()
+		caEnt = credUtils.GetCAEntity()
 		certIDCheck()
 		install()
 	case "rotate":
-		caEnt = credUtils.GenerateCA()
+		caEnt = credUtils.GetCAEntity()
 		certIDCheck()
 		rotate()
 	case "revoke":
