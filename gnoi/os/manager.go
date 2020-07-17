@@ -14,6 +14,7 @@ package os
 
 import (
 	"fmt"
+	"sync"
 )
 
 // Manager for storing data on OS's.
@@ -23,6 +24,7 @@ type Manager struct {
 	runningVersion        string
 	factoryVersion        string
 	activationFailMessage string
+	mu                    sync.RWMutex
 }
 
 // Settings wraps OS Server initialization options.
@@ -42,11 +44,15 @@ func NewManager(factoryVersion string) *Manager {
 
 // IsRunning will tell us whether or not the OS version specified is currently running.
 func (m *Manager) IsRunning(version string) bool {
+	m.mu.Lock()
+	defer m.mu.Unlock()
 	return version == m.runningVersion
 }
 
 // SetRunning sets the running OS to the version specified.
 func (m *Manager) SetRunning(version string) error {
+	m.mu.Lock()
+	defer m.mu.Unlock()
 	if m.activationFailMessage = m.failMsgs[version]; m.activationFailMessage != "" {
 		return nil
 	}
@@ -59,6 +65,15 @@ func (m *Manager) SetRunning(version string) error {
 
 // Install installs an OS. It must be fully transfered and verified beforehand.
 func (m *Manager) Install(version, activationFailMsg string) {
+	m.mu.Lock()
+	defer m.mu.Unlock()
 	m.osMap[version] = true
 	m.failMsgs[version] = activationFailMsg
+}
+
+// IsInstalled returns true if the OS is installed.
+func (m *Manager) IsInstalled(version string) bool {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	return m.osMap[version]
 }

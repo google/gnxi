@@ -13,27 +13,38 @@ limitations under the License.
 package os
 
 import (
+	"bytes"
 	"context"
+	"errors"
 
 	"github.com/google/gnxi/gnoi/os/pb"
+	"github.com/google/gnxi/utils"
+	"github.com/google/gnxi/utils/mockos"
 	"google.golang.org/grpc"
+)
+
+const (
+	targetChunkSize = 10000000 // 10MB
 )
 
 // Server is an OS Management service.
 type Server struct {
 	pb.OSServer
-	manager *Manager
+	manager      *Manager
+	installToken chan bool
 }
 
 // NewServer returns an OS Management service.
 func NewServer(settings *Settings) *Server {
 	server := &Server{
-		manager: NewManager(settings.FactoryVersion),
+		manager:      NewManager(settings.FactoryVersion),
+		installToken: make(chan bool, 1),
 	}
 	for _, version := range settings.InstalledVersions {
 		server.manager.Install(version, "")
 	}
 	server.manager.SetRunning(settings.FactoryVersion)
+	server.installToken <- true
 	return server
 }
 
@@ -61,4 +72,113 @@ func (s *Server) Verify(ctx context.Context, _ *pb.VerifyRequest) (*pb.VerifyRes
 		Version:               s.manager.runningVersion,
 		ActivationFailMessage: s.manager.activationFailMessage,
 	}, nil
+}
+
+// Install receives an OS package, validates the package and then installs the package.
+func (s *Server) Install(stream pb.OS_InstallServer) error {
+	var request *pb.InstallRequest
+	var response *pb.InstallResponse
+	var err error
+	if request, err = stream.Recv(); err != nil {
+		return err
+	}
+	utils.LogProto(request)
+	transferRequest := request.GetTransferRequest()
+	if transferRequest == nil {
+		return errors.New("Failed to receive TransferRequest")
+	}
+	if s.manager.IsRunning(transferRequest.Version) {
+		response = &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{
+			InstallError: &pb.InstallError{Type: pb.InstallError_INSTALL_RUN_PACKAGE},
+		}}
+		utils.LogProto(response)
+		if err = stream.Send(response); err != nil {
+			return err
+		}
+		return errors.New("Attempting to force transfer an OS of the same version as the currently running OS")
+	}
+	if version := transferRequest.Version; s.manager.IsInstalled(version) {
+		response = &pb.InstallResponse{Response: &pb.InstallResponse_Validated{
+			Validated: &pb.Validated{
+				Version: version,
+			},
+		}}
+		utils.LogProto(response)
+		if err = stream.Send(response); err != nil {
+			return err
+		}
+		return nil
+	}
+	select {
+	case <-s.installToken:
+		defer func() {
+			s.installToken <- true
+		}()
+	default:
+		response = &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_INSTALL_IN_PROGRESS}}}
+		utils.LogProto(response)
+		if err = stream.Send(response); err != nil {
+			return err
+		}
+		return errors.New("Another install is already in progress")
+	}
+
+	response = &pb.InstallResponse{Response: &pb.InstallResponse_TransferReady{TransferReady: &pb.TransferReady{}}}
+	utils.LogProto(response)
+	if err = stream.Send(response); err != nil {
+		return err
+	}
+
+	bb, err := ReceiveOS(stream)
+	if err != nil {
+		return err
+	}
+	mockOS, err, errResponse := mockos.ValidateOS(bb)
+	if err != nil {
+		response = &pb.InstallResponse{Response: errResponse}
+		utils.LogProto(response)
+		if err = stream.Send(response); err != nil {
+			return err
+		}
+		return err
+	}
+	s.manager.Install(mockOS.Version, mockOS.ActivationFailMessage)
+	response = &pb.InstallResponse{Response: &pb.InstallResponse_Validated{Validated: &pb.Validated{Version: mockOS.Version}}}
+	utils.LogProto(response)
+	if err = stream.Send(response); err != nil {
+		return err
+	}
+	return nil
+}
+
+// ReceiveOS receives and parses requests from stream, storing OS package into a buffer, and updating the progress.
+func ReceiveOS(stream pb.OS_InstallServer) (*bytes.Buffer, error) {
+	bb := &bytes.Buffer{}
+	prev := 0
+	for {
+		in, err := stream.Recv()
+		if err != nil {
+			return nil, err
+		}
+		switch in.Request.(type) {
+		case *pb.InstallRequest_TransferContent:
+			bb.Write(in.GetTransferContent())
+		case *pb.InstallRequest_TransferEnd:
+			utils.LogProto(in)
+			return bb, nil
+		default:
+			utils.LogProto(in)
+			return nil, errors.New("Unknown request type")
+		}
+		if curr := bb.Len() / targetChunkSize; curr > prev {
+			prev = curr
+			response := &pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{
+				TransferProgress: &pb.TransferProgress{BytesReceived: uint64(bb.Len())},
+			}}
+			utils.LogProto(response)
+			if err = stream.Send(response); err != nil {
+				return nil, err
+			}
+		}
+	}
 }
