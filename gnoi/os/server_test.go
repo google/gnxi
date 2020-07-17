@@ -65,6 +65,7 @@ func (m mockTransferStream) Recv() (*pb.InstallRequest, error) {
 				out, _ = proto.Marshal(&m.os.MockOS)
 			} else {
 				out = make([]byte, 10000000)
+				rand.Read(out)
 			}
 			return &pb.InstallRequest{Request: &pb.InstallRequest_TransferContent{TransferContent: out}}, nil
 		}
