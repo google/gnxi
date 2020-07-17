@@ -52,7 +52,7 @@ func GenerateOS(filename, version, size, activationFailMessage string, incompati
 		return err
 	}
 	defer file.Close()
-	out, err := packageOS(filename, version, size, activationFailMessage, incompatible)
+	out, err := packageOS(version, size, activationFailMessage, incompatible)
 	if err != nil {
 		return err
 	}
@@ -66,7 +66,7 @@ func GenerateOS(filename, version, size, activationFailMessage string, incompati
 	return nil
 }
 
-func packageOS(filename, version, size, activationFailMessage string, incompatible bool) ([]byte, error) {
+func packageOS(version, size, activationFailMessage string, incompatible bool) ([]byte, error) {
 	bufferSize, err := humanize.ParseBytes(size)
 	if err != nil {
 		return nil, err
