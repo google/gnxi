@@ -7,7 +7,8 @@ import (
 
 	"github.com/golang/protobuf/proto"
 	"github.com/google/gnxi/utils/mockos/pb"
-	"github.com/kylelemons/godebug/pretty"
+	"github.com/google/go-cmp/cmp"
+	"github.com/google/go-cmp/cmp/cmpopts"
 )
 
 func TestHashValidation(t *testing.T) {
@@ -105,7 +106,7 @@ func TestValidateOS(t *testing.T) {
 		bb := new(bytes.Buffer)
 		bb.Write(serializedOS)
 		os := ValidateOS(bb)
-		if diff := pretty.Compare(test.os, os); diff != "" {
+		if diff := cmp.Diff(test.os, os, cmpopts.IgnoreFields(pb.MockOS{}, "XXX_sizecache")); diff != "" {
 			t.Errorf("ValidateOS(): (-want +got):\n%s", diff)
 		}
 	}
