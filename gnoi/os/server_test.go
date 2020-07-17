@@ -18,18 +18,35 @@ import (
 	"errors"
 	"testing"
 
+	"github.com/golang/protobuf/proto"
 	"github.com/google/gnxi/gnoi/os/pb"
+	"github.com/google/gnxi/utils/mockos"
+	mockosPb "github.com/google/gnxi/utils/mockos/pb"
 	"github.com/kylelemons/godebug/pretty"
 )
 
+type installResult struct {
+	res *pb.InstallResponse
+	err error
+}
+
 type mockTransferStream struct {
 	pb.OS_InstallServer
-	responses chan *pb.InstallResponse
-	errorReq  *pb.InstallRequest
+	response chan *pb.InstallResponse
+	errorReq *pb.InstallRequest
+	result   chan *pb.InstallResponse
+	os       *mockos.OS
 }
 
 func (m mockTransferStream) Send(res *pb.InstallResponse) error {
-	m.responses <- res
+	switch res.Response.(type) {
+	case *pb.InstallResponse_Validated:
+		m.result <- res
+	case *pb.InstallResponse_InstallError:
+		m.result <- res
+	default:
+		m.response <- res
+	}
 	return nil
 }
 
@@ -38,13 +55,23 @@ func (m mockTransferStream) Recv() (*pb.InstallRequest, error) {
 		return request, nil
 	}
 	select {
-	case <-m.responses:
-		return &pb.InstallRequest{Request: &pb.InstallRequest_TransferEnd{}}, nil
+	case res := <-m.response:
+		switch res.Response.(type) {
+		case *pb.InstallResponse_TransferProgress:
+			return &pb.InstallRequest{Request: &pb.InstallRequest_TransferEnd{}}, nil
+		case *pb.InstallResponse_TransferReady:
+			var out []byte
+			if m.os.MockOS.Padding != nil {
+				out, _ = proto.Marshal(&m.os.MockOS)
+			} else {
+				out = make([]byte, 10000000)
+			}
+			return &pb.InstallRequest{Request: &pb.InstallRequest_TransferContent{TransferContent: out}}, nil
+		}
 	default:
-		buf := make([]byte, 1000000)
-		rand.Read(buf)
-		return &pb.InstallRequest{Request: &pb.InstallRequest_TransferContent{TransferContent: buf}}, nil
+		return &pb.InstallRequest{Request: &pb.InstallRequest_TransferRequest{TransferRequest: &pb.TransferRequest{Version: m.os.MockOS.Version}}}, nil
 	}
+	return nil, nil
 }
 
 func TestTargetActivate(t *testing.T) {
@@ -151,28 +178,196 @@ func TestTargetActivateAndVerify(t *testing.T) {
 }
 
 func TestTargetReceiveOS(t *testing.T) {
+	buf := make([]byte, 10000000)
+	rand.Read(buf)
+	oS := &mockos.OS{MockOS: mockosPb.MockOS{
+		Version: "1.0.2a",
+		Cookie:  "cookiestring",
+		Padding: buf,
+	}}
+	oS.Hash()
 	tests := []struct {
 		stream *mockTransferStream
 		err    error
 	}{
 		{
 			stream: &mockTransferStream{
-				responses: make(chan *pb.InstallResponse, 1),
+				response: make(chan *pb.InstallResponse, 1),
+				os:       oS,
 			},
 			err: nil,
 		},
 		{
 			stream: &mockTransferStream{
-				responses: make(chan *pb.InstallResponse, 1),
-				errorReq:  &pb.InstallRequest{Request: &pb.InstallRequest_TransferRequest{}}, // Unexpected request after transfer begins.
+				response: make(chan *pb.InstallResponse, 1),
+				errorReq: &pb.InstallRequest{Request: &pb.InstallRequest_TransferRequest{}}, // Unexpected request after transfer begins.
+				os:       oS,
 			},
 			err: errors.New("Unknown request type"),
 		},
 	}
 	for _, test := range tests {
+		test.stream.response <- &pb.InstallResponse{Response: &pb.InstallResponse_TransferReady{}}
 		_, err := ReceiveOS(test.stream)
 		if diff := pretty.Compare(test.err, err); diff != "" {
 			t.Errorf("ReceiveOS(stream): (-want +got):\n%s", diff)
 		}
+	}
+}
+
+func TestTargetInstall(t *testing.T) {
+	buf := make([]byte, 10000000)
+	rand.Read(buf)
+	oS := &mockos.OS{MockOS: mockosPb.MockOS{
+		Version: "1.0.2a",
+		Cookie:  "cookiestring",
+		Padding: buf,
+	}}
+	oS.Hash()
+	incompatibleOS := &mockos.OS{MockOS: mockosPb.MockOS{
+		Version:      "1.0.2b",
+		Cookie:       "cookiestring",
+		Padding:      buf,
+		Incompatible: true,
+	}}
+	incompatibleOS.Hash()
+	tests := []struct {
+		stream *mockTransferStream
+		want   *installResult
+	}{
+		{
+			stream: &mockTransferStream{
+				response: make(chan *pb.InstallResponse, 1),
+				result:   make(chan *pb.InstallResponse, 1),
+				os:       oS,
+			},
+			want: &installResult{
+				res: &pb.InstallResponse{Response: &pb.InstallResponse_Validated{Validated: &pb.Validated{Version: oS.Version}}},
+				err: nil,
+			},
+		},
+		{
+			stream: &mockTransferStream{
+				response: make(chan *pb.InstallResponse, 1),
+				result:   make(chan *pb.InstallResponse, 1),
+				errorReq: &pb.InstallRequest{Request: nil}, // Unexpected request.
+				os:       oS,
+			},
+			want: &installResult{
+				res: nil,
+				err: errors.New("Failed to receive TransferRequest"),
+			},
+		},
+		{
+			stream: &mockTransferStream{
+				response: make(chan *pb.InstallResponse, 1),
+				result:   make(chan *pb.InstallResponse, 1),
+				os: &mockos.OS{MockOS: mockosPb.MockOS{
+					Version: "1.0.0a",
+				}},
+			},
+			want: &installResult{
+				res: &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{
+					InstallError: &pb.InstallError{Type: pb.InstallError_INSTALL_RUN_PACKAGE},
+				}},
+				err: errors.New("Attempting to force transfer an OS of the same version as the currently running OS"),
+			},
+		},
+		{
+			stream: &mockTransferStream{
+				response: make(chan *pb.InstallResponse, 1),
+				result:   make(chan *pb.InstallResponse, 1),
+				os: &mockos.OS{MockOS: mockosPb.MockOS{
+					Version: "1.0.3c",
+				}},
+			},
+			want: &installResult{
+				res: &pb.InstallResponse{Response: &pb.InstallResponse_Validated{Validated: &pb.Validated{Version: "1.0.3c"}}},
+				err: nil,
+			},
+		},
+		{
+			stream: &mockTransferStream{
+				response: make(chan *pb.InstallResponse, 1),
+				result:   make(chan *pb.InstallResponse, 1),
+				os: &mockos.OS{MockOS: mockosPb.MockOS{
+					Version: "1.0.2b",
+					Cookie:  "cookiestring",
+					Padding: buf,
+					Hash:    []byte("BADHASH"),
+				}},
+			},
+			want: &installResult{
+				res: &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_INTEGRITY_FAIL}}},
+				err: nil,
+			},
+		},
+		{
+			stream: &mockTransferStream{
+				response: make(chan *pb.InstallResponse, 1),
+				result:   make(chan *pb.InstallResponse, 1),
+				os:       incompatibleOS,
+			},
+			want: &installResult{
+				res: &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_INCOMPATIBLE, Detail: "Unsupported OS Version"}}},
+				err: nil,
+			},
+		},
+		{
+			stream: &mockTransferStream{
+				response: make(chan *pb.InstallResponse, 1),
+				result:   make(chan *pb.InstallResponse, 1),
+				os: &mockos.OS{MockOS: mockosPb.MockOS{
+					Version: "1.0.2c",
+				}},
+			},
+			want: &installResult{
+				res: &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_PARSE_FAIL}}},
+				err: nil,
+			},
+		},
+	}
+	for _, test := range tests {
+		server := NewServer(&Settings{FactoryVersion: "1.0.0a", InstalledVersions: []string{"1.0.3c"}})
+		got := &installResult{
+			err: server.Install(test.stream),
+		}
+		close(test.stream.result)
+		got.res = <-test.stream.result
+		if diff := pretty.Compare(test.want, got); diff != "" {
+			t.Errorf("Install(stream pb.OS_InstallServer): (-want +got):\n%s", diff)
+		}
+	}
+}
+
+func TestMultipleInstalls(t *testing.T) {
+	buf := make([]byte, 10000000)
+	rand.Read(buf)
+	oS := &mockos.OS{MockOS: mockosPb.MockOS{
+		Version: "1.0.2a",
+		Cookie:  "cookiestring",
+		Padding: buf,
+	}}
+	oS.Hash()
+	server := NewServer(&Settings{FactoryVersion: "1.0.0a"})
+	s1 := &mockTransferStream{
+		response: make(chan *pb.InstallResponse, 1),
+		result:   make(chan *pb.InstallResponse, 1),
+		os:       oS,
+	}
+	s2 := &mockTransferStream{
+		response: make(chan *pb.InstallResponse, 1),
+		result:   make(chan *pb.InstallResponse, 1),
+		os:       oS,
+	}
+	go server.Install(s1)
+	go server.Install(s2)
+	s1res := <-s1.result
+	s2res := <-s2.result
+	expect := &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_INSTALL_IN_PROGRESS}}}
+	diff1 := pretty.Compare(expect, s1res)
+	diff2 := pretty.Compare(expect, s2res)
+	if (diff1 != "" && diff2 != "") || diff1 == diff2 {
+		t.Errorf("Install(stream pb.OS_InstallServer): (-want +got):\n%s\n%s", diff1, diff2)
 	}
 }
