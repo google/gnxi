@@ -73,6 +73,11 @@ func (c *mockInstallClient) Recv() (*pb.InstallResponse, error) {
 		res := c.reqMap[i].resp
 		if res == nil {
 			<-time.After(200 * time.Millisecond)
+			return &pb.InstallResponse{
+				Response: &pb.InstallResponse_InstallError{
+					InstallError: &pb.InstallError{Type: pb.InstallError_UNSPECIFIED, Detail: "Invalid command"},
+				},
+			}, nil
 		}
 		return res, nil
 	case err := <-c.recvErr:
