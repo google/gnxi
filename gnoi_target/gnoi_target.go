@@ -120,8 +120,8 @@ func start() {
 	}
 	// Registers a caller for whenever the number of installed certificates changes.
 	gNOIServer.RegisterCertNotifier(notifyCerts)
-	bootstrapping = false
-	notifyCerts(0, 0) // Triggers bootstraping mode.
+	bootstrapping = certs != 0 && caCerts != 0
+	notifyCerts(certs, caCerts) // Triggers bootstraping mode.
 }
 
 // notifyReset is called when the factory reset service requires the server

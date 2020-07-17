@@ -22,7 +22,6 @@ import (
 	"fmt"
 
 	"github.com/google/gnxi/gnoi/cert/pb"
-	"github.com/google/gnxi/utils/credentials"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 

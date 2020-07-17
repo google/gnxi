@@ -52,11 +52,11 @@ type Manager struct {
 }
 
 // NewManager returns a Manager.
-func NewManager(privateKey crypto.PrivateKey) *Manager {
+func NewManager(privateKey crypto.PrivateKey, caBundle []*x509.Certificate) *Manager {
 	return &Manager{
 		privateKey: privateKey,
 		certInfo:   map[string]*Info{},
-		caBundle:   []*x509.Certificate{},
+		caBundle:   caBundle,
 		locks:      map[string]bool{},
 		notifiers:  []Notifier{},
 	}

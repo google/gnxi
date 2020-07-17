@@ -107,7 +107,6 @@ func LoadCertificates() ([]tls.Certificate, *x509.CertPool) {
 			return generateFromCA()
 		}
 	}
-	log.Exit("Please provide -ca & -key or -ca, -cert & -ca_key")
 	return []tls.Certificate{}, &x509.CertPool{}
 }
 
@@ -123,6 +122,9 @@ func ClientCredentials(server string) []grpc.DialOption {
 			tlsConfig.InsecureSkipVerify = true
 		} else {
 			certificates, certPool := LoadCertificates()
+			if len(certificates) == 0 {
+				log.Exit("Please provide -ca & -key or -ca, -cert & -ca_key")
+			}
 			tlsConfig.ServerName = server
 			tlsConfig.Certificates = certificates
 			tlsConfig.RootCAs = certPool

@@ -21,6 +21,7 @@ import (
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/tls"
+	"crypto/x509"
 	"fmt"
 
 	"github.com/google/gnxi/gnoi/cert"
@@ -61,7 +62,7 @@ func NewServer(privateKey crypto.PrivateKey, defaultCertificate *tls.Certificate
 		defaultCertificate = e.Certificate
 	}
 
-	certManager := cert.NewManager(defaultCertificate.PrivateKey)
+	certManager := cert.NewManager(defaultCertificate.PrivateKey, []*x509.Certificate{})
 	certServer := cert.NewServer(certManager)
 	resetServer := reset.NewServer(resetSettings, notifyReset)
 	osServer := os.NewServer(osSettings)

@@ -57,7 +57,7 @@ func TestNewManager(t *testing.T) {
 		},
 	}
 	for _, test := range tests {
-		gotMgr := NewManager(test.privKey)
+		gotMgr := NewManager(test.privKey, []*x509.Certificate{})
 		if !cmp.Equal(test.wantMgr, gotMgr, cmpOpts...) {
 			t.Errorf("NewManager: (-want +got):\n%s", cmp.Diff(test.wantMgr, gotMgr, cmpOpts...))
 		}
