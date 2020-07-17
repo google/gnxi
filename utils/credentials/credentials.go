@@ -43,6 +43,7 @@ var (
 	usernameKey    = "username"
 	passwordKey    = "password"
 	caEnt          *entity.Entity
+	caCert         *x509.Certificate
 )
 
 func init() {
@@ -81,6 +82,10 @@ func loadFromFile() ([]tls.Certificate, *x509.CertPool) {
 
 	if ok := certPool.AppendCertsFromPEM(caFile); !ok {
 		log.Exit("failed to append CA certificate")
+	}
+	caCert, err = x509.ParseCertificate(caFile)
+	if err != nil {
+		log.Exitf("Error parsing CA certificate", err)
 	}
 	return []tls.Certificate{certificate}, certPool
 }
@@ -150,6 +155,7 @@ func GetCAEntity() *entity.Entity {
 	if caEnt, err = entity.FromFile(*ca, *caKey); err != nil {
 		log.Exitf("Failed to load certificate and key from file: %v", err)
 	}
+	caCert = caEnt.Certificate.Leaf
 	return caEnt
 }
 
@@ -174,6 +180,11 @@ func ServerCredentials() []grpc.ServerOption {
 		Certificates: certificates,
 		ClientCAs:    certPool,
 	}))}
+}
+
+// GetCACert returns the parsed CA cert.
+func GetCACert() *x509.Certificate {
+	return caCert
 }
 
 // AuthorizeUser checks for valid credentials in the context Metadata.

@@ -19,6 +19,7 @@ package main
 import (
 	"crypto"
 	"crypto/tls"
+	"crypto/x509"
 	"flag"
 	"net"
 	"strings"
@@ -105,19 +106,25 @@ func start() {
 		FactoryVersion:    *factoryVersion,
 		InstalledVersions: strings.Split(*installedVersions, " "),
 	}
+
 	cert, caPool := credentials.LoadCertificates()
 	certs := len(cert)
 	caCerts := len(caPool.Subjects())
-	var privateKey crypto.PrivateKey
-	var defaultCert *tls.Certificate
+	var (
+		privateKey  crypto.PrivateKey
+		defaultCert *tls.Certificate
+		caBundle    []*x509.Certificate
+		err         error
+	)
 	if certs > 0 && caCerts > 0 {
 		defaultCert = &cert[0]
 		privateKey = &cert[0].PrivateKey
+		caBundle = []*x509.Certificate{credentials.GetCACert()}
 	}
-	var err error
-	if gNOIServer, err = gnoi.NewServer(privateKey, defaultCert, resetSettings, notifyReset, osSettings); err != nil {
+	if gNOIServer, err = gnoi.NewServer(privateKey, defaultCert, caBundle, resetSettings, notifyReset, osSettings); err != nil {
 		log.Fatal("Failed to create gNOI Server:", err)
 	}
+
 	// Registers a caller for whenever the number of installed certificates changes.
 	gNOIServer.RegisterCertNotifier(notifyCerts)
 	bootstrapping = certs != 0 && caCerts != 0
