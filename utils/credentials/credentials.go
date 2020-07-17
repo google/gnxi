@@ -42,6 +42,7 @@ var (
 	authorizedUser = userCredentials{}
 	usernameKey    = "username"
 	passwordKey    = "password"
+	caEnt          *entity.Entity
 )
 
 func init() {
@@ -86,9 +87,12 @@ func loadCerts() ([]tls.Certificate, *x509.CertPool) {
 
 // generateFromCA generates a client certificate from the provided CA.
 func generateFromCA() ([]tls.Certificate, *x509.CertPool) {
-	caEnt, err := entity.FromFile(*ca, *caKey)
-	if err != nil {
-		log.Exitf("Failed to load certificate and key from file: %v", err)
+	if caEnt == nil {
+		var err error
+		caEnt, err = entity.FromFile(*ca, *caKey)
+		if err != nil {
+			log.Exitf("Failed to load certificate and key from file: %v", err)
+		}
 	}
 	clientEnt, err := entity.CreateSigned("client", nil, caEnt)
 	if err != nil {
@@ -137,6 +141,18 @@ func ClientCredentials(server string) []grpc.DialOption {
 		return append(opts, grpc.WithPerRPCCredentials(&authorizedUser))
 	}
 	return opts
+}
+
+// GenerateCA generates a CA entity from a CA file and private key.
+func GenerateCA() *entity.Entity {
+	if *caKey == "" {
+		log.Exit("-ca_key must be set with file locations")
+	}
+	var err error
+	if caEnt, err = entity.FromFile(*ca, *caKey); err != nil {
+		log.Exitf("Failed to load certificate and key from file: %v", err)
+	}
+	return caEnt
 }
 
 // ServerCredentials generates gRPC ServerOptions for existing credentials.

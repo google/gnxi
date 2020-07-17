@@ -23,12 +23,12 @@ import (
 	"crypto/x509/pkix"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"reflect"
 	"strings"
 	"time"
 
 	"github.com/google/gnxi/gnoi/cert"
+	credUtils "github.com/google/gnxi/utils/credentials"
 	"github.com/google/gnxi/utils/entity"
 	"github.com/kylelemons/godebug/pretty"
 	"google.golang.org/grpc"
@@ -41,10 +41,6 @@ var (
 	certID     = flag.String("cert_id", "", "Certificate Management certificate ID.")
 	certIDs    = flag.String("cert_ids", "", "Comma separated list of Certificate Management certificate IDs for revoke operation")
 	op         = flag.String("op", "get", "Certificate Management operation, one of: provision, install, rotate, get, revoke, check")
-	ca         = flag.String("ca", "", "CA certificate file.")
-	caKey      = flag.String("ca_key", "", "CA private key file.")
-	clientCert = flag.String("cert", "", "Certificate file.")
-	clientKey  = flag.String("key", "", "Private key file.")
 	targetCN   = flag.String("target_name", "", "Common Name of the target.")
 	targetAddr = flag.String("target_addr", "localhost:9339", "The target address in the format of host:port")
 	timeOut    = flag.Duration("time_out", 5*time.Second, "Timeout for the operation, 5 seconds by default")
@@ -66,8 +62,9 @@ func main() {
 	if *targetCN == "" {
 		log.Exit("Must set a Common Name ID with -target_name.")
 	}
-	if *ca == "" {
-		log.Exit("-ca must be set with file locations")
+
+	if *certID == "" {
+		log.Exit("Must set a certificate ID with -cert_id.")
 	}
 
 	ctx, cancel = context.WithTimeout(context.Background(), *timeOut)
@@ -75,13 +72,13 @@ func main() {
 
 	switch *op {
 	case "provision":
-		generateCA()
+		caEnt = credUtils.GenerateCA()
 		provision()
 	case "install":
-		generateCA()
+		caEnt = credUtils.GenerateCA()
 		install()
 	case "rotate":
-		generateCA()
+		caEnt = credUtils.GenerateCA()
 		rotate()
 	case "revoke":
 		revoke()
@@ -91,19 +88,6 @@ func main() {
 		get()
 	default:
 		log.Exitf("Unknown operation: %q", *op)
-	}
-}
-
-func generateCA() {
-	if *caKey == "" {
-		log.Exit("-ca_key must be set with file locations")
-	}
-	if *certID == "" {
-		log.Exit("Must set a certificate ID with -cert_id.")
-	}
-	var err error
-	if caEnt, err = entity.FromFile(*ca, *caKey); err != nil {
-		log.Exitf("Failed to load certificate and key from file: %v", err)
 	}
 }
 
@@ -127,37 +111,13 @@ func gnoiEncrypted(c tls.Certificate) (*grpc.ClientConn, *cert.Client) {
 
 // gnoiAuthenticated creates an authenticated TLS connection to the target.
 func gnoiAuthenticated(targetName string) (*grpc.ClientConn, *cert.Client) {
-	var signedCert tls.Certificate
-	if *clientKey != "" && *clientCert != "" {
-		var err error
-		signedCert, err = tls.LoadX509KeyPair(*clientCert, *clientKey)
-		if err != nil {
-			log.Exitf("Failed to generate cert from file: %v", err)
-		}
-	} else {
-		clientEnt, err := entity.CreateSigned("client", nil, caEnt)
-		if err != nil {
-			log.Exitf("Failed to create a signed entity: %v", err)
-		}
-		signedCert = *clientEnt.Certificate
-	}
-
-	caPool := x509.NewCertPool()
-	if caEnt != nil {
-		caPool.AddCert(caEnt.Certificate.Leaf)
-	} else {
-		caFile, err := ioutil.ReadFile(*ca)
-		if err != nil {
-			log.Exitf("Couldn't read CA file: %v", err)
-		}
-		caPool.AppendCertsFromPEM(caFile)
-	}
+	signed, certPool := credUtils.LoadCertificates()
 
 	opts := []grpc.DialOption{grpc.WithTransportCredentials(credentials.NewTLS(
 		&tls.Config{
 			ServerName:   targetName,
-			Certificates: []tls.Certificate{signedCert},
-			RootCAs:      caPool,
+			Certificates: signed,
+			RootCAs:      certPool,
 		}))}
 
 	conn, err := grpc.Dial(*targetAddr, opts...)
