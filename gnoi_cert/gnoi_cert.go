@@ -63,22 +63,21 @@ func main() {
 		log.Exit("Must set a Common Name ID with -target_name.")
 	}
 
-	if *certID == "" {
-		log.Exit("Must set a certificate ID with -cert_id.")
-	}
-
 	ctx, cancel = context.WithTimeout(context.Background(), *timeOut)
 	defer cancel()
 
 	switch *op {
 	case "provision":
 		caEnt = credUtils.GenerateCA()
+		certIDCheck()
 		provision()
 	case "install":
 		caEnt = credUtils.GenerateCA()
+		certIDCheck()
 		install()
 	case "rotate":
 		caEnt = credUtils.GenerateCA()
+		certIDCheck()
 		rotate()
 	case "revoke":
 		revoke()
@@ -88,6 +87,12 @@ func main() {
 		get()
 	default:
 		log.Exitf("Unknown operation: %q", *op)
+	}
+}
+
+func certIDCheck() {
+	if *certID == "" {
+		log.Exit("Must set a certificate ID with -cert_id.")
 	}
 }
 
