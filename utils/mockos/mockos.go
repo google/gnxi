@@ -21,7 +21,6 @@ import (
 
 	"github.com/dustin/go-humanize"
 	"github.com/golang/protobuf/proto"
-	osPb "github.com/google/gnxi/gnoi/os/pb"
 	"github.com/google/gnxi/utils/mockos/pb"
 )
 
@@ -40,7 +39,7 @@ func (os *OS) Hash() {
 
 // CheckHash calculates the hash of the MockOS and checks against the embedded hash.
 func (os *OS) CheckHash() bool {
-	return bytes.Compare(os.MockOS.Hash, calcHash(os)) == 0
+	return bytes.Equal(os.MockOS.Hash, calcHash(os))
 }
 
 // GenerateOS creates a Mock OS file for gNOI target use.
@@ -53,21 +52,7 @@ func GenerateOS(filename, version, size, activationFailMessage string, incompati
 		return err
 	}
 	defer file.Close()
-	bufferSize, err := humanize.ParseBytes(size)
-	if err != nil {
-		return err
-	}
-	buf := make([]byte, bufferSize)
-	rand.Read(buf)
-	mockOs := &OS{MockOS: pb.MockOS{
-		Version:               version,
-		Cookie:                cookie,
-		Padding:               buf,
-		Incompatible:          incompatible,
-		ActivationFailMessage: activationFailMessage,
-	}}
-	mockOs.Hash()
-	out, err := proto.Marshal(&mockOs.MockOS)
+	out, err := packageOS(filename, version, size, activationFailMessage, incompatible)
 	if err != nil {
 		return err
 	}
@@ -81,19 +66,35 @@ func GenerateOS(filename, version, size, activationFailMessage string, incompati
 	return nil
 }
 
+func packageOS(filename, version, size, activationFailMessage string, incompatible bool) ([]byte, error) {
+	bufferSize, err := humanize.ParseBytes(size)
+	if err != nil {
+		return nil, err
+	}
+	buf := make([]byte, bufferSize)
+	rand.Read(buf)
+	mockOs := &OS{MockOS: pb.MockOS{
+		Version:               version,
+		Cookie:                cookie,
+		Padding:               buf,
+		Incompatible:          incompatible,
+		ActivationFailMessage: activationFailMessage,
+	}}
+	mockOs.Hash()
+	out, err := proto.Marshal(&mockOs.MockOS)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ValidateOS unmarshals the serialized OS proto and verifies the OS package's integrity.
-func ValidateOS(buf *bytes.Buffer) (*OS, error, *osPb.InstallResponse_InstallError) {
+func ValidateOS(buf *bytes.Buffer) *OS {
 	mockOs := &OS{MockOS: pb.MockOS{}}
 	if err := proto.Unmarshal(buf.Bytes(), &mockOs.MockOS); err != nil {
-		return nil, err, &osPb.InstallResponse_InstallError{&osPb.InstallError{Type: osPb.InstallError_PARSE_FAIL}}
+		return nil
 	}
-	if !mockOs.CheckHash() {
-		return nil, errors.New("Hash check failed!"), &osPb.InstallResponse_InstallError{&osPb.InstallError{Type: osPb.InstallError_INTEGRITY_FAIL}}
-	}
-	if mockOs.Incompatible {
-		return nil, errors.New("OS Unsupported!"), &osPb.InstallResponse_InstallError{&osPb.InstallError{Type: osPb.InstallError_INCOMPATIBLE, Detail: "Unsupported OS Version"}}
-	}
-	return mockOs, nil, nil
+	return mockOs
 }
 
 // calcHash returns the md5 hash of the OS.
