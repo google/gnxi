@@ -19,6 +19,7 @@ package credentials
 import (
 	"crypto/tls"
 	"crypto/x509"
+	"encoding/pem"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -83,7 +84,9 @@ func loadFromFile() ([]tls.Certificate, *x509.CertPool) {
 	if ok := certPool.AppendCertsFromPEM(caFile); !ok {
 		log.Exit("failed to append CA certificate")
 	}
-	caCert, err = x509.ParseCertificate(caFile)
+
+	block, _ := pem.Decode(caFile)
+	caCert, err = x509.ParseCertificate(block.Bytes)
 	if err != nil {
 		log.Exitf("Error parsing CA certificate", err)
 	}
