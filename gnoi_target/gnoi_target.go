@@ -17,6 +17,8 @@ limitations under the License.
 package main
 
 import (
+	"crypto"
+	"crypto/tls"
 	"flag"
 	"net"
 	"strings"
@@ -26,6 +28,7 @@ import (
 	"github.com/google/gnxi/gnoi"
 	"github.com/google/gnxi/gnoi/os"
 	"github.com/google/gnxi/gnoi/reset"
+	"github.com/google/gnxi/utils/credentials"
 	"google.golang.org/grpc"
 
 	log "github.com/golang/glog"
@@ -37,6 +40,7 @@ var (
 	muServe       sync.Mutex
 	bootstrapping bool
 
+	certID               = flag.String("cert_id", "", "Certificate ID for preloaded certificates")
 	bindAddr             = flag.String("bind_address", ":9339", "Bind to address:port or just :port")
 	resetDelay           = flag.Duration("reset_delay", 3*time.Second, "Delay before resetting the service upon factory reset request, 3 seconds by default")
 	zeroFillUnsupported  = flag.Bool("zero_fill_unsupported", false, "Make the target not support zero filling storage")
@@ -72,7 +76,9 @@ func notifyCerts(certs, caCerts int) {
 	}
 	if bootstrapping {
 		log.Info("Found Credentials, setting Provisioned state.")
-		grpcServer.GracefulStop()
+		if grpcServer != nil {
+			grpcServer.GracefulStop()
+		}
 		grpcServer = gNOIServer.PrepareAuthenticated()
 		// Register all gNOI services.
 		gNOIServer.Register(grpcServer)
@@ -99,8 +105,17 @@ func start() {
 		FactoryVersion:    *factoryVersion,
 		InstalledVersions: strings.Split(*installedVersions, " "),
 	}
+	cert, caPool := credentials.LoadCertificates()
+	certs := len(cert)
+	caCerts := len(caPool.Subjects())
+	var privateKey crypto.PrivateKey
+	var defaultCert *tls.Certificate
+	if certs > 0 && caCerts > 0 {
+		defaultCert = &cert[0]
+		privateKey = &cert[0].PrivateKey
+	}
 	var err error
-	if gNOIServer, err = gnoi.NewServer(nil, nil, resetSettings, notifyReset, osSettings); err != nil {
+	if gNOIServer, err = gnoi.NewServer(privateKey, defaultCert, resetSettings, notifyReset, osSettings); err != nil {
 		log.Fatal("Failed to create gNOI Server:", err)
 	}
 	// Registers a caller for whenever the number of installed certificates changes.
@@ -112,6 +127,7 @@ func start() {
 // notifyReset is called when the factory reset service requires the server
 // to be restarted.
 func notifyReset() {
+	*certID = ""
 	log.Info("Server factory reset triggered")
 	<-time.After(*resetDelay)
 	start()

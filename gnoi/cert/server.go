@@ -22,6 +22,7 @@ import (
 	"fmt"
 
 	"github.com/google/gnxi/gnoi/cert/pb"
+	"github.com/google/gnxi/utils/credentials"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
@@ -335,4 +336,8 @@ func (s *Server) CanGenerateCSR(ctx context.Context, request *pb.CanGenerateCSRR
 		CanGenerate: request.KeyType == pb.KeyType_KT_RSA && request.CertificateType == pb.CertificateType_CT_X509 && request.KeySize >= 2048 && request.KeySize <= 4096,
 	}
 	return ret, nil
+}
+
+func (s *Server) AddCertificates(certID string) (certs, caCerts int) {
+	return
 }
