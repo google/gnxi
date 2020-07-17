@@ -42,6 +42,7 @@ var (
 	authorizedUser = userCredentials{}
 	usernameKey    = "username"
 	passwordKey    = "password"
+	caEnt          *entity.Entity
 )
 
 func init() {
@@ -65,8 +66,8 @@ func (a *userCredentials) RequireTransportSecurity() bool {
 	return true
 }
 
-// loadCerts loads the certificates from files.
-func loadCerts() ([]tls.Certificate, *x509.CertPool) {
+// loadFromFile loads the certificates from files.
+func loadFromFile() ([]tls.Certificate, *x509.CertPool) {
 	certificate, err := tls.LoadX509KeyPair(*cert, *key)
 	if err != nil {
 		log.Exitf("could not load client key pair: %s", err)
@@ -86,10 +87,7 @@ func loadCerts() ([]tls.Certificate, *x509.CertPool) {
 
 // generateFromCA generates a client certificate from the provided CA.
 func generateFromCA() ([]tls.Certificate, *x509.CertPool) {
-	caEnt, err := entity.FromFile(*ca, *caKey)
-	if err != nil {
-		log.Exitf("Failed to load certificate and key from file: %v", err)
-	}
+	GetCAEntity()
 	clientEnt, err := entity.CreateSigned("client", nil, caEnt)
 	if err != nil {
 		log.Exitf("Failed to create a signed entity: %v", err)
@@ -103,7 +101,7 @@ func generateFromCA() ([]tls.Certificate, *x509.CertPool) {
 func LoadCertificates() ([]tls.Certificate, *x509.CertPool) {
 	if *ca != "" {
 		if *cert != "" && *key != "" {
-			return loadCerts()
+			return loadFromFile()
 		}
 		if *caKey != "" {
 			return generateFromCA()
@@ -115,7 +113,6 @@ func LoadCertificates() ([]tls.Certificate, *x509.CertPool) {
 
 // ClientCredentials generates gRPC DialOptions for existing credentials.
 func ClientCredentials(server string) []grpc.DialOption {
-
 	opts := []grpc.DialOption{}
 
 	if *notls {
@@ -137,6 +134,21 @@ func ClientCredentials(server string) []grpc.DialOption {
 		return append(opts, grpc.WithPerRPCCredentials(&authorizedUser))
 	}
 	return opts
+}
+
+// GetCAEntity gets a CA entity from a CA file and private key.
+func GetCAEntity() *entity.Entity {
+	if caEnt != nil {
+		return caEnt
+	}
+	if *caKey == "" {
+		log.Exit("-ca_key must be set with file locations")
+	}
+	var err error
+	if caEnt, err = entity.FromFile(*ca, *caKey); err != nil {
+		log.Exitf("Failed to load certificate and key from file: %v", err)
+	}
+	return caEnt
 }
 
 // ServerCredentials generates gRPC ServerOptions for existing credentials.
