@@ -29,7 +29,7 @@ import (
 var (
 	targetAddr = flag.String("target_addr", ":9339", "The target address in the format of host:port")
 	targetName = flag.String("target_name", "", "The target name used to verify the hostname returned by TLS handshake")
-	version    = flag.String("version", "", "Version of the OS required when using the activate operation")
+	version    = flag.String("version", "", "Version of the OS required when using the activate operation or being installed using the install operation")
 	osFile     = flag.String("os", "", "Path to the OS image for the install operation")
 	op         = flag.String("op", "", "OS service operation. Can be one of: install, activate, verify")
 	timeOut    = flag.Duration("time_out", 5*time.Second, "Timeout for the operation, 5 seconds by default")
@@ -73,10 +73,14 @@ func main() {
 // install installs the OS image onto the target.
 func install() {
 	if *osFile == "" {
-		log.Error("No OS image path provided. Provide one with -os")
-		return
+		log.Exit("No OS image path provided. Provide one with -os")
 	}
-	// TODO: Add Install RPC call
+	if *version == "" {
+		log.Exit("No version provided. Provide one with -version")
+	}
+	if err := client.Install(ctx, *osFile, *version, *timeOut); err != nil {
+		log.Exit("Failed Install: ", err)
+	}
 }
 
 // activate activates the OS version to be used upon next reboot on the target.
@@ -85,7 +89,7 @@ func activate() {
 		log.Exit("No version provided. Provide one with -version")
 	}
 	if err := client.Activate(ctx, *version); err != nil {
-		log.Exit("Failed Activate:", err)
+		log.Exit("Failed Activate: ", err)
 	}
 }
 
@@ -93,10 +97,10 @@ func activate() {
 func verify() {
 	version, activationFailMsg, err := client.Verify(ctx)
 	if err != nil {
-		log.Exit("Failed Verify:", err)
+		log.Exit("Failed Verify: ", err)
 	}
 	if activationFailMsg != "" {
 		log.Info("Previous activation fail message:", activationFailMsg)
 	}
-	log.Info("Running OS version:", version)
+	log.Info("Running OS version: ", version)
 }
