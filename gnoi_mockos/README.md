@@ -1,6 +1,8 @@
 # gNOI Mock OS Generator
 
-A simple shell binary generates a Mock OS package to use with the gNOI_target.
+A simple shell binary that generates a Mock OS package to use with the gNOI_target.
+
+See [mockOS proto](./../utils/mockos/pb/mockos.proto) for more details.
 
 ## Install
 

@@ -20,11 +20,9 @@ gnmi_set \
   -replace /system/openflow/agent/config/max-backoff:12 \
   -update /system/clock/config/timezone-name:"US/New York" \
   -target_addr localhost:9339 \
-  -target_name hostname.com \
+  -target_name target.com \
   -key client.key \
   -cert client.crt \
   -ca ca.crt \
-  -username foo \
-  -password bar
   -alsologtostderr
 ```

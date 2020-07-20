@@ -1,6 +1,6 @@
 # gNOI Factory Reset Client
 
-A simple shell binary that performs Factory Reset client operations against a gNOI target. The target will then enter bootstrapping mode.
+A simple shell binary that performs Factory Reset operations against a gNOI target. The target will then enter bootstrapping mode.
 
 ## gNOI Factory Reset Options
 *   `-rollback_os` will attempt to roll back the OS to the factory version and reset all certificates on the target.
@@ -16,6 +16,7 @@ go install github.com/google/gnxi/gnoi_reset
 ```
 gnoi_reset \
 -target_addr localhost:9399 \
+-target_name target.com \
 -rollback_os \
 -zero_fill \
 -key client.key \

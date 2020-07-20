@@ -6,9 +6,12 @@ against a gNOI Target.
 ## Certificates
 
 Only the Root certificate and private key are required for this client. The
-client will generate a client certificate and sign target signing requests
-(CSRs) with it. However this is not recommended for operations where an external
-signing authority is recommended.
+client will:
+
+* generate a client certificate for establishing the connection to the Target
+* sign target signing requests for installing or rotating certificates on the Target
+
+The client certificates can also be provided to establish the connection to the target and will be used instead.
 
 ## gNOI Certificate Management operations
 
@@ -33,8 +36,8 @@ go install github.com/google/gnxi/gnoi_cert
 ```
 gnoi_cert \
   -target_addr localhost:9339 \
-  -target_name hostname.com \
-  -key ca.key \
+  -target_name target.com \
+  -ca_key ca.key \
   -ca ca.crt \
   -op provision \
   -cert_id provision_cert \

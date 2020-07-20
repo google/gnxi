@@ -4,13 +4,11 @@ A simple shell binary that performs OS client operations against a gNOI target.
 
 ## gNOI OS Client Operations
 
-* `-op install` installs the provided OS image onto the target when it doesn't already 
-    have that OS version installed
+* `-op install` installs the provided OS image onto the target.
 
-* `-op activate` tells the target to boot into the specified OS version on next reboot if
-    it's installed.
+* `-op activate` tells the target to boot into the specified OS version on next reboot.
 
-* `-op verify` verifies the version of the OS currenly running on the target
+* `-op verify` verifies the version of the OS currenly running on the target.
 
 ## Install
 
@@ -23,7 +21,7 @@ go install github.com/google/gnxi/gnoi_os
 ```
 gnoi_os \
 -target_addr localhost:9399 \
--target_name name \
+-target_name target.com \
 -ca ca.crt \
 -key client.key \
 -cert client.crt \

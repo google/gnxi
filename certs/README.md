@@ -14,12 +14,17 @@ Simply run the script:
 ```
 Then pass the generated certs into the client and target:
 
+## Target name
+
+The script generates Target certificates with the name "target.com"
+
 ## Client Example
 ```
 gnoi_reset \
  <...>
+-target_name target.com \
 -ca /path/to/ca.crt \
--cert /path/to/client.crt
+-cert /path/to/client.crt \
 -key /path/to/client.key
 ```
 

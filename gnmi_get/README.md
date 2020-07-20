@@ -16,11 +16,9 @@ gnmi_get \
   -xpath "/system/openflow/agent/config/datapath-id" \
   -xpath "/system/openflow/controllers/controller[name=main]/connections/connection[aux-id=0]/state/address" \
   -target_addr localhost:9339 \
-  -target_name hostname.com \
+  -target_name target.com \
   -key client.key \
   -cert client.crt \
   -ca ca.crt \
-  -username foo \
-  -password bar \
   -alsologtostderr
 ```

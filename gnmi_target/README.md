@@ -18,7 +18,5 @@ gnmi_target \
   -key server.key \
   -cert server.crt \
   -ca ca.crt \
-  -username foo \
-  -password bar \
   -alsologtostderr
 ```
