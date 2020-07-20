@@ -70,7 +70,7 @@ func TestTLSCertificates(t *testing.T) {
 	}
 	tlsCert := tls.Certificate{
 		Leaf:        &x509Cert,
-		Certificate: [][]byte{[]byte{}},
+		Certificate: [][]byte{{}},
 	}
 	certPool := x509.NewCertPool()
 	certPool.AddCert(&x509Cert)
@@ -133,67 +133,67 @@ func TestRotate(t *testing.T) {
 		{
 			mgr: &Manager{
 				certInfo: map[string]*Info{
-					"id1": &Info{},
-					"id2": &Info{},
+					"id1": {},
+					"id2": {},
 				},
-				caBundle: []*x509.Certificate{&x509.Certificate{}},
+				caBundle: []*x509.Certificate{{}},
 				locks:    map[string]bool{"id2": true},
 			},
 			wantMgr: &Manager{
 				certInfo: map[string]*Info{
-					"id1": &Info{},
-					"id2": &Info{},
+					"id1": {},
+					"id2": {},
 				},
-				caBundle: []*x509.Certificate{&x509.Certificate{}},
+				caBundle: []*x509.Certificate{{}},
 				locks:    map[string]bool{"id2": true},
 			},
 			certID:     "id3",
 			pemCert:    []byte{},
-			pemCACerts: [][]byte{[]byte{}, []byte{}},
+			pemCACerts: [][]byte{{}, {}},
 			wantError:  true,
 		},
 		{
 			mgr: &Manager{
 				certInfo: map[string]*Info{
-					"id1": &Info{},
-					"id2": &Info{},
+					"id1": {},
+					"id2": {},
 				},
-				caBundle: []*x509.Certificate{&x509.Certificate{}},
+				caBundle: []*x509.Certificate{{}},
 				locks:    map[string]bool{"id2": true},
 			},
 			wantMgr: &Manager{
 				certInfo: map[string]*Info{
-					"id1": &Info{},
-					"id2": &Info{},
+					"id1": {},
+					"id2": {},
 				},
-				caBundle: []*x509.Certificate{&x509.Certificate{}},
+				caBundle: []*x509.Certificate{{}},
 				locks:    map[string]bool{"id2": true},
 			},
 			certID:     "id1",
 			pemCert:    []byte{},
-			pemCACerts: [][]byte{[]byte{}, []byte{}},
+			pemCACerts: [][]byte{{}, {}},
 			wantError:  false,
 		},
 		{
 			mgr: &Manager{
 				certInfo: map[string]*Info{
-					"id1": &Info{},
-					"id2": &Info{},
+					"id1": {},
+					"id2": {},
 				},
-				caBundle: []*x509.Certificate{&x509.Certificate{}},
+				caBundle: []*x509.Certificate{{}},
 				locks:    map[string]bool{"id2": true},
 			},
 			wantMgr: &Manager{
 				certInfo: map[string]*Info{
-					"id1": &Info{},
-					"id2": &Info{},
+					"id1": {},
+					"id2": {},
 				},
-				caBundle: []*x509.Certificate{&x509.Certificate{}},
+				caBundle: []*x509.Certificate{{}},
 				locks:    map[string]bool{"id2": true},
 			},
 			certID:     "id2",
 			pemCert:    []byte{},
-			pemCACerts: [][]byte{[]byte{}, []byte{}},
+			pemCACerts: [][]byte{{}, {}},
 			wantError:  true,
 		},
 	}
@@ -227,46 +227,46 @@ func TestInstall(t *testing.T) {
 		{
 			mgr: &Manager{
 				certInfo: map[string]*Info{
-					"id1": &Info{},
-					"id2": &Info{},
+					"id1": {},
+					"id2": {},
 				},
-				caBundle: []*x509.Certificate{&x509.Certificate{}},
+				caBundle: []*x509.Certificate{{}},
 				locks:    map[string]bool{"id2": true},
 			},
 			wantMgr: &Manager{
 				certInfo: map[string]*Info{
-					"id1": &Info{},
-					"id2": &Info{},
-					"id3": &Info{},
+					"id1": {},
+					"id2": {},
+					"id3": {},
 				},
-				caBundle: []*x509.Certificate{&x509.Certificate{}, &x509.Certificate{}},
+				caBundle: []*x509.Certificate{{}, {}},
 				locks:    map[string]bool{"id2": true},
 			},
 			certID:     "id3",
 			pemCert:    []byte{},
-			pemCACerts: [][]byte{[]byte{}, []byte{}},
+			pemCACerts: [][]byte{{}, {}},
 			wantError:  false,
 		},
 		{
 			mgr: &Manager{
 				certInfo: map[string]*Info{
-					"id4": &Info{},
-					"id5": &Info{},
+					"id4": {},
+					"id5": {},
 				},
-				caBundle: []*x509.Certificate{&x509.Certificate{}},
+				caBundle: []*x509.Certificate{{}},
 				locks:    map[string]bool{"id5": true},
 			},
 			wantMgr: &Manager{
 				certInfo: map[string]*Info{
-					"id4": &Info{},
-					"id5": &Info{},
+					"id4": {},
+					"id5": {},
 				},
-				caBundle: []*x509.Certificate{&x509.Certificate{}},
+				caBundle: []*x509.Certificate{{}},
 				locks:    map[string]bool{"id5": true},
 			},
 			certID:     "id4",
 			pemCert:    []byte{},
-			pemCACerts: [][]byte{[]byte{}, []byte{}},
+			pemCACerts: [][]byte{{}, {}},
 			wantError:  true,
 		},
 	}
@@ -316,15 +316,15 @@ func TestGetCertInfo(t *testing.T) {
 		{
 			mgr: &Manager{
 				certInfo: map[string]*Info{
-					"id1": &Info{},
-					"id2": &Info{},
+					"id1": {},
+					"id2": {},
 				},
-				caBundle: []*x509.Certificate{&x509.Certificate{}},
+				caBundle: []*x509.Certificate{{}},
 				locks:    map[string]bool{"id2": true},
 			},
 			wantCertInfo: []*Info{
-				&Info{},
-				&Info{},
+				{},
+				{},
 			},
 		},
 	}
@@ -351,17 +351,17 @@ func TestRevoke(t *testing.T) {
 		{
 			mgr: &Manager{
 				certInfo: map[string]*Info{
-					"id1": &Info{},
-					"id2": &Info{},
+					"id1": {},
+					"id2": {},
 				},
-				caBundle: []*x509.Certificate{&x509.Certificate{}},
+				caBundle: []*x509.Certificate{{}},
 				locks:    map[string]bool{"id2": true},
 			},
 			wantMgr: &Manager{
 				certInfo: map[string]*Info{
-					"id2": &Info{},
+					"id2": {},
 				},
-				caBundle: []*x509.Certificate{&x509.Certificate{}},
+				caBundle: []*x509.Certificate{{}},
 				locks:    map[string]bool{"id2": true},
 			},
 			in:      []string{"id1", "id2", "id3"},
