@@ -50,28 +50,46 @@ _Note_: These tools are intended for testing and as reference implementation of 
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+These instructions will get you a copy of the project up and running on your local machine.
 
 ### Prerequisites
 
 Install __go__ in your system https://golang.org/doc/install. Requires golang1.7+.
 
-### Clone
-
-Clone the project to your __go__ source folder:
-```
-mkdir -p $GOPATH/src/github.com/google/
-cd $GOPATH/src/github.com/google/
-git clone https://github.com/google/gnxi.git
-```
-
-### Running
-
-To run the binaries:
+### Download sources
 
 ```
-cd $GOPATH/src/github.com/google/gnxi/gnmi_get
-go run ./gnmi_get.go
+go get -v github.com/google/gnxi
+```
+
+### Building and installing binaries
+
+```
+cd $GOPATH
+mkdir bin
+go install github.com/google/gnxi/...
+ls -la $GOPATH\bin
+```
+
+### Generating certificates
+
+```
+cd $GOPATH\bin
+./../src/github.com/google/gnxi/certs/generate.sh
+```
+
+### Running a client
+
+```
+cd $GOPATH\bin
+./gnoi_reset \
+-target_addr localhost:9399 \
+-target_name target.com \
+-rollback_os \
+-zero_fill \
+-key client.key \
+-cert client.crt \
+-ca ca.crt
 ```
 
 ## Disclaimer
