@@ -40,6 +40,13 @@ type Info struct {
 // Notifier is called with number of Certificates and CA Certificates.
 type Notifier func(int, int)
 
+// ManagerSettings contains the certs and CA pool to be passed into the Manager.
+type ManagerSettings struct {
+	CertID   string
+	Cert     *tls.Certificate
+	CABundle []*x509.Certificate
+}
+
 // Manager manages Certificates and CA Bundles.
 type Manager struct {
 	privateKey crypto.PrivateKey
@@ -52,11 +59,20 @@ type Manager struct {
 }
 
 // NewManager returns a Manager.
-func NewManager(privateKey crypto.PrivateKey, caBundle []*x509.Certificate) *Manager {
+func NewManager(settings *ManagerSettings) *Manager {
+	if settings == nil {
+		return &Manager{}
+	}
+	certInfo := map[string]*Info{}
+	var privateKey crypto.PrivateKey
+	if settings.Cert != nil {
+		privateKey = settings.Cert.PrivateKey
+		certInfo = map[string]*Info{settings.CertID: {certID: settings.CertID, cert: settings.Cert.Leaf}}
+	}
 	return &Manager{
 		privateKey: privateKey,
-		certInfo:   map[string]*Info{},
-		caBundle:   caBundle,
+		certInfo:   certInfo,
+		caBundle:   settings.CABundle,
 		locks:      map[string]bool{},
 		notifiers:  []Notifier{},
 	}

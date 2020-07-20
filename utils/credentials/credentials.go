@@ -105,8 +105,8 @@ func generateFromCA() ([]tls.Certificate, *x509.CertPool) {
 	return []tls.Certificate{*clientEnt.Certificate}, caPool
 }
 
-// LoadCertificates loads certificates from files or generates them from the CA.
-func LoadCertificates() ([]tls.Certificate, *x509.CertPool) {
+// ParseCertificates gets certificates from files or generates them from the CA.
+func ParseCertificates() ([]tls.Certificate, *x509.CertPool) {
 	if *ca != "" {
 		if *cert != "" && *key != "" {
 			return loadFromFile()
@@ -116,6 +116,15 @@ func LoadCertificates() ([]tls.Certificate, *x509.CertPool) {
 		}
 	}
 	return []tls.Certificate{}, &x509.CertPool{}
+}
+
+// LoadCertificates loads certificates from files and exits if there's an error.
+func LoadCertificates() ([]tls.Certificate, *x509.CertPool) {
+	certs, certPool := ParseCertificates()
+	if len(certs) == 0 || len(certPool.Subjects()) == 0 {
+		log.Exit("Please provide -ca & -key or -ca, -cert & -ca_key")
+	}
+	return certs, certPool
 }
 
 // ClientCredentials generates gRPC DialOptions for existing credentials.
@@ -131,7 +140,6 @@ func ClientCredentials(server string) []grpc.DialOption {
 		} else {
 			certificates, certPool := LoadCertificates()
 			if len(certificates) == 0 {
-				log.Exit("Please provide -ca & -key or -ca, -cert & -ca_key")
 			}
 			tlsConfig.ServerName = server
 			tlsConfig.Certificates = certificates

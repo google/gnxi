@@ -17,11 +17,9 @@ limitations under the License.
 package gnoi
 
 import (
-	"crypto"
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/tls"
-	"crypto/x509"
 	"fmt"
 
 	"github.com/google/gnxi/gnoi/cert"
@@ -46,30 +44,28 @@ type Server struct {
 }
 
 // NewServer returns a new server that can be used by the mock target.
-func NewServer(privateKey crypto.PrivateKey, defaultCertificate *tls.Certificate, caBundle []*x509.Certificate, resetSettings *reset.Settings, notifyReset reset.Notifier, osSettings *os.Settings) (*Server, error) {
-	if defaultCertificate == nil {
-		if privateKey == nil {
-			var err error
-			privateKey, err = rsa.GenerateKey(rand.Reader, rsaBitSize)
-			if err != nil {
-				return nil, fmt.Errorf("failed to generate private key: %v", err)
-			}
+func NewServer(certSettings *cert.ManagerSettings, resetSettings *reset.Settings, notifyReset reset.Notifier, osSettings *os.Settings) (*Server, error) {
+	if certSettings.Cert == nil {
+		privateKey, err := rsa.GenerateKey(rand.Reader, rsaBitSize)
+		if err != nil {
+			return nil, fmt.Errorf("failed to generate private key: %v", err)
 		}
 		e, err := entity.CreateSelfSigned("gNOI server", privateKey)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create self signed certificate: %v", err)
 		}
-		defaultCertificate = e.Certificate
+		certSettings.Cert = e.Certificate
+		certSettings.CertID = "0"
 	}
 
-	certManager := cert.NewManager(defaultCertificate.PrivateKey, caBundle)
+	certManager := cert.NewManager(certSettings)
 	certServer := cert.NewServer(certManager)
 	resetServer := reset.NewServer(resetSettings, notifyReset)
 	osServer := os.NewServer(osSettings)
 	return &Server{
 		certServer:         certServer,
 		certManager:        certManager,
-		defaultCertificate: defaultCertificate,
+		defaultCertificate: certSettings.Cert,
 		resetServer:        resetServer,
 		osServer:           osServer,
 	}, nil

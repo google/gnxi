@@ -17,8 +17,6 @@ limitations under the License.
 package main
 
 import (
-	"crypto"
-	"crypto/tls"
 	"crypto/x509"
 	"flag"
 	"net"
@@ -27,6 +25,7 @@ import (
 	"time"
 
 	"github.com/google/gnxi/gnoi"
+	"github.com/google/gnxi/gnoi/cert"
 	"github.com/google/gnxi/gnoi/os"
 	"github.com/google/gnxi/gnoi/reset"
 	"github.com/google/gnxi/utils/credentials"
@@ -107,24 +106,19 @@ func start() {
 		InstalledVersions: strings.Split(*installedVersions, " "),
 	}
 
-	cert, caPool := credentials.LoadCertificates()
-	certs := len(cert)
+	parsedCerts, caPool := credentials.ParseCertificates()
+	certs := len(parsedCerts)
 	caCerts := len(caPool.Subjects())
-	var (
-		privateKey  crypto.PrivateKey
-		defaultCert *tls.Certificate
-		caBundle    []*x509.Certificate
-		err         error
-	)
+	certSettings := &cert.ManagerSettings{}
 	if certs > 0 && caCerts > 0 {
-		defaultCert = &cert[0]
-		privateKey = &cert[0].PrivateKey
-		caBundle = []*x509.Certificate{credentials.GetCACert()}
+		certSettings.Cert = &parsedCerts[0]
+		certSettings.CertID = *certID
+		certSettings.CABundle = []*x509.Certificate{credentials.GetCACert()}
 	}
-	if gNOIServer, err = gnoi.NewServer(privateKey, defaultCert, caBundle, resetSettings, notifyReset, osSettings); err != nil {
+	var err error
+	if gNOIServer, err = gnoi.NewServer(certSettings, resetSettings, notifyReset, osSettings); err != nil {
 		log.Fatal("Failed to create gNOI Server:", err)
 	}
-
 	// Registers a caller for whenever the number of installed certificates changes.
 	gNOIServer.RegisterCertNotifier(notifyCerts)
 	bootstrapping = certs != 0 && caCerts != 0

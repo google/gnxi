@@ -16,10 +16,10 @@ limitations under the License.
 package gnoi
 
 import (
-	"crypto/x509"
 	"net"
 	"testing"
 
+	"github.com/google/gnxi/gnoi/cert"
 	"github.com/google/gnxi/gnoi/os"
 	"github.com/google/gnxi/gnoi/reset"
 )
@@ -27,7 +27,7 @@ import (
 func TestServer(t *testing.T) {
 	conString := "127.0.0.1:4456"
 
-	s, err := NewServer(nil, nil, []*x509.Certificate{}, &reset.Settings{}, func() {}, &os.Settings{})
+	s, err := NewServer(&cert.ManagerSettings{}, &reset.Settings{}, func() {}, &os.Settings{})
 	if err != nil {
 		t.Fatal("failed to Create Server:", err)
 	}
