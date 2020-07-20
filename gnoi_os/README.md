@@ -19,13 +19,13 @@ go install github.com/google/gnxi/gnoi_os
 
 ## Run 
 ```
-gnoi_os \
--target_addr localhost:9399 \
--target_name target.com \
--ca ca.crt \
--key client.key \
--cert client.crt \
--version 1.1 \
--os myosfile.img \
--op install | activate | verify
+./gnoi_os \
+    -target_addr localhost:9399 \
+    -target_name target.com \
+    -ca ca.crt \
+    -key client.key \
+    -cert client.crt \
+    -version 1.1 \
+    -os myosfile.img \
+    -op install | activate | verify
 ```

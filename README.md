@@ -83,13 +83,13 @@ cd $GOPATH\bin
 ```
 cd $GOPATH\bin
 ./gnoi_reset \
--target_addr localhost:9399 \
--target_name target.com \
--rollback_os \
--zero_fill \
--key client.key \
--cert client.crt \
--ca ca.crt
+    -target_addr localhost:9399 \
+    -target_name target.com \
+    -rollback_os \
+    -zero_fill \
+    -key client.key \
+    -cert client.crt \
+    -ca ca.crt
 ```
 
 Optionally define $GOBIN as $GOPATH\bin and add it to your path to run the binaries from any folder.

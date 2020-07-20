@@ -20,7 +20,7 @@ The script generates Target certificates with the name "target.com"
 
 ## Client Example
 ```
-gnoi_reset \
+./gnoi_reset \
  <...>
 -target_name target.com \
 -ca /path/to/ca.crt \
@@ -30,7 +30,7 @@ gnoi_reset \
 
 ## Target Example
 ```
-gnoi_target \
+./gnoi_target \
  <...>
 -ca /path/to/ca.crt \
 -cert /path/to/target.crt \

@@ -45,7 +45,7 @@ go install github.com/google/gnxi/gnoi_target
 ## Run
 
 ```
-gnoi_target \
+./gnoi_target \
   -bind_address :9339 \
   -reset_unsupported true \
   -zero_fill_unsupported true \

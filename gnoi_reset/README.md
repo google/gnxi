@@ -14,12 +14,12 @@ go install github.com/google/gnxi/gnoi_reset
 
 ## Run 
 ```
-gnoi_reset \
--target_addr localhost:9399 \
--target_name target.com \
--rollback_os \
--zero_fill \
--key client.key \
--cert client.crt \
--ca ca.crt
+./gnoi_reset \
+    -target_addr localhost:9399 \
+    -target_name target.com \
+    -rollback_os \
+    -zero_fill \
+    -key client.key \
+    -cert client.crt \
+    -ca ca.crt
 ```

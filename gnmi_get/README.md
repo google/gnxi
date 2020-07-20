@@ -12,7 +12,7 @@ go install github.com/google/gnxi/gnmi_get
 ## Run
 
 ```
-gnmi_get \
+./gnmi_get \
   -xpath "/system/openflow/agent/config/datapath-id" \
   -xpath "/system/openflow/controllers/controller[name=main]/connections/connection[aux-id=0]/state/address" \
   -target_addr localhost:9339 \
