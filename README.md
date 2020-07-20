@@ -92,6 +92,13 @@ cd $GOPATH\bin
 -ca ca.crt
 ```
 
+Optionally define $GOBIN as $GOPATH\bin and add it to your path to run the binaries from any folder.
+
+```
+export GOBIN=$GOPATH/bin
+export PATH=$PATH:$GOBIN
+```
+
 ## Disclaimer
 
 *  This is not an official Google product.

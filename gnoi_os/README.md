@@ -8,7 +8,7 @@ A simple shell binary that performs OS client operations against a gNOI target.
 
 * `-op activate` tells the target to boot into the specified OS version on next reboot.
 
-* `-op verify` verifies the version of the OS currenly running on the target.
+* `-op verify` verifies the version of the OS currently running on the target.
 
 ## Install
 
