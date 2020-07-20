@@ -59,7 +59,7 @@ Install __go__ in your system https://golang.org/doc/install. Requires golang1.7
 ### Download sources
 
 ```
-go get -v github.com/google/gnxi
+go get -v github.com/google/gnxi/...
 ```
 
 ### Building and installing binaries
