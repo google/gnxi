@@ -233,7 +233,7 @@ func (s *Server) doReplaceOrUpdate(jsonTree map[string]interface{}, op pb.Update
 				return nil, status.Errorf(codes.NotFound, "path elem not found: %v", elem)
 			}
 		case []interface{}:
-			return nil, status.Errorf(codes.NotFound, "uncompatible path elem: %v", elem)
+			return nil, status.Errorf(codes.NotFound, "incompatible path elem: %v", elem)
 		default:
 			return nil, status.Errorf(codes.Internal, "wrong node type: %T", curNode)
 		}

@@ -74,7 +74,7 @@ func TestStart(t *testing.T) {
 			case *pb.StartResponse_ResetSuccess:
 				if test.settings.ZeroFillUnsupported && test.request.ZeroFill || test.settings.FactoryOSUnsupported && test.request.FactoryOs {
 					t.Errorf(
-						"Error occured on case: \nSettings{errIfZero:%v,osUnsupported:%v}\nRequest{ZeroFill:%v,FactoryOs:%v} \nResponseSuccess{%v},",
+						"Error occurred on case: \nSettings{errIfZero:%v,osUnsupported:%v}\nRequest{ZeroFill:%v,FactoryOs:%v} \nResponseSuccess{%v},",
 						test.settings.ZeroFillUnsupported,
 						test.settings.FactoryOSUnsupported,
 						test.request.ZeroFill,
@@ -85,7 +85,7 @@ func TestStart(t *testing.T) {
 				if response.ResetError.ZeroFillUnsupported != (test.settings.ZeroFillUnsupported && test.request.ZeroFill) ||
 					response.ResetError.FactoryOsUnsupported != (test.settings.FactoryOSUnsupported && test.request.FactoryOs) {
 					t.Errorf(
-						"Error occured on case: \nSettings{errIfZero:%v,osUnsupported:%v}\nRequest{ZeroFill:%v,FactoryOs:%v} \nResponseError{%v},",
+						"Error occurred on case: \nSettings{errIfZero:%v,osUnsupported:%v}\nRequest{ZeroFill:%v,FactoryOs:%v} \nResponseError{%v},",
 						test.settings.ZeroFillUnsupported,
 						test.settings.FactoryOSUnsupported,
 						test.request.ZeroFill,
