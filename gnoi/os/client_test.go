@@ -204,7 +204,7 @@ func TestInstall(t *testing.T) {
 				},
 			},
 			readBytes(chunkSize),
-			errors.New("InstallError occured: INCOMPATIBLE"),
+			errors.New("InstallError occurred: INCOMPATIBLE"),
 			100 * time.Millisecond,
 		},
 		{
@@ -216,7 +216,7 @@ func TestInstall(t *testing.T) {
 				},
 			},
 			readBytes(0),
-			errors.New("InstallError occured: INCOMPATIBLE"),
+			errors.New("InstallError occurred: INCOMPATIBLE"),
 			100 * time.Millisecond,
 		},
 		{

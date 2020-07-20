@@ -96,7 +96,7 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, validateT
 		if installErr.GetType() == pb.InstallError_UNSPECIFIED {
 			return fmt.Errorf("Unspecified InstallError error: %s", installErr.GetDetail())
 		}
-		return fmt.Errorf("InstallError occured: %s", installErr.GetType().String())
+		return fmt.Errorf("InstallError occurred: %s", installErr.GetType().String())
 	case *pb.InstallResponse_TransferReady:
 	default:
 		return fmt.Errorf("Unexpected response: %T(%v)", resp, resp)
@@ -130,7 +130,7 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, validateT
 					errs <- err
 					return
 				}
-				err = fmt.Errorf("InstallError occured: %s", installErr.GetType().String())
+				err = fmt.Errorf("InstallError occurred: %s", installErr.GetType().String())
 				errs <- err
 				return
 			default:

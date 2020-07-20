@@ -63,7 +63,7 @@ func (m *Manager) SetRunning(version string) error {
 	return fmt.Errorf("NON_EXISTENT_VERSION")
 }
 
-// Install installs an OS. It must be fully transfered and verified beforehand.
+// Install installs an OS. It must be fully transferred and verified beforehand.
 func (m *Manager) Install(version, activationFailMsg string) {
 	m.mu.Lock()
 	defer m.mu.Unlock()

@@ -94,12 +94,12 @@ func TestGetCertificates(t *testing.T) {
 			in: &pb.GetCertificatesRequest{},
 			mmiGetCertInfo: func() ([]*Info, error) {
 				return []*Info{
-					&Info{certID: "id1", updated: now},
+					{certID: "id1", updated: now},
 				}, nil
 			},
 			want: &pb.GetCertificatesResponse{
 				CertificateInfo: []*pb.CertificateInfo{
-					&pb.CertificateInfo{
+					{
 						CertificateId:    "id1",
 						ModificationTime: now.UnixNano(),
 						Certificate: &pb.Certificate{
