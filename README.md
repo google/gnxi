@@ -1,9 +1,9 @@
 
-![GitHub](https://img.shields.io/github/license/google/gnxi?style=for-the-badge)
+[![License](https://img.shields.io/github/license/google/gnxi?style=for-the-badge)](https://opensource.org/licenses/Apache-2.0)
 [![GoDoc](https://img.shields.io/badge/godoc-reference-blue?style=for-the-badge)](https://godoc.org/github.com/google/gnxi)
 [![Go Report Card](https://goreportcard.com/badge/github.com/google/gnxi?style=for-the-badge)](https://goreportcard.com/report/github.com/google/gnxi)
-![Build Status](https://img.shields.io/travis/google/gnxi?style=for-the-badge)
-![Code coverage master](https://img.shields.io/codecov/c/github/google/gnxi/master?style=for-the-badge)
+[![Build Status](https://img.shields.io/travis/google/gnxi?style=for-the-badge)](https://travis-ci.org/google/gnxi)
+[![Code coverage master](https://img.shields.io/codecov/c/github/google/gnxi/master?style=for-the-badge)](https://codecov.io/github/google/gnxi?branch=master)
 
 # gNxI Tools
 
