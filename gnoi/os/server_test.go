@@ -75,6 +75,29 @@ func (m mockTransferStream) Recv() (*pb.InstallRequest, error) {
 	return nil, nil
 }
 
+func TestNewServer(t *testing.T) {
+	test := struct {
+		settings *Settings
+		want     *Server
+	}{
+		settings: &Settings{
+			FactoryVersion: "1.0.0a",
+		},
+		want: &Server{
+			installToken: make(chan bool, 1),
+			manager: &Manager{
+				osMap:          map[string]bool{"1.0.0a": true},
+				factoryVersion: "1.0.0a",
+				runningVersion: "1.0.0a",
+			},
+		},
+	}
+	got := NewServer(test.settings)
+	if diff := pretty.Compare(test.want, got); diff != "" {
+		t.Errorf("NewServer(%v): (-want +got):\n%s", test.settings, diff)
+	}
+}
+
 func TestTargetActivate(t *testing.T) {
 	settings := &Settings{
 		FactoryVersion:    "1",
@@ -97,6 +120,14 @@ func TestTargetActivate(t *testing.T) {
 			},
 			want: &pb.ActivateResponse{Response: &pb.ActivateResponse_ActivateError{
 				ActivateError: &pb.ActivateError{Type: pb.ActivateError_NON_EXISTENT_VERSION},
+			}},
+		},
+		{
+			request: &pb.ActivateRequest{
+				Version: "",
+			},
+			want: &pb.ActivateResponse{Response: &pb.ActivateResponse_ActivateError{
+				ActivateError: &pb.ActivateError{Type: pb.ActivateError_UNSPECIFIED},
 			}},
 		},
 	}
