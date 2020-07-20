@@ -16,28 +16,28 @@ A collection of tools for Network Management that use the gNMI and gNOI protocol
 
 _Note_: These tools are intended for testing and as reference implementation of the protocol.
 
-gNMI Clients:
+#### gNMI Clients:
 
 *  [gNMI Capabilities](./gnmi_capabilities)
 *  [gNMI Get](./gnmi_get)
 *  [gNMI Set](./gnmi_set)
 *  gNMI Subscribe - in progress
 
-gNMI Targets:
+#### gNMI Targets:
 
 *  [gNMI Target](./gnmi_target)
 
-gNOI Clients
+#### gNOI Clients
 
 *  [gNOI Cert](./gnoi_cert)
 *  [gNOI OS](./gnoi_os)
 *  [gNOI Reset](./gnoi_reset)
 
-gNOI Targets
+#### gNOI Targets
 
 *  [gNOI Target](./gnoi_target)
 
-Helpers
+#### Helpers
 
 *  [gNOI mockOS](./gnoi_mockos)
 *  [certificate generator](./certs)
