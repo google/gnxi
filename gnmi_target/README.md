@@ -12,13 +12,11 @@ go install github.com/google/gnxi/gnmi_target
 ## Run
 
 ```
-gnmi_target \
+./gnmi_target \
   -bind_address :9339 \
   -config openconfig-openflow.json \
   -key server.key \
   -cert server.crt \
   -ca ca.crt \
-  -username foo \
-  -password bar \
   -alsologtostderr
 ```

@@ -1,9 +1,9 @@
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![GoDoc](https://godoc.org/github.com/google/gnxi?status.svg)](https://godoc.org/github.com/google/gnxi)
-[![Go Report Card](https://goreportcard.com/badge/github.com/google/gnxi)](https://goreportcard.com/report/github.com/google/gnxi)
-[![Build Status](https://travis-ci.org/google/gnxi.svg?branch=master)](https://travis-ci.org/google/gnxi)
-[![codecov.io](https://codecov.io/github/google/gnxi/coverage.svg?branch=master)](https://codecov.io/github/google/gnxi?branch=master)
+![GitHub](https://img.shields.io/github/license/google/gnxi?style=for-the-badge)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue?style=for-the-badge)](https://godoc.org/github.com/google/gnxi)
+[![Go Report Card](https://goreportcard.com/badge/github.com/google/gnxi?style=for-the-badge)](https://goreportcard.com/report/github.com/google/gnxi)
+![Build Status](https://img.shields.io/travis/google/gnxi?style=for-the-badge)
+![Code coverage master](https://img.shields.io/codecov/c/github/google/gnxi/master?style=for-the-badge)
 
 # gNxI Tools
 
@@ -16,12 +16,31 @@ A collection of tools for Network Management that use the gNMI and gNOI protocol
 
 _Note_: These tools are intended for testing and as reference implementation of the protocol.
 
+#### gNMI Clients:
+
 *  [gNMI Capabilities](./gnmi_capabilities)
-*  [gNMI Set](./gnmi_set)
 *  [gNMI Get](./gnmi_get)
+*  [gNMI Set](./gnmi_set)
+*  gNMI Subscribe - in progress
+
+#### gNMI Targets:
+
 *  [gNMI Target](./gnmi_target)
+
+#### gNOI Clients
+
 *  [gNOI Cert](./gnoi_cert)
+*  [gNOI OS](./gnoi_os)
+*  [gNOI Reset](./gnoi_reset)
+
+#### gNOI Targets
+
 *  [gNOI Target](./gnoi_target)
+
+#### Helpers
+
+*  [gNOI mockOS](./gnoi_mockos)
+*  [certificate generator](./certs)
 
 ### Documentation
 
@@ -31,33 +50,54 @@ _Note_: These tools are intended for testing and as reference implementation of 
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See Docker for instructions on how to test against network equipment.
+These instructions will get you a copy of the project up and running on your local machine.
 
 ### Prerequisites
 
 Install __go__ in your system https://golang.org/doc/install. Requires golang1.7+.
 
-### Clone
-
-Clone the project to your __go__ source folder:
-```
-mkdir -p $GOPATH/src/github.com/google/
-cd $GOPATH/src/github.com/google/
-git clone https://github.com/google/gnxi.git
-```
-
-### Running
-
-To run the binaries:
+### Download sources
 
 ```
-cd $GOPATH/src/github.com/google/gnxi/gnmi_get
-go run ./gnmi_get.go
+go get -v github.com/google/gnxi/...
 ```
 
-## Docker
+### Building and installing binaries
 
-[FAUCET](https://github.com/faucetsdn/gnmi) currently includes a [Dockerfile](https://github.com/faucetsdn/gnmi/blob/master/Dockerfile) to setup the environment that facilitates testing these tools against network equipment.
+```
+cd $GOPATH
+mkdir bin
+go install github.com/google/gnxi/...
+ls -la $GOPATH\bin
+```
+
+### Generating certificates
+
+```
+cd $GOPATH\bin
+./../src/github.com/google/gnxi/certs/generate.sh
+```
+
+### Running a client
+
+```
+cd $GOPATH\bin
+./gnoi_reset \
+    -target_addr localhost:9399 \
+    -target_name target.com \
+    -rollback_os \
+    -zero_fill \
+    -key client.key \
+    -cert client.crt \
+    -ca ca.crt
+```
+
+Optionally define $GOBIN as $GOPATH\bin and add it to your path to run the binaries from any folder.
+
+```
+export GOBIN=$GOPATH/bin
+export PATH=$PATH:$GOBIN
+```
 
 ## Disclaimer
 
