@@ -50,7 +50,7 @@ _Note_: These tools are intended for testing and as reference implementation of 
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See Docker for instructions on how to test against network equipment.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
 
