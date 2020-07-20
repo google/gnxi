@@ -127,7 +127,7 @@ func TestTargetActivate(t *testing.T) {
 				Version: "",
 			},
 			want: &pb.ActivateResponse{Response: &pb.ActivateResponse_ActivateError{
-				ActivateError: &pb.ActivateError{Type: pb.ActivateError_UNSPECIFIED},
+				ActivateError: &pb.ActivateError{Type: pb.ActivateError_NON_EXISTENT_VERSION},
 			}},
 		},
 	}
