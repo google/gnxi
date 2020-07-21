@@ -80,7 +80,7 @@ func TestClientRotate(t *testing.T) {
 		validate func() error
 	}{
 		{
-			"failed to receive RotateCertificateResponse",
+			"Failed to receive RotateCertificateResponse",
 			[]*rotateRequestMap{
 				{
 					&pb.RotateCertificateRequest{RotateRequest: nil},
@@ -93,7 +93,7 @@ func TestClientRotate(t *testing.T) {
 			func() error { return nil },
 		},
 		{
-			"expected GenerateCSRRequest",
+			"Expected GenerateCSRRequest",
 			[]*rotateRequestMap{
 				{
 					&pb.RotateCertificateRequest{RotateRequest: &pb.RotateCertificateRequest_GenerateCsr{}},
@@ -106,7 +106,7 @@ func TestClientRotate(t *testing.T) {
 			func() error { return nil },
 		},
 		{
-			"fail to sign the CSR",
+			"Fail to sign the CSR",
 			[]*rotateRequestMap{
 				{
 					&pb.RotateCertificateRequest{RotateRequest: &pb.RotateCertificateRequest_GenerateCsr{}},
@@ -118,6 +118,78 @@ func TestClientRotate(t *testing.T) {
 				return nil, errors.New("error")
 			},
 			[]*x509.Certificate{},
+			func() error { return nil },
+		},
+		{
+			"Failed to receive RotateCertificateResponse",
+			[]*rotateRequestMap{
+				{
+					&pb.RotateCertificateRequest{RotateRequest: &pb.RotateCertificateRequest_GenerateCsr{}},
+					&pb.RotateCertificateResponse{RotateResponse: &pb.RotateCertificateResponse_GeneratedCsr{GeneratedCsr: &pb.GenerateCSRResponse{Csr: &pb.CSR{}}}},
+				},
+				{
+					&pb.RotateCertificateRequest{RotateRequest: nil},
+					nil,
+				},
+			},
+			errors.New("failed to receive RotateCertificateResponse: error"),
+			func(_ *x509.CertificateRequest) (*x509.Certificate, error) { return &x509.Certificate{}, nil },
+			[]*x509.Certificate{},
+			func() error { return nil },
+		},
+		{
+			"expected LoadCertificateResponse, got something else",
+			[]*rotateRequestMap{
+				{
+					&pb.RotateCertificateRequest{RotateRequest: &pb.RotateCertificateRequest_GenerateCsr{}},
+					&pb.RotateCertificateResponse{RotateResponse: &pb.RotateCertificateResponse_GeneratedCsr{GeneratedCsr: &pb.GenerateCSRResponse{Csr: &pb.CSR{}}}},
+				},
+				{
+					&pb.RotateCertificateRequest{RotateRequest: &pb.RotateCertificateRequest_LoadCertificate{}},
+					&pb.RotateCertificateResponse{RotateResponse: nil},
+				},
+			},
+			errors.New("expected LoadCertificateResponse, got something else"),
+			func(_ *x509.CertificateRequest) (*x509.Certificate, error) { return &x509.Certificate{}, nil },
+			[]*x509.Certificate{},
+			func() error { return nil },
+		},
+		{
+			"Validation error",
+			[]*rotateRequestMap{
+				{
+					&pb.RotateCertificateRequest{RotateRequest: &pb.RotateCertificateRequest_GenerateCsr{}},
+					&pb.RotateCertificateResponse{RotateResponse: &pb.RotateCertificateResponse_GeneratedCsr{GeneratedCsr: &pb.GenerateCSRResponse{Csr: &pb.CSR{}}}},
+				},
+				{
+					&pb.RotateCertificateRequest{RotateRequest: &pb.RotateCertificateRequest_LoadCertificate{}},
+					&pb.RotateCertificateResponse{RotateResponse: &pb.RotateCertificateResponse_LoadCertificate{LoadCertificate: &pb.LoadCertificateResponse{}}},
+				},
+			},
+			errors.New("failed to validate rotated certificate: error"),
+			func(_ *x509.CertificateRequest) (*x509.Certificate, error) { return &x509.Certificate{}, nil },
+			[]*x509.Certificate{},
+			func() error { return errors.New("error") },
+		},
+		{
+			"Successful",
+			[]*rotateRequestMap{
+				{
+					&pb.RotateCertificateRequest{RotateRequest: &pb.RotateCertificateRequest_GenerateCsr{}},
+					&pb.RotateCertificateResponse{RotateResponse: &pb.RotateCertificateResponse_GeneratedCsr{GeneratedCsr: &pb.GenerateCSRResponse{Csr: &pb.CSR{}}}},
+				},
+				{
+					&pb.RotateCertificateRequest{RotateRequest: &pb.RotateCertificateRequest_LoadCertificate{}},
+					&pb.RotateCertificateResponse{RotateResponse: &pb.RotateCertificateResponse_LoadCertificate{LoadCertificate: &pb.LoadCertificateResponse{}}},
+				},
+				{
+					&pb.RotateCertificateRequest{RotateRequest: &pb.RotateCertificateRequest_FinalizeRotation{FinalizeRotation: &pb.FinalizeRequest{}}},
+					nil,
+				},
+			},
+			nil,
+			func(_ *x509.CertificateRequest) (*x509.Certificate, error) { return &x509.Certificate{}, nil },
+			[]*x509.Certificate{{}},
 			func() error { return nil },
 		},
 	}
