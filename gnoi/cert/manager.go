@@ -60,9 +60,6 @@ type Manager struct {
 
 // NewManager returns a Manager.
 func NewManager(settings *Settings) *Manager {
-	if settings == nil {
-		return &Manager{}
-	}
 	certInfo := map[string]*Info{}
 	var privateKey crypto.PrivateKey
 	if settings.Cert != nil {
