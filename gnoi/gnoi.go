@@ -44,7 +44,7 @@ type Server struct {
 }
 
 // NewServer returns a new server that can be used by the mock target.
-func NewServer(certSettings *cert.ManagerSettings, resetSettings *reset.Settings, notifyReset reset.Notifier, osSettings *os.Settings) (*Server, error) {
+func NewServer(certSettings *cert.Settings, resetSettings *reset.Settings, notifyReset reset.Notifier, osSettings *os.Settings) (*Server, error) {
 	if certSettings.Cert == nil {
 		privateKey, err := rsa.GenerateKey(rand.Reader, rsaBitSize)
 		if err != nil {
@@ -55,7 +55,6 @@ func NewServer(certSettings *cert.ManagerSettings, resetSettings *reset.Settings
 			return nil, fmt.Errorf("failed to create self signed certificate: %v", err)
 		}
 		certSettings.Cert = e.Certificate
-		certSettings.CertID = "0"
 	}
 
 	certManager := cert.NewManager(certSettings)

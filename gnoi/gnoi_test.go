@@ -27,7 +27,7 @@ import (
 func TestServer(t *testing.T) {
 	conString := "127.0.0.1:4456"
 
-	s, err := NewServer(&cert.ManagerSettings{}, &reset.Settings{}, func() {}, &os.Settings{})
+	s, err := NewServer(&cert.Settings{}, &reset.Settings{}, func() {}, &os.Settings{})
 	if err != nil {
 		t.Fatal("failed to Create Server:", err)
 	}

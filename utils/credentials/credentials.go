@@ -44,7 +44,6 @@ var (
 	usernameKey    = "username"
 	passwordKey    = "password"
 	caEnt          *entity.Entity
-	caCert         *x509.Certificate
 )
 
 func init() {
@@ -69,44 +68,39 @@ func (a *userCredentials) RequireTransportSecurity() bool {
 }
 
 // loadFromFile loads the certificates from files.
-func loadFromFile() ([]tls.Certificate, *x509.CertPool) {
+func loadFromFile() ([]tls.Certificate, []*x509.Certificate) {
 	certificate, err := tls.LoadX509KeyPair(*cert, *key)
 	if err != nil {
 		log.Exitf("could not load client key pair: %s", err)
 	}
-
-	certPool := x509.NewCertPool()
+	certificate.Leaf, err = x509.ParseCertificate(certificate.Certificate[0])
+	if err != nil {
+		log.Exitf("could not get leaf for certificate: %s", err)
+	}
 	caFile, err := ioutil.ReadFile(*ca)
 	if err != nil {
 		log.Exitf("could not read CA certificate: %s", err)
 	}
-
-	if ok := certPool.AppendCertsFromPEM(caFile); !ok {
-		log.Exit("failed to append CA certificate")
-	}
-
 	block, _ := pem.Decode(caFile)
-	caCert, err = x509.ParseCertificate(block.Bytes)
+	caCert, err := x509.ParseCertificate(block.Bytes)
 	if err != nil {
 		log.Exit("Error parsing CA certificate", err)
 	}
-	return []tls.Certificate{certificate}, certPool
+	return []tls.Certificate{certificate}, []*x509.Certificate{caCert}
 }
 
 // generateFromCA generates a client certificate from the provided CA.
-func generateFromCA() ([]tls.Certificate, *x509.CertPool) {
+func generateFromCA() ([]tls.Certificate, []*x509.Certificate) {
 	GetCAEntity()
 	clientEnt, err := entity.CreateSigned("client", nil, caEnt)
 	if err != nil {
 		log.Exitf("Failed to create a signed entity: %v", err)
 	}
-	caPool := x509.NewCertPool()
-	caPool.AddCert(caEnt.Certificate.Leaf)
-	return []tls.Certificate{*clientEnt.Certificate}, caPool
+	return []tls.Certificate{*clientEnt.Certificate}, []*x509.Certificate{caEnt.Certificate.Leaf}
 }
 
 // ParseCertificates gets certificates from files or generates them from the CA.
-func ParseCertificates() ([]tls.Certificate, *x509.CertPool) {
+func ParseCertificates() ([]tls.Certificate, []*x509.Certificate) {
 	if *ca != "" {
 		if *cert != "" && *key != "" {
 			return loadFromFile()
@@ -115,15 +109,17 @@ func ParseCertificates() ([]tls.Certificate, *x509.CertPool) {
 			return generateFromCA()
 		}
 	}
-	return []tls.Certificate{}, &x509.CertPool{}
+	return []tls.Certificate{}, []*x509.Certificate{}
 }
 
 // LoadCertificates loads certificates from files and exits if there's an error.
 func LoadCertificates() ([]tls.Certificate, *x509.CertPool) {
-	certs, certPool := ParseCertificates()
-	if len(certs) == 0 || len(certPool.Subjects()) == 0 {
+	certPool := x509.NewCertPool()
+	certs, caBundle := ParseCertificates()
+	if len(certs) == 0 || len(caBundle) == 0 {
 		log.Exit("Please provide -ca & -key or -ca, -cert & -ca_key")
 	}
+	certPool.AddCert(caBundle[0])
 	return certs, certPool
 }
 
@@ -139,8 +135,6 @@ func ClientCredentials(server string) []grpc.DialOption {
 			tlsConfig.InsecureSkipVerify = true
 		} else {
 			certificates, certPool := LoadCertificates()
-			if len(certificates) == 0 {
-			}
 			tlsConfig.ServerName = server
 			tlsConfig.Certificates = certificates
 			tlsConfig.RootCAs = certPool
@@ -166,7 +160,6 @@ func GetCAEntity() *entity.Entity {
 	if caEnt, err = entity.FromFile(*ca, *caKey); err != nil {
 		log.Exitf("Failed to load certificate and key from file: %v", err)
 	}
-	caCert = caEnt.Certificate.Leaf
 	return caEnt
 }
 
@@ -191,11 +184,6 @@ func ServerCredentials() []grpc.ServerOption {
 		Certificates: certificates,
 		ClientCAs:    certPool,
 	}))}
-}
-
-// GetCACert returns the parsed CA cert.
-func GetCACert() *x509.Certificate {
-	return caCert
 }
 
 // AuthorizeUser checks for valid credentials in the context Metadata.

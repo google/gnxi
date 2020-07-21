@@ -43,7 +43,7 @@ var (
 func TestNewManager(t *testing.T) {
 	tests := []struct {
 		wantMgr  *Manager
-		settings *ManagerSettings
+		settings *Settings
 	}{
 		{
 			wantMgr: &Manager{
@@ -53,7 +53,7 @@ func TestNewManager(t *testing.T) {
 				locks:      map[string]bool{},
 				notifiers:  []Notifier{},
 			},
-			settings: &ManagerSettings{"", nil, []*x509.Certificate{}},
+			settings: &Settings{"", nil, []*x509.Certificate{}},
 		},
 	}
 	for _, test := range tests {

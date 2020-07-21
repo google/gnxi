@@ -17,7 +17,6 @@ limitations under the License.
 package main
 
 import (
-	"crypto/x509"
 	"flag"
 	"net"
 	"strings"
@@ -40,7 +39,7 @@ var (
 	muServe       sync.Mutex
 	bootstrapping bool
 
-	certID               = flag.String("cert_id", "", "Certificate ID for preloaded certificates")
+	certID               = flag.String("cert_id", "default", "Certificate ID for preloaded certificates")
 	bindAddr             = flag.String("bind_address", ":9339", "Bind to address:port or just :port")
 	resetDelay           = flag.Duration("reset_delay", 3*time.Second, "Delay before resetting the service upon factory reset request, 3 seconds by default")
 	zeroFillUnsupported  = flag.Bool("zero_fill_unsupported", false, "Make the target not support zero filling storage")
@@ -108,12 +107,11 @@ func start() {
 
 	parsedCerts, caPool := credentials.ParseCertificates()
 	certs := len(parsedCerts)
-	caCerts := len(caPool.Subjects())
-	certSettings := &cert.ManagerSettings{}
+	caCerts := len(caPool)
+	certSettings := &cert.Settings{CertID: *certID}
 	if certs > 0 && caCerts > 0 {
 		certSettings.Cert = &parsedCerts[0]
-		certSettings.CertID = *certID
-		certSettings.CABundle = []*x509.Certificate{credentials.GetCACert()}
+		certSettings.CABundle = caPool
 	}
 	var err error
 	if gNOIServer, err = gnoi.NewServer(certSettings, resetSettings, notifyReset, osSettings); err != nil {
@@ -128,7 +126,6 @@ func start() {
 // notifyReset is called when the factory reset service requires the server
 // to be restarted.
 func notifyReset() {
-	*certID = ""
 	log.Info("Server factory reset triggered")
 	<-time.After(*resetDelay)
 	start()

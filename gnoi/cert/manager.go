@@ -40,8 +40,8 @@ type Info struct {
 // Notifier is called with number of Certificates and CA Certificates.
 type Notifier func(int, int)
 
-// ManagerSettings contains the certs and CA pool to be passed into the Manager.
-type ManagerSettings struct {
+// Settings contains the certs and CA pool to be passed into the Manager.
+type Settings struct {
 	CertID   string
 	Cert     *tls.Certificate
 	CABundle []*x509.Certificate
@@ -59,7 +59,7 @@ type Manager struct {
 }
 
 // NewManager returns a Manager.
-func NewManager(settings *ManagerSettings) *Manager {
+func NewManager(settings *Settings) *Manager {
 	if settings == nil {
 		return &Manager{}
 	}

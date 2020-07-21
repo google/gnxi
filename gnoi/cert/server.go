@@ -336,7 +336,3 @@ func (s *Server) CanGenerateCSR(ctx context.Context, request *pb.CanGenerateCSRR
 	}
 	return ret, nil
 }
-
-func (s *Server) AddCertificates(certID string) (certs, caCerts int) {
-	return
-}
