@@ -104,14 +104,19 @@ func start() {
 		FactoryVersion:    *factoryVersion,
 		InstalledVersions: strings.Split(*installedVersions, " "),
 	}
-
-	parsedCerts, caPool := credentials.ParseCertificates()
-	certs := len(parsedCerts)
-	caCerts := len(caPool)
-	certSettings := &cert.Settings{CertID: *certID}
-	if certs > 0 && caCerts > 0 {
-		certSettings.Cert = &parsedCerts[0]
-		certSettings.CABundle = caPool
+	var (
+		numCerts,
+		numCA int
+		certSettings = &cert.Settings{}
+	)
+	certSettings.CertID = *certID
+	credentials.SetTargetName("target.com")
+	certificate, caCert := credentials.ParseCertificates()
+	if certificate != nil && caCert != nil {
+		certSettings.CertID = *certID
+		numCerts, numCA = 1, 1
+		certSettings.Cert = certificate
+		certSettings.CA = caCert
 	}
 	var err error
 	if gNOIServer, err = gnoi.NewServer(certSettings, resetSettings, notifyReset, osSettings); err != nil {
@@ -119,8 +124,8 @@ func start() {
 	}
 	// Registers a caller for whenever the number of installed certificates changes.
 	gNOIServer.RegisterCertNotifier(notifyCerts)
-	bootstrapping = certs != 0 && caCerts != 0
-	notifyCerts(certs, caCerts) // Triggers bootstraping mode.
+	bootstrapping = numCerts != 0 && numCA != 0
+	notifyCerts(numCerts, numCA) // Triggers bootstraping mode.
 }
 
 // notifyReset is called when the factory reset service requires the server

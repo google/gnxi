@@ -18,6 +18,7 @@ package cert
 import (
 	"crypto"
 	"crypto/rand"
+	"crypto/rsa"
 	"crypto/tls"
 	"crypto/x509"
 	"crypto/x509/pkix"
@@ -29,6 +30,9 @@ import (
 
 	log "github.com/golang/glog"
 )
+
+// RSABitSize is the size of the required RSA Private Key.
+const RSABitSize = 2048
 
 // Info contains information about a x509 Certificate.
 type Info struct {
@@ -42,9 +46,9 @@ type Notifier func(int, int)
 
 // Settings contains the certs and CA pool to be passed into the Manager.
 type Settings struct {
-	CertID   string
-	Cert     *tls.Certificate
-	CABundle []*x509.Certificate
+	CertID string
+	Cert   *tls.Certificate
+	CA     *x509.Certificate
 }
 
 // Manager manages Certificates and CA Bundles.
@@ -60,16 +64,26 @@ type Manager struct {
 
 // NewManager returns a Manager.
 func NewManager(settings *Settings) *Manager {
-	certInfo := map[string]*Info{}
-	var privateKey crypto.PrivateKey
+	var (
+		privateKey crypto.PrivateKey
+		caBundle   []*x509.Certificate
+		certInfo   map[string]*Info
+	)
 	if settings.Cert != nil {
 		privateKey = settings.Cert.PrivateKey
 		certInfo = map[string]*Info{settings.CertID: {certID: settings.CertID, cert: settings.Cert.Leaf}}
+		caBundle = []*x509.Certificate{settings.CA}
+	} else {
+		var err error
+		privateKey, err = rsa.GenerateKey(rand.Reader, RSABitSize)
+		if err != nil {
+			log.Exit("couldn't generate private key for manager: ", err)
+		}
 	}
 	return &Manager{
 		privateKey: privateKey,
 		certInfo:   certInfo,
-		caBundle:   settings.CABundle,
+		caBundle:   caBundle,
 		locks:      map[string]bool{},
 		notifiers:  []Notifier{},
 	}

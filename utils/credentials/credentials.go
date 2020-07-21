@@ -44,6 +44,7 @@ var (
 	usernameKey    = "username"
 	passwordKey    = "password"
 	caEnt          *entity.Entity
+	targetName     = "client.com"
 )
 
 func init() {
@@ -67,15 +68,15 @@ func (a *userCredentials) RequireTransportSecurity() bool {
 	return true
 }
 
-// loadFromFile loads the certificates from files.
-func loadFromFile() ([]tls.Certificate, []*x509.Certificate) {
+// loadFromFile loads a certificate key pair into a tls certificate and a CA certificate into a x509 certificate.
+func loadFromFile() (*tls.Certificate, *x509.Certificate) {
 	certificate, err := tls.LoadX509KeyPair(*cert, *key)
 	if err != nil {
-		log.Exitf("could not load client key pair: %s", err)
+		log.Exit("Could not load key/certificate pair from files:", err)
 	}
 	certificate.Leaf, err = x509.ParseCertificate(certificate.Certificate[0])
 	if err != nil {
-		log.Exitf("could not get leaf for certificate: %s", err)
+		log.Exit("Could not parse x509 certificate from tls certificate:", err)
 	}
 	caFile, err := ioutil.ReadFile(*ca)
 	if err != nil {
@@ -86,21 +87,21 @@ func loadFromFile() ([]tls.Certificate, []*x509.Certificate) {
 	if err != nil {
 		log.Exit("Error parsing CA certificate", err)
 	}
-	return []tls.Certificate{certificate}, []*x509.Certificate{caCert}
+	return &certificate, caCert
 }
 
 // generateFromCA generates a client certificate from the provided CA.
-func generateFromCA() ([]tls.Certificate, []*x509.Certificate) {
+func generateFromCA() (*tls.Certificate, *x509.Certificate) {
 	GetCAEntity()
-	clientEnt, err := entity.CreateSigned("client", nil, caEnt)
+	clientEnt, err := entity.CreateSigned(targetName, nil, caEnt)
 	if err != nil {
 		log.Exitf("Failed to create a signed entity: %v", err)
 	}
-	return []tls.Certificate{*clientEnt.Certificate}, []*x509.Certificate{caEnt.Certificate.Leaf}
+	return clientEnt.Certificate, caEnt.Certificate.Leaf
 }
 
 // ParseCertificates gets certificates from files or generates them from the CA.
-func ParseCertificates() ([]tls.Certificate, []*x509.Certificate) {
+func ParseCertificates() (*tls.Certificate, *x509.Certificate) {
 	if *ca != "" {
 		if *cert != "" && *key != "" {
 			return loadFromFile()
@@ -109,18 +110,23 @@ func ParseCertificates() ([]tls.Certificate, []*x509.Certificate) {
 			return generateFromCA()
 		}
 	}
-	return []tls.Certificate{}, []*x509.Certificate{}
+	return nil, nil
 }
 
 // LoadCertificates loads certificates from files and exits if there's an error.
 func LoadCertificates() ([]tls.Certificate, *x509.CertPool) {
 	certPool := x509.NewCertPool()
 	certs, caBundle := ParseCertificates()
-	if len(certs) == 0 || len(caBundle) == 0 {
+	if certs == nil || caBundle == nil {
 		log.Exit("Please provide -ca & -key or -ca, -cert & -ca_key")
 	}
-	certPool.AddCert(caBundle[0])
-	return certs, certPool
+	certPool.AddCert(caBundle)
+	return []tls.Certificate{*certs}, certPool
+}
+
+// SetTargetName sets the targetName variable.
+func SetTargetName(name string) {
+	targetName = name
 }
 
 // ClientCredentials generates gRPC DialOptions for existing credentials.

@@ -53,7 +53,7 @@ func TestNewManager(t *testing.T) {
 				locks:      map[string]bool{},
 				notifiers:  []Notifier{},
 			},
-			settings: &Settings{"", nil, []*x509.Certificate{}},
+			settings: &Settings{"", nil, &x509.Certificate{}},
 		},
 	}
 	for _, test := range tests {

@@ -30,10 +30,6 @@ import (
 	"google.golang.org/grpc/credentials"
 )
 
-var (
-	rsaBitSize = 2048
-)
-
 // Server represents a target.
 type Server struct {
 	certServer         *cert.Server
@@ -46,7 +42,7 @@ type Server struct {
 // NewServer returns a new server that can be used by the mock target.
 func NewServer(certSettings *cert.Settings, resetSettings *reset.Settings, notifyReset reset.Notifier, osSettings *os.Settings) (*Server, error) {
 	if certSettings.Cert == nil {
-		privateKey, err := rsa.GenerateKey(rand.Reader, rsaBitSize)
+		privateKey, err := rsa.GenerateKey(rand.Reader, cert.RSABitSize)
 		if err != nil {
 			return nil, fmt.Errorf("failed to generate private key: %v", err)
 		}
