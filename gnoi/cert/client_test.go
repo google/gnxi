@@ -17,6 +17,12 @@ package cert
 
 import (
 	"context"
+	"crypto/x509"
+	"crypto/x509/pkix"
+	"errors"
+	"fmt"
+	"reflect"
+	"testing"
 
 	"github.com/google/gnxi/gnoi/cert/pb"
 	"google.golang.org/grpc"
@@ -31,7 +37,7 @@ type rotateClient struct {
 	reqMap  []*rotateRequestMap
 	i       int
 	recv    chan int
-	recvErr chan *pb.RotateCertificateResponse
+	recvErr chan error
 }
 
 type mockClient struct {
@@ -40,13 +46,104 @@ type mockClient struct {
 }
 
 func (c *rotateClient) Send(req *pb.RotateCertificateRequest) error {
+	if c.i < len(c.reqMap) {
+		if reflect.TypeOf(req.RotateRequest) == reflect.TypeOf(c.reqMap[c.i].req.RotateRequest) {
+			c.recv <- c.i
+		} else {
+			c.recvErr <- errors.New("error")
+		}
+		c.i++
+	}
 	return nil
 }
 
 func (c *rotateClient) Recv() (*pb.RotateCertificateResponse, error) {
-	return nil, nil
+	select {
+	case i := <-c.recv:
+		return c.reqMap[i].resp, nil
+	case err := <-c.recvErr:
+		return nil, err
+	}
 }
 
 func (c *mockClient) Rotate(ctx context.Context, opts ...grpc.CallOption) (pb.CertificateManagement_RotateClient, error) {
 	return c.rotate, nil
+}
+
+func TestClientRotate(t *testing.T) {
+	tests := []struct {
+		name     string
+		reqMap   []*rotateRequestMap
+		err      error
+		sign     func(*x509.CertificateRequest) (*x509.Certificate, error)
+		caBundle []*x509.Certificate
+		validate func() error
+	}{
+		{
+			"failed to receive RotateCertificateResponse",
+			[]*rotateRequestMap{
+				{
+					&pb.RotateCertificateRequest{RotateRequest: nil},
+					&pb.RotateCertificateResponse{},
+				},
+			},
+			errors.New("failed to receive RotateCertificateResponse: error"),
+			func(_ *x509.CertificateRequest) (*x509.Certificate, error) { return &x509.Certificate{}, nil },
+			[]*x509.Certificate{},
+			func() error { return nil },
+		},
+		{
+			"expected GenerateCSRRequest",
+			[]*rotateRequestMap{
+				{
+					&pb.RotateCertificateRequest{RotateRequest: &pb.RotateCertificateRequest_GenerateCsr{}},
+					&pb.RotateCertificateResponse{RotateResponse: nil},
+				},
+			},
+			errors.New("expected GenerateCSRRequest, got something else"),
+			func(_ *x509.CertificateRequest) (*x509.Certificate, error) { return &x509.Certificate{}, nil },
+			[]*x509.Certificate{},
+			func() error { return nil },
+		},
+		{
+			"fail to sign the CSR",
+			[]*rotateRequestMap{
+				{
+					&pb.RotateCertificateRequest{RotateRequest: &pb.RotateCertificateRequest_GenerateCsr{}},
+					&pb.RotateCertificateResponse{RotateResponse: &pb.RotateCertificateResponse_GeneratedCsr{GeneratedCsr: &pb.GenerateCSRResponse{Csr: &pb.CSR{}}}},
+				},
+			},
+			errors.New("failed to sign the CSR: error"),
+			func(_ *x509.CertificateRequest) (*x509.Certificate, error) {
+				return nil, errors.New("error")
+			},
+			[]*x509.Certificate{},
+			func() error { return nil },
+		},
+	}
+	x509toPEM = func(cert *x509.Certificate) []byte {
+		return []byte{}
+	}
+	parseCSR = func(genCSR *pb.GenerateCSRResponse) (*x509.CertificateRequest, error) {
+		return &x509.CertificateRequest{}, nil
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			client := &Client{client: &mockClient{rotate: &rotateClient{
+				reqMap:  test.reqMap,
+				recv:    make(chan int, 1),
+				recvErr: make(chan error, 1),
+			}}}
+			if err := client.Rotate(
+				context.Background(), "", 0, pkix.Name{
+					Country:            []string{""},
+					Organization:       []string{""},
+					OrganizationalUnit: []string{""},
+					Province:           []string{""},
+				}, "", test.sign, test.caBundle, test.validate,
+			); fmt.Sprintf("%v", err) != fmt.Sprintf("%v", test.err) {
+				t.Errorf("Wanted error: **%v** but got error: **%v**", test.err, err)
+			}
+		})
+	}
 }
