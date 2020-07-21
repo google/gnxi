@@ -14,7 +14,7 @@ go install github.com/google/gnxi/gnoi_mockos
 ## Run
 
 ```
-./gnoi_cert \
+./gnoi_mockos \
   -file ./myos.img \
   -version 1.10a \
   -size 100M \
