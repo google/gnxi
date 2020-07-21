@@ -62,12 +62,16 @@ type Manager struct {
 	mu        sync.RWMutex
 }
 
+var generatePrivateKey = func() (*rsa.PrivateKey, error) {
+	return rsa.GenerateKey(rand.Reader, RSABitSize)
+}
+
 // NewManager returns a Manager.
 func NewManager(settings *Settings) *Manager {
 	var (
 		privateKey crypto.PrivateKey
-		caBundle   []*x509.Certificate
-		certInfo   map[string]*Info
+		certInfo   =  map[string]*Info{}
+		caBundle    = []*x509.Certificate{}
 	)
 	if settings.Cert != nil {
 		privateKey = settings.Cert.PrivateKey
@@ -75,7 +79,7 @@ func NewManager(settings *Settings) *Manager {
 		caBundle = []*x509.Certificate{settings.CA}
 	} else {
 		var err error
-		privateKey, err = rsa.GenerateKey(rand.Reader, RSABitSize)
+		privateKey, err = generatePrivateKey()
 		if err != nil {
 			log.Exit("couldn't generate private key for manager: ", err)
 		}

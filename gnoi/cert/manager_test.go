@@ -47,7 +47,7 @@ func TestNewManager(t *testing.T) {
 	}{
 		{
 			wantMgr: &Manager{
-				privateKey: nil,
+				privateKey: &rsa.PrivateKey{},
 				certInfo:   map[string]*Info{},
 				caBundle:   []*x509.Certificate{},
 				locks:      map[string]bool{},
@@ -57,6 +57,9 @@ func TestNewManager(t *testing.T) {
 		},
 	}
 	for _, test := range tests {
+		generatePrivateKey = func() (*rsa.PrivateKey, error) {
+			return &rsa.PrivateKey{}, nil
+		}
 		gotMgr := NewManager(test.settings)
 		if !cmp.Equal(test.wantMgr, gotMgr, cmpOpts...) {
 			t.Errorf("NewManager: (-want +got):\n%s", cmp.Diff(test.wantMgr, gotMgr, cmpOpts...))
