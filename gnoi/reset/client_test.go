@@ -19,6 +19,7 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/kylelemons/godebug/pretty"
 	"google.golang.org/grpc"
 
 	"github.com/google/gnxi/gnoi/reset/pb"
@@ -150,5 +151,36 @@ func TestResetTarget(t *testing.T) {
 				t.Errorf("ResetTarget(context.Background(), %v, %v): (-want +got)\n%s", req.ZeroFill, req.FactoryOs, diff)
 			}
 		}
+	}
+}
+
+func TestResetError(t *testing.T) {
+	tests := []struct {
+		error *ResetError
+		want  string
+	}{
+		{
+			error: &ResetError{Msgs: []string{"Factory OS Rollback Unsupported"}},
+			want:  "Factory OS Rollback Unsupported",
+		},
+		{
+			error: &ResetError{Msgs: []string{"Factory OS Rollback Unsupported", "Zero Filling Persistent Storage Unsupported"}},
+			want:  "Factory OS Rollback Unsupported\nZero Filling Persistent Storage Unsupported",
+		},
+	}
+	for _, test := range tests {
+		got := test.error.Error()
+		if diff := cmp.Diff(test.want, got); diff != "" {
+			t.Errorf("%v: (-want +got)\n%s", test.error, diff)
+		}
+	}
+}
+
+func TestNewClient(t *testing.T) {
+	conn := &grpc.ClientConn{}
+	want := &Client{client: pb.NewFactoryResetClient(conn)}
+	got := NewClient(conn)
+	if diff := pretty.Compare(want, got); diff != "" {
+		t.Errorf("(NewClient(): (-want +got)\n%s", diff)
 	}
 }
