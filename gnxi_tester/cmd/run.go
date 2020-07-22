@@ -16,7 +16,7 @@ limitations under the License.
 package cmd
 
 import (
-	"github.com/golang/glog"
+	log "github.com/golang/glog"
 	"github.com/google/gnxi/gnxi_tester/orchestrator"
 	"github.com/spf13/cobra"
 )
@@ -32,8 +32,8 @@ var runCmd = &cobra.Command{
 // handleRun will run some or all of the tests.
 func handleRun(cmd *cobra.Command, args []string) {
 	if success, err := orchestrator.RunTests(args); err != nil {
-		glog.Exit(err)
+		log.Exit(err)
 	} else {
-		glog.Info("tests run successfully: %s", success)
+		log.Info("tests run successfully: %s", success)
 	}
 }
