@@ -23,10 +23,11 @@ import (
 
 // Test represents a single set of inputs and expected outputs.
 type Test struct {
-	Args     string        `mapstructure:"args"`
-	MustFail bool          `mapstructure:"must_fail"`
-	Wait     time.Duration `mapstructure:"wait"`
-	Wants    string        `mapstructure:"wants"`
+	Args     map[string]string `mapstructure:"args"`
+	MustFail bool              `mapstructure:"must_fail"`
+	Wait     time.Duration     `mapstructure:"wait"`
+	Wants    string            `mapstructure:"wants"`
+	Prompt   []string          `mapstructure:"prompt"`
 }
 
 func setDefaults() {
