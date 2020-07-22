@@ -34,6 +34,6 @@ func handleRun(cmd *cobra.Command, args []string) {
 	if success, err := orchestrator.RunTests(args); err != nil {
 		log.Exit(err)
 	} else {
-		log.Info("tests run successfully: %s", success)
+		log.Infof("tests run successfully: %s", success)
 	}
 }
