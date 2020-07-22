@@ -16,10 +16,10 @@ require (
 	github.com/pelletier/go-toml v1.8.0 // indirect
 	github.com/spf13/afero v1.3.2 // indirect
 	github.com/spf13/cast v1.3.1 // indirect
-	github.com/spf13/cobra v1.0.0 // indirect
+	github.com/spf13/cobra v1.0.0 
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/spf13/viper v1.7.0 // indirect
+	github.com/spf13/viper v1.7.0 
 	golang.org/x/net v0.0.0-20200625001655-4c5254603344
 	golang.org/x/sys v0.0.0-20200720211630-cb9d2d5c5666 // indirect
 	golang.org/x/text v0.3.3 // indirect
@@ -27,4 +27,5 @@ require (
 	google.golang.org/grpc v1.30.0
 	google.golang.org/protobuf v1.24.0
 	gopkg.in/ini.v1 v1.57.0 // indirect
+	github.com/mitchellh/go-homedir v1.1.0
 )
