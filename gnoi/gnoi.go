@@ -41,26 +41,25 @@ type Server struct {
 
 // NewServer returns a new server that can be used by the mock target.
 func NewServer(certSettings *cert.Settings, resetSettings *reset.Settings, notifyReset reset.Notifier, osSettings *os.Settings) (*Server, error) {
-	if certSettings.Cert == nil {
-		privateKey, err := rsa.GenerateKey(rand.Reader, cert.RSABitSize)
-		if err != nil {
-			return nil, fmt.Errorf("failed to generate private key: %v", err)
-		}
-		e, err := entity.CreateSelfSigned("gNOI server", privateKey)
-		if err != nil {
-			return nil, fmt.Errorf("failed to create self signed certificate: %v", err)
-		}
-		certSettings.Cert = e.Certificate
+
+	privateKey, err := rsa.GenerateKey(rand.Reader, cert.RSABitSize)
+	if err != nil {
+		return nil, fmt.Errorf("failed to generate private key: %v", err)
+	}
+	e, err := entity.CreateSelfSigned("gNOI server", privateKey)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create self signed certificate: %v", err)
 	}
 
 	certManager := cert.NewManager(certSettings)
 	certServer := cert.NewServer(certManager)
 	resetServer := reset.NewServer(resetSettings, notifyReset)
 	osServer := os.NewServer(osSettings)
+
 	return &Server{
 		certServer:         certServer,
 		certManager:        certManager,
-		defaultCertificate: certSettings.Cert,
+		defaultCertificate: e.Certificate,
 		resetServer:        resetServer,
 		osServer:           osServer,
 	}, nil
