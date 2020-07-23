@@ -24,8 +24,10 @@ import (
 	"time"
 
 	"github.com/google/gnxi/gnoi"
+	"github.com/google/gnxi/gnoi/cert"
 	"github.com/google/gnxi/gnoi/os"
 	"github.com/google/gnxi/gnoi/reset"
+	"github.com/google/gnxi/utils/credentials"
 	"google.golang.org/grpc"
 
 	log "github.com/golang/glog"
@@ -37,6 +39,7 @@ var (
 	muServe       sync.Mutex
 	bootstrapping bool
 
+	certID               = flag.String("cert_id", "default", "Certificate ID for preloaded certificates")
 	bindAddr             = flag.String("bind_address", ":9339", "Bind to address:port or just :port")
 	resetDelay           = flag.Duration("reset_delay", 3*time.Second, "Delay before resetting the service upon factory reset request, 3 seconds by default")
 	zeroFillUnsupported  = flag.Bool("zero_fill_unsupported", false, "Make the target not support zero filling storage")
@@ -72,7 +75,9 @@ func notifyCerts(certs, caCerts int) {
 	}
 	if bootstrapping {
 		log.Info("Found Credentials, setting Provisioned state.")
-		grpcServer.GracefulStop()
+		if grpcServer != nil {
+			grpcServer.GracefulStop()
+		}
 		grpcServer = gNOIServer.PrepareAuthenticated()
 		// Register all gNOI services.
 		gNOIServer.Register(grpcServer)
@@ -99,14 +104,25 @@ func start() {
 		FactoryVersion:    *factoryVersion,
 		InstalledVersions: strings.Split(*installedVersions, " "),
 	}
+	var (
+		numCerts,
+		numCA int
+		certSettings = &cert.Settings{}
+	)
+	certSettings.CertID = *certID
+	credentials.SetTargetName("target.com")
+	certSettings.Cert, certSettings.CA = credentials.ParseCertificates()
+	if certSettings.Cert != nil && certSettings.CA != nil {
+		numCerts, numCA = 1, 1
+	}
 	var err error
-	if gNOIServer, err = gnoi.NewServer(nil, nil, resetSettings, notifyReset, osSettings); err != nil {
+	if gNOIServer, err = gnoi.NewServer(certSettings, resetSettings, notifyReset, osSettings); err != nil {
 		log.Fatal("Failed to create gNOI Server:", err)
 	}
 	// Registers a caller for whenever the number of installed certificates changes.
 	gNOIServer.RegisterCertNotifier(notifyCerts)
-	bootstrapping = false
-	notifyCerts(0, 0) // Triggers bootstraping mode.
+	bootstrapping = numCerts != 0 && numCA != 0
+	notifyCerts(numCerts, numCA) // Triggers bootstraping mode.
 }
 
 // notifyReset is called when the factory reset service requires the server

@@ -42,22 +42,25 @@ var (
 
 func TestNewManager(t *testing.T) {
 	tests := []struct {
-		wantMgr *Manager
-		privKey interface{}
+		wantMgr  *Manager
+		settings *Settings
 	}{
 		{
 			wantMgr: &Manager{
-				privateKey: "bubu",
+				privateKey: &rsa.PrivateKey{},
 				certInfo:   map[string]*Info{},
 				caBundle:   []*x509.Certificate{},
 				locks:      map[string]bool{},
 				notifiers:  []Notifier{},
 			},
-			privKey: "bubu",
+			settings: &Settings{"", nil, &x509.Certificate{}},
 		},
 	}
 	for _, test := range tests {
-		gotMgr := NewManager(test.privKey)
+		generatePrivateKey = func() (*rsa.PrivateKey, error) {
+			return &rsa.PrivateKey{}, nil
+		}
+		gotMgr := NewManager(test.settings)
 		if !cmp.Equal(test.wantMgr, gotMgr, cmpOpts...) {
 			t.Errorf("NewManager: (-want +got):\n%s", cmp.Diff(test.wantMgr, gotMgr, cmpOpts...))
 		}
