@@ -16,18 +16,18 @@ limitations under the License.
 package config
 
 import (
-	"time"
-
 	"github.com/spf13/viper"
 )
 
 // Test represents a single set of inputs and expected outputs.
 type Test struct {
-	Args     map[string]string `mapstructure:"args"`
-	MustFail bool              `mapstructure:"must_fail"`
-	Wait     time.Duration     `mapstructure:"wait"`
-	Wants    string            `mapstructure:"wants"`
-	Prompt   []string          `mapstructure:"prompt"`
+	Name       string            `mapstructure:"name"`
+	Args       map[string]string `mapstructure:"args"`
+	MustFail   bool              `mapstructure:"must_fail"`
+	Wait       int               `mapstructure:"wait"`
+	Wants      string            `mapstructure:"wants"`
+	DoesntWant string            `mapstructure:"doesnt_want"`
+	Prompt     []string          `mapstructure:"prompt"`
 }
 
 func setDefaults() {

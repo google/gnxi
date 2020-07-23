@@ -16,23 +16,41 @@ limitations under the License.
 package orchestrator
 
 import (
+	"fmt"
+	"regexp"
+	"strings"
+
 	"github.com/google/gnxi/gnxi_tester/config"
+	"github.com/spf13/viper"
+)
+
+type callbackFunc func(name string) string
+
+const (
+	openDelim  = "&<"
+	closeDelim = ">"
+)
+
+var (
+	configTests map[string][]config.Test
+	input       = map[string]string{}
+	delimRe     = regexp.MustCompile(fmt.Sprintf("%s.*%s", openDelim, closeDelim))
 )
 
 // RunTests will take in test name and run each test or all tests.
-func RunTests(tests []string) (success []string, err error) {
+func RunTests(tests []string, prompt callbackFunc) (success []string, err error) {
 	var output string
 	if len(tests) == 0 {
-		configTests := config.GetTests()
+		configTests = config.GetTests()
 		for name := range configTests {
-			if output, err = runTest(name); err != nil {
+			if output, err = runTest(name, prompt); err != nil {
 				return
 			}
 			success = append(success, output)
 		}
 	} else {
 		for _, name := range tests {
-			if output, err = runTest(name); err != nil {
+			if output, err = runTest(name, prompt); err != nil {
 				return
 			}
 			success = append(success, output)
@@ -41,6 +59,65 @@ func RunTests(tests []string) (success []string, err error) {
 	return
 }
 
-func runTest(test string) (string, error) {
-	return "", nil
+func runTest(name string, prompt callbackFunc) (string, error) {
+	tests := configTests[name]
+	targetName := viper.GetString("targets.last_target")
+	defaultArgs := fmt.Sprintf(
+		"-logtostderr -target_name %s -target_addr %s",
+		targetName,
+		viper.GetStringMap("targets.devices")[targetName],
+	)
+	stdout := fmt.Sprintf("*%s*:", name)
+	for _, test := range tests {
+		for _, p := range test.Prompt {
+			input[p] = prompt(p)
+		}
+		binArgs := defaultArgs
+		for arg, val := range test.Args {
+			binArgs = fmt.Sprintf("-%s %s %s", arg, insertVars(val), binArgs)
+		}
+		out, code, err := runContainer(name, binArgs)
+		if exp := expects(out, &test); (code == 0) == test.MustFail || err != nil || exp != nil {
+			return "", formateErr(name, test.Name, exp, code, test.MustFail, out, err)
+		}
+		stdout = fmt.Sprintf("%s\n\n%s:\n%s\n", stdout, test.Name, out)
+	}
+	return stdout, nil
+}
+
+func expects(out string, test *config.Test) error {
+	if len(test.Wants) > 0 {
+		wantsRe := regexp.MustCompile(test.Wants)
+		if i := wantsRe.FindStringIndex(out); i == nil {
+			return fmt.Errorf("Wanted %s in output", test.Wants)
+		}
+	}
+	if len(test.DoesntWant) > 0 {
+		doesntRe := regexp.MustCompile(test.DoesntWant)
+		if i := doesntRe.FindStringIndex(out); i != nil {
+			return fmt.Errorf("Didn't want %s in output", test.DoesntWant)
+		}
+	}
+	return nil
+}
+
+func formateErr(major, minor string, custom error, code int, fail bool, out string, err error) error {
+	return fmt.Errorf(
+		"Error occured in test %s-%s: (%v) exitCode(%d), mustFail(%v), stdout(%s), runtimeErr(%v)",
+		major,
+		minor,
+		custom,
+		code,
+		fail,
+		out,
+		err,
+	)
+}
+
+func insertVars(in string) string {
+	matches := delimRe.FindAllString(in, -1)
+	for _, match := range matches {
+		in = strings.Replace(in, match, input[match[2:len(match)-1]], 1)
+	}
+	return in
 }

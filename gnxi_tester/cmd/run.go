@@ -31,9 +31,13 @@ var runCmd = &cobra.Command{
 
 // handleRun will run some or all of the tests.
 func handleRun(cmd *cobra.Command, args []string) {
-	if success, err := orchestrator.RunTests(args); err != nil {
+	if success, err := orchestrator.RunTests(args, promptUser); err != nil {
 		log.Exit(err)
 	} else {
 		log.Infof("tests run successfully: %s", success)
 	}
+}
+
+func promptUser(name string) string {
+	return ""
 }
