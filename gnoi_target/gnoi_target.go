@@ -111,12 +111,9 @@ func start() {
 	)
 	certSettings.CertID = *certID
 	credentials.SetTargetName("target.com")
-	certificate, caCert := credentials.ParseCertificates()
+	certSettings.Cert, certSettings.CA = credentials.ParseCertificates()
 	if certificate != nil && caCert != nil {
-		certSettings.CertID = *certID
 		numCerts, numCA = 1, 1
-		certSettings.Cert = certificate
-		certSettings.CA = caCert
 	}
 	var err error
 	if gNOIServer, err = gnoi.NewServer(certSettings, resetSettings, notifyReset, osSettings); err != nil {
