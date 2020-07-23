@@ -112,7 +112,7 @@ func start() {
 	certSettings.CertID = *certID
 	credentials.SetTargetName("target.com")
 	certSettings.Cert, certSettings.CA = credentials.ParseCertificates()
-	if certificate != nil && caCert != nil {
+	if certSettings.Cert != nil && certSettings.CA != nil {
 		numCerts, numCA = 1, 1
 	}
 	var err error
