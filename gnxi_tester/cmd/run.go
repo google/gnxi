@@ -16,18 +16,24 @@ limitations under the License.
 package cmd
 
 import (
+	"bufio"
+	"os"
+
 	log "github.com/golang/glog"
 	"github.com/google/gnxi/gnxi_tester/orchestrator"
 	"github.com/spf13/cobra"
 )
 
-var runCmd = &cobra.Command{
-	Use:     "run",
-	Short:   "Run set of tests.",
-	Long:    "Run a set of tests from the config file",
-	Example: "gnxi_tester run [test_names]",
-	Run:     handleRun,
-}
+var (
+	runCmd = &cobra.Command{
+		Use:     "run",
+		Short:   "Run set of tests.",
+		Long:    "Run a set of tests from the config file",
+		Example: "gnxi_tester run [test_names]",
+		Run:     handleRun,
+	}
+	scanner = bufio.NewReader(os.Stdin)
+)
 
 // handleRun will run some or all of the tests.
 func handleRun(cmd *cobra.Command, args []string) {
@@ -39,5 +45,9 @@ func handleRun(cmd *cobra.Command, args []string) {
 }
 
 func promptUser(name string) string {
-	return ""
+	out, err := scanner.ReadString('\n')
+	if err != nil {
+		log.Exitf("error reading line: %v", err)
+	}
+	return out
 }

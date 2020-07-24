@@ -72,6 +72,8 @@ func runTest(name string, prompt callbackFunc) (string, error) {
 		for _, p := range test.Prompt {
 			input[p] = prompt(p)
 		}
+		test.DoesntWant = insertVars(test.DoesntWant)
+		test.Wants = insertVars(test.Wants)
 		binArgs := defaultArgs
 		for arg, val := range test.Args {
 			binArgs = fmt.Sprintf("-%s %s %s", arg, insertVars(val), binArgs)
