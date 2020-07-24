@@ -80,7 +80,7 @@ func runTest(name string, prompt callbackFunc) (string, error) {
 		if exp := expects(out, &test); (code == 0) == test.MustFail || err != nil || exp != nil {
 			return "", formateErr(name, test.Name, exp, code, test.MustFail, out, err)
 		}
-		stdout = fmt.Sprintf("%s\n\n%s:\n%s\n", stdout, test.Name, out)
+		stdout = fmt.Sprintf("%s\n%s:\n%s\n", stdout, test.Name, out)
 	}
 	return stdout, nil
 }
