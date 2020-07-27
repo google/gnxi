@@ -35,7 +35,7 @@ func Init(filePath string) {
 	setDefaults()
 	viper.SetConfigType("yaml")
 	viper.SetConfigFile(filePath)
-	if err := viper.SafeWriteConfigAs(filePath); err != nil {
+	if err := viper.SafeWriteConfigAs(filePath); err != nil && err != viper.ConfigFileAlreadyExistsError(filePath) {
 		log.Exitf("couldn't write to config: %v", err)
 	}
 	if err := viper.ReadInConfig(); err != nil {
@@ -46,4 +46,10 @@ func Init(filePath string) {
 // GetTests will return tests from viper store.
 func GetTests() map[string][]Test {
 	return viper.Get("tests").(map[string][]Test)
+}
+
+// GetDevices will return target connection history from Viper store.
+func GetDevices() map[string]string {
+	devices := viper.GetStringMapString("targets.devices")
+	return devices
 }
