@@ -37,6 +37,19 @@ func NewClient(c *grpc.ClientConn) *Client {
 	return &Client{client: pb.NewCertificateManagementClient(c)}
 }
 
+var parseCSR = func(genCSR *pb.GenerateCSRResponse) (*x509.CertificateRequest, error) {
+	derCSR, _ := pem.Decode(genCSR.Csr.Csr)
+	if derCSR == nil {
+		return nil, fmt.Errorf("failed to decode CSR PEM block")
+	}
+
+	csr, err := x509.ParseCertificateRequest(derCSR.Bytes)
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse CSR DER")
+	}
+	return csr, nil
+}
+
 // Rotate rotates a certificate.
 func (c *Client) Rotate(ctx context.Context, certID string, minKeySize uint32, params pkix.Name, ipAddress string, sign func(*x509.CertificateRequest) (*x509.Certificate, error), caBundle []*x509.Certificate, validate func() error) error {
 	stream, err := c.client.Rotate(ctx)
@@ -75,14 +88,9 @@ func (c *Client) Rotate(ctx context.Context, certID string, minKeySize uint32, p
 		return fmt.Errorf("expected GenerateCSRRequest, got something else")
 	}
 
-	derCSR, _ := pem.Decode(genCSR.Csr.Csr)
-	if derCSR == nil {
-		return fmt.Errorf("failed to decode CSR PEM block")
-	}
-
-	csr, err := x509.ParseCertificateRequest(derCSR.Bytes)
+	csr, err := parseCSR(genCSR)
 	if err != nil {
-		return fmt.Errorf("failed to parse CSR DER")
+		return err
 	}
 
 	signedCert, err := sign(csr)

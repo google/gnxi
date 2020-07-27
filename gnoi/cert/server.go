@@ -274,7 +274,7 @@ func (s *Server) Rotate(stream pb.CertificateManagement_RotateServer) error {
 }
 
 // EncodeCert encodes a x509.Certificate into a PEM block.
-func x509toPEM(cert *x509.Certificate) []byte {
+var x509toPEM = func(cert *x509.Certificate) []byte {
 	return pem.EncodeToMemory(&pem.Block{
 		Type:  "CERTIFICATE",
 		Bytes: cert.Raw,
