@@ -110,7 +110,7 @@ func TestRunTests(t *testing.T) {
 			viper.Set("targets.devices", map[string]interface{}{"test": "test"})
 			viper.Set("targets.last_target", "test")
 			viper.Set("tests", test.tests)
-			runContainer = test.runContainer
+			RunContainer = test.runContainer
 			succ, err := RunTests(test.testNames, test.prompt)
 			if diff := cmp.Diff(succ, test.wantSucc); diff != "" {
 				t.Errorf("(-want +got): %s", diff)

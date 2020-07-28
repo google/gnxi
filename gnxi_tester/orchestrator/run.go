@@ -78,7 +78,7 @@ func runTest(name string, prompt callbackFunc) (string, error) {
 		for arg, val := range test.Args {
 			binArgs = fmt.Sprintf("-%s %s %s", arg, insertVars(val), binArgs)
 		}
-		out, code, err := runContainer(name, binArgs)
+		out, code, err := RunContainer(name, binArgs)
 		if exp := expects(out, &test); (code == 0) == test.MustFail || err != nil || exp != nil {
 			return "", formateErr(name, test.Name, exp, code, test.MustFail, out, err)
 		}
