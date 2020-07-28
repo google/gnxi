@@ -28,6 +28,10 @@ import (
 	"google.golang.org/grpc"
 )
 
+type getCertificatesRPC func(ctx context.Context, in *pb.GetCertificatesRequest, opts ...grpc.CallOption) (*pb.GetCertificatesResponse, error)
+type revokeCertificatesRPC func(ctx context.Context, in *pb.RevokeCertificatesRequest, opts ...grpc.CallOption) (*pb.RevokeCertificatesResponse, error)
+type canGenerateCSRRPC func(ctx context.Context, in *pb.CanGenerateCSRRequest, opts ...grpc.CallOption) (*pb.CanGenerateCSRResponse, error)
+
 type rotateRequestMap struct {
 	req  *pb.RotateCertificateRequest
 	resp *pb.RotateCertificateResponse
@@ -54,8 +58,11 @@ type installClient struct {
 
 type mockClient struct {
 	pb.CertificateManagementClient
-	rotate  *rotateClient
-	install *installClient
+	rotate             *rotateClient
+	install            *installClient
+	getCertificates    getCertificatesRPC
+	revokeCertificates revokeCertificatesRPC
+	canGenerateCSR     canGenerateCSRRPC
 }
 
 func (c *installClient) Send(req *pb.InstallCertificateRequest) error {
@@ -106,6 +113,90 @@ func (c *mockClient) Rotate(ctx context.Context, opts ...grpc.CallOption) (pb.Ce
 
 func (c *mockClient) Install(ctx context.Context, opts ...grpc.CallOption) (pb.CertificateManagement_InstallClient, error) {
 	return c.install, nil
+}
+
+func (c *mockClient) GetCertificates(ctx context.Context, in *pb.GetCertificatesRequest, opts ...grpc.CallOption) (*pb.GetCertificatesResponse, error) {
+	return c.getCertificates(ctx, in, opts...)
+}
+
+func (c *mockClient) RevokeCertificates(ctx context.Context, in *pb.RevokeCertificatesRequest, opts ...grpc.CallOption) (*pb.RevokeCertificatesResponse, error) {
+	return c.revokeCertificates(ctx, in, opts...)
+}
+
+func (c *mockClient) CanGenerateCSR(ctx context.Context, in *pb.CanGenerateCSRRequest, opts ...grpc.CallOption) (*pb.CanGenerateCSRResponse, error) {
+	return c.canGenerateCSR(ctx, in, opts...)
+}
+
+func TestClientCanGenerateCSR(t *testing.T) {
+	tests := []struct {
+		name string
+		err  error
+	}{
+		{
+			"Will terminate successfully",
+			nil,
+		},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			client := &Client{client: &mockClient{canGenerateCSR: func(ctx context.Context, in *pb.CanGenerateCSRRequest, opts ...grpc.CallOption) (*pb.CanGenerateCSRResponse, error) {
+				return &pb.CanGenerateCSRResponse{CanGenerate: true}, nil
+			}}}
+			if _, err := client.CanGenerateCSR(context.Background()); fmt.Sprintf("%v", err) != fmt.Sprintf("%v", test.err) {
+				t.Errorf("Wanted err %v, got err %v", test.err, err)
+			}
+		})
+	}
+}
+
+func TestClientRevokeCertificates(t *testing.T) {
+	tests := []struct {
+		name  string
+		wants int
+		err   error
+	}{
+		{
+			"Will terminate successfully",
+			1,
+			nil,
+		},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			client := &Client{client: &mockClient{revokeCertificates: func(ctx context.Context, in *pb.RevokeCertificatesRequest, opts ...grpc.CallOption) (*pb.RevokeCertificatesResponse, error) {
+				return &pb.RevokeCertificatesResponse{CertificateRevocationError: []*pb.CertificateRevocationError{{}}}, nil
+			}}}
+			if m, err := client.RevokeCertificates(context.Background(), []string{}); len(m) != test.wants || fmt.Sprintf("%v", err) != fmt.Sprintf("%v", test.err) {
+				t.Errorf("Wanted map of len(%d), got len(%d), wanted err %v, got err %v", test.wants, len(m), test.err, err)
+			}
+		})
+	}
+}
+
+func TestClientGetCertificates(t *testing.T) {
+	tests := []struct {
+		name  string
+		wants int
+		err   error
+	}{{
+		"Will terminate successfully",
+		1,
+		nil,
+	},
+	}
+	PEMtox509 = func(bytes []byte) (*x509.Certificate, error) {
+		return &x509.Certificate{}, nil
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			client := &Client{client: &mockClient{getCertificates: func(ctx context.Context, in *pb.GetCertificatesRequest, opts ...grpc.CallOption) (*pb.GetCertificatesResponse, error) {
+				return &pb.GetCertificatesResponse{CertificateInfo: []*pb.CertificateInfo{{Certificate: &pb.Certificate{}}}}, nil
+			}}}
+			if m, err := client.GetCertificates(context.Background()); len(m) != test.wants || fmt.Sprintf("%v", err) != fmt.Sprintf("%v", test.err) {
+				t.Errorf("Wanted map of len(%d), got len(%d), wanted err %v, got err %v", test.wants, len(m), test.err, err)
+			}
+		})
+	}
 }
 
 func TestClientInstall(t *testing.T) {
