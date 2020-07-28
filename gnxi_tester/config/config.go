@@ -45,7 +45,11 @@ func Init(filePath string) {
 
 // GetTests will return tests from viper store.
 func GetTests() map[string][]Test {
-	return viper.Get("tests").(map[string][]Test)
+	var tests map[string][]Test
+	if err := viper.UnmarshalKey("tests", &tests); err != nil {
+		return nil
+	}
+	return tests
 }
 
 // GetDevices will return target connection history from Viper store.
