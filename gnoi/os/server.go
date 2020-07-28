@@ -122,25 +122,39 @@ func (s *Server) Install(stream pb.OS_InstallServer) error {
 		}
 		return errors.New("Another install is already in progress")
 	}
-
 	response = &pb.InstallResponse{Response: &pb.InstallResponse_TransferReady{TransferReady: &pb.TransferReady{}}}
 	utils.LogProto(response)
 	if err = stream.Send(response); err != nil {
 		return err
 	}
-
 	bb, err := ReceiveOS(stream)
 	if err != nil {
 		return err
 	}
-	mockOS, err, errResponse := mockos.ValidateOS(bb)
-	if err != nil {
-		response = &pb.InstallResponse{Response: errResponse}
+	mockOS := mockos.ValidateOS(bb)
+	if mockOS == nil {
+		response = &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_PARSE_FAIL}}}
 		utils.LogProto(response)
 		if err = stream.Send(response); err != nil {
 			return err
 		}
-		return err
+		return nil
+	}
+	if !mockOS.CheckHash() {
+		response := &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{&pb.InstallError{Type: pb.InstallError_INTEGRITY_FAIL}}}
+		utils.LogProto(response)
+		if err = stream.Send(response); err != nil {
+			return err
+		}
+		return nil
+	}
+	if mockOS.Incompatible {
+		response := &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{&pb.InstallError{Type: pb.InstallError_INCOMPATIBLE, Detail: "Unsupported OS Version"}}}
+		utils.LogProto(response)
+		if err = stream.Send(response); err != nil {
+			return err
+		}
+		return nil
 	}
 	s.manager.Install(mockOS.Version, mockOS.ActivationFailMessage)
 	response = &pb.InstallResponse{Response: &pb.InstallResponse_Validated{Validated: &pb.Validated{Version: mockOS.Version}}}

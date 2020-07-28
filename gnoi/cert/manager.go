@@ -18,6 +18,7 @@ package cert
 import (
 	"crypto"
 	"crypto/rand"
+	"crypto/rsa"
 	"crypto/tls"
 	"crypto/x509"
 	"crypto/x509/pkix"
@@ -30,6 +31,9 @@ import (
 	log "github.com/golang/glog"
 )
 
+// RSABitSize is the size of the required RSA Private Key.
+const RSABitSize = 2048
+
 // Info contains information about a x509 Certificate.
 type Info struct {
 	certID  string
@@ -39,6 +43,13 @@ type Info struct {
 
 // Notifier is called with number of Certificates and CA Certificates.
 type Notifier func(int, int)
+
+// Settings contains the certs and CA pool to be passed into the Manager.
+type Settings struct {
+	CertID string
+	Cert   *tls.Certificate
+	CA     *x509.Certificate
+}
 
 // Manager manages Certificates and CA Bundles.
 type Manager struct {
@@ -51,12 +62,32 @@ type Manager struct {
 	mu        sync.RWMutex
 }
 
+var generatePrivateKey = func() (*rsa.PrivateKey, error) {
+	return rsa.GenerateKey(rand.Reader, RSABitSize)
+}
+
 // NewManager returns a Manager.
-func NewManager(privateKey crypto.PrivateKey) *Manager {
+func NewManager(settings *Settings) *Manager {
+	var (
+		privateKey crypto.PrivateKey
+		certInfo   = map[string]*Info{}
+		caBundle   = []*x509.Certificate{}
+	)
+	if settings.Cert != nil {
+		privateKey = settings.Cert.PrivateKey
+		certInfo = map[string]*Info{settings.CertID: {certID: settings.CertID, cert: settings.Cert.Leaf}}
+		caBundle = []*x509.Certificate{settings.CA}
+	} else {
+		var err error
+		privateKey, err = generatePrivateKey()
+		if err != nil {
+			log.Exit("couldn't generate private key for manager: ", err)
+		}
+	}
 	return &Manager{
 		privateKey: privateKey,
-		certInfo:   map[string]*Info{},
-		caBundle:   []*x509.Certificate{},
+		certInfo:   certInfo,
+		caBundle:   caBundle,
 		locks:      map[string]bool{},
 		notifiers:  []Notifier{},
 	}
@@ -105,7 +136,7 @@ func (cm *Manager) notify() {
 }
 
 // PEMtox509 decodes a PEM block into a x509.Certificate.
-func PEMtox509(bytes []byte) (*x509.Certificate, error) {
+var PEMtox509 = func(bytes []byte) (*x509.Certificate, error) {
 	certDERBlock, _ := pem.Decode(bytes)
 	if certDERBlock == nil {
 		return nil, fmt.Errorf("failed to decode PEM block")

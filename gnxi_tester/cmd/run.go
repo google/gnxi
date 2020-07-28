@@ -20,12 +20,15 @@ import (
 	"os"
 
 	log "github.com/golang/glog"
+	"github.com/google/gnxi/gnxi_tester/config"
 	"github.com/google/gnxi/gnxi_tester/orchestrator"
 	"github.com/spf13/cobra"
 )
 
 var (
-	runCmd = &cobra.Command{
+	targetName    string
+	targetAddress string
+	runCmd        = &cobra.Command{
 		Use:     "run",
 		Short:   "Run set of tests.",
 		Long:    "Run a set of tests from the config file",
@@ -35,12 +38,20 @@ var (
 	scanner = bufio.NewReader(os.Stdin)
 )
 
+func init() {
+	runCmd.Flags().StringVarP(&targetName, "target_name", "n", "", "The name of the target to be tested")
+	runCmd.Flags().StringVarP(&targetAddress, "target_address", "a", "", "The address of the target to be tested")
+}
+
 // handleRun will run some or all of the tests.
 func handleRun(cmd *cobra.Command, args []string) {
+	if err := config.SetTarget(targetName, targetAddress); err != nil {
+		log.Exitf("Error writing config: %v", err)
+	}
 	if success, err := orchestrator.RunTests(args, promptUser); err != nil {
-		log.Exit(err)
+		log.Exitf("Error running tests: %v", err)
 	} else {
-		log.Infof("tests run successfully: %s", success)
+		log.Infof("Tests ran successfully: %s", success)
 	}
 }
 

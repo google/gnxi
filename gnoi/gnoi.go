@@ -17,7 +17,6 @@ limitations under the License.
 package gnoi
 
 import (
-	"crypto"
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/tls"
@@ -31,10 +30,6 @@ import (
 	"google.golang.org/grpc/credentials"
 )
 
-var (
-	rsaBitSize = 2048
-)
-
 // Server represents a target.
 type Server struct {
 	certServer         *cert.Server
@@ -45,30 +40,26 @@ type Server struct {
 }
 
 // NewServer returns a new server that can be used by the mock target.
-func NewServer(privateKey crypto.PrivateKey, defaultCertificate *tls.Certificate, resetSettings *reset.Settings, notifyReset reset.Notifier, osSettings *os.Settings) (*Server, error) {
-	if defaultCertificate == nil {
-		if privateKey == nil {
-			var err error
-			privateKey, err = rsa.GenerateKey(rand.Reader, rsaBitSize)
-			if err != nil {
-				return nil, fmt.Errorf("failed to generate private key: %v", err)
-			}
-		}
-		e, err := entity.CreateSelfSigned("gNOI server", privateKey)
-		if err != nil {
-			return nil, fmt.Errorf("failed to create self signed certificate: %v", err)
-		}
-		defaultCertificate = e.Certificate
+func NewServer(certSettings *cert.Settings, resetSettings *reset.Settings, notifyReset reset.Notifier, osSettings *os.Settings) (*Server, error) {
+
+	privateKey, err := rsa.GenerateKey(rand.Reader, cert.RSABitSize)
+	if err != nil {
+		return nil, fmt.Errorf("failed to generate private key: %v", err)
+	}
+	e, err := entity.CreateSelfSigned("gNOI server", privateKey)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create self signed certificate: %v", err)
 	}
 
-	certManager := cert.NewManager(defaultCertificate.PrivateKey)
+	certManager := cert.NewManager(certSettings)
 	certServer := cert.NewServer(certManager)
 	resetServer := reset.NewServer(resetSettings, notifyReset)
 	osServer := os.NewServer(osSettings)
+
 	return &Server{
 		certServer:         certServer,
 		certManager:        certManager,
-		defaultCertificate: defaultCertificate,
+		defaultCertificate: e.Certificate,
 		resetServer:        resetServer,
 		osServer:           osServer,
 	}, nil
