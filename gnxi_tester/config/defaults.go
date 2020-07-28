@@ -16,8 +16,6 @@ limitations under the License.
 package config
 
 import (
-	"time"
-
 	"github.com/spf13/viper"
 )
 
@@ -26,7 +24,7 @@ type Test struct {
 	Name       string            `mapstructure:"name"`
 	Args       map[string]string `mapstructure:"args"`
 	MustFail   bool              `mapstructure:"must_fail"`
-	Wait       time.Duration     `mapstructure:"wait"`
+	Wait       int               `mapstructure:"wait"`
 	Wants      string            `mapstructure:"wants"`
 	DoesntWant string            `mapstructure:"doesnt_want"`
 	Prompt     []string          `mapstructure:"prompt"`
