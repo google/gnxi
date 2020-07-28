@@ -70,8 +70,8 @@ var generatePrivateKey = func() (*rsa.PrivateKey, error) {
 func NewManager(settings *Settings) *Manager {
 	var (
 		privateKey crypto.PrivateKey
-		certInfo   =  map[string]*Info{}
-		caBundle    = []*x509.Certificate{}
+		certInfo   = map[string]*Info{}
+		caBundle   = []*x509.Certificate{}
 	)
 	if settings.Cert != nil {
 		privateKey = settings.Cert.PrivateKey
@@ -136,7 +136,7 @@ func (cm *Manager) notify() {
 }
 
 // PEMtox509 decodes a PEM block into a x509.Certificate.
-func PEMtox509(bytes []byte) (*x509.Certificate, error) {
+var PEMtox509 = func(bytes []byte) (*x509.Certificate, error) {
 	certDERBlock, _ := pem.Decode(bytes)
 	if certDERBlock == nil {
 		return nil, fmt.Errorf("failed to decode PEM block")

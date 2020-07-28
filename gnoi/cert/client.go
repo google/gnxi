@@ -184,14 +184,9 @@ func (c *Client) Install(ctx context.Context, certID string, minKeySize uint32, 
 		return fmt.Errorf("expected GenerateCSRRequest, got something else")
 	}
 
-	derCSR, _ := pem.Decode(genCSR.Csr.Csr)
-	if derCSR == nil {
-		return fmt.Errorf("failed to decode CSR PEM block")
-	}
-
-	csr, err := x509.ParseCertificateRequest(derCSR.Bytes)
+	csr, err := parseCSR(genCSR)
 	if err != nil {
-		return fmt.Errorf("failed to parse CSR DER")
+		return err
 	}
 
 	signedCert, err := sign(csr)
