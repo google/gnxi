@@ -43,6 +43,24 @@ func TestGetTests(t *testing.T) {
 		got := GetTests()
 		if diff := cmp.Diff(want, got); diff != "" {
 			t.Errorf("GetTests(): (-got +want):\n%s", diff)
+    }
+  }
+}
+
+func TestGetDevices(t *testing.T) {
+	tests := []map[string]string{
+		{},
+		{"mydevice.com": "localhost:9339"},
+		{
+			"mydevice.com":      "localhost:9339",
+			"anotherdevice.com": ":9400",
+		},
+	}
+	for _, cfg := range tests {
+		viper.Set("targets.devices", cfg)
+		got := GetDevices()
+		if diff := cmp.Diff(cfg, got); diff != "" {
+			t.Errorf("GetDevices(): (-want +got):\n%s", diff)
 		}
 	}
 }

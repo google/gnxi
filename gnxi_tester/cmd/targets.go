@@ -16,31 +16,26 @@ limitations under the License.
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/google/gnxi/gnxi_tester/config"
 	"github.com/spf13/cobra"
 )
 
 var (
-	rootCmd = &cobra.Command{
-		Use:   "gnxi_tester",
-		Short: "A client tester for the gNxI protocols.",
-		Long:  "A client utility that will run each of the client service binaries on a target and validate that the responses are correct.",
+	targetsCmd = &cobra.Command{
+		Use:     "targets",
+		Short:   "Displays target connection history.",
+		Example: "gnxi_tester run [test_names]",
+		Run:     displayTargets,
 	}
-	cfgPath string
 )
 
-func init() {
-	cobra.OnInitialize(initConfig)
-	rootCmd.AddCommand(runCmd)
-	rootCmd.AddCommand(targetsCmd)
-	rootCmd.PersistentFlags().StringVar(&cfgPath, "cfg", "", "Path to the config file.")
-}
-
-func initConfig() {
-	config.Init(cfgPath)
-}
-
-// Execute the root command.
-func Execute() error {
-	return rootCmd.Execute()
+// handleRun will run some or all of the tests.
+func displayTargets(cmd *cobra.Command, args []string) {
+	devices := config.GetDevices()
+	fmt.Printf("%20s%20s\n", "Target Name", "Target Address")
+	for name, address := range devices {
+		fmt.Printf("%20s%20s\n", name, address)
+	}
 }
