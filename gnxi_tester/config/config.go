@@ -31,8 +31,8 @@ func Init(filePath string) {
 			log.Exitf("couldn't get home directory: %v", err)
 		}
 		filePath = path.Join(home, ".gnxi.yml")
+		setDefaults()
 	}
-	setDefaults()
 	viper.SetConfigType("yaml")
 	viper.SetConfigFile(filePath)
 	if err := viper.SafeWriteConfigAs(filePath); err != nil && err != viper.ConfigFileAlreadyExistsError(filePath) {
@@ -53,7 +53,8 @@ func GetTests() map[string][]Test {
 }
 
 // GetDevices will return target connection history from Viper store.
-func GetDevices() map[string]string {
-	devices := viper.GetStringMapString("targets.devices")
+func GetDevices() map[string]Device {
+	var devices map[string]Device
+	viper.UnmarshalKey("targets.devices", &devices)
 	return devices
 }

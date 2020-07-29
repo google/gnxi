@@ -43,17 +43,29 @@ func TestGetTests(t *testing.T) {
 		got := GetTests()
 		if diff := cmp.Diff(want, got); diff != "" {
 			t.Errorf("GetTests(): (-got +want):\n%s", diff)
-    }
-  }
+		}
+	}
 }
 
 func TestGetDevices(t *testing.T) {
-	tests := []map[string]string{
+	tests := []map[string]Device{
 		{},
-		{"mydevice.com": "localhost:9339"},
+		{"mydevice.com": Device{
+			Address: "localhost:9339",
+			Ca:      "ca.crt",
+			CaKey:   "ca.key",
+		}},
 		{
-			"mydevice.com":      "localhost:9339",
-			"anotherdevice.com": ":9400",
+			"mydevice.com": Device{
+				Address: "localhost:9339",
+				Ca:      "ca.crt",
+				CaKey:   "ca.key",
+			},
+			"anotherdevice.com": Device{
+				Address: "localhost:9339",
+				Ca:      "ca.crt",
+				CaKey:   "ca.key",
+			},
 		},
 	}
 	for _, cfg := range tests {
