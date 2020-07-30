@@ -157,6 +157,7 @@ func TestPrepareTarget(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
+			viper.Reset()
 			var devices map[string]Device
 			viper.Set("targets.last_target", test.lastTarget)
 			viper.Set("targets.devices", test.config)

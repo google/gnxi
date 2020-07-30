@@ -16,6 +16,7 @@ limitations under the License.
 package config
 
 import (
+	"fmt"
 	"path"
 
 	log "github.com/golang/glog"
@@ -31,12 +32,12 @@ func Init(filePath string) {
 			log.Exitf("couldn't get home directory: %v", err)
 		}
 		filePath = path.Join(home, ".gnxi.yml")
-		setDefaults()
 	}
 	viper.SetConfigType("yaml")
 	viper.SetConfigFile(filePath)
+	setDefaults()
 	if err := viper.SafeWriteConfigAs(filePath); err != nil && err != viper.ConfigFileAlreadyExistsError(filePath) {
-		log.Exitf("couldn't write to config: %v", err)
+		log.Exitf("couldn't write config: %v", err)
 	}
 	if err := viper.ReadInConfig(); err != nil {
 		log.Exitf("couldn't read from config: %v", err)
@@ -49,6 +50,7 @@ func GetTests() map[string][]Test {
 	if err := viper.UnmarshalKey("tests", &tests); err != nil {
 		return nil
 	}
+	fmt.Println(tests)
 	return tests
 }
 

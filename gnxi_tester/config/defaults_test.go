@@ -1,47 +1,37 @@
-/* Copyright 2020 Google Inc.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    https://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package config
 
 import (
 	"testing"
 
 	"github.com/kylelemons/godebug/pretty"
+	"github.com/spf13/viper"
 )
 
-func TestGetDefaults(t *testing.T) {
+func TestGenerateTestCases(t *testing.T) {
 	got := generateTestCases()
 	if got == nil {
-		t.Errorf("Reset Tests Not Set!")
+		t.Errorf("Tests Not Defined!")
 	}
 	if got["gnoi_os"] == nil {
-		t.Errorf("OS Tests Not Set!")
+		t.Errorf("OS Tests Not Defined!")
 	}
 	if got["gnoi_cert"] == nil {
-		t.Errorf("Certificate Tests Not Set!")
+		t.Errorf("Certificate Tests Not Defined!")
 	}
 	if got["gnoi_reset"] == nil {
-		t.Errorf("Reset Tests Not Set!")
+		t.Errorf("Reset Tests Not Defined!")
 	}
 }
 
 func TestSetDefaults(t *testing.T) {
+	viper.Reset()
+	var got map[string][]Test
 	want := generateTestCases()
 	setDefaults()
-	got := GetTests()
+	if err := viper.UnmarshalKey("tests", &got); err != nil {
+		t.Errorf("Error getting tests: %v", err)
+	}
 	if diff := pretty.Compare(want, got); diff != "" {
-		t.Errorf("GetTests(): (-got +want):\n%s", diff)
+		t.Errorf("GetTests(): (-want +got):\n%s", diff)
 	}
 }
