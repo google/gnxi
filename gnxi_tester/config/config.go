@@ -50,7 +50,6 @@ func GetTests() map[string][]Test {
 	if err := viper.UnmarshalKey("tests", &tests); err != nil {
 		return nil
 	}
-	fmt.Println(tests)
 	return tests
 }
 
