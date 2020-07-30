@@ -150,7 +150,7 @@ func TestInitContainer(t *testing.T) {
 			viper.Set("docker.runtime", test.runtimeImg)
 			client := &mockClient{images: test.images, containers: test.containers}
 			newClient = func() {
-				cli = client
+				dockerClient = client
 			}
 			if err := InitContainers(test.names); fmt.Sprintf("%v", err) != fmt.Sprintf("%v", test.err) {
 				t.Errorf("wanted error(%v), got(%v)", test.err, err)

@@ -40,15 +40,16 @@ type Client interface {
 	ContainerCreate(ctx context.Context, config *container.Config, hostConfig *container.HostConfig, networkingConfig *network.NetworkingConfig, containerName string) (container.ContainerCreateCreatedBody, error)
 }
 
-var cli Client
+var dockerClient Client
 
 var newClient = func() {
-	if cli == nil {
-		var err error
-		cli, err = client.NewEnvClient()
-		if err != nil {
-			log.Exitf("couldn't create docker client: %v", err)
-		}
+	if dockerClient != nil {
+		log.Error("docker client exists")
+	}
+	var err error
+	dockerClient, err = client.NewEnvClient()
+	if err != nil {
+		log.Exitf("couldn't create docker client: %v", err)
 	}
 }
 
@@ -73,29 +74,36 @@ func InitContainers(names []string) error {
 			i++
 		}
 	}
-	containers, err := cli.ContainerList(context.Background(), types.ContainerListOptions{})
+	containers, err := dockerClient.ContainerList(context.Background(), types.ContainerListOptions{})
 	if err != nil {
 		return err
 	}
 	for _, c := range containers {
 		for _, name := range c.Names {
-			for i, testName := range names {
-				if name == testName {
-					if c.Status != "running" {
-						if err := cli.ContainerStart(context.Background(), c.ID, types.ContainerStartOptions{}); err != nil {
-							return err
-						}
-					}
-					copy(names[i:], names[i+1:])
-					names[len(names)-1] = ""
-					names = names[:len(names)-1]
-				}
+			if err := checkConatainerExists(name, c, &names); err != nil {
+				return err
 			}
 		}
 	}
 	for _, name := range names {
 		if err := createContainer(name); err != nil {
 			return err
+		}
+	}
+	return nil
+}
+
+func checkConatainerExists(containerName string, cont types.Container, names *[]string) error {
+	for i, testName := range *names {
+		if containerName == testName {
+			if cont.Status != "running" {
+				if err := dockerClient.ContainerStart(context.Background(), cont.ID, types.ContainerStartOptions{}); err != nil {
+					return err
+				}
+			}
+			copy((*names)[i:], (*names)[i+1:])
+			(*names)[len(*names)-1] = ""
+			*names = (*names)[:len(*names)-1]
 		}
 	}
 	return nil
@@ -108,7 +116,7 @@ func createContainer(name string) error {
 		return nil
 	}
 	if !found {
-		_, err := cli.ImageBuild(
+		_, err := dockerClient.ImageBuild(
 			context.Background(),
 			nil,
 			types.ImageBuildOptions{
@@ -120,7 +128,7 @@ func createContainer(name string) error {
 			return err
 		}
 	}
-	c, err := cli.ContainerCreate(
+	c, err := dockerClient.ContainerCreate(
 		context.Background(),
 		&container.Config{Image: name},
 		&container.HostConfig{},
@@ -130,7 +138,7 @@ func createContainer(name string) error {
 	if err != nil {
 		return err
 	}
-	if err := cli.ContainerStart(context.Background(), c.ID, types.ContainerStartOptions{}); err != nil {
+	if err := dockerClient.ContainerStart(context.Background(), c.ID, types.ContainerStartOptions{}); err != nil {
 		return err
 	}
 	return nil
@@ -142,7 +150,7 @@ func pullImage(name string) error {
 		return nil
 	}
 	if !found {
-		closer, err := cli.ImagePull(context.Background(), name, types.ImagePullOptions{})
+		closer, err := dockerClient.ImagePull(context.Background(), name, types.ImagePullOptions{})
 		if err != nil {
 			return err
 		}
@@ -152,7 +160,7 @@ func pullImage(name string) error {
 }
 
 func findImage(name string) (bool, error) {
-	list, err := cli.ImageList(context.Background(), types.ImageListOptions{All: true})
+	list, err := dockerClient.ImageList(context.Background(), types.ImageListOptions{All: true})
 	if err != nil {
 		return false, err
 	}
@@ -169,7 +177,7 @@ imageCheck:
 	return found, nil
 }
 
-// RunContainer runs an executable in a docker conatainer.
+// RunContainer runs an executable in a docker container.
 var RunContainer = func(name, args string) (out string, code int, err error) {
 	return "", 0, nil
 }
