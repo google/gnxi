@@ -28,10 +28,9 @@ type Device struct {
 	CaKey   string `mapstructure:"cakey"`
 }
 
-// SetTarget adds any new target to the target history.
+// SetTarget adds any new target to the list of known targets.
 func SetTarget(targetName, targetAddress, ca, caKey string) error {
-	err := prepareTarget(targetName, targetAddress, ca, caKey)
-	if err != nil {
+	if err := prepareTarget(targetName, targetAddress, ca, caKey); err != nil {
 		return err
 	}
 	if err := viper.WriteConfig(); err != nil {
@@ -40,6 +39,7 @@ func SetTarget(targetName, targetAddress, ca, caKey string) error {
 	return nil
 }
 
+// prepareTarget parses provided details and creates or modifies target entry.
 func prepareTarget(targetName, targetAddress, ca, caKey string) error {
 	devices := GetDevices()
 	if devices == nil {
