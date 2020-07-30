@@ -45,6 +45,7 @@ var dockerClient Client
 var newClient = func() {
 	if dockerClient != nil {
 		log.Error("docker client exists")
+		return
 	}
 	var err error
 	dockerClient, err = client.NewEnvClient()
