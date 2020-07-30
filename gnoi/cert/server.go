@@ -118,7 +118,7 @@ func (s *Server) Install(stream pb.CertificateManagement_InstallServer) error {
 	}
 
 	if loadCertificateRequest.Certificate.Type != pb.CertificateType_CT_X509 {
-		rerr := fmt.Errorf("unexpected Certificate type: %d", loadCertificateRequest.Certificate.Type)
+		rerr := fmt.Errorf("unexpected Certificate type: %q", loadCertificateRequest.Certificate.Type)
 		log.Error(rerr)
 		return rerr
 	}
@@ -127,7 +127,7 @@ func (s *Server) Install(stream pb.CertificateManagement_InstallServer) error {
 	pemCACerts := [][]byte{}
 	for _, cert := range loadCertificateRequest.CaCertificates {
 		if cert.Type != pb.CertificateType_CT_X509 {
-			rerr := fmt.Errorf("unexpected Certificate type: %d", cert.Type)
+			rerr := fmt.Errorf("unexpected Certificate type: %q", cert.Type)
 			log.Error(rerr)
 			return rerr
 		}
