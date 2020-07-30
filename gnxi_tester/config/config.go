@@ -16,7 +16,6 @@ limitations under the License.
 package config
 
 import (
-	"fmt"
 	"path"
 
 	log "github.com/golang/glog"
