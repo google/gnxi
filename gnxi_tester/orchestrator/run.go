@@ -41,16 +41,21 @@ var (
 func RunTests(tests []string, prompt callbackFunc) (success []string, err error) {
 	var output string
 	if len(tests) == 0 {
+		defaultOrder := viper.GetStringSlice("order")
 		configTests = config.GetTests()
-		for name := range configTests {
-			if output, err = runTest(name, prompt); err != nil {
+		provisionTests := configTests["provision"]
+		if output, err = runTest("gnoi_cert", prompt, provisionTests); err != nil {
+			return
+		}
+		for _, name := range defaultOrder {
+			if output, err = runTest(name, prompt, configTests[name]); err != nil {
 				return
 			}
 			success = append(success, output)
 		}
 	} else {
 		for _, name := range tests {
-			if output, err = runTest(name, prompt); err != nil {
+			if output, err = runTest(name, prompt, configTests[name]); err != nil {
 				return
 			}
 			success = append(success, output)
@@ -59,8 +64,7 @@ func RunTests(tests []string, prompt callbackFunc) (success []string, err error)
 	return
 }
 
-func runTest(name string, prompt callbackFunc) (string, error) {
-	tests := configTests[name]
+func runTest(name string, prompt callbackFunc, tests []config.Test) (string, error) {
 	targetName := viper.GetString("targets.last_target")
 	defaultArgs := fmt.Sprintf(
 		"-logtostderr -target_name %s -target_addr %s",

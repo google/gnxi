@@ -17,6 +17,7 @@ package cmd
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 
 	log "github.com/golang/glog"
@@ -56,6 +57,7 @@ func handleRun(cmd *cobra.Command, args []string) {
 }
 
 func promptUser(name string) string {
+	fmt.Printf("Please provide %s: ", name)
 	out, err := scanner.ReadString('\n')
 	if err != nil {
 		log.Exitf("error reading line: %v", err)

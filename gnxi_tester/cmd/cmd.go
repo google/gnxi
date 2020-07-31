@@ -16,6 +16,8 @@ limitations under the License.
 package cmd
 
 import (
+	"flag"
+
 	"github.com/google/gnxi/gnxi_tester/config"
 	"github.com/spf13/cobra"
 )
@@ -25,6 +27,9 @@ var (
 		Use:   "gnxi_tester",
 		Short: "A client tester for the gNxI protocols.",
 		Long:  "A client utility that will run each of the client service binaries on a target and validate that the responses are correct.",
+		PersistentPreRun: func(cmd *cobra.Command, args []string) {
+			flag.CommandLine.Parse([]string{}) // Surpresses logging before flag.Parse error
+		},
 	}
 	cfgPath string
 )
