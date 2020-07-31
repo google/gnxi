@@ -223,7 +223,7 @@ func TestRunContainer(t *testing.T) {
 		{
 			"run successfully",
 			"name",
-			"",
+			"arg",
 			clientCounter{
 				CountContainerList:        1,
 				CountContainerExecStart:   1,
