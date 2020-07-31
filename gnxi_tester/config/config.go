@@ -32,11 +32,11 @@ func Init(filePath string) {
 		}
 		filePath = path.Join(home, ".gnxi.yml")
 	}
-	setDefaults()
 	viper.SetConfigType("yaml")
 	viper.SetConfigFile(filePath)
+	setDefaults()
 	if err := viper.SafeWriteConfigAs(filePath); err != nil && err != viper.ConfigFileAlreadyExistsError(filePath) {
-		log.Exitf("couldn't write to config: %v", err)
+		log.Exitf("couldn't write config: %v", err)
 	}
 	if err := viper.ReadInConfig(); err != nil {
 		log.Exitf("couldn't read from config: %v", err)
@@ -53,7 +53,8 @@ func GetTests() map[string][]Test {
 }
 
 // GetDevices will return target connection history from Viper store.
-func GetDevices() map[string]string {
-	devices := viper.GetStringMapString("targets.devices")
+func GetDevices() map[string]Device {
+	var devices map[string]Device
+	viper.UnmarshalKey("targets.devices", &devices)
 	return devices
 }

@@ -28,6 +28,8 @@ import (
 var (
 	targetName    string
 	targetAddress string
+	ca            string
+	caKey         string
 	runCmd        = &cobra.Command{
 		Use:     "run",
 		Short:   "Run set of tests.",
@@ -41,11 +43,13 @@ var (
 func init() {
 	runCmd.Flags().StringVarP(&targetName, "target_name", "n", "", "The name of the target to be tested")
 	runCmd.Flags().StringVarP(&targetAddress, "target_address", "a", "", "The address of the target to be tested")
+	runCmd.Flags().StringVarP(&ca, "ca", "c", "", "The ca ")
+	runCmd.Flags().StringVarP(&caKey, "ca_key", "k", "", "The name of the target to be tested")
 }
 
 // handleRun will run some or all of the tests.
 func handleRun(cmd *cobra.Command, args []string) {
-	if err := config.SetTarget(targetName, targetAddress); err != nil {
+	if err := config.SetTarget(targetName, targetAddress, ca, caKey); err != nil {
 		log.Exitf("Error writing config: %v", err)
 	}
 	if success, err := orchestrator.RunTests(args, promptUser); err != nil {

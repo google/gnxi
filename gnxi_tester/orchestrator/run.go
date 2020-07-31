@@ -62,10 +62,13 @@ func RunTests(tests []string, prompt callbackFunc) (success []string, err error)
 func runTest(name string, prompt callbackFunc) (string, error) {
 	tests := configTests[name]
 	targetName := viper.GetString("targets.last_target")
+	target := config.GetDevices()[targetName]
 	defaultArgs := fmt.Sprintf(
-		"-logtostderr -target_name %s -target_addr %s",
+		"-logtostderr -target_name %s -target_addr %s -ca %s -ca_key %s",
 		targetName,
-		viper.GetStringMap("targets.devices")[targetName],
+		target.Address,
+		target.Ca,
+		target.CaKey,
 	)
 	stdout := fmt.Sprintf("*%s*:", name)
 	for _, test := range tests {
