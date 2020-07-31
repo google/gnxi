@@ -194,8 +194,10 @@ var RunContainer = func(name, args string) (out string, code int, err error) {
 	}
 	command := make([]string, len(args)+1)
 	command[0] = name
-	for i, arg := range strings.Split(args, " ") {
-		command[i] = arg
+	if len(args) > 0 {
+		for i, arg := range strings.Split(args, " ") {
+			command[i+1] = arg
+		}
 	}
 	var id types.IDResponse
 	if id, err = dockerClient.ContainerExecCreate(context.Background(), cont.ID, types.ExecConfig{Cmd: command}); err != nil {
@@ -233,7 +235,9 @@ var RunContainer = func(name, args string) (out string, code int, err error) {
 	}
 	code = inspect.ExitCode
 	out = outBuf.String()
-	err = errors.New(errBuf.String())
+	if errString := errBuf.String(); errString != "" {
+		err = errors.New(errString)
+	}
 	return
 }
 

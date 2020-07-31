@@ -16,8 +16,12 @@ limitations under the License.
 package orchestrator
 
 import (
+	"bufio"
+	"bytes"
+	"errors"
 	"fmt"
 	"io"
+	"net"
 	"testing"
 
 	"github.com/docker/docker/api/types"
@@ -34,6 +38,10 @@ type clientCounter struct {
 	CountImageList,
 	CountImageBuild,
 	CountImagePull,
+	CountContainerExecStart,
+	CountContainerExecAttach,
+	CountContainerExecCreate,
+	CountContainerExecInspect,
 	CountContainerCreate int
 }
 
@@ -42,6 +50,8 @@ type mockClient struct {
 	clientCounter
 	images     []types.ImageSummary
 	containers []types.Container
+	reader     *bufio.Reader
+	code       int
 }
 
 type mockReader int
@@ -82,6 +92,29 @@ func (c *mockClient) ImagePull(ctx context.Context, ref string, options types.Im
 func (c *mockClient) ContainerCreate(ctx context.Context, config *container.Config, hostConfig *container.HostConfig, networkingConfig *network.NetworkingConfig, containerName string) (container.ContainerCreateCreatedBody, error) {
 	c.CountContainerCreate++
 	return container.ContainerCreateCreatedBody{}, nil
+}
+
+func (c *mockClient) ContainerExecStart(ctx context.Context, execID string, config types.ExecStartCheck) error {
+	c.CountContainerExecStart++
+	return nil
+}
+
+func (c *mockClient) ContainerExecAttach(ctx context.Context, execID string, config types.ExecConfig) (types.HijackedResponse, error) {
+	c.CountContainerExecAttach++
+	return types.HijackedResponse{
+		Reader: c.reader,
+		Conn:   &net.UnixConn{},
+	}, nil
+}
+
+func (c *mockClient) ContainerExecCreate(ctx context.Context, container string, config types.ExecConfig) (types.IDResponse, error) {
+	c.CountContainerExecCreate++
+	return types.IDResponse{}, nil
+}
+
+func (c *mockClient) ContainerExecInspect(ctx context.Context, execID string) (types.ContainerExecInspect, error) {
+	c.CountContainerExecInspect++
+	return types.ContainerExecInspect{ExitCode: c.code}, nil
 }
 
 func TestInitContainer(t *testing.T) {
@@ -154,6 +187,72 @@ func TestInitContainer(t *testing.T) {
 			}
 			if err := InitContainers(test.names); fmt.Sprintf("%v", err) != fmt.Sprintf("%v", test.err) {
 				t.Errorf("wanted error(%v), got(%v)", test.err, err)
+			}
+			if diff := cmp.Diff(test.counter, client.clientCounter); diff != "" {
+				t.Errorf("method call counter mismatch (-want +got): %s", diff)
+			}
+		})
+	}
+}
+
+func TestRunContainer(t *testing.T) {
+	tests := []struct {
+		name,
+		containerName,
+		args string
+		counter    clientCounter
+		containers []types.Container
+		err        error
+		out        string
+		code       int
+		reader     *bufio.Reader
+	}{
+		{
+			"couldn't find container",
+			"name",
+			"",
+			clientCounter{
+				CountContainerList: 1,
+			},
+			[]types.Container{},
+			errors.New("couldn't find container name"),
+			"",
+			0,
+			&bufio.Reader{},
+		},
+		{
+			"run successfully",
+			"name",
+			"",
+			clientCounter{
+				CountContainerList:        1,
+				CountContainerExecStart:   1,
+				CountContainerExecAttach:  1,
+				CountContainerExecCreate:  1,
+				CountContainerExecInspect: 1,
+			},
+			[]types.Container{
+				{Names: []string{"name"}},
+			},
+			nil,
+			"out",
+			0,
+			bufio.NewReader(bytes.NewBuffer([]byte{1, 0, 0, 0, 0, 0, 0, 3, 'o', 'u', 't'})),
+		},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			client := &mockClient{containers: test.containers, code: test.code, reader: test.reader}
+			dockerClient = client
+			out, code, err := RunContainer(test.containerName, test.args)
+			if fmt.Sprintf("%v", test.err) != fmt.Sprintf("%v", err) {
+				t.Errorf("wanted error(%v), got(%v)", test.err, err)
+			}
+			if test.out != out {
+				t.Errorf("wanted out(%v), got(%v)", test.out, out)
+			}
+			if test.code != code {
+				t.Errorf("wanted code(%d), got(%d)", test.code, code)
 			}
 			if diff := cmp.Diff(test.counter, client.clientCounter); diff != "" {
 				t.Errorf("method call counter mismatch (-want +got): %s", diff)
