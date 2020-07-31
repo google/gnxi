@@ -89,7 +89,7 @@ func InitContainers(names []string) error {
 	}
 	for _, c := range containers {
 		for _, name := range c.Names {
-			if err := checkConatainerExists(name, c, &names); err != nil {
+			if err := checkContainerExists(name, c, &names); err != nil {
 				return err
 			}
 		}
@@ -102,7 +102,7 @@ func InitContainers(names []string) error {
 	return nil
 }
 
-func checkConatainerExists(containerName string, cont types.Container, names *[]string) error {
+func checkContainerExists(containerName string, cont types.Container, names *[]string) error {
 	for i, testName := range *names {
 		if containerName == testName {
 			if cont.Status != "running" {
