@@ -19,7 +19,9 @@ import (
 	"context"
 	"crypto/x509"
 	"crypto/x509/pkix"
+	"errors"
 	"fmt"
+	"reflect"
 	"strings"
 	"testing"
 	"time"
@@ -67,6 +69,182 @@ func (mmi *mockManagerInterface) GetCertInfo() ([]*Info, error) {
 }
 func (mmi *mockManagerInterface) Revoke(a []string) ([]string, map[string]string, error) {
 	return mmi.mockRevoke(a)
+}
+
+type mockInstallServer struct {
+	pb.CertificateManagement_InstallServer
+	reqMap  []*installRequestMap
+	i       int
+	recv    chan int
+	recvErr chan error
+}
+
+func (s *mockInstallServer) Send(resp *pb.InstallCertificateResponse) error {
+	if s.i < len(s.reqMap) {
+		if reflect.TypeOf(resp.InstallResponse) == reflect.TypeOf(s.reqMap[s.i].resp.InstallResponse) {
+			s.recv <- s.i
+		} else {
+			s.recvErr <- errors.New("error")
+		}
+		s.i++
+	}
+	return nil
+}
+
+func (s *mockInstallServer) Recv() (*pb.InstallCertificateRequest, error) {
+	select {
+	case i := <-s.recv:
+		return s.reqMap[i].req, nil
+	case err := <-s.recvErr:
+		return nil, err
+	}
+}
+
+func TestTargetInstall(t *testing.T) {
+	tests := []struct {
+		name   string
+		reqMap []*installRequestMap
+		err    error
+	}{
+		{
+			"expected GenerateCSRRequest, got something else",
+			[]*installRequestMap{
+				{
+					req:  nil,
+					resp: nil,
+				},
+			},
+			errors.New("expected GenerateCSRRequest, got something else"),
+		},
+		{
+			"certificate not supported",
+			[]*installRequestMap{
+				{
+					req: &pb.InstallCertificateRequest{
+						InstallRequest: &pb.InstallCertificateRequest_GenerateCsr{GenerateCsr: &pb.GenerateCSRRequest{CsrParams: &pb.CSRParams{}}},
+					},
+					resp: nil,
+				},
+			},
+			errors.New("certificate type \"CT_UNKNOWN\" not supported"),
+		},
+		{
+			"failed to receive InstallCertificateRequest",
+			[]*installRequestMap{
+				{
+					req: &pb.InstallCertificateRequest{
+						InstallRequest: &pb.InstallCertificateRequest_GenerateCsr{GenerateCsr: &pb.GenerateCSRRequest{CsrParams: &pb.CSRParams{Type: 1, KeyType: 1}}},
+					},
+				},
+				{
+					resp: &pb.InstallCertificateResponse{
+						InstallResponse: &pb.InstallCertificateResponse_LoadCertificate{},
+					},
+				},
+			},
+			errors.New("failed to receive InstallCertificateRequest: error"),
+		},
+		{
+			"expected LoadCertificateRequest, got something else",
+			[]*installRequestMap{
+				{
+					req: &pb.InstallCertificateRequest{
+						InstallRequest: &pb.InstallCertificateRequest_GenerateCsr{GenerateCsr: &pb.GenerateCSRRequest{CsrParams: &pb.CSRParams{Type: 1, KeyType: 1}}},
+					},
+				},
+				{
+					resp: &pb.InstallCertificateResponse{
+						InstallResponse: &pb.InstallCertificateResponse_GeneratedCsr{GeneratedCsr: &pb.GenerateCSRResponse{Csr: &pb.CSR{Type: 1}}},
+					},
+					req: &pb.InstallCertificateRequest{InstallRequest: nil},
+				},
+			},
+			errors.New("expected LoadCertificateRequest, got something else"),
+		},
+		{
+			"unexpected Certificate type",
+			[]*installRequestMap{
+				{
+					req: &pb.InstallCertificateRequest{
+						InstallRequest: &pb.InstallCertificateRequest_GenerateCsr{GenerateCsr: &pb.GenerateCSRRequest{CsrParams: &pb.CSRParams{Type: 1, KeyType: 1}}},
+					},
+				},
+				{
+					resp: &pb.InstallCertificateResponse{
+						InstallResponse: &pb.InstallCertificateResponse_GeneratedCsr{GeneratedCsr: &pb.GenerateCSRResponse{Csr: &pb.CSR{Type: 1}}},
+					},
+					req: &pb.InstallCertificateRequest{InstallRequest: &pb.InstallCertificateRequest_LoadCertificate{
+						LoadCertificate: &pb.LoadCertificateRequest{Certificate: &pb.Certificate{Type: pb.CertificateType_CT_UNKNOWN}},
+					}},
+				},
+			},
+			errors.New("unexpected Certificate type: \"CT_UNKNOWN\""),
+		},
+		{
+			"unexpected CA Certificate type",
+			[]*installRequestMap{
+				{
+					req: &pb.InstallCertificateRequest{
+						InstallRequest: &pb.InstallCertificateRequest_GenerateCsr{GenerateCsr: &pb.GenerateCSRRequest{CsrParams: &pb.CSRParams{Type: 1, KeyType: 1}}},
+					},
+				},
+				{
+					resp: &pb.InstallCertificateResponse{
+						InstallResponse: &pb.InstallCertificateResponse_GeneratedCsr{GeneratedCsr: &pb.GenerateCSRResponse{Csr: &pb.CSR{Type: 1}}},
+					},
+					req: &pb.InstallCertificateRequest{InstallRequest: &pb.InstallCertificateRequest_LoadCertificate{
+						LoadCertificate: &pb.LoadCertificateRequest{Certificate: &pb.Certificate{Type: pb.CertificateType_CT_X509}, CaCertificates: []*pb.Certificate{{Type: pb.CertificateType_CT_UNKNOWN}}},
+					}},
+				},
+			},
+			errors.New("unexpected Certificate type: \"CT_UNKNOWN\""),
+		},
+		{
+			"terminates",
+			[]*installRequestMap{
+				{
+					req: &pb.InstallCertificateRequest{
+						InstallRequest: &pb.InstallCertificateRequest_GenerateCsr{GenerateCsr: &pb.GenerateCSRRequest{CsrParams: &pb.CSRParams{Type: 1, KeyType: 1}}},
+					},
+				},
+				{
+					resp: &pb.InstallCertificateResponse{
+						InstallResponse: &pb.InstallCertificateResponse_GeneratedCsr{GeneratedCsr: &pb.GenerateCSRResponse{Csr: &pb.CSR{Type: 1}}},
+					},
+					req: &pb.InstallCertificateRequest{InstallRequest: &pb.InstallCertificateRequest_LoadCertificate{
+						LoadCertificate: &pb.LoadCertificateRequest{Certificate: &pb.Certificate{Type: pb.CertificateType_CT_X509}, CaCertificates: []*pb.Certificate{{Type: pb.CertificateType_CT_X509}}},
+					}},
+				},
+				{
+					resp: &pb.InstallCertificateResponse{
+						InstallResponse: &pb.InstallCertificateResponse_LoadCertificate{},
+					},
+				},
+			},
+			nil,
+		},
+	}
+	mmi := &mockManagerInterface{
+		mockGenCSR: func(p pkix.Name) ([]byte, error) {
+			return []byte{}, nil
+		},
+		mockInstall: func(string, []byte, [][]byte) error {
+			return nil
+		},
+	}
+	s := NewServer(mmi)
+	for _, test := range tests {
+		stream := &mockInstallServer{
+			i:       1,
+			reqMap:  test.reqMap,
+			recv:    make(chan int, 1),
+			recvErr: make(chan error, 1),
+		}
+		stream.recv <- 0
+		if err := s.Install(stream); fmt.Sprintf("%v", err) != fmt.Sprintf("%v", test.err) {
+			t.Errorf("wanted err(%v), got(%v)", test.err, err)
+		}
+	}
 }
 
 func TestGetCertificates(t *testing.T) {
