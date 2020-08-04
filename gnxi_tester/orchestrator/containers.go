@@ -125,6 +125,7 @@ func createContainer(name string) error {
 		return nil
 	}
 	if !found {
+		log.Infof("Building image for %s...", name)
 		_, err := dockerClient.ImageBuild(
 			context.Background(),
 			nil,
@@ -136,6 +137,7 @@ func createContainer(name string) error {
 		if err != nil {
 			return err
 		}
+		log.Infof("Finished building image for %s", name)
 	}
 	c, err := dockerClient.ContainerCreate(
 		context.Background(),
@@ -159,11 +161,13 @@ func pullImage(name string) error {
 		return nil
 	}
 	if !found {
+		log.Infof("Pulling image %s...", name)
 		closer, err := dockerClient.ImagePull(context.Background(), name, types.ImagePullOptions{})
 		if err != nil {
 			return err
 		}
 		closer.Close()
+		log.Infof("Finished pulling %s", name)
 	}
 	return nil
 }
