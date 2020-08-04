@@ -44,14 +44,14 @@ func safeWriteDockerfile(name, loc string) {
 	if errors.Is(existErr, os.ErrNotExist) {
 		content := fmt.Sprintf(dockerfile, name, name, name, name)
 		if err := os.MkdirAll(path.Dir(loc), 0755); err != nil {
-			log.Errorf("couldn't create dockerfile directory", err)
+			log.Errorf("couldn't create dockerfile directory: %v", err)
 		}
 		file, err := os.Create(loc)
 		if err != nil {
-			log.Errorf("couldn't create dockerfile", err)
+			log.Errorf("couldn't create dockerfile: %v", err)
 		}
 		if _, err = file.WriteString(content); err != nil {
-			log.Errorf("couldn't write dockerfile", err)
+			log.Errorf("couldn't write dockerfile: %v", err)
 		}
 	}
 }
