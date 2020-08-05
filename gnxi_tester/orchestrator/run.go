@@ -20,6 +20,7 @@ import (
 	"regexp"
 	"strings"
 
+	log "github.com/golang/glog"
 	"github.com/google/gnxi/gnxi_tester/config"
 	"github.com/spf13/viper"
 )
@@ -39,12 +40,12 @@ var (
 
 // RunTests will take in test name and run each test or all tests.
 func RunTests(tests []string, prompt callbackFunc) (success []string, err error) {
-	if err = InitContainers(tests); err != nil {
+	defaultOrder := viper.GetStringSlice("order")
+	if err = InitContainers(defaultOrder); err != nil {
 		return
 	}
 	var output string
 	if len(tests) == 0 {
-		defaultOrder := viper.GetStringSlice("order")
 		configTests = config.GetTests()
 		provisionTests := configTests["provision"]
 		if output, err = runTest("gnoi_cert", prompt, provisionTests); err != nil {
@@ -68,6 +69,7 @@ func RunTests(tests []string, prompt callbackFunc) (success []string, err error)
 }
 
 func runTest(name string, prompt callbackFunc, tests []config.Test) (string, error) {
+	log.Infof("Running major test %s", name)
 	targetName := viper.GetString("targets.last_target")
 	target := config.GetDevices()[targetName]
 	defaultArgs := fmt.Sprintf(
@@ -79,6 +81,7 @@ func runTest(name string, prompt callbackFunc, tests []config.Test) (string, err
 	)
 	stdout := fmt.Sprintf("*%s*:", name)
 	for _, test := range tests {
+		log.Infof("Running minor test %s:%s", name, test.Name)
 		for _, p := range test.Prompt {
 			input[p] = prompt(p)
 		}
@@ -90,7 +93,7 @@ func runTest(name string, prompt callbackFunc, tests []config.Test) (string, err
 		}
 		out, code, err := RunContainer(name, binArgs)
 		if exp := expects(out, &test); (code == 0) == test.MustFail || err != nil || exp != nil {
-			return "", formateErr(name, test.Name, exp, code, test.MustFail, out, err)
+			return "", formatErr(name, test.Name, exp, code, test.MustFail, out, err)
 		}
 		stdout = fmt.Sprintf("%s\n%s:\n%s\n", stdout, test.Name, out)
 	}
@@ -113,9 +116,9 @@ func expects(out string, test *config.Test) error {
 	return nil
 }
 
-func formateErr(major, minor string, custom error, code int, fail bool, out string, err error) error {
+func formatErr(major, minor string, custom error, code int, fail bool, out string, err error) error {
 	return fmt.Errorf(
-		"Error occured in test %s-%s: (%v) exitCode(%d), mustFail(%v), stdout(%s), runtimeErr(%v)",
+		"Error occured in test %s-<%s>: (%v) exitCode(%d), mustFail(%v), stdout(%s), runtimeErr(%v)",
 		major,
 		minor,
 		custom,

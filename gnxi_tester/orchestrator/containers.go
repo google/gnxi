@@ -213,10 +213,11 @@ var RunContainer = func(name, args string) (out string, code int, err error) {
 		}
 	}
 	var id types.IDResponse
-	if id, err = dockerClient.ContainerExecCreate(context.Background(), cont.ID, types.ExecConfig{Cmd: command}); err != nil {
-		return
-	}
-	if err = dockerClient.ContainerExecStart(context.Background(), id.ID, types.ExecStartCheck{}); err != nil {
+	if id, err = dockerClient.ContainerExecCreate(context.Background(), cont.ID, types.ExecConfig{
+		Cmd:          command,
+		AttachStderr: true,
+		AttachStdout: true,
+	}); err != nil {
 		return
 	}
 	var (
@@ -227,6 +228,7 @@ var RunContainer = func(name, args string) (out string, code int, err error) {
 		errBuf bytes.Buffer
 	)
 	if resp, err = dockerClient.ContainerExecAttach(ctx, id.ID, types.ExecConfig{}); err != nil {
+		err = fmt.Errorf("error starting exec process: %w", err)
 		return
 	}
 	defer resp.Close()
@@ -244,8 +246,10 @@ var RunContainer = func(name, args string) (out string, code int, err error) {
 	}
 	var inspect types.ContainerExecInspect
 	if inspect, err = dockerClient.ContainerExecInspect(context.Background(), id.ID); err != nil {
+		err = fmt.Errorf("error inspecting exec process: %w", err)
 		return
 	}
+	fmt.Println("far")
 	code = inspect.ExitCode
 	out = outBuf.String()
 	if errString := errBuf.String(); errString != "" {
@@ -261,7 +265,7 @@ func getContainer(name string) (*types.Container, error) {
 	}
 	for _, c := range containers {
 		for _, containerName := range c.Names {
-			if containerName == name {
+			if containerName == "/"+name {
 				return &c, nil
 			}
 		}

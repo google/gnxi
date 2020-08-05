@@ -230,7 +230,6 @@ func TestRunContainer(t *testing.T) {
 			"arg",
 			clientCounter{
 				CountContainerList:        1,
-				CountContainerExecStart:   1,
 				CountContainerExecAttach:  1,
 				CountContainerExecCreate:  1,
 				CountContainerExecInspect: 1,

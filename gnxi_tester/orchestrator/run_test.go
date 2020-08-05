@@ -105,7 +105,7 @@ func TestRunTests(t *testing.T) {
 			[]string{"test"},
 			func(name string) string { return name },
 			nil,
-			formateErr("test", "test", errors.New("Wanted no in output"), 0, false, "test", nil),
+			formatErr("test", "test", errors.New("Wanted no in output"), 0, false, "test", nil),
 			func(name, args string) (out string, code int, err error) {
 				out = name
 				return
@@ -129,7 +129,7 @@ func TestRunTests(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			viper.Set("targets.devices", map[string]config.Device{"test": config.Device{Address: "test", Ca: "certs/ca.crt", CaKey: "certs/ca.key"}})
+			viper.Set("targets.devices", map[string]config.Device{"test": {Address: "test", Ca: "certs/ca.crt", CaKey: "certs/ca.key"}})
 			viper.Set("targets.last_target", "test")
 			viper.Set("tests", test.tests)
 			viper.Set("order", test.order)
