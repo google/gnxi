@@ -39,7 +39,6 @@ func setDefaults() {
 	viper.SetDefault("docker.build", "golang:1.14-alpine")
 	viper.SetDefault("docker.runtime", "alpine")
 	viper.SetDefault("docker.files", createDockerfiles(testCases))
-	viper.SetDefault("tests", testCases)
 	viper.SetDefault("order", order)
 
 }
@@ -67,7 +66,7 @@ func generateTestCases() (Tests, []string) {
 		{
 			Name:  "Check if Target Can Generate CSR",
 			Args:  map[string]string{"op": "check"},
-			Wants: `CanGenerateCSR:\ntrue`,
+			Wants: `CanGenerateCSR:\n(true|false)`,
 		},
 		{
 			Name:       "Revoke a cert",
@@ -98,58 +97,58 @@ func generateTestCases() (Tests, []string) {
 	osTests := []Test{
 		{
 			Name:   "Compatible OS with Good Hash Install",
-			Args:   map[string]string{"op": "install", "version": "&<version>", "os": "&<os_path>"},
+			Args:   map[string]string{"op": "install", "version": "&<os_version>", "os": "&<os_path>"},
 			Wants:  `^$`,
-			Prompt: []string{"version", "os_path"},
+			Prompt: []string{"os_version", "os_path"},
 		},
 		{
 			Name:     "Install Already Installed OS",
-			Args:     map[string]string{"op": "install", "version": "&<version>", "os": "&<os_path>"},
+			Args:     map[string]string{"op": "install", "version": "&<os_version>", "os": "&<os_path>"},
 			MustFail: true,
 			Wait:     3,
-			Wants:    "OS version &<version> is already installed",
+			Wants:    "OS version &<os_version> is already installed",
 		},
 		{
 			Name:  "Activate Newly Installed OS",
-			Args:  map[string]string{"op": "activate", "version": "&<version>"},
+			Args:  map[string]string{"op": "activate", "version": "&<os_version>"},
 			Wants: `^$`,
 		},
 		{
 			Name:  "Verify Newly Installed OS",
 			Args:  map[string]string{"op": "verify"},
 			Wait:  20,
-			Wants: "Running OS Version: &<version>",
+			Wants: "Running OS Version: &<os_version>",
 		},
 		{
 			Name:     "Transfer Already Running OS",
-			Args:     map[string]string{"op": "install", "version": "&<version>", "os": "&<os_path>"},
+			Args:     map[string]string{"op": "install", "version": "&<os_version>", "os": "&<os_path>"},
 			MustFail: true,
 			Wants:    "Failed Install: InstallError occured: INSTALL_RUN_PACKAGE",
 		},
 		{
 			Name:     "Install another OS",
-			Args:     map[string]string{"op": "install", "version": "&<new_version>", "os": "&<new_os_path>"},
+			Args:     map[string]string{"op": "install", "version": "&<new_os_version>", "os": "&<new_os_path>"},
 			MustFail: true,
 			Wait:     0,
 			Wants:    `^$`,
-			Prompt:   []string{"new_version", "new_os_path"},
+			Prompt:   []string{"new_os_version", "new_os_path"},
 		},
 		{
 			Name:  "Activate Newly Installed OS",
-			Args:  map[string]string{"op": "activate", "version": "&<new_version>"},
+			Args:  map[string]string{"op": "activate", "version": "&<new_os_version>"},
 			Wants: `^$`,
 		},
 		{
 			Name:  "Verify Newly Installed OS",
 			Args:  map[string]string{"op": "verify"},
 			Wait:  20,
-			Wants: "Running OS Version: &<new_version>",
+			Wants: "Running OS Version: &<new_os_version>",
 		},
 		{
 			Name:   "Activate Non Existent Version",
-			Args:   map[string]string{"op": "activate", "version": "&<non_existent_version>"},
-			Wants:  "Failed Activate: Non existent version: &<non_existent_version>",
-			Prompt: []string{"non_existent_version"},
+			Args:   map[string]string{"op": "activate", "version": "&<non_existent_os_version>"},
+			Wants:  "Failed Activate: Non existent version: &<non_existent_os_version>",
+			Prompt: []string{"non_existent_os_version"},
 		},
 	}
 	return Tests{"gnoi_os": osTests, "gnoi_reset": resetTests, "gnoi_cert": certTests, "provision": provisionTest}, []string{"gnoi_os", "gnoi_cert", "gnoi_reset"}
