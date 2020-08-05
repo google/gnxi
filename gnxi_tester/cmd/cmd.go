@@ -16,6 +16,8 @@ limitations under the License.
 package cmd
 
 import (
+	"flag"
+
 	"github.com/google/gnxi/gnxi_tester/config"
 	"github.com/spf13/cobra"
 )
@@ -30,6 +32,8 @@ var (
 )
 
 func init() {
+	flag.Set("logtostderr", "true")
+	flag.Parse()
 	cobra.OnInitialize(initConfig)
 	rootCmd.AddCommand(runCmd)
 	rootCmd.AddCommand(targetsCmd)
