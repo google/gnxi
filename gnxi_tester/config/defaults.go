@@ -34,21 +34,24 @@ type Test struct {
 }
 
 func setDefaults() {
-	testCases := generateTestCases()
+	testCases, order := generateTestCases()
 	viper.SetDefault("tests", testCases)
 	viper.SetDefault("docker.build", "golang:1.14-alpine")
 	viper.SetDefault("docker.runtime", "alpine")
 	viper.SetDefault("docker.files", createDockerfiles(testCases))
+	viper.SetDefault("tests", testCases)
+	viper.SetDefault("order", order)
+
 }
 
-func generateTestCases() Tests {
+func generateTestCases() (Tests, []string) {
+	provisionTest := []Test{{
+		Name:   "Provision Bootstrapping Target",
+		Args:   map[string]string{"op": "provision", "cert_id": "&<cert_id>"},
+		Wants:  "Install success",
+		Prompt: []string{"cert_id"},
+	}}
 	certTests := []Test{
-		{
-			Name:   "Provision Bootstrapping Target",
-			Args:   map[string]string{"op": "provision", "cert_id": "&<cert_id>"},
-			Wants:  "Install success",
-			Prompt: []string{"cert_id"},
-		},
 		{
 			Name:  "Get certs",
 			Args:  map[string]string{"op": "get"},
@@ -113,16 +116,9 @@ func generateTestCases() Tests {
 		},
 		{
 			Name:  "Verify Newly Installed OS",
-			Args:  map[string]string{"op": "verify", "version": "&<version>"},
+			Args:  map[string]string{"op": "verify"},
 			Wait:  20,
 			Wants: "Running OS Version: &<version>",
-		},
-		{
-			Name:     "Transfer an Incompatible OS",
-			Args:     map[string]string{"op": "install", "version": "&<incompatible_version>", "os": "&<incompatible_os_path>"},
-			MustFail: true,
-			Wants:    "Failed Install: InstallError occurred: INCOMPATIBLE",
-			Prompt:   []string{"incompatible_version", "incompatible_os_path"},
 		},
 		{
 			Name:     "Transfer Already Running OS",
@@ -131,18 +127,23 @@ func generateTestCases() Tests {
 			Wants:    "Failed Install: InstallError occured: INSTALL_RUN_PACKAGE",
 		},
 		{
-			Name:     "Parse OS Fails",
-			Args:     map[string]string{"op": "install", "version": "&<bad_os_version>", "os": "&<bad_os_path>"},
+			Name:     "Install another OS",
+			Args:     map[string]string{"op": "install", "version": "&<new_version>", "os": "&<new_os_path>"},
 			MustFail: true,
-			Wants:    "Failed Install: InstallError occured: PARSE_FAIL",
-			Prompt:   []string{"bad_os_version", "bad_os_path"},
+			Wait:     0,
+			Wants:    `^$`,
+			Prompt:   []string{"new_version", "new_os_path"},
 		},
 		{
-			Name:     "OS Integrity Check Fails",
-			Args:     map[string]string{"op": "install", "version": "&<bad_hash_version>", "os": "&<bad_hash_os>"},
-			MustFail: true,
-			Wants:    "Failed Install: InstallError occured: INTEGRITY_FAIL",
-			Prompt:   []string{"bad_hash_version", "bad_hash_os"},
+			Name:  "Activate Newly Installed OS",
+			Args:  map[string]string{"op": "activate", "version": "&<new_version>"},
+			Wants: `^$`,
+		},
+		{
+			Name:  "Verify Newly Installed OS",
+			Args:  map[string]string{"op": "verify"},
+			Wait:  20,
+			Wants: "Running OS Version: &<new_version>",
 		},
 		{
 			Name:   "Activate Non Existent Version",
@@ -151,5 +152,5 @@ func generateTestCases() Tests {
 			Prompt: []string{"non_existent_version"},
 		},
 	}
-	return Tests{"gnoi_os": osTests, "gnoi_reset": resetTests, "gnoi_cert": certTests}
+	return Tests{"gnoi_os": osTests, "gnoi_reset": resetTests, "gnoi_cert": certTests, "provision": provisionTest}, []string{"gnoi_os", "gnoi_cert", "gnoi_reset"}
 }
