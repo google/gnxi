@@ -154,6 +154,7 @@ func createContainer(name string) error {
 		&container.Config{Image: fmt.Sprintf("%s:latest", name)},
 		&container.HostConfig{
 			RestartPolicy: container.RestartPolicy{Name: "unless-stopped"},
+			NetworkMode:   container.NetworkMode("host"),
 		},
 		&network.NetworkingConfig{},
 		name,

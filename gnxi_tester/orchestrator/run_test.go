@@ -105,7 +105,7 @@ func TestRunTests(t *testing.T) {
 			[]string{"test"},
 			func(name string) string { return name },
 			nil,
-			formatErr("test", "test", errors.New("Wanted no in output"), 0, false, "test", nil),
+			formatErr("test", "test", errors.New("Wanted no in output"), 0, false, nil),
 			func(name, args string, device *config.Device) (out string, code int, err error) {
 				out = name
 				return

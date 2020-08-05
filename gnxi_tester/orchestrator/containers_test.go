@@ -147,8 +147,8 @@ func TestInitContainer(t *testing.T) {
 				{RepoTags: []string{"build"}},
 				{RepoTags: []string{"runtime"}},
 			},
-			[]types.Container{{Names: []string{"name"}, State: "running"}},
-			clientCounter{CountImageList: 3, CountContainerList: 1, CountContainerStart: 1, CountContainerCreate: 1},
+			[]types.Container{{Names: []string{"/name"}, State: "running"}},
+			clientCounter{CountImageList: 2, CountContainerList: 1,},
 		},
 		{
 			"container not running",
@@ -161,8 +161,8 @@ func TestInitContainer(t *testing.T) {
 				{RepoTags: []string{"build"}},
 				{RepoTags: []string{"runtime"}},
 			},
-			[]types.Container{{Names: []string{"name"}}},
-			clientCounter{CountImageList: 3, CountContainerList: 1, CountContainerStart: 1, CountContainerCreate: 1},
+			[]types.Container{{Names: []string{"/name"}}},
+			clientCounter{CountImageList: 2, CountContainerList: 1, CountContainerStart: 1},
 		},
 		{
 			"pull images and build",
