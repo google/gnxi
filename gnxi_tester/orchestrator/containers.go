@@ -16,9 +16,12 @@ limitations under the License.
 package orchestrator
 
 import (
+	"bytes"
+	"errors"
 	"fmt"
 	"io"
 	"path"
+	"strings"
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
@@ -26,6 +29,7 @@ import (
 	log "github.com/golang/glog"
 	"github.com/google/gnxi/gnxi_tester/config"
 	"github.com/moby/moby/client"
+	"github.com/moby/moby/pkg/stdcopy"
 	"github.com/spf13/viper"
 	"golang.org/x/net/context"
 )
@@ -38,6 +42,10 @@ type Client interface {
 	ImageBuild(ctx context.Context, buildContext io.Reader, options types.ImageBuildOptions) (types.ImageBuildResponse, error)
 	ImagePull(ctx context.Context, ref string, options types.ImagePullOptions) (io.ReadCloser, error)
 	ContainerCreate(ctx context.Context, config *container.Config, hostConfig *container.HostConfig, networkingConfig *network.NetworkingConfig, containerName string) (container.ContainerCreateCreatedBody, error)
+	ContainerExecStart(ctx context.Context, execID string, config types.ExecStartCheck) error
+	ContainerExecAttach(ctx context.Context, execID string, config types.ExecConfig) (types.HijackedResponse, error)
+	ContainerExecCreate(ctx context.Context, container string, config types.ExecConfig) (types.IDResponse, error)
+	ContainerExecInspect(ctx context.Context, execID string) (types.ContainerExecInspect, error)
 }
 
 var dockerClient Client
@@ -117,6 +125,7 @@ func createContainer(name string) error {
 		return nil
 	}
 	if !found {
+		log.Infof("Building image for %s...", name)
 		_, err := dockerClient.ImageBuild(
 			context.Background(),
 			nil,
@@ -128,6 +137,7 @@ func createContainer(name string) error {
 		if err != nil {
 			return err
 		}
+		log.Infof("Finished building image for %s", name)
 	}
 	c, err := dockerClient.ContainerCreate(
 		context.Background(),
@@ -151,11 +161,13 @@ func pullImage(name string) error {
 		return nil
 	}
 	if !found {
+		log.Infof("Pulling image %s...", name)
 		closer, err := dockerClient.ImagePull(context.Background(), name, types.ImagePullOptions{})
 		if err != nil {
 			return err
 		}
 		closer.Close()
+		log.Infof("Finished pulling %s", name)
 	}
 	return nil
 }
@@ -180,5 +192,70 @@ imageCheck:
 
 // RunContainer runs an executable in a docker container.
 var RunContainer = func(name, args string) (out string, code int, err error) {
-	return "", 0, nil
+	var cont *types.Container
+	if cont, err = getContainer(name); err != nil {
+		return
+	}
+	command := make([]string, len(args)+1)
+	command[0] = name
+	if len(args) > 0 {
+		for i, arg := range strings.Split(args, " ") {
+			command[i+1] = arg
+		}
+	}
+	var id types.IDResponse
+	if id, err = dockerClient.ContainerExecCreate(context.Background(), cont.ID, types.ExecConfig{Cmd: command}); err != nil {
+		return
+	}
+	if err = dockerClient.ContainerExecStart(context.Background(), id.ID, types.ExecStartCheck{}); err != nil {
+		return
+	}
+	var (
+		resp types.HijackedResponse
+		ctx  = context.Background()
+		done = make(chan error)
+		outBuf,
+		errBuf bytes.Buffer
+	)
+	if resp, err = dockerClient.ContainerExecAttach(ctx, id.ID, types.ExecConfig{}); err != nil {
+		return
+	}
+	defer resp.Close()
+	go func() {
+		_, err := stdcopy.StdCopy(&outBuf, &errBuf, resp.Reader)
+		done <- err
+	}()
+	select {
+	case err = <-done:
+		if err != nil {
+			return
+		}
+	case <-ctx.Done():
+		return
+	}
+	var inspect types.ContainerExecInspect
+	if inspect, err = dockerClient.ContainerExecInspect(context.Background(), id.ID); err != nil {
+		return
+	}
+	code = inspect.ExitCode
+	out = outBuf.String()
+	if errString := errBuf.String(); errString != "" {
+		err = errors.New(errString)
+	}
+	return
+}
+
+func getContainer(name string) (*types.Container, error) {
+	containers, err := dockerClient.ContainerList(context.Background(), types.ContainerListOptions{All: true})
+	if err != nil {
+		return nil, err
+	}
+	for _, c := range containers {
+		for _, containerName := range c.Names {
+			if containerName == name {
+				return &c, nil
+			}
+		}
+	}
+	return nil, fmt.Errorf("couldn't find container %s", name)
 }

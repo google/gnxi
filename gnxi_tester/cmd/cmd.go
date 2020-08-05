@@ -35,6 +35,8 @@ var (
 )
 
 func init() {
+	flag.Set("logtostderr", "true")
+	flag.Parse()
 	cobra.OnInitialize(initConfig)
 	rootCmd.AddCommand(runCmd)
 	rootCmd.AddCommand(targetsCmd)
