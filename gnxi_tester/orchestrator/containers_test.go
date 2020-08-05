@@ -148,7 +148,7 @@ func TestInitContainer(t *testing.T) {
 				{RepoTags: []string{"runtime"}},
 			},
 			[]types.Container{{Names: []string{"name"}, State: "running"}},
-			clientCounter{CountImageList: 2, CountContainerList: 1},
+			clientCounter{CountImageList: 3, CountContainerList: 1, CountContainerStart: 1, CountContainerCreate: 1},
 		},
 		{
 			"container not running",
@@ -162,7 +162,7 @@ func TestInitContainer(t *testing.T) {
 				{RepoTags: []string{"runtime"}},
 			},
 			[]types.Container{{Names: []string{"name"}}},
-			clientCounter{CountImageList: 2, CountContainerList: 1, CountContainerStart: 1},
+			clientCounter{CountImageList: 3, CountContainerList: 1, CountContainerStart: 1, CountContainerCreate: 1},
 		},
 		{
 			"pull images and build",
@@ -185,8 +185,8 @@ func TestInitContainer(t *testing.T) {
 			clientCounter{CountImageList: 2, CountContainerList: 1, CountImagePull: 2},
 		},
 	}
-	tarDockerfile = func(string) (io.Reader, error) {
-		return bytes.NewBuffer([]byte{'a'}), nil
+	tarFile = func(string, string) (io.ReadCloser, error) {
+		return mockReader(1), nil
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
@@ -253,9 +253,8 @@ func TestRunContainer(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			getCert = func(path string) (file io.ReadCloser, err error) {
-				file = mockReader(1)
-				return
+			tarFile = func(string, string) (io.ReadCloser, error) {
+				return mockReader(1), nil
 			}
 			client := &mockClient{containers: test.containers, code: test.code, reader: test.reader}
 			dockerClient = client

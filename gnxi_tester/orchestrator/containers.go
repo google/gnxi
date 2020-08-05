@@ -129,7 +129,9 @@ func createContainer(name string) error {
 	}
 	if !found {
 		log.Infof("Building image for %s...", name)
-		buildContext, err := tarDockerfile(name)
+		dockerfile := path.Join(viper.GetString("docker.files"), fmt.Sprintf("%s.Dockerfile", name))
+		buildContext, err := tarFile(name, dockerfile)
+		defer buildContext.Close()
 		if err != nil {
 			return err
 		}
@@ -207,18 +209,18 @@ var RunContainer = func(name, args string, device *config.Device) (out string, c
 		return
 	}
 	var ca io.ReadCloser
-	if ca, err = getCert(device.Ca); err != nil {
+	if ca, err = tarFile("ca", device.Ca); err != nil {
 		return
 	}
 	defer ca.Close()
-	if err = dockerClient.CopyToContainer(context.Background(), cont.ID, "/certs/ca.crt", ca, types.CopyToContainerOptions{}); err != nil {
+	if err = dockerClient.CopyToContainer(context.Background(), cont.ID, "/certs", ca, types.CopyToContainerOptions{}); err != nil {
 		return
 	}
 	var key io.ReadCloser
-	if key, err = getCert(device.CaKey); err != nil {
+	if key, err = tarFile("key", device.CaKey); err != nil {
 		return
 	}
-	if err = dockerClient.CopyToContainer(context.Background(), cont.ID, "/certs/ca.key", key, types.CopyToContainerOptions{}); err != nil {
+	if err = dockerClient.CopyToContainer(context.Background(), cont.ID, "/certs", key, types.CopyToContainerOptions{}); err != nil {
 		return
 	}
 	defer key.Close()
@@ -274,11 +276,6 @@ var RunContainer = func(name, args string, device *config.Device) (out string, c
 	return
 }
 
-var getCert = func(path string) (file io.ReadCloser, err error) {
-	file, err = os.Open(path)
-	return
-}
-
 func getContainer(name string) (*types.Container, error) {
 	containers, err := dockerClient.ContainerList(context.Background(), types.ContainerListOptions{All: true})
 	if err != nil {
@@ -294,11 +291,10 @@ func getContainer(name string) (*types.Container, error) {
 	return nil, fmt.Errorf("couldn't find container %s", name)
 }
 
-var tarDockerfile = func(name string) (io.Reader, error) {
+var tarFile = func(name, filePath string) (io.ReadCloser, error) {
 	loc := path.Join("/tmp", fmt.Sprintf("%s.tar.gz", name))
 	if _, err := os.Stat(loc); errors.Is(err, os.ErrNotExist) {
-		dockerfile := path.Join(viper.GetString("docker.files"), fmt.Sprintf("%s.Dockerfile", name))
-		if err := archiver.Archive([]string{dockerfile}, loc); err != nil {
+		if err := archiver.Archive([]string{filePath}, loc); err != nil {
 			return nil, err
 		}
 	}
