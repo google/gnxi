@@ -27,6 +27,7 @@ import (
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/network"
+	"github.com/google/gnxi/gnxi_tester/config"
 	"github.com/google/go-cmp/cmp"
 	"github.com/spf13/viper"
 	"golang.org/x/net/context"
@@ -42,6 +43,7 @@ type clientCounter struct {
 	CountContainerExecAttach,
 	CountContainerExecCreate,
 	CountContainerExecInspect,
+	CountCopyToContainer,
 	CountContainerCreate int
 }
 
@@ -116,6 +118,11 @@ func (c *mockClient) ContainerExecCreate(ctx context.Context, container string, 
 func (c *mockClient) ContainerExecInspect(ctx context.Context, execID string) (types.ContainerExecInspect, error) {
 	c.CountContainerExecInspect++
 	return types.ContainerExecInspect{ExitCode: c.code}, nil
+}
+
+func (c *mockClient) CopyToContainer(ctx context.Context, container, path string, content io.Reader, options types.CopyToContainerOptions) error {
+	c.CountCopyToContainer++
+	return nil
 }
 
 func TestInitContainer(t *testing.T) {
@@ -233,9 +240,10 @@ func TestRunContainer(t *testing.T) {
 				CountContainerExecAttach:  1,
 				CountContainerExecCreate:  1,
 				CountContainerExecInspect: 1,
+				CountCopyToContainer:      2,
 			},
 			[]types.Container{
-				{Names: []string{"name"}},
+				{Names: []string{"/name"}},
 			},
 			nil,
 			"out",
@@ -245,9 +253,13 @@ func TestRunContainer(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
+			getCert = func(path string) (file io.ReadCloser, err error) {
+				file = mockReader(1)
+				return
+			}
 			client := &mockClient{containers: test.containers, code: test.code, reader: test.reader}
 			dockerClient = client
-			out, code, err := RunContainer(test.containerName, test.args)
+			out, code, err := RunContainer(test.containerName, test.args, &config.Device{})
 			if fmt.Sprintf("%v", test.err) != fmt.Sprintf("%v", err) {
 				t.Errorf("wanted error(%v), got(%v)", test.err, err)
 			}

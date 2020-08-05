@@ -33,7 +33,7 @@ func TestRunTests(t *testing.T) {
 		prompt       callbackFunc
 		wantSucc     []string
 		wantErr      error
-		runContainer func(name, args string) (out string, code int, err error)
+		runContainer func(name, args string, device *config.Device) (out string, code int, err error)
 	}{
 		{
 			"Run all tests",
@@ -45,7 +45,7 @@ func TestRunTests(t *testing.T) {
 			func(name string) string { return name },
 			[]string{"*test*:\ntest:\ntest\n\ntest2:\ntest\n"},
 			nil,
-			func(name, args string) (out string, code int, err error) {
+			func(name, args string, device *config.Device) (out string, code int, err error) {
 				out = name
 				return
 			},
@@ -60,7 +60,7 @@ func TestRunTests(t *testing.T) {
 			func(name string) string { return name },
 			[]string{"*test*:\ntest:\n-ask ask -logtostderr -target_name test -target_addr test -ca certs/ca.crt -ca_key certs/ca.key\n"},
 			nil,
-			func(name, args string) (out string, code int, err error) {
+			func(name, args string, device *config.Device) (out string, code int, err error) {
 				out = args
 				return
 			},
@@ -76,7 +76,7 @@ func TestRunTests(t *testing.T) {
 			func(name string) string { return name },
 			[]string{"*test*:\ntest:\ntest\n"},
 			nil,
-			func(name, args string) (out string, code int, err error) {
+			func(name, args string, device *config.Device) (out string, code int, err error) {
 				out = name
 				return
 			},
@@ -91,7 +91,7 @@ func TestRunTests(t *testing.T) {
 			func(name string) string { return name },
 			[]string{"*test*:\ntest:\ntest\n"},
 			nil,
-			func(name, args string) (out string, code int, err error) {
+			func(name, args string, device *config.Device) (out string, code int, err error) {
 				out = name
 				return
 			},
@@ -106,7 +106,7 @@ func TestRunTests(t *testing.T) {
 			func(name string) string { return name },
 			nil,
 			formatErr("test", "test", errors.New("Wanted no in output"), 0, false, "test", nil),
-			func(name, args string) (out string, code int, err error) {
+			func(name, args string, device *config.Device) (out string, code int, err error) {
 				out = name
 				return
 			},
@@ -121,7 +121,7 @@ func TestRunTests(t *testing.T) {
 			func(name string) string { return name },
 			[]string{"*test*:\ntest:\ntest\n"},
 			nil,
-			func(name, args string) (out string, code int, err error) {
+			func(name, args string, device *config.Device) (out string, code int, err error) {
 				out = name
 				return
 			},

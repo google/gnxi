@@ -48,6 +48,7 @@ type Client interface {
 	ContainerExecAttach(ctx context.Context, execID string, config types.ExecConfig) (types.HijackedResponse, error)
 	ContainerExecCreate(ctx context.Context, container string, config types.ExecConfig) (types.IDResponse, error)
 	ContainerExecInspect(ctx context.Context, execID string) (types.ContainerExecInspect, error)
+	CopyToContainer(ctx context.Context, container, path string, content io.Reader, options types.CopyToContainerOptions) error
 }
 
 var dockerClient Client
@@ -200,11 +201,27 @@ imageCheck:
 }
 
 // RunContainer runs an executable in a docker container.
-var RunContainer = func(name, args string) (out string, code int, err error) {
+var RunContainer = func(name, args string, device *config.Device) (out string, code int, err error) {
 	var cont *types.Container
 	if cont, err = getContainer(name); err != nil {
 		return
 	}
+	var ca io.ReadCloser
+	if ca, err = getCert(device.Ca); err != nil {
+		return
+	}
+	defer ca.Close()
+	if err = dockerClient.CopyToContainer(context.Background(), cont.ID, "/certs/ca.crt", ca, types.CopyToContainerOptions{}); err != nil {
+		return
+	}
+	var key io.ReadCloser
+	if key, err = getCert(device.CaKey); err != nil {
+		return
+	}
+	if err = dockerClient.CopyToContainer(context.Background(), cont.ID, "/certs/ca.key", key, types.CopyToContainerOptions{}); err != nil {
+		return
+	}
+	defer key.Close()
 	command := make([]string, len(args)+1)
 	command[0] = name
 	if len(args) > 0 {
@@ -249,12 +266,16 @@ var RunContainer = func(name, args string) (out string, code int, err error) {
 		err = fmt.Errorf("error inspecting exec process: %w", err)
 		return
 	}
-	fmt.Println("far")
 	code = inspect.ExitCode
 	out = outBuf.String()
 	if errString := errBuf.String(); errString != "" {
 		err = errors.New(errString)
 	}
+	return
+}
+
+var getCert = func(path string) (file io.ReadCloser, err error) {
+	file, err = os.Open(path)
 	return
 }
 

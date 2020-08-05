@@ -35,6 +35,8 @@ RUN go install github.com/google/gnxi/%s
 
 FROM alpine
 
+RUN mkdir /certs; touch /certs/ca.crt; touch /certs/ca.key
+
 WORKDIR /bin
 
 COPY --from=build /go/bin/%s ./%s
