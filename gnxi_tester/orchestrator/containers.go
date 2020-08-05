@@ -106,8 +106,8 @@ func InitContainers(names []string) error {
 
 func checkContainerExists(containerName string, cont types.Container, names *[]string) error {
 	for i, testName := range *names {
-		if containerName == testName {
-			if cont.Status != "running" {
+		if containerName == "/"+testName {
+			if cont.State != "running" {
 				if err := dockerClient.ContainerStart(context.Background(), cont.ID, types.ContainerStartOptions{}); err != nil {
 					return err
 				}

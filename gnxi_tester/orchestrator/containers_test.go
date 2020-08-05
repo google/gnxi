@@ -140,7 +140,7 @@ func TestInitContainer(t *testing.T) {
 				{RepoTags: []string{"build"}},
 				{RepoTags: []string{"runtime"}},
 			},
-			[]types.Container{{Names: []string{"name"}, Status: "running"}},
+			[]types.Container{{Names: []string{"name"}, State: "running"}},
 			clientCounter{CountImageList: 2, CountContainerList: 1},
 		},
 		{
