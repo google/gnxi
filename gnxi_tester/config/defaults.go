@@ -19,6 +19,9 @@ import (
 	"github.com/spf13/viper"
 )
 
+// Tests represent a set of major tests.
+type Tests map[string][]Test
+
 // Test represents a single set of inputs and expected outputs.
 type Test struct {
 	Name       string            `mapstructure:"name"`
@@ -33,10 +36,15 @@ type Test struct {
 func setDefaults() {
 	testCases, order := generateTestCases()
 	viper.SetDefault("tests", testCases)
+	viper.SetDefault("docker.build", "golang:1.14-alpine")
+	viper.SetDefault("docker.runtime", "alpine")
+	viper.SetDefault("docker.files", createDockerfiles(testCases))
+	viper.SetDefault("tests", testCases)
 	viper.SetDefault("order", order)
+
 }
 
-func generateTestCases() (map[string][]Test, []string) {
+func generateTestCases() (Tests, []string) {
 	provisionTest := []Test{{
 		Name:   "Provision Bootstrapping Target",
 		Args:   map[string]string{"op": "provision", "cert_id": "&<cert_id>"},
@@ -144,5 +152,5 @@ func generateTestCases() (map[string][]Test, []string) {
 			Prompt: []string{"non_existent_version"},
 		},
 	}
-	return map[string][]Test{"gnoi_os": osTests, "gnoi_reset": resetTests, "gnoi_cert": certTests, "provision": provisionTest}, []string{"gnoi_os", "gnoi_cert", "gnoi_reset"}
+	return Tests{"gnoi_os": osTests, "gnoi_reset": resetTests, "gnoi_cert": certTests, "provision": provisionTest}, []string{"gnoi_os", "gnoi_cert", "gnoi_reset"}
 }
