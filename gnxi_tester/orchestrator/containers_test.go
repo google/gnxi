@@ -57,6 +57,7 @@ type mockClient struct {
 type mockReader int
 
 func (r mockReader) Read(p []byte) (n int, err error) {
+	err = io.EOF
 	return
 }
 
@@ -81,7 +82,7 @@ func (c *mockClient) ImageList(ctx context.Context, options types.ImageListOptio
 
 func (c *mockClient) ImageBuild(ctx context.Context, buildContext io.Reader, options types.ImageBuildOptions) (types.ImageBuildResponse, error) {
 	c.CountImageBuild++
-	return types.ImageBuildResponse{}, nil
+	return types.ImageBuildResponse{Body: mockReader(0)}, nil
 }
 
 func (c *mockClient) ImagePull(ctx context.Context, ref string, options types.ImagePullOptions) (io.ReadCloser, error) {
@@ -176,6 +177,9 @@ func TestInitContainer(t *testing.T) {
 			[]types.Container{},
 			clientCounter{CountImageList: 2, CountContainerList: 1, CountImagePull: 2},
 		},
+	}
+	tarDockerfile = func(string) (io.Reader, error) {
+		return bytes.NewBuffer([]byte{'a'}), nil
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {

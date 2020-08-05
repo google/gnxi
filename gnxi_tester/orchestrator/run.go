@@ -39,7 +39,9 @@ var (
 
 // RunTests will take in test name and run each test or all tests.
 func RunTests(tests []string, prompt callbackFunc) (success []string, err error) {
-	InitContainers(tests)
+	if err = InitContainers(tests); err != nil {
+		return
+	}
 	var output string
 	if len(tests) == 0 {
 		configTests = config.GetTests()
