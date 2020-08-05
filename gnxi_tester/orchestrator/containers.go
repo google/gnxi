@@ -20,6 +20,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"os"
 	"path"
 	"strings"
 
@@ -28,6 +29,7 @@ import (
 	"github.com/docker/docker/api/types/network"
 	log "github.com/golang/glog"
 	"github.com/google/gnxi/gnxi_tester/config"
+	"github.com/mholt/archiver/v3"
 	"github.com/moby/moby/client"
 	"github.com/moby/moby/pkg/stdcopy"
 	"github.com/spf13/viper"
@@ -104,8 +106,8 @@ func InitContainers(names []string) error {
 
 func checkContainerExists(containerName string, cont types.Container, names *[]string) error {
 	for i, testName := range *names {
-		if containerName == testName {
-			if cont.Status != "running" {
+		if containerName == "/"+testName {
+			if cont.State != "running" {
 				if err := dockerClient.ContainerStart(context.Background(), cont.ID, types.ContainerStartOptions{}); err != nil {
 					return err
 				}
@@ -126,23 +128,30 @@ func createContainer(name string) error {
 	}
 	if !found {
 		log.Infof("Building image for %s...", name)
-		_, err := dockerClient.ImageBuild(
+		buildContext, err := tarDockerfile(name)
+		if err != nil {
+			return err
+		}
+		reader, err := dockerClient.ImageBuild(
 			context.Background(),
-			nil,
+			buildContext,
 			types.ImageBuildOptions{
-				Dockerfile: path.Join(viper.GetString("docker.files"), fmt.Sprintf("%s.Dockerfile", name)),
-				Tags:       []string{name},
+				Dockerfile: fmt.Sprintf("%s.Dockerfile", name),
+				Tags:       []string{fmt.Sprintf("%s:latest", name)},
 			},
 		)
 		if err != nil {
 			return err
 		}
+		io.Copy(os.Stdout, reader.Body)
 		log.Infof("Finished building image for %s", name)
 	}
 	c, err := dockerClient.ContainerCreate(
 		context.Background(),
-		&container.Config{Image: name},
-		&container.HostConfig{},
+		&container.Config{Image: fmt.Sprintf("%s:latest", name)},
+		&container.HostConfig{
+			RestartPolicy: container.RestartPolicy{Name: "unless-stopped"},
+		},
 		&network.NetworkingConfig{},
 		name,
 	)
@@ -162,11 +171,11 @@ func pullImage(name string) error {
 	}
 	if !found {
 		log.Infof("Pulling image %s...", name)
-		closer, err := dockerClient.ImagePull(context.Background(), name, types.ImagePullOptions{})
+		reader, err := dockerClient.ImagePull(context.Background(), fmt.Sprintf("docker.io/library/%s", name), types.ImagePullOptions{})
 		if err != nil {
 			return err
 		}
-		closer.Close()
+		io.Copy(os.Stdout, reader)
 		log.Infof("Finished pulling %s", name)
 	}
 	return nil
@@ -258,4 +267,19 @@ func getContainer(name string) (*types.Container, error) {
 		}
 	}
 	return nil, fmt.Errorf("couldn't find container %s", name)
+}
+
+var tarDockerfile = func(name string) (io.Reader, error) {
+	loc := path.Join("/tmp", fmt.Sprintf("%s.tar.gz", name))
+	if _, err := os.Stat(loc); errors.Is(err, os.ErrNotExist) {
+		dockerfile := path.Join(viper.GetString("docker.files"), fmt.Sprintf("%s.Dockerfile", name))
+		if err := archiver.Archive([]string{dockerfile}, loc); err != nil {
+			return nil, err
+		}
+	}
+	f, err := os.Open(loc)
+	if err != nil {
+		return nil, err
+	}
+	return f, err
 }
