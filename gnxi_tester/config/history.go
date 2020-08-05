@@ -17,6 +17,7 @@ package config
 
 import (
 	"errors"
+	"path/filepath"
 
 	"github.com/spf13/viper"
 )
@@ -41,6 +42,9 @@ func SetTarget(targetName, targetAddress, ca, caKey string) error {
 
 // prepareTarget parses provided details and creates or modifies target entry.
 func prepareTarget(targetName, targetAddress, ca, caKey string) error {
+	var caPath string
+	var caKeyPath string
+	var err error
 	devices := GetDevices()
 	if devices == nil {
 		devices = map[string]Device{}
@@ -51,14 +55,24 @@ func prepareTarget(targetName, targetAddress, ca, caKey string) error {
 		}
 		return errors.New("No targets in history and no target specified")
 	}
+	if ca != "" || caKey != "" {
+		caPath, err = filepath.Abs(ca)
+		if err != nil {
+			return err
+		}
+		caKeyPath, err = filepath.Abs(caKey)
+		if err != nil {
+			return err
+		}
+	}
 	if _, exists := devices[targetName]; !exists {
 		if targetAddress == "" || ca == "" || caKey == "" {
 			return errors.New("Device not found")
 		}
 		devices[targetName] = Device{
 			Address: targetAddress,
-			Ca:      ca,
-			CaKey:   caKey,
+			Ca:      caPath,
+			CaKey:   caKeyPath,
 		}
 	} else {
 		device := devices[targetName]
@@ -66,10 +80,10 @@ func prepareTarget(targetName, targetAddress, ca, caKey string) error {
 			device.Address = targetAddress
 		}
 		if ca != "" {
-			device.Ca = ca
+			device.Ca = caPath
 		}
 		if caKey != "" {
-			device.CaKey = caKey
+			device.CaKey = caKeyPath
 		}
 		devices[targetName] = device
 	}

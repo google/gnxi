@@ -17,6 +17,8 @@ package config
 
 import (
 	"errors"
+	"os"
+	"path"
 	"testing"
 
 	"github.com/kylelemons/godebug/pretty"
@@ -29,6 +31,12 @@ type Want struct {
 }
 
 func TestPrepareTarget(t *testing.T) {
+	dir, err := os.Getwd()
+	if err != nil {
+		t.Errorf("Error getting working directory: %v", err)
+	}
+	certPath := path.Join(dir, "ca.crt")
+	certKeyPath := path.Join(dir, "ca.key")
 	tests := []struct {
 		name          string
 		targetName    string
@@ -48,36 +56,36 @@ func TestPrepareTarget(t *testing.T) {
 		},
 		{
 			name: "No target specified",
-			config: map[string]Device{"myhost.com": Device{
+			config: map[string]Device{"myhost.com": {
 				Address: "localhost:9339",
-				Ca:      "ca.crt",
-				CaKey:   "ca.key",
+				Ca:      certPath,
+				CaKey:   certKeyPath,
 			}},
 			lastTarget: "myhost.com",
 			want: Want{
 				err: nil,
-				devices: map[string]Device{"myhost.com": Device{
+				devices: map[string]Device{"myhost.com": {
 					Address: "localhost:9339",
-					Ca:      "ca.crt",
-					CaKey:   "ca.key",
+					Ca:      certPath,
+					CaKey:   certKeyPath,
 				}},
 			},
 		},
 		{
 			name: "Non-existent device",
-			config: map[string]Device{"myhost.com": Device{
+			config: map[string]Device{"myhost.com": {
 				Address: "localhost:9339",
-				Ca:      "ca.crt",
-				CaKey:   "ca.key",
+				Ca:      certPath,
+				CaKey:   certKeyPath,
 			}},
 			targetName: "nonexistenttarget",
 			lastTarget: "myhost.com",
 			want: Want{
 				err: errors.New("Device not found"),
-				devices: map[string]Device{"myhost.com": Device{
+				devices: map[string]Device{"myhost.com": {
 					Address: "localhost:9339",
-					Ca:      "ca.crt",
-					CaKey:   "ca.key",
+					Ca:      certPath,
+					CaKey:   certKeyPath,
 				}},
 			},
 		},
@@ -85,14 +93,14 @@ func TestPrepareTarget(t *testing.T) {
 			name:          "Add new target",
 			targetName:    "myhost.com",
 			targetAddress: "localhost:9339",
-			targetCA:      "ca.crt",
-			targetCAKey:   "ca.key",
+			targetCA:      certPath,
+			targetCAKey:   certKeyPath,
 			want: Want{
 				devices: map[string]Device{
 					"myhost.com": {
 						Address: "localhost:9339",
-						Ca:      "ca.crt",
-						CaKey:   "ca.key",
+						Ca:      certPath,
+						CaKey:   certKeyPath,
 					},
 				},
 			},
@@ -101,17 +109,17 @@ func TestPrepareTarget(t *testing.T) {
 			name:          "Update existing device's address",
 			targetName:    "myhost.com",
 			targetAddress: "newhost:9340",
-			config: map[string]Device{"myhost.com": Device{
+			config: map[string]Device{"myhost.com": {
 				Address: "localhost:9339",
-				Ca:      "ca.crt",
-				CaKey:   "ca.key",
+				Ca:      certPath,
+				CaKey:   certKeyPath,
 			}},
 			want: Want{
 				devices: map[string]Device{
 					"myhost.com": {
 						Address: "newhost:9340",
-						Ca:      "ca.crt",
-						CaKey:   "ca.key",
+						Ca:      certPath,
+						CaKey:   certKeyPath,
 					},
 				},
 			},
@@ -120,17 +128,17 @@ func TestPrepareTarget(t *testing.T) {
 			name:       "Update existing device's ca",
 			targetName: "myhost.com",
 			targetCA:   "newca.crt",
-			config: map[string]Device{"myhost.com": Device{
+			config: map[string]Device{"myhost.com": {
 				Address: "localhost:9339",
-				Ca:      "ca.crt",
-				CaKey:   "ca.key",
+				Ca:      certPath,
+				CaKey:   certKeyPath,
 			}},
 			want: Want{
 				devices: map[string]Device{
 					"myhost.com": {
 						Address: "localhost:9339",
-						Ca:      "newca.crt",
-						CaKey:   "ca.key",
+						Ca:      path.Join(dir, "newca.crt"),
+						CaKey:   certKeyPath,
 					},
 				},
 			},
@@ -139,17 +147,17 @@ func TestPrepareTarget(t *testing.T) {
 			name:        "Update existing device's ca_key",
 			targetName:  "myhost.com",
 			targetCAKey: "newca.key",
-			config: map[string]Device{"myhost.com": Device{
+			config: map[string]Device{"myhost.com": {
 				Address: "localhost:9339",
-				Ca:      "ca.crt",
-				CaKey:   "ca.key",
+				Ca:      certPath,
+				CaKey:   certKeyPath,
 			}},
 			want: Want{
 				devices: map[string]Device{
 					"myhost.com": {
 						Address: "localhost:9339",
-						Ca:      "ca.crt",
-						CaKey:   "newca.key",
+						Ca:      certPath,
+						CaKey:   path.Join(dir, "newca.key"),
 					},
 				},
 			},
