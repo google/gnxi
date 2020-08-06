@@ -27,6 +27,7 @@ import (
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/network"
+	"github.com/google/gnxi/gnxi_tester/config"
 	"github.com/google/go-cmp/cmp"
 	"github.com/spf13/viper"
 	"golang.org/x/net/context"
@@ -42,6 +43,7 @@ type clientCounter struct {
 	CountContainerExecAttach,
 	CountContainerExecCreate,
 	CountContainerExecInspect,
+	CountCopyToContainer,
 	CountContainerCreate int
 }
 
@@ -57,6 +59,7 @@ type mockClient struct {
 type mockReader int
 
 func (r mockReader) Read(p []byte) (n int, err error) {
+	err = io.EOF
 	return
 }
 
@@ -81,7 +84,7 @@ func (c *mockClient) ImageList(ctx context.Context, options types.ImageListOptio
 
 func (c *mockClient) ImageBuild(ctx context.Context, buildContext io.Reader, options types.ImageBuildOptions) (types.ImageBuildResponse, error) {
 	c.CountImageBuild++
-	return types.ImageBuildResponse{}, nil
+	return types.ImageBuildResponse{Body: mockReader(0)}, nil
 }
 
 func (c *mockClient) ImagePull(ctx context.Context, ref string, options types.ImagePullOptions) (io.ReadCloser, error) {
@@ -117,6 +120,11 @@ func (c *mockClient) ContainerExecInspect(ctx context.Context, execID string) (t
 	return types.ContainerExecInspect{ExitCode: c.code}, nil
 }
 
+func (c *mockClient) CopyToContainer(ctx context.Context, container, path string, content io.Reader, options types.CopyToContainerOptions) error {
+	c.CountCopyToContainer++
+	return nil
+}
+
 func TestInitContainer(t *testing.T) {
 	tests := []struct {
 		name  string
@@ -139,7 +147,7 @@ func TestInitContainer(t *testing.T) {
 				{RepoTags: []string{"build"}},
 				{RepoTags: []string{"runtime"}},
 			},
-			[]types.Container{{Names: []string{"name"}, Status: "running"}},
+			[]types.Container{{Names: []string{"/name"}, State: "running"}},
 			clientCounter{CountImageList: 2, CountContainerList: 1},
 		},
 		{
@@ -153,7 +161,7 @@ func TestInitContainer(t *testing.T) {
 				{RepoTags: []string{"build"}},
 				{RepoTags: []string{"runtime"}},
 			},
-			[]types.Container{{Names: []string{"name"}}},
+			[]types.Container{{Names: []string{"/name"}}},
 			clientCounter{CountImageList: 2, CountContainerList: 1, CountContainerStart: 1},
 		},
 		{
@@ -176,6 +184,9 @@ func TestInitContainer(t *testing.T) {
 			[]types.Container{},
 			clientCounter{CountImageList: 2, CountContainerList: 1, CountImagePull: 2},
 		},
+	}
+	tarFile = func(string, string) (io.ReadCloser, error) {
+		return mockReader(1), nil
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
@@ -200,12 +211,13 @@ func TestRunContainer(t *testing.T) {
 		name,
 		containerName,
 		args string
-		counter    clientCounter
-		containers []types.Container
-		err        error
-		out        string
-		code       int
-		reader     *bufio.Reader
+		counter     clientCounter
+		containers  []types.Container
+		err         error
+		out         string
+		code        int
+		reader      *bufio.Reader
+		insertFiles []string
 	}{
 		{
 			"couldn't find container",
@@ -219,6 +231,7 @@ func TestRunContainer(t *testing.T) {
 			"",
 			0,
 			&bufio.Reader{},
+			[]string{},
 		},
 		{
 			"run successfully",
@@ -226,25 +239,29 @@ func TestRunContainer(t *testing.T) {
 			"arg",
 			clientCounter{
 				CountContainerList:        1,
-				CountContainerExecStart:   1,
 				CountContainerExecAttach:  1,
 				CountContainerExecCreate:  1,
 				CountContainerExecInspect: 1,
+				CountCopyToContainer:      3,
 			},
 			[]types.Container{
-				{Names: []string{"name"}},
+				{Names: []string{"/name"}},
 			},
 			nil,
 			"out",
 			0,
-			bufio.NewReader(bytes.NewBuffer([]byte{1, 0, 0, 0, 0, 0, 0, 3, 'o', 'u', 't'})),
+			bufio.NewReader(bytes.NewBuffer([]byte{2, 0, 0, 0, 0, 0, 0, 3, 'o', 'u', 't'})),
+			[]string{"ff"},
 		},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
+			tarFile = func(string, string) (io.ReadCloser, error) {
+				return mockReader(1), nil
+			}
 			client := &mockClient{containers: test.containers, code: test.code, reader: test.reader}
 			dockerClient = client
-			out, code, err := RunContainer(test.containerName, test.args)
+			out, code, err := RunContainer(test.containerName, test.args, &config.Device{}, test.insertFiles)
 			if fmt.Sprintf("%v", test.err) != fmt.Sprintf("%v", err) {
 				t.Errorf("wanted error(%v), got(%v)", test.err, err)
 			}

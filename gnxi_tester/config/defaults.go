@@ -37,7 +37,7 @@ func setDefaults() {
 	testCases, order := generateTestCases()
 	viper.SetDefault("tests", testCases)
 	viper.SetDefault("docker.build", "golang:1.14-alpine")
-	viper.SetDefault("docker.runtime", "alpine")
+	viper.SetDefault("docker.runtime", "alpine:latest")
 	viper.SetDefault("docker.files", createDockerfiles(testCases))
 	viper.SetDefault("order", order)
 

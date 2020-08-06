@@ -26,7 +26,7 @@ var (
 	targetsCmd = &cobra.Command{
 		Use:     "targets",
 		Short:   "Displays target connection history.",
-		Example: "gnxi_tester run [test_names]",
+		Example: "gnxi_tester targets",
 		Run:     displayTargets,
 	}
 )

@@ -33,7 +33,7 @@ func TestRunTests(t *testing.T) {
 		prompt       callbackFunc
 		wantSucc     []string
 		wantErr      error
-		runContainer func(name, args string) (out string, code int, err error)
+		runContainer func(name, args string, device *config.Device, insertFiles []string) (out string, code int, err error)
 	}{
 		{
 			"Run all tests",
@@ -45,7 +45,7 @@ func TestRunTests(t *testing.T) {
 			func(name string) string { return name },
 			[]string{"*test*:\ntest:\ntest\n\ntest2:\ntest\n"},
 			nil,
-			func(name, args string) (out string, code int, err error) {
+			func(name, args string, device *config.Device, insertFiles []string) (out string, code int, err error) {
 				out = name
 				return
 			},
@@ -58,9 +58,9 @@ func TestRunTests(t *testing.T) {
 			},
 			[]string{"test"},
 			func(name string) string { return name },
-			[]string{"*test*:\ntest:\n-ask ask -logtostderr -target_name test -target_addr test -ca certs/ca.crt -ca_key certs/ca.key\n"},
+			[]string{"*test*:\ntest:\n-ask ask -logtostderr -target_name test -target_addr test -ca /certs/ca.crt -ca_key /certs/ca.key\n"},
 			nil,
-			func(name, args string) (out string, code int, err error) {
+			func(name, args string, device *config.Device, insertFiles []string) (out string, code int, err error) {
 				out = args
 				return
 			},
@@ -76,7 +76,7 @@ func TestRunTests(t *testing.T) {
 			func(name string) string { return name },
 			[]string{"*test*:\ntest:\ntest\n"},
 			nil,
-			func(name, args string) (out string, code int, err error) {
+			func(name, args string, device *config.Device, insertFiles []string) (out string, code int, err error) {
 				out = name
 				return
 			},
@@ -91,7 +91,7 @@ func TestRunTests(t *testing.T) {
 			func(name string) string { return name },
 			[]string{"*test*:\ntest:\ntest\n"},
 			nil,
-			func(name, args string) (out string, code int, err error) {
+			func(name, args string, device *config.Device, insertFiles []string) (out string, code int, err error) {
 				out = name
 				return
 			},
@@ -105,8 +105,8 @@ func TestRunTests(t *testing.T) {
 			[]string{"test"},
 			func(name string) string { return name },
 			nil,
-			formateErr("test", "test", errors.New("Wanted no in output"), 0, false, "test", nil),
-			func(name, args string) (out string, code int, err error) {
+			formatErr("test", "test", "test", errors.New("Wanted no in output"), 0, false, nil),
+			func(name, args string, device *config.Device, insertFiles []string) (out string, code int, err error) {
 				out = name
 				return
 			},
@@ -121,7 +121,7 @@ func TestRunTests(t *testing.T) {
 			func(name string) string { return name },
 			[]string{"*test*:\ntest:\ntest\n"},
 			nil,
-			func(name, args string) (out string, code int, err error) {
+			func(name, args string, device *config.Device, insertFiles []string) (out string, code int, err error) {
 				out = name
 				return
 			},
@@ -129,13 +129,14 @@ func TestRunTests(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			viper.Set("targets.devices", map[string]config.Device{"test": config.Device{Address: "test", Ca: "certs/ca.crt", CaKey: "certs/ca.key"}})
+			InitContainers = func(names []string) error { return nil }
+			viper.Set("targets.devices", map[string]config.Device{"test": {Address: "test", Ca: "/certs/ca.crt", CaKey: "/certs/ca.key"}})
 			viper.Set("targets.last_target", "test")
 			viper.Set("tests", test.tests)
 			viper.Set("order", test.order)
 			RunContainer = test.runContainer
-			succ, err := RunTests(test.testNames, test.prompt)
-			if diff := cmp.Diff(succ, test.wantSucc); diff != "" {
+			succ, err := RunTests(test.testNames, test.prompt, map[string]string{})
+			if diff := cmp.Diff(test.wantSucc, succ); diff != "" {
 				t.Errorf("(-want +got): %s", diff)
 			} else if (test.wantErr == nil) != (err == nil) {
 				t.Errorf("invalid error: want: %v, got: %v", test.wantErr, err)

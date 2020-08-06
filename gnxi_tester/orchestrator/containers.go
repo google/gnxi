@@ -20,6 +20,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"os"
 	"path"
 	"strings"
 
@@ -28,6 +29,7 @@ import (
 	"github.com/docker/docker/api/types/network"
 	log "github.com/golang/glog"
 	"github.com/google/gnxi/gnxi_tester/config"
+	"github.com/mholt/archiver/v3"
 	"github.com/moby/moby/client"
 	"github.com/moby/moby/pkg/stdcopy"
 	"github.com/spf13/viper"
@@ -46,6 +48,7 @@ type Client interface {
 	ContainerExecAttach(ctx context.Context, execID string, config types.ExecConfig) (types.HijackedResponse, error)
 	ContainerExecCreate(ctx context.Context, container string, config types.ExecConfig) (types.IDResponse, error)
 	ContainerExecInspect(ctx context.Context, execID string) (types.ContainerExecInspect, error)
+	CopyToContainer(ctx context.Context, container, path string, content io.Reader, options types.CopyToContainerOptions) error
 }
 
 var dockerClient Client
@@ -63,7 +66,7 @@ var newClient = func() {
 }
 
 // InitContainers will check if the containers are running and run them if not.
-func InitContainers(names []string) error {
+var InitContainers = func(names []string) error {
 	newClient()
 	build := viper.GetString("docker.build")
 	if err := pullImage(build); err != nil {
@@ -104,8 +107,8 @@ func InitContainers(names []string) error {
 
 func checkContainerExists(containerName string, cont types.Container, names *[]string) error {
 	for i, testName := range *names {
-		if containerName == testName {
-			if cont.Status != "running" {
+		if containerName == "/" + testName {
+			if cont.State != "running" {
 				if err := dockerClient.ContainerStart(context.Background(), cont.ID, types.ContainerStartOptions{}); err != nil {
 					return err
 				}
@@ -126,23 +129,33 @@ func createContainer(name string) error {
 	}
 	if !found {
 		log.Infof("Building image for %s...", name)
-		_, err := dockerClient.ImageBuild(
+		dockerfile := path.Join(viper.GetString("docker.files"), fmt.Sprintf("%s.Dockerfile", name))
+		buildContext, err := tarFile(name, dockerfile)
+		defer buildContext.Close()
+		if err != nil {
+			return err
+		}
+		reader, err := dockerClient.ImageBuild(
 			context.Background(),
-			nil,
+			buildContext,
 			types.ImageBuildOptions{
-				Dockerfile: path.Join(viper.GetString("docker.files"), fmt.Sprintf("%s.Dockerfile", name)),
-				Tags:       []string{name},
+				Dockerfile: fmt.Sprintf("%s.Dockerfile", name),
+				Tags:       []string{fmt.Sprintf("%s:latest", name)},
 			},
 		)
 		if err != nil {
 			return err
 		}
+		io.Copy(os.Stdout, reader.Body)
 		log.Infof("Finished building image for %s", name)
 	}
 	c, err := dockerClient.ContainerCreate(
 		context.Background(),
-		&container.Config{Image: name},
-		&container.HostConfig{},
+		&container.Config{Image: fmt.Sprintf("%s:latest", name)},
+		&container.HostConfig{
+			RestartPolicy: container.RestartPolicy{Name: "unless-stopped"},
+			NetworkMode:   container.NetworkMode("host"),
+		},
 		&network.NetworkingConfig{},
 		name,
 	)
@@ -162,11 +175,11 @@ func pullImage(name string) error {
 	}
 	if !found {
 		log.Infof("Pulling image %s...", name)
-		closer, err := dockerClient.ImagePull(context.Background(), name, types.ImagePullOptions{})
+		reader, err := dockerClient.ImagePull(context.Background(), fmt.Sprintf("docker.io/library/%s", name), types.ImagePullOptions{})
 		if err != nil {
 			return err
 		}
-		closer.Close()
+		io.Copy(os.Stdout, reader)
 		log.Infof("Finished pulling %s", name)
 	}
 	return nil
@@ -191,10 +204,36 @@ imageCheck:
 }
 
 // RunContainer runs an executable in a docker container.
-var RunContainer = func(name, args string) (out string, code int, err error) {
+var RunContainer = func(name, args string, device *config.Device, insertFiles []string) (out string, code int, err error) {
 	var cont *types.Container
 	if cont, err = getContainer(name); err != nil {
 		return
+	}
+	var ca io.ReadCloser
+	if ca, err = tarFile("ca", device.Ca); err != nil {
+		return
+	}
+	defer ca.Close()
+	if err = dockerClient.CopyToContainer(context.Background(), cont.ID, "/certs", ca, types.CopyToContainerOptions{}); err != nil {
+		return
+	}
+	var key io.ReadCloser
+	if key, err = tarFile("key", device.CaKey); err != nil {
+		return
+	}
+	if err = dockerClient.CopyToContainer(context.Background(), cont.ID, "/certs", key, types.CopyToContainerOptions{}); err != nil {
+		return
+	}
+	defer key.Close()
+	for _, f := range insertFiles {
+		var insert io.ReadCloser
+		if insert, err = tarFile(path.Base(f), f); err != nil {
+			return
+		}
+		if err = dockerClient.CopyToContainer(context.Background(), cont.ID, "/tmp", insert, types.CopyToContainerOptions{}); err != nil {
+			return
+		}
+		defer insert.Close()
 	}
 	command := make([]string, len(args)+1)
 	command[0] = name
@@ -204,10 +243,11 @@ var RunContainer = func(name, args string) (out string, code int, err error) {
 		}
 	}
 	var id types.IDResponse
-	if id, err = dockerClient.ContainerExecCreate(context.Background(), cont.ID, types.ExecConfig{Cmd: command}); err != nil {
-		return
-	}
-	if err = dockerClient.ContainerExecStart(context.Background(), id.ID, types.ExecStartCheck{}); err != nil {
+	if id, err = dockerClient.ContainerExecCreate(context.Background(), cont.ID, types.ExecConfig{
+		Cmd:          command,
+		AttachStderr: true,
+		AttachStdout: true,
+	}); err != nil {
 		return
 	}
 	var (
@@ -218,6 +258,7 @@ var RunContainer = func(name, args string) (out string, code int, err error) {
 		errBuf bytes.Buffer
 	)
 	if resp, err = dockerClient.ContainerExecAttach(ctx, id.ID, types.ExecConfig{}); err != nil {
+		err = fmt.Errorf("error starting exec process: %w", err)
 		return
 	}
 	defer resp.Close()
@@ -235,13 +276,11 @@ var RunContainer = func(name, args string) (out string, code int, err error) {
 	}
 	var inspect types.ContainerExecInspect
 	if inspect, err = dockerClient.ContainerExecInspect(context.Background(), id.ID); err != nil {
+		err = fmt.Errorf("error inspecting exec process: %w", err)
 		return
 	}
 	code = inspect.ExitCode
-	out = outBuf.String()
-	if errString := errBuf.String(); errString != "" {
-		err = errors.New(errString)
-	}
+	out = errBuf.String()
 	return
 }
 
@@ -252,10 +291,24 @@ func getContainer(name string) (*types.Container, error) {
 	}
 	for _, c := range containers {
 		for _, containerName := range c.Names {
-			if containerName == name {
+			if containerName == "/"+ name {
 				return &c, nil
 			}
 		}
 	}
 	return nil, fmt.Errorf("couldn't find container %s", name)
+}
+
+var tarFile = func(name, filePath string) (io.ReadCloser, error) {
+	loc := path.Join("/tmp", fmt.Sprintf("%s.tar.gz", name))
+	if _, err := os.Stat(loc); errors.Is(err, os.ErrNotExist) {
+		if err := archiver.Archive([]string{filePath}, loc); err != nil {
+			return nil, err
+		}
+	}
+	f, err := os.Open(loc)
+	if err != nil {
+		return nil, err
+	}
+	return f, err
 }
