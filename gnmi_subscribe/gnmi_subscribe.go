@@ -43,16 +43,16 @@ const (
 )
 
 var (
-	subscribeClient      pb.GNMI_SubscribeClient
-	xPathFlags           arrayFlags
-	pbPathFlags          arrayFlags
-	targetAddr           = flag.String("target_addr", ":9339", "The target address in the format of host:port")
-	targetName           = flag.String("target_name", "", "The target name used to verify the hostname returned by TLS handshake")
-	connectionTimeout    = flag.Duration("timeout", defaultTimeout, "The timeout for a request, 10 seconds by default")
-	subscriptionListMode = flag.String("subscriptionlist_mode", "STREAM", "The type of subscription the target should use, STREAM by default")
-	subscriptionMode     = flag.String("subscription_mode", "TARGET_DEFINED", "The subscription mode the target should use, TARGET_DEFINED by default")
-	encodingFormat       = flag.String("encoding", "JSON_IETF", "The encoding format used by the target for notifications")
-	allowAggregation     = flag.Bool("allow_aggregation", false, "If true, the elements which are marked eligible are aggregated")
+	subscribeClient    pb.GNMI_SubscribeClient
+	xPathFlags         arrayFlags
+	pbPathFlags        arrayFlags
+	targetAddr         = flag.String("target_addr", ":9339", "The target address in the format of host:port")
+	targetName         = flag.String("target_name", "", "The target name used to verify the hostname returned by TLS handshake")
+	connectionTimeout  = flag.Duration("timeout", defaultTimeout, "The timeout for a request, 10 seconds by default")
+	valueStreamingMode = flag.String("value_mode", "STREAM", "The mode of streaming values the target should use use, STREAM by default")
+	subscriptionMode   = flag.String("subscription_mode", "TARGET_DEFINED", "The subscription mode the target should use, TARGET_DEFINED by default")
+	encodingFormat     = flag.String("encoding", "JSON_IETF", "The encoding format used by the target for notifications")
+	allowAggregation   = flag.Bool("allow_aggregation", false, "If true, the elements which are marked eligible are aggregated")
 )
 
 func main() {
@@ -86,7 +86,7 @@ func main() {
 		log.Exitf("Supported encodings: %s", strings.Join(encodingList, ", "))
 	}
 
-	subscriptionListModeValue, ok := pb.SubscriptionList_Mode_value[*subscriptionListMode]
+	subscriptionListModeValue, ok := pb.SubscriptionList_Mode_value[*valueStreamingMode]
 	if !ok {
 		var subscriptionListModes []string
 		for _, name := range pb.SubscriptionList_Mode_name {
@@ -129,7 +129,7 @@ func main() {
 	if err := subscribeClient.Send(request); err != nil {
 		log.Exitf("Failed to send request: %v", err)
 	}
-	switch *subscriptionListMode {
+	switch *valueStreamingMode {
 	case "STREAM":
 		stream()
 	case "POLL":
