@@ -24,7 +24,7 @@ import (
 )
 
 const (
-	targetChunkSize = 10000000 // 10MB
+	targetChunkSize = 12000000 // 12MB
 )
 
 // Server is an OS Management service.

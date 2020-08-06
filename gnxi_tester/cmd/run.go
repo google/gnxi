@@ -67,6 +67,7 @@ func handleRun(cmd *cobra.Command, args []string) {
 func parseFiles() map[string]string {
 	out := map[string]string{}
 	for _, file := range strings.Split(files, " ") {
+		file = strings.ReplaceAll(file, "\"", "")
 		if len(file) > 1 {
 			vals := strings.SplitN(file, ":", 2)
 			if len(vals) > 1 {

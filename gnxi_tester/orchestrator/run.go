@@ -87,12 +87,12 @@ func runTest(name string, prompt callbackFunc, tests []config.Test) (string, err
 		for _, p := range test.Prompt {
 			input[p] = prompt(p)
 		}
-		test.DoesntWant = insertVars(test.DoesntWant, []string{})
-		test.Wants = insertVars(test.Wants, []string{})
+		test.DoesntWant = insertVars(test.DoesntWant, &[]string{})
+		test.Wants = insertVars(test.Wants, &[]string{})
 		binArgs := defaultArgs
 		insertFiles := []string{}
 		for arg, val := range test.Args {
-			binArgs = fmt.Sprintf("-%s %s %s", arg, insertVars(val, insertFiles), binArgs)
+			binArgs = fmt.Sprintf("-%s %s %s", arg, insertVars(val, &insertFiles), binArgs)
 		}
 		out, code, err := RunContainer(name, binArgs, &target, insertFiles)
 		if exp := expects(out, &test); (code == 0) == test.MustFail || err != nil || exp != nil {
@@ -133,13 +133,13 @@ func formatErr(major, minor, out string, custom error, code int, fail bool, err 
 	)
 }
 
-func insertVars(in string, insertFiles []string) string {
+func insertVars(in string, insertFiles *[]string) string {
 	matches := delimRe.FindAllString(in, -1)
 	for _, match := range matches {
 		name := match[2 : len(match)-1]
 		if f, ok := files[name]; ok {
 			in = strings.Replace(in, match, path.Join("/tmp", path.Base(f)), 1)
-			insertFiles = append(insertFiles, f)
+			*insertFiles = append(*insertFiles, f)
 		} else {
 			in = strings.Replace(in, match, input[name], 1)
 		}
