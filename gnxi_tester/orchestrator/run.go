@@ -104,13 +104,13 @@ func expects(out string, test *config.Test) error {
 	if len(test.Wants) > 0 {
 		wantsRe := regexp.MustCompile(test.Wants)
 		if i := wantsRe.FindStringIndex(out); i == nil {
-			return fmt.Errorf("Wanted %s in output", test.Wants)
+			return fmt.Errorf("Wanted '%s' in output", test.Wants)
 		}
 	}
 	if len(test.DoesntWant) > 0 {
 		doesntRe := regexp.MustCompile(test.DoesntWant)
 		if i := doesntRe.FindStringIndex(out); i != nil {
-			return fmt.Errorf("Didn't want %s in output", test.DoesntWant)
+			return fmt.Errorf("Didn't want '%s' in output", test.DoesntWant)
 		}
 	}
 	return nil
