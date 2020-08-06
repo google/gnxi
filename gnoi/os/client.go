@@ -50,7 +50,7 @@ type Client struct {
 	client pb.OSClient
 }
 
-const chunkSize = 5000000
+const chunkSize = 4000000 // 4MB
 
 // NewClient returns a new OS service client.
 func NewClient(c *grpc.ClientConn) *Client {
