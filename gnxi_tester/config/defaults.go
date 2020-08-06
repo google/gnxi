@@ -75,9 +75,10 @@ func generateTestCases() (Tests, []string) {
 			DoesntWant: "Failed",
 		},
 		{
-			Name:  "Rotate Certificate",
-			Args:  map[string]string{"op": "rotate", "cert_id": "&<cert_id>"},
-			Wants: "Rotate success",
+			Name:   "Rotate Certificate",
+			Args:   map[string]string{"op": "rotate", "cert_id": "&<cert_id>"},
+			Wants:  "Rotate success",
+			Prompt: []string{"cert_id"},
 		},
 		{
 			Name:     "Rotate Non-Existent Certificate",
