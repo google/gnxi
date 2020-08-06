@@ -211,12 +211,13 @@ func TestRunContainer(t *testing.T) {
 		name,
 		containerName,
 		args string
-		counter    clientCounter
-		containers []types.Container
-		err        error
-		out        string
-		code       int
-		reader     *bufio.Reader
+		counter     clientCounter
+		containers  []types.Container
+		err         error
+		out         string
+		code        int
+		reader      *bufio.Reader
+		insertFiles []string
 	}{
 		{
 			"couldn't find container",
@@ -230,6 +231,7 @@ func TestRunContainer(t *testing.T) {
 			"",
 			0,
 			&bufio.Reader{},
+			[]string{},
 		},
 		{
 			"run successfully",
@@ -240,7 +242,7 @@ func TestRunContainer(t *testing.T) {
 				CountContainerExecAttach:  1,
 				CountContainerExecCreate:  1,
 				CountContainerExecInspect: 1,
-				CountCopyToContainer:      2,
+				CountCopyToContainer:      3,
 			},
 			[]types.Container{
 				{Names: []string{"/name"}},
@@ -249,6 +251,7 @@ func TestRunContainer(t *testing.T) {
 			"out",
 			0,
 			bufio.NewReader(bytes.NewBuffer([]byte{2, 0, 0, 0, 0, 0, 0, 3, 'o', 'u', 't'})),
+			[]string{"ff"},
 		},
 	}
 	for _, test := range tests {
@@ -258,7 +261,7 @@ func TestRunContainer(t *testing.T) {
 			}
 			client := &mockClient{containers: test.containers, code: test.code, reader: test.reader}
 			dockerClient = client
-			out, code, err := RunContainer(test.containerName, test.args, &config.Device{})
+			out, code, err := RunContainer(test.containerName, test.args, &config.Device{}, test.insertFiles)
 			if fmt.Sprintf("%v", test.err) != fmt.Sprintf("%v", err) {
 				t.Errorf("wanted error(%v), got(%v)", test.err, err)
 			}

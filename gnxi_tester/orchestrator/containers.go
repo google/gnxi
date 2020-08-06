@@ -204,7 +204,7 @@ imageCheck:
 }
 
 // RunContainer runs an executable in a docker container.
-var RunContainer = func(name, args string, device *config.Device) (out string, code int, err error) {
+var RunContainer = func(name, args string, device *config.Device, insertFiles []string) (out string, code int, err error) {
 	var cont *types.Container
 	if cont, err = getContainer(name); err != nil {
 		return
@@ -225,6 +225,16 @@ var RunContainer = func(name, args string, device *config.Device) (out string, c
 		return
 	}
 	defer key.Close()
+	for _, f := range insertFiles {
+		var insert io.ReadCloser
+		if insert, err = tarFile(path.Base(f), f); err != nil {
+			return
+		}
+		if err = dockerClient.CopyToContainer(context.Background(), cont.ID, "/tmp", insert, types.CopyToContainerOptions{}); err != nil {
+			return
+		}
+		defer insert.Close()
+	}
 	command := make([]string, len(args)+1)
 	command[0] = name
 	if len(args) > 0 {

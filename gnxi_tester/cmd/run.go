@@ -19,6 +19,8 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"path/filepath"
+	"strings"
 
 	log "github.com/golang/glog"
 	"github.com/google/gnxi/gnxi_tester/config"
@@ -27,11 +29,12 @@ import (
 )
 
 var (
-	targetName    string
-	targetAddress string
-	ca            string
-	caKey         string
-	runCmd        = &cobra.Command{
+	targetName,
+	targetAddress,
+	ca,
+	caKey,
+	files string
+	runCmd = &cobra.Command{
 		Use:     "run",
 		Short:   "Run set of tests.",
 		Long:    "Run a set of tests from the config file",
@@ -45,7 +48,8 @@ func init() {
 	runCmd.Flags().StringVarP(&targetName, "target_name", "n", "", "The name of the target to be tested")
 	runCmd.Flags().StringVarP(&targetAddress, "target_address", "a", "", "The address of the target to be tested")
 	runCmd.Flags().StringVarP(&ca, "ca", "c", "", "The ca ")
-	runCmd.Flags().StringVarP(&caKey, "ca_key", "k", "", "The name of the target to be tested")
+	runCmd.Flags().StringVarP(&caKey, "ca_key", "k", "", "The key for the ca file")
+	runCmd.Flags().StringVarP(&files, "files", "f", "", "Extra files used for tests. Example: -f \"os:/path/to/os file:/path/to/other/file\"")
 }
 
 // handleRun will run some or all of the tests.
@@ -53,11 +57,28 @@ func handleRun(cmd *cobra.Command, args []string) {
 	if err := config.SetTarget(targetName, targetAddress, ca, caKey); err != nil {
 		log.Exitf("Error writing config: %v", err)
 	}
-	if success, err := orchestrator.RunTests(args, promptUser); err != nil {
+	if success, err := orchestrator.RunTests(args, promptUser, parseFiles()); err != nil {
 		log.Exitf("Error running tests: %v", err)
 	} else {
 		log.Infof("Tests ran successfully: %s", success)
 	}
+}
+
+func parseFiles() map[string]string {
+	out := map[string]string{}
+	for _, file := range strings.Split(files, " ") {
+		if len(file) > 1 {
+			vals := strings.SplitN(file, ":", 2)
+			if len(vals) > 1 {
+				p, err := filepath.Abs(vals[1])
+				if err != nil {
+					log.Errorf("Filepath %s invalid", file)
+				}
+				out[vals[0]] = p
+			}
+		}
+	}
+	return out
 }
 
 func promptUser(name string) string {

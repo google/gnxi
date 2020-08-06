@@ -17,6 +17,7 @@ package orchestrator
 
 import (
 	"fmt"
+	"path"
 	"regexp"
 	"strings"
 
@@ -36,10 +37,12 @@ var (
 	configTests map[string][]config.Test
 	input       = map[string]string{}
 	delimRe     = regexp.MustCompile(fmt.Sprintf("%s.*%s", openDelim, closeDelim))
+	files       map[string]string
 )
 
 // RunTests will take in test name and run each test or all tests.
-func RunTests(tests []string, prompt callbackFunc) (success []string, err error) {
+func RunTests(tests []string, prompt callbackFunc, userFiles map[string]string) (success []string, err error) {
+	files = userFiles
 	defaultOrder := viper.GetStringSlice("order")
 	if err = InitContainers(defaultOrder); err != nil {
 		return
@@ -84,13 +87,14 @@ func runTest(name string, prompt callbackFunc, tests []config.Test) (string, err
 		for _, p := range test.Prompt {
 			input[p] = prompt(p)
 		}
-		test.DoesntWant = insertVars(test.DoesntWant)
-		test.Wants = insertVars(test.Wants)
+		test.DoesntWant = insertVars(test.DoesntWant, []string{})
+		test.Wants = insertVars(test.Wants, []string{})
 		binArgs := defaultArgs
+		insertFiles := []string{}
 		for arg, val := range test.Args {
-			binArgs = fmt.Sprintf("-%s %s %s", arg, insertVars(val), binArgs)
+			binArgs = fmt.Sprintf("-%s %s %s", arg, insertVars(val, insertFiles), binArgs)
 		}
-		out, code, err := RunContainer(name, binArgs, &target)
+		out, code, err := RunContainer(name, binArgs, &target, insertFiles)
 		if exp := expects(out, &test); (code == 0) == test.MustFail || err != nil || exp != nil {
 			return "", formatErr(name, test.Name, out, exp, code, test.MustFail, err)
 		}
@@ -129,10 +133,16 @@ func formatErr(major, minor, out string, custom error, code int, fail bool, err 
 	)
 }
 
-func insertVars(in string) string {
+func insertVars(in string, insertFiles []string) string {
 	matches := delimRe.FindAllString(in, -1)
 	for _, match := range matches {
-		in = strings.Replace(in, match, input[match[2:len(match)-1]], 1)
+		name := match[2 : len(match)-1]
+		if f, ok := files[name]; ok {
+			in = strings.Replace(in, match, path.Join("/tmp", path.Base(f)), 1)
+			insertFiles = append(insertFiles, f)
+		} else {
+			in = strings.Replace(in, match, input[name], 1)
+		}
 	}
 	return in
 }
