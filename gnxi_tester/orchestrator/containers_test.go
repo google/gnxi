@@ -148,7 +148,7 @@ func TestInitContainer(t *testing.T) {
 				{RepoTags: []string{"runtime"}},
 			},
 			[]types.Container{{Names: []string{"/name"}, State: "running"}},
-			clientCounter{CountImageList: 2, CountContainerList: 1,},
+			clientCounter{CountImageList: 2, CountContainerList: 1},
 		},
 		{
 			"container not running",
@@ -248,7 +248,7 @@ func TestRunContainer(t *testing.T) {
 			nil,
 			"out",
 			0,
-			bufio.NewReader(bytes.NewBuffer([]byte{1, 0, 0, 0, 0, 0, 0, 3, 'o', 'u', 't'})),
+			bufio.NewReader(bytes.NewBuffer([]byte{2, 0, 0, 0, 0, 0, 0, 3, 'o', 'u', 't'})),
 		},
 	}
 	for _, test := range tests {

@@ -105,7 +105,7 @@ func TestRunTests(t *testing.T) {
 			[]string{"test"},
 			func(name string) string { return name },
 			nil,
-			formatErr("test", "test", errors.New("Wanted no in output"), 0, false, nil),
+			formatErr("test", "test", "test", errors.New("Wanted no in output"), 0, false, nil),
 			func(name, args string, device *config.Device) (out string, code int, err error) {
 				out = name
 				return
@@ -129,13 +129,14 @@ func TestRunTests(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
+			InitContainers = func(names []string) error { return nil }
 			viper.Set("targets.devices", map[string]config.Device{"test": {Address: "test", Ca: "/certs/ca.crt", CaKey: "/certs/ca.key"}})
 			viper.Set("targets.last_target", "test")
 			viper.Set("tests", test.tests)
 			viper.Set("order", test.order)
 			RunContainer = test.runContainer
 			succ, err := RunTests(test.testNames, test.prompt)
-			if diff := cmp.Diff(succ, test.wantSucc); diff != "" {
+			if diff := cmp.Diff(test.wantSucc, succ); diff != "" {
 				t.Errorf("(-want +got): %s", diff)
 			} else if (test.wantErr == nil) != (err == nil) {
 				t.Errorf("invalid error: want: %v, got: %v", test.wantErr, err)

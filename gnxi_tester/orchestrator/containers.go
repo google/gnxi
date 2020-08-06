@@ -66,7 +66,7 @@ var newClient = func() {
 }
 
 // InitContainers will check if the containers are running and run them if not.
-func InitContainers(names []string) error {
+var InitContainers = func(names []string) error {
 	newClient()
 	build := viper.GetString("docker.build")
 	if err := pullImage(build); err != nil {
@@ -270,10 +270,7 @@ var RunContainer = func(name, args string, device *config.Device) (out string, c
 		return
 	}
 	code = inspect.ExitCode
-	out = outBuf.String()
-	if errString := errBuf.String(); errString != "" {
-		err = errors.New(errString)
-	}
+	out = errBuf.String()
 	return
 }
 

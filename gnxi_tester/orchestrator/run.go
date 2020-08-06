@@ -16,7 +16,6 @@ limitations under the License.
 package orchestrator
 
 import (
-	"errors"
 	"fmt"
 	"regexp"
 	"strings"
@@ -91,43 +90,42 @@ func runTest(name string, prompt callbackFunc, tests []config.Test) (string, err
 		for arg, val := range test.Args {
 			binArgs = fmt.Sprintf("-%s %s %s", arg, insertVars(val), binArgs)
 		}
-		_, code, err := RunContainer(name, binArgs, &target)
-		if exp := expects(err, &test); (code == 0) == test.MustFail || exp != nil {
-			return "", formatErr(name, test.Name, exp, code, test.MustFail, err)
+		out, code, err := RunContainer(name, binArgs, &target)
+		if exp := expects(out, &test); (code == 0) == test.MustFail || err != nil || exp != nil {
+			return "", formatErr(name, test.Name, out, exp, code, test.MustFail, err)
 		}
-		stdout = fmt.Sprintf("%s\n%s:\n%v\n", stdout, test.Name, err)
+		stdout = fmt.Sprintf("%s\n%s:\n%s\n", stdout, test.Name, out)
+		log.Infof("Successfully run test %s:%s", name, test.Name)
 	}
 	return stdout, nil
 }
 
-func expects(out error, test *config.Test) error {
-	if out == nil {
-		return errors.New("No output in stderr")
-	}
+func expects(out string, test *config.Test) error {
 	if len(test.Wants) > 0 {
 		wantsRe := regexp.MustCompile(test.Wants)
-		if i := wantsRe.FindStringIndex(out.Error()); i == nil {
+		if i := wantsRe.FindStringIndex(out); i == nil {
 			return fmt.Errorf("Wanted %s in output", test.Wants)
 		}
 	}
 	if len(test.DoesntWant) > 0 {
 		doesntRe := regexp.MustCompile(test.DoesntWant)
-		if i := doesntRe.FindStringIndex(out.Error()); i != nil {
+		if i := doesntRe.FindStringIndex(out); i != nil {
 			return fmt.Errorf("Didn't want %s in output", test.DoesntWant)
 		}
 	}
 	return nil
 }
 
-func formatErr(major, minor string, custom error, code int, fail bool, err error) error {
+func formatErr(major, minor, out string, custom error, code int, fail bool, err error) error {
 	return fmt.Errorf(
-		"Error occured in test %s-<%s>: \nwantedErr(%v)\nexitCode(%d)\nmustFail(%v)\nstderr:\n# %v)",
+		"Error occured in test %s-<%s>: \nwantedErr(%v)\nexitCode(%d)\nmustFail(%v)\ndaemonErr(%v)\noutput:\n# %s)",
 		major,
 		minor,
 		custom,
 		code,
 		fail,
 		err,
+		out,
 	)
 }
 
