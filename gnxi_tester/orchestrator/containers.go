@@ -281,7 +281,7 @@ func getContainer(name string) (*types.Container, error) {
 	}
 	for _, c := range containers {
 		for _, containerName := range c.Names {
-			if containerName == "/"+name {
+			if containerName == "/"+ name {
 				return &c, nil
 			}
 		}
