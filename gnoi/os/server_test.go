@@ -64,7 +64,7 @@ func (m mockTransferStream) Recv() (*pb.InstallRequest, error) {
 			if m.os.MockOS.Padding != nil {
 				out, _ = proto.Marshal(&m.os.MockOS)
 			} else {
-				out = make([]byte, targetChunkSize)
+				out = make([]byte, receiveChunkSizeAck)
 				rand.Read(out)
 			}
 			return &pb.InstallRequest{Request: &pb.InstallRequest_TransferContent{TransferContent: out}}, nil
@@ -210,7 +210,7 @@ func TestTargetActivateAndVerify(t *testing.T) {
 }
 
 func TestTargetReceiveOS(t *testing.T) {
-	buf := make([]byte, targetChunkSize)
+	buf := make([]byte, receiveChunkSizeAck)
 	rand.Read(buf)
 	oS := &mockos.OS{MockOS: mockosPb.MockOS{
 		Version: "1.0.2a",
@@ -253,7 +253,7 @@ func TestTargetReceiveOS(t *testing.T) {
 }
 
 func TestTargetInstall(t *testing.T) {
-	buf := make([]byte, targetChunkSize)
+	buf := make([]byte, receiveChunkSizeAck)
 	rand.Read(buf)
 	oS := &mockos.OS{MockOS: mockosPb.MockOS{
 		Version: "1.0.2a",
@@ -390,7 +390,7 @@ func TestTargetInstall(t *testing.T) {
 // TestMultipleInstalls tests for mutual exclusion in the install service.
 func TestMultipleInstalls(t *testing.T) {
 	t.Run("testing mutual exclusion in install service", func(t *testing.T) {
-		buf := make([]byte, targetChunkSize)
+		buf := make([]byte, receiveChunkSizeAck)
 		rand.Read(buf)
 		oS := &mockos.OS{MockOS: mockosPb.MockOS{
 			Version: "1.0.2a",

@@ -27,12 +27,13 @@ import (
 )
 
 var (
-	targetAddr = flag.String("target_addr", ":9339", "The target address in the format of host:port")
-	targetName = flag.String("target_name", "", "The target name used to verify the hostname returned by TLS handshake")
-	version    = flag.String("version", "", "Version of the OS required when using the activate operation or being installed using the install operation")
-	osFile     = flag.String("os", "", "Path to the OS image for the install operation")
-	op         = flag.String("op", "", "OS service operation. Can be one of: install, activate, verify")
-	timeOut    = flag.Duration("time_out", 5*time.Second, "Timeout for the operation, 5 seconds by default")
+	targetAddr    = flag.String("target_addr", ":9339", "The target address in the format of host:port")
+	targetName    = flag.String("target_name", "", "The target name used to verify the hostname returned by TLS handshake")
+	version       = flag.String("version", "", "Version of the OS required when using the activate operation or being installed using the install operation")
+	osFile        = flag.String("os", "", "Path to the OS image for the install operation")
+	op            = flag.String("op", "", "OS service operation. Can be one of: install, activate, verify")
+	timeOut       = flag.Duration("time_out", 5*time.Second, "Timeout for the operation, 5 seconds by default")
+	readChunkSize = flag.Uint64("chunk_size", 4000000, "The chunk size of the image to send in bytes. Example: -chunk_size 4000000")
 
 	client *gnoiOS.Client
 	ctx    context.Context
@@ -78,7 +79,7 @@ func install() {
 	if *version == "" {
 		log.Exit("No version provided. Provide one with -version")
 	}
-	if err := client.Install(ctx, *osFile, *version, *timeOut); err != nil {
+	if err := client.Install(ctx, *osFile, *version, *timeOut, *readChunkSize); err != nil {
 		log.Exit("Failed Install: ", err)
 	}
 }
