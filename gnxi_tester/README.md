@@ -13,7 +13,7 @@ go install github.com/google/gnxi/gnxi_tester
 
 ### Running
 
-Tests are provided in `~/.gnxi.yml`. By default, the following services will be run: 
+Tests are provided in `~/.gnxi.yml`. By default, the following processes & clients will be run: 
 - `provision`
 - `gnoi_os`
 - `gnoi_cert`
