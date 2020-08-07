@@ -55,7 +55,7 @@ func generateTestCases() (Tests, []string) {
 			Name:  "Get certs",
 			Args:  map[string]string{"op": "get"},
 			Wait:  10,
-			Wants: `GetCertificates:\n{.*}$`,
+			Wants: `GetCertificates:\n{\w*`,
 		},
 		{
 			Name:   "Install a cert",
@@ -71,13 +71,14 @@ func generateTestCases() (Tests, []string) {
 		{
 			Name:       "Revoke a cert",
 			Args:       map[string]string{"op": "revoke", "cert_id": "&<new_cert_id>"},
-			Wants:      `RevokeCertificates:\n{.*}`,
+			Wants:      `RevokeCertificates:\n{\w*`,
 			DoesntWant: "Failed",
 		},
 		{
-			Name:  "Rotate Certificate",
-			Args:  map[string]string{"op": "rotate", "cert_id": "&<cert_id>"},
-			Wants: "Rotate success",
+			Name:   "Rotate Certificate",
+			Args:   map[string]string{"op": "rotate", "cert_id": "&<cert_id>"},
+			Wants:  "Rotate success",
+			Prompt: []string{"cert_id"},
 		},
 		{
 			Name:     "Rotate Non-Existent Certificate",
@@ -91,7 +92,7 @@ func generateTestCases() (Tests, []string) {
 		{
 			Name:  "Resetting a Target Successfully",
 			Args:  map[string]string{},
-			Wants: `^$`,
+			Wants: `Reset Called Successfully!`,
 		},
 	}
 	osTests := []Test{
