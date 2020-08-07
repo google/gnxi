@@ -162,7 +162,6 @@ func once() {
 func assembleSubscriptions(paths []*pb.Path) ([]*pb.Subscription, error) {
 	var subscriptions []*pb.Subscription
 	var subscriptionMode gnmi.SubscriptionMode
-	var heartbeat uint64
 	switch {
 	case *streamOnChange && *sampleInterval != 0:
 		return nil, errors.New("Only one of -stream_on_change and -sample_interval can be set")
@@ -170,11 +169,6 @@ func assembleSubscriptions(paths []*pb.Path) ([]*pb.Subscription, error) {
 		subscriptionMode = pb.SubscriptionMode_ON_CHANGE
 	case *sampleInterval != 0:
 		subscriptionMode = pb.SubscriptionMode_SAMPLE
-		if *heartbeatInterval == 0 {
-			heartbeat = *sampleInterval * 10
-		} else {
-			heartbeat = *heartbeatInterval
-		}
 	default:
 		subscriptionMode = pb.SubscriptionMode_TARGET_DEFINED
 	}
@@ -184,7 +178,7 @@ func assembleSubscriptions(paths []*pb.Path) ([]*pb.Subscription, error) {
 			Mode:              subscriptionMode,
 			SampleInterval:    *sampleInterval,
 			SuppressRedundant: *suppressRedundant,
-			HeartbeatInterval: heartbeat,
+			HeartbeatInterval: *heartbeatInterval,
 		}
 		subscriptions = append(subscriptions, subscription)
 	}
