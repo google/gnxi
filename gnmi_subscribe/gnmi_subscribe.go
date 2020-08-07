@@ -56,7 +56,7 @@ var (
 	streamOnChange    = flag.Bool("stream_on_change", false, "If true, the target sends updates on change")
 	sampleInterval    = flag.Uint64("sample_interval", 0, "If defined, the target sends sample values according to this interval in nano seconds")
 	encodingFormat    = flag.String("encoding", "JSON_IETF", "The encoding format used by the target for notifications")
-	suppressRedundant = flag.Bool("suppresss_redundant", false, "If true, in SAMPLE mode, unchanged values are not sent by the target")
+	suppressRedundant = flag.Bool("suppress_redundant", false, "If true, in SAMPLE mode, unchanged values are not sent by the target")
 	heartbeatInterval = flag.Uint64("heartbeat_interval", 0, "Specifies maximum allowed period of silence in seconds when surpress redundant is used")
 )
 
