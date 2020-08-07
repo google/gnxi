@@ -30,6 +30,8 @@ import (
 	"google.golang.org/grpc"
 )
 
+const readChunkSize = 4000000
+
 type activateRPC func(ctx context.Context, in *pb.ActivateRequest, opts ...grpc.CallOption) (*pb.ActivateResponse, error)
 type verifyRPC func(ctx context.Context, in *pb.VerifyRequest, opts ...grpc.CallOption) (*pb.VerifyResponse, error)
 

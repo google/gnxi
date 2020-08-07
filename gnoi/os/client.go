@@ -50,7 +50,6 @@ type Client struct {
 	client pb.OSClient
 }
 
-var readChunkSize uint64 = 4000000
 
 // NewClient returns a new OS service client.
 func NewClient(c *grpc.ClientConn) *Client {
@@ -59,7 +58,6 @@ func NewClient(c *grpc.ClientConn) *Client {
 
 // Install invokes the Install RPC for the OS service.
 func (c *Client) Install(ctx context.Context, imgPath, version string, validateTimeout time.Duration, chunkSize uint64) error {
-	readChunkSize = chunkSize
 	file, fileSize, fileClose, err := fileReader(imgPath)
 	if err != nil {
 		return err
@@ -147,8 +145,8 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, validateT
 	// image each time.
 	go func() {
 		var readSize int
-		b := make([]byte, readChunkSize)
-		for n := int64(0); n < int64(fileSize)+int64(readChunkSize); n += int64(readChunkSize) {
+		b := make([]byte, chunkSize)
+		for n := int64(0); n < int64(fileSize)+int64(chunkSize); n += int64(chunkSize) {
 			if readSize, err = file.ReadAt(b, n); err != nil && err != io.EOF {
 				errs <- err
 				return
