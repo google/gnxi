@@ -1,0 +1,21 @@
+version: "3.4"
+
+services:
+  web_ui:
+    build: 
+      context: ./web_ui
+      target: dev
+    command: npm start
+    ports: 
+      - 8080:80
+    environment: 
+      - BACKEND_HOST=localhost:8888
+    container_name: gnxi_web_ui_dev
+  backend:
+    build: 
+      context: .
+      target: dev
+    command: modd 
+    ports:
+      - 8888:80
+    container_name: gnxi_backend_dev
