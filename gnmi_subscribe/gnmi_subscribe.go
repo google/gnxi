@@ -14,6 +14,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"flag"
 	"strings"
 	"time"
@@ -23,6 +24,7 @@ import (
 	"github.com/google/gnxi/utils"
 	"github.com/google/gnxi/utils/credentials"
 	"github.com/google/gnxi/utils/xpath"
+	"github.com/openconfig/gnmi/proto/gnmi"
 	pb "github.com/openconfig/gnmi/proto/gnmi"
 	"google.golang.org/grpc"
 )
@@ -43,16 +45,19 @@ const (
 )
 
 var (
-	subscribeClient    pb.GNMI_SubscribeClient
-	xPathFlags         arrayFlags
-	pbPathFlags        arrayFlags
-	targetAddr         = flag.String("target_addr", ":9339", "The target address in the format of host:port")
-	targetName         = flag.String("target_name", "", "The target name used to verify the hostname returned by TLS handshake")
-	connectionTimeout  = flag.Duration("timeout", defaultTimeout, "The timeout for a request, 10 seconds by default")
-	valueStreamingMode = flag.String("value_mode", "STREAM", "The mode of streaming values the target should use use, STREAM by default")
-	subscriptionMode   = flag.String("subscription_mode", "TARGET_DEFINED", "The subscription mode the target should use, TARGET_DEFINED by default")
-	encodingFormat     = flag.String("encoding", "JSON_IETF", "The encoding format used by the target for notifications")
-	allowAggregation   = flag.Bool("allow_aggregation", false, "If true, the elements which are marked eligible are aggregated")
+	subscribeClient   pb.GNMI_SubscribeClient
+	xPathFlags        arrayFlags
+	pbPathFlags       arrayFlags
+	targetAddr        = flag.String("target_addr", ":9339", "The target address in the format of host:port")
+	targetName        = flag.String("target_name", "", "The target name used to verify the hostname returned by TLS handshake")
+	connectionTimeout = flag.Duration("timeout", defaultTimeout, "The timeout for a request, 10 seconds by default")
+	subscriptionOnce  = flag.Bool("once", false, "If true, the target sends values once off")
+	subscriptionPoll  = flag.Bool("poll", false, "If true, the target sends values on request")
+	streamOnChange    = flag.Bool("stream_on_change", false, "If true, the target sends updates on change")
+	sampleInterval    = flag.Uint64("sample_interval", 0, "If defined, the target sends sample values according to this interval")
+	encodingFormat    = flag.String("encoding", "JSON_IETF", "The encoding format used by the target for notifications")
+	suppressRedundant = flag.Bool("suppresss_redundant", false, "If true, unchanged values are not sent by the target")
+	heartbeatInterval = flag.Uint64("heartbeat_interval", 0, "Specifies maximum allowed period of silence in seconds when surpress redundant is used")
 )
 
 func main() {
@@ -86,13 +91,17 @@ func main() {
 		log.Exitf("Supported encodings: %s", strings.Join(encodingList, ", "))
 	}
 
-	subscriptionListModeValue, ok := pb.SubscriptionList_Mode_value[*valueStreamingMode]
-	if !ok {
-		var subscriptionListModes []string
-		for _, name := range pb.SubscriptionList_Mode_name {
-			subscriptionListModes = append(subscriptionListModes, name)
-		}
-		log.Exitf("Supported subscription_types: %s", strings.Join(subscriptionListModes, ", "))
+	var subscriptionListMode gnmi.SubscriptionList_Mode
+	switch {
+	case *subscriptionPoll && *subscriptionOnce:
+		flag.Usage()
+		log.Exitf("Only one of -once and -poll can be set")
+	case *subscriptionOnce:
+		subscriptionListMode = pb.SubscriptionList_ONCE
+	case *subscriptionPoll:
+		subscriptionListMode = pb.SubscriptionList_POLL
+	default:
+		subscriptionListMode = pb.SubscriptionList_STREAM
 	}
 
 	var pbPathList []*pb.Path
@@ -110,18 +119,17 @@ func main() {
 		}
 		pbPathList = append(pbPathList, &pbPath)
 	}
-	subscriptions := assembleSubscriptions(pbPathList)
-	if subscriptions == nil {
-		log.Exitf("No paths specified!")
+	subscriptions, err := assembleSubscriptions(pbPathList)
+	if err != nil {
+		log.Exitf("Error assembling subscriptions: %v", err)
 	}
 
 	request := &pb.SubscribeRequest{
 		Request: &pb.SubscribeRequest_Subscribe{
 			Subscribe: &pb.SubscriptionList{
-				AllowAggregation: *allowAggregation,
-				Encoding:         pb.Encoding(encoding),
-				Mode:             pb.SubscriptionList_Mode(subscriptionListModeValue),
-				Subscription:     subscriptions,
+				Encoding:     pb.Encoding(encoding),
+				Mode:         subscriptionListMode,
+				Subscription: subscriptions,
 			},
 		},
 	}
@@ -129,12 +137,12 @@ func main() {
 	if err := subscribeClient.Send(request); err != nil {
 		log.Exitf("Failed to send request: %v", err)
 	}
-	switch *valueStreamingMode {
-	case "STREAM":
+	switch subscriptionListMode {
+	case pb.SubscriptionList_STREAM:
 		stream()
-	case "POLL":
+	case pb.SubscriptionList_POLL:
 		poll()
-	case "ONCE":
+	case pb.SubscriptionList_ONCE:
 		once()
 	}
 }
@@ -151,22 +159,34 @@ func once() {
 
 }
 
-func assembleSubscriptions(paths []*pb.Path) []*pb.Subscription {
+func assembleSubscriptions(paths []*pb.Path) ([]*pb.Subscription, error) {
 	var subscriptions []*pb.Subscription
-	subscriptionModeValue, ok := pb.SubscriptionMode_value[*subscriptionMode]
-	if !ok {
-		var subscriptionModes []string
-		for _, name := range pb.SubscriptionMode_name {
-			subscriptionModes = append(subscriptionModes, name)
+	var subscriptionMode gnmi.SubscriptionMode
+	var heartbeat uint64
+	switch {
+	case *streamOnChange && *sampleInterval != 0:
+		return nil, errors.New("Only one of -stream_on_change and -sample_interval can be set")
+	case *streamOnChange:
+		subscriptionMode = pb.SubscriptionMode_ON_CHANGE
+	case *sampleInterval != 0:
+		subscriptionMode = pb.SubscriptionMode_SAMPLE
+		if *heartbeatInterval == 0 {
+			heartbeat = *sampleInterval * 10
+		} else {
+			heartbeat = *heartbeatInterval
 		}
-		log.Exitf("Supported subscription_types: %s", strings.Join(subscriptionModes, ", "))
+	default:
+		subscriptionMode = pb.SubscriptionMode_TARGET_DEFINED
 	}
 	for _, path := range paths {
 		subscription := &pb.Subscription{
-			Path: path,
-			Mode: pb.SubscriptionMode(subscriptionModeValue),
+			Path:              path,
+			Mode:              subscriptionMode,
+			SampleInterval:    *sampleInterval,
+			SuppressRedundant: *suppressRedundant,
+			HeartbeatInterval: heartbeat,
 		}
 		subscriptions = append(subscriptions, subscription)
 	}
-	return subscriptions
+	return subscriptions, nil
 }
