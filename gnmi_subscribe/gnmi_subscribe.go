@@ -143,9 +143,7 @@ func main() {
 	case pb.SubscriptionList_POLL:
 		poll()
 	case pb.SubscriptionList_ONCE:
-		if err := once(); err != nil {
-			log.Exitf("Error using ONCE mode: %v", err)
-		}
+		once()
 	}
 }
 
@@ -157,24 +155,8 @@ func poll() {
 
 }
 
-func once() error {
-	for {
-		res, err := subscribeClient.Recv()
-		if err != nil {
-			return err
-		}
-		switch res.Response.(type) {
-		case *pb.SubscribeResponse_SyncResponse:
-			if syncRes := res.GetSyncResponse(); syncRes {
-				log.Info("Received all updates")
-				return nil
-			}
-		case *pb.SubscribeResponse_Update:
-			utils.LogProto(res)
-		default:
-			return errors.New("Unexpected response type")
-		}
-	}
+func once() {
+	
 }
 
 func assembleSubscriptions(paths []*pb.Path) ([]*pb.Subscription, error) {
