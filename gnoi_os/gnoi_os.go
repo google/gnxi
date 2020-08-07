@@ -33,7 +33,7 @@ var (
 	osFile        = flag.String("os", "", "Path to the OS image for the install operation")
 	op            = flag.String("op", "", "OS service operation. Can be one of: install, activate, verify")
 	timeOut       = flag.Duration("time_out", 5*time.Second, "Timeout for the operation, 5 seconds by default")
-	readChunkSize = flag.Uint64("chunk_size", 4000000, "The chunk size of the image to send in bytes. Example: -chunk_size 4000000")
+	readChunkSize = flag.Uint64("chunk_size", 4000000, "How much of the image to laod a time, in bytes. Example: -chunk_size 4000000")
 
 	client *gnoiOS.Client
 	ctx    context.Context
