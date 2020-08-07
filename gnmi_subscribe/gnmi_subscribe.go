@@ -41,7 +41,7 @@ func (i *arrayFlags) Set(value string) error {
 }
 
 const (
-	defaultRequestTimeout = 10 // This represents a value of 10 seconds and is used as a default RPC request timeout value.
+	defaultRequestTimeout = 10 * time.Second// This represents a value of 10 seconds and is used as a default RPC request timeout value.
 )
 
 var (
@@ -50,7 +50,7 @@ var (
 	pbPathFlags       arrayFlags
 	targetAddr        = flag.String("target_addr", ":9339", "The target address in the format of host:port")
 	targetName        = flag.String("target_name", "", "The target name used to verify the hostname returned by TLS handshake")
-	connectionTimeout = flag.Duration("timeout", defaultRequestTimeout*time.Second, "The timeout for a request in seconds, 10 seconds by default")
+	connectionTimeout = flag.Int("timeout", defaultRequestTimeout, "The timeout for a request in seconds, 10 seconds by default, e.g 10s")
 	subscriptionOnce  = flag.Bool("once", false, "If true, the target sends values once off")
 	subscriptionPoll  = flag.Bool("poll", false, "If true, the target sends values on request")
 	streamOnChange    = flag.Bool("stream_on_change", false, "If true, the target sends updates on change")
