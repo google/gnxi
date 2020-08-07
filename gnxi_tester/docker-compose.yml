@@ -9,7 +9,9 @@ services:
       - BACKEND_HOST=localhost:8888
     container_name: gnxi_web_ui
   backend:
-    build: .
+    build: 
+      context: ..
+      dockerfile: gnxi_tester/Dockerfile
     ports:
       - 8888:80
     container_name: gnxi_backend
