@@ -18,27 +18,20 @@ package web
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 
-	log "github.com/golang/glog"
 	"github.com/google/gnxi/gnxi_tester/config"
 )
 
 // handleConfigSet will set the prompt config variables in persistent storage.
 func handlePromptsSet(w http.ResponseWriter, r *http.Request) {
 	prompts := &config.Prompts{}
-	b, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		log.Error(err)
+	if err := json.NewDecoder(r.Body).Decode(prompts); err != nil {
+		logErr(r.Context(), err)
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 	}
-	if err = json.Unmarshal(b, prompts); err != nil {
-		log.Error(err)
-		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
-	}
-	if err = prompts.Set(); err != nil {
-		log.Error(err)
+	if err := prompts.Set(); err != nil {
+		logErr(r.Context(), err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 	}
 	w.WriteHeader(http.StatusOK)
@@ -49,7 +42,7 @@ func handlePromptsSet(w http.ResponseWriter, r *http.Request) {
 func handlePromptsGet(w http.ResponseWriter, r *http.Request) {
 	prompts := config.GetPrompts()
 	if err := json.NewEncoder(w).Encode(prompts); err != nil {
-		log.Error(err)
+		logErr(r.Context(), err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 	}
 }

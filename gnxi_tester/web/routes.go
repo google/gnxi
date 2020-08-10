@@ -16,6 +16,7 @@ limitations under the License.
 package web
 
 import (
+	"context"
 	"net/http"
 
 	log "github.com/golang/glog"
@@ -26,10 +27,19 @@ import (
 func InitRouter(laddr string) {
 	r := mux.NewRouter()
 
-	r.HandleFunc("/prompts", handlePromptsSet).Methods("POST", "PUT")
 	r.HandleFunc("/prompts", handlePromptsGet).Methods("GET")
+	r.HandleFunc("/prompts", handlePromptsSet).Methods("POST", "PUT")
+	r.HandleFunc("/config", handleConfigGet).Methods("GET")
+	r.HandleFunc("/config", handleConfigSet).Methods("PUT")
+	r.HandleFunc("/upload", handleUpload).Methods("POST")
+	r.HandleFunc("/upload/{file}", handleDelete).Methods("DELETE")
+	r.HandleFunc("/run/{prompts}", handleRun).Methods("POST")
 
 	if err := http.ListenAndServe(laddr, r); err != nil {
 		log.Exit(err)
 	}
+}
+
+var logErr = func(ctx context.Context, err error) {
+	log.Errorf("error occured in view %v: %v", ctx, err)
 }

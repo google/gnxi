@@ -40,7 +40,7 @@ func setDefaults() {
 	viper.SetDefault("docker.runtime", "alpine:latest")
 	viper.SetDefault("docker.files", createDockerfiles(testCases))
 	viper.SetDefault("order", order)
-
+	viper.SetDefault("web.prompts", map[string]interface{}{})
 }
 
 func generateTestCases() (Tests, []string) {
