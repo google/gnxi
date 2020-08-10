@@ -30,7 +30,6 @@ type Prompts struct {
 func (p *Prompts) Set() error {
 	prompts := viper.GetStringMap("web.prompts")
 	prompts[p.Name] = *p
-	viper.AllKeys()
 	if err := viper.WriteConfig(); err != nil {
 		return err
 	}
