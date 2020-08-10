@@ -4,7 +4,7 @@ services:
   web_ui:
     build: ./web_ui
     ports: 
-      - 8080:80
+      - 8800:80
     environment: 
       - BACKEND_HOST=localhost:8888
     container_name: gnxi_web_ui

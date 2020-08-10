@@ -9,9 +9,11 @@ RUN GO111MODULE=on go get github.com/cortesi/modd/cmd/modd
 COPY go.mod .
 COPY go.sum .
 
-RUN go mod download
+RUN go mod download 
 
 COPY gnxi_tester gnxi_tester
+
+WORKDIR /workspace/gnxi_tester
 
 RUN GO111MODULE=on go install github.com/google/gnxi/gnxi_tester
 

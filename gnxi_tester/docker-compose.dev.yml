@@ -9,7 +9,7 @@ services:
     ports: 
       - 8800:80
     environment: 
-      - BACKEND_HOST=localhost:8888
+      - BACKEND_HOST=http://localhost:8888
     container_name: gnxi_web_ui_dev
   backend:
     build: 
