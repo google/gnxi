@@ -127,7 +127,7 @@ func generateTestCases() (Tests, []string) {
 			Name:     "Transfer Already Running OS",
 			Args:     map[string]string{"op": "install", "version": "&<os_version>", "os": "&<os_path>"},
 			MustFail: true,
-			Wants:    "Failed Install: InstallError occured: INSTALL_RUN_PACKAGE",
+			Wants:    "Failed Install: InstallError occurred: INSTALL_RUN_PACKAGE",
 		},
 		{
 			Name:     "Install another OS",
