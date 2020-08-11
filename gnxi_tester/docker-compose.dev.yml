@@ -6,11 +6,12 @@ services:
       context: ./web_ui
       target: dev
     command: npm start
-    ports: 
-      - 8800:80
     environment: 
       - BACKEND_HOST=http://localhost:8888
     container_name: gnxi_web_ui_dev
+    network_mode: host
+    volumes: 
+      - ./web_ui:/workspace
   backend:
     build: 
       context: ..
@@ -20,3 +21,5 @@ services:
     ports:
       - 8888:80
     container_name: gnxi_backend_dev
+    volumes: 
+      - .:/workspace
