@@ -16,6 +16,7 @@ import (
 	"context"
 	"errors"
 	"flag"
+	"fmt"
 	"strings"
 	"time"
 
@@ -41,7 +42,7 @@ func (i *arrayFlags) Set(value string) error {
 }
 
 const (
-	defaultRequestTimeout = 10 * time.Second// This represents a value of 10 seconds and is used as a default RPC request timeout value.
+	defaultRequestTimeout = 10 * time.Second // This represents a value of 10 seconds and is used as a default RPC request timeout value.
 )
 
 var (
@@ -58,6 +59,7 @@ var (
 	encodingFormat    = flag.String("encoding", "JSON_IETF", "The encoding format used by the target for notifications")
 	suppressRedundant = flag.Bool("suppress_redundant", false, "If true, in SAMPLE mode, unchanged values are not sent by the target")
 	heartbeatInterval = flag.Uint64("heartbeat_interval", 0, "Specifies maximum allowed period of silence in seconds when surpress redundant is used")
+	updatesOnly       = flag.Bool("updates_only", false, "If true, the target only transmits updates to the subscribed paths")
 )
 
 func main() {
@@ -130,6 +132,7 @@ func main() {
 				Encoding:     pb.Encoding(encoding),
 				Mode:         subscriptionListMode,
 				Subscription: subscriptions,
+				UpdatesOnly:  *updatesOnly,
 			},
 		},
 	}
@@ -139,24 +142,93 @@ func main() {
 	}
 	switch subscriptionListMode {
 	case pb.SubscriptionList_STREAM:
-		stream()
+		if err := stream(); err != nil {
+			log.Exitf("Error using STREAM mode: %v", err)
+		}
 	case pb.SubscriptionList_POLL:
-		poll()
+		if err := poll(); err != nil {
+			log.Exitf("Error using POLL mode: %v", err)
+		}
 	case pb.SubscriptionList_ONCE:
-		once()
+		if err := once(); err != nil {
+			log.Exitf("Error using ONCE mode: %v", err)
+		}
 	}
 }
 
-func stream() {
+func stream() error {
+	for {
+		res, err := subscribeClient.Recv()
+		if err != nil {
+			return err
+		}
+		switch res.Response.(type) {
+		case *pb.SubscribeResponse_SyncResponse:
+			log.Info("SyncResponse received")
+		case *pb.SubscribeResponse_Update:
+			utils.PrintProto(res)
+		default:
+			return errors.New("Unexpected response type")
+		}
+	}
+}
+
+func poll() error {
+	ready := make(chan bool, 1)
+	ready <- true
+	pollRequest := &pb.SubscribeRequest{Request: &pb.SubscribeRequest_Poll{}}
+	if *updatesOnly {
+		res, err := subscribeClient.Recv()
+		if err != nil {
+			return err
+		}
+		if syncRes := res.GetSyncResponse(); !syncRes {
+			return errors.New("Failed to receive SyncResponse")
+		}
+		log.Info("SyncResponse received")
+	}
+	for {
+		select {
+		case <-ready:
+			log.Info("Press enter to poll")
+			fmt.Scanln()
+			subscribeClient.Send(pollRequest)
+			utils.LogProto(pollRequest)
+		default:
+			res, err := subscribeClient.Recv()
+			if err != nil {
+				return err
+			}
+			switch res.Response.(type) {
+			case *pb.SubscribeResponse_SyncResponse:
+				log.Info("SyncResponse received")
+				ready <- true
+			case *pb.SubscribeResponse_Update:
+				utils.PrintProto(res)
+			default:
+				return errors.New("Unknown response type")
+			}
+		}
+	}
 
 }
 
-func poll() {
-
-}
-
-func once() {
-	
+func once() error {
+	for {
+		res, err := subscribeClient.Recv()
+		if err != nil {
+			return err
+		}
+		switch res.Response.(type) {
+		case *pb.SubscribeResponse_SyncResponse:
+			log.Info("SyncResponse received")
+			return nil
+		case *pb.SubscribeResponse_Update:
+			utils.PrintProto(res)
+		default:
+			return errors.New("Unexpected response type")
+		}
+	}
 }
 
 func assembleSubscriptions(paths []*pb.Path) ([]*pb.Subscription, error) {
