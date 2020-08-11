@@ -23,9 +23,7 @@ import (
 	"google.golang.org/grpc"
 )
 
-const (
-	targetChunkSize = 10000000 // 10MB
-)
+var receiveChunkSizeAck uint64 = 12000000
 
 // Server is an OS Management service.
 type Server struct {
@@ -36,6 +34,9 @@ type Server struct {
 
 // NewServer returns an OS Management service.
 func NewServer(settings *Settings) *Server {
+	if settings.ReceiveChunkSizeAck != 0 {
+		receiveChunkSizeAck = settings.ReceiveChunkSizeAck
+	}
 	server := &Server{
 		manager:      NewManager(settings.FactoryVersion),
 		installToken: make(chan bool, 1),
@@ -184,7 +185,7 @@ func ReceiveOS(stream pb.OS_InstallServer) (*bytes.Buffer, error) {
 			utils.LogProto(in)
 			return nil, errors.New("Unknown request type")
 		}
-		if curr := bb.Len() / targetChunkSize; curr > prev {
+		if curr := bb.Len() / int(receiveChunkSizeAck); curr > prev {
 			prev = curr
 			response := &pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{
 				TransferProgress: &pb.TransferProgress{BytesReceived: uint64(bb.Len())},

@@ -29,8 +29,9 @@ type Manager struct {
 
 // Settings wraps OS Server initialization options.
 type Settings struct {
-	FactoryVersion    string
-	InstalledVersions []string
+	FactoryVersion      string
+	InstalledVersions   []string
+	ReceiveChunkSizeAck uint64
 }
 
 // NewManager for OS service module. Will manage state of OS module.

@@ -49,7 +49,7 @@ func init() {
 	runCmd.Flags().StringVarP(&targetAddress, "target_address", "a", "", "The address of the target to be tested")
 	runCmd.Flags().StringVarP(&ca, "ca", "c", "", "The ca ")
 	runCmd.Flags().StringVarP(&caKey, "ca_key", "k", "", "The key for the ca file")
-	runCmd.Flags().StringVarP(&files, "files", "f", "", "Extra files used for tests. Example: -f \"os:/path/to/os file:/path/to/other/file\"")
+	runCmd.Flags().StringVarP(&files, "files", "f", "", "Extra files used for tests. Example: -f \"os_path:/path/to/os file:/path/to/other/file\"")
 }
 
 // handleRun will run some or all of the tests.
@@ -60,13 +60,14 @@ func handleRun(cmd *cobra.Command, args []string) {
 	if success, err := orchestrator.RunTests(args, promptUser, parseFiles()); err != nil {
 		log.Exitf("Error running tests: %v", err)
 	} else {
-		log.Infof("Tests ran successfully: %s", success)
+		log.Infof("Tests ran successfully: \n\n%s", success)
 	}
 }
 
 func parseFiles() map[string]string {
 	out := map[string]string{}
 	for _, file := range strings.Split(files, " ") {
+		file = strings.ReplaceAll(file, "\"", "")
 		if len(file) > 1 {
 			vals := strings.SplitN(file, ":", 2)
 			if len(vals) > 1 {

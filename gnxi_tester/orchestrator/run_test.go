@@ -30,6 +30,7 @@ func TestRunTests(t *testing.T) {
 		testNames    []string
 		tests        map[string][]config.Test
 		order        []string
+		files        map[string][]string
 		prompt       callbackFunc
 		wantSucc     []string
 		wantErr      error
@@ -42,6 +43,7 @@ func TestRunTests(t *testing.T) {
 				"test": {{Name: "test"}, {Name: "test2"}},
 			},
 			[]string{"test"},
+			map[string][]string{"test": {"tt"}},
 			func(name string) string { return name },
 			[]string{"*test*:\ntest:\ntest\n\ntest2:\ntest\n"},
 			nil,
@@ -57,6 +59,7 @@ func TestRunTests(t *testing.T) {
 				"test": {{Name: "test", Args: map[string]string{"ask": "&<ask>"}, Prompt: []string{"ask"}}},
 			},
 			[]string{"test"},
+			map[string][]string{},
 			func(name string) string { return name },
 			[]string{"*test*:\ntest:\n-ask ask -logtostderr -target_name test -target_addr test -ca /certs/ca.crt -ca_key /certs/ca.key\n"},
 			nil,
@@ -73,6 +76,7 @@ func TestRunTests(t *testing.T) {
 				"test2": {{Name: "test2"}},
 			},
 			[]string{"test", "test2"},
+			map[string][]string{"test": {"tt"}},
 			func(name string) string { return name },
 			[]string{"*test*:\ntest:\ntest\n"},
 			nil,
@@ -88,6 +92,7 @@ func TestRunTests(t *testing.T) {
 				"test": {{Name: "test", Wants: "test"}},
 			},
 			[]string{"test"},
+			map[string][]string{},
 			func(name string) string { return name },
 			[]string{"*test*:\ntest:\ntest\n"},
 			nil,
@@ -103,6 +108,7 @@ func TestRunTests(t *testing.T) {
 				"test": {{Name: "test", Wants: "no"}},
 			},
 			[]string{"test"},
+			map[string][]string{},
 			func(name string) string { return name },
 			nil,
 			formatErr("test", "test", "test", errors.New("Wanted no in output"), 0, false, nil),
@@ -118,6 +124,7 @@ func TestRunTests(t *testing.T) {
 				"test": {{Name: "test", DoesntWant: "aaaa"}},
 			},
 			[]string{"test"},
+			map[string][]string{},
 			func(name string) string { return name },
 			[]string{"*test*:\ntest:\ntest\n"},
 			nil,
@@ -134,6 +141,7 @@ func TestRunTests(t *testing.T) {
 			viper.Set("targets.last_target", "test")
 			viper.Set("tests", test.tests)
 			viper.Set("order", test.order)
+			viper.Set("files", test.files)
 			RunContainer = test.runContainer
 			succ, err := RunTests(test.testNames, test.prompt, map[string]string{})
 			if diff := cmp.Diff(test.wantSucc, succ); diff != "" {

@@ -41,6 +41,9 @@ func setDefaults() {
 	viper.SetDefault("docker.files", createDockerfiles(testCases))
 	viper.SetDefault("order", order)
 	viper.SetDefault("web.prompts", map[string]interface{}{})
+	viper.SetDefault("files", map[string][]string{
+		"gnoi_os": {"os_path", "new_os_path"},
+	})
 }
 
 func generateTestCases() (Tests, []string) {
@@ -100,7 +103,7 @@ func generateTestCases() (Tests, []string) {
 			Name:   "Compatible OS with Good Hash Install",
 			Args:   map[string]string{"op": "install", "version": "&<os_version>", "os": "&<os_path>"},
 			Wants:  `^$`,
-			Prompt: []string{"os_version", "os_path"},
+			Prompt: []string{"os_version"},
 		},
 		{
 			Name:     "Install Already Installed OS",
@@ -132,7 +135,7 @@ func generateTestCases() (Tests, []string) {
 			MustFail: true,
 			Wait:     0,
 			Wants:    `^$`,
-			Prompt:   []string{"new_os_version", "new_os_path"},
+			Prompt:   []string{"new_os_version"},
 		},
 		{
 			Name:  "Activate Newly Installed OS",
