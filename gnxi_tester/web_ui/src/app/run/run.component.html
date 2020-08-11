@@ -1,1 +1,6 @@
-<p>run works!</p>
+<mat-form-field appearance="fill">
+  <mat-select [(ngModel)]="selectedPrompts" name="prompts">
+    <mat-label>Prompts</mat-label>
+    <mat-option *ngFor="let prompt of promptsList" [value]="prompt">{{prompt}}</mat-option>
+  </mat-select>
+</mat-form-field>

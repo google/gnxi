@@ -12,4 +12,6 @@ export class RunComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  selectedPrompts: string;
+  promptsList: string[] = ["test", "test2"];
 }
