@@ -87,5 +87,6 @@ func promptUser(name string) string {
 	if err != nil {
 		log.Exitf("error reading line: %v", err)
 	}
+	out = strings.ReplaceAll(out, "\n", "")
 	return out
 }

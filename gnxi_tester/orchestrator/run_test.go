@@ -105,7 +105,7 @@ func TestRunTests(t *testing.T) {
 			[]string{"test"},
 			func(name string) string { return name },
 			nil,
-			formatErr("test", "test", "test", errors.New("Wanted no in output"), 0, false, nil),
+			formatErr("test", "test", "test", errors.New("Wanted no in output"), 0, false, "-logtostderr -target_name test -target_addr test -ca /certs/ca.crt -ca_key /certs/ca.key", nil),
 			func(name, args string, device *config.Device, insertFiles []string) (out string, code int, err error) {
 				out = name
 				return
