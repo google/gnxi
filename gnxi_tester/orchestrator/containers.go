@@ -17,7 +17,6 @@ package orchestrator
 
 import (
 	"bytes"
-	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -107,7 +106,7 @@ var InitContainers = func(names []string) error {
 
 func checkContainerExists(containerName string, cont types.Container, names *[]string) error {
 	for i, testName := range *names {
-		if containerName == "/" + testName {
+		if containerName == "/"+testName {
 			if cont.State != "running" {
 				if err := dockerClient.ContainerStart(context.Background(), cont.ID, types.ContainerStartOptions{}); err != nil {
 					return err
@@ -291,7 +290,7 @@ func getContainer(name string) (*types.Container, error) {
 	}
 	for _, c := range containers {
 		for _, containerName := range c.Names {
-			if containerName == "/"+ name {
+			if containerName == "/"+name {
 				return &c, nil
 			}
 		}
@@ -301,10 +300,13 @@ func getContainer(name string) (*types.Container, error) {
 
 var tarFile = func(name, filePath string) (io.ReadCloser, error) {
 	loc := path.Join("/tmp", fmt.Sprintf("%s.tar.gz", name))
-	if _, err := os.Stat(loc); errors.Is(err, os.ErrNotExist) {
-		if err := archiver.Archive([]string{filePath}, loc); err != nil {
+	if _, err := os.Stat(loc); !os.IsNotExist(err) {
+		if err = os.Remove(loc); err != nil {
 			return nil, err
 		}
+	}
+	if err := archiver.Archive([]string{filePath}, loc); err != nil {
+		return nil, err
 	}
 	f, err := os.Open(loc)
 	if err != nil {

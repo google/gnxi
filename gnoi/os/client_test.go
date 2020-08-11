@@ -30,6 +30,8 @@ import (
 	"google.golang.org/grpc"
 )
 
+const readChunkSize = 4000000 // 4MB. Highest amount of data a chunk should be since >5MB will cause a grpc transport error.
+
 type activateRPC func(ctx context.Context, in *pb.ActivateRequest, opts ...grpc.CallOption) (*pb.ActivateResponse, error)
 type verifyRPC func(ctx context.Context, in *pb.VerifyRequest, opts ...grpc.CallOption) (*pb.VerifyResponse, error)
 
@@ -152,14 +154,14 @@ func TestInstall(t *testing.T) {
 				},
 				{
 					&pb.InstallRequest{Request: &pb.InstallRequest_TransferContent{}},
-					&pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{TransferProgress: &pb.TransferProgress{BytesReceived: chunkSize}}},
+					&pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{TransferProgress: &pb.TransferProgress{BytesReceived: readChunkSize}}},
 				},
 				{
 					&pb.InstallRequest{Request: &pb.InstallRequest_TransferEnd{}},
 					&pb.InstallResponse{Response: &pb.InstallResponse_Validated{Validated: &pb.Validated{}}},
 				},
 			},
-			readBytes(chunkSize),
+			readBytes(int(readChunkSize)),
 			nil,
 			100 * time.Millisecond,
 		},
@@ -172,22 +174,22 @@ func TestInstall(t *testing.T) {
 				},
 				{
 					&pb.InstallRequest{Request: &pb.InstallRequest_TransferContent{}},
-					&pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{TransferProgress: &pb.TransferProgress{BytesReceived: chunkSize}}},
+					&pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{TransferProgress: &pb.TransferProgress{BytesReceived: readChunkSize}}},
 				},
 				{
 					&pb.InstallRequest{Request: &pb.InstallRequest_TransferContent{}},
-					&pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{TransferProgress: &pb.TransferProgress{BytesReceived: (chunkSize * 2)}}},
+					&pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{TransferProgress: &pb.TransferProgress{BytesReceived: (readChunkSize * 2)}}},
 				},
 				{
 					&pb.InstallRequest{Request: &pb.InstallRequest_TransferContent{}},
-					&pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{TransferProgress: &pb.TransferProgress{BytesReceived: (chunkSize * 2) + 1}}},
+					&pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{TransferProgress: &pb.TransferProgress{BytesReceived: (readChunkSize * 2) + 1}}},
 				},
 				{
 					&pb.InstallRequest{Request: &pb.InstallRequest_TransferEnd{}},
 					&pb.InstallResponse{Response: &pb.InstallResponse_Validated{Validated: &pb.Validated{}}},
 				},
 			},
-			readBytes((chunkSize * 2) + 1),
+			readBytes((int(readChunkSize) * 2) + 1),
 			nil,
 			100 * time.Millisecond,
 		},
@@ -203,7 +205,7 @@ func TestInstall(t *testing.T) {
 					&pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_INCOMPATIBLE}}},
 				},
 			},
-			readBytes(chunkSize),
+			readBytes(int(readChunkSize)),
 			errors.New("InstallError occurred: INCOMPATIBLE"),
 			100 * time.Millisecond,
 		},
@@ -243,7 +245,7 @@ func TestInstall(t *testing.T) {
 					&pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_UNSPECIFIED, Detail: "Unspecified"}}},
 				},
 			},
-			readBytes(chunkSize * 2),
+			readBytes(int(readChunkSize) * 2),
 			errors.New("Unspecified InstallError error: Unspecified"),
 			100 * time.Millisecond,
 		},
@@ -256,14 +258,14 @@ func TestInstall(t *testing.T) {
 				},
 				{
 					&pb.InstallRequest{Request: &pb.InstallRequest_TransferContent{}},
-					&pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{TransferProgress: &pb.TransferProgress{BytesReceived: chunkSize}}},
+					&pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{TransferProgress: &pb.TransferProgress{BytesReceived: readChunkSize}}},
 				},
 				{
 					&pb.InstallRequest{Request: &pb.InstallRequest_TransferEnd{}},
 					nil,
 				},
 			},
-			readBytes(chunkSize),
+			readBytes(int(readChunkSize)),
 			errors.New("Validation timed out"),
 			50 * time.Millisecond,
 		},
@@ -278,7 +280,7 @@ func TestInstall(t *testing.T) {
 				}},
 			}
 			fileReader = test.reader
-			if err := client.Install(context.Background(), "", "version", test.timeout); fmt.Sprintf("%v", err) != fmt.Sprintf("%v", test.err) {
+			if err := client.Install(context.Background(), "", "version", test.timeout, readChunkSize); fmt.Sprintf("%v", err) != fmt.Sprintf("%v", test.err) {
 				t.Errorf("Wanted error: **%v** but got error: **%v**", test.err, err)
 			}
 		})

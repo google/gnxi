@@ -50,7 +50,6 @@ type Client struct {
 	client pb.OSClient
 }
 
-const chunkSize = 5000000
 
 // NewClient returns a new OS service client.
 func NewClient(c *grpc.ClientConn) *Client {
@@ -58,7 +57,7 @@ func NewClient(c *grpc.ClientConn) *Client {
 }
 
 // Install invokes the Install RPC for the OS service.
-func (c *Client) Install(ctx context.Context, imgPath, version string, validateTimeout time.Duration) error {
+func (c *Client) Install(ctx context.Context, imgPath, version string, validateTimeout time.Duration, chunkSize uint64) error {
 	file, fileSize, fileClose, err := fileReader(imgPath)
 	if err != nil {
 		return err
