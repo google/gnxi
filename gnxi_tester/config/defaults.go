@@ -121,7 +121,7 @@ func generateTestCases() (Tests, []string) {
 			Name:  "Verify Newly Installed OS",
 			Args:  map[string]string{"op": "verify"},
 			Wait:  20,
-			Wants: "Running OS Version: &<os_version>",
+			Wants: "Running OS version: &<os_version>",
 		},
 		{
 			Name:     "Transfer Already Running OS",
@@ -146,7 +146,7 @@ func generateTestCases() (Tests, []string) {
 			Name:  "Verify Newly Installed OS",
 			Args:  map[string]string{"op": "verify"},
 			Wait:  20,
-			Wants: "Running OS Version: &<new_os_version>",
+			Wants: "Running OS version: &<new_os_version>",
 		},
 		{
 			Name:   "Activate Non Existent Version",
