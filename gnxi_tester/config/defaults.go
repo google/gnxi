@@ -132,8 +132,6 @@ func generateTestCases() (Tests, []string) {
 		{
 			Name:     "Install another OS",
 			Args:     map[string]string{"op": "install", "version": "&<new_os_version>", "os": "&<new_os_path>"},
-			MustFail: true,
-			Wait:     0,
 			Wants:    `^$`,
 			Prompt:   []string{"new_os_version"},
 		},
