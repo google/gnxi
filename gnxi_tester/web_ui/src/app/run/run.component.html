@@ -11,11 +11,12 @@
             </mat-select>
           </mat-form-field>
           <mat-form-field appearance="fill">
-            <mat-label>Devices</mat-label>
+            <mat-label>Device</mat-label>
             <mat-select [(ngModel)]="selectedDevice" name="device">
               <mat-option *ngFor="let device of deviceList" [value]="device">{{device}}</mat-option>
             </mat-select>
           </mat-form-field>
+          <button mat-raised-button color="primary"><mat-icon>play_arrow</mat-icon> Run</button>
         </div>
       </mat-grid-tile>
       <mat-grid-tile>

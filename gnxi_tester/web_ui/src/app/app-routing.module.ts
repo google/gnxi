@@ -5,7 +5,8 @@ import { DevicesComponent } from './devices/devices.component';
 import { PromptsComponent } from './prompts/prompts.component';
 
 const routes: Routes = [
-  {path: '', component: RunComponent},
+  {path: '', redirectTo: 'run', pathMatch: 'prefix'},
+  {path: 'run', component: RunComponent},
   {path: 'devices', component: DevicesComponent},
   {path: 'prompts', component: PromptsComponent},
 ];
