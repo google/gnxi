@@ -17,6 +17,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"io"
 	"strings"
 	"time"
 
@@ -138,6 +139,10 @@ func main() {
 func stream(subscribeClient gnmi.GNMI_SubscribeClient) error {
 	for {
 		res, err := subscribeClient.Recv()
+		if err == io.EOF {
+			log.Info("Stream closed by target")
+			return nil
+		}
 		if err != nil {
 			return err
 		}
