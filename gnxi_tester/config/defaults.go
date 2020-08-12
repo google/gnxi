@@ -149,6 +149,7 @@ func generateTestCases() (Tests, []string) {
 		{
 			Name:   "Activate Non Existent Version",
 			Args:   map[string]string{"op": "activate", "version": "&<non_existent_os_version>"},
+			MustFail: true,
 			Wants:  "Failed Activate: Non existent version: &<non_existent_os_version>",
 			Prompt: []string{"non_existent_os_version"},
 		},
