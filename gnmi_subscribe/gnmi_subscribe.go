@@ -108,7 +108,7 @@ func main() {
 	request := &pb.SubscribeRequest{
 		Request: &pb.SubscribeRequest_Subscribe{
 			Subscribe: &pb.SubscriptionList{
-				Encoding:     pb.Encoding(encoding),
+				Encoding:     encoding,
 				Mode:         subscriptionListMode,
 				Subscription: subscriptions,
 				UpdatesOnly:  *updatesOnly,
@@ -126,7 +126,7 @@ func main() {
 			log.Exitf("Error using STREAM mode: %v", err)
 		}
 	case pb.SubscriptionList_POLL:
-		if err := poll(subscribeClient); err != nil {
+		if err := poll(subscribeClient, *updatesOnly, pollUser); err != nil {
 			log.Exitf("Error using POLL mode: %v", err)
 		}
 	case pb.SubscriptionList_ONCE:
@@ -134,6 +134,10 @@ func main() {
 			log.Exitf("Error using ONCE mode: %v", err)
 		}
 	}
+}
+
+func pollUser() {
+	fmt.Scanln()
 }
 
 func stream(subscribeClient gnmi.GNMI_SubscribeClient) error {
@@ -157,11 +161,11 @@ func stream(subscribeClient gnmi.GNMI_SubscribeClient) error {
 	}
 }
 
-func poll(subscribeClient gnmi.GNMI_SubscribeClient) error {
+func poll(subscribeClient gnmi.GNMI_SubscribeClient, updatesOnly bool, pollInput func()) error {
 	ready := make(chan bool, 1)
 	ready <- true
 	pollRequest := &pb.SubscribeRequest{Request: &pb.SubscribeRequest_Poll{}}
-	if *updatesOnly {
+	if updatesOnly {
 		res, err := subscribeClient.Recv()
 		if err != nil {
 			return err
@@ -175,11 +179,16 @@ func poll(subscribeClient gnmi.GNMI_SubscribeClient) error {
 		select {
 		case <-ready:
 			log.Info("Press enter to poll")
-			fmt.Scanln()
-			subscribeClient.Send(pollRequest)
+			pollInput()
+			if err := subscribeClient.Send(pollRequest); err != nil {
+				return err
+			}
 			utils.LogProto(pollRequest)
 		default:
 			res, err := subscribeClient.Recv()
+			if err == io.EOF {
+				return nil
+			}
 			if err != nil {
 				return err
 			}
@@ -190,7 +199,7 @@ func poll(subscribeClient gnmi.GNMI_SubscribeClient) error {
 			case *pb.SubscribeResponse_Update:
 				utils.PrintProto(res)
 			default:
-				return errors.New("Unknown response type")
+				return errors.New("Unexpected response type")
 			}
 		}
 	}
