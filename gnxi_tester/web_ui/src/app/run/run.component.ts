@@ -14,4 +14,7 @@ export class RunComponent implements OnInit {
 
   selectedPrompts: string;
   promptsList: string[] = ["test", "test2"];
+
+  selectedDevice: string;
+  deviceList: string[] = ["test", "test2"];
 }

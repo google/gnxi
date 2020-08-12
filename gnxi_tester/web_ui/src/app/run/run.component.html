@@ -1,6 +1,28 @@
-<mat-form-field appearance="fill">
-  <mat-select [(ngModel)]="selectedPrompts" name="prompts">
-    <mat-label>Prompts</mat-label>
-    <mat-option *ngFor="let prompt of promptsList" [value]="prompt">{{prompt}}</mat-option>
-  </mat-select>
-</mat-form-field>
+<main>
+  <mat-card>
+    <mat-grid-list cols="2" rowHeight="1.5:1">
+      <mat-grid-tile>
+        <div>
+    <h1>Run Tests</h1>
+          <mat-form-field appearance="fill">
+            <mat-label>Prompts</mat-label>
+            <mat-select [(ngModel)]="selectedPrompts" name="prompts">
+              <mat-option *ngFor="let prompt of promptsList" [value]="prompt">{{prompt}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Devices</mat-label>
+            <mat-select [(ngModel)]="selectedDevice" name="device">
+              <mat-option *ngFor="let device of deviceList" [value]="device">{{device}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <section>
+          Test output will go here
+        </section>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card>
+</main>

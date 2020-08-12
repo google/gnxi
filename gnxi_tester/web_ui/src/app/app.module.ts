@@ -10,6 +10,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card'
+import { MatGridListModule } from '@angular/material/grid-list'
 
 import {FormsModule} from '@angular/forms'
 
@@ -34,6 +36,8 @@ import { DevicesComponent } from './devices/devices.component';
     MatSelectModule,
     FormsModule,
     MatFormFieldModule,
+    MatCardModule,
+    MatGridListModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
