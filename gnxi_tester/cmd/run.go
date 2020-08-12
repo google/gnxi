@@ -60,7 +60,10 @@ func handleRun(cmd *cobra.Command, args []string) {
 	if success, err := orchestrator.RunTests(args, promptUser, parseFiles()); err != nil {
 		log.Exitf("Error running tests: %v", err)
 	} else {
-		log.Infof("Tests ran successfully: \n\n%s", success)
+		log.Info("Tests ran successfully:")
+		for _, output := range success {
+			log.Info(output)
+		}
 	}
 }
 

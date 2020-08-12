@@ -21,6 +21,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+	"time"
 
 	log "github.com/golang/glog"
 	"github.com/google/gnxi/gnxi_tester/config"
@@ -110,6 +111,10 @@ func runTest(name string, prompt callbackFunc, tests []config.Test) (string, err
 	)
 	stdout := fmt.Sprintf("*%s*:", name)
 	for _, test := range tests {
+		if test.Wait != 0 {
+			log.Infof("Waiting %d seconds before running the next test", test.Wait)
+			<-time.After(time.Duration(test.Wait) * time.Second)
+		}
 		log.Infof("Running minor test %s:%s", name, test.Name)
 		for _, p := range test.Prompt {
 			input[p] = prompt(p)
