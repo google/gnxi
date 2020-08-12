@@ -26,10 +26,10 @@ type Tests map[string][]Test
 type Test struct {
 	Name       string            `mapstructure:"name"`
 	Args       map[string]string `mapstructure:"args"`
-	MustFail   bool              `mapstructure:"must_fail"`
+	MustFail   bool              `mapstructure:"mustfail"`
 	Wait       int               `mapstructure:"wait"`
 	Wants      string            `mapstructure:"wants"`
-	DoesntWant string            `mapstructure:"doesnt_want"`
+	DoesntWant string            `mapstructure:"doesntwant"`
 	Prompt     []string          `mapstructure:"prompt"`
 }
 
@@ -103,11 +103,10 @@ func generateTestCases() (Tests, []string) {
 			Prompt: []string{"os_version"},
 		},
 		{
-			Name:     "Install Already Installed OS",
-			Args:     map[string]string{"op": "install", "version": "&<os_version>", "os": "&<os_path>"},
-			MustFail: true,
-			Wait:     3,
-			Wants:    "OS version &<os_version> is already installed",
+			Name:  "Install Already Installed OS",
+			Args:  map[string]string{"op": "install", "version": "&<os_version>", "os": "&<os_path>"},
+			Wait:  3,
+			Wants: "OS version &<os_version> is already installed",
 		},
 		{
 			Name:  "Activate Newly Installed OS",

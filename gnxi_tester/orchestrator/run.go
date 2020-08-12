@@ -122,7 +122,7 @@ func expects(out string, test *config.Test) error {
 
 func formatErr(major, minor, out string, custom error, code int, fail bool, args string, err error) error {
 	return fmt.Errorf(
-		"Error occured in test %s-<%s>: \nwantedErr(%v)\nexitCode(%d)\nmustFail(%v)\ndaemonErr(%v)\nargs(%s)\noutput:\n# %s)",
+		"Error occured in test %s-<%s>: \nwantedErr(%v)\nexitCode(%d)\nmustFail(%v)\ndaemonErr(%v)\nargs(%s)\noutput:\n%s)",
 		major,
 		minor,
 		custom,

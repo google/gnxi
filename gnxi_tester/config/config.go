@@ -44,7 +44,7 @@ func Init(filePath string) {
 }
 
 // GetTests will return tests from viper store.
-func GetTests() map[string][]Test {
+func GetTests() Tests {
 	var tests Tests
 	if err := viper.UnmarshalKey("tests", &tests); err != nil {
 		return nil
