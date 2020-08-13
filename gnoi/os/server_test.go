@@ -268,6 +268,12 @@ func TestTargetInstall(t *testing.T) {
 		Incompatible: true,
 	}}
 	incompatibleOS.Hash()
+	factoryOS := &mockos.OS{MockOS: mockosPb.MockOS{
+		Version: "1.0.0a",
+		Cookie:  "cookiestring",
+		Padding: buf,
+	}}
+	factoryOS.Hash()
 	tests := []struct {
 		name   string
 		stream *mockTransferStream
@@ -282,7 +288,6 @@ func TestTargetInstall(t *testing.T) {
 			},
 			want: &installResult{
 				res: &pb.InstallResponse{Response: &pb.InstallResponse_Validated{Validated: &pb.Validated{Version: oS.Version}}},
-				err: nil,
 			},
 		},
 		{
@@ -294,7 +299,6 @@ func TestTargetInstall(t *testing.T) {
 				os:       oS,
 			},
 			want: &installResult{
-				res: nil,
 				err: errors.New("Failed to receive TransferRequest"),
 			},
 		},
@@ -342,7 +346,6 @@ func TestTargetInstall(t *testing.T) {
 			},
 			want: &installResult{
 				res: &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_INTEGRITY_FAIL}}},
-				err: nil,
 			},
 		},
 		{
@@ -354,7 +357,6 @@ func TestTargetInstall(t *testing.T) {
 			},
 			want: &installResult{
 				res: &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_INCOMPATIBLE, Detail: "Unsupported OS Version"}}},
-				err: nil,
 			},
 		},
 		{
@@ -363,12 +365,25 @@ func TestTargetInstall(t *testing.T) {
 				response: make(chan *pb.InstallResponse, 1),
 				result:   make(chan *pb.InstallResponse, 1),
 				os: &mockos.OS{MockOS: mockosPb.MockOS{
-					Version: "1.0.2c",
+					Version: "",
 				}},
 			},
 			want: &installResult{
 				res: &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_PARSE_FAIL}}},
-				err: nil,
+			},
+		},
+		{
+			name: "force transferring os without version specified",
+			stream: &mockTransferStream{
+				response: make(chan *pb.InstallResponse, 1),
+				result:   make(chan *pb.InstallResponse, 1),
+				os:       factoryOS,
+			},
+			want: &installResult{
+				res: &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{
+					InstallError: &pb.InstallError{Type: pb.InstallError_INSTALL_RUN_PACKAGE},
+				}},
+				err: errors.New("Attempting to force transfer an OS of the same version as the currently running OS"),
 			},
 		},
 	}

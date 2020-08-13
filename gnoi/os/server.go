@@ -98,7 +98,7 @@ func (s *Server) Install(stream pb.OS_InstallServer) error {
 		}
 		return errors.New("Attempting to force transfer an OS of the same version as the currently running OS")
 	}
-	if version := transferRequest.Version; s.manager.IsInstalled(version) {
+	if version := transferRequest.Version; s.manager.IsInstalled(version) && version != "" {
 		response = &pb.InstallResponse{Response: &pb.InstallResponse_Validated{
 			Validated: &pb.Validated{
 				Version: version,
@@ -156,6 +156,16 @@ func (s *Server) Install(stream pb.OS_InstallServer) error {
 			return err
 		}
 		return nil
+	}
+	if s.manager.IsRunning(mockOS.Version) {
+		response = &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{
+			InstallError: &pb.InstallError{Type: pb.InstallError_INSTALL_RUN_PACKAGE},
+		}}
+		utils.LogProto(response)
+		if err = stream.Send(response); err != nil {
+			return err
+		}
+		return errors.New("Attempting to force transfer an OS of the same version as the currently running OS")
 	}
 	s.manager.Install(mockOS.Version, mockOS.ActivationFailMessage)
 	response = &pb.InstallResponse{Response: &pb.InstallResponse_Validated{Validated: &pb.Validated{Version: mockOS.Version}}}
