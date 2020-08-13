@@ -171,7 +171,7 @@ func poll(subscribeClient gnmi.GNMI_SubscribeClient, updatesOnly bool, pollInput
 			return err
 		}
 		if syncRes := res.GetSyncResponse(); !syncRes {
-			return errors.New("Failed to receive SyncResponse")
+			return errors.New("-updates_only flag is set but failed to receive SyncResponse first for POLL mode")
 		}
 		log.Info("SyncResponse received")
 	}
