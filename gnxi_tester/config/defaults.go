@@ -124,16 +124,16 @@ func generateTestCases() (Tests, []string) {
 			Wants: "Running OS version: &<os_version>",
 		},
 		{
-			Name:     "Transfer Already Running OS",
-			Args:     map[string]string{"op": "install", "version": "&<os_version>", "os": "&<os_path>"},
+			Name:     "Force Transfer Already Running OS",
+			Args:     map[string]string{"op": "install", "os": "&<os_path>"},
 			MustFail: true,
 			Wants:    "Failed Install: InstallError occurred: INSTALL_RUN_PACKAGE",
 		},
 		{
-			Name:     "Install another OS",
-			Args:     map[string]string{"op": "install", "version": "&<new_os_version>", "os": "&<new_os_path>"},
-			Wants:    `^$`,
-			Prompt:   []string{"new_os_version"},
+			Name:   "Install another OS",
+			Args:   map[string]string{"op": "install", "version": "&<new_os_version>", "os": "&<new_os_path>"},
+			Wants:  `^$`,
+			Prompt: []string{"new_os_version"},
 		},
 		{
 			Name:  "Activate Newly Installed OS",
@@ -147,11 +147,11 @@ func generateTestCases() (Tests, []string) {
 			Wants: "Running OS version: &<new_os_version>",
 		},
 		{
-			Name:   "Activate Non Existent Version",
-			Args:   map[string]string{"op": "activate", "version": "&<non_existent_os_version>"},
+			Name:     "Activate Non Existent Version",
+			Args:     map[string]string{"op": "activate", "version": "&<non_existent_os_version>"},
 			MustFail: true,
-			Wants:  "Failed Activate: Non existent version: &<non_existent_os_version>",
-			Prompt: []string{"non_existent_os_version"},
+			Wants:    "Failed Activate: Non existent version: &<non_existent_os_version>",
+			Prompt:   []string{"non_existent_os_version"},
 		},
 	}
 	return Tests{"gnoi_os": osTests, "gnoi_reset": resetTests, "gnoi_cert": certTests, "provision": provisionTest}, []string{"gnoi_os", "gnoi_cert", "gnoi_reset"}
