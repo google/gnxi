@@ -1,1 +1,23 @@
-<p>devices works!</p>
+<main>
+  <mat-card>
+    <div>
+      <h1>Devices</h1>
+      <mat-form-field appearance="fill">
+        <mat-label>Edit existing device</mat-label>
+        <mat-select [formControl]="selectedDeviceName" name="device">
+          <mat-option>Create new device</mat-option>
+          <mat-option *ngFor="let device of deviceNameList" [value]="device">{{device}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Device Name</mat-label>
+        <input matInput [value]="deviceList[selectedDeviceName.value]?.target_name">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Device Address</mat-label>
+        <input matInput placeholder="Eg: localhost:9339" [value]="deviceList[selectedDeviceName.value]?.target_address">
+      </mat-form-field>
+      <button mat-raised-button color="primary">Save</button>
+    </div>
+  </mat-card>
+</main>

@@ -1,0 +1,15 @@
+mat-form-field {
+  display: block;
+}
+
+div {
+  padding: 0 4em;
+}
+
+main {
+  padding: 2em 10em;
+}
+
+mat-form-field {
+  width: 20em;
+}
