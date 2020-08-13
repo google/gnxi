@@ -23,7 +23,7 @@ import (
 )
 
 func TestGetTests(t *testing.T) {
-	wants := []map[string][]Test{
+	wants := []Tests{
 		{},
 		{"gnoi_os": []Test{{
 			Name:   "Compatible OS with Good Hash Install",
