@@ -19,5 +19,5 @@ go install github.com/google/gnxi/gnoi_mockos
   -version 1.10a \
   -size 100M \
   -activation_fail_message "I failed to activate" \
-  -incompatible false \
+  -incompatible=false \
 ```
