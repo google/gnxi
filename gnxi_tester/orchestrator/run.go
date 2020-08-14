@@ -18,6 +18,7 @@ package orchestrator
 import (
 	"fmt"
 	"path"
+	"path/filepath"
 	"regexp"
 	"strings"
 
@@ -43,6 +44,7 @@ var (
 // RunTests will take in test name and run each test or all tests.
 func RunTests(tests []string, prompt callbackFunc, userFiles map[string]string) (success []string, err error) {
 	files = userFiles
+	required := viper.GetStringMapStringSlice("files")
 	defaultOrder := viper.GetStringSlice("order")
 	if err = InitContainers(defaultOrder); err != nil {
 		return
@@ -50,6 +52,11 @@ func RunTests(tests []string, prompt callbackFunc, userFiles map[string]string) 
 	configTests = config.GetTests()
 	var output string
 	if len(tests) == 0 {
+		for test, fs := range required {
+			if err = checkFileProvided(fs, test, prompt); err != nil {
+				return
+			}
+		}
 		defaultOrder = viper.GetStringSlice("order")
 		provisionTests := configTests["provision"]
 		if output, err = runTest("gnoi_cert", prompt, provisionTests); err != nil {
@@ -62,6 +69,13 @@ func RunTests(tests []string, prompt callbackFunc, userFiles map[string]string) 
 			success = append(success, output)
 		}
 	} else {
+		for _, test := range tests {
+			if fs, ok := required[test]; ok {
+				if err = checkFileProvided(fs, test, prompt); err != nil {
+					return
+				}
+			}
+		}
 		for _, name := range tests {
 			if output, err = runTest(name, prompt, configTests[name]); err != nil {
 				return
@@ -70,6 +84,19 @@ func RunTests(tests []string, prompt callbackFunc, userFiles map[string]string) 
 		}
 	}
 	return
+}
+
+func checkFileProvided(fs []string, name string, prompt callbackFunc) error {
+	for _, f := range fs {
+		if _, ok := files[f]; !ok {
+			var err error
+			files[f], err = filepath.Abs(prompt(fmt.Sprintf("%s for %s (relative or absolute file path)", f, name)))
+			if err != nil {
+				return err
+			}
+		}
+	}
+	return nil
 }
 
 func runTest(name string, prompt callbackFunc, tests []config.Test) (string, error) {
@@ -87,12 +114,12 @@ func runTest(name string, prompt callbackFunc, tests []config.Test) (string, err
 		for _, p := range test.Prompt {
 			input[p] = prompt(p)
 		}
-		test.DoesntWant = insertVars(test.DoesntWant, []string{})
-		test.Wants = insertVars(test.Wants, []string{})
+		test.DoesntWant = insertVars(test.DoesntWant, &[]string{})
+		test.Wants = insertVars(test.Wants, &[]string{})
 		binArgs := defaultArgs
 		insertFiles := []string{}
 		for arg, val := range test.Args {
-			binArgs = fmt.Sprintf("-%s %s %s", arg, insertVars(val, insertFiles), binArgs)
+			binArgs = fmt.Sprintf("-%s %s %s", arg, insertVars(val, &insertFiles), binArgs)
 		}
 		out, code, err := RunContainer(name, binArgs, &target, insertFiles)
 		if exp := expects(out, &test); (code == 0) == test.MustFail || err != nil || exp != nil {
@@ -133,13 +160,13 @@ func formatErr(major, minor, out string, custom error, code int, fail bool, err 
 	)
 }
 
-func insertVars(in string, insertFiles []string) string {
+func insertVars(in string, insertFiles *[]string) string {
 	matches := delimRe.FindAllString(in, -1)
 	for _, match := range matches {
 		name := match[2 : len(match)-1]
 		if f, ok := files[name]; ok {
 			in = strings.Replace(in, match, path.Join("/tmp", path.Base(f)), 1)
-			insertFiles = append(insertFiles, f)
+			*insertFiles = append(*insertFiles, f)
 		} else {
 			in = strings.Replace(in, match, input[name], 1)
 		}

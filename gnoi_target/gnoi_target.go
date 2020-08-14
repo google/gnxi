@@ -46,6 +46,7 @@ var (
 	factoryOSUnsupported = flag.Bool("reset_unsupported", false, "Make the target not support factory resetting OS")
 	factoryVersion       = flag.String("factoryOS_version", "1.0.0a", "Specify factory OS version, 1.0.0a by default")
 	installedVersions    = flag.String("installedOS_versions", "", "Specify installed OS versions, e.g \"1.0.1a 2.01b\"")
+	receiveChunkSizeAck  = flag.Uint64("chunk_size_ack", 12000000, "The chunk size of the image to respond with a TransfreResponse in bytes. Example: -chunk_size 12000000")
 )
 
 // serve binds to an address and starts serving a gRPCServer.
@@ -101,8 +102,9 @@ func start() {
 		FactoryOSUnsupported: *factoryOSUnsupported,
 	}
 	osSettings := &os.Settings{
-		FactoryVersion:    *factoryVersion,
-		InstalledVersions: strings.Split(*installedVersions, " "),
+		FactoryVersion:      *factoryVersion,
+		InstalledVersions:   strings.Split(*installedVersions, " "),
+		ReceiveChunkSizeAck: *receiveChunkSizeAck,
 	}
 	var (
 		numCerts,
