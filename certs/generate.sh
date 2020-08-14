@@ -2,21 +2,30 @@
 
 rm -f *.key *.csr *.crt *.pem *.srl
 
-CN="ca"
-SUBJ="/C=NZ/ST=Test/L=Test/O=Test/OU=Test/CN=$CN"
-SAN="subjectAltName=DNS:$CN"
+SUBJ="/C=NZ/ST=Test/L=Test/O=Test/OU=Test/CN=ca"
+SAN="subjectAltName = DNS:ca"
+
+# Generate CA Private Key
+openssl req \
+        -newkey rsa:2048 \
+        -nodes \
+        -keyout ca.key \
+        -subj $SUBJ 
 
 # Generate Req
-openssl req -x509 \
-        -out ca.crt \
-        -keyout ca.key \
-        -newkey rsa:2048 -nodes -sha256 \
-        -nodes \
-        -subj $SUBJ \
-        -extensions EXT \
-        -config <( \
-                printf "[dn]\nCN=$CN\n[req]\ndistinguished_name = dn\n[EXT]\n%s\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth" "$SAN")
+openssl req \
+        -key ca.key \
+        -new -out ca.csr \
+        -subj $SUBJ
 
+# Generate self signed x509
+openssl x509 \
+        -signkey ca.key \
+        -in ca.csr \
+        -req \
+        -days 365 -out ca.crt 
+        # -extensions v3_ca \
+        # -extfile <(printf "[v3_ca]\nbasicConstraints = critical,CA:TRUE, pathlen: 0\nkeyUsage = digitalSignature, keyEncipherment\n$SAN")
 
 SUBJ="/C=NZ/ST=Test/L=Test/O=Test/OU=Test/CN=target.com"
 SAN="subjectAltName = DNS:target.com"
@@ -26,19 +35,13 @@ openssl req \
         -newkey rsa:2048 \
         -nodes \
         -keyout target.key \
-        -subj $SUBJ \
-        -reqexts SAN \
-        -config <(cat /etc/ssl/openssl.cnf \
-                <(printf "\n[SAN]\n$SAN"))
+        -subj $SUBJ
 
 # Generate Req
 openssl req \
         -key target.key \
         -new -out target.csr \
-        -subj $SUBJ \
-        -reqexts SAN \
-        -config <(cat /etc/ssl/openssl.cnf \
-                <(printf "\n[SAN]\n$SAN"))
+        -subj $SUBJ 
 
 # Generate x509 with signed CA
 openssl x509 \
@@ -47,7 +50,9 @@ openssl x509 \
         -CA ca.crt \
         -CAkey ca.key \
         -CAcreateserial \
-        -out target.crt
+        -out target.crt \
+        -extensions v3_ca \
+        -extfile <(printf "[v3_ca]\nbasicConstraints = CA:FALSE\nkeyUsage = digitalSignature, keyEncipherment\n$SAN")
 
 SUBJ="/C=NZ/ST=Test/L=Test/O=Test/OU=Test/CN=client.com"
 SAN="subjectAltName = DNS:client.com"
@@ -57,19 +62,13 @@ openssl req \
         -newkey rsa:2048 \
         -nodes \
         -keyout client.key \
-        -subj $SUBJ \
-        -reqexts SAN \
-        -config <(cat /etc/ssl/openssl.cnf \
-                <(printf "\n[SAN]\n$SAN"))
+        -subj $SUBJ 
 
 # Generate Req
 openssl req \
         -key client.key \
         -new -out client.csr \
-        -subj $SUBJ \
-        -reqexts SAN \
-        -config <(cat /etc/ssl/openssl.cnf \
-                <(printf "\n[SAN]\n$SAN"))
+        -subj $SUBJ 
 
 # Generate x509 with signed CA
 openssl x509 \
@@ -77,7 +76,9 @@ openssl x509 \
         -in client.csr \
         -CA ca.crt \
         -CAkey ca.key \
-        -out client.crt
+        -out client.crt \
+        -extensions v3_ca \
+        -extfile <(printf "[v3_ca]\nbasicConstraints = CA:FALSE\nkeyUsage = digitalSignature, keyEncipherment\n$SAN")
 
 echo ""
 echo " == Validate Target"
