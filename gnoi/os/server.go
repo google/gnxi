@@ -106,8 +106,8 @@ func (s *Server) Install(stream pb.OS_InstallServer) error {
 			s.installToken <- true
 		}()
 	default:
-		utils.LogProto(response)
 		response = &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_INSTALL_IN_PROGRESS}}}
+		utils.LogProto(response)
 		if err = stream.Send(response); err != nil {
 			return err
 		}
