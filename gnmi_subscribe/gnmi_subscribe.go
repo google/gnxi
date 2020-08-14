@@ -142,21 +142,10 @@ func pollUser() {
 
 func stream(subscribeClient gnmi.GNMI_SubscribeClient) error {
 	for {
-		res, err := subscribeClient.Recv()
-		if err == io.EOF {
-			log.Info("Stream closed by target")
-			return nil
-		}
-		if err != nil {
+		if closed, err := receiveNotifications(subscribeClient); err != nil {
 			return err
-		}
-		switch res.Response.(type) {
-		case *pb.SubscribeResponse_SyncResponse:
-			log.Info("SyncResponse received")
-		case *pb.SubscribeResponse_Update:
-			utils.PrintProto(res)
-		default:
-			return errors.New("unexpected response type")
+		} else if closed {
+			return nil
 		}
 	}
 }
@@ -185,41 +174,41 @@ func poll(subscribeClient gnmi.GNMI_SubscribeClient, updatesOnly bool, pollInput
 			}
 			utils.LogProto(pollRequest)
 		default:
-			res, err := subscribeClient.Recv()
-			if err == io.EOF {
+			if closed, err := receiveNotifications(subscribeClient); err != nil {
+				return err
+			} else if closed {
 				return nil
 			}
-			if err != nil {
-				return err
-			}
-			switch res.Response.(type) {
-			case *pb.SubscribeResponse_SyncResponse:
-				log.Info("SyncResponse received")
-				ready <- true
-			case *pb.SubscribeResponse_Update:
-				utils.PrintProto(res)
-			default:
-				return errors.New("unexpected response type")
-			}
+			ready <- true
 		}
 	}
 
 }
 
 func once(subscribeClient gnmi.GNMI_SubscribeClient) error {
+	if _, err := receiveNotifications(subscribeClient); err != nil {
+		return err
+	}
+	return nil
+}
+
+func receiveNotifications(subscribeClient gnmi.GNMI_SubscribeClient) (bool, error) {
 	for {
 		res, err := subscribeClient.Recv()
+		if err == io.EOF {
+			return true, nil
+		}
 		if err != nil {
-			return err
+			return false, err
 		}
 		switch res.Response.(type) {
 		case *pb.SubscribeResponse_SyncResponse:
 			log.Info("SyncResponse received")
-			return nil
+			return false, nil
 		case *pb.SubscribeResponse_Update:
 			utils.PrintProto(res)
 		default:
-			return errors.New("unexpected response type")
+			return false, errors.New("unexpected response type")
 		}
 	}
 }
@@ -289,7 +278,7 @@ func parseEncoding(encodingFormat string) (gnmi.Encoding, error) {
 		for _, name := range pb.Encoding_name {
 			encodingList = append(encodingList, name)
 		}
-		return -1, errors.New("supported encodings: ", strings.Join(encodingList, ", "))
+		return -1, errors.New("supported encodings: " + strings.Join(encodingList, ", "))
 	}
 	return pb.Encoding(encoding), nil
 }
