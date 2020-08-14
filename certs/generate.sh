@@ -31,8 +31,9 @@ openssl x509 \
         -req \
         -days 365 -out ca.crt 
 
-SUBJ="/C=NZ/ST=Test/L=Test/O=Test/OU=Test/CN=target.com"
-SAN="subjectAltName = DNS:target.com"
+CN="target.com"
+SUBJ="/C=NZ/ST=Test/L=Test/O=Test/OU=Test/CN=$CN"
+SAN="subjectAltName=DNS:target.com"
 
 # Generate Target Private Key
 openssl req \
@@ -40,18 +41,18 @@ openssl req \
         -nodes \
         -keyout target.key \
         -subj $SUBJ \
-        -reqexts SAN \
-        -config <(cat /etc/ssl/openssl.cnf \
-                <(printf "\n[SAN]\n$SAN"))
+        -extensions EXT \
+        -config <( \
+                printf "[dn]\nCN=$CN\n[req]\ndistinguished_name = dn\n[EXT]\n%s\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth" "$SAN")
 
 # Generate Req
 openssl req \
         -key target.key \
         -new -out target.csr \
         -subj $SUBJ \
-        -reqexts SAN \
-        -config <(cat /etc/ssl/openssl.cnf \
-                <(printf "\n[SAN]\n$SAN"))
+        -extensions EXT \
+        -config <( \
+                printf "[dn]\nCN=$CN\n[req]\ndistinguished_name = dn\n[EXT]\n%s\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth" "$SAN")
 
 # Generate x509 with signed CA
 openssl x509 \
@@ -60,7 +61,7 @@ openssl x509 \
         -CA ca.crt \
         -CAkey ca.key \
         -CAcreateserial \
-        -out target.crt
+        -out target.crt 
 
 SUBJ="/C=NZ/ST=Test/L=Test/O=Test/OU=Test/CN=client.com"
 SAN="subjectAltName = DNS:client.com"
