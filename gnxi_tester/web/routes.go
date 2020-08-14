@@ -27,6 +27,7 @@ func InitRouter(laddr string) {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/prompts", handlePromptsGet).Methods("GET")
+	r.HandleFunc("/prompts/list", handlePromptsGet).Methods("GET")
 	r.HandleFunc("/prompts", handlePromptsSet).Methods("POST", "PUT")
 	r.HandleFunc("/config", handleConfigGet).Methods("GET")
 	r.HandleFunc("/config", handleConfigSet).Methods("PUT")

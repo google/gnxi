@@ -46,3 +46,8 @@ func handlePromptsGet(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 	}
 }
+
+// handlePromptsList will give all the required fields needed to be given by the client.
+func handlePromptsList(w http.ResponseWriter, r *http.Request) {
+	// TODO: reflect fields of prompts.
+}
