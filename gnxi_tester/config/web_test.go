@@ -32,10 +32,10 @@ func TestSetPrompts(t *testing.T) {
 		gotMap := viper.GetStringMap("web.prompts")
 		got, ok := gotMap["test"].(Prompts)
 		if !ok {
-			t.Errorf("Couldn't find prompts in map")
+			t.Errorf("Couldn't find prompts in map.")
 		}
 		if diff := cmp.Diff(*prompts, got); diff != "" {
-			t.Errorf("didn't get correct prompts (-want +got) %s", diff)
+			t.Errorf("Didn't get correct prompts (-want +got) %s.", diff)
 		}
 	})
 }
@@ -44,13 +44,15 @@ func TestGetPrompts(t *testing.T) {
 	t.Run("will get", func(t *testing.T) {
 		viper.Set("web.prompts", map[string]interface{}{})
 		prompts := &Prompts{"test", map[string]string{}, map[string]string{}}
-		prompts.Set()
+		if err := prompts.Set(); err != nil {
+			t.Errorf("Error occured in setting prompts: %w", err)
+		}
 		got := GetPrompts()
 		if len(got) == 0 {
-			t.Error("no prompts received")
+			t.Fatal("No prompts received.")
 		}
 		if diff := cmp.Diff(*prompts, got[0]); diff != "" {
-			t.Errorf("didn't get correct prompts (-want +got) %s", diff)
+			t.Errorf("Didn't get correct prompts (-want +got) %s.", diff)
 		}
 	})
 }

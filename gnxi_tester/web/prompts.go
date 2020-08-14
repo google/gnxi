@@ -27,11 +27,11 @@ import (
 func handlePromptsSet(w http.ResponseWriter, r *http.Request) {
 	prompts := &config.Prompts{}
 	if err := json.NewDecoder(r.Body).Decode(prompts); err != nil {
-		logErr(r.Context(), err)
+		logErr(r.Header, err)
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 	}
 	if err := prompts.Set(); err != nil {
-		logErr(r.Context(), err)
+		logErr(r.Header, err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 	}
 	w.WriteHeader(http.StatusOK)
@@ -42,7 +42,7 @@ func handlePromptsSet(w http.ResponseWriter, r *http.Request) {
 func handlePromptsGet(w http.ResponseWriter, r *http.Request) {
 	prompts := config.GetPrompts()
 	if err := json.NewEncoder(w).Encode(prompts); err != nil {
-		logErr(r.Context(), err)
+		logErr(r.Header, err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 	}
 }

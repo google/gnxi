@@ -19,7 +19,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-// Prompts represents a a prompt config set that will get stored in viper.
+// Prompts represents a prompt config set that will get stored in viper.
 type Prompts struct {
 	Name    string            `json:"name" mapstructure:"name"`
 	Prompts map[string]string `json:"prompts" mapstructure:"name"`
@@ -37,7 +37,7 @@ func (p *Prompts) Set() error {
 	return nil
 }
 
-// GetPrompts returns a slice of all promts configs available.
+// GetPrompts returns a slice of all prompts configs available.
 func GetPrompts() []Prompts {
 	out := []Prompts{}
 	webPrompts := viper.GetStringMap("web.prompts")

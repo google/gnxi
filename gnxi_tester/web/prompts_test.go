@@ -16,7 +16,6 @@ limitations under the License.
 package web
 
 import (
-	"context"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -29,7 +28,7 @@ import (
 )
 
 func TestHandlePromptsSet(t *testing.T) {
-	logErr = func(ctx context.Context, err error) {}
+	logErr = func(head http.Header, err error) {}
 	tests := []struct {
 		name    string
 		code    int
@@ -67,11 +66,11 @@ func TestHandlePromptsSet(t *testing.T) {
 			handler.ServeHTTP(rr, req)
 			got := viper.GetStringMap("web.prompts")
 			if code := rr.Code; code != test.code {
-				t.Errorf("wanted exit code %d but got %d", test.code, code)
+				t.Errorf("Wanted exit code %d but got %d.", test.code, code)
 			}
 			if test.prompts != nil {
 				if diff := cmp.Diff(*test.prompts, got[test.prompts.Name]); diff != "" {
-					t.Errorf("prompt incorrectly set (-want +got): %s", diff)
+					t.Errorf("Prompt incorrectly set (-want +got): %s.", diff)
 				}
 			}
 		})
@@ -79,7 +78,7 @@ func TestHandlePromptsSet(t *testing.T) {
 }
 
 func TestHandlePromptsGet(t *testing.T) {
-	logErr = func(ctx context.Context, err error) {}
+	logErr = func(head http.Header, err error) {}
 	tests := []struct {
 		name     string
 		code     int
@@ -96,17 +95,17 @@ func TestHandlePromptsGet(t *testing.T) {
 			"terminates correctly",
 			http.StatusOK,
 			map[string]interface{}{
-				"test": config.Prompts{
-					Name: "test",
+				"test_name": config.Prompts{
+					Name: "test_name",
 					Prompts: map[string]string{
-						"test": "test",
+						"test_prompt": "test_value",
 					},
 					Files: map[string]string{
-						"test": "test",
+						"test_file": "test_path",
 					},
 				},
 			},
-			"[{\"name\":\"test\",\"prompts\":{\"test\":\"test\"},\"files\":{\"test\":\"test\"}}]\n",
+			"[{\"name\":\"test_name\",\"prompts\":{\"test_prompt\":\"test_value\"},\"files\":{\"test_file\":\"test_path\"}}]\n",
 		},
 	}
 	for _, test := range tests {
@@ -118,10 +117,12 @@ func TestHandlePromptsGet(t *testing.T) {
 			handler := http.HandlerFunc(handlePromptsGet)
 			handler.ServeHTTP(rr, req)
 			if code := rr.Code; code != test.code {
-				t.Errorf("wanted exit code %d but got %d", test.code, code)
+				t.Errorf("Wanted exit code %d but got %d.", test.code, code)
 			}
-			if b, _ := ioutil.ReadAll(rr.Body); test.respBody != string(b) {
-				t.Errorf("wanted %s but got %s", test.respBody, string(b))
+			if b, err := ioutil.ReadAll(rr.Body); err != nil {
+				t.Errorf("Error when decoding body: %w", err)
+			} else if test.respBody != string(b) {
+				t.Errorf("Wanted %s but got %s.", test.respBody, string(b))
 			}
 		})
 	}

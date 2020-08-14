@@ -17,10 +17,10 @@ package web
 
 import "net/http"
 
-func handleUpload(w http.ResponseWriter, r *http.Request) {
+func handleFileUpload(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func handleDelete(w http.ResponseWriter, r *http.Request) {
+func handleFileDelete(w http.ResponseWriter, r *http.Request) {
 
 }
