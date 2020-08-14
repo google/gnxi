@@ -28,6 +28,8 @@ import (
 	"fmt"
 	"math/big"
 	"time"
+
+	log "github.com/golang/glog"
 )
 
 var (
@@ -232,10 +234,14 @@ func Template(cn string) *x509.Certificate {
 		ExtraNames:         []pkix.AttributeTypeAndValue{},
 	}
 
+	sanValue, err := asn1.Marshal(fmt.Sprintf("DNS:%s", cn))
+	if err != nil {
+		log.Exit("Error occurred in asn1 marshall for SAN:", err)
+	}
 	return &x509.Certificate{
 		// AuthorityKeyId,
 		BasicConstraintsValid: true,
-		DNSNames:              []string{},
+		DNSNames:              []string{cn},
 		// ExcludedDNSDomains,
 		ExtKeyUsage: []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth, x509.ExtKeyUsageServerAuth},
 		// IsCA,
@@ -247,6 +253,13 @@ func Template(cn string) *x509.Certificate {
 		// SerialNumber,
 		SignatureAlgorithm: x509.SHA256WithRSA,
 		Subject:            subject,
+		ExtraExtensions: []pkix.Extension{
+			{
+				Id:       asn1.ObjectIdentifier{2, 5, 29, 17},
+				Value:    sanValue,
+				Critical: true,
+			},
+		},
 		// SubjectKeyId,
 		// UnknownExtKeyUsage,
 	}
