@@ -156,7 +156,7 @@ func stream(subscribeClient gnmi.GNMI_SubscribeClient) error {
 		case *pb.SubscribeResponse_Update:
 			utils.PrintProto(res)
 		default:
-			return errors.New("Unexpected response type")
+			return errors.New("unexpected response type")
 		}
 	}
 }
@@ -199,7 +199,7 @@ func poll(subscribeClient gnmi.GNMI_SubscribeClient, updatesOnly bool, pollInput
 			case *pb.SubscribeResponse_Update:
 				utils.PrintProto(res)
 			default:
-				return errors.New("Unexpected response type")
+				return errors.New("unexpected response type")
 			}
 		}
 	}
@@ -219,7 +219,7 @@ func once(subscribeClient gnmi.GNMI_SubscribeClient) error {
 		case *pb.SubscribeResponse_Update:
 			utils.PrintProto(res)
 		default:
-			return errors.New("Unexpected response type")
+			return errors.New("unexpected response type")
 		}
 	}
 }
@@ -229,7 +229,7 @@ func assembleSubscriptions(streamOnChange bool, sampleInterval uint64, paths []*
 	var subscriptionMode gnmi.SubscriptionMode
 	switch {
 	case streamOnChange && sampleInterval != 0:
-		return nil, errors.New("Only one of -stream_on_change and -sample_interval can be set")
+		return nil, errors.New("only one of -stream_on_change and -sample_interval can be set")
 	case streamOnChange:
 		subscriptionMode = pb.SubscriptionMode_ON_CHANGE
 	case sampleInterval != 0:
@@ -253,7 +253,7 @@ func assembleSubscriptions(streamOnChange bool, sampleInterval uint64, paths []*
 func subscriptionMode(subscriptionPoll, subscriptionOnce bool) (gnmi.SubscriptionList_Mode, error) {
 	switch {
 	case subscriptionPoll && subscriptionOnce:
-		return 0, errors.New("Only one of -once and -poll can be set")
+		return 0, errors.New("only one of -once and -poll can be set")
 	case subscriptionOnce:
 		return pb.SubscriptionList_ONCE, nil
 	case subscriptionPoll:
@@ -289,7 +289,7 @@ func parseEncoding(encodingFormat string) (gnmi.Encoding, error) {
 		for _, name := range pb.Encoding_name {
 			encodingList = append(encodingList, name)
 		}
-		return -1, fmt.Errorf("Supported encodings: %s", strings.Join(encodingList, ", "))
+		return -1, errors.New("supported encodings: ", strings.Join(encodingList, ", "))
 	}
 	return pb.Encoding(encoding), nil
 }
