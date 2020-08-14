@@ -2,34 +2,21 @@
 
 rm -f *.key *.csr *.crt *.pem *.srl
 
-SUBJ="/C=NZ/ST=Test/L=Test/O=Test/OU=Test/CN=ca"
-SAN="subjectAltName = DNS:ca"
-
-# Generate CA Private Key
-openssl req \
-        -newkey rsa:2048 \
-        -nodes \
-        -keyout ca.key \
-        -subj $SUBJ \
-        -reqexts SAN \
-        -config <(cat /etc/ssl/openssl.cnf \
-                <(printf "\n[SAN]\n$SAN"))
+CN="ca"
+SUBJ="/C=NZ/ST=Test/L=Test/O=Test/OU=Test/CN=$CN"
+SAN="subjectAltName=DNS:$CN"
 
 # Generate Req
-openssl req \
-        -key ca.key \
-        -new -out ca.csr \
+openssl req -x509 \
+        -out ca.crt \
+        -keyout ca.key \
+        -newkey rsa:2048 -nodes -sha256 \
+        -nodes \
         -subj $SUBJ \
-        -reqexts SAN \
-        -config <(cat /etc/ssl/openssl.cnf \
-                <(printf "\n[SAN]\n$SAN"))
+        -extensions EXT \
+        -config <( \
+                printf "[dn]\nCN=$CN\n[req]\ndistinguished_name = dn\n[EXT]\n%s\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth" "$SAN")
 
-# Generate self signed x509
-openssl x509 \
-        -signkey ca.key \
-        -in ca.csr \
-        -req \
-        -days 365 -out ca.crt 
 
 SUBJ="/C=NZ/ST=Test/L=Test/O=Test/OU=Test/CN=target.com"
 SAN="subjectAltName = DNS:target.com"
