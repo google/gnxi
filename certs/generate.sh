@@ -24,8 +24,6 @@ openssl x509 \
         -in ca.csr \
         -req \
         -days 365 -out ca.crt 
-        # -extensions v3_ca \
-        # -extfile <(printf "[v3_ca]\nbasicConstraints = critical,CA:TRUE, pathlen: 0\nkeyUsage = digitalSignature, keyEncipherment\n$SAN")
 
 SUBJ="/C=NZ/ST=Test/L=Test/O=Test/OU=Test/CN=target.com"
 SAN="subjectAltName = DNS:target.com"
