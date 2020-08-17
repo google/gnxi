@@ -44,6 +44,7 @@ func (i *arrayFlags) Set(value string) error {
 
 const (
 	defaultRequestTimeout = 10 * time.Second // This represents a value of 10 seconds and is used as a default RPC request timeout value.
+	UNKNOWN               = -1               // UNKNOWN represents an unknown encoding format or subscription mode
 )
 
 var (
@@ -242,7 +243,7 @@ func assembleSubscriptions(streamOnChange bool, sampleInterval uint64, paths []*
 func subscriptionMode(subscriptionPoll, subscriptionOnce bool) (gnmi.SubscriptionList_Mode, error) {
 	switch {
 	case subscriptionPoll && subscriptionOnce:
-		return -1, errors.New("only one of -once and -poll can be set")
+		return UNKNOWN, errors.New("only one of -once and -poll can be set")
 	case subscriptionOnce:
 		return pb.SubscriptionList_ONCE, nil
 	case subscriptionPoll:
@@ -278,7 +279,7 @@ func parseEncoding(encodingFormat string) (gnmi.Encoding, error) {
 		for _, name := range pb.Encoding_name {
 			encodingList = append(encodingList, name)
 		}
-		return -1, errors.New("supported encodings: " + strings.Join(encodingList, ", "))
+		return UNKNOWN, errors.New("supported encodings: " + strings.Join(encodingList, ", "))
 	}
 	return pb.Encoding(encoding), nil
 }
