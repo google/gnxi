@@ -28,8 +28,6 @@ import (
 	"fmt"
 	"math/big"
 	"time"
-
-	log "github.com/golang/glog"
 )
 
 var (
@@ -172,6 +170,7 @@ func (e *Entity) SignWith(parent *Entity) error {
 
 	e.Template.Issuer = parentTemplate.Subject
 	e.Template.AuthorityKeyId = parentTemplate.SubjectKeyId
+	e.Template.DNSNames = []string{e.Template.Issuer.CommonName}
 	derCert, err := x509.CreateCertificate(randReader, e.Template, parentTemplate, e.PublicKey, parent.PrivateKey)
 	if err != nil {
 		return fmt.Errorf("failed to create certificate: %v", err)
@@ -234,10 +233,6 @@ func Template(cn string) *x509.Certificate {
 		ExtraNames:         []pkix.AttributeTypeAndValue{},
 	}
 
-	sanValue, err := asn1.Marshal(fmt.Sprintf("DNS:%s", cn))
-	if err != nil {
-		log.Exit("Error occurred in asn1 marshall for SAN:", err)
-	}
 	return &x509.Certificate{
 		// AuthorityKeyId,
 		BasicConstraintsValid: true,
@@ -253,13 +248,6 @@ func Template(cn string) *x509.Certificate {
 		// SerialNumber,
 		SignatureAlgorithm: x509.SHA256WithRSA,
 		Subject:            subject,
-		ExtraExtensions: []pkix.Extension{
-			{
-				Id:       asn1.ObjectIdentifier{2, 5, 29, 17},
-				Value:    sanValue,
-				Critical: true,
-			},
-		},
 		// SubjectKeyId,
 		// UnknownExtKeyUsage,
 	}
