@@ -242,7 +242,7 @@ func assembleSubscriptions(streamOnChange bool, sampleInterval uint64, paths []*
 func subscriptionMode(subscriptionPoll, subscriptionOnce bool) (gnmi.SubscriptionList_Mode, error) {
 	switch {
 	case subscriptionPoll && subscriptionOnce:
-		return 0, errors.New("only one of -once and -poll can be set")
+		return -1, errors.New("only one of -once and -poll can be set")
 	case subscriptionOnce:
 		return pb.SubscriptionList_ONCE, nil
 	case subscriptionPoll:
