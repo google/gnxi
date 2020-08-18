@@ -21,6 +21,8 @@ import {FormsModule} from '@angular/forms'
 import { RunComponent } from './run/run.component';
 import { PromptsComponent } from './prompts/prompts.component';
 import { DevicesComponent } from './devices/devices.component';
+import { FileUploadComponent } from './file-upload/file-upload.component';
+import { FileUploadDirective } from './file-upload.directive';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { DevicesComponent } from './devices/devices.component';
     NavbarComponent,
     RunComponent,
     PromptsComponent,
-    DevicesComponent
+    DevicesComponent,
+    FileUploadComponent,
+    FileUploadDirective
   ],
   imports: [
     BrowserModule,

@@ -17,6 +17,8 @@
         <mat-label>Device Address</mat-label>
         <input matInput placeholder="Eg: localhost:9339" [value]="deviceList[selectedDeviceName.value]?.target_address">
       </mat-form-field>
+      <app-file-upload name="CA Cert"></app-file-upload><br>
+      <app-file-upload name="CA Key"></app-file-upload><br>
       <button mat-raised-button color="primary">Save</button>
     </div>
   </mat-card>
