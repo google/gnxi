@@ -65,14 +65,8 @@ func handleFileUpload(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
-	filenameRes := map[string]string{"filename": fileName}
-	response, err := json.Marshal(filenameRes)
-	if err != nil {
-		logErr(r.Header, err)
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-		return
-	}
-	fmt.Fprint(w, response)
+	result := map[string]string{"filename": fileName}
+	json.NewEncoder(w).Encode(result)
 }
 
 func handleFileDelete(w http.ResponseWriter, r *http.Request) {
