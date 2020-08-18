@@ -3,7 +3,6 @@
 rm -f *.key *.csr *.crt *.pem *.srl
 
 SUBJ="/C=NZ/ST=Test/L=Test/O=Test/OU=Test/CN=ca"
-SAN="subjectAltName = DNS:ca"
 
 # Generate CA Private Key
 openssl req \
