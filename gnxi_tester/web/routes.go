@@ -27,13 +27,14 @@ func InitRouter(laddr string) {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/prompts", handlePromptsGet).Methods("GET")
-	r.HandleFunc("/prompts/list", handlePromptsGet).Methods("GET")
+	r.HandleFunc("/prompts/list", handlePromptsList).Methods("GET")
 	r.HandleFunc("/prompts", handlePromptsSet).Methods("POST", "PUT")
-	r.HandleFunc("/config", handleConfigGet).Methods("GET")
-	r.HandleFunc("/config", handleConfigSet).Methods("PUT")
+	r.HandleFunc("/target/{name}", handleTargetGet).Methods("GET")
+	r.HandleFunc("/target/{name}", handleTargetSet).Methods("POST", "PUT")
 	r.HandleFunc("/file", handleFileUpload).Methods("POST")
 	r.HandleFunc("/file/{file}", handleFileDelete).Methods("DELETE")
-	r.HandleFunc("/run/{prompts}", handleRun).Methods("POST")
+	r.HandleFunc("/run", handleRun).Methods("POST")
+	r.HandleFunc("/run/output", handleRunOutput).Methods("POST")
 
 	if err := http.ListenAndServe(laddr, r); err != nil {
 		log.Exit(err)

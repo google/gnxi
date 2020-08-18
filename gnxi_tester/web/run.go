@@ -20,3 +20,6 @@ import "net/http"
 func handleRun(w http.ResponseWriter, r *http.Request) {
 
 }
+func handleRunOutput(w http.ResponseWriter, r *http.Request) {
+
+}
