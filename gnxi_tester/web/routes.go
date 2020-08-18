@@ -36,6 +36,7 @@ func InitRouter(laddr string) {
 	r.HandleFunc("/run", handleRun).Methods("POST")
 	r.HandleFunc("/run/output", handleRunOutput).Methods("POST")
 
+	log.Infof("Running web API on %s", laddr)
 	if err := http.ListenAndServe(laddr, r); err != nil {
 		log.Exit(err)
 	}
