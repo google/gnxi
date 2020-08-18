@@ -46,6 +46,17 @@ func writeToBuffer(target string, args ...interface{}) {
 	outputBuffer.WriteString(fmt.Sprintf(target+"\n", args...))
 }
 
+var runTests = func(prompts config.Prompts, request runRequest) {
+	promptHandler := func(name string) string {
+		return prompts.Prompts[name]
+	}
+	mu.Lock()
+	orchestrator.RunTests(request.Tests, promptHandler, prompts.Files, writeToBuffer)
+	<-time.After(endTimeout)
+	outputBuffer.Reset()
+	mu.Unlock()
+}
+
 func handleRun(w http.ResponseWriter, r *http.Request) {
 	request := runRequest{}
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
@@ -72,16 +83,7 @@ func handleRun(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	viper.Set("targets.last_target", request.Device)
-	promptHandler := func(name string) string {
-		return prompts.Prompts[name]
-	}
-	go func() {
-		mu.Lock()
-		orchestrator.RunTests(request.Tests, promptHandler, prompts.Files, writeToBuffer)
-		<-time.After(endTimeout)
-		outputBuffer.Reset()
-		mu.Unlock()
-	}()
+	go runTests(prompts, request)
 }
 
 func handleRunOutput(w http.ResponseWriter, r *http.Request) {

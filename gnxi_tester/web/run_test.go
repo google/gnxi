@@ -15,12 +15,101 @@ limitations under the License.
 
 package web
 
-import "testing"
+import (
+	"bytes"
+	"io/ioutil"
+	"net/http"
+	"net/http/httptest"
+	"testing"
+
+	"github.com/google/gnxi/gnxi_tester/config"
+	"github.com/spf13/viper"
+)
 
 func TestHandleRun(t *testing.T) {
-
+	runTests = func(prompts config.Prompts, request runRequest) {}
+	logErr = func(head http.Header, err error) {}
+	tests := []struct {
+		name    string
+		prompts map[string]interface{}
+		devices map[string]interface{}
+		code    int
+		postBody,
+		respBody string
+	}{
+		{
+			"failed to decode",
+			map[string]interface{}{},
+			map[string]interface{}{},
+			http.StatusBadRequest,
+			"not valid",
+			http.StatusText(http.StatusBadRequest) + "\n",
+		},
+		{
+			"prompts not found",
+			map[string]interface{}{},
+			map[string]interface{}{},
+			http.StatusBadRequest,
+			"{\"prompts\":\"name\"}",
+			http.StatusText(http.StatusBadRequest) + "\n",
+		},
+		{
+			"device not found",
+			map[string]interface{}{"name": config.Prompts{}},
+			map[string]interface{}{},
+			http.StatusBadRequest,
+			"{\"prompts\":\"name\"}",
+			http.StatusText(http.StatusBadRequest) + "\n",
+		},
+		{
+			"prompts found",
+			map[string]interface{}{"name": config.Prompts{}},
+			map[string]interface{}{"name": config.Device{}},
+			http.StatusOK,
+			"{\"prompts\":\"name\",\"device\":\"name\"}",
+			"",
+		},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			viper.SetConfigFile("/tmp/config.yml")
+			viper.Set("web.prompts", test.prompts)
+			viper.Set("targets.devices", test.devices)
+			rr := httptest.NewRecorder()
+			req, _ := http.NewRequest("POST", "/run", bytes.NewBufferString(test.postBody))
+			handler := http.HandlerFunc(handleRun)
+			handler.ServeHTTP(rr, req)
+			if code := rr.Code; code != test.code {
+				t.Errorf("Wanted exit code %d but got %d.", test.code, code)
+			}
+			if b, err := ioutil.ReadAll(rr.Body); err != nil {
+				t.Errorf("Error when decoding body: %w", err)
+			} else if test.respBody != string(b) {
+				t.Errorf("Wanted %s but got %s.", test.respBody, string(b))
+			}
+		})
+	}
 }
 
 func TestHandleRunOutput(t *testing.T) {
-
+	test := struct {
+		code int
+		body string
+	}{
+		200,
+		"test",
+	}
+	outputBuffer.WriteString(test.body)
+	rr := httptest.NewRecorder()
+	req, _ := http.NewRequest("GET", "/run/output", nil)
+	handler := http.HandlerFunc(handleRunOutput)
+	handler.ServeHTTP(rr, req)
+	if code := rr.Code; code != test.code {
+		t.Errorf("Wanted exit code %d but got %d.", test.code, code)
+	}
+	if b, err := ioutil.ReadAll(rr.Body); err != nil {
+		t.Errorf("Error when decoding body: %w", err)
+	} else if test.body != string(b) {
+		t.Errorf("Wanted %s but got %s.", test.body, string(b))
+	}
 }
