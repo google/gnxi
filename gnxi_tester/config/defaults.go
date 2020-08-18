@@ -40,10 +40,10 @@ func setDefaults() {
 	viper.SetDefault("docker.runtime", "alpine:latest")
 	viper.SetDefault("docker.files", createDockerfiles(testCases))
 	viper.SetDefault("order", order)
+	viper.SetDefault("web.prompts", map[string]interface{}{})
 	viper.SetDefault("files", map[string][]string{
 		"gnoi_os": {"os_path", "new_os_path"},
 	})
-
 }
 
 func generateTestCases() (Tests, []string) {
