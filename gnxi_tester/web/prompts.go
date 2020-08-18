@@ -17,11 +17,16 @@ package web
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/google/gnxi/gnxi_tester/config"
+	"github.com/spf13/viper"
 )
+
+type promptListResponse struct {
+	Prompts []string `json:"prompts"`
+	Files   []string `json:"files"`
+}
 
 // handleConfigSet will set the prompt config variables in persistent storage.
 func handlePromptsSet(w http.ResponseWriter, r *http.Request) {
@@ -29,13 +34,12 @@ func handlePromptsSet(w http.ResponseWriter, r *http.Request) {
 	if err := json.NewDecoder(r.Body).Decode(prompts); err != nil {
 		logErr(r.Header, err)
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
 	}
 	if err := prompts.Set(); err != nil {
 		logErr(r.Header, err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 	}
-	w.WriteHeader(http.StatusOK)
-	fmt.Fprint(w, http.StatusText(http.StatusOK))
 }
 
 // handleConfigGet will get all prompt config variables from persistent storage.
@@ -49,5 +53,24 @@ func handlePromptsGet(w http.ResponseWriter, r *http.Request) {
 
 // handlePromptsList will give all the required fields needed to be given by the client.
 func handlePromptsList(w http.ResponseWriter, r *http.Request) {
-	// TODO: reflect fields of prompts.
+	tests := config.GetTests()
+	prompts := make([]string, 0)
+	for _, test := range viper.GetStringSlice("order") {
+		if majorTest, ok := tests[test]; ok {
+			for _, minorTest := range majorTest {
+				prompts = append(prompts, minorTest.Prompt...)
+			}
+		}
+	}
+	fileConfig := viper.GetStringMapStringSlice("files")
+	files := make([]string, 0)
+	for _, majorTest := range fileConfig {
+		for _, file := range majorTest {
+			files = append(files, file)
+		}
+	}
+	if err := json.NewEncoder(w).Encode(promptListResponse{prompts, files}); err != nil {
+		logErr(r.Header, err)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+	}
 }
