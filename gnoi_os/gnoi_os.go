@@ -76,9 +76,6 @@ func install() {
 	if *osFile == "" {
 		log.Exit("No OS image path provided. Provide one with -os")
 	}
-	if *version == "" {
-		log.Exit("No version provided. Provide one with -version")
-	}
 	if err := client.Install(ctx, *osFile, *version, *timeOut, *readChunkSize); err != nil {
 		log.Exit("Failed Install: ", err)
 	}

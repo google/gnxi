@@ -32,10 +32,11 @@ type installResult struct {
 
 type mockTransferStream struct {
 	pb.OS_InstallServer
-	response chan *pb.InstallResponse
-	errorReq *pb.InstallRequest
-	result   chan *pb.InstallResponse
-	os       *mockos.OS
+	response      chan *pb.InstallResponse
+	errorReq      *pb.InstallRequest
+	result        chan *pb.InstallResponse
+	os            *mockos.OS
+	forceTransfer bool
 }
 
 func (m mockTransferStream) Send(res *pb.InstallResponse) error {
@@ -70,7 +71,11 @@ func (m mockTransferStream) Recv() (*pb.InstallRequest, error) {
 			return &pb.InstallRequest{Request: &pb.InstallRequest_TransferContent{TransferContent: out}}, nil
 		}
 	default:
-		return &pb.InstallRequest{Request: &pb.InstallRequest_TransferRequest{TransferRequest: &pb.TransferRequest{Version: m.os.MockOS.Version}}}, nil
+		var transferReq = &pb.TransferRequest{}
+		if !m.forceTransfer {
+			transferReq = &pb.TransferRequest{Version: m.os.MockOS.Version}
+		}
+		return &pb.InstallRequest{Request: &pb.InstallRequest_TransferRequest{TransferRequest: transferReq}}, nil
 	}
 	return nil, nil
 }
@@ -268,6 +273,12 @@ func TestTargetInstall(t *testing.T) {
 		Incompatible: true,
 	}}
 	incompatibleOS.Hash()
+	factoryOS := &mockos.OS{MockOS: mockosPb.MockOS{
+		Version: "1.0.0a",
+		Cookie:  "cookiestring",
+		Padding: buf,
+	}}
+	factoryOS.Hash()
 	tests := []struct {
 		name   string
 		stream *mockTransferStream
@@ -282,7 +293,6 @@ func TestTargetInstall(t *testing.T) {
 			},
 			want: &installResult{
 				res: &pb.InstallResponse{Response: &pb.InstallResponse_Validated{Validated: &pb.Validated{Version: oS.Version}}},
-				err: nil,
 			},
 		},
 		{
@@ -294,24 +304,18 @@ func TestTargetInstall(t *testing.T) {
 				os:       oS,
 			},
 			want: &installResult{
-				res: nil,
 				err: errors.New("Failed to receive TransferRequest"),
 			},
 		},
 		{
-			name: "force transferring already running os",
+			name: "transferring already running os",
 			stream: &mockTransferStream{
 				response: make(chan *pb.InstallResponse, 1),
 				result:   make(chan *pb.InstallResponse, 1),
-				os: &mockos.OS{MockOS: mockosPb.MockOS{
-					Version: "1.0.0a",
-				}},
+				os:       factoryOS,
 			},
 			want: &installResult{
-				res: &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{
-					InstallError: &pb.InstallError{Type: pb.InstallError_INSTALL_RUN_PACKAGE},
-				}},
-				err: errors.New("Attempting to force transfer an OS of the same version as the currently running OS"),
+				res: &pb.InstallResponse{Response: &pb.InstallResponse_Validated{Validated: &pb.Validated{Version: factoryOS.Version}}},
 			},
 		},
 		{
@@ -325,7 +329,6 @@ func TestTargetInstall(t *testing.T) {
 			},
 			want: &installResult{
 				res: &pb.InstallResponse{Response: &pb.InstallResponse_Validated{Validated: &pb.Validated{Version: "1.0.3c"}}},
-				err: nil,
 			},
 		},
 		{
@@ -342,7 +345,6 @@ func TestTargetInstall(t *testing.T) {
 			},
 			want: &installResult{
 				res: &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_INTEGRITY_FAIL}}},
-				err: nil,
 			},
 		},
 		{
@@ -354,7 +356,6 @@ func TestTargetInstall(t *testing.T) {
 			},
 			want: &installResult{
 				res: &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_INCOMPATIBLE, Detail: "Unsupported OS Version"}}},
-				err: nil,
 			},
 		},
 		{
@@ -362,13 +363,24 @@ func TestTargetInstall(t *testing.T) {
 			stream: &mockTransferStream{
 				response: make(chan *pb.InstallResponse, 1),
 				result:   make(chan *pb.InstallResponse, 1),
-				os: &mockos.OS{MockOS: mockosPb.MockOS{
-					Version: "1.0.2c",
-				}},
+				os:       &mockos.OS{MockOS: mockosPb.MockOS{}},
 			},
 			want: &installResult{
 				res: &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_PARSE_FAIL}}},
-				err: nil,
+			},
+		},
+		{
+			name: "force transferring os without version specified",
+			stream: &mockTransferStream{
+				response:      make(chan *pb.InstallResponse, 1),
+				result:        make(chan *pb.InstallResponse, 1),
+				os:            factoryOS,
+				forceTransfer: true,
+			},
+			want: &installResult{
+				res: &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{
+					InstallError: &pb.InstallError{Type: pb.InstallError_INSTALL_RUN_PACKAGE},
+				}},
 			},
 		},
 	}
@@ -378,7 +390,9 @@ func TestTargetInstall(t *testing.T) {
 			got := &installResult{
 				err: server.Install(test.stream),
 			}
-			close(test.stream.result)
+			if !test.stream.forceTransfer {
+				close(test.stream.result)
+			}
 			got.res = <-test.stream.result
 			if diff := pretty.Compare(test.want, got); diff != "" {
 				t.Errorf("Install(stream pb.OS_InstallServer): (-want +got):\n%s", diff)

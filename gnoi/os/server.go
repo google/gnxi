@@ -88,16 +88,6 @@ func (s *Server) Install(stream pb.OS_InstallServer) error {
 	if transferRequest == nil {
 		return errors.New("Failed to receive TransferRequest")
 	}
-	if s.manager.IsRunning(transferRequest.Version) {
-		response = &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{
-			InstallError: &pb.InstallError{Type: pb.InstallError_INSTALL_RUN_PACKAGE},
-		}}
-		utils.LogProto(response)
-		if err = stream.Send(response); err != nil {
-			return err
-		}
-		return errors.New("Attempting to force transfer an OS of the same version as the currently running OS")
-	}
 	if version := transferRequest.Version; s.manager.IsInstalled(version) {
 		response = &pb.InstallResponse{Response: &pb.InstallResponse_Validated{
 			Validated: &pb.Validated{
@@ -151,6 +141,16 @@ func (s *Server) Install(stream pb.OS_InstallServer) error {
 	}
 	if mockOS.Incompatible {
 		response := &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{&pb.InstallError{Type: pb.InstallError_INCOMPATIBLE, Detail: "Unsupported OS Version"}}}
+		utils.LogProto(response)
+		if err = stream.Send(response); err != nil {
+			return err
+		}
+		return nil
+	}
+	if s.manager.IsRunning(mockOS.Version) {
+		response = &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{
+			InstallError: &pb.InstallError{Type: pb.InstallError_INSTALL_RUN_PACKAGE},
+		}}
 		utils.LogProto(response)
 		if err = stream.Send(response); err != nil {
 			return err
