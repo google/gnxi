@@ -16,6 +16,8 @@ import (
 	"context"
 	"errors"
 	"flag"
+	"fmt"
+	"io"
 	"strings"
 	"time"
 
@@ -45,7 +47,6 @@ const (
 )
 
 var (
-	subscribeClient   pb.GNMI_SubscribeClient
 	xPathFlags        arrayFlags
 	pbPathFlags       arrayFlags
 	targetAddr        = flag.String("target_addr", ":9339", "The target address in the format of host:port")
@@ -57,6 +58,7 @@ var (
 	encodingFormat    = flag.String("encoding", "JSON_IETF", "The encoding format used by the target for notifications")
 	suppressRedundant = flag.Bool("suppress_redundant", false, "If true, in SAMPLE mode, unchanged values are not sent by the target")
 	heartbeatInterval = flag.Uint64("heartbeat_interval", 0, "Specifies maximum allowed period of silence in seconds when surpress redundant is used")
+	updatesOnly       = flag.Bool("updates_only", false, "If true, the target only transmits updates to the subscribed paths")
 )
 
 func main() {
@@ -76,49 +78,28 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), *connectionTimeout)
 	defer cancel()
 
-	subscribeClient, err = client.Subscribe(ctx)
+	subscribeClient, err := client.Subscribe(ctx)
 	if err != nil {
 		log.Fatalf("Error creating GNMI_SubscribeClient: %v", err)
 	}
 
-	encoding, ok := pb.Encoding_value[*encodingFormat]
-	if !ok {
-		var encodingList []string
-		for _, name := range pb.Encoding_name {
-			encodingList = append(encodingList, name)
-		}
-		log.Exitf("Supported encodings: %s", strings.Join(encodingList, ", "))
+	encoding, err := parseEncoding(*encodingFormat)
+	if err != nil {
+		log.Exitf("Error parsing encoding: %v", err)
 	}
 
-	var subscriptionListMode gnmi.SubscriptionList_Mode
-	switch {
-	case *subscriptionPoll && *subscriptionOnce:
+	subscriptionListMode, err := subscriptionMode(*subscriptionPoll, *subscriptionOnce)
+	if err != nil {
 		flag.Usage()
-		log.Exitf("Only one of -once and -poll can be set")
-	case *subscriptionOnce:
-		subscriptionListMode = pb.SubscriptionList_ONCE
-	case *subscriptionPoll:
-		subscriptionListMode = pb.SubscriptionList_POLL
-	default:
-		subscriptionListMode = pb.SubscriptionList_STREAM
+		log.Exit(err)
 	}
 
-	var pbPathList []*pb.Path
-	for _, xPath := range xPathFlags {
-		pbPath, err := xpath.ToGNMIPath(xPath)
-		if err != nil {
-			log.Exitf("error in parsing xpath %q to gnmi path", xPath)
-		}
-		pbPathList = append(pbPathList, pbPath)
+	pbPathList, err := parsePaths(xPathFlags, pbPathFlags)
+	if err != nil {
+		log.Exitf("Error parsing paths: %v", err)
 	}
-	for _, textPbPath := range pbPathFlags {
-		var pbPath pb.Path
-		if err := proto.UnmarshalText(textPbPath, &pbPath); err != nil {
-			log.Exitf("error in unmarshaling %q to gnmi Path", textPbPath)
-		}
-		pbPathList = append(pbPathList, &pbPath)
-	}
-	subscriptions, err := assembleSubscriptions(pbPathList)
+
+	subscriptions, err := assembleSubscriptions(*streamOnChange, *sampleInterval, pbPathList)
 	if err != nil {
 		log.Exitf("Error assembling subscriptions: %v", err)
 	}
@@ -126,9 +107,10 @@ func main() {
 	request := &pb.SubscribeRequest{
 		Request: &pb.SubscribeRequest_Subscribe{
 			Subscribe: &pb.SubscriptionList{
-				Encoding:     pb.Encoding(encoding),
+				Encoding:     encoding,
 				Mode:         subscriptionListMode,
 				Subscription: subscriptions,
+				UpdatesOnly:  *updatesOnly,
 			},
 		},
 	}
@@ -136,37 +118,109 @@ func main() {
 	if err := subscribeClient.Send(request); err != nil {
 		log.Exitf("Failed to send request: %v", err)
 	}
+
 	switch subscriptionListMode {
 	case pb.SubscriptionList_STREAM:
-		stream()
+		if err := stream(subscribeClient); err != nil {
+			log.Exitf("Error using STREAM mode: %v", err)
+		}
 	case pb.SubscriptionList_POLL:
-		poll()
+		if err := poll(subscribeClient, *updatesOnly, pollUser); err != nil {
+			log.Exitf("Error using POLL mode: %v", err)
+		}
 	case pb.SubscriptionList_ONCE:
-		once()
+		if err := once(subscribeClient); err != nil {
+			log.Exitf("Error using ONCE mode: %v", err)
+		}
 	}
 }
 
-func stream() {
+func pollUser() {
+	log.Info("Press enter to poll")
+	fmt.Scanln()
+}
+
+func stream(subscribeClient gnmi.GNMI_SubscribeClient) error {
+	for {
+		if closed, err := receiveNotifications(subscribeClient); err != nil {
+			return err
+		} else if closed {
+			return nil
+		}
+	}
+}
+
+func poll(subscribeClient gnmi.GNMI_SubscribeClient, updatesOnly bool, pollInput func()) error {
+	ready := make(chan bool, 1)
+	ready <- true
+	pollRequest := &pb.SubscribeRequest{Request: &pb.SubscribeRequest_Poll{}}
+	if updatesOnly {
+		res, err := subscribeClient.Recv()
+		if err != nil {
+			return err
+		}
+		if syncRes := res.GetSyncResponse(); !syncRes {
+			return errors.New("-updates_only flag is set but failed to receive SyncResponse first for POLL mode")
+		}
+		log.Info("SyncResponse received")
+	}
+	for {
+		select {
+		case <-ready:
+			pollInput()
+			if err := subscribeClient.Send(pollRequest); err != nil {
+				return err
+			}
+			utils.LogProto(pollRequest)
+		default:
+			if closed, err := receiveNotifications(subscribeClient); err != nil {
+				return err
+			} else if closed {
+				return nil
+			}
+			ready <- true
+		}
+	}
 
 }
 
-func poll() {
-
+func once(subscribeClient gnmi.GNMI_SubscribeClient) error {
+	if _, err := receiveNotifications(subscribeClient); err != nil {
+		return err
+	}
+	return nil
 }
 
-func once() {
-
+func receiveNotifications(subscribeClient gnmi.GNMI_SubscribeClient) (bool, error) {
+	for {
+		res, err := subscribeClient.Recv()
+		if err == io.EOF {
+			return true, nil
+		}
+		if err != nil {
+			return false, err
+		}
+		switch res.Response.(type) {
+		case *pb.SubscribeResponse_SyncResponse:
+			log.Info("SyncResponse received")
+			return false, nil
+		case *pb.SubscribeResponse_Update:
+			utils.PrintProto(res)
+		default:
+			return false, errors.New("unexpected response type")
+		}
+	}
 }
 
-func assembleSubscriptions(paths []*pb.Path) ([]*pb.Subscription, error) {
+func assembleSubscriptions(streamOnChange bool, sampleInterval uint64, paths []*pb.Path) ([]*pb.Subscription, error) {
 	var subscriptions []*pb.Subscription
 	var subscriptionMode gnmi.SubscriptionMode
 	switch {
-	case *streamOnChange && *sampleInterval != 0:
-		return nil, errors.New("Only one of -stream_on_change and -sample_interval can be set")
-	case *streamOnChange:
+	case streamOnChange && sampleInterval != 0:
+		return nil, errors.New("only one of -stream_on_change and -sample_interval can be set")
+	case streamOnChange:
 		subscriptionMode = pb.SubscriptionMode_ON_CHANGE
-	case *sampleInterval != 0:
+	case sampleInterval != 0:
 		subscriptionMode = pb.SubscriptionMode_SAMPLE
 	default:
 		subscriptionMode = pb.SubscriptionMode_TARGET_DEFINED
@@ -175,11 +229,55 @@ func assembleSubscriptions(paths []*pb.Path) ([]*pb.Subscription, error) {
 		subscription := &pb.Subscription{
 			Path:              path,
 			Mode:              subscriptionMode,
-			SampleInterval:    *sampleInterval,
+			SampleInterval:    sampleInterval,
 			SuppressRedundant: *suppressRedundant,
 			HeartbeatInterval: *heartbeatInterval,
 		}
 		subscriptions = append(subscriptions, subscription)
 	}
 	return subscriptions, nil
+}
+
+func subscriptionMode(subscriptionPoll, subscriptionOnce bool) (gnmi.SubscriptionList_Mode, error) {
+	switch {
+	case subscriptionPoll && subscriptionOnce:
+		return 0, errors.New("only one of -once and -poll can be set")
+	case subscriptionOnce:
+		return pb.SubscriptionList_ONCE, nil
+	case subscriptionPoll:
+		return pb.SubscriptionList_POLL, nil
+	default:
+		return pb.SubscriptionList_STREAM, nil
+	}
+}
+
+func parsePaths(xPathFlags, pbPathFlags arrayFlags) ([]*pb.Path, error) {
+	var pbPathList []*pb.Path
+	for _, xPath := range xPathFlags {
+		pbPath, err := xpath.ToGNMIPath(xPath)
+		if err != nil {
+			return nil, fmt.Errorf("error in parsing xpath %q to gnmi path", xPath)
+		}
+		pbPathList = append(pbPathList, pbPath)
+	}
+	for _, textPbPath := range pbPathFlags {
+		var pbPath pb.Path
+		if err := proto.UnmarshalText(textPbPath, &pbPath); err != nil {
+			return nil, fmt.Errorf("error in unmarshaling %q to gnmi Path", textPbPath)
+		}
+		pbPathList = append(pbPathList, &pbPath)
+	}
+	return pbPathList, nil
+}
+
+func parseEncoding(encodingFormat string) (gnmi.Encoding, error) {
+	encoding, ok := pb.Encoding_value[encodingFormat]
+	if !ok {
+		var encodingList []string
+		for _, name := range pb.Encoding_name {
+			encodingList = append(encodingList, name)
+		}
+		return 0, errors.New("supported encodings: " + strings.Join(encodingList, ", "))
+	}
+	return pb.Encoding(encoding), nil
 }
