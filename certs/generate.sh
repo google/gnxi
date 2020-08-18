@@ -24,8 +24,9 @@ openssl x509 \
         -req \
         -days 365 -out ca.crt 
 
-SUBJ="/C=NZ/ST=Test/L=Test/O=Test/OU=Test/CN=target.com"
-SAN="subjectAltName = DNS:target.com"
+TARGET_NAME="target.com"
+SUBJ="/C=NZ/ST=Test/L=Test/O=Test/OU=Test/CN=$TARGET_NAME"
+SAN="subjectAltName = DNS:$TARGET_NAME"
 
 # Generate Target Private Key
 openssl req \
@@ -51,8 +52,9 @@ openssl x509 \
         -extensions v3_ca \
         -extfile <(printf "[v3_ca]\nbasicConstraints = CA:FALSE\nkeyUsage = digitalSignature, keyEncipherment\n$SAN")
 
-SUBJ="/C=NZ/ST=Test/L=Test/O=Test/OU=Test/CN=client.com"
-SAN="subjectAltName = DNS:client.com"
+CLIENT_NAME="client.com"
+SUBJ="/C=NZ/ST=Test/L=Test/O=Test/OU=Test/CN=$CLIENT_NAME"
+SAN="subjectAltName = DNS:$CLIENT_NAME"
 
 # Generate Client Private Key
 openssl req \
