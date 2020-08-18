@@ -17,12 +17,13 @@ package web
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
 	"os"
 	"path"
-	"strings"
+	"path/filepath"
 
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
@@ -45,16 +46,13 @@ func handleFileUpload(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
-	filesPath, err := initDirectory()
+	filesPath, err := initializeDirectory()
 	if err != nil {
 		logErr(r.Header, err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
-	fileName := uuid.New().String()
-	if extension := extractExtension(tempFileHeader.Filename); extension != "" {
-		fileName = fileName + "." + extension
-	}
+	fileName := uuid.New().String() + filepath.Ext(tempFileHeader.Filename)
 	fullPath := path.Join(filesPath, fileName)
 	if _, err = os.Stat(fullPath); !os.IsNotExist(err) {
 		logErr(r.Header, err)
@@ -80,9 +78,9 @@ func handleFileUpload(w http.ResponseWriter, r *http.Request) {
 func handleFileDelete(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	fileName := vars["file"]
-	filesDir, err := filesDir()
-	if err != nil {
-		logErr(r.Header, err)
+	filesDir := filesDir()
+	if filesDir == "" {
+		logErr(r.Header, errors.New("failed to get files path"))
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
@@ -95,10 +93,10 @@ func handleFileDelete(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, http.StatusText(http.StatusOK))
 }
 
-func initDirectory() (string, error) {
-	filesDir, err := filesDir()
-	if err != nil {
-		return "", err
+func initializeDirectory() (string, error) {
+	filesDir := filesDir()
+	if filesDir == "" {
+		return "", errors.New("failed to get files path")
 	}
 	if _, err := os.Stat(filesDir); os.IsNotExist(err) {
 		os.MkdirAll(filesDir, defaultDirectoryPermission)
@@ -106,19 +104,11 @@ func initDirectory() (string, error) {
 	return filesDir, nil
 }
 
-func filesDir() (string, error) {
+func filesDir() string {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
-		return "", err
+		return ""
 	}
 	filesDir := path.Join(homeDir, ".gnxi/files")
-	return filesDir, nil
-}
-
-func extractExtension(fileName string) string {
-	temp := strings.Split(fileName, ".")
-	if len(temp) >= 2 {
-		return temp[len(temp)-1]
-	}
-	return ""
+	return filesDir
 }
