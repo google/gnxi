@@ -1,0 +1,17 @@
+version: "3.4"
+
+services:
+  web_ui:
+    build: ./web_ui
+    ports: 
+      - 8800:80
+    environment: 
+      - BACKEND_HOST=localhost:8888
+    container_name: gnxi_web_ui
+  backend:
+    build: 
+      context: ..
+      dockerfile: gnxi_tester/Dockerfile
+    ports:
+      - 8888:80
+    container_name: gnxi_backend
