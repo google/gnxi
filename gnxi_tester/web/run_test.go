@@ -15,12 +15,12 @@ limitations under the License.
 
 package web
 
-import "net/http"
+import "testing"
 
-func handleConfigGet(w http.ResponseWriter, r *http.Request) {
+func TestHandleRun(t *testing.T) {
 
 }
 
-func handleConfigSet(w http.ResponseWriter, r *http.Request) {
+func TestHandleRunOutput(t *testing.T) {
 
 }

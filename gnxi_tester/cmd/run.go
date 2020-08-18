@@ -57,7 +57,7 @@ func handleRun(cmd *cobra.Command, args []string) {
 	if err := config.SetTarget(targetName, targetAddress, ca, caKey); err != nil {
 		log.Exitf("Error writing config: %v", err)
 	}
-	if success, err := orchestrator.RunTests(args, promptUser, parseFiles()); err != nil {
+	if success, err := orchestrator.RunTests(args, promptUser, parseFiles(), log.Infof); err != nil {
 		log.Exitf("Error running tests: %v", err)
 	} else {
 		log.Info("Tests ran successfully:")

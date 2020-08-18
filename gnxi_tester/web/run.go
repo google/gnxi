@@ -15,8 +15,81 @@ limitations under the License.
 
 package web
 
-import "net/http"
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+	"sync"
+	"time"
+
+	"github.com/google/gnxi/gnxi_tester/config"
+	"github.com/google/gnxi/gnxi_tester/orchestrator"
+	"github.com/spf13/viper"
+)
+
+const endTimeout = 10 * time.Second
+
+var (
+	outputBuffer = bytes.NewBuffer([]byte{})
+	mu           = sync.Mutex{}
+)
+
+type runRequest struct {
+	Prompts string   `json:"prompts"`
+	Device  string   `json:"device"`
+	Tests   []string `json:"tests"`
+}
+
+func writeToBuffer(target string, args ...interface{}) {
+	outputBuffer.WriteString(fmt.Sprintf(target+"\n", args...))
+}
 
 func handleRun(w http.ResponseWriter, r *http.Request) {
+	request := runRequest{}
+	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
+		logErr(r.Header, err)
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+	configPrompts := viper.GetStringMap("web.prompts")
+	promptsGeneric, ok := configPrompts[request.Prompts]
+	if !ok {
+		logErr(r.Header, fmt.Errorf("%s prompts not found", request.Prompts))
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+	prompts, ok := promptsGeneric.(config.Prompts)
+	if !ok {
+		logErr(r.Header, fmt.Errorf("%s prompts invalid", request.Prompts))
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+	if _, ok := config.GetDevices()[request.Device]; !ok {
+		logErr(r.Header, fmt.Errorf("%s device not found", request.Device))
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+	viper.Set("targets.last_target", request.Device)
+	promptHandler := func(name string) string {
+		return prompts.Prompts[name]
+	}
+	go func() {
+		mu.Lock()
+		orchestrator.RunTests(request.Tests, promptHandler, prompts.Files, writeToBuffer)
+		<-time.After(endTimeout)
+		outputBuffer.Reset()
+		mu.Unlock()
+	}()
+}
 
+func handleRunOutput(w http.ResponseWriter, r *http.Request) {
+	out, err := ioutil.ReadAll(outputBuffer)
+	if err != nil {
+		logErr(r.Header, err)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+	w.Write(out)
 }
