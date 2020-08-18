@@ -32,7 +32,6 @@ import (
 
 var (
 	targetAddr = flag.String("target_addr", ":9339", "The target address in the format of host:port")
-	targetName = flag.String("target_name", "", "The target name used to verify the hostname returned by TLS handshake")
 	rollbackOs = flag.Bool("rollback_os", false, "Target must revert to factory OS")
 	zeroFill   = flag.Bool("zero_fill", false, "Target must overwrite persistent storage with zeroes")
 	timeOut    = flag.Duration("time_out", 10*time.Second, "Timeout for ResetTarget operation, 10 seconds by default")
@@ -41,12 +40,7 @@ var (
 func main() {
 	flag.Parse()
 
-	if *targetName == "" || *targetAddr == "" {
-		flag.Usage()
-		log.Exit("-target_name and -target_addr must be specified")
-	}
-
-	opts := credentials.ClientCredentials(*targetName)
+	opts := credentials.ClientCredentials()
 	conn, err := grpc.Dial(*targetAddr, opts...)
 	if err != nil {
 		log.Exitf("Dialing to %s failed: %v", *targetAddr, err)
