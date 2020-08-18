@@ -72,7 +72,7 @@ func handleFileUpload(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
-	w.Write(response)
+	fmt.Fprint(w, response)
 }
 
 func handleFileDelete(w http.ResponseWriter, r *http.Request) {
