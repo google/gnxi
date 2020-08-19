@@ -19,8 +19,7 @@ services:
       target: dev
     command: modd 
     working_dir: /workspace/gnxi_tester
-    ports:
-      - 8888:80
+    network_mode: host
     container_name: gnxi_backend_dev
     volumes: 
       - ..:/workspace
