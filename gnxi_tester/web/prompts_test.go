@@ -89,7 +89,7 @@ func TestHandlePromptsGet(t *testing.T) {
 			"encode error",
 			http.StatusOK,
 			nil,
-			"[]\n",
+			"{}\n",
 		},
 		{
 			"terminates correctly",
@@ -105,7 +105,7 @@ func TestHandlePromptsGet(t *testing.T) {
 					},
 				},
 			},
-			"[{\"name\":\"test_name\",\"prompts\":{\"test_prompt\":\"test_value\"},\"files\":{\"test_file\":\"test_path\"}}]\n",
+			"{\"test_name\":{\"name\":\"test_name\",\"prompts\":{\"test_prompt\":\"test_value\"},\"files\":{\"test_file\":\"test_path\"}}}\n",
 		},
 	}
 	for _, test := range tests {

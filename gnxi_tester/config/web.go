@@ -38,12 +38,12 @@ func (p *Prompts) Set() error {
 }
 
 // GetPrompts returns a slice of all prompts configs available.
-func GetPrompts() []Prompts {
-	out := []Prompts{}
+func GetPrompts() map[string]Prompts {
+	out := map[string]Prompts{}
 	webPrompts := viper.GetStringMap("web.prompts")
-	for _, p := range webPrompts {
+	for name, p := range webPrompts {
 		if prompts, ok := p.(Prompts); ok {
-			out = append(out, prompts)
+			out[name] = prompts
 		}
 	}
 	return out
