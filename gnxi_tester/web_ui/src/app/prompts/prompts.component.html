@@ -6,12 +6,12 @@
         <mat-label>Edit existing prompts</mat-label>
         <mat-select [formControl]="selected" name="device">
           <mat-option>Create new set of prompts</mat-option>
-          <mat-option *ngFor="let p of promptsList" [value]="p">{{p}}</mat-option>
+          <mat-option *ngFor="let p of promptsNames" [value]="p">{{p}}</mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field>
-        <mat-label>Sample input</mat-label>
-        <input matInput >
+      <mat-form-field *ngFor="let name of promptsList">
+        <mat-label>{{name}}</mat-label>
+        <input matInput [formControl]="controlGroup[name]" [value]="prompts[selected]?.prompts[name]" />
       </mat-form-field>
     </div>
     <div>

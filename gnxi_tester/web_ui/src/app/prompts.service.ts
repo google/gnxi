@@ -8,6 +8,13 @@ export interface Prompts {
   files: {[name: string]: string};
 }
 
+export interface PromptsList {
+  prompts: string[];
+  files: string[];
+}
+
+export type PromptsSet = {[name: string]: Prompts}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,12 +22,12 @@ export class PromptsService {
   constructor(private http: HttpClient) {
   }
 
-  getPrompts(): Observable<Prompts[]> {
-    return this.http.get<Prompts[]>("http://localhost:8888/prompts")
+  getPrompts(): Observable<PromptsSet> {
+    return this.http.get<PromptsSet>("http://localhost:8888/prompts")
   }
 
-  getPromptsList(): Observable<string[]> {
-    return this.http.get<string[]>("http://localhost:8888/prompts/list")
+  getPromptsList(): Observable<PromptsList> {
+    return this.http.get<PromptsList>("http://localhost:8888/prompts/list")
   }
 
   setPrompts(prompts: Prompts) {
