@@ -13,7 +13,6 @@ export class FileUploadComponent implements OnInit {
   }
 
   @Input() name: string;
-  @Input() path: string;
   @Input() progress: boolean;
   @Input() ID: string;
   @Output() getID = new EventEmitter<string>();

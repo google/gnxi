@@ -19,7 +19,10 @@ export class PromptsComponent implements OnInit {
       this.prompts = await this.promptsService.getPrompts().toPromise()
       this.promptsNames = Object.keys(this.prompts)
       for (let field of this.promptsList.prompts) {
-        this.controlGroup[field] = new FormControl("");
+        this.controlGroupPrompts[field] = new FormControl("");
+      }
+      for (let field of this.promptsList.files) {
+        this.controlGroupFiles[field] = new FormControl("");
       }
     } catch(e) {
       console.error(e)
@@ -29,7 +32,8 @@ export class PromptsComponent implements OnInit {
   promptsList: PromptsList
   promptsNames: string[];
 
-  controlGroup: ControlGroup = {};
+  controlGroupPrompts: ControlGroup = {};
+  controlGroupFiles: ControlGroup = {};
   prompts: PromptsSet;
   selected = new FormControl("");
 }

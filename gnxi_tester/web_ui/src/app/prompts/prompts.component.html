@@ -9,15 +9,14 @@
           <mat-option *ngFor="let p of promptsNames" [value]="p">{{p}}</mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field *ngFor="let name of promptsList">
+      <mat-form-field *ngFor="let name of promptsList.prompts">
         <mat-label>{{name}}</mat-label>
-        <input matInput [formControl]="controlGroup[name]" [value]="prompts[selected]?.prompts[name]" />
+        <input matInput [formControl]="controlGroupPrompts[name]" [value]="prompts[selected]?.prompts[name]" />
       </mat-form-field>
     </div>
     <div>
       <h2>Files</h2>
-      <app-file-upload name="CA Cert"></app-file-upload><br>
-      <app-file-upload name="CA Key"></app-file-upload><br>
+      <app-file-upload *ngFor="let name of promptsList.files" [name]="name" [formControl]="controlGroupFiles[name]" [ID]="prompts[selected]?.files[name]"></app-file-upload><br>
       <button mat-raised-button color="primary">Save</button>
     </div>
   </mat-card>
