@@ -5,3 +5,5 @@
   <h3>or</h3>
   <label for="fileDrop">Browse for the file</label>
 </div>
+<mat-card-header *ngIf="ID?.length">(Uploaded)</mat-card-header>
+<mat-card-header *ngIf="progress">(Uploading...)</mat-card-header>

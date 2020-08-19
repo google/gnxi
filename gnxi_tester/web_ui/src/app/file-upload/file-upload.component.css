@@ -15,6 +15,11 @@ mat-label {
   margin-bottom: -20px;
 }
 
+mat-card-header {
+  margin-top: -20px;
+  display: block;
+}
+
 .drop:hover {
   border: 3px solid #e91e63;
 }

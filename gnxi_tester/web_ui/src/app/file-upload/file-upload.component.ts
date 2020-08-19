@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener } from '@angular/core';
+import { Component, OnInit, Input, HostListener, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-file-upload',
@@ -13,6 +13,10 @@ export class FileUploadComponent implements OnInit {
   }
 
   @Input() name: string;
+  @Input() path: string;
+  @Input() progress: boolean;
+  @Input() ID: string;
+  @Output() getID = new EventEmitter<string>();
 
   @HostListener('dragover', ['$event']) onDragOver(e: DragEvent) {
     e.preventDefault();
@@ -32,11 +36,26 @@ export class FileUploadComponent implements OnInit {
     e.stopPropagation();
     console.log("drop");
     this.fileOver = false;
-    const files = e.dataTransfer.files;
-    if (files.length) {
+    this.upload(e.dataTransfer.files);
+  }
+
+  @HostListener('change', ['$event']) onUpload(e: any) {
+    if(e?.target?.files) {
+      this.upload(e.target.files);
+    }
+
+  }
+  private upload(files: FileList) {
+    if (files?.length) {
+      this.progress = true;
       // Upload the file.
+      const returnedID = "";
+      this.ID = returnedID;
+      this.getID.emit(this.ID);
       console.log(files[0]);
+      this.progress = false;
     }
   }
+
   fileOver = false;
 }

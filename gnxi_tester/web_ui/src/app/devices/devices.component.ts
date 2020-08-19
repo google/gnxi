@@ -20,4 +20,6 @@ export class DevicesComponent implements OnInit {
 
   deviceNameList: string[] = Object.keys(this.deviceList);
   selectedDeviceName = new FormControl("");
+
+  caCert = new FormControl("");
 }
