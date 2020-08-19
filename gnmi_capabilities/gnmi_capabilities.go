@@ -33,14 +33,13 @@ import (
 
 var (
 	targetAddr = flag.String("target_addr", "localhost:9339", "The target address in the format of host:port")
-	targetName = flag.String("target_name", "hostname.com", "The target name use to verify the hostname returned by TLS handshake")
 	timeOut    = flag.Duration("time_out", 10*time.Second, "Timeout for the Get request, 10 seconds by default")
 )
 
 func main() {
 	flag.Parse()
 
-	opts := credentials.ClientCredentials(*targetName)
+	opts := credentials.ClientCredentials()
 	conn, err := grpc.Dial(*targetAddr, opts...)
 	if err != nil {
 		log.Exitf("Dialing to %q failed: %v", *targetAddr, err)
