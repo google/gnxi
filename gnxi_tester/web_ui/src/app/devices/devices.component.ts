@@ -1,6 +1,8 @@
-import { Component, OnInit, SimpleChanges, Input, OnChanges } from '@angular/core';
-import { Devices, GetDevices, Device } from '../../api/devices'
-import { FormControl } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, Validators, FormBuilder, AbstractControl } from '@angular/forms';
+import { TargetService } from '../target.service';
+import { FileService } from '../file.service';
+import { Targets } from '../models/Target';
 
 @Component({
   selector: 'app-devices',
@@ -8,18 +10,45 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./devices.component.css']
 })
 export class DevicesComponent implements OnInit {
+  targetList: Targets;
+  targetForm: FormGroup;
 
-  constructor() { }
+  constructor(private targetService: TargetService, private formBuilder: FormBuilder, private fileService: FileService) { }
 
   ngOnInit(): void {
-    this.selectedDeviceName.registerOnChange(() => {
-      console.log(this.selectedDeviceName.value);
-    })
+    this.targetForm = this.formBuilder.group({
+      targetName: ['', Validators.required],
+      targetAddress: ['', Validators.required],
+      caCert: ['', Validators.required],
+      caKey: ['', Validators.required],
+    });
+    this.getTargets();
   }
-  deviceList: Devices = GetDevices();
 
-  deviceNameList: string[] = Object.keys(this.deviceList);
-  selectedDeviceName = new FormControl("");
+  getTargets(): void {
+    this.targetService.getTargets().subscribe(targets => {
+      this.targetList = targets;
+    });
+  }
 
-  caCert = new FormControl("");
+  setSelectedTarget(targetName: string): void {
+    const target = this.targetList[targetName];
+    if (target === undefined) {
+      this.targetForm.reset();
+      return;
+    }
+    this.targetForm.setValue({
+      targetName,
+      targetAddress: target.address,
+      caCert: target.ca,
+      caKey: target.cakey,
+    });
+  }
+
+  get targetName(): AbstractControl {
+    return this.targetForm.get('targetName');
+  }
+  get targetAddress(): AbstractControl {
+    return this.targetForm.get('targetAddress');
+  }
 }

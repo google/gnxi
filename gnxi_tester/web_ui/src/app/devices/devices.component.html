@@ -4,22 +4,26 @@
       <h1>Targets</h1>
       <mat-form-field appearance="fill">
         <mat-label>Edit existing target</mat-label>
-        <mat-select [formControl]="selectedDeviceName" name="device">
-          <mat-option>Create new target entry</mat-option>
-          <mat-option *ngFor="let device of deviceNameList" [value]="device">{{device}}</mat-option>
+        <mat-select (selectionChange)="setSelectedTarget($event.value)" name="target">
+          <mat-option>New</mat-option>
+          <mat-option *ngFor="let target of targetList | keyvalue" [value]="target.key">{{target.key}}</mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field>
-        <mat-label>Target Name</mat-label>
-        <input matInput [value]="deviceList[selectedDeviceName.value]?.target_name">
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Target Address</mat-label>
-        <input matInput placeholder="Eg: localhost:9339" [value]="deviceList[selectedDeviceName.value]?.target_address">
-      </mat-form-field>
+      <form [formGroup]="targetForm">
+        <mat-form-field>
+          <mat-label>Target Name</mat-label>
+          <input matInput formControlName="targetName">
+          <mat-error *ngIf="targetName.hasError('required')">Target Name is Required</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Target Address</mat-label>
+          <input matInput placeholder="localhost:9339" formControlName="targetAddress">
+          <mat-error *ngIf="targetAddress.hasError('required')">Target Address is Required</mat-error>
+        </mat-form-field>
       <app-file-upload path="ca_cert" name="CA Cert"></app-file-upload><br>
       <app-file-upload ID="id" path="ca_key"  name="CA Key"></app-file-upload><br>
-      <button mat-raised-button color="primary">Save</button>
+      <button [disabled]="!targetForm.valid" mat-raised-button color="primary">Save</button>
+      </form>
     </div>
   </mat-card>
 </main>
