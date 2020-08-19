@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, AbstractControl } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 import { TargetService } from '../target.service';
 import { FileService } from '../file.service';
 import { Targets } from '../models/Target';
@@ -13,14 +14,14 @@ export class DevicesComponent implements OnInit {
   targetList: Targets;
   targetForm: FormGroup;
 
-  constructor(private targetService: TargetService, private formBuilder: FormBuilder, private fileService: FileService) { }
+  constructor(private http: HttpClient, private targetService: TargetService, private formBuilder: FormBuilder, private fileService: FileService) { }
 
   ngOnInit(): void {
     this.targetForm = this.formBuilder.group({
       targetName: ['', Validators.required],
       targetAddress: ['', Validators.required],
-      caCert: ['', Validators.required],
-      caKey: ['', Validators.required],
+      caCert: '',
+      caKey: '',
     });
     this.getTargets();
   }
@@ -28,6 +29,12 @@ export class DevicesComponent implements OnInit {
   getTargets(): void {
     this.targetService.getTargets().subscribe(targets => {
       this.targetList = targets;
+    });
+  }
+
+  setTarget(targetForm): void {
+    this.http.post(`http://localhost:8888/target/${targetForm.targetName}`, targetForm).subscribe((res) => {
+      console.log(res);
     });
   }
 
@@ -42,6 +49,18 @@ export class DevicesComponent implements OnInit {
       targetAddress: target.address,
       caCert: target.ca,
       caKey: target.cakey,
+    });
+  }
+
+  addCa(caFileName: string): void {
+    this.targetForm.patchValue({
+       caCert: caFileName,
+    });
+  }
+
+  addCaKey(keyFileName: string): void {
+    this.targetForm.patchValue({
+      caKey: keyFileName,
     });
   }
 

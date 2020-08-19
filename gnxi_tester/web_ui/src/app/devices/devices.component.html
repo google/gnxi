@@ -9,7 +9,7 @@
           <mat-option *ngFor="let target of targetList | keyvalue" [value]="target.key">{{target.key}}</mat-option>
         </mat-select>
       </mat-form-field>
-      <form [formGroup]="targetForm">
+      <form [formGroup]="targetForm" (ngSubmit)="setTarget(targetForm.value)">
         <mat-form-field>
           <mat-label>Target Name</mat-label>
           <input matInput formControlName="targetName">
@@ -20,9 +20,9 @@
           <input matInput placeholder="localhost:9339" formControlName="targetAddress">
           <mat-error *ngIf="targetAddress.hasError('required')">Target Address is Required</mat-error>
         </mat-form-field>
-      <app-file-upload path="ca_cert" name="CA Cert"></app-file-upload><br>
-      <app-file-upload ID="id" path="ca_key"  name="CA Key"></app-file-upload><br>
-      <button [disabled]="!targetForm.valid" mat-raised-button color="primary">Save</button>
+      <app-file-upload (getID)="addCa($event)" path="ca_cert" name="CA Cert"></app-file-upload><br>
+      <app-file-upload (getID)="addCaKey($event)" path="ca_key"  name="CA Key"></app-file-upload><br>
+      <button type="submit" [disabled]="!targetForm.valid" mat-raised-button color="primary">Save</button>
       </form>
     </div>
   </mat-card>
