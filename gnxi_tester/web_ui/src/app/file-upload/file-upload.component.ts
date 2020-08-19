@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, HostListener, Output, EventEmitter } from '@angular/core';
+import { FileService } from '../file.service';
 
 @Component({
   selector: 'app-file-upload',
@@ -7,7 +8,7 @@ import { Component, OnInit, Input, HostListener, Output, EventEmitter } from '@a
 })
 export class FileUploadComponent implements OnInit {
 
-  constructor() { }
+  constructor(private fileService: FileService) { }
 
   ngOnInit(): void {
   }
@@ -49,11 +50,12 @@ export class FileUploadComponent implements OnInit {
     if (files?.length) {
       this.progress = true;
       // Upload the file.
-      const returnedID = "";
-      this.ID = returnedID;
-      this.getID.emit(this.ID);
-      console.log(files[0]);
-      this.progress = false;
+      this.fileService.uploadFile(files[0]).subscribe((res) => {
+          this.ID = res.filename;
+          this.getID.emit(this.ID);
+          this.progress = false;
+        }
+      );
     }
   }
 
