@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { PromptsService, Prompts, PromptsSet, PromptsList } from '../prompts.service';
+import { PromptsService } from '../prompts.service';
 import { FormControl } from '@angular/forms';
+import { PromptsList, PromptsSet } from '../models/Prompts';
 
 type ControlGroup = {[name: string]: FormControl}
 
@@ -11,9 +12,14 @@ type ControlGroup = {[name: string]: FormControl}
 })
 export class PromptsComponent implements OnInit {
 
-  constructor(public promptsService: PromptsService) {}
+  constructor(public promptsService: PromptsService) {
+    this.init()
+  }
 
   async ngOnInit() {
+  }
+
+  async init() {
     try {
       this.promptsList = await this.promptsService.getPromptsList().toPromise()
       this.prompts = await this.promptsService.getPrompts().toPromise()

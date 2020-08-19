@@ -1,19 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { PromptsSet, PromptsList, Prompts } from './models/Prompts';
 
-export interface Prompts {
-  name: string;
-  prompts: {[name: string]: string};
-  files: {[name: string]: string};
-}
 
-export interface PromptsList {
-  prompts: string[];
-  files: string[];
-}
-
-export type PromptsSet = {[name: string]: Prompts}
 
 @Injectable({
   providedIn: 'root'

@@ -23,7 +23,6 @@ import { PromptsComponent } from './prompts/prompts.component';
 import { DevicesComponent } from './devices/devices.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { FileUploadDirective } from './file-upload.directive';
-import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -50,7 +49,6 @@ import { HttpClientModule } from '@angular/common/http';
     MatIconModule,
     MatInputModule,
     ReactiveFormsModule,
-    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
