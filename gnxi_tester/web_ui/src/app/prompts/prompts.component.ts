@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { PromptsService, Prompts } from '../prompts.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-prompts',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PromptsComponent implements OnInit {
 
-  constructor() { }
+  constructor(public promptsService: PromptsService) {}
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    try {
+      this.promptsList = await this.promptsService.getPromptsList().toPromise()
+    } catch(e) {
+      console.error(e)
+    }
   }
 
+  promptsList: string[]
+  selected = new FormControl("");
 }
