@@ -1,29 +1,33 @@
 <main>
   <mat-card>
-    <mat-grid-list cols="2" rowHeight="1.5:1">
-      <mat-grid-tile>
-        <div>
-          <h1>Run Tests</h1>
-          <mat-form-field appearance="fill">
-            <mat-label>Prompts</mat-label>
-            <mat-select [(ngModel)]="selectedPrompts" name="prompts">
-              <mat-option *ngFor="let prompt of promptsList" [value]="prompt">{{prompt}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field appearance="fill">
-            <mat-label>Device</mat-label>
-            <mat-select [(ngModel)]="selectedDevice" name="device">
-              <mat-option *ngFor="let device of deviceList" [value]="device">{{device}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <button mat-raised-button color="primary"><mat-icon>play_arrow</mat-icon> Run</button>
-        </div>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <section>
-          Test output will go here
-        </section>
-      </mat-grid-tile>
-    </mat-grid-list>
+    <form [formGroup]="formControl" (ngSubmit)="run(formControl.value)">
+      <mat-grid-list cols="2" rowHeight="1.5:1">
+        <mat-grid-tile>
+          <div>
+            <h1>Run Tests</h1>
+            <mat-form-field appearance="fill">
+              <mat-label>Prompts</mat-label>
+              <mat-select name="prompts">
+                <mat-option *ngFor="let prompt of promptsList" [value]="prompt">{{prompt}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="formControl.get('prompts').hasError('required')">Prompts are required</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+              <mat-label>Device</mat-label>
+              <mat-select name="files">
+                <mat-option *ngFor="let device of deviceList" [value]="device">{{device}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="formControl.get('device').hasError('required')">Device is required</mat-error>
+            </mat-form-field>
+            <button type="submit" [disabled]="!formControl.valid || running" mat-raised-button color="primary"><mat-icon>play_arrow</mat-icon> Run</button>
+          </div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <section>
+            {{ stdout }}
+          </section>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </form>
   </mat-card>
 </main>
