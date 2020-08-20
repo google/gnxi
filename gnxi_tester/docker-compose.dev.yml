@@ -23,3 +23,4 @@ services:
     container_name: gnxi_backend_dev
     volumes: 
       - ..:/workspace
+      - /var/run/docker.sock:/var/run/docker.sock
