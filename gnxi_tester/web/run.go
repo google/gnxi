@@ -93,5 +93,6 @@ func handleRunOutput(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
+	w.Header().Set("Content-Type", "text/plain")
 	w.Write(out)
 }

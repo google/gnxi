@@ -40,6 +40,7 @@ func InitRouter(laddr string) {
 		return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 			w.Header().Set("Access-Control-Allow-Methods", "*")
 			w.Header().Set("Access-Control-Allow-Origin", "*")
+			w.Header().Set("Content-Type", "application/json")
 			next.ServeHTTP(w, req)
 		})
 	})
