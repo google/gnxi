@@ -15,6 +15,17 @@ mat-label {
   margin-bottom: -20px;
 }
 
+mat-chip-list {
+    margin: 30px 0;
+    display: inline-block;
+}
+
+mat-spinner {
+  margin: 30px 0;
+  display: inline-block;
+  text-align: center;
+}
+
 mat-card-header {
   margin-top: -20px;
   display: block;

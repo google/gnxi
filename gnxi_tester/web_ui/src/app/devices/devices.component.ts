@@ -13,6 +13,7 @@ import { Targets } from '../models/Target';
 export class DevicesComponent implements OnInit {
   targetList: Targets;
   targetForm: FormGroup;
+  selectedTarget: any = {};
 
   constructor(private http: HttpClient, private targetService: TargetService, private formBuilder: FormBuilder, private fileService: FileService) { }
 
@@ -39,16 +40,17 @@ export class DevicesComponent implements OnInit {
   }
 
   setSelectedTarget(targetName: string): void {
-    const target = this.targetList[targetName];
-    if (target === undefined) {
+    this.selectedTarget = this.targetList[targetName];
+    if (this.selectedTarget === undefined) {
+      this.selectedTarget = {};
       this.targetForm.reset();
       return;
     }
     this.targetForm.setValue({
       targetName,
-      targetAddress: target.address,
-      caCert: target.ca,
-      caKey: target.cakey,
+      targetAddress: this.selectedTarget.address,
+      caCert: this.selectedTarget.ca,
+      caKey: this.selectedTarget.cakey,
     });
   }
 
