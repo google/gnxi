@@ -54,6 +54,7 @@ var runTests = func(prompts config.Prompts, request runRequest) {
 	orchestrator.RunTests(request.Tests, promptHandler, prompts.Files, writeToBuffer)
 	<-time.After(endTimeout)
 	outputBuffer.Reset()
+	outputBuffer.WriteString("E0F")
 	mu.Unlock()
 }
 
