@@ -1,6 +1,7 @@
 export interface Target {
-  target_name: string;
-  target_address: string;
+  address: string;
+  ca: string;
+  cakey: string;
 }
 
 export type Targets = {[name: string]: Target};

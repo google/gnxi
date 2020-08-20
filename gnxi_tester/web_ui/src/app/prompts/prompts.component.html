@@ -1,23 +1,31 @@
 <main>
   <mat-card>
-    <div>
-      <h1>Prompts</h1>
-      <mat-form-field appearance="fill">
-        <mat-label>Edit existing prompts</mat-label>
-        <mat-select [formControl]="selected" name="device">
-          <mat-option>Create new set of prompts</mat-option>
-          <mat-option *ngFor="let p of promptsNames" [value]="p">{{p}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field *ngFor="let name of promptsList.prompts">
-        <mat-label>{{name}}</mat-label>
-        <input matInput [formControl]="controlGroupPrompts[name]" [value]="prompts[selected]?.prompts[name]" />
-      </mat-form-field>
-    </div>
-    <div>
-      <h2>Files</h2>
-      <app-file-upload *ngFor="let name of promptsList.files" [name]="name" [formControl]="controlGroupFiles[name]" [ID]="prompts[selected]?.files[name]"></app-file-upload><br>
-      <button mat-raised-button color="primary">Save</button>
-    </div>
+    <form [formGroup]="controlGroup" (ngSubmit)="setPrompts(controlGroup.value)">
+      <div>
+        <h1>Prompts</h1>
+        <mat-form-field appearance="fill">
+          <mat-label>Edit existing prompts</mat-label>
+          <mat-select (selectionChange)="setSelectedPrompts($event.value)" name="device">
+            <mat-option>Create new set of prompts</mat-option>
+            <mat-option *ngFor="let p of prompts | keyvalue" [value]="p.key">{{p.key}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Prompts name</mat-label>
+          <input matInput [formControl]="controlGroup.get('name')" />
+          <mat-error *ngIf="controlGroup.get('name').hasError('required')">Prompts name is required</mat-error>
+        </mat-form-field>
+        <mat-form-field *ngFor="let name of promptsList.prompts">
+          <mat-label>{{name}}</mat-label>
+          <input matInput [formControl]="controlGroup.get('prompts_'+name)"  />
+          <mat-error *ngIf="controlGroup.get('prompts_'+name).hasError('required')">{{ name }} is required</mat-error>
+        </mat-form-field>
+      </div>
+      <div>
+        <h2>Files</h2>
+        <app-file-upload *ngFor="let name of promptsList.files" [name]="name" (getID)="setFile(name, $event)"></app-file-upload><br>
+        <button type="submit" [disabled]="!controlGroup.valid" mat-raised-button color="primary">Save</button>
+      </div>
+    </form>
   </mat-card>
 </main>
