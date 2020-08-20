@@ -20,8 +20,8 @@ export class DevicesComponent implements OnInit {
     this.targetForm = this.formBuilder.group({
       targetName: ['', Validators.required],
       targetAddress: ['', Validators.required],
-      caCert: '',
-      caKey: '',
+      caCert: ['', Validators.required],
+      caKey: ['', Validators.required],
     });
     this.getTargets();
   }
