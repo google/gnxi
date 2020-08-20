@@ -40,14 +40,15 @@ export class FileUploadComponent implements OnInit {
   }
 
   @HostListener('change', ['$event']) onUpload(e: any) {
-    if(e?.target?.files) {
+    if (e?.target?.files) {
+      this.progress = true;
       this.upload(e.target.files);
     }
 
   }
-  private upload(files: FileList) {
+
+  private upload(files: FileList): void {
     if (files?.length) {
-      this.progress = true;
       // Upload the file.
       this.fileService.uploadFile(files[0]).subscribe((res) => {
           this.ID = res.filename;
@@ -56,6 +57,11 @@ export class FileUploadComponent implements OnInit {
         }
       );
     }
+  }
+
+  remove(): void {
+    this.ID = '';
+    this.getID.emit(this.ID);
   }
 
   fileOver = false;

@@ -12,7 +12,22 @@ limitations under the License.
 
 package web
 
-import "net/http"
+import (
+	"encoding/json"
+	"net/http"
+
+	"github.com/google/gnxi/gnxi_tester/config"
+)
+
+func handleTargetsGet(w http.ResponseWriter, r *http.Request) {
+	targets := config.GetDevices()
+	response, err := json.Marshal(targets)
+	if err != nil {
+		logErr(r.Header, err)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+	}
+	w.Write(response)
+}
 
 func handleTargetGet(w http.ResponseWriter, r *http.Request) {
 
