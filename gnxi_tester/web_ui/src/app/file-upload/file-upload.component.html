@@ -1,9 +1,9 @@
 <mat-label>{{name}}</mat-label>
 <div class="drop" appFileUpload>
-  <input type="file" #fileDrop id="fileDrop" />
+  <input [name]="name" type="file" #fileDrop [id]="name" />
   <h3>Drag and drop file here</h3>
   <h3>or</h3>
-  <label for="fileDrop">Browse for the file</label>
+  <label [for]="name">Browse for the file</label>
 </div>
 <mat-card-header *ngIf="ID?.length">(Uploaded)</mat-card-header>
 <mat-card-header *ngIf="progress">(Uploading...)</mat-card-header>
