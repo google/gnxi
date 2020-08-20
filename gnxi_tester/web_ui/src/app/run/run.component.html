@@ -7,14 +7,14 @@
             <h1>Run Tests</h1>
             <mat-form-field appearance="fill">
               <mat-label>Prompts</mat-label>
-              <mat-select name="prompts">
+              <mat-select [disabled]="running" name="prompts">
                 <mat-option *ngFor="let prompt of promptsList" [value]="prompt">{{prompt}}</mat-option>
               </mat-select>
               <mat-error *ngIf="formControl.get('prompts').hasError('required')">Prompts are required</mat-error>
             </mat-form-field>
             <mat-form-field appearance="fill">
               <mat-label>Device</mat-label>
-              <mat-select name="files">
+              <mat-select [disabled]="running" name="files">
                 <mat-option *ngFor="let device of deviceList" [value]="device">{{device}}</mat-option>
               </mat-select>
               <mat-error *ngIf="formControl.get('device').hasError('required')">Device is required</mat-error>
