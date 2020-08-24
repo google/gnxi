@@ -9,8 +9,8 @@ A CLI tool for orchestrating tests against a gNXI target.
 We have provided a shell script to both install and run the Web UI and API. 
 
 You need the following dependencies installed:
-- docker
-- docker-compose
+- `docker`
+- `docker-compose`
 
 Then run this command:
 ```sh
