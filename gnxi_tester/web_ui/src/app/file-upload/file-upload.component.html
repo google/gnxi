@@ -1,9 +1,14 @@
 <mat-label>{{name}}</mat-label>
-<div class="drop" appFileUpload>
+<div class="drop" appFileUpload *ngIf="!ID?.length && !progress">
   <input [name]="name" type="file" #fileDrop [id]="name" />
   <h3>Drag and drop file here</h3>
   <h3>or</h3>
   <label [for]="name">Browse for the file</label>
 </div>
-<mat-card-header *ngIf="ID?.length">(Uploaded)</mat-card-header>
-<mat-card-header *ngIf="progress">(Uploading...)</mat-card-header>
+<mat-chip-list *ngIf="ID?.length">
+  <mat-chip (removed)="remove()">
+    {{ID}}
+    <mat-icon matChipRemove>cancel</mat-icon>
+  </mat-chip>
+</mat-chip-list>
+<mat-spinner *ngIf="progress"></mat-spinner>
