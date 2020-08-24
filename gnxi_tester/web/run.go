@@ -29,7 +29,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-const endTimeout = 10 * time.Second
+const endTimeout = 5 * time.Second
 
 var (
 	outputBuffer = bytes.NewBuffer([]byte{})
@@ -51,9 +51,17 @@ var runTests = func(prompts config.Prompts, request runRequest) {
 		return prompts.Prompts[name]
 	}
 	mu.Lock()
-	orchestrator.RunTests(request.Tests, promptHandler, prompts.Files, writeToBuffer)
+	success, err := orchestrator.RunTests(request.Tests, promptHandler, prompts.Files, writeToBuffer)
+	if err != nil {
+		outputBuffer.WriteString("\n" + err.Error())
+	} else {
+		for _, output := range success {
+			outputBuffer.WriteString(output + "\n")
+		}
+	}
 	<-time.After(endTimeout)
 	outputBuffer.Reset()
+	outputBuffer.WriteString("E0F")
 	mu.Unlock()
 }
 
@@ -93,5 +101,6 @@ func handleRunOutput(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
+	w.Header().Set("Content-Type", "text/plain")
 	w.Write(out)
 }
