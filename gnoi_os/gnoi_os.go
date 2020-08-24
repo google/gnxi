@@ -28,7 +28,6 @@ import (
 
 var (
 	targetAddr    = flag.String("target_addr", ":9339", "The target address in the format of host:port")
-	targetName    = flag.String("target_name", "", "The target name used to verify the hostname returned by TLS handshake")
 	version       = flag.String("version", "", "Version of the OS required when using the activate operation or being installed using the install operation")
 	osFile        = flag.String("os", "", "Path to the OS image for the install operation")
 	op            = flag.String("op", "", "OS service operation. Can be one of: install, activate, verify")
@@ -43,11 +42,7 @@ var (
 func main() {
 	flag.Parse()
 
-	if *targetName == "" {
-		flag.Usage()
-		log.Exit("-target_name must be specified")
-	}
-	opts := credentials.ClientCredentials(*targetName)
+	opts := credentials.ClientCredentials()
 	conn, err := grpc.Dial(*targetAddr, opts...)
 	if err != nil {
 		log.Exitf("Dialing to %s failed: %v", *targetAddr, err)

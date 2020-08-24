@@ -46,6 +46,7 @@ func InitRouter(laddr string) {
 	})
 
 	log.Infof("Running web API on %s", laddr)
+
 	if err := http.ListenAndServe(laddr, r); err != nil {
 		log.Exit(err)
 	}

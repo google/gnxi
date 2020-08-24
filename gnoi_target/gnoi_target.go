@@ -54,10 +54,10 @@ func serve() {
 	muServe.Lock()
 	defer muServe.Unlock()
 	listen, err := net.Listen("tcp", *bindAddr)
-	defer listen.Close()
 	if err != nil {
 		log.Fatal("Failed to listen:", err)
 	}
+	defer listen.Close()
 	log.Info("Starting gNOI server.")
 	if err := grpcServer.Serve(listen); err != nil {
 		log.Fatal("Failed to serve:", err)
