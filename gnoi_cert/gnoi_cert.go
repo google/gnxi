@@ -41,7 +41,7 @@ var (
 	certID     = flag.String("cert_id", "", "Certificate Management certificate ID.")
 	certIDs    = flag.String("cert_ids", "", "Comma separated list of Certificate Management certificate IDs for revoke operation")
 	op         = flag.String("op", "get", "Certificate Management operation, one of: provision, install, rotate, get, revoke, check")
-	targetCN   = flag.String("target_name", "", "Common Name of the target.")
+	targetCN   = credUtils.TargetName
 	targetAddr = flag.String("target_addr", "localhost:9339", "The target address in the format of host:port")
 	timeOut    = flag.Duration("time_out", 5*time.Second, "Timeout for the operation, 5 seconds by default")
 	minKeySize = flag.Uint("min_key_size", 128, "Minimum key size")

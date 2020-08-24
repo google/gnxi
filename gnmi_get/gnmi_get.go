@@ -64,7 +64,6 @@ var (
 	pbPathFlags      arrayFlags
 	pbModelDataFlags arrayFlags
 	targetAddr       = flag.String("target_addr", "localhost:9339", "The target address in the format of host:port")
-	targetName       = flag.String("target_name", "hostname.com", "The target name use to verify the hostname returned by TLS handshake")
 	timeOut          = flag.Duration("time_out", 10*time.Second, "Timeout for the Get request, 10 seconds by default")
 	encodingName     = flag.String("encoding", "JSON_IETF", "value encoding format to be used")
 )
@@ -75,7 +74,7 @@ func main() {
 	flag.Var(&pbModelDataFlags, "model_data", "Data models to be used by the target in the format of 'name,organization,version'")
 	flag.Parse()
 
-	opts := credentials.ClientCredentials(*targetName)
+	opts := credentials.ClientCredentials()
 	conn, err := grpc.Dial(*targetAddr, opts...)
 	if err != nil {
 		log.Exitf("Dialing to %q failed: %v", *targetAddr, err)

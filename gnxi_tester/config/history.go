@@ -24,9 +24,9 @@ import (
 
 // Device stores connection details of a target.
 type Device struct {
-	Address string `mapstructure:"address"`
-	Ca      string `mapstructure:"ca"`
-	CaKey   string `mapstructure:"cakey"`
+	Address string `json:"address" mapstructure:"address"`
+	Ca      string `json:"ca" mapstructure:"ca"`
+	CaKey   string `json:"cakey" mapstructure:"cakey"`
 }
 
 // SetTarget adds any new target to the list of known targets.
