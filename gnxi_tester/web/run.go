@@ -95,3 +95,6 @@ func handleRunOutput(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Write(out)
 }
+func handleRunOutput(w http.ResponseWriter, r *http.Request) {
+
+}

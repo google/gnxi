@@ -170,6 +170,7 @@ func (e *Entity) SignWith(parent *Entity) error {
 
 	e.Template.Issuer = parentTemplate.Subject
 	e.Template.AuthorityKeyId = parentTemplate.SubjectKeyId
+	e.Template.DNSNames = []string{e.Template.Issuer.CommonName}
 	derCert, err := x509.CreateCertificate(randReader, e.Template, parentTemplate, e.PublicKey, parent.PrivateKey)
 	if err != nil {
 		return fmt.Errorf("failed to create certificate: %v", err)
@@ -235,7 +236,7 @@ func Template(cn string) *x509.Certificate {
 	return &x509.Certificate{
 		// AuthorityKeyId,
 		BasicConstraintsValid: true,
-		DNSNames:              []string{},
+		DNSNames:              []string{cn},
 		// ExcludedDNSDomains,
 		ExtKeyUsage: []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth, x509.ExtKeyUsageServerAuth},
 		// IsCA,

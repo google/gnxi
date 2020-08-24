@@ -145,6 +145,7 @@ var PEMtox509 = func(bytes []byte) (*x509.Certificate, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to decode DER bytes")
 	}
+	certificate.DNSNames = []string{certificate.Issuer.CommonName}
 	return certificate, nil
 }
 
