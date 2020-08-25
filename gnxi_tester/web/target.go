@@ -71,6 +71,9 @@ func handleTargetSet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	devices := config.GetDevices()
+	if devices == nil {
+		devices = map[string]config.Device{}
+	}
 	device := config.Device{}
 	if err := json.NewDecoder(r.Body).Decode(&device); err != nil {
 		logErr(r.Header, err)
