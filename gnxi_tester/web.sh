@@ -4,7 +4,6 @@
 git clone \
     --depth 1 \
     https://github.com/google/gnxi.git
-;
 cd gnxi/gnxi_tester
 
 docker-compose up -d && 
