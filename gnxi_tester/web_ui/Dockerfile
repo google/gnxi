@@ -4,7 +4,7 @@ WORKDIR /workspace
 
 COPY . .
 
-RUN npm i && npm build
+RUN npm cache verify && npm i && npm run build
 
 CMD [ "npm", "start" ]
 
