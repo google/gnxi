@@ -30,6 +30,7 @@ export class PromptsComponent implements OnInit {
     }
   }
 
+  files = {}
 
   private getFields(): {[name: string]: any} {
     let fields = {name: ['',Validators.required]};
@@ -82,6 +83,7 @@ export class PromptsComponent implements OnInit {
       return;
     }
     let fields = {};
+      console.log(prompts.files)
     for (let field of Object.keys(prompts.files)) {
       fields[`files_${field}`] = prompts.files[field];
     }
