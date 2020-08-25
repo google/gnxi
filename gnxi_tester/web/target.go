@@ -23,7 +23,6 @@ import (
 
 	"github.com/google/gnxi/gnxi_tester/config"
 	"github.com/gorilla/mux"
-	"github.com/spf13/viper"
 )
 
 func getNameParam(w http.ResponseWriter, r *http.Request) string {
@@ -83,6 +82,5 @@ func handleTargetSet(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
-	devices[name] = device
-	viper.Set("targets.devices", devices)
+	config.SetTarget(name, device.Address, device.Ca, device.CaKey)
 }
