@@ -22,8 +22,8 @@ import (
 // Prompts represents a prompt config set that will get stored in viper.
 type Prompts struct {
 	Name    string            `json:"name" mapstructure:"name"`
-	Prompts map[string]string `json:"prompts" mapstructure:"name"`
-	Files   map[string]string `json:"files" mapsstructure:"name"`
+	Prompts map[string]string `json:"prompts" mapstructure:"prompts"`
+	Files   map[string]string `json:"files" mapstructure:"files"`
 }
 
 // Set prompts in viper.
