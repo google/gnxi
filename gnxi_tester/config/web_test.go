@@ -51,7 +51,7 @@ func TestGetPrompts(t *testing.T) {
 		if len(got) == 0 {
 			t.Fatal("No prompts received.")
 		}
-		if diff := cmp.Diff(*prompts, got[0]); diff != "" {
+		if diff := cmp.Diff(*prompts, got["test"]); diff != "" {
 			t.Errorf("Didn't get correct prompts (-want +got) %s.", diff)
 		}
 	})
