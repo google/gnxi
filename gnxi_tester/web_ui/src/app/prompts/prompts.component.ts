@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PromptsService } from '../prompts.service';
 import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { PromptsList, PromptsSet, Prompts } from '../models/Prompts';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 type ControlGroup = {[name: string]: FormControl}
 
@@ -12,7 +13,7 @@ type ControlGroup = {[name: string]: FormControl}
 })
 export class PromptsComponent implements OnInit {
 
-  constructor(public promptsService: PromptsService, private formBuilder: FormBuilder) {
+  constructor(public promptsService: PromptsService, private formBuilder: FormBuilder, private snackbar: MatSnackBar) {
     this.init()
   }
 
@@ -71,7 +72,11 @@ export class PromptsComponent implements OnInit {
       }
     }
     this.promptsService.setPrompts(prompts).subscribe(
-      (res) => console.log(res),
+      (res) => {
+        console.log(res);
+        this.snackbar.open("Saved");
+        this.setSelectedPrompts(prompts.name);
+      },
       (err) => console.log(err)
     );
   }
