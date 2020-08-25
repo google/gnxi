@@ -66,6 +66,9 @@ func handleTargetGet(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleTargetSet(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodOptions {
+		return
+	}
 	name := getNameParam(w, r)
 	if name == "" {
 		return
