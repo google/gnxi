@@ -15,3 +15,5 @@ services:
     ports:
       - 8888:80
     container_name: gnxi_backend
+    volume:
+      - /var/run/docker.sock:/var/run/docker.sock

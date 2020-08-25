@@ -39,6 +39,7 @@ func init() {
 	flag.Parse()
 	cobra.OnInitialize(initConfig)
 	rootCmd.AddCommand(runCmd)
+	rootCmd.AddCommand(webCmd)
 	rootCmd.AddCommand(targetsCmd)
 	rootCmd.PersistentFlags().StringVar(&cfgPath, "cfg", "", "Path to the config file.")
 }

@@ -22,6 +22,8 @@ CMD [ "go", "run", "gnxi_tester.go" ]
 
 FROM alpine
 
+RUN apk add docker
+
 WORKDIR /bin
 
 COPY --from=dev /go/bin/gnxi_tester ./gnxi_tester

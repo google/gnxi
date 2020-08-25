@@ -143,7 +143,7 @@ func TestRunTests(t *testing.T) {
 			viper.Set("order", test.order)
 			viper.Set("files", test.files)
 			RunContainer = test.runContainer
-			succ, err := RunTests(test.testNames, test.prompt, map[string]string{})
+			succ, err := RunTests(test.testNames, test.prompt, map[string]string{}, func(string, ...interface{}) {})
 			if diff := cmp.Diff(test.wantSucc, succ); diff != "" {
 				t.Errorf("(-want +got): %s", diff)
 			} else if (test.wantErr == nil) != (err == nil) {

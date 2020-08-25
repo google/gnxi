@@ -29,6 +29,7 @@ func InitRouter(laddr string) {
 	r.HandleFunc("/prompts", handlePromptsGet).Methods("GET")
 	r.HandleFunc("/prompts/list", handlePromptsList).Methods("GET")
 	r.HandleFunc("/prompts", handlePromptsSet).Methods("POST", "PUT")
+	r.HandleFunc("/target", handleTargetsGet).Methods("GET")
 	r.HandleFunc("/target/{name}", handleTargetGet).Methods("GET")
 	r.HandleFunc("/target/{name}", handleTargetSet).Methods("POST", "PUT")
 	r.HandleFunc("/file", handleFileUpload).Methods("POST")
@@ -36,6 +37,16 @@ func InitRouter(laddr string) {
 	r.HandleFunc("/run", handleRun).Methods("POST")
 	r.HandleFunc("/run/output", handleRunOutput).Methods("POST")
 
+	r.Use(func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
+			w.Header().Set("Access-Control-Allow-Methods", "*")
+			w.Header().Set("Access-Control-Allow-Origin", "*")
+			w.Header().Set("Content-Type", "application/json")
+			next.ServeHTTP(w, req)
+		})
+	})
+
+	log.Infof("Running web API on %s", laddr)
 	if err := http.ListenAndServe(laddr, r); err != nil {
 		log.Exit(err)
 	}
