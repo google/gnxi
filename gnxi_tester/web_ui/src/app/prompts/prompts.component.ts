@@ -68,7 +68,10 @@ export class PromptsComponent implements OnInit {
         prompts.files[key] = form[field];
       }
     }
-    this.promptsService.setPrompts(prompts);
+    this.promptsService.setPrompts(prompts).subscribe(
+      (res) => console.log(res),
+      (err) => console.log(err)
+    );
   }
 
   setSelectedPrompts(name: string): void {

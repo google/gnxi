@@ -17,7 +17,7 @@
         </mat-form-field>
         <mat-form-field>
           <mat-label>Target Address</mat-label>
-          <input matInput placeholder="localhost:9339" formControlName="targetAddress">
+          <input matInput placeholder="localhost:9339" formControlName="address">
           <mat-error *ngIf="targetAddress.hasError('required')">Target Address is Required</mat-error>
         </mat-form-field>
       <app-file-upload (getID)="addCa($event)" path="ca_cert" name="CA Cert" id="cert" [ID]="selectedTarget.ca"></app-file-upload><br>

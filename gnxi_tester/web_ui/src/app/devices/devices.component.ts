@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { TargetService } from '../target.service';
 import { FileService } from '../file.service';
 import { Targets } from '../models/Target';
+import { environment } from '../environment';
 
 @Component({
   selector: 'app-devices',
@@ -20,9 +21,9 @@ export class DevicesComponent implements OnInit {
   ngOnInit(): void {
     this.targetForm = this.formBuilder.group({
       targetName: ['', Validators.required],
-      targetAddress: ['', Validators.required],
-      caCert: ['', Validators.required],
-      caKey: ['', Validators.required],
+      address: ['', Validators.required],
+      ca: ['', Validators.required],
+      cakey: ['', Validators.required],
     });
     this.getTargets();
   }
@@ -34,9 +35,10 @@ export class DevicesComponent implements OnInit {
   }
 
   setTarget(targetForm): void {
-    this.http.post(`http://localhost:8888/target/${targetForm.targetName}`, targetForm).subscribe((res) => {
-      console.log(res);
-    });
+    this.http.post(`${environment.apiUrl}/target/${targetForm.targetName}`, targetForm).subscribe(
+      (res) => console.log(res),
+      (error) => console.log(error),
+    );
   }
 
   setSelectedTarget(targetName: string): void {
@@ -48,21 +50,21 @@ export class DevicesComponent implements OnInit {
     }
     this.targetForm.setValue({
       targetName,
-      targetAddress: this.selectedTarget.address,
-      caCert: this.selectedTarget.ca,
-      caKey: this.selectedTarget.cakey,
+      address: this.selectedTarget.address,
+      ca: this.selectedTarget.ca,
+      cakey: this.selectedTarget.cakey,
     });
   }
 
   addCa(caFileName: string): void {
     this.targetForm.patchValue({
-       caCert: caFileName,
+       ca: caFileName,
     });
   }
 
   addCaKey(keyFileName: string): void {
     this.targetForm.patchValue({
-      caKey: keyFileName,
+      cakey: keyFileName,
     });
   }
 
@@ -70,6 +72,6 @@ export class DevicesComponent implements OnInit {
     return this.targetForm.get('targetName');
   }
   get targetAddress(): AbstractControl {
-    return this.targetForm.get('targetAddress');
+    return this.targetForm.get('address');
   }
 }

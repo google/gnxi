@@ -2,11 +2,12 @@ version: "3.4"
 
 services:
   web_ui:
-    build: ./web_ui
+    build:
+      context: ./web_ui
+      args:
+        - BACKEND_HOST=http://localhost:8888
     ports: 
       - 8800:80
-    environment: 
-      - BACKEND_HOST=localhost:8888
     container_name: gnxi_web_ui
   backend:
     build: 
@@ -15,5 +16,5 @@ services:
     ports:
       - 8888:80
     container_name: gnxi_backend
-    volume:
+    volumes:
       - /var/run/docker.sock:/var/run/docker.sock

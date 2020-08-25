@@ -30,6 +30,9 @@ type promptListResponse struct {
 
 // handleConfigSet will set the prompt config variables in persistent storage.
 func handlePromptsSet(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodOptions {
+		return
+	}
 	prompts := &config.Prompts{}
 	if err := json.NewDecoder(r.Body).Decode(prompts); err != nil {
 		logErr(r.Header, err)

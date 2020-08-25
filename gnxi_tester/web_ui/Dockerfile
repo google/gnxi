@@ -4,7 +4,11 @@ WORKDIR /workspace
 
 COPY . .
 
-RUN npm i && npm build
+ARG BACKEND_HOST
+
+RUN echo "export const environment = { apiUrl: '$BACKEND_HOST' };" > ./src/app/environment.ts
+
+RUN npm i && npm run-script build
 
 CMD [ "npm", "start" ]
 
