@@ -82,5 +82,9 @@ func handleTargetSet(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
-	config.SetTarget(name, device.Address, device.Ca, device.CaKey)
+	if err := config.SetTarget(name, device.Address, device.Ca, device.CaKey); err != nil {
+		logErr(r.Header, err)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
 }
