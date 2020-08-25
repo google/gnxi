@@ -5,7 +5,7 @@ services:
     build: 
       context: ./web_ui
       target: dev
-    command: npm start
+    command: sh -c "npm i && npm start"
     environment: 
       - BACKEND_HOST=http://localhost:8888
     container_name: gnxi_web_ui_dev
@@ -18,8 +18,9 @@ services:
       dockerfile: gnxi_tester/Dockerfile
       target: dev
     command: modd 
-    ports:
-      - 8888:80
+    working_dir: /workspace/gnxi_tester
+    network_mode: host
     container_name: gnxi_backend_dev
     volumes: 
-      - .:/workspace
+      - ..:/workspace
+      - /var/run/docker.sock:/var/run/docker.sock
