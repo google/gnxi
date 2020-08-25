@@ -53,8 +53,9 @@ var runTests = func(prompts config.Prompts, request runRequest) {
 	}
 	mu.Lock()
 	files := map[string]string{}
+	dir := filesDir()
 	for name, file := range prompts.Files {
-		files[name] = path.Join(filesDir(), file)
+		files[name] = path.Join(dir, file)
 	}
 	success, err := orchestrator.RunTests(request.Tests, promptHandler, files, writeToBuffer)
 	if err != nil {

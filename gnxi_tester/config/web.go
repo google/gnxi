@@ -39,12 +39,7 @@ func (p *Prompts) Set() error {
 
 // GetPrompts returns a slice of all prompts configs available.
 func GetPrompts() map[string]Prompts {
-	out := map[string]Prompts{}
-	webPrompts := viper.GetStringMap("web.prompts")
-	for name, p := range webPrompts {
-		if prompts, ok := p.(Prompts); ok {
-			out[name] = prompts
-		}
-	}
-	return out
+	var prompts map[string]Prompts
+	viper.UnmarshalKey("web.prompts", &prompts)
+	return prompts
 }
