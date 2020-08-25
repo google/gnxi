@@ -36,7 +36,11 @@ export class DevicesComponent implements OnInit {
 
   setTarget(targetForm): void {
     this.http.post(`${environment.apiUrl}/target/${targetForm.targetName}`, targetForm).subscribe(
-      (res) => console.log(res),
+      (res) => this.targetList[targetForm.targetName] = {
+        address: targetForm.address,
+        ca: targetForm.ca,
+        cakey: targetForm.cakey,
+      },
       (error) => console.log(error),
     );
   }
