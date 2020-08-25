@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"path"
 	"sync"
 	"time"
 
@@ -51,7 +52,11 @@ var runTests = func(prompts config.Prompts, request runRequest) {
 		return prompts.Prompts[name]
 	}
 	mu.Lock()
-	success, err := orchestrator.RunTests(request.Tests, promptHandler, prompts.Files, writeToBuffer)
+	files := map[string]string{}
+	for name, file := range prompts.Files {
+		files[name] = path.Join(filesDir(), file)
+	}
+	success, err := orchestrator.RunTests(request.Tests, promptHandler, files, writeToBuffer)
 	if err != nil {
 		outputBuffer.WriteString("\n" + err.Error())
 	} else {

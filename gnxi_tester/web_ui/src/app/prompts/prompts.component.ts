@@ -54,20 +54,22 @@ export class PromptsComponent implements OnInit {
   }
 
   setPrompts(form: {[key: string]: string}): void {
+    console.log(form);
     let prompts: Prompts = {
       name: form.name,
       prompts: {},
       files: {}
     }
     for (let field of Object.keys(form)) {
-      if (field.search("prompts_")) {
+      if (field.search("prompts_") === 0) {
         let key = field.slice(8);
         prompts.prompts[key] = form[field];
-      } else if (field.search("files_")) {
+      } else if (field.search("files_") === 0) {
         let key = field.slice(6);
         prompts.files[key] = form[field];
       }
     }
+    console.log(prompts);
     this.promptsService.setPrompts(prompts);
   }
 
