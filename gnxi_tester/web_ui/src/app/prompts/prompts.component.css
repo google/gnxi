@@ -1,0 +1,11 @@
+main {
+  padding: 2em 10em;
+}
+
+div {
+  padding: .5em 4em;
+}
+
+mat-form-field {
+  display: flex;
+}

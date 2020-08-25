@@ -29,6 +29,7 @@ func InitRouter(laddr string) {
 	r.HandleFunc("/prompts", handlePromptsGet).Methods("GET")
 	r.HandleFunc("/prompts/list", handlePromptsList).Methods("GET")
 	r.HandleFunc("/prompts", handlePromptsSet).Methods("POST", "PUT")
+	r.HandleFunc("/target", handleTargetsGet).Methods("GET")
 	r.HandleFunc("/target/{name}", handleTargetGet).Methods("GET")
 	r.HandleFunc("/target/{name}", handleTargetSet).Methods("POST", "PUT")
 	r.HandleFunc("/file", handleFileUpload).Methods("POST")

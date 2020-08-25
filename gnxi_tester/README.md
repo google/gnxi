@@ -2,6 +2,36 @@
 
 A CLI tool for orchestrating tests against a gNXI target.
 
+## Web UI
+
+### Running
+
+We have provided a shell script to both install and run the Web UI and API. 
+
+You need the following dependencies installed:
+- `docker`
+- `docker-compose`
+
+Then run this command:
+```sh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/google/gnxi/master/gnxi_tester/web.sh)"
+```
+
+It will install gNxI in `./gnxi`. You can subsequently launch the API and Web UI by:
+```sh
+cd ./gnxi/gnxi_tester && docker-compose up -d
+```
+
+### Development
+If you have cloned the repository, in order to run the development environment for both the Web UI and API, you have to have:
+- `docker`
+- `docker-compose`  
+
+Then run:
+```sh
+docker-compose up -f docker-compose.dev.yml
+```
+
 ## CLI
 
 ### Installing
