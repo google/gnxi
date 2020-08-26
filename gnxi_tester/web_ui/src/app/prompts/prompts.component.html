@@ -23,7 +23,7 @@
       </div>
       <div>
         <h2>Files</h2>
-        <app-file-upload *ngFor="let name of promptsList.files" [name]="name" (getID)="setFile(name, $event)"></app-file-upload><br>
+        <app-file-upload *ngFor="let name of promptsList.files" [name]="name" (getID)="setFile(name, $event)" [ID]="controlGroup.get('files_'+name).value"></app-file-upload><br>
         <button type="submit" [disabled]="!controlGroup.valid" mat-raised-button color="primary">Save</button>
       </div>
     </form>

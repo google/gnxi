@@ -5,6 +5,7 @@ import { TargetService } from '../target.service';
 import { FileService } from '../file.service';
 import { Targets } from '../models/Target';
 import { environment } from '../environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-devices',
@@ -16,7 +17,7 @@ export class DevicesComponent implements OnInit {
   targetForm: FormGroup;
   selectedTarget: any = {};
 
-  constructor(private http: HttpClient, private targetService: TargetService, private formBuilder: FormBuilder, private fileService: FileService) { }
+  constructor(private http: HttpClient, private targetService: TargetService, private formBuilder: FormBuilder, private fileService: FileService, private snackbar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.targetForm = this.formBuilder.group({
@@ -36,11 +37,14 @@ export class DevicesComponent implements OnInit {
 
   setTarget(targetForm): void {
     this.http.post(`${environment.apiUrl}/target/${targetForm.targetName}`, targetForm).subscribe(
-      (res) => this.targetList[targetForm.targetName] = {
+      (res) => {
+        this.targetList[targetForm.targetName] = {
         address: targetForm.address,
         ca: targetForm.ca,
         cakey: targetForm.cakey,
-      },
+      };
+      this.snackbar.open("Saved");
+    },
       (error) => console.log(error),
     );
   }

@@ -42,7 +42,7 @@ func setDefaults() {
 	viper.SetDefault("order", order)
 	viper.SetDefault("web.prompts", map[string]Prompts{})
 	viper.SetDefault("files", map[string][]string{
-		"gnoi_os": {"os_path", "new_os_path"},
+		"gnoi_os": {"os", "new_os"},
 	})
 }
 
