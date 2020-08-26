@@ -24,13 +24,13 @@ type Tests map[string][]Test
 
 // Test represents a single set of inputs and expected outputs.
 type Test struct {
-	Name       string            `mapstructure:"name"`
-	Args       map[string]string `mapstructure:"args"`
-	MustFail   bool              `mapstructure:"mustfail"`
-	Wait       int               `mapstructure:"wait"`
-	Wants      string            `mapstructure:"wants"`
-	DoesntWant string            `mapstructure:"doesntwant"`
-	Prompt     []string          `mapstructure:"prompt"`
+	Name       string            `json:"name" mapstructure:"name"`
+	Args       map[string]string `json:"args" mapstructure:"args"`
+	MustFail   bool              `json:"mustfail" mapstructure:"mustfail"`
+	Wait       int               `json:"wait" mapstructure:"wait"`
+	Wants      string            `json:"wants" mapstructure:"wants"`
+	DoesntWant string            `json:"doesntwant" mapstructure:"doesntwant"`
+	Prompt     []string          `json:"prompt" mapstructure:"prompt"`
 }
 
 func setDefaults() {

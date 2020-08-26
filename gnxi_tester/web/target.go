@@ -23,6 +23,7 @@ import (
 
 	"github.com/google/gnxi/gnxi_tester/config"
 	"github.com/gorilla/mux"
+	"github.com/spf13/viper"
 )
 
 func getNameParam(w http.ResponseWriter, r *http.Request) string {

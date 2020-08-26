@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { PromptsService } from '../prompts.service';
-import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { PromptsList, PromptsSet, Prompts } from '../models/Prompts';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Prompts, PromptsList, PromptsSet } from '../models/Prompts';
+import { PromptsService } from '../prompts.service';
 
 type ControlGroup = {[name: string]: FormControl}
 
