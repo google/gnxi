@@ -9,6 +9,7 @@
           <mat-option *ngFor="let target of targetList | keyvalue" [value]="target.key">{{target.key}}</mat-option>
         </mat-select>
       </mat-form-field>
+      <button class="delete" mat-button *ngIf="selectedTarget['ca']" (click)="deleteTarget()"><mat-icon>delete</mat-icon></button>
       <form [formGroup]="targetForm" (ngSubmit)="setTarget(targetForm.value)">
         <mat-form-field>
           <mat-label>Target Name</mat-label>

@@ -13,3 +13,9 @@ main {
 mat-form-field {
   width: 20em;
 }
+
+.delete {
+  margin-left: 20em;
+  float: left;
+  margin-top: -4.5em;
+}

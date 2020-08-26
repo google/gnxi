@@ -13,7 +13,7 @@ import { TargetService } from '../target.service';
   styleUrls: ['./devices.component.css']
 })
 export class DevicesComponent implements OnInit {
-  targetList: Targets;
+  targetList: Targets = {};
   targetForm: FormGroup;
   selectedTarget: any = {};
 
@@ -45,8 +45,18 @@ export class DevicesComponent implements OnInit {
       };
         this.snackbar.open("Saved", "", {duration: 2000});
     },
-      (error) => console.log(error),
+      (error) => console.error(error),
     );
+  }
+
+  deleteTarget(): void {
+    let name = this.targetForm.get("targetName").value;
+    this.targetService.delete(name).subscribe(res => {
+      this.selectedTarget = {};
+      this.targetForm.reset();
+      delete this.targetList[name];
+      this.snackbar.open("Deleted", "", {duration: 2000});
+    }, error => console.error(error))
   }
 
   setSelectedTarget(targetName: string): void {
