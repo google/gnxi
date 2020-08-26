@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Prompts, PromptsList, PromptsSet } from '../models/Prompts';
 import { PromptsService } from '../prompts.service';
+import { FileService } from '../file.service';
 
 type ControlGroup = {[name: string]: FormControl}
 
@@ -13,7 +14,7 @@ type ControlGroup = {[name: string]: FormControl}
 })
 export class PromptsComponent implements OnInit {
 
-  constructor(public promptsService: PromptsService, private formBuilder: FormBuilder, private snackbar: MatSnackBar) {
+  constructor(public promptsService: PromptsService, private formBuilder: FormBuilder, private snackbar: MatSnackBar, private fileService: FileService) {
     this.init()
   }
 

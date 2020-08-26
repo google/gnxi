@@ -51,6 +51,12 @@ export class DevicesComponent implements OnInit {
 
   deleteTarget(): void {
     let name = this.targetForm.get("targetName").value;
+    this.fileService.deleteFile(this.selectedTarget.ca).subscribe((res) => {
+      console.log(res);
+    }, error => console.error(error));
+    this.fileService.deleteFile(this.selectedTarget.cakey).subscribe((res) => {
+      console.log(res);
+    }, error => console.error(error));
     this.targetService.delete(name).subscribe(res => {
       this.selectedTarget = {};
       this.targetForm.reset();
