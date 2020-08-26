@@ -81,17 +81,10 @@ func handleRun(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
 	}
-	configPrompts := viper.GetStringMap("web.prompts")
-	promptsGeneric, ok := configPrompts[request.Prompts]
-	if !ok {
-		logErr(r.Header, fmt.Errorf("%s prompts not found", request.Prompts))
+	var prompts config.Prompts
+	if err := viper.UnmarshalKey(fmt.Sprintf("web.prompts.%s", request.Prompts), &prompts); err != nil {
+		logErr(r.Header, err)
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
-		return
-	}
-	prompts, ok := promptsGeneric.(config.Prompts)
-	if !ok {
-		logErr(r.Header, fmt.Errorf("%s prompts invalid", request.Prompts))
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
 	if _, ok := config.GetDevices()[request.Device]; !ok {

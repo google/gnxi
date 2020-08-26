@@ -36,18 +36,23 @@ export class RunComponent implements OnInit {
   }
 
   run(runForm: any): void {
-    this.runService.run(runForm); // I think a subscribe should go here?
+    this.runService.run(runForm).subscribe((res) => {
+      console.log(res);
+    }, error => console.error(error));
     this.runForm.disable();
     this.stdout = '';
     let inter = setInterval(async () => {
         let added = await this.runService.runOutput().toPromise();
+        if (added === null) {
+          return;
+        }
         if (added === 'E0F') {
           this.runForm.enable();
           clearInterval(inter);
         } else {
           this.stdout += added;
         }
-    }, 1)
+    }, 1000)
   }
 
   get device(): AbstractControl {
