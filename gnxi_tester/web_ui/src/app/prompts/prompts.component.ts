@@ -74,7 +74,7 @@ export class PromptsComponent implements OnInit {
     this.promptsService.setPrompts(prompts).subscribe(
       (res) => {
         console.log(res);
-        this.snackbar.open("Saved");
+        this.snackbar.open("Saved", "", {duration: 2000});
         this.setSelectedPrompts(prompts.name);
       },
       (err) => console.log(err)

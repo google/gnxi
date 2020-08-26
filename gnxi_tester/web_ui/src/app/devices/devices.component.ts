@@ -43,7 +43,7 @@ export class DevicesComponent implements OnInit {
         ca: targetForm.ca,
         cakey: targetForm.cakey,
       };
-      this.snackbar.open("Saved");
+        this.snackbar.open("Saved", "", {duration: 2000});
     },
       (error) => console.log(error),
     );
