@@ -54,7 +54,7 @@ func init() {
 
 // handleRun will run some or all of the tests.
 func handleRun(cmd *cobra.Command, args []string) {
-	if err := config.SetTarget(targetName, targetAddress, ca, caKey); err != nil {
+	if err := config.SetTarget(targetName, targetAddress, ca, caKey, true); err != nil {
 		log.Exitf("Error writing config: %v", err)
 	}
 	if success, err := orchestrator.RunTests(args, promptUser, parseFiles(), log.Infof); err != nil {

@@ -30,8 +30,8 @@ type Device struct {
 }
 
 // SetTarget adds any new target to the list of known targets.
-func SetTarget(targetName, targetAddress, ca, caKey string) error {
-	if err := prepareTarget(targetName, targetAddress, ca, caKey); err != nil {
+func SetTarget(targetName, targetAddress, ca, caKey string, abs bool) error {
+	if err := prepareTarget(targetName, targetAddress, ca, caKey, abs); err != nil {
 		return err
 	}
 	if err := viper.WriteConfig(); err != nil {
@@ -41,7 +41,7 @@ func SetTarget(targetName, targetAddress, ca, caKey string) error {
 }
 
 // prepareTarget parses provided details and creates or modifies target entry.
-func prepareTarget(targetName, targetAddress, ca, caKey string) error {
+func prepareTarget(targetName, targetAddress, ca, caKey string, abs bool) error {
 	var caPath string
 	var caKeyPath string
 	var err error
@@ -55,15 +55,19 @@ func prepareTarget(targetName, targetAddress, ca, caKey string) error {
 		}
 		return errors.New("No targets in history and no target specified")
 	}
-	if ca != "" || caKey != "" {
-		caPath, err = filepath.Abs(ca)
-		if err != nil {
-			return err
+	if abs {
+		if ca != "" || caKey != "" {
+			caPath, err = filepath.Abs(ca)
+			if err != nil {
+				return err
+			}
+			caKeyPath, err = filepath.Abs(caKey)
+			if err != nil {
+				return err
+			}
 		}
-		caKeyPath, err = filepath.Abs(caKey)
-		if err != nil {
-			return err
-		}
+	} else {
+		caPath, caKeyPath = ca, caKey
 	}
 	if _, exists := devices[targetName]; !exists {
 		if targetAddress == "" || ca == "" || caKey == "" {

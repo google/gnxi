@@ -17,6 +17,7 @@ package web
 
 import (
 	"encoding/json"
+	"path"
 
 	"errors"
 	"net/http"
@@ -83,7 +84,7 @@ func handleTargetSet(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
-	if err := config.SetTarget(name, device.Address, device.Ca, device.CaKey); err != nil {
+	if err := config.SetTarget(name, device.Address, path.Join(filesDir(), device.Ca), path.Join(filesDir(), device.CaKey), false); err != nil {
 		logErr(r.Header, err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
