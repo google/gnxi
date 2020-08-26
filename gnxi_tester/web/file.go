@@ -64,7 +64,7 @@ func handleFileUpload(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
-	result := map[string]string{"filename": fullPath}
+	result := map[string]string{"filename": fileName}
 	json.NewEncoder(w).Encode(result)
 }
 
