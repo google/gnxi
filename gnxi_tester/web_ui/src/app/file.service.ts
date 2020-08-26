@@ -12,7 +12,7 @@ export class FileService {
   constructor(private http: HttpClient) { }
 
   deleteFile(filename: string) {
-    return this.http.delete(`${environment.apiUrl}/${filename}`);
+    return this.http.delete(`${environment.apiUrl}/file/${filename}`);
   }
 
   uploadFile(file: File): Observable<FileResponse> {

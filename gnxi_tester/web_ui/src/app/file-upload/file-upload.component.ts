@@ -60,8 +60,10 @@ export class FileUploadComponent implements OnInit {
   }
 
   remove(): void {
-    this.ID = '';
-    this.getID.emit(this.ID);
+    this.fileService.deleteFile(this.ID).subscribe((res) => {
+      this.ID = '';
+      this.getID.emit(this.ID);
+    });
   }
 
   fileOver = false;

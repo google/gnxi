@@ -33,7 +33,7 @@ func InitRouter(laddr string) {
 	r.HandleFunc("/target/{name}", handleTargetGet).Methods("GET")
 	r.HandleFunc("/target/{name}", handleTargetSet).Methods("POST", "PUT", "OPTIONS")
 	r.HandleFunc("/file", handleFileUpload).Methods("POST")
-	r.HandleFunc("/file/{file}", handleFileDelete).Methods("DELETE")
+	r.HandleFunc("/file/{file}", handleFileDelete).Methods("DELETE", "OPTIONS")
 	r.HandleFunc("/run", handleRun).Methods("POST")
 	r.HandleFunc("/run/output", handleRunOutput).Methods("POST")
 

@@ -18,7 +18,6 @@ package web
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -70,6 +69,9 @@ func handleFileUpload(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleFileDelete(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodOptions {
+		return
+	}
 	vars := mux.Vars(r)
 	fileName := vars["file"]
 	filesDir := filesDir()
@@ -84,7 +86,7 @@ func handleFileDelete(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 		return
 	}
-	fmt.Fprint(w, http.StatusText(http.StatusOK))
+	w.WriteHeader(http.StatusOK)
 }
 
 func initializeDirectory() (string, error) {
