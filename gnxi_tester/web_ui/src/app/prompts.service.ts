@@ -23,4 +23,8 @@ export class PromptsService {
   setPrompts(prompts: Prompts): any {
     return this.http.post(`${environment.apiUrl}/prompts`, prompts);
   }
+
+  delete(name: string) {
+    return this.http.delete(`${environment.apiUrl}/prompts/${name}`);
+  }
 }
