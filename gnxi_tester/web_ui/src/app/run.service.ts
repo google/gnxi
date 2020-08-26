@@ -15,6 +15,6 @@ export class RunService {
     return this.http.post(`${environment.apiUrl}/run`, req);
   }
   runOutput(): Observable<string> {
-    return this.http.get<string>(`${environment.apiUrl}/run/output`);
+    return this.http.get(`${environment.apiUrl}/run/output`, {responseType: 'text'});
   }
 }

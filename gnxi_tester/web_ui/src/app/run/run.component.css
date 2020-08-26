@@ -12,4 +12,5 @@ section {
   font-family: 'Inconsolata', monospace;
   overflow-y: scroll;
   padding: 1em;
+  white-space: pre;
 }
