@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder, AbstractControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { TargetService } from '../target.service';
+import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from '../environment';
 import { FileService } from '../file.service';
 import { Targets } from '../models/Target';
-import { environment } from '../environment';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { TargetService } from '../target.service';
 
 @Component({
   selector: 'app-devices',
