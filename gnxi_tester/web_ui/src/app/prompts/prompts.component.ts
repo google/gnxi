@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { FileService } from '../file.service';
 import { Prompts, PromptsList, PromptsSet } from '../models/Prompts';
 import { PromptsService } from '../prompts.service';
-import { FileService } from '../file.service';
 
-type ControlGroup = {[name: string]: FormControl}
+type ControlGroup = { [name: string]: FormControl }
 
 @Component({
   selector: 'app-prompts',
@@ -13,42 +13,40 @@ type ControlGroup = {[name: string]: FormControl}
   styleUrls: ['./prompts.component.css']
 })
 export class PromptsComponent implements OnInit {
+  prompts: PromptsSet;
+  promptsList: PromptsList = { prompts: [], files: [] };
+  controlGroup = this.formBuilder.group({ name: ['', Validators.required] });
+  files = {};
 
   constructor(public promptsService: PromptsService, private formBuilder: FormBuilder, private snackbar: MatSnackBar, private fileService: FileService) {
-    this.init()
+    this.init();
   }
 
-  async ngOnInit() {
+  ngOnInit(): void {
+
   }
 
   async init() {
     try {
-      this.promptsList = await this.promptsService.getPromptsList().toPromise()
-      this.prompts = await this.promptsService.getPrompts().toPromise()
+      this.promptsList = await this.promptsService.getPromptsList().toPromise();
+      this.prompts = await this.promptsService.getPrompts().toPromise();
       let fields = this.getFields();
-      this.controlGroup = this.formBuilder.group(fields)
-    } catch(e) {
-      console.error(e)
+      this.controlGroup = this.formBuilder.group(fields);
+    } catch (e) {
+      console.error(e);
     }
   }
 
-  files = {}
-
-  private getFields(): {[name: string]: any} {
-    let fields = {name: ['',Validators.required]};
+  private getFields(): { [name: string]: any } {
+    let fields = { name: ['', Validators.required] };
     for (let field of this.promptsList.prompts) {
-      fields["prompts_"+field] = ['', Validators.required]
+      fields["prompts_" + field] = ['', Validators.required];
     }
     for (let field of this.promptsList.files) {
-      fields["files_"+field] = ['']
+      fields["files_" + field] = [''];
     }
-    return fields
+    return fields;
   }
-
-  promptsList: PromptsList = {prompts: [], files: []};
-
-  controlGroup = this.formBuilder.group({name: ['', Validators.required]});
-  prompts: PromptsSet;
 
   setFile(name: string, val: string) {
     let fields = {};
@@ -56,7 +54,7 @@ export class PromptsComponent implements OnInit {
     this.controlGroup.patchValue(fields)
   }
 
-  setPrompts(form: {[key: string]: string}): void {
+  setPrompts(form: { [key: string]: string }): void {
     console.log(form);
     let prompts: Prompts = {
       name: form.name,
@@ -75,7 +73,7 @@ export class PromptsComponent implements OnInit {
     this.promptsService.setPrompts(prompts).subscribe(
       (res) => {
         console.log(res);
-        this.snackbar.open("Saved", "", {duration: 2000});
+        this.snackbar.open("Saved", "", { duration: 2000 });
         this.setSelectedPrompts(prompts.name);
       },
       (err) => console.log(err)
@@ -89,7 +87,7 @@ export class PromptsComponent implements OnInit {
       return;
     }
     let fields = {};
-      console.log(prompts.files)
+    console.log(prompts.files)
     for (let field of Object.keys(prompts.files)) {
       fields[`files_${field}`] = prompts.files[field];
     }
