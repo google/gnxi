@@ -86,3 +86,11 @@ func handleTargetSet(w http.ResponseWriter, r *http.Request) {
 	devices[name] = device
 	viper.Set("targets.devices", devices)
 }
+
+// handleTargetDelete deletes a target.
+func handleTargetDelete(w http.ResponseWriter, r *http.Request) {
+	name := getNameParam(w, r)
+	targets := config.GetDevices()
+	delete(targets, name)
+	viper.Set("targets.devices", targets)
+}

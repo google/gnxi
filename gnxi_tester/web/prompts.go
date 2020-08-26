@@ -77,3 +77,11 @@ func handlePromptsList(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 	}
 }
+
+// handlePromptsDelete deletes a prompts set.
+func handlePromptsDelete(w http.ResponseWriter, r *http.Request) {
+	name := getNameParam(w, r)
+	prompts := config.GetPrompts()
+	delete(prompts, name)
+	viper.Set("web.prompts", prompts)
+}
