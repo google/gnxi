@@ -36,7 +36,7 @@ export class RunComponent implements OnInit {
   }
 
   run(runForm: any): void {
-    this.runService.run(runForm);
+    this.runService.run(runForm); // I think a subscribe should go here?
     this.runForm.disable();
     this.stdout = '';
     let inter = setInterval(async () => {

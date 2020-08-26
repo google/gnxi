@@ -11,7 +11,7 @@ export class RunService {
 
   constructor(private http: HttpClient) { }
 
-  run(req: RunRequest) {
+  run(req: RunRequest): void {
     this.http.post(`${environment.apiUrl}/run`, req);
   }
   runOutput(): Observable<string> {

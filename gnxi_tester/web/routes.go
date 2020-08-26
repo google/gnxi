@@ -29,15 +29,15 @@ func InitRouter(laddr string) {
 	r.HandleFunc("/prompts", handlePromptsGet).Methods("GET")
 	r.HandleFunc("/prompts/list", handlePromptsList).Methods("GET")
 	r.HandleFunc("/prompts", handlePromptsSet).Methods("POST", "PUT", "OPTIONS")
-	r.HandleFunc("/prompts/{name}", handlePromptsDelete).Methods("DELETE")
+	r.HandleFunc("/prompts/{name}", handlePromptsDelete).Methods("DELETE", "OPTIONS")
 	r.HandleFunc("/target", handleTargetsGet).Methods("GET")
 	r.HandleFunc("/target/{name}", handleTargetGet).Methods("GET")
 	r.HandleFunc("/target/{name}", handleTargetSet).Methods("POST", "PUT", "OPTIONS")
 	r.HandleFunc("/target/{name}", handleTargetDelete).Methods("DELETE")
 	r.HandleFunc("/file", handleFileUpload).Methods("POST")
 	r.HandleFunc("/file/{file}", handleFileDelete).Methods("DELETE", "OPTIONS")
-	r.HandleFunc("/run", handleRun).Methods("POST")
-	r.HandleFunc("/run/output", handleRunOutput).Methods("POST")
+	r.HandleFunc("/run", handleRun).Methods("POST", "OPTIONS")
+	r.HandleFunc("/run/output", handleRunOutput).Methods("GET")
 
 	r.Use(mux.CORSMethodMiddleware(r))
 	r.Use(func(next http.Handler) http.Handler {

@@ -72,6 +72,9 @@ var runTests = func(prompts config.Prompts, request runRequest) {
 }
 
 func handleRun(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodOptions {
+		return
+	}
 	request := runRequest{}
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 		logErr(r.Header, err)
