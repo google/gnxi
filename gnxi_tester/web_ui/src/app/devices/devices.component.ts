@@ -13,9 +13,9 @@ import { TargetService } from '../target.service';
   styleUrls: ['./devices.component.css']
 })
 export class DevicesComponent implements OnInit {
-  targetList: Targets = {};
+  targetList: Targets;
   targetForm: FormGroup;
-  selectedTarget: any = {};
+  selectedTarget: any;
 
   constructor(private http: HttpClient, private targetService: TargetService, private formBuilder: FormBuilder, private fileService: FileService, private snackbar: MatSnackBar) { }
 
@@ -26,6 +26,7 @@ export class DevicesComponent implements OnInit {
       ca: ['', Validators.required],
       cakey: ['', Validators.required],
     });
+    this.selectedTarget = {};
     this.getTargets();
   }
 
@@ -39,10 +40,11 @@ export class DevicesComponent implements OnInit {
     this.http.post(`${environment.apiUrl}/target/${targetForm.targetName}`, targetForm).subscribe(
       (res) => {
         this.targetList[targetForm.targetName] = {
-        address: targetForm.address,
-        ca: targetForm.ca,
-        cakey: targetForm.cakey,
-      };
+          address: targetForm.address,
+          ca: targetForm.ca,
+          cakey: targetForm.cakey,
+        };
+        this.selectedTarget = this.targetList[targetForm.targetName];
         this.snackbar.open("Saved", "", {duration: 2000});
     },
       (error) => console.error(error),
