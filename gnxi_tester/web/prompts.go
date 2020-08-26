@@ -58,7 +58,7 @@ func handlePromptsGet(w http.ResponseWriter, r *http.Request) {
 func handlePromptsList(w http.ResponseWriter, r *http.Request) {
 	tests := config.GetTests()
 	prompts := make([]string, 0)
-	for _, test := range viper.GetStringSlice("order") {
+	for _, test := range append(viper.GetStringSlice("order"), "provision") {
 		if majorTest, ok := tests[test]; ok {
 			for _, minorTest := range majorTest {
 				prompts = append(prompts, minorTest.Prompt...)
