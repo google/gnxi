@@ -29,9 +29,8 @@ func TestSetPrompts(t *testing.T) {
 		if err := prompts.Set(); err != nil {
 			t.Error(err)
 		}
-		gotMap := viper.GetStringMap("web.prompts")
-		got, ok := gotMap["test"].(Prompts)
-		if !ok {
+		var got Prompts
+		if err := viper.UnmarshalKey("test", &got); err != nil {
 			t.Errorf("Couldn't find prompts in map.")
 		}
 		if diff := cmp.Diff(*prompts, got); diff != "" {
