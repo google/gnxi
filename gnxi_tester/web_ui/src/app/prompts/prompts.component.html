@@ -10,6 +10,7 @@
             <mat-option *ngFor="let p of prompts | keyvalue" [value]="p.key">{{p.key}}</mat-option>
           </mat-select>
         </mat-form-field>
+        <button type="button" class="delete" mat-button *ngIf="selected" (click)="deletePrompts()"><mat-icon>delete</mat-icon></button>
         <mat-form-field>
           <mat-label>Prompts name</mat-label>
           <input matInput [formControl]="controlGroup.get('name')" />
@@ -18,7 +19,7 @@
         <mat-form-field *ngFor="let name of promptsList.prompts">
           <mat-label>{{name}}</mat-label>
           <input matInput [formControl]="controlGroup.get('prompts_'+name)"  />
-          <mat-error *ngIf="controlGroup.get('prompts_'+name).hasError('required')">{{ name }} is required</mat-error>
+          <mat-error *ngIf="name && controlGroup.get('prompts_'+name)?.hasError('required')">{{ name }} is required</mat-error>
         </mat-form-field>
       </div>
       <div>

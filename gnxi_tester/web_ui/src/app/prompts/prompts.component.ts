@@ -13,7 +13,7 @@ type ControlGroup = { [name: string]: FormControl }
   styleUrls: ['./prompts.component.css']
 })
 export class PromptsComponent implements OnInit {
-  prompts: PromptsSet;
+  prompts: PromptsSet = {};
   promptsList: PromptsList = { prompts: [], files: [] };
   controlGroup = this.formBuilder.group({ name: ['', Validators.required] });
   files = {};
@@ -54,7 +54,20 @@ export class PromptsComponent implements OnInit {
     this.controlGroup.patchValue(fields)
   }
 
+  deletePrompts(): void {
+    let name = this.controlGroup.get("name").value;
+    this.promptsService.delete(name).subscribe(res => {
+      console.log(res);
+      delete this.prompts[name];
+      this.controlGroup.reset()
+      this.snackbar.open("Deleted", "", {duration: 2000});
+    }, error => console.error(error))
+  }
+
   setPrompts(form: { [key: string]: string }): void {
+    if (!form) {
+      return;
+    }
     console.log(form);
     let prompts: Prompts = {
       name: form.name,
@@ -98,5 +111,9 @@ export class PromptsComponent implements OnInit {
       name,
       ...fields,
     });
+  }
+
+  get selected() {
+    return this.controlGroup.get("name").value
   }
 }

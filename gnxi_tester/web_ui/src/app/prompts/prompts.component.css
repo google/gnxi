@@ -9,3 +9,9 @@ div {
 mat-form-field {
   display: flex;
 }
+
+.delete {
+  margin-left: 15em;
+  float: left;
+  margin-top: -4.5em;
+}
