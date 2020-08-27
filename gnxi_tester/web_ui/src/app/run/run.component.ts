@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PromptsSet } from '../models/Prompts';
 import { Targets } from '../models/Target';
 import { PromptsService } from '../prompts.service';
 import { RunService } from '../run.service';
 import { TargetService } from '../target.service';
+import { TestService } from '../test.service';
+import { Tests } from '../models/Test';
 
 @Component({
   selector: 'app-run',
@@ -17,8 +19,10 @@ export class RunComponent implements OnInit {
   runForm: FormGroup;
   sample = 'Test output will go here';
   stdout = this.sample;
+  @ViewChild('terminal') private terminal: ElementRef<HTMLDivElement>;
+  tests: Tests = {}
 
-  constructor(public runService: RunService, public promptsService: PromptsService, public targetService: TargetService, private formBuilder: FormBuilder) {}
+  constructor(public runService: RunService, public promptsService: PromptsService, public targetService: TargetService, private formBuilder: FormBuilder, public testService: TestService) {}
 
   async ngOnInit() {
     this.targetService.getTargets().subscribe(
@@ -32,11 +36,13 @@ export class RunComponent implements OnInit {
     this.runForm = this.formBuilder.group({
       prompts: ['', Validators.required],
       device: ['', Validators.required],
+      tests: [[]],
     });
     let output = await this.runService.runOutput().toPromise();
     if (output) {
       this.runOutput();
     }
+    this.tests = await this.testService.getTests().toPromise();
   }
 
   run(runForm: any): void {
@@ -60,6 +66,7 @@ export class RunComponent implements OnInit {
         } else {
           this.stdout += added;
         }
+        this.terminal.nativeElement.scrollTop = this.terminal.nativeElement.scrollHeight;
     }, 1000)
   }
 
