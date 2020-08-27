@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PromptsSet } from '../models/Prompts';
 import { Targets } from '../models/Target';
@@ -17,6 +17,7 @@ export class RunComponent implements OnInit {
   runForm: FormGroup;
   sample = 'Test output will go here';
   stdout = this.sample;
+  @ViewChild('terminal') private terminal: ElementRef<HTMLDivElement>;
 
   constructor(public runService: RunService, public promptsService: PromptsService, public targetService: TargetService, private formBuilder: FormBuilder) {}
 
@@ -60,6 +61,7 @@ export class RunComponent implements OnInit {
         } else {
           this.stdout += added;
         }
+        this.terminal.nativeElement.scrollTop = this.terminal.nativeElement.scrollHeight;
     }, 1000)
   }
 
