@@ -100,13 +100,13 @@ func generateTestCases() (Tests, []string) {
 	osTests := []Test{
 		{
 			Name:   "Compatible OS with Good Hash Install",
-			Args:   map[string]string{"op": "install", "version": "&<os_version>", "os": "&<os_path>"},
+			Args:   map[string]string{"op": "install", "version": "&<os_version>", "os": "&<os>"},
 			Wants:  `^$`,
 			Prompt: []string{"os_version"},
 		},
 		{
 			Name:  "Install Already Installed OS",
-			Args:  map[string]string{"op": "install", "version": "&<os_version>", "os": "&<os_path>"},
+			Args:  map[string]string{"op": "install", "version": "&<os_version>", "os": "&<os>"},
 			Wait:  3,
 			Wants: "OS version &<os_version> is already installed",
 		},
@@ -123,13 +123,13 @@ func generateTestCases() (Tests, []string) {
 		},
 		{
 			Name:     "Force Transfer Already Running OS",
-			Args:     map[string]string{"op": "install", "os": "&<os_path>"},
+			Args:     map[string]string{"op": "install", "os": "&<os>"},
 			MustFail: true,
 			Wants:    "Failed Install: InstallError occurred: INSTALL_RUN_PACKAGE",
 		},
 		{
 			Name:   "Install another OS",
-			Args:   map[string]string{"op": "install", "version": "&<new_os_version>", "os": "&<new_os_path>"},
+			Args:   map[string]string{"op": "install", "version": "&<new_os_version>", "os": "&<new_os>"},
 			Wants:  `^$`,
 			Prompt: []string{"new_os_version"},
 		},

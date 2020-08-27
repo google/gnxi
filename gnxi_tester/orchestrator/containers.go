@@ -127,7 +127,7 @@ func createContainer(name string) error {
 		return nil
 	}
 	if !found {
-		log.Infof("Building image for %s...", name)
+		infof("Building image for %s...", name)
 		dockerfile := path.Join(viper.GetString("docker.files"), fmt.Sprintf("%s.Dockerfile", name))
 		buildContext, err := tarFile(name, dockerfile)
 		defer buildContext.Close()
@@ -145,8 +145,8 @@ func createContainer(name string) error {
 		if err != nil {
 			return err
 		}
-		io.Copy(os.Stdout, reader.Body)
-		log.Infof("Finished building image for %s", name)
+		io.Copy(stdOut, reader.Body)
+		infof("Finished building image for %s", name)
 	}
 	c, err := dockerClient.ContainerCreate(
 		context.Background(),
@@ -173,13 +173,13 @@ func pullImage(name string) error {
 		return nil
 	}
 	if !found {
-		log.Infof("Pulling image %s...", name)
+		infof("Pulling image %s...", name)
 		reader, err := dockerClient.ImagePull(context.Background(), fmt.Sprintf("docker.io/library/%s", name), types.ImagePullOptions{})
 		if err != nil {
 			return err
 		}
-		io.Copy(os.Stdout, reader)
-		log.Infof("Finished pulling %s", name)
+		io.Copy(stdOut, reader)
+		infof("Finished pulling %s", name)
 	}
 	return nil
 }
