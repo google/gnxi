@@ -40,7 +40,7 @@ var (
 	input       = map[string]string{}
 	delimRe     = regexp.MustCompile(fmt.Sprintf("%s.*%s", openDelim, closeDelim))
 	files       map[string]string
-	infof       func(string, ...interface{})
+	infof       = func(string, ...interface{}) {}
 	stdOut      io.Writer
 )
 
