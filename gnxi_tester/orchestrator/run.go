@@ -16,6 +16,7 @@ limitations under the License.
 package orchestrator
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"path"
@@ -40,8 +41,8 @@ var (
 	input       = map[string]string{}
 	delimRe     = regexp.MustCompile(fmt.Sprintf("%s.*%s", openDelim, closeDelim))
 	files       map[string]string
-	infof       func(string, ...interface{})
-	stdOut      io.Writer
+	infof                 = func(string, ...interface{}) {}
+	stdOut      io.Writer = bytes.NewBuffer([]byte{})
 )
 
 // RunTests will take in test name and run each test or all tests.
