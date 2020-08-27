@@ -13,9 +13,9 @@ import { TargetService } from '../target.service';
   styleUrls: ['./devices.component.css']
 })
 export class DevicesComponent implements OnInit {
-  targetList: Targets;
   targetForm: FormGroup;
   selectedTarget: any;
+  targetList: Targets = {};
 
   constructor(private http: HttpClient, private targetService: TargetService, private formBuilder: FormBuilder, private fileService: FileService, private snackbar: MatSnackBar) { }
 

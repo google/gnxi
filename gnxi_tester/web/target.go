@@ -84,6 +84,12 @@ func handleTargetSet(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
+	if device.Ca == "" || device.CaKey == "" {
+		logErr(r.Header, errors.New("ca or ca key not set"))
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+
+	}
 	if err := config.SetTarget(name, device.Address, path.Join(filesDir(), device.Ca), path.Join(filesDir(), device.CaKey), false); err != nil {
 		logErr(r.Header, err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
