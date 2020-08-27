@@ -156,7 +156,8 @@ def _path_names(xpath):
   """
   if not xpath or xpath == '/':  # A blank xpath was provided at CLI.
     return []
-  return xpath.strip().strip('/').split('/')  # Remove leading and trailing '/'.
+  return re.split(r'''/(?=(?:[^\[\]]|\[[^\[\]]+\])*$)''',
+                  xpath.strip('/').strip('/'))  # Removes leading/trailing '/'.
 
 
 def _parse_path(p_names):
