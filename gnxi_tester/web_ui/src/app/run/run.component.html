@@ -19,6 +19,12 @@
               </mat-select>
               <mat-error *ngIf="device.hasError('required')">Device is required</mat-error>
             </mat-form-field>
+            <mat-form-field appearance="fill">
+              <mat-label>Major Tests</mat-label>
+              <mat-select formControlName="tests" multiple>
+                <mat-option *ngFor="let test of tests | keyvalue" [value]="test.key">{{test.key}}</mat-option>
+              </mat-select>
+            </mat-form-field>
             <button type="submit" [disabled]="!runForm.valid" mat-raised-button color="primary"><mat-icon>play_arrow</mat-icon> Run</button>
           </div>
         </mat-grid-tile>
