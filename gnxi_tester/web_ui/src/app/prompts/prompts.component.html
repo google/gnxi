@@ -1,6 +1,6 @@
 <main>
-  <mat-card>
-    <form [formGroup]="controlGroup" (ngSubmit)="setPrompts(controlGroup.value)">
+  <mat-card *ngIf="this.promptsForm">
+    <form [formGroup]="promptsForm" (ngSubmit)="setPrompts(promptsForm.value)">
       <div>
         <h1>Prompts</h1>
         <mat-form-field appearance="fill">
@@ -10,21 +10,22 @@
             <mat-option *ngFor="let p of prompts | keyvalue" [value]="p.key">{{p.key}}</mat-option>
           </mat-select>
         </mat-form-field>
+        <button type="button" class="delete" mat-button *ngIf="selected" (click)="deletePrompts()"><mat-icon>delete</mat-icon></button>
         <mat-form-field>
           <mat-label>Prompts name</mat-label>
-          <input matInput [formControl]="controlGroup.get('name')" />
-          <mat-error *ngIf="controlGroup.get('name').hasError('required')">Prompts name is required</mat-error>
+          <input matInput [formControl]="promptsForm.get('name')" />
+          <mat-error *ngIf="promptsForm.get('name').hasError('required')">Prompts name is required</mat-error>
         </mat-form-field>
         <mat-form-field *ngFor="let name of promptsList.prompts">
           <mat-label>{{name}}</mat-label>
-          <input matInput [formControl]="controlGroup.get('prompts_'+name)"  />
-          <mat-error *ngIf="controlGroup.get('prompts_'+name).hasError('required')">{{ name }} is required</mat-error>
+          <input matInput [formControl]="promptsForm.get('prompts_'+name)"  />
+          <mat-error *ngIf="name && promptsForm.get('prompts_'+name)?.hasError('required')">{{ name }} is required</mat-error>
         </mat-form-field>
       </div>
       <div>
         <h2>Files</h2>
-        <app-file-upload *ngFor="let name of promptsList.files" [name]="name" (getID)="setFile(name, $event)"></app-file-upload><br>
-        <button type="submit" [disabled]="!controlGroup.valid" mat-raised-button color="primary">Save</button>
+        <app-file-upload *ngFor="let name of promptsList.files" [name]="name" (getID)="setFile(name, $event)" [ID]="promptsForm.get('files_'+name).value"></app-file-upload><br>
+        <button type="submit" [disabled]="!promptsForm.valid" mat-raised-button color="primary">Save</button>
       </div>
     </form>
   </mat-card>

@@ -1,29 +1,35 @@
 <main>
   <mat-card>
-    <form [formGroup]="formControl" (ngSubmit)="run(formControl.value)">
+    <form [formGroup]="runForm" (ngSubmit)="run(runForm.value)">
       <mat-grid-list cols="2" rowHeight="1.5:1">
         <mat-grid-tile>
           <div>
             <h1>Run Tests</h1>
             <mat-form-field appearance="fill">
               <mat-label>Prompts</mat-label>
-              <mat-select [disabled]="running" name="prompts">
-                <mat-option *ngFor="let prompt of promptsList" [value]="prompt">{{prompt}}</mat-option>
+              <mat-select formControlName="prompts">
+                <mat-option *ngFor="let prompt of promptsList | keyvalue" [value]="prompt.key">{{prompt.key}}</mat-option>
               </mat-select>
-              <mat-error *ngIf="formControl.get('prompts').hasError('required')">Prompts are required</mat-error>
+              <mat-error *ngIf="prompts.hasError('required')">Prompts are required</mat-error>
             </mat-form-field>
             <mat-form-field appearance="fill">
               <mat-label>Device</mat-label>
-              <mat-select [disabled]="running" name="files">
-                <mat-option *ngFor="let device of deviceList" [value]="device">{{device}}</mat-option>
+              <mat-select formControlName="device">
+                <mat-option *ngFor="let device of deviceList | keyvalue" [value]="device.key">{{device.key}}</mat-option>
               </mat-select>
-              <mat-error *ngIf="formControl.get('device').hasError('required')">Device is required</mat-error>
+              <mat-error *ngIf="device.hasError('required')">Device is required</mat-error>
             </mat-form-field>
-            <button type="submit" [disabled]="!formControl.valid || running" mat-raised-button color="primary"><mat-icon>play_arrow</mat-icon> Run</button>
+            <mat-form-field appearance="fill">
+              <mat-label>Major Tests</mat-label>
+              <mat-select formControlName="tests" multiple>
+                <mat-option *ngFor="let test of tests | keyvalue" [value]="test.key">{{test.key}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button type="submit" [disabled]="!runForm.valid" mat-raised-button color="primary"><mat-icon>play_arrow</mat-icon> Run</button>
           </div>
         </mat-grid-tile>
         <mat-grid-tile>
-          <section>
+          <section #terminal>
             {{ stdout }}
           </section>
         </mat-grid-tile>

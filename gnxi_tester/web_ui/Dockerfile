@@ -4,12 +4,20 @@ WORKDIR /workspace
 
 COPY . .
 
-RUN npm i && npm build
+ARG BACKEND_HOST
+
+RUN echo "export const environment = { apiUrl: '$BACKEND_HOST' };" > ./src/app/environment.ts
+
+RUN npm cache verify && npm i && npm run build
 
 CMD [ "npm", "start" ]
 
 
 FROM nginx:alpine
+
+WORKDIR /etc/nginx/conf.d
+
+COPY default.conf .
 
 WORKDIR /usr/share/nginx/html
 
