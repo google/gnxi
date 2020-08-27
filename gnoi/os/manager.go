@@ -76,5 +76,8 @@ func (m *Manager) Install(version, activationFailMsg string) {
 func (m *Manager) IsInstalled(version string) bool {
 	m.mu.Lock()
 	defer m.mu.Unlock()
+	if version == "" {
+		return false
+	}
 	return m.osMap[version]
 }
