@@ -15,7 +15,7 @@ import { TargetService } from '../target.service';
 export class DevicesComponent implements OnInit {
   targetForm: FormGroup;
   selectedTarget: any;
-  targetList: Targets = {};
+  targetList: Targets;
 
   constructor(private http: HttpClient, private targetService: TargetService, private formBuilder: FormBuilder, private fileService: FileService, private snackbar: MatSnackBar) { }
 
@@ -32,7 +32,11 @@ export class DevicesComponent implements OnInit {
 
   getTargets(): void {
     this.targetService.getTargets().subscribe(targets => {
-      this.targetList = targets;
+      if (targets != null) {
+        this.targetList = targets;
+      } else {
+        this.targetList = {};
+      }
     });
   }
 
