@@ -20,7 +20,7 @@ export class RunComponent implements OnInit {
 
   constructor(public runService: RunService, public promptsService: PromptsService, public targetService: TargetService, private formBuilder: FormBuilder) {}
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.targetService.getTargets().subscribe(
       (res) => this.deviceList = res,
       (err) => console.log(err)
@@ -33,12 +33,20 @@ export class RunComponent implements OnInit {
       prompts: ['', Validators.required],
       device: ['', Validators.required],
     });
+    let output = await this.runService.runOutput().toPromise();
+    if (output) {
+      this.runOutput();
+    }
   }
 
   run(runForm: any): void {
     this.runService.run(runForm).subscribe((res) => {
       console.log(res);
     }, error => console.error(error));
+    this.runOutput();
+  }
+
+  private runOutput(): void {
     this.runForm.disable();
     this.stdout = '';
     let inter = setInterval(async () => {
