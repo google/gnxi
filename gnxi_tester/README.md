@@ -72,14 +72,14 @@ tests:
   gnoi_os:
   - args:
       op: install
-      os: '&<os_path>'
+      os: '&<os>'
       version: '&<os_version>' # escaped variables the user will be prompted for
     doesntwant: ""
     mustfail: false
     name: Compatible OS with Good Hash Install
     prompt:
     - os_version
-    - os_path
+    - os
     wait: 0
     wants: ^$
     [...]
@@ -111,11 +111,11 @@ gnxi_tester run [test_names] \
 --key certs/ca.key \
 --target_name target.com \
 --target_address localhost:9339 \
---files "os_path:/path/to/image other_file:/path_to_file"
+--files "os:/path/to/image other_file:/path_to_file"
 ```
 
 ### Files required by service
 Files to be passed in the `--files` flag.
 #### `gnoi_os`
-- `os_path`: Path to OS file used in `install` operation.
+- `os`: Path to OS file used in `install` operation.
 

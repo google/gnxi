@@ -21,6 +21,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
+	"path"
 	"testing"
 
 	"github.com/google/gnxi/gnxi_tester/config"
@@ -91,11 +92,15 @@ func TestHandleTargetSet(t *testing.T) {
 			map[string]config.Device{},
 		},
 		{
-			"device found",
+			"setting device",
 			"name",
 			http.StatusOK,
-			"{\"address\":\"\",\"ca\":\"\",\"cakey\":\"\"}\n",
-			map[string]config.Device{"name": {}},
+			"{\"address\":\"test\",\"ca\":\"test.crt\",\"cakey\":\"test.key\"}\n",
+			map[string]config.Device{"name": {
+				Address: "test",
+				Ca:      path.Join(filesDir(), "test.crt"),
+				CaKey:   path.Join(filesDir(), "test.key"),
+			}},
 		},
 	}
 	for _, test := range tests {
@@ -110,7 +115,7 @@ func TestHandleTargetSet(t *testing.T) {
 			if code := rr.Code; code != test.code {
 				t.Errorf("Wanted exit code %d but got %d.", test.code, code)
 			} else if diff := cmp.Diff(test.devices, viper.Get("targets.devices")); diff != "" {
-				t.Errorf("Error in setting devicve (-want +got): %s", diff)
+				t.Errorf("Error in setting device (-want +got): %s", diff)
 			}
 		})
 	}

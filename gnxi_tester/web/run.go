@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"path"
 	"sync"
 	"time"
 
@@ -51,7 +52,12 @@ var runTests = func(prompts config.Prompts, request runRequest) {
 		return prompts.Prompts[name]
 	}
 	mu.Lock()
-	success, err := orchestrator.RunTests(request.Tests, promptHandler, prompts.Files, writeToBuffer)
+	files := map[string]string{}
+	dir := filesDir()
+	for name, file := range prompts.Files {
+		files[name] = path.Join(dir, file)
+	}
+	success, err := orchestrator.RunTests(request.Tests, promptHandler, files, writeToBuffer, outputBuffer)
 	if err != nil {
 		outputBuffer.WriteString("\n" + err.Error())
 	} else {
@@ -66,23 +72,19 @@ var runTests = func(prompts config.Prompts, request runRequest) {
 }
 
 func handleRun(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodOptions {
+		return
+	}
 	request := runRequest{}
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 		logErr(r.Header, err)
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
 	}
-	configPrompts := viper.GetStringMap("web.prompts")
-	promptsGeneric, ok := configPrompts[request.Prompts]
-	if !ok {
-		logErr(r.Header, fmt.Errorf("%s prompts not found", request.Prompts))
+	var prompts config.Prompts
+	if err := viper.UnmarshalKey(fmt.Sprintf("web.prompts.%s", request.Prompts), &prompts); err != nil {
+		logErr(r.Header, err)
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
-		return
-	}
-	prompts, ok := promptsGeneric.(config.Prompts)
-	if !ok {
-		logErr(r.Header, fmt.Errorf("%s prompts invalid", request.Prompts))
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
 	if _, ok := config.GetDevices()[request.Device]; !ok {

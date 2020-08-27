@@ -7,4 +7,4 @@ git clone \
 cd gnxi/gnxi_tester
 
 docker-compose up -d && 
-    echo "Web UI running on http://localhost:8080. Type 'docker ps' to see more info on running containers."
+    echo "Web UI running on http://localhost:4200. Type 'docker ps' to see more info on running containers."

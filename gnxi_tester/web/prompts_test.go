@@ -69,7 +69,7 @@ func TestHandlePromptsSet(t *testing.T) {
 				t.Errorf("Wanted exit code %d but got %d.", test.code, code)
 			}
 			if test.prompts != nil {
-				if diff := cmp.Diff(*test.prompts, got[test.prompts.Name]); diff != "" {
+				if diff := cmp.Diff(test.prompts, got[test.prompts.Name]); diff != "" {
 					t.Errorf("Prompt incorrectly set (-want +got): %s.", diff)
 				}
 			}

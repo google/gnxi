@@ -49,15 +49,15 @@ func init() {
 	runCmd.Flags().StringVarP(&targetAddress, "target_address", "a", "", "The address of the target to be tested")
 	runCmd.Flags().StringVarP(&ca, "ca", "c", "", "The ca ")
 	runCmd.Flags().StringVarP(&caKey, "ca_key", "k", "", "The key for the ca file")
-	runCmd.Flags().StringVarP(&files, "files", "f", "", "Extra files used for tests. Example: -f \"os_path:/path/to/os file:/path/to/other/file\"")
+	runCmd.Flags().StringVarP(&files, "files", "f", "", "Extra files used for tests. Example: -f \"os:/path/to/os file:/path/to/other/file\"")
 }
 
 // handleRun will run some or all of the tests.
 func handleRun(cmd *cobra.Command, args []string) {
-	if err := config.SetTarget(targetName, targetAddress, ca, caKey); err != nil {
+	if err := config.SetTarget(targetName, targetAddress, ca, caKey, true); err != nil {
 		log.Exitf("Error writing config: %v", err)
 	}
-	if success, err := orchestrator.RunTests(args, promptUser, parseFiles(), log.Infof); err != nil {
+	if success, err := orchestrator.RunTests(args, promptUser, parseFiles(), log.Infof, os.Stdout); err != nil {
 		log.Exitf("Error running tests: %v", err)
 	} else {
 		log.Info("Tests ran successfully:")
