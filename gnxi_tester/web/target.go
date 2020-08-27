@@ -90,7 +90,13 @@ func handleTargetSet(w http.ResponseWriter, r *http.Request) {
 		return
 
 	}
-	if err := config.SetTarget(name, device.Address, path.Join(filesDir(), device.Ca), path.Join(filesDir(), device.CaKey), false); err != nil {
+	if !path.IsAbs(device.Ca) {
+		device.Ca = path.Join(filesDir(), device.Ca)
+	}
+	if !path.IsAbs(device.CaKey) {
+		device.CaKey = path.Join(filesDir(), device.CaKey)
+	}
+	if err := config.SetTarget(name, device.Address, device.Ca, device.CaKey, false); err != nil {
 		logErr(r.Header, err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return

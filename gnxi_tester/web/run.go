@@ -57,7 +57,7 @@ var runTests = func(prompts config.Prompts, request runRequest) {
 	for name, file := range prompts.Files {
 		files[name] = path.Join(dir, file)
 	}
-	success, err := orchestrator.RunTests(request.Tests, promptHandler, files, writeToBuffer)
+	success, err := orchestrator.RunTests(request.Tests, promptHandler, files, writeToBuffer, outputBuffer)
 	if err != nil {
 		outputBuffer.WriteString("\n" + err.Error())
 	} else {
