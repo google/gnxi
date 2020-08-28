@@ -2,6 +2,13 @@
 
 A CLI tool for orchestrating tests against a gNXI target.
 
+## How it works
+
+- `gnxi_tester` communicates with you local docker socket via the Docker SDK. 
+- It will read `~/.gnxi.yml` which defines which service binaries will be put in lightweight containers on the host system as well as a set of commands and desired outputs.
+- It will execute the predefined commands for each binary, passing in files and and user input when necessary
+- If all tests pass, it will notify the user and exit gracefully.
+
 ## Web UI
 
 ![](assets/web_ui.png?raw=true)
