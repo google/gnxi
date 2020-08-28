@@ -54,7 +54,7 @@ export class PromptsComponent implements OnInit {
     this.promptsService.delete(name).subscribe(res => {
       console.log(res);
       delete this.prompts[name];
-      this.promptsForm.reset()
+      this.promptsForm.reset();
       this.snackbar.open('Deleted', '', {duration: 2000});
     }, error => console.error(error))
   }
