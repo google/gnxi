@@ -30,6 +30,9 @@ type promptListResponse struct {
 
 // handleConfigSet will set the prompt config variables in persistent storage.
 func handlePromptsSet(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodOptions {
+		return
+	}
 	prompts := &config.Prompts{}
 	if err := json.NewDecoder(r.Body).Decode(prompts); err != nil {
 		logErr(r.Header, err)
@@ -55,7 +58,7 @@ func handlePromptsGet(w http.ResponseWriter, r *http.Request) {
 func handlePromptsList(w http.ResponseWriter, r *http.Request) {
 	tests := config.GetTests()
 	prompts := make([]string, 0)
-	for _, test := range viper.GetStringSlice("order") {
+	for _, test := range append(viper.GetStringSlice("order"), "provision") {
 		if majorTest, ok := tests[test]; ok {
 			for _, minorTest := range majorTest {
 				prompts = append(prompts, minorTest.Prompt...)
@@ -73,4 +76,12 @@ func handlePromptsList(w http.ResponseWriter, r *http.Request) {
 		logErr(r.Header, err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 	}
+}
+
+// handlePromptsDelete deletes a prompts set.
+func handlePromptsDelete(w http.ResponseWriter, r *http.Request) {
+	name := getNameParam(w, r)
+	prompts := config.GetPrompts()
+	delete(prompts, name)
+	viper.Set("web.prompts", prompts)
 }

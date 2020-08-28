@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PromptsSet, PromptsList, Prompts } from './models/Prompts';
-
+import { environment } from './environment';
+import { Prompts, PromptsList, PromptsSet } from './models/Prompts';
 
 
 @Injectable({
@@ -13,14 +13,18 @@ export class PromptsService {
   }
 
   getPrompts(): Observable<PromptsSet> {
-    return this.http.get<PromptsSet>("http://localhost:8888/prompts")
+    return this.http.get<PromptsSet>(`${environment.apiUrl}/prompts`);
   }
 
   getPromptsList(): Observable<PromptsList> {
-    return this.http.get<PromptsList>("http://localhost:8888/prompts/list")
+    return this.http.get<PromptsList>(`${environment.apiUrl}/prompts/list`);
   }
 
-  setPrompts(prompts: Prompts) {
-    this.http.post("http://localhost:8888/prompts", prompts)
+  setPrompts(prompts: Prompts): any {
+    return this.http.post(`${environment.apiUrl}/prompts`, prompts);
+  }
+
+  delete(name: string) {
+    return this.http.delete(`${environment.apiUrl}/prompts/${name}`);
   }
 }

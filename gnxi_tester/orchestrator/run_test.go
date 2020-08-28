@@ -17,6 +17,7 @@ package orchestrator
 
 import (
 	"errors"
+	"os"
 	"testing"
 
 	"github.com/google/gnxi/gnxi_tester/config"
@@ -143,7 +144,7 @@ func TestRunTests(t *testing.T) {
 			viper.Set("order", test.order)
 			viper.Set("files", test.files)
 			RunContainer = test.runContainer
-			succ, err := RunTests(test.testNames, test.prompt, map[string]string{}, func(string, ...interface{}) {})
+			succ, err := RunTests(test.testNames, test.prompt, map[string]string{}, func(string, ...interface{}) {}, os.Stdout)
 			if diff := cmp.Diff(test.wantSucc, succ); diff != "" {
 				t.Errorf("(-want +got): %s", diff)
 			} else if (test.wantErr == nil) != (err == nil) {
