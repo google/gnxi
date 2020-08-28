@@ -121,7 +121,8 @@ gnxi_tester run [test_names] \
 ```
 
 ### Files required by service
-Files to be passed in the `--files` flag.
+Files to be passed in the `--files` flag:
 #### `gnoi_os`
 - `os`: Path to OS file used in `install` operation.
+- `new_os`: Path to another OS file used in `install_another_os` operation.
 
