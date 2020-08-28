@@ -82,6 +82,7 @@ export class PromptsComponent implements OnInit {
       (res) => {
         console.log(res);
         this.snackbar.open('Saved', '', { duration: 2000 });
+        this.prompts[prompts.name] = prompts;
         this.setSelectedPrompts(prompts.name);
       },
       (err) => console.log(err)
@@ -109,6 +110,6 @@ export class PromptsComponent implements OnInit {
   }
 
   get selected() {
-    return this.promptsForm.get('name').value
+    return this.promptsForm.get('name').value;
   }
 }
