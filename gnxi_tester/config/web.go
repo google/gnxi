@@ -22,14 +22,14 @@ import (
 // Prompts represents a prompt config set that will get stored in viper.
 type Prompts struct {
 	Name    string            `json:"name" mapstructure:"name"`
-	Prompts map[string]string `json:"prompts" mapstructure:"name"`
-	Files   map[string]string `json:"files" mapsstructure:"name"`
+	Prompts map[string]string `json:"prompts" mapstructure:"prompts"`
+	Files   map[string]string `json:"files" mapstructure:"files"`
 }
 
 // Set prompts in viper.
 func (p *Prompts) Set() error {
 	prompts := viper.GetStringMap("web.prompts")
-	prompts[p.Name] = *p
+	prompts[p.Name] = p
 	viper.Set("web.prompts", prompts)
 	if err := viper.WriteConfig(); err != nil {
 		return err
@@ -39,12 +39,7 @@ func (p *Prompts) Set() error {
 
 // GetPrompts returns a slice of all prompts configs available.
 func GetPrompts() map[string]Prompts {
-	out := map[string]Prompts{}
-	webPrompts := viper.GetStringMap("web.prompts")
-	for name, p := range webPrompts {
-		if prompts, ok := p.(Prompts); ok {
-			out[name] = prompts
-		}
-	}
-	return out
+	var prompts map[string]Prompts
+	viper.UnmarshalKey("web.prompts", &prompts)
+	return prompts
 }

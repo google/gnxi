@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PromptsSet } from '../models/Prompts';
+import { Targets } from '../models/Target';
 import { PromptsService } from '../prompts.service';
-import { TargetService } from '../target.service';
 import { RunService } from '../run.service';
-import { FormBuilder, Validators } from '@angular/forms';
-import { RunRequest } from '../models/Run';
+import { TargetService } from '../target.service';
+import { TestService } from '../test.service';
+import { Tests } from '../models/Test';
 
 @Component({
   selector: 'app-run',
@@ -11,47 +14,68 @@ import { RunRequest } from '../models/Run';
   styleUrls: ['./run.component.css']
 })
 export class RunComponent implements OnInit {
+  promptsList: PromptsSet;
+  deviceList: Targets;
+  runForm: FormGroup;
+  sample = 'Test output will go here';
+  stdout = this.sample;
+  @ViewChild('terminal') private terminal: ElementRef<HTMLDivElement>;
+  tests: Tests = {}
 
-  constructor(public runService: RunService, public promptsService: PromptsService, public targetService: TargetService, private formBuilder: FormBuilder) {}
+  constructor(public runService: RunService, public promptsService: PromptsService, public targetService: TargetService, private formBuilder: FormBuilder, public testService: TestService) {}
 
-  ngOnInit(): void {
-  }
-
-  async init() {
-    try {
-      let promptsSet = await this.promptsService.getPrompts().toPromise()
-      this.promptsList = Object.keys(promptsSet)
-      let deviceList = await this.targetService.getTargets().toPromise()
-      this.deviceList = Object.keys(deviceList)
-    } catch(e) {
-      console.error(e)
+  async ngOnInit() {
+    this.targetService.getTargets().subscribe(
+      (res) => this.deviceList = res,
+      (err) => console.log(err)
+    );
+    this.promptsService.getPrompts().subscribe(
+      (res) => this.promptsList = res,
+      (err) => console.log(err)
+    );
+    this.runForm = this.formBuilder.group({
+      prompts: ['', Validators.required],
+      device: ['', Validators.required],
+      tests: [[]],
+    });
+    let output = await this.runService.runOutput().toPromise();
+    if (output) {
+      this.runOutput();
     }
+    this.tests = await this.testService.getTests().toPromise();
   }
 
-  run(form: {[name: string]: string}) {
-    this.runService.run(form as any as RunRequest);
-    this.running = true;
-    this.stdout = "";
+  run(runForm: any): void {
+    this.runService.run(runForm).subscribe((res) => {
+      console.log(res);
+    }, error => console.error(error));
+    this.runOutput();
+  }
+
+  private runOutput(): void {
+    this.runForm.disable();
+    this.stdout = '';
     let inter = setInterval(async () => {
         let added = await this.runService.runOutput().toPromise();
+        if (added === null) {
+          return;
+        }
         if (added === 'E0F') {
-          this.running = false;
+          this.runForm.enable();
           clearInterval(inter);
         } else {
           this.stdout += added;
         }
-    }, 1)
+        this.terminal.nativeElement.scrollTop = this.terminal.nativeElement.scrollHeight;
+    }, 1000)
   }
 
-  running = false;
-  sample = "Test output will go here";
-  stdout = this.sample;
+  get device(): AbstractControl {
+    return this.runForm.get('device');
+  }
 
-  promptsList: string[] = [];
 
-  formControl = this.formBuilder.group({
-    prompts: ["", Validators.required],
-    device: ["", Validators.required]
-  })
-  deviceList: string[] = [];
+  get prompts(): AbstractControl {
+    return this.runForm.get('prompts');
+  }
 }

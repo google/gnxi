@@ -24,13 +24,13 @@ type Tests map[string][]Test
 
 // Test represents a single set of inputs and expected outputs.
 type Test struct {
-	Name       string            `mapstructure:"name"`
-	Args       map[string]string `mapstructure:"args"`
-	MustFail   bool              `mapstructure:"mustfail"`
-	Wait       int               `mapstructure:"wait"`
-	Wants      string            `mapstructure:"wants"`
-	DoesntWant string            `mapstructure:"doesntwant"`
-	Prompt     []string          `mapstructure:"prompt"`
+	Name       string            `json:"name" mapstructure:"name"`
+	Args       map[string]string `json:"args" mapstructure:"args"`
+	MustFail   bool              `json:"mustfail" mapstructure:"mustfail"`
+	Wait       int               `json:"wait" mapstructure:"wait"`
+	Wants      string            `json:"wants" mapstructure:"wants"`
+	DoesntWant string            `json:"doesntwant" mapstructure:"doesntwant"`
+	Prompt     []string          `json:"prompt" mapstructure:"prompt"`
 }
 
 func setDefaults() {
@@ -40,9 +40,9 @@ func setDefaults() {
 	viper.SetDefault("docker.runtime", "alpine:latest")
 	viper.SetDefault("docker.files", createDockerfiles(testCases))
 	viper.SetDefault("order", order)
-	viper.SetDefault("web.prompts", map[string]interface{}{})
+	viper.SetDefault("web.prompts", map[string]Prompts{})
 	viper.SetDefault("files", map[string][]string{
-		"gnoi_os": {"os_path", "new_os_path"},
+		"gnoi_os": {"os", "new_os"},
 	})
 }
 
@@ -100,13 +100,13 @@ func generateTestCases() (Tests, []string) {
 	osTests := []Test{
 		{
 			Name:   "Compatible OS with Good Hash Install",
-			Args:   map[string]string{"op": "install", "version": "&<os_version>", "os": "&<os_path>"},
+			Args:   map[string]string{"op": "install", "version": "&<os_version>", "os": "&<os>"},
 			Wants:  `^$`,
 			Prompt: []string{"os_version"},
 		},
 		{
 			Name:  "Install Already Installed OS",
-			Args:  map[string]string{"op": "install", "version": "&<os_version>", "os": "&<os_path>"},
+			Args:  map[string]string{"op": "install", "version": "&<os_version>", "os": "&<os>"},
 			Wait:  3,
 			Wants: "OS version &<os_version> is already installed",
 		},
@@ -123,13 +123,13 @@ func generateTestCases() (Tests, []string) {
 		},
 		{
 			Name:     "Force Transfer Already Running OS",
-			Args:     map[string]string{"op": "install", "os": "&<os_path>"},
+			Args:     map[string]string{"op": "install", "os": "&<os>"},
 			MustFail: true,
 			Wants:    "Failed Install: InstallError occurred: INSTALL_RUN_PACKAGE",
 		},
 		{
 			Name:   "Install another OS",
-			Args:   map[string]string{"op": "install", "version": "&<new_os_version>", "os": "&<new_os_path>"},
+			Args:   map[string]string{"op": "install", "version": "&<new_os_version>", "os": "&<new_os>"},
 			Wants:  `^$`,
 			Prompt: []string{"new_os_version"},
 		},

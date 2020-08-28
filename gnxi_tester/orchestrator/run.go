@@ -16,7 +16,9 @@ limitations under the License.
 package orchestrator
 
 import (
+	"bytes"
 	"fmt"
+	"io"
 	"path"
 	"path/filepath"
 	"regexp"
@@ -39,11 +41,13 @@ var (
 	input       = map[string]string{}
 	delimRe     = regexp.MustCompile(fmt.Sprintf("%s.*%s", openDelim, closeDelim))
 	files       map[string]string
-	infof       func(string, ...interface{})
+	infof                 = func(string, ...interface{}) {}
+	stdOut      io.Writer = bytes.NewBuffer([]byte{})
 )
 
 // RunTests will take in test name and run each test or all tests.
-func RunTests(tests []string, prompt callbackFunc, userFiles map[string]string, logger func(string, ...interface{})) (success []string, err error) {
+func RunTests(tests []string, prompt callbackFunc, userFiles map[string]string, logger func(string, ...interface{}), out io.Writer) (success []string, err error) {
+	stdOut = out
 	infof = logger
 	files = userFiles
 	required := viper.GetStringMapStringSlice("files")
@@ -106,9 +110,11 @@ func runTest(name string, prompt callbackFunc, tests []config.Test) (string, err
 	targetName := viper.GetString("targets.last_target")
 	target := config.GetDevices()[targetName]
 	defaultArgs := fmt.Sprintf(
-		"-logtostderr -target_name %s -target_addr %s -ca /certs/ca.crt -ca_key /certs/ca.key",
+		"-logtostderr -target_name %s -target_addr %s -ca /certs/%s -ca_key /certs/%s",
 		targetName,
 		target.Address,
+		path.Base(target.Ca),
+		path.Base(target.CaKey),
 	)
 	stdout := fmt.Sprintf("*%s*:", name)
 	for _, test := range tests {

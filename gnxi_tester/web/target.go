@@ -17,6 +17,7 @@ package web
 
 import (
 	"encoding/json"
+	"path"
 
 	"errors"
 	"net/http"
@@ -66,17 +67,46 @@ func handleTargetGet(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleTargetSet(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodOptions {
+		return
+	}
 	name := getNameParam(w, r)
 	if name == "" {
 		return
 	}
 	devices := config.GetDevices()
+	if devices == nil {
+		devices = map[string]config.Device{}
+	}
 	device := config.Device{}
 	if err := json.NewDecoder(r.Body).Decode(&device); err != nil {
 		logErr(r.Header, err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
-	devices[name] = device
-	viper.Set("targets.devices", devices)
+	if device.Ca == "" || device.CaKey == "" {
+		logErr(r.Header, errors.New("ca or ca key not set"))
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+
+	}
+	if !path.IsAbs(device.Ca) {
+		device.Ca = path.Join(filesDir(), device.Ca)
+	}
+	if !path.IsAbs(device.CaKey) {
+		device.CaKey = path.Join(filesDir(), device.CaKey)
+	}
+	if err := config.SetTarget(name, device.Address, device.Ca, device.CaKey, false); err != nil {
+		logErr(r.Header, err)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+}
+
+// handleTargetDelete deletes a target.
+func handleTargetDelete(w http.ResponseWriter, r *http.Request) {
+	name := getNameParam(w, r)
+	targets := config.GetDevices()
+	delete(targets, name)
+	viper.Set("targets.devices", targets)
 }

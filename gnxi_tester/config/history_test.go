@@ -169,7 +169,7 @@ func TestPrepareTarget(t *testing.T) {
 			var devices map[string]Device
 			viper.Set("targets.last_target", test.lastTarget)
 			viper.Set("targets.devices", test.config)
-			err := prepareTarget(test.targetName, test.targetAddress, test.targetCA, test.targetCAKey)
+			err := prepareTarget(test.targetName, test.targetAddress, test.targetCA, test.targetCAKey, true)
 			viper.UnmarshalKey("targets.devices", &devices)
 			got := Want{
 				devices: devices,

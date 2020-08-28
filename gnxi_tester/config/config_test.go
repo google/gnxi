@@ -27,9 +27,9 @@ func TestGetTests(t *testing.T) {
 		{},
 		{"gnoi_os": []Test{{
 			Name:   "Compatible OS with Good Hash Install",
-			Args:   map[string]string{"op": "install", "version": "&<version>", "os": "&<os_path>"},
+			Args:   map[string]string{"op": "install", "version": "&<version>", "os": "&<os>"},
 			Wants:  `^$`,
-			Prompt: []string{"version", "os_path"},
+			Prompt: []string{"version", "os"},
 		}}},
 		{
 			"gnoi_cert": []Test{
