@@ -29,3 +29,15 @@ func handleGetTests(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 	}
 }
+
+func handleGetTestsOrder(w http.ResponseWriter, r *http.Request) {
+	testOrder := config.GetOrder()
+	tests := config.GetTests()
+	if _, ok := tests["provision"]; ok {
+		testOrder = append([]string{"provision"}, testOrder...)
+	}
+	if err := json.NewEncoder(w).Encode(testOrder); err != nil {
+		logErr(r.Header, err)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+	}
+}

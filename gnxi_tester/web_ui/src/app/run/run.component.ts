@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PromptsSet } from '../models/Prompts';
 import { Targets } from '../models/Target';
@@ -6,7 +7,6 @@ import { PromptsService } from '../prompts.service';
 import { RunService } from '../run.service';
 import { TargetService } from '../target.service';
 import { TestService } from '../test.service';
-import { Tests } from '../models/Test';
 
 @Component({
   selector: 'app-run',
@@ -17,12 +17,12 @@ export class RunComponent implements OnInit {
   promptsList: PromptsSet;
   deviceList: Targets;
   runForm: FormGroup;
+  testNames: string[];
   sample = 'Test output will go here';
   stdout = this.sample;
   @ViewChild('terminal') private terminal: ElementRef<HTMLDivElement>;
-  tests: Tests = {}
 
-  constructor(public runService: RunService, public promptsService: PromptsService, public targetService: TargetService, private formBuilder: FormBuilder, public testService: TestService) {}
+  constructor(public runService: RunService, public promptsService: PromptsService, public targetService: TargetService, private formBuilder: FormBuilder, public testService: TestService) { }
 
   async ngOnInit() {
     this.targetService.getTargets().subscribe(
@@ -42,7 +42,10 @@ export class RunComponent implements OnInit {
     if (output) {
       this.runOutput();
     }
-    this.tests = await this.testService.getTests().toPromise();
+    this.testService.getTestOrder().subscribe(
+      (testNames) => this.testNames = testNames,
+      (err) => console.log(err)
+    );
   }
 
   run(runForm: any): void {
@@ -56,18 +59,30 @@ export class RunComponent implements OnInit {
     this.runForm.disable();
     this.stdout = '';
     let inter = setInterval(async () => {
-        let added = await this.runService.runOutput().toPromise();
-        if (added === null) {
-          return;
-        }
-        if (added === 'E0F') {
-          this.runForm.enable();
-          clearInterval(inter);
-        } else {
-          this.stdout += added;
-        }
-        this.terminal.nativeElement.scrollTop = this.terminal.nativeElement.scrollHeight;
-    }, 1000)
+      let added = await this.runService.runOutput().toPromise();
+      if (added === null) {
+        return;
+      }
+      if (added === 'E0F') {
+        this.runForm.enable();
+        clearInterval(inter);
+      } else {
+        this.stdout += added;
+      }
+      this.terminal.nativeElement.scrollTop = this.terminal.nativeElement.scrollHeight;
+    }, 1000);
+  }
+
+  dropTestChip(event: CdkDragDrop<string[]>): void {
+    moveItemInArray(this.testNames, event.previousIndex, event.currentIndex);
+    this.runForm.patchValue({ tests: this.testNames });
+  }
+
+  removeTest(name: string): void {
+    this.testNames = this.testNames.filter((value, index) => {
+      return value !== name;
+    });
+    this.runForm.patchValue({ tests: this.testNames });
   }
 
   get device(): AbstractControl {
