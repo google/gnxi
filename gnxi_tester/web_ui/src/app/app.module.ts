@@ -1,6 +1,7 @@
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -48,6 +49,7 @@ import { RunComponent } from './run/run.component';
     MatFormFieldModule,
     MatProgressSpinnerModule,
     MatCardModule,
+    MatAutocompleteModule,
     MatGridListModule,
     MatIconModule,
     MatInputModule,

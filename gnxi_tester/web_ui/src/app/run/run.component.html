@@ -20,12 +20,16 @@
               <mat-error *ngIf="device.hasError('required')">Device is required</mat-error>
             </mat-form-field>
             <mat-form-field>
-              <mat-chip-list cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="dropTestChip($event)">
+              <mat-chip-list #testChipList cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="dropTestChip($event)">
                 <mat-chip *ngFor="let name of testNames" selectable="true" removeable="true" cdkDrag (removed)="removeTest(name)">
                   {{name}}
                   <mat-icon matChipRemove>cancel</mat-icon>
                 </mat-chip>
+                <input placeholder="Test Name..." #testNameInput [matAutocomplete]="testNameComplete" [matChipInputFor]="testChipList">
               </mat-chip-list>
+              <mat-autocomplete #testNameComplete='matAutocomplete' (optionSelected)="selectedTest($event)">
+                <mat-option *ngFor="let test of allTestNames" [value]="test">{{test}}</mat-option>
+              </mat-autocomplete>
             </mat-form-field>
             <button type="submit" [disabled]="!runForm.valid" mat-raised-button color="primary"><mat-icon>play_arrow</mat-icon> Run</button>
           </div>

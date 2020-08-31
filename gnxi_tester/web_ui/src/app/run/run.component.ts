@@ -1,6 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { PromptsSet } from '../models/Prompts';
 import { Targets } from '../models/Target';
 import { PromptsService } from '../prompts.service';
@@ -18,9 +19,12 @@ export class RunComponent implements OnInit {
   deviceList: Targets;
   runForm: FormGroup;
   testNames: string[];
+  allTestNames: string[];
   sample = 'Test output will go here';
   stdout = this.sample;
   @ViewChild('terminal') private terminal: ElementRef<HTMLDivElement>;
+  @ViewChild('testNameInput') testNameInput: ElementRef<HTMLInputElement>;
+  @ViewChild('testNameComplete') matAutocomplete: MatAutocomplete;
 
   constructor(public runService: RunService, public promptsService: PromptsService, public targetService: TargetService, private formBuilder: FormBuilder, public testService: TestService) { }
 
@@ -43,7 +47,10 @@ export class RunComponent implements OnInit {
       this.runOutput();
     }
     this.testService.getTestOrder().subscribe(
-      (testNames) => this.testNames = testNames,
+      (testNames) => {
+        this.testNames = testNames;
+        this.allTestNames = testNames;
+      },
       (err) => console.log(err)
     );
   }
@@ -85,10 +92,14 @@ export class RunComponent implements OnInit {
     this.runForm.patchValue({ tests: this.testNames });
   }
 
+  selectedTest(event: MatAutocompleteSelectedEvent): void {
+    this.testNames.push(event.option.value);
+    this.testNameInput.nativeElement.value = '';
+  }
+
   get device(): AbstractControl {
     return this.runForm.get('device');
   }
-
 
   get prompts(): AbstractControl {
     return this.runForm.get('prompts');
