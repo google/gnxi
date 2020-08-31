@@ -21,7 +21,7 @@
             </mat-form-field>
             <mat-form-field>
               <mat-chip-list #testChipList cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="dropTestChip($event)">
-                <mat-chip *ngFor="let name of testNames" selectable="true" removeable="true" cdkDrag (removed)="removeTest(name)">
+                <mat-chip *ngFor="let name of testNames; let pos = index" selectable="true" removeable="true" cdkDrag (removed)="removeTest(pos)">
                   {{name}}
                   <mat-icon matChipRemove>cancel</mat-icon>
                 </mat-chip>

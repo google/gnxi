@@ -85,9 +85,9 @@ export class RunComponent implements OnInit {
     this.runForm.patchValue({ tests: this.testNames });
   }
 
-  removeTest(name: string): void {
+  removeTest(pos: number): void {
     this.testNames = this.testNames.filter((value, index) => {
-      return value !== name;
+      return index !== pos;
     });
     this.runForm.patchValue({ tests: this.testNames });
   }
