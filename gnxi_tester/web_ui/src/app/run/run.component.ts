@@ -64,10 +64,28 @@ export class RunComponent implements OnInit {
           this.runForm.enable();
           clearInterval(inter);
         } else {
-          this.stdout += added;
+          this.setStdout(added);
         }
         this.terminal.nativeElement.scrollTop = this.terminal.nativeElement.scrollHeight;
     }, 1000)
+  }
+
+  static REGEXPS: {token: string, replace: string}[] = [
+    {token: "\u001b[0m", replace: `</strong>`},
+    {token: "\u001b[32;1m", replace: `<strong style="color: #09cc60;">`},
+    {token: "\u001b[31;1m", replace: `<strong style="color: #e91e3a;">`},
+    {token: "\u001b[1m", replace: `<strong style='text-decoration: underline;'>`},
+  ]
+
+  private setStdout(added: string): void {
+    for (let regexp of RunComponent.REGEXPS) {
+      added = this.replaceAll(added, regexp.token, regexp.replace);
+    }
+    this.stdout += added;
+  }
+
+  private replaceAll(str: string, pattern: string, replacement: string): string {
+    return str.replace(new RegExp(pattern.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&'), "g"), replacement)
   }
 
   get device(): AbstractControl {

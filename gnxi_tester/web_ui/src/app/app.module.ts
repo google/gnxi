@@ -24,6 +24,7 @@ import { PromptsComponent } from './prompts/prompts.component';
 import { DevicesComponent } from './devices/devices.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { FileUploadDirective } from './file-upload.directive';
+import { HtmlPipe } from './sanitize';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { FileUploadDirective } from './file-upload.directive';
     PromptsComponent,
     DevicesComponent,
     FileUploadComponent,
-    FileUploadDirective
+    FileUploadDirective,
+    HtmlPipe
   ],
   imports: [
     BrowserModule,

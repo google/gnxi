@@ -107,7 +107,7 @@ func checkFileProvided(fs []string, name string, prompt callbackFunc) error {
 }
 
 func runTest(name string, prompt callbackFunc, tests []config.Test) (string, error) {
-	infof("Running \u001b[1mMAJOR TEST %s\u001b[0m\n", name)
+	infof("\nRunning \u001b[1mMAJOR TEST %s\u001b[0m\n", name)
 	targetName := viper.GetString("targets.last_target")
 	target := config.GetDevices()[targetName]
 	defaultArgs := fmt.Sprintf(
@@ -162,7 +162,7 @@ func expects(out string, test *config.Test) error {
 
 func formatErr(major, minor, out string, custom error, code int, fail bool, args string, err error) error {
 	return fmt.Errorf(
-		"Error occured in test %s-<%s>: \nwantedErr(%v)\nexitCode(%d)\nmustFail(%v)\ndaemonErr(%v)\nargs(%s)\noutput:\n%s\n\u001b[31;1m✗ ERROR IN RUNNING TESTS\u001b[0m",
+		"Error occured in test %s-<%s>: \nwantedErr(%v)\nexitCode(%d)\nmustFail(%v)\ndaemonErr(%v)\nargs(%s)\noutput:\n%s\n\u001b[31;1m✗ ERROR RUNNING TESTS\u001b[0m",
 		major,
 		minor,
 		custom,
