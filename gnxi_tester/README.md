@@ -107,8 +107,8 @@ tests:
 If `[test_names]` are provided, only those tests are ran.
 ```
 gnxi_tester run [test_names] \ 
---cert certs/ca.crt \
---key certs/ca.key \
+--ca certs/ca.crt \
+--ca_key certs/ca.key \
 --target_name target.com \
 --target_address localhost:9339 \
 --files "os:/path/to/image other_file:/path_to_file"
