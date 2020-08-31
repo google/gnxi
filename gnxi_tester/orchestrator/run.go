@@ -117,7 +117,7 @@ func runTest(name string, prompt callbackFunc, tests []config.Test) (string, err
 		path.Base(target.Ca),
 		path.Base(target.CaKey),
 	)
-	stdout := fmt.Sprintf("*%s*:", name)
+	stdout := fmt.Sprintf("\u001b[1m%s\u001b[0m:\n", name)
 	for _, test := range tests {
 		if test.Wait != 0 {
 			infof("> Waiting %d seconds before running the next test", test.Wait)
