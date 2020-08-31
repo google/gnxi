@@ -89,6 +89,7 @@ func RunTests(tests []string, prompt callbackFunc, userFiles map[string]string, 
 			success = append(success, output)
 		}
 	}
+	success = append(success, "\u001b[32;1m✓ TESTS RUN SUCCESSFULLY\u001b[0m")
 	return
 }
 
@@ -106,7 +107,7 @@ func checkFileProvided(fs []string, name string, prompt callbackFunc) error {
 }
 
 func runTest(name string, prompt callbackFunc, tests []config.Test) (string, error) {
-	infof("Running major test %s", name)
+	infof("Running \u001b[1mMAJOR TEST %s\u001b[0m\n", name)
 	targetName := viper.GetString("targets.last_target")
 	target := config.GetDevices()[targetName]
 	defaultArgs := fmt.Sprintf(
@@ -119,10 +120,10 @@ func runTest(name string, prompt callbackFunc, tests []config.Test) (string, err
 	stdout := fmt.Sprintf("*%s*:", name)
 	for _, test := range tests {
 		if test.Wait != 0 {
-			infof("Waiting %d seconds before running the next test", test.Wait)
+			infof("> Waiting %d seconds before running the next test", test.Wait)
 			<-time.After(time.Duration(test.Wait) * time.Second)
 		}
-		infof("Running minor test %s:%s", name, test.Name)
+		infof("> Running minor test %s:%s", name, test.Name)
 		for _, p := range test.Prompt {
 			input[p] = prompt(p)
 		}
@@ -138,7 +139,7 @@ func runTest(name string, prompt callbackFunc, tests []config.Test) (string, err
 			return "", formatErr(name, test.Name, out, exp, code, test.MustFail, binArgs, err)
 		}
 		stdout = fmt.Sprintf("%s\n%s:\n%s\n", stdout, test.Name, out)
-		infof("Successfully run test %s:%s", name, test.Name)
+		infof("> Successfully run test %s:%s", name, test.Name)
 	}
 	return stdout, nil
 }
@@ -161,7 +162,7 @@ func expects(out string, test *config.Test) error {
 
 func formatErr(major, minor, out string, custom error, code int, fail bool, args string, err error) error {
 	return fmt.Errorf(
-		"Error occured in test %s-<%s>: \nwantedErr(%v)\nexitCode(%d)\nmustFail(%v)\ndaemonErr(%v)\nargs(%s)\noutput:\n%s",
+		"Error occured in test %s-<%s>: \nwantedErr(%v)\nexitCode(%d)\nmustFail(%v)\ndaemonErr(%v)\nargs(%s)\noutput:\n%s\n\u001b[31;1m✗ ERROR IN RUNNING TESTS\u001b[0m",
 		major,
 		minor,
 		custom,
