@@ -2,15 +2,24 @@
 
 A CLI tool for orchestrating tests against a gNXI target.
 
+## How it works
+
+- `gnxi_tester` communicates with you local docker socket via the Docker SDK. 
+- It will read `~/.gnxi.yml` which defines which service binaries will be put in lightweight containers on the host system as well as a set of commands and desired outputs.
+- It will execute the predefined commands for each binary, passing in files and and user input when necessary
+- If all tests pass, it will notify the user and exit gracefully.
+
 ## Web UI
+
+![](assets/web_ui.png?raw=true)
+
+### Dependencies
+- `docker`
+- `docker-compose`
 
 ### Running
 
 We have provided a shell script to both install and run the Web UI and API. 
-
-You need the following dependencies installed:
-- `docker`
-- `docker-compose`
 
 Then run this command:
 ```sh
@@ -23,11 +32,8 @@ cd ./gnxi/gnxi_tester && docker-compose up -d
 ```
 
 ### Development
-If you have cloned the repository, in order to run the development environment for both the Web UI and API, you have to have:
-- `docker`
-- `docker-compose`  
-
-Then run:
+If you have cloned the repository, in order to run the development environment for both the Web UI and API, 
+you have to run the following command in this directory:
 ```sh
 docker-compose up -f docker-compose.dev.yml
 ```
@@ -115,7 +121,8 @@ gnxi_tester run [test_names] \
 ```
 
 ### Files required by service
-Files to be passed in the `--files` flag.
+Files to be passed in the `--files` flag:
 #### `gnoi_os`
 - `os`: Path to OS file used in `install` operation.
+- `new_os`: Path to another OS file used in `install_another_os` operation.
 
