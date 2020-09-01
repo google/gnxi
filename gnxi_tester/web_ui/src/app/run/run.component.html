@@ -13,11 +13,11 @@
               <mat-error *ngIf="prompts.hasError('required')">Prompts are required</mat-error>
             </mat-form-field>
             <mat-form-field appearance="fill">
-              <mat-label>Device</mat-label>
+              <mat-label>Target</mat-label>
               <mat-select formControlName="device">
                 <mat-option *ngFor="let device of deviceList | keyvalue" [value]="device.key">{{device.key}}</mat-option>
               </mat-select>
-              <mat-error *ngIf="device.hasError('required')">Device is required</mat-error>
+              <mat-error *ngIf="device.hasError('required')">Target is required</mat-error>
             </mat-form-field>
             <mat-form-field>
               <mat-label>Test Order</mat-label>
