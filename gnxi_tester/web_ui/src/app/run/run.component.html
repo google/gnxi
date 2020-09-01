@@ -20,6 +20,7 @@
               <mat-error *ngIf="device.hasError('required')">Device is required</mat-error>
             </mat-form-field>
             <mat-form-field>
+              <mat-label>Test Order</mat-label>
               <mat-chip-list #testChipList cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="dropTestChip($event)">
                 <mat-chip *ngFor="let name of testNames; let pos = index" selectable="true" removeable="true" cdkDrag (removed)="removeTest(pos)">
                   {{name}}
