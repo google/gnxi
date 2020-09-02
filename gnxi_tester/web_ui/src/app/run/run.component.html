@@ -36,9 +36,7 @@
           </div>
         </mat-grid-tile>
         <mat-grid-tile>
-          <section #terminal>
-            {{ stdout }}
-          </section>
+          <section #terminal [innerHTML]="stdout | safe"></section>
         </mat-grid-tile>
       </mat-grid-list>
     </form>

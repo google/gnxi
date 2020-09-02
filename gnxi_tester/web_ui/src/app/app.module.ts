@@ -20,6 +20,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DevicesComponent } from './devices/devices.component';
 import { FileUploadDirective } from './file-upload.directive';
+import { HtmlPipe } from './sanitize';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { PromptsComponent } from './prompts/prompts.component';
@@ -33,7 +34,8 @@ import { RunComponent } from './run/run.component';
     PromptsComponent,
     DevicesComponent,
     FileUploadComponent,
-    FileUploadDirective
+    FileUploadDirective,
+    HtmlPipe
   ],
   imports: [
     BrowserModule,

@@ -46,7 +46,7 @@ func TestRunTests(t *testing.T) {
 			[]string{"test"},
 			map[string][]string{"test": {"tt"}},
 			func(name string) string { return name },
-			[]string{"*test*:\ntest:\ntest\n\ntest2:\ntest\n"},
+			[]string{"\x1b[1mtest\x1b[0m:\n\ntest:\ntest\n\ntest2:\ntest\n", "\x1b[32;1m✓ TESTS RUN SUCCESSFULLY\x1b[0m"},
 			nil,
 			func(name, args string, device *config.Device, insertFiles []string) (out string, code int, err error) {
 				out = name
@@ -62,7 +62,7 @@ func TestRunTests(t *testing.T) {
 			[]string{"test"},
 			map[string][]string{},
 			func(name string) string { return name },
-			[]string{"*test*:\ntest:\n-ask ask -logtostderr -target_name test -target_addr test -ca /certs/ca.crt -ca_key /certs/ca.key\n"},
+			[]string{"\x1b[1mtest\x1b[0m:\n\ntest:\n-ask ask -logtostderr -target_name test -target_addr test -ca /certs/ca.crt -ca_key /certs/ca.key\n", "\x1b[32;1m✓ TESTS RUN SUCCESSFULLY\x1b[0m"},
 			nil,
 			func(name, args string, device *config.Device, insertFiles []string) (out string, code int, err error) {
 				out = args
@@ -79,7 +79,7 @@ func TestRunTests(t *testing.T) {
 			[]string{"test", "test2"},
 			map[string][]string{"test": {"tt"}},
 			func(name string) string { return name },
-			[]string{"*test*:\ntest:\ntest\n"},
+			[]string{"\x1b[1mtest\x1b[0m:\n\ntest:\ntest\n", "\x1b[32;1m✓ TESTS RUN SUCCESSFULLY\x1b[0m"},
 			nil,
 			func(name, args string, device *config.Device, insertFiles []string) (out string, code int, err error) {
 				out = name
@@ -95,7 +95,7 @@ func TestRunTests(t *testing.T) {
 			[]string{"test"},
 			map[string][]string{},
 			func(name string) string { return name },
-			[]string{"*test*:\ntest:\ntest\n"},
+			[]string{"\x1b[1mtest\x1b[0m:\n\ntest:\ntest\n", "\x1b[32;1m✓ TESTS RUN SUCCESSFULLY\x1b[0m"},
 			nil,
 			func(name, args string, device *config.Device, insertFiles []string) (out string, code int, err error) {
 				out = name
@@ -127,7 +127,7 @@ func TestRunTests(t *testing.T) {
 			[]string{"test"},
 			map[string][]string{},
 			func(name string) string { return name },
-			[]string{"*test*:\ntest:\ntest\n"},
+			[]string{"\x1b[1mtest\x1b[0m:\n\ntest:\ntest\n", "\x1b[32;1m✓ TESTS RUN SUCCESSFULLY\x1b[0m"},
 			nil,
 			func(name, args string, device *config.Device, insertFiles []string) (out string, code int, err error) {
 				out = name
