@@ -83,7 +83,11 @@ func RunTests(tests []string, prompt callbackFunc, userFiles map[string]string, 
 			}
 		}
 		for _, name := range tests {
-			if output, err = runTest(name, prompt, configTests[name]); err != nil {
+			binaryName := name
+			if name == "provision" {
+				binaryName = "gnoi_cert"
+			}
+			if output, err = runTest(binaryName, prompt, configTests[name]); err != nil {
 				return
 			}
 			success = append(success, output)
