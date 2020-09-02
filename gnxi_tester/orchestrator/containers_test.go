@@ -23,6 +23,7 @@ import (
 	"io"
 	"net"
 	"testing"
+	"time"
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
@@ -44,6 +45,9 @@ type clientCounter struct {
 	CountContainerExecCreate,
 	CountContainerExecInspect,
 	CountCopyToContainer,
+	CountContainerRemove,
+	CountImageRemove,
+	CountContainerStop,
 	CountContainerCreate int
 }
 
@@ -122,6 +126,21 @@ func (c *mockClient) ContainerExecInspect(ctx context.Context, execID string) (t
 
 func (c *mockClient) CopyToContainer(ctx context.Context, container, path string, content io.Reader, options types.CopyToContainerOptions) error {
 	c.CountCopyToContainer++
+	return nil
+}
+
+func (c *mockClient) ContainerRemove(ctx context.Context, containerID string, options types.ContainerRemoveOptions) error {
+	c.CountContainerRemove++
+	return nil
+}
+
+func (c *mockClient) ImageRemove(ctx context.Context, imageID string, options types.ImageRemoveOptions) ([]types.ImageDelete, error) {
+	c.CountImageRemove++
+	return []types.ImageDelete{}, nil
+}
+
+func (c *mockClient) ContainerStop(ctx context.Context, containerID string, timeout *time.Duration) error {
+	c.CountContainerStop++
 	return nil
 }
 
@@ -270,6 +289,50 @@ func TestRunContainer(t *testing.T) {
 			}
 			if test.code != code {
 				t.Errorf("wanted code(%d), got(%d)", test.code, code)
+			}
+			if diff := cmp.Diff(test.counter, client.clientCounter); diff != "" {
+				t.Errorf("method call counter mismatch (-want +got): %s", diff)
+			}
+		})
+	}
+}
+
+func TestWipeContainers(t *testing.T) {
+	tests := []struct {
+		name       string
+		names      []string
+		counter    clientCounter
+		containers []types.Container
+	}{
+		{
+			"no names",
+			[]string{},
+			clientCounter{},
+			[]types.Container{},
+		},
+		{
+			"2 names",
+			[]string{"one", "two"},
+			clientCounter{
+				CountContainerList:   2,
+				CountContainerRemove: 2,
+				CountContainerStop:   2,
+				CountImageRemove:     2,
+			},
+			[]types.Container{
+				{Names: []string{"/one"}},
+				{Names: []string{"/two"}},
+			},
+		},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			client := &mockClient{containers: test.containers}
+			newClient = func() {
+				dockerClient = client
+			}
+			if err := WipeContainers(test.names); err != nil {
+				t.Errorf("Error in WipeContainers: %v", err)
 			}
 			if diff := cmp.Diff(test.counter, client.clientCounter); diff != "" {
 				t.Errorf("method call counter mismatch (-want +got): %s", diff)
