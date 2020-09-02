@@ -39,6 +39,7 @@ func InitRouter(laddr string) {
 	r.HandleFunc("/run", handleRun).Methods("POST", "OPTIONS")
 	r.HandleFunc("/run/output", handleRunOutput).Methods("GET")
 	r.HandleFunc("/test", handleGetTests).Methods("GET")
+	r.HandleFunc("/test/order", handleGetTestsOrder).Methods("GET")
 
 	r.Use(mux.CORSMethodMiddleware(r))
 	r.Use(func(next http.Handler) http.Handler {

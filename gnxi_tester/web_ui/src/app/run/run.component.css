@@ -4,6 +4,9 @@ main {
 mat-form-field {
   display: block;
 }
+#test-runner {
+  width: 75%;
+}
 section {
   background: #000;
   height: 100%;

@@ -1,29 +1,29 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatSelectModule } from '@angular/material/select';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
-import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { RunComponent } from './run/run.component';
-import { PromptsComponent } from './prompts/prompts.component';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 import { DevicesComponent } from './devices/devices.component';
-import { FileUploadComponent } from './file-upload/file-upload.component';
 import { FileUploadDirective } from './file-upload.directive';
+import { FileUploadComponent } from './file-upload/file-upload.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { PromptsComponent } from './prompts/prompts.component';
+import { RunComponent } from './run/run.component';
 
 @NgModule({
   declarations: [
@@ -43,11 +43,13 @@ import { FileUploadDirective } from './file-upload.directive';
     HttpClientModule,
     MatChipsModule,
     BrowserAnimationsModule,
+    DragDropModule,
     MatSelectModule,
     FormsModule,
     MatFormFieldModule,
     MatProgressSpinnerModule,
     MatCardModule,
+    MatAutocompleteModule,
     MatGridListModule,
     MatIconModule,
     MatInputModule,
