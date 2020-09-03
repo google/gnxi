@@ -216,10 +216,10 @@ func TestInitContainer(t *testing.T) {
 				dockerClient = client
 			}
 			if err := InitContainers(test.names); fmt.Sprintf("%v", err) != fmt.Sprintf("%v", test.err) {
-				t.Errorf("wanted error(%v), got(%v)", test.err, err)
+				t.Errorf("Wanted error(%v), got(%v)", test.err, err)
 			}
 			if diff := cmp.Diff(test.counter, client.clientCounter); diff != "" {
-				t.Errorf("method call counter mismatch (-want +got): %s", diff)
+				t.Errorf("Method call counter mismatch (-want +got): %s", diff)
 			}
 		})
 	}
@@ -282,16 +282,16 @@ func TestRunContainer(t *testing.T) {
 			dockerClient = client
 			out, code, err := RunContainer(test.containerName, test.args, &config.Device{}, test.insertFiles)
 			if fmt.Sprintf("%v", test.err) != fmt.Sprintf("%v", err) {
-				t.Errorf("wanted error(%v), got(%v)", test.err, err)
+				t.Errorf("Wanted error(%v), got(%v)", test.err, err)
 			}
 			if test.out != out {
-				t.Errorf("wanted out(%v), got(%v)", test.out, out)
+				t.Errorf("Wanted out(%v), got(%v)", test.out, out)
 			}
 			if test.code != code {
-				t.Errorf("wanted code(%d), got(%d)", test.code, code)
+				t.Errorf("Wanted code(%d), got(%d)", test.code, code)
 			}
 			if diff := cmp.Diff(test.counter, client.clientCounter); diff != "" {
-				t.Errorf("method call counter mismatch (-want +got): %s", diff)
+				t.Errorf("Method call counter mismatch (-want +got): %s", diff)
 			}
 		})
 	}
@@ -335,7 +335,7 @@ func TestWipeContainers(t *testing.T) {
 				t.Errorf("Error in WipeContainers: %v", err)
 			}
 			if diff := cmp.Diff(test.counter, client.clientCounter); diff != "" {
-				t.Errorf("method call counter mismatch (-want +got): %s", diff)
+				t.Errorf("Method call counter mismatch (-want +got): %s", diff)
 			}
 		})
 	}
