@@ -22,7 +22,7 @@ import (
 	"github.com/google/gnxi/gnxi_tester/config"
 )
 
-func handleGetTests(w http.ResponseWriter, r *http.Request) {
+func handleTestsGet(w http.ResponseWriter, r *http.Request) {
 	tests := config.GetTests()
 	if err := json.NewEncoder(w).Encode(tests); err != nil {
 		logErr(r.Header, err)
@@ -30,7 +30,7 @@ func handleGetTests(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func handleGetTestsOrder(w http.ResponseWriter, r *http.Request) {
+func handleTestsOrderGet(w http.ResponseWriter, r *http.Request) {
 	testOrder := config.GetOrder()
 	tests := config.GetTests()
 	if _, ok := tests["provision"]; ok {
