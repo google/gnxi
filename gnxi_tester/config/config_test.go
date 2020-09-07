@@ -92,3 +92,32 @@ func TestGetTargets(t *testing.T) {
 		}
 	}
 }
+
+func TestGetOrder(t *testing.T) {
+	tests := []struct {
+		name  string
+		order []string
+	}{
+		{
+			name: "no tests",
+		},
+		{
+			name:  "1 test",
+			order: []string{"test"},
+		},
+		{
+			name:  "multiple tests",
+			order: []string{"test1", "test2", "test3"},
+		},
+	}
+	for _, test := range tests {
+		viper.Reset()
+		t.Run(test.name, func(t *testing.T) {
+			viper.Set("order", test.order)
+			got := GetOrder()
+			if diff := cmp.Diff(test.order, got); diff != "" {
+				t.Errorf("GetTargets(): (-want +got):\n%s", diff)
+			}
+		})
+	}
+}
