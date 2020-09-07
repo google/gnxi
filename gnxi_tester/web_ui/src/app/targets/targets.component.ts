@@ -8,11 +8,11 @@ import { Targets } from '../models/Target';
 import { TargetService } from '../target.service';
 
 @Component({
-  selector: 'app-devices',
-  templateUrl: './devices.component.html',
-  styleUrls: ['./devices.component.css']
+  selector: 'app-targets',
+  templateUrl: './targets.component.html',
+  styleUrls: ['./targets.component.css']
 })
-export class DevicesComponent implements OnInit {
+export class TargetsComponent implements OnInit {
   targetForm: FormGroup;
   selectedTarget: any;
   targetList: Targets;

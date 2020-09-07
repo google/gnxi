@@ -261,7 +261,7 @@ func TestRunContainer(t *testing.T) {
 			}
 			client := &mockClient{containers: test.containers, code: test.code, reader: test.reader}
 			dockerClient = client
-			out, code, err := RunContainer(test.containerName, test.args, &config.Device{}, test.insertFiles)
+			out, code, err := RunContainer(test.containerName, test.args, &config.Target{}, test.insertFiles)
 			if fmt.Sprintf("%v", test.err) != fmt.Sprintf("%v", err) {
 				t.Errorf("wanted error(%v), got(%v)", test.err, err)
 			}

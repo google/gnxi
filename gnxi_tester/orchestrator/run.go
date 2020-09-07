@@ -113,7 +113,7 @@ func checkFileProvided(fs []string, name string, prompt callbackFunc) error {
 func runTest(name string, prompt callbackFunc, tests []config.Test) (string, error) {
 	infof("\nRunning \u001b[1mMAJOR TEST %s\u001b[0m\n", name)
 	targetName := viper.GetString("targets.last_target")
-	target := config.GetDevices()[targetName]
+	target := config.GetTargets()[targetName]
 	defaultArgs := fmt.Sprintf(
 		"-logtostderr -target_name %s -target_addr %s -ca /certs/%s -ca_key /certs/%s",
 		targetName,

@@ -39,7 +39,7 @@ var (
 
 type runRequest struct {
 	Prompts string   `json:"prompts"`
-	Device  string   `json:"device"`
+	Target  string   `json:"target"`
 	Tests   []string `json:"tests"`
 }
 
@@ -87,12 +87,12 @@ func handleRun(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
 	}
-	if _, ok := config.GetDevices()[request.Device]; !ok {
-		logErr(r.Header, fmt.Errorf("%s device not found", request.Device))
+	if _, ok := config.GetTargets()[request.Target]; !ok {
+		logErr(r.Header, fmt.Errorf("%s target not found", request.Target))
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
 	}
-	viper.Set("targets.last_target", request.Device)
+	viper.Set("targets.last_target", request.Target)
 	go runTests(prompts, request)
 }
 

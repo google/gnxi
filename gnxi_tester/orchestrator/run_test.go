@@ -35,7 +35,7 @@ func TestRunTests(t *testing.T) {
 		prompt       callbackFunc
 		wantSucc     []string
 		wantErr      error
-		runContainer func(name, args string, device *config.Device, insertFiles []string) (out string, code int, err error)
+		runContainer func(name, args string, target *config.Target, insertFiles []string) (out string, code int, err error)
 	}{
 		{
 			"Run all tests",
@@ -48,7 +48,7 @@ func TestRunTests(t *testing.T) {
 			func(name string) string { return name },
 			[]string{"\x1b[1mtest\x1b[0m:\n\ntest:\ntest\n\ntest2:\ntest\n", "\x1b[32;1m✓ TESTS RUN SUCCESSFULLY\x1b[0m"},
 			nil,
-			func(name, args string, device *config.Device, insertFiles []string) (out string, code int, err error) {
+			func(name, args string, target *config.Target, insertFiles []string) (out string, code int, err error) {
 				out = name
 				return
 			},
@@ -64,7 +64,7 @@ func TestRunTests(t *testing.T) {
 			func(name string) string { return name },
 			[]string{"\x1b[1mtest\x1b[0m:\n\ntest:\n-ask ask -logtostderr -target_name test -target_addr test -ca /certs/ca.crt -ca_key /certs/ca.key\n", "\x1b[32;1m✓ TESTS RUN SUCCESSFULLY\x1b[0m"},
 			nil,
-			func(name, args string, device *config.Device, insertFiles []string) (out string, code int, err error) {
+			func(name, args string, target *config.Target, insertFiles []string) (out string, code int, err error) {
 				out = args
 				return
 			},
@@ -81,7 +81,7 @@ func TestRunTests(t *testing.T) {
 			func(name string) string { return name },
 			[]string{"\x1b[1mtest\x1b[0m:\n\ntest:\ntest\n", "\x1b[32;1m✓ TESTS RUN SUCCESSFULLY\x1b[0m"},
 			nil,
-			func(name, args string, device *config.Device, insertFiles []string) (out string, code int, err error) {
+			func(name, args string, target *config.Target, insertFiles []string) (out string, code int, err error) {
 				out = name
 				return
 			},
@@ -97,7 +97,7 @@ func TestRunTests(t *testing.T) {
 			func(name string) string { return name },
 			[]string{"\x1b[1mtest\x1b[0m:\n\ntest:\ntest\n", "\x1b[32;1m✓ TESTS RUN SUCCESSFULLY\x1b[0m"},
 			nil,
-			func(name, args string, device *config.Device, insertFiles []string) (out string, code int, err error) {
+			func(name, args string, target *config.Target, insertFiles []string) (out string, code int, err error) {
 				out = name
 				return
 			},
@@ -113,7 +113,7 @@ func TestRunTests(t *testing.T) {
 			func(name string) string { return name },
 			nil,
 			formatErr("test", "test", "test", errors.New("Wanted no in output"), 0, false, "-logtostderr -target_name test -target_addr test -ca /certs/ca.crt -ca_key /certs/ca.key", nil),
-			func(name, args string, device *config.Device, insertFiles []string) (out string, code int, err error) {
+			func(name, args string, target *config.Target, insertFiles []string) (out string, code int, err error) {
 				out = name
 				return
 			},
@@ -129,7 +129,7 @@ func TestRunTests(t *testing.T) {
 			func(name string) string { return name },
 			[]string{"\x1b[1mtest\x1b[0m:\n\ntest:\ntest\n", "\x1b[32;1m✓ TESTS RUN SUCCESSFULLY\x1b[0m"},
 			nil,
-			func(name, args string, device *config.Device, insertFiles []string) (out string, code int, err error) {
+			func(name, args string, target *config.Target, insertFiles []string) (out string, code int, err error) {
 				out = name
 				return
 			},
@@ -138,7 +138,7 @@ func TestRunTests(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			InitContainers = func(names []string) error { return nil }
-			viper.Set("targets.devices", map[string]config.Device{"test": {Address: "test", Ca: "/certs/ca.crt", CaKey: "/certs/ca.key"}})
+			viper.Set("targets.devices", map[string]config.Target{"test": {Address: "test", Ca: "/certs/ca.crt", CaKey: "/certs/ca.key"}})
 			viper.Set("targets.last_target", "test")
 			viper.Set("tests", test.tests)
 			viper.Set("order", test.order)

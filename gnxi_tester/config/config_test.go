@@ -62,21 +62,21 @@ func TestGetTests(t *testing.T) {
 	}
 }
 
-func TestGetDevices(t *testing.T) {
-	tests := []map[string]Device{
+func TestGetTargets(t *testing.T) {
+	tests := []map[string]Target{
 		{},
-		{"mydevice.com": Device{
+		{"mytarget.com": Target{
 			Address: "localhost:9339",
 			Ca:      "ca.crt",
 			CaKey:   "ca.key",
 		}},
 		{
-			"mydevice.com": Device{
+			"mytarget.com": Target{
 				Address: "localhost:9339",
 				Ca:      "ca.crt",
 				CaKey:   "ca.key",
 			},
-			"anotherdevice.com": Device{
+			"anothertarget.com": Target{
 				Address: "localhost:9339",
 				Ca:      "ca.crt",
 				CaKey:   "ca.key",
@@ -86,9 +86,9 @@ func TestGetDevices(t *testing.T) {
 	for _, cfg := range tests {
 		viper.Reset()
 		viper.Set("targets.devices", cfg)
-		got := GetDevices()
+		got := GetTargets()
 		if diff := cmp.Diff(cfg, got); diff != "" {
-			t.Errorf("GetDevices(): (-want +got):\n%s", diff)
+			t.Errorf("GetTargets(): (-want +got):\n%s", diff)
 		}
 	}
 }

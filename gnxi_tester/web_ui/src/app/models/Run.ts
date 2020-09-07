@@ -1,5 +1,5 @@
 export interface RunRequest {
   prompts: string;
-  device: string;
+  target: string;
   tests: string[];
 }

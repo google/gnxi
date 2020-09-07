@@ -22,8 +22,8 @@ import (
 	"github.com/spf13/viper"
 )
 
-// Device stores connection details of a target.
-type Device struct {
+// Target stores connection details of a target.
+type Target struct {
 	Address string `json:"address" mapstructure:"address"`
 	Ca      string `json:"ca" mapstructure:"ca"`
 	CaKey   string `json:"cakey" mapstructure:"cakey"`
@@ -45,12 +45,12 @@ func prepareTarget(targetName, targetAddress, ca, caKey string, abs bool) error 
 	var caPath string
 	var caKeyPath string
 	var err error
-	devices := GetDevices()
-	if devices == nil {
-		devices = map[string]Device{}
+	targets := GetTargets()
+	if targets == nil {
+		targets = map[string]Target{}
 	}
 	if targetName == "" {
-		if len(devices) > 0 {
+		if len(targets) > 0 {
 			return nil
 		}
 		return errors.New("No targets in history and no target specified")
@@ -69,29 +69,29 @@ func prepareTarget(targetName, targetAddress, ca, caKey string, abs bool) error 
 	} else {
 		caPath, caKeyPath = ca, caKey
 	}
-	if _, exists := devices[targetName]; !exists {
+	if _, exists := targets[targetName]; !exists {
 		if targetAddress == "" || ca == "" || caKey == "" {
-			return errors.New("Device not found")
+			return errors.New("Target not found")
 		}
-		devices[targetName] = Device{
+		targets[targetName] = Target{
 			Address: targetAddress,
 			Ca:      caPath,
 			CaKey:   caKeyPath,
 		}
 	} else {
-		device := devices[targetName]
+		target := targets[targetName]
 		if targetAddress != "" {
-			device.Address = targetAddress
+			target.Address = targetAddress
 		}
 		if ca != "" {
-			device.Ca = caPath
+			target.Ca = caPath
 		}
 		if caKey != "" {
-			device.CaKey = caKeyPath
+			target.CaKey = caKeyPath
 		}
-		devices[targetName] = device
+		targets[targetName] = target
 	}
 	viper.Set("targets.last_target", targetName)
-	viper.Set("targets.devices", devices)
+	viper.Set("targets.devices", targets)
 	return nil
 }

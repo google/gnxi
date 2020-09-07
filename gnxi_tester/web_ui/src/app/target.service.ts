@@ -18,6 +18,7 @@ export class TargetService {
   getTarget(name: string): Observable<Target> {
     return this.http.get<Target>(`${environment.apiUrl}/target/${name}`);
   }
+
   delete(name: string) {
     return this.http.delete(`${environment.apiUrl}/target/${name}`);
   }
