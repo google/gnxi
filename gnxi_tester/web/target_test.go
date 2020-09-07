@@ -180,3 +180,61 @@ func TestHandleTargetsGet(t *testing.T) {
 		})
 	}
 }
+
+func TestHandleTargetDelete(t *testing.T) {
+	tests := []struct {
+		name        string
+		targetName  string
+		wantTargets map[string]config.Target
+		targets     map[string]config.Target
+	}{
+		{
+			name:        "Deleting 1 target, 1 target stored",
+			targetName:  "myhost.com",
+			wantTargets: map[string]config.Target{},
+			targets: map[string]config.Target{
+				"myhost.com": {
+					Address: "localhost:9339",
+					Ca:      "/ca.crt",
+					CaKey:   "/ca.key",
+				},
+			},
+		},
+		{
+			name:       "Testing getting all targets, multiple targets stored",
+			targetName: "anotherhost.com",
+			wantTargets: map[string]config.Target{
+				"myhost.com": {
+					Address: "localhost:9339",
+					Ca:      "/ca.crt",
+					CaKey:   "/ca.key",
+				},
+			},
+			targets: map[string]config.Target{
+				"myhost.com": {
+					Address: "localhost:9339",
+					Ca:      "/ca.crt",
+					CaKey:   "/ca.key",
+				},
+				"anotherhost.com": {
+					Address: "anotherlocalhost:9339",
+					Ca:      "/anotherca.crt",
+					CaKey:   "/anotherca.key",
+				},
+			},
+		},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			viper.Set("targets.devices", test.targets)
+			rr := httptest.NewRecorder()
+			req, _ := http.NewRequest("DELETE", fmt.Sprintf("/target/%s", test.targetName), nil)
+			router := mux.NewRouter()
+			router.HandleFunc("/target/{name}", handleTargetDelete).Methods("DELETE")
+			router.ServeHTTP(rr, req)
+			if diff := cmp.Diff(test.wantTargets, viper.Get("targets.devices")); diff != "" {
+				t.Errorf("Error in deleting target (-want +got): %s", diff)
+			}
+		})
+	}
+}
