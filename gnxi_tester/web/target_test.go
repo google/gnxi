@@ -201,7 +201,7 @@ func TestHandleTargetDelete(t *testing.T) {
 			},
 		},
 		{
-			name:       "Testing getting all targets, multiple targets stored",
+			name:       "Deleting 1 target, multiple targets stored",
 			targetName: "anotherhost.com",
 			wantTargets: map[string]config.Target{
 				"myhost.com": {
