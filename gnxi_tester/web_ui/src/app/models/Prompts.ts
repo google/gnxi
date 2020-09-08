@@ -9,4 +9,4 @@ export interface PromptsList {
   files: string[];
 }
 
-export type PromptsSet = {[name: string]: Prompts}
+export type PromptsSet = {[name: string]: Prompts};

@@ -52,13 +52,13 @@ func GetTests() Tests {
 	return tests
 }
 
-// GetDevices will return target connection history from Viper store.
-func GetDevices() map[string]Device {
-	var devices map[string]Device
-	if err := viper.UnmarshalKey("targets.devices", &devices); err != nil {
+// GetTargets will return target connection history from Viper store.
+func GetTargets() map[string]Target {
+	var targets map[string]Target
+	if err := viper.UnmarshalKey("targets.devices", &targets); err != nil {
 		return nil
 	}
-	return devices
+	return targets
 }
 
 // GetOrder will return target connection history from Viper store.

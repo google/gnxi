@@ -207,13 +207,13 @@ imageCheck:
 }
 
 // RunContainer runs an executable in a docker container.
-var RunContainer = func(name, args string, device *config.Device, insertFiles []string) (out string, code int, err error) {
+var RunContainer = func(name, args string, target *config.Target, insertFiles []string) (out string, code int, err error) {
 	var cont *types.Container
 	if cont, err = getContainer(name); err != nil {
 		return
 	}
 	var ca io.ReadCloser
-	if ca, err = tarFile("ca", device.Ca); err != nil {
+	if ca, err = tarFile("ca", target.Ca); err != nil {
 		return
 	}
 	defer ca.Close()
@@ -221,7 +221,7 @@ var RunContainer = func(name, args string, device *config.Device, insertFiles []
 		return
 	}
 	var key io.ReadCloser
-	if key, err = tarFile("key", device.CaKey); err != nil {
+	if key, err = tarFile("key", target.CaKey); err != nil {
 		return
 	}
 	if err = dockerClient.CopyToContainer(context.Background(), cont.ID, "/certs", key, types.CopyToContainerOptions{}); err != nil {

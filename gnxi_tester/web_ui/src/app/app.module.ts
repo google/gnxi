@@ -1,7 +1,7 @@
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -18,7 +18,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DevicesComponent } from './devices/devices.component';
+import { TargetsComponent } from './targets/targets.component';
 import { FileUploadDirective } from './file-upload.directive';
 import { HtmlPipe } from './sanitize';
 import { FileUploadComponent } from './file-upload/file-upload.component';
@@ -32,7 +32,7 @@ import { RunComponent } from './run/run.component';
     NavbarComponent,
     RunComponent,
     PromptsComponent,
-    DevicesComponent,
+    TargetsComponent,
     FileUploadComponent,
     FileUploadDirective,
     HtmlPipe

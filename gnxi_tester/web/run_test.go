@@ -32,7 +32,7 @@ func TestHandleRun(t *testing.T) {
 	tests := []struct {
 		name    string
 		prompts map[string]interface{}
-		devices map[string]interface{}
+		targets map[string]interface{}
 		code    int
 		postBody,
 		respBody string
@@ -54,7 +54,7 @@ func TestHandleRun(t *testing.T) {
 			http.StatusText(http.StatusBadRequest) + "\n",
 		},
 		{
-			"device not found",
+			"target not found",
 			map[string]interface{}{"name": config.Prompts{}},
 			map[string]interface{}{},
 			http.StatusBadRequest,
@@ -64,9 +64,9 @@ func TestHandleRun(t *testing.T) {
 		{
 			"prompts found",
 			map[string]interface{}{"name": config.Prompts{}},
-			map[string]interface{}{"name": config.Device{}},
+			map[string]interface{}{"name": config.Target{}},
 			http.StatusOK,
-			"{\"prompts\":\"name\",\"device\":\"name\"}",
+			"{\"prompts\":\"name\",\"target\":\"name\"}",
 			"",
 		},
 	}
@@ -74,7 +74,7 @@ func TestHandleRun(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			viper.SetConfigFile("/tmp/config.yml")
 			viper.Set("web.prompts", test.prompts)
-			viper.Set("targets.devices", test.devices)
+			viper.Set("targets.devices", test.targets)
 			rr := httptest.NewRecorder()
 			req, _ := http.NewRequest("POST", "/run", bytes.NewBufferString(test.postBody))
 			handler := http.HandlerFunc(handleRun)

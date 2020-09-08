@@ -26,7 +26,7 @@ import (
 )
 
 type Want struct {
-	devices map[string]Device
+	targets map[string]Target
 	err     error
 }
 
@@ -43,7 +43,7 @@ func TestPrepareTarget(t *testing.T) {
 		targetAddress string
 		targetCA      string
 		targetCAKey   string
-		config        map[string]Device
+		config        map[string]Target
 		lastTarget    string
 		want          Want
 	}{
@@ -51,12 +51,12 @@ func TestPrepareTarget(t *testing.T) {
 			name: "No targets in history, no target specified",
 			want: Want{
 				err:     errors.New("No targets in history and no target specified"),
-				devices: map[string]Device{},
+				targets: map[string]Target{},
 			},
 		},
 		{
 			name: "No target specified",
-			config: map[string]Device{"myhost.com": {
+			config: map[string]Target{"myhost.com": {
 				Address: "localhost:9339",
 				Ca:      certPath,
 				CaKey:   certKeyPath,
@@ -64,7 +64,7 @@ func TestPrepareTarget(t *testing.T) {
 			lastTarget: "myhost.com",
 			want: Want{
 				err: nil,
-				devices: map[string]Device{"myhost.com": {
+				targets: map[string]Target{"myhost.com": {
 					Address: "localhost:9339",
 					Ca:      certPath,
 					CaKey:   certKeyPath,
@@ -72,8 +72,8 @@ func TestPrepareTarget(t *testing.T) {
 			},
 		},
 		{
-			name: "Non-existent device",
-			config: map[string]Device{"myhost.com": {
+			name: "Non-existent target",
+			config: map[string]Target{"myhost.com": {
 				Address: "localhost:9339",
 				Ca:      certPath,
 				CaKey:   certKeyPath,
@@ -81,8 +81,8 @@ func TestPrepareTarget(t *testing.T) {
 			targetName: "nonexistenttarget",
 			lastTarget: "myhost.com",
 			want: Want{
-				err: errors.New("Device not found"),
-				devices: map[string]Device{"myhost.com": {
+				err: errors.New("Target not found"),
+				targets: map[string]Target{"myhost.com": {
 					Address: "localhost:9339",
 					Ca:      certPath,
 					CaKey:   certKeyPath,
@@ -96,7 +96,7 @@ func TestPrepareTarget(t *testing.T) {
 			targetCA:      certPath,
 			targetCAKey:   certKeyPath,
 			want: Want{
-				devices: map[string]Device{
+				targets: map[string]Target{
 					"myhost.com": {
 						Address: "localhost:9339",
 						Ca:      certPath,
@@ -106,16 +106,16 @@ func TestPrepareTarget(t *testing.T) {
 			},
 		},
 		{
-			name:          "Update existing device's address",
+			name:          "Update existing target's address",
 			targetName:    "myhost.com",
 			targetAddress: "newhost:9340",
-			config: map[string]Device{"myhost.com": {
+			config: map[string]Target{"myhost.com": {
 				Address: "localhost:9339",
 				Ca:      certPath,
 				CaKey:   certKeyPath,
 			}},
 			want: Want{
-				devices: map[string]Device{
+				targets: map[string]Target{
 					"myhost.com": {
 						Address: "newhost:9340",
 						Ca:      certPath,
@@ -125,16 +125,16 @@ func TestPrepareTarget(t *testing.T) {
 			},
 		},
 		{
-			name:       "Update existing device's ca",
+			name:       "Update existing target's ca",
 			targetName: "myhost.com",
 			targetCA:   "newca.crt",
-			config: map[string]Device{"myhost.com": {
+			config: map[string]Target{"myhost.com": {
 				Address: "localhost:9339",
 				Ca:      certPath,
 				CaKey:   certKeyPath,
 			}},
 			want: Want{
-				devices: map[string]Device{
+				targets: map[string]Target{
 					"myhost.com": {
 						Address: "localhost:9339",
 						Ca:      path.Join(dir, "newca.crt"),
@@ -144,16 +144,16 @@ func TestPrepareTarget(t *testing.T) {
 			},
 		},
 		{
-			name:        "Update existing device's ca_key",
+			name:        "Update existing target's ca_key",
 			targetName:  "myhost.com",
 			targetCAKey: "newca.key",
-			config: map[string]Device{"myhost.com": {
+			config: map[string]Target{"myhost.com": {
 				Address: "localhost:9339",
 				Ca:      certPath,
 				CaKey:   certKeyPath,
 			}},
 			want: Want{
-				devices: map[string]Device{
+				targets: map[string]Target{
 					"myhost.com": {
 						Address: "localhost:9339",
 						Ca:      certPath,
@@ -166,13 +166,13 @@ func TestPrepareTarget(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			viper.Reset()
-			var devices map[string]Device
+			var targets map[string]Target
 			viper.Set("targets.last_target", test.lastTarget)
 			viper.Set("targets.devices", test.config)
 			err := prepareTarget(test.targetName, test.targetAddress, test.targetCA, test.targetCAKey, true)
-			viper.UnmarshalKey("targets.devices", &devices)
+			viper.UnmarshalKey("targets.devices", &targets)
 			got := Want{
-				devices: devices,
+				targets: targets,
 				err:     err,
 			}
 			if diff := pretty.Compare(test.want, got); diff != "" {

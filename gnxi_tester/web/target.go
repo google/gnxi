@@ -39,7 +39,7 @@ func getNameParam(w http.ResponseWriter, r *http.Request) string {
 }
 
 func handleTargetsGet(w http.ResponseWriter, r *http.Request) {
-	targets := config.GetDevices()
+	targets := config.GetTargets()
 	response, err := json.Marshal(targets)
 	if err != nil {
 		logErr(r.Header, err)
@@ -53,14 +53,14 @@ func handleTargetGet(w http.ResponseWriter, r *http.Request) {
 	if name == "" {
 		return
 	}
-	devices := config.GetDevices()
-	device, ok := devices[name]
+	targets := config.GetTargets()
+	target, ok := targets[name]
 	if !ok {
-		logErr(r.Header, errors.New("device not found"))
+		logErr(r.Header, errors.New("target not found"))
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
 	}
-	if err := json.NewEncoder(w).Encode(device); err != nil {
+	if err := json.NewEncoder(w).Encode(target); err != nil {
 		logErr(r.Header, err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 	}
@@ -74,29 +74,29 @@ func handleTargetSet(w http.ResponseWriter, r *http.Request) {
 	if name == "" {
 		return
 	}
-	devices := config.GetDevices()
-	if devices == nil {
-		devices = map[string]config.Device{}
+	targets := config.GetTargets()
+	if targets == nil {
+		targets = map[string]config.Target{}
 	}
-	device := config.Device{}
-	if err := json.NewDecoder(r.Body).Decode(&device); err != nil {
+	target := config.Target{}
+	if err := json.NewDecoder(r.Body).Decode(&target); err != nil {
 		logErr(r.Header, err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
-	if device.Ca == "" || device.CaKey == "" {
+	if target.Ca == "" || target.CaKey == "" {
 		logErr(r.Header, errors.New("ca or ca key not set"))
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
 
 	}
-	if !path.IsAbs(device.Ca) {
-		device.Ca = path.Join(filesDir(), device.Ca)
+	if !path.IsAbs(target.Ca) {
+		target.Ca = path.Join(filesDir(), target.Ca)
 	}
-	if !path.IsAbs(device.CaKey) {
-		device.CaKey = path.Join(filesDir(), device.CaKey)
+	if !path.IsAbs(target.CaKey) {
+		target.CaKey = path.Join(filesDir(), target.CaKey)
 	}
-	if err := config.SetTarget(name, device.Address, device.Ca, device.CaKey, false); err != nil {
+	if err := config.SetTarget(name, target.Address, target.Ca, target.CaKey, false); err != nil {
 		logErr(r.Header, err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
@@ -106,7 +106,7 @@ func handleTargetSet(w http.ResponseWriter, r *http.Request) {
 // handleTargetDelete deletes a target.
 func handleTargetDelete(w http.ResponseWriter, r *http.Request) {
 	name := getNameParam(w, r)
-	targets := config.GetDevices()
+	targets := config.GetTargets()
 	delete(targets, name)
 	viper.Set("targets.devices", targets)
 }

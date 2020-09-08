@@ -36,32 +36,32 @@ func TestHandleTargetGet(t *testing.T) {
 		name     string
 		testName string
 		code     int
-		devices  map[string]config.Device
+		targets  map[string]config.Target
 		respBody string
 	}{
 		{
-			"device not found",
+			"target not found",
 			"name",
 			http.StatusBadRequest,
-			map[string]config.Device{},
+			map[string]config.Target{},
 			http.StatusText(http.StatusBadRequest) + "\n",
 		},
 		{
-			"device found",
+			"target found",
 			"name",
 			http.StatusOK,
-			map[string]config.Device{"name": {}},
+			map[string]config.Target{"name": {}},
 			"{\"address\":\"\",\"ca\":\"\",\"cakey\":\"\"}\n",
 		},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			viper.SetConfigFile("/tmp/config.yml")
-			viper.Set("targets.devices", test.devices)
+			viper.Set("targets.devices", test.targets)
 			rr := httptest.NewRecorder()
-			req, _ := http.NewRequest("GET", fmt.Sprintf("/device/%s", test.testName), nil)
+			req, _ := http.NewRequest("GET", fmt.Sprintf("/target/%s", test.testName), nil)
 			router := mux.NewRouter()
-			router.HandleFunc("/device/{name}", handleTargetGet).Methods("GET")
+			router.HandleFunc("/target/{name}", handleTargetGet).Methods("GET")
 			router.ServeHTTP(rr, req)
 			if code := rr.Code; code != test.code {
 				t.Errorf("Wanted exit code %d but got %d.", test.code, code)
@@ -82,21 +82,21 @@ func TestHandleTargetSet(t *testing.T) {
 		testName string
 		code     int
 		body     string
-		devices  map[string]config.Device
+		targets  map[string]config.Target
 	}{
 		{
 			"empty body",
 			"name",
 			http.StatusInternalServerError,
 			"\n",
-			map[string]config.Device{},
+			map[string]config.Target{},
 		},
 		{
-			"setting device",
+			"setting target",
 			"name",
 			http.StatusOK,
 			"{\"address\":\"test\",\"ca\":\"test.crt\",\"cakey\":\"test.key\"}\n",
-			map[string]config.Device{"name": {
+			map[string]config.Target{"name": {
 				Address: "test",
 				Ca:      path.Join(filesDir(), "test.crt"),
 				CaKey:   path.Join(filesDir(), "test.key"),
@@ -106,16 +106,16 @@ func TestHandleTargetSet(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			viper.SetConfigFile("/tmp/config.yml")
-			viper.Set("targets.devices", test.devices)
+			viper.Set("targets.devices", test.targets)
 			rr := httptest.NewRecorder()
-			req, _ := http.NewRequest("POST", fmt.Sprintf("/device/%s", test.testName), bytes.NewBufferString(test.body))
+			req, _ := http.NewRequest("POST", fmt.Sprintf("/target/%s", test.testName), bytes.NewBufferString(test.body))
 			router := mux.NewRouter()
-			router.HandleFunc("/device/{name}", handleTargetSet).Methods("POST")
+			router.HandleFunc("/target/{name}", handleTargetSet).Methods("POST")
 			router.ServeHTTP(rr, req)
 			if code := rr.Code; code != test.code {
 				t.Errorf("Wanted exit code %d but got %d.", test.code, code)
-			} else if diff := cmp.Diff(test.devices, viper.Get("targets.devices")); diff != "" {
-				t.Errorf("Error in setting device (-want +got): %s", diff)
+			} else if diff := cmp.Diff(test.targets, viper.Get("targets.devices")); diff != "" {
+				t.Errorf("Error in setting target (-want +got): %s", diff)
 			}
 		})
 	}

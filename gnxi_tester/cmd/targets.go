@@ -33,9 +33,9 @@ var (
 
 // handleRun will run some or all of the tests.
 func displayTargets(cmd *cobra.Command, args []string) {
-	devices := config.GetDevices()
+	targets := config.GetTargets()
 	fmt.Printf("%20s%20s%20s%20s\n", "Target Name", "Target Address", "CA", "CA Key")
-	for name, device := range devices {
-		fmt.Printf("%20s%20s%20s%20s\n", name, device.Address, device.Ca, device.CaKey)
+	for name, target := range targets {
+		fmt.Printf("%20s%20s%20s%20s\n", name, target.Address, target.Ca, target.CaKey)
 	}
 }
