@@ -32,12 +32,20 @@ func TestHandleTestsOrderGet(t *testing.T) {
 		wantCode int
 		wantBody string
 		order    []string
+		tests    config.Tests
 	}{
 		{
 			name:     "Testing getting set of test names",
 			wantCode: http.StatusOK,
 			wantBody: `["test1","test2","test3"]` + "\n",
 			order:    []string{"test1", "test2", "test3"},
+		},
+		{
+			name:     "Testing getting set of test names, provision included",
+			wantCode: http.StatusOK,
+			wantBody: `["provision","test1","test2"]` + "\n",
+			order:    []string{"test1", "test2"},
+			tests:    config.Tests{"provision": []config.Test{}},
 		},
 		{
 			name:     "Testing getting test order with no order specified",
@@ -50,6 +58,7 @@ func TestHandleTestsOrderGet(t *testing.T) {
 		viper.Reset()
 		t.Run(test.name, func(t *testing.T) {
 			viper.Set("order", test.order)
+			viper.Set("tests", test.tests)
 			resRecorder := httptest.NewRecorder()
 			request, _ := http.NewRequest("GET", "/test/order", nil)
 			router := mux.NewRouter()
@@ -69,7 +78,7 @@ func TestHandleTestsGet(t *testing.T) {
 		name     string
 		wantCode int
 		wantBody string
-		tests    map[string][]config.Test
+		tests    config.Tests
 	}{
 		{
 			name:     "Testing getting all tests, 1 test stored",
