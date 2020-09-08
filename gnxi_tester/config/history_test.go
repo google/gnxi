@@ -41,11 +41,11 @@ type result struct {
 }
 
 func TestSetTarget(t *testing.T) {
-	viper.SetConfigFile("/tmp/config.yml")
 	tests := generateTargetTestCases()
 	for _, test := range tests {
-		viper.Reset()
 		t.Run(test.name, func(t *testing.T) {
+			viper.Reset()
+			viper.SetConfigFile("/tmp/config.yml")
 			var targets map[string]Target
 			viper.Set("targets.devices", test.config)
 			err := SetTarget(test.targetName, test.targetAddress, test.targetCA, test.targetCAKey, true)
@@ -111,7 +111,7 @@ func generateTargetTestCases() []testCase {
 			targetName: "nonexistenttarget",
 			want: result{
 				err:     errors.New("Target not found"),
-				targets: history,
+				targets: nil,
 			},
 		},
 		{
