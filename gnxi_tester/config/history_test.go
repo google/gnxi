@@ -25,153 +25,32 @@ import (
 	"github.com/spf13/viper"
 )
 
-type Want struct {
+type testCase struct {
+	name          string
+	targetName    string
+	targetAddress string
+	targetCA      string
+	targetCAKey   string
+	config        map[string]Target
+	want          result
+}
+
+type result struct {
 	targets map[string]Target
 	err     error
 }
 
 func TestSetTarget(t *testing.T) {
 	viper.SetConfigFile("/tmp/config.yml")
-	dir, err := os.Getwd()
-	if err != nil {
-		t.Errorf("Error getting working directory: %v", err)
-	}
-	certPath := path.Join(dir, "ca.crt")
-	certKeyPath := path.Join(dir, "ca.key")
-	tests := []struct {
-		name          string
-		targetName    string
-		targetAddress string
-		targetCA      string
-		targetCAKey   string
-		config        map[string]Target
-		lastTarget    string
-		want          Want
-	}{
-		{
-			name: "No targets in history, no target specified",
-			want: Want{
-				err:     errors.New("No targets in history and no target specified"),
-				targets: map[string]Target{},
-			},
-		},
-		{
-			name: "No target specified",
-			config: map[string]Target{"myhost.com": {
-				Address: "localhost:9339",
-				Ca:      certPath,
-				CaKey:   certKeyPath,
-			}},
-			lastTarget: "myhost.com",
-			want: Want{
-				err: nil,
-				targets: map[string]Target{"myhost.com": {
-					Address: "localhost:9339",
-					Ca:      certPath,
-					CaKey:   certKeyPath,
-				}},
-			},
-		},
-		{
-			name: "Non-existent target",
-			config: map[string]Target{"myhost.com": {
-				Address: "localhost:9339",
-				Ca:      certPath,
-				CaKey:   certKeyPath,
-			}},
-			targetName: "nonexistenttarget",
-			lastTarget: "myhost.com",
-			want: Want{
-				err: errors.New("Target not found"),
-				targets: map[string]Target{"myhost.com": {
-					Address: "localhost:9339",
-					Ca:      certPath,
-					CaKey:   certKeyPath,
-				}},
-			},
-		},
-		{
-			name:          "Add new target",
-			targetName:    "myhost.com",
-			targetAddress: "localhost:9339",
-			targetCA:      certPath,
-			targetCAKey:   certKeyPath,
-			want: Want{
-				targets: map[string]Target{
-					"myhost.com": {
-						Address: "localhost:9339",
-						Ca:      certPath,
-						CaKey:   certKeyPath,
-					},
-				},
-			},
-		},
-		{
-			name:          "Update existing target's address",
-			targetName:    "myhost.com",
-			targetAddress: "newhost:9340",
-			config: map[string]Target{"myhost.com": {
-				Address: "localhost:9339",
-				Ca:      certPath,
-				CaKey:   certKeyPath,
-			}},
-			want: Want{
-				targets: map[string]Target{
-					"myhost.com": {
-						Address: "newhost:9340",
-						Ca:      certPath,
-						CaKey:   certKeyPath,
-					},
-				},
-			},
-		},
-		{
-			name:       "Update existing target's ca",
-			targetName: "myhost.com",
-			targetCA:   "newca.crt",
-			config: map[string]Target{"myhost.com": {
-				Address: "localhost:9339",
-				Ca:      certPath,
-				CaKey:   certKeyPath,
-			}},
-			want: Want{
-				targets: map[string]Target{
-					"myhost.com": {
-						Address: "localhost:9339",
-						Ca:      path.Join(dir, "newca.crt"),
-						CaKey:   certKeyPath,
-					},
-				},
-			},
-		},
-		{
-			name:        "Update existing target's ca_key",
-			targetName:  "myhost.com",
-			targetCAKey: "newca.key",
-			config: map[string]Target{"myhost.com": {
-				Address: "localhost:9339",
-				Ca:      certPath,
-				CaKey:   certKeyPath,
-			}},
-			want: Want{
-				targets: map[string]Target{
-					"myhost.com": {
-						Address: "localhost:9339",
-						Ca:      certPath,
-						CaKey:   path.Join(dir, "newca.key"),
-					},
-				},
-			},
-		},
-	}
+	tests := generateTargetTestCases()
 	for _, test := range tests {
+		viper.Reset()
 		t.Run(test.name, func(t *testing.T) {
 			var targets map[string]Target
-			viper.Set("targets.last_target", test.lastTarget)
 			viper.Set("targets.devices", test.config)
 			err := SetTarget(test.targetName, test.targetAddress, test.targetCA, test.targetCAKey, true)
 			viper.UnmarshalKey("targets.devices", &targets)
-			got := Want{
+			got := result{
 				targets: targets,
 				err:     err,
 			}
@@ -183,62 +62,56 @@ func TestSetTarget(t *testing.T) {
 }
 
 func TestPrepareTarget(t *testing.T) {
-	dir, err := os.Getwd()
-	if err != nil {
-		t.Errorf("Error getting working directory: %v", err)
+	tests := generateTargetTestCases()
+	for _, test := range tests {
+		viper.Reset()
+		t.Run(test.name, func(t *testing.T) {
+			var targets map[string]Target
+			viper.Set("targets.devices", test.config)
+			err := prepareTarget(test.targetName, test.targetAddress, test.targetCA, test.targetCAKey, true)
+			viper.UnmarshalKey("targets.devices", &targets)
+			got := result{
+				targets: targets,
+				err:     err,
+			}
+			if diff := pretty.Compare(test.want, got); diff != "" {
+				t.Errorf("prepareTarget(%s, %s, %s, %s): (-want +got)\n%s", test.targetName, test.targetAddress, test.targetCA, test.targetCAKey, diff)
+			}
+		})
 	}
+}
+
+func generateTargetTestCases() []testCase {
+	dir, _ := os.Getwd()
 	certPath := path.Join(dir, "ca.crt")
 	certKeyPath := path.Join(dir, "ca.key")
-	tests := []struct {
-		name          string
-		targetName    string
-		targetAddress string
-		targetCA      string
-		targetCAKey   string
-		config        map[string]Target
-		lastTarget    string
-		want          Want
-	}{
+	history := map[string]Target{"myhost.com": {
+		Address: "localhost:9339",
+		Ca:      certPath,
+		CaKey:   certKeyPath,
+	}}
+	tests := []testCase{
 		{
 			name: "No targets in history, no target specified",
-			want: Want{
+			want: result{
 				err:     errors.New("No targets in history and no target specified"),
 				targets: map[string]Target{},
 			},
 		},
 		{
-			name: "No target specified",
-			config: map[string]Target{"myhost.com": {
-				Address: "localhost:9339",
-				Ca:      certPath,
-				CaKey:   certKeyPath,
-			}},
-			lastTarget: "myhost.com",
-			want: Want{
-				err: nil,
-				targets: map[string]Target{"myhost.com": {
-					Address: "localhost:9339",
-					Ca:      certPath,
-					CaKey:   certKeyPath,
-				}},
+			name:   "No target specified",
+			config: history,
+			want: result{
+				targets: history,
 			},
 		},
 		{
-			name: "Non-existent target",
-			config: map[string]Target{"myhost.com": {
-				Address: "localhost:9339",
-				Ca:      certPath,
-				CaKey:   certKeyPath,
-			}},
+			name:       "Non-existent target",
+			config:     map[string]Target{},
 			targetName: "nonexistenttarget",
-			lastTarget: "myhost.com",
-			want: Want{
-				err: errors.New("Target not found"),
-				targets: map[string]Target{"myhost.com": {
-					Address: "localhost:9339",
-					Ca:      certPath,
-					CaKey:   certKeyPath,
-				}},
+			want: result{
+				err:     errors.New("Target not found"),
+				targets: history,
 			},
 		},
 		{
@@ -247,26 +120,16 @@ func TestPrepareTarget(t *testing.T) {
 			targetAddress: "localhost:9339",
 			targetCA:      certPath,
 			targetCAKey:   certKeyPath,
-			want: Want{
-				targets: map[string]Target{
-					"myhost.com": {
-						Address: "localhost:9339",
-						Ca:      certPath,
-						CaKey:   certKeyPath,
-					},
-				},
+			want: result{
+				targets: history,
 			},
 		},
 		{
 			name:          "Update existing target's address",
 			targetName:    "myhost.com",
 			targetAddress: "newhost:9340",
-			config: map[string]Target{"myhost.com": {
-				Address: "localhost:9339",
-				Ca:      certPath,
-				CaKey:   certKeyPath,
-			}},
-			want: Want{
+			config:        history,
+			want: result{
 				targets: map[string]Target{
 					"myhost.com": {
 						Address: "newhost:9340",
@@ -280,12 +143,8 @@ func TestPrepareTarget(t *testing.T) {
 			name:       "Update existing target's ca",
 			targetName: "myhost.com",
 			targetCA:   "newca.crt",
-			config: map[string]Target{"myhost.com": {
-				Address: "localhost:9339",
-				Ca:      certPath,
-				CaKey:   certKeyPath,
-			}},
-			want: Want{
+			config:     history,
+			want: result{
 				targets: map[string]Target{
 					"myhost.com": {
 						Address: "localhost:9339",
@@ -299,12 +158,8 @@ func TestPrepareTarget(t *testing.T) {
 			name:        "Update existing target's ca_key",
 			targetName:  "myhost.com",
 			targetCAKey: "newca.key",
-			config: map[string]Target{"myhost.com": {
-				Address: "localhost:9339",
-				Ca:      certPath,
-				CaKey:   certKeyPath,
-			}},
-			want: Want{
+			config:      history,
+			want: result{
 				targets: map[string]Target{
 					"myhost.com": {
 						Address: "localhost:9339",
@@ -315,21 +170,5 @@ func TestPrepareTarget(t *testing.T) {
 			},
 		},
 	}
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			viper.Reset()
-			var targets map[string]Target
-			viper.Set("targets.last_target", test.lastTarget)
-			viper.Set("targets.devices", test.config)
-			err := prepareTarget(test.targetName, test.targetAddress, test.targetCA, test.targetCAKey, true)
-			viper.UnmarshalKey("targets.devices", &targets)
-			got := Want{
-				targets: targets,
-				err:     err,
-			}
-			if diff := pretty.Compare(test.want, got); diff != "" {
-				t.Errorf("prepareTarget(%s, %s, %s, %s): (-want +got)\n%s", test.targetName, test.targetAddress, test.targetCA, test.targetCAKey, diff)
-			}
-		})
-	}
+	return tests
 }
