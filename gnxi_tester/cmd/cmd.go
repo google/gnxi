@@ -41,6 +41,7 @@ func init() {
 	rootCmd.AddCommand(runCmd)
 	rootCmd.AddCommand(webCmd)
 	rootCmd.AddCommand(targetsCmd)
+	rootCmd.AddCommand(wipeCmd)
 	rootCmd.PersistentFlags().StringVar(&cfgPath, "cfg", "", "Path to the config file.")
 }
 
