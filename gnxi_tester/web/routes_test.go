@@ -22,31 +22,43 @@ import (
 	"github.com/gorilla/mux"
 )
 
+type routerPath struct {
+	Path    string
+	Methods []string
+}
+
 func TestGenerateRouter(t *testing.T) {
 	r := generateRouter()
-	want := []string{
-		"/prompts",
-		"/prompts/list",
-		"/prompts",
-		"/prompts/{name}",
-		"/target",
-		"/target/{name}",
-		"/target/{name}",
-		"/target/{name}",
-		"/file",
-		"/file/{file}",
-		"/run",
-		"/run/output",
-		"/test",
-		"/test/order",
+	want := []routerPath{
+		{"/prompts", []string{"GET"}},
+		{"/prompts/list", []string{"GET"}},
+		{"/prompts", []string{"POST", "PUT", "OPTIONS"}},
+		{"/prompts/{name}", []string{"DELETE", "OPTIONS"}},
+		{"/target", []string{"GET"}},
+		{"/target/{name}", []string{"GET"}},
+		{"/target/{name}", []string{"POST", "PUT", "OPTIONS"}},
+		{"/target/{name}", []string{"DELETE"}},
+		{"/file", []string{"POST"}},
+		{"/file/{file}", []string{"DELETE", "OPTIONS"}},
+		{"/run", []string{"POST", "OPTIONS"}},
+		{"/run/output", []string{"GET"}},
+		{"/test", []string{"GET"}},
+		{"/test/order", []string{"GET"}},
 	}
-	got := []string{}
+	got := []routerPath{}
 	r.Walk(func(route *mux.Route, _ *mux.Router, _ []*mux.Route) error {
 		path, err := route.GetPathTemplate()
 		if err != nil {
 			t.Errorf("Unexpected error walking routes: %v", err)
 		}
-		got = append(got, path)
+		methods, err := route.GetMethods()
+		if err != nil {
+			t.Errorf("Unexpected error getting methods: %v", err)
+		}
+		got = append(got, routerPath{
+			path,
+			methods,
+		})
 		return nil
 	})
 	if diff := cmp.Diff(want, got); diff != "" {
