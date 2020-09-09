@@ -16,6 +16,7 @@ limitations under the License.
 package web
 
 import (
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -24,6 +25,7 @@ import (
 
 	"github.com/google/gnxi/gnxi_tester/config"
 	"github.com/google/go-cmp/cmp"
+	"github.com/gorilla/mux"
 	"github.com/spf13/viper"
 )
 
@@ -175,6 +177,64 @@ func TestHandlePromptsList(t *testing.T) {
 				t.Errorf("Error when decoding body: %w", err)
 			} else if test.respBody != string(b) {
 				t.Errorf("Wanted %s but got %s.", test.respBody, string(b))
+			}
+		})
+	}
+}
+
+func TestHandlePromptsDelete(t *testing.T) {
+	tests := []struct {
+		name        string
+		promptsName string
+		wantPrompts map[string]config.Prompts
+		prompts     map[string]config.Prompts
+	}{
+		{
+			name:        "Deleting 1 set of prompts, 1 set stored",
+			promptsName: "defaults",
+			wantPrompts: map[string]config.Prompts{},
+			prompts: map[string]config.Prompts{
+				"defaults": {
+					Name:    "defaults",
+					Prompts: map[string]string{"os_version": "1.0.0a"},
+					Files:   map[string]string{"os_path": "/os.img"},
+				},
+			},
+		},
+		{
+			name:        "Deleting 1 set of prompts, multiple sets stored",
+			promptsName: "anotherSetOfDefaults",
+			prompts: map[string]config.Prompts{
+				"defaults": {
+					Name:    "defaults",
+					Prompts: map[string]string{"os_version": "1.0.0a"},
+					Files:   map[string]string{"os_path": "/os.img"},
+				},
+				"anotherSetOfDefaults": {
+					Name:    "defaults",
+					Prompts: map[string]string{"os_version": "1.0.0a"},
+					Files:   map[string]string{"os_path": "/os.img"},
+				},
+			},
+			wantPrompts: map[string]config.Prompts{
+				"defaults": {
+					Name:    "defaults",
+					Prompts: map[string]string{"os_version": "1.0.0a"},
+					Files:   map[string]string{"os_path": "/os.img"},
+				},
+			},
+		},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			viper.Set("web.prompts", test.prompts)
+			rr := httptest.NewRecorder()
+			req, _ := http.NewRequest("DELETE", fmt.Sprintf("/prompts/%s", test.promptsName), nil)
+			router := mux.NewRouter()
+			router.HandleFunc("/prompts/{name}", handlePromptsDelete).Methods("DELETE")
+			router.ServeHTTP(rr, req)
+			if diff := cmp.Diff(test.wantPrompts, viper.Get("web.prompts")); diff != "" {
+				t.Errorf("Error in deleting target (-want +got): %s", diff)
 			}
 		})
 	}
