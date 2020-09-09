@@ -45,8 +45,8 @@ func generateRouter() *mux.Router {
 	r.HandleFunc("/file/{file}", handleFileDelete).Methods("DELETE", "OPTIONS")
 	r.HandleFunc("/run", handleRun).Methods("POST", "OPTIONS")
 	r.HandleFunc("/run/output", handleRunOutput).Methods("GET")
-	r.HandleFunc("/test", handleGetTests).Methods("GET")
-	r.HandleFunc("/test/order", handleGetTestsOrder).Methods("GET")
+	r.HandleFunc("/test", handleTestsGet).Methods("GET")
+	r.HandleFunc("/test/order", handleTestsOrderGet).Methods("GET")
 	r.Use(mux.CORSMethodMiddleware(r))
 	r.Use(func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
