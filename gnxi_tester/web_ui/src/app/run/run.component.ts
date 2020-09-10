@@ -16,7 +16,7 @@ import { TestService } from '../test.service';
 })
 export class RunComponent implements OnInit {
   promptsList: PromptsSet;
-  deviceList: Targets;
+  targetList: Targets;
   runForm: FormGroup;
   testNames: string[];
   allTestNames: string[];
@@ -30,7 +30,7 @@ export class RunComponent implements OnInit {
 
   async ngOnInit() {
     this.targetService.getTargets().subscribe(
-      (res) => this.deviceList = res,
+      (res) => this.targetList = res,
       (err) => console.log(err)
     );
     this.promptsService.getPrompts().subscribe(
@@ -39,7 +39,7 @@ export class RunComponent implements OnInit {
     );
     this.runForm = this.formBuilder.group({
       prompts: ['', Validators.required],
-      device: ['', Validators.required],
+      target: ['', Validators.required],
       tests: [[]],
     });
     let output = await this.runService.runOutput().toPromise();
@@ -115,8 +115,8 @@ export class RunComponent implements OnInit {
     return str.replace(new RegExp(pattern.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&'), "g"), replacement)
   }
 
-  get device(): AbstractControl {
-    return this.runForm.get('device');
+  get target(): AbstractControl {
+    return this.runForm.get('target');
   }
 
   get prompts(): AbstractControl {
