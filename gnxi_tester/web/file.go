@@ -26,6 +26,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
+	"github.com/spf13/afero"
 )
 
 const (
@@ -33,7 +34,12 @@ const (
 	defaultDirectoryPermission = 0777       // This value is the default for directory creation, gives rwx to owner, group and others
 )
 
-func handleFileUpload(w http.ResponseWriter, r *http.Request) {
+// FileHandler specifies the filesystem to be used with the file upload and delete operations.
+type FileHandler struct {
+	FileSys afero.Fs
+}
+
+func (f FileHandler) handleFileUpload(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseMultipartForm(maxFileMemory); err != nil {
 		logErr(r.Header, err)
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
@@ -45,7 +51,7 @@ func handleFileUpload(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
-	filesPath, err := initializeDirectory()
+	filesPath, err := f.initializeDirectory()
 	if err != nil {
 		logErr(r.Header, err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
@@ -53,12 +59,12 @@ func handleFileUpload(w http.ResponseWriter, r *http.Request) {
 	}
 	fileName := uuid.New().String() + filepath.Ext(tempFileHeader.Filename)
 	fullPath := path.Join(filesPath, fileName)
-	if _, err = os.Stat(fullPath); !os.IsNotExist(err) {
+	if _, err = f.FileSys.Stat(fullPath); !os.IsNotExist(err) {
 		logErr(r.Header, err)
 		http.Error(w, http.StatusText(http.StatusConflict), http.StatusConflict)
 		return
 	}
-	file, err := os.Create(fullPath)
+	file, err := f.FileSys.Create(fullPath)
 	if _, err := io.Copy(file, tempFile); err != nil {
 		logErr(r.Header, err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
@@ -68,7 +74,7 @@ func handleFileUpload(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(result)
 }
 
-func handleFileDelete(w http.ResponseWriter, r *http.Request) {
+func (f FileHandler) handleFileDelete(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodOptions {
 		return
 	}
@@ -81,7 +87,7 @@ func handleFileDelete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	filePath := path.Join(filesDir, fileName)
-	if err := os.Remove(filePath); os.IsNotExist(err) {
+	if err := f.FileSys.Remove(filePath); os.IsNotExist(err) {
 		logErr(r.Header, err)
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 		return
@@ -89,13 +95,13 @@ func handleFileDelete(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-func initializeDirectory() (string, error) {
+func (f FileHandler) initializeDirectory() (string, error) {
 	filesDir := filesDir()
 	if filesDir == "" {
 		return "", errors.New("failed to get files path")
 	}
-	if _, err := os.Stat(filesDir); os.IsNotExist(err) {
-		os.MkdirAll(filesDir, defaultDirectoryPermission)
+	if _, err := f.FileSys.Stat(filesDir); os.IsNotExist(err) {
+		f.FileSys.MkdirAll(filesDir, defaultDirectoryPermission)
 	}
 	return filesDir, nil
 }

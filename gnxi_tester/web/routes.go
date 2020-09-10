@@ -20,6 +20,7 @@ import (
 
 	log "github.com/golang/glog"
 	"github.com/gorilla/mux"
+	"github.com/spf13/afero"
 )
 
 // InitRouter will setup required routes for the web API and listen on the address.
@@ -33,6 +34,7 @@ func InitRouter(laddr string) {
 
 func generateRouter() *mux.Router {
 	r := mux.NewRouter()
+	f := FileHandler{FileSys: afero.NewOsFs()}
 	r.HandleFunc("/prompts", handlePromptsGet).Methods("GET")
 	r.HandleFunc("/prompts/list", handlePromptsList).Methods("GET")
 	r.HandleFunc("/prompts", handlePromptsSet).Methods("POST", "PUT", "OPTIONS")
@@ -41,8 +43,8 @@ func generateRouter() *mux.Router {
 	r.HandleFunc("/target/{name}", handleTargetGet).Methods("GET")
 	r.HandleFunc("/target/{name}", handleTargetSet).Methods("POST", "PUT", "OPTIONS")
 	r.HandleFunc("/target/{name}", handleTargetDelete).Methods("DELETE")
-	r.HandleFunc("/file", handleFileUpload).Methods("POST")
-	r.HandleFunc("/file/{file}", handleFileDelete).Methods("DELETE", "OPTIONS")
+	r.HandleFunc("/file", f.handleFileUpload).Methods("POST")
+	r.HandleFunc("/file/{file}", f.handleFileDelete).Methods("DELETE", "OPTIONS")
 	r.HandleFunc("/run", handleRun).Methods("POST", "OPTIONS")
 	r.HandleFunc("/run/output", handleRunOutput).Methods("GET")
 	r.HandleFunc("/test", handleTestsGet).Methods("GET")
