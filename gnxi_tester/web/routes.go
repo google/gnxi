@@ -24,8 +24,15 @@ import (
 
 // InitRouter will setup required routes for the web API and listen on the address.
 func InitRouter(laddr string) {
-	r := mux.NewRouter()
+	r := generateRouter()
+	log.Infof("Running web API on %s", laddr)
+	if err := http.ListenAndServe(laddr, r); err != nil {
+		log.Exit(err)
+	}
+}
 
+func generateRouter() *mux.Router {
+	r := mux.NewRouter()
 	r.HandleFunc("/prompts", handlePromptsGet).Methods("GET")
 	r.HandleFunc("/prompts/list", handlePromptsList).Methods("GET")
 	r.HandleFunc("/prompts", handlePromptsSet).Methods("POST", "PUT", "OPTIONS")
@@ -40,7 +47,6 @@ func InitRouter(laddr string) {
 	r.HandleFunc("/run/output", handleRunOutput).Methods("GET")
 	r.HandleFunc("/test", handleTestsGet).Methods("GET")
 	r.HandleFunc("/test/order", handleTestsOrderGet).Methods("GET")
-
 	r.Use(mux.CORSMethodMiddleware(r))
 	r.Use(func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
@@ -50,12 +56,7 @@ func InitRouter(laddr string) {
 			next.ServeHTTP(w, req)
 		})
 	})
-
-	log.Infof("Running web API on %s", laddr)
-
-	if err := http.ListenAndServe(laddr, r); err != nil {
-		log.Exit(err)
-	}
+	return r
 }
 
 var logErr = func(head http.Header, err error) {
