@@ -5,7 +5,6 @@ import (
 	"crypto/x509"
 	"testing"
 
-	"github.com/google/gnxi/utils/entity"
 	"google.golang.org/grpc"
 )
 
@@ -37,13 +36,5 @@ func TestGnoiAuthenticated(t *testing.T) {
 	}
 	if client == nil {
 		t.Error("Client was nil")
-	}
-}
-
-func TestSigner(t *testing.T) {
-	caEnt = &entity.Entity{Template: &x509.Certificate{}}
-	csr := &x509.CertificateRequest{}
-	if leaf, err := signer(csr); err != nil || leaf == nil {
-		t.Errorf("Leaf certificate was nil: %v", err)
 	}
 }
