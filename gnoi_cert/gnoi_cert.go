@@ -51,9 +51,11 @@ var (
 	orgUnit    = flag.String("organizational_unit", "", "Organizational unit in CSR parameters")
 	ipAddress  = flag.String("ip_address", "127.0.0.1", "IP address in CSR parameters")
 
-	caEnt  *entity.Entity
-	ctx    context.Context
-	cancel func()
+	caEnt     *entity.Entity
+	ctx       context.Context
+	cancel    func()
+	dial      = grpc.Dial
+	loadCerts = credUtils.LoadCertificates
 )
 
 func main() {
@@ -105,7 +107,7 @@ func gnoiEncrypted(c tls.Certificate) (*grpc.ClientConn, *cert.Client) {
 			RootCAs:            nil,
 		}))}
 
-	conn, err := grpc.Dial(*targetAddr, opts...)
+	conn, err := dial(*targetAddr, opts...)
 	if err != nil {
 		log.Exitf("Failed dial to %q: %v", *targetAddr, err)
 	}
@@ -116,7 +118,7 @@ func gnoiEncrypted(c tls.Certificate) (*grpc.ClientConn, *cert.Client) {
 
 // gnoiAuthenticated creates an authenticated TLS connection to the target.
 func gnoiAuthenticated(targetName string) (*grpc.ClientConn, *cert.Client) {
-	signed, certPool := credUtils.LoadCertificates()
+	signed, certPool := loadCerts()
 
 	opts := []grpc.DialOption{grpc.WithTransportCredentials(credentials.NewTLS(
 		&tls.Config{
@@ -125,7 +127,7 @@ func gnoiAuthenticated(targetName string) (*grpc.ClientConn, *cert.Client) {
 			RootCAs:      certPool,
 		}))}
 
-	conn, err := grpc.Dial(*targetAddr, opts...)
+	conn, err := dial(*targetAddr, opts...)
 	if err != nil {
 		log.Exitf("Failed dial to %q: %v", *targetAddr, err)
 	}
