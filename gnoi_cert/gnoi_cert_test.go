@@ -18,7 +18,7 @@ func TestGnoiEncrypted(t *testing.T) {
 		t.Errorf("Invalid connection (-want +got): -%v, +%v", expectConn, conn)
 	}
 	if client == nil {
-		t.Error("Client was nil")
+		t.Error("Expected non-nil client")
 	}
 }
 
