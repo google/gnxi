@@ -52,7 +52,7 @@ __version__ = '0.4'
 _RE_PATH_COMPONENT = re.compile(r'''
 ^
 (?P<pname>[^[]+)  # gNMI path name
-(\[(?P<key>\w+)   # gNMI path key
+(\[(?P<key>\w\D+)   # gNMI path key
 =
 (?P<value>.*)    # gNMI path value
 \])?$
