@@ -21,7 +21,7 @@ _Note_: These tools are intended for testing and as reference implementation of 
 *  [gNMI Capabilities](./gnmi_capabilities)
 *  [gNMI Get](./gnmi_get)
 *  [gNMI Set](./gnmi_set)
-*  gNMI Subscribe - in progress
+*  [gNMI Subscribe](./gnmi_subscribe)
 
 #### gNMI Targets:
 
