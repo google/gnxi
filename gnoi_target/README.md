@@ -15,8 +15,8 @@ See [gNOI OS proto definition](https://github.com/openconfig/gnoi/blob/master/os
 
 ## Reset service
 
-This service provides an RPC to Start a factory reset of the device. This includes
-resetting all certificates on the device and setting it to bootstrapped mode.
+This service provides an RPC to Start a factory reset of the Target. This includes
+resetting all certificates on the Target and setting it to bootstrapped mode.
 See [gNOI Reset proto definition](https://github.com/openconfig/gnoi/blob/master/factory_reset/reset.proto) for more.
 
 ## Bootstrapping mode

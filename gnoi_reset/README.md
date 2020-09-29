@@ -4,7 +4,7 @@ A simple shell binary that performs Factory Reset operations against a gNOI targ
 
 ## gNOI Factory Reset Options
 *   `-rollback_os` will attempt to roll back the OS to the factory version and reset all certificates on the target.
-*   `-zero_fill` will attempt to zero fill the device’s persistent storage.
+*   `-zero_fill` will attempt to zero fill the Target’s persistent storage.
 
 ## Install
 ```
