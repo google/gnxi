@@ -19,7 +19,6 @@ import (
 	"fmt"
 	"io"
 	"strings"
-	"time"
 
 	log "github.com/golang/glog"
 	"github.com/golang/protobuf/proto"
@@ -42,15 +41,11 @@ func (i *arrayFlags) Set(value string) error {
 	return nil
 }
 
-const (
-	defaultRequestTimeout = 10 * time.Second // This represents a value of 10 seconds and is used as a default RPC request timeout value.
-)
-
 var (
 	xPathFlags        arrayFlags
 	pbPathFlags       arrayFlags
 	targetAddr        = flag.String("target_addr", ":9339", "The target address in the format of host:port")
-	connectionTimeout = flag.Duration("timeout", defaultRequestTimeout, "The timeout for a request in seconds, 10 seconds by default, e.g 10s")
+	connectionTimeout = flag.Duration("timeout", 0, "The timeout for a request in seconds, 0 seconds by default (no timeout), e.g 10s")
 	subscriptionOnce  = flag.Bool("once", false, "If true, the target sends values once off")
 	subscriptionPoll  = flag.Bool("poll", false, "If true, the target sends values on request")
 	streamOnChange    = flag.Bool("stream_on_change", false, "If true, the target sends updates on change")
@@ -75,8 +70,12 @@ func main() {
 
 	client := pb.NewGNMIClient(conn)
 
-	ctx, cancel := context.WithTimeout(context.Background(), *connectionTimeout)
-	defer cancel()
+	ctx := context.Background()
+	if *connectionTimeout != 0 {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, *connectionTimeout)
+		defer cancel()
+	}
 
 	subscribeClient, err := client.Subscribe(ctx)
 	if err != nil {
