@@ -35,6 +35,6 @@ go install github.com/google/gnxi/gnmi_subscribe
     -ca ca.crt \
     -key client.key \
     -cert client.crt \
-    -sample_interval 10 \
+    -sample_interval 500000 \
     -encoding JSON_IETF
 ```
