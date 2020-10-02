@@ -11,11 +11,11 @@ There are 3 subscription modes that can be used:
 * **POLL** by using `-poll`. In this mode, the target generates and transmits updates when requested by the client.
 
 * **STREAM** is used by default when neither of the flags above are set. In this mode, data can be streamed:
-	* Periodically, using `-sample_interval` `nanoseconds` between samples. 
+	* Periodically, using `-sample_interval <nanoseconds>` between samples. 
 		* `-suppress_redundant` where updates are only generated for those individual leaf nodes in the subscription that have changed.
-		    * `-heartbeat_interval` `nanoseconds` forces generating a telemetry update regardless if the individual leaf has changed or not.
+		    * `-heartbeat_interval <nanoseconds>` forces generating a telemetry update regardless if the individual leaf has changed or not.
 	* On change, using `-stream_on_change`
-        * `-heartbeat_interval` `nanoseconds` forces generating a telemetry update regardless if the individual leaf has changed or not.
+        * `-heartbeat_interval <nanoseconds>` forces generating a telemetry update regardless if the individual leaf has changed or not.
 	* If neither flag is set then the target determines the best subscription type.
 
 ## Install
