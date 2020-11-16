@@ -68,7 +68,7 @@ ls $GOPATH/src/github.com/google/gnxi
 ```
 cd $GOPATH
 mkdir bin
-# Note that installing from the source folder is required in order to read the go modules dependencies.
+# This reads the go modules dependencies for installation
 cd src/github.com/google/gnxi
 go install ./...
 ls -la $GOPATH/bin
