@@ -86,7 +86,7 @@ cd $GOPATH/bin
 ```
 cd $GOPATH/bin
 ./gnoi_reset \
-    -target_addr localhost:9399 \
+    -target_addr localhost:9339 \
     -target_name target.com \
     -rollback_os \
     -zero_fill \

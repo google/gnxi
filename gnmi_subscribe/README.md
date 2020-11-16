@@ -30,7 +30,7 @@ go install github.com/google/gnxi/gnmi_subscribe
 ./gnmi_subscribe \
     -xpath "/system/openflow/agent/config/datapath-id" \
     -xpath "/system/openflow/controllers/controller[name=main]" \
-    -target_addr localhost:9399 \
+    -target_addr localhost:9339 \
     -target_name target.com \
     -ca ca.crt \
     -key client.key \

@@ -20,7 +20,7 @@ go install github.com/google/gnxi/gnoi_os
 ## Run 
 ```
 ./gnoi_os \
-    -target_addr localhost:9399 \
+    -target_addr localhost:9339 \
     -target_name target.com \
     -ca ca.crt \
     -key client.key \
