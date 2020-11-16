@@ -54,12 +54,12 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-Install __go__ in your system https://golang.org/doc/install. Requires golang1.7+.
+Install __go__ in your system https://golang.org/doc/install. Requires golang1.14+.
 
 ### Download sources
 
 ```
-go get -v github.com/google/gnxi/...
+go get github.com/google/gnxi
 ```
 
 ### Building and installing binaries
@@ -67,7 +67,9 @@ go get -v github.com/google/gnxi/...
 ```
 cd $GOPATH
 mkdir bin
-go install github.com/google/gnxi/...
+# Note that installing from the source folder is required in order to read the go modules dependencies.
+cd src/github.com/google/gnxi
+go install ./...
 ls -la $GOPATH/bin
 ```
 
