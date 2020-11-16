@@ -68,20 +68,20 @@ go get -v github.com/google/gnxi/...
 cd $GOPATH
 mkdir bin
 go install github.com/google/gnxi/...
-ls -la $GOPATH\bin
+ls -la $GOPATH/bin
 ```
 
 ### Generating certificates
 
 ```
-cd $GOPATH\bin
+cd $GOPATH/bin
 ./../src/github.com/google/gnxi/certs/generate.sh
 ```
 
 ### Running a client
 
 ```
-cd $GOPATH\bin
+cd $GOPATH/bin
 ./gnoi_reset \
     -target_addr localhost:9399 \
     -target_name target.com \
@@ -92,7 +92,7 @@ cd $GOPATH\bin
     -ca ca.crt
 ```
 
-Optionally define $GOBIN as $GOPATH\bin and add it to your path to run the binaries from any folder.
+Optionally define $GOBIN as $GOPATH/bin and add it to your path to run the binaries from any folder.
 
 ```
 export GOBIN=$GOPATH/bin
