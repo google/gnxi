@@ -60,6 +60,7 @@ Install __go__ in your system https://golang.org/doc/install. Requires golang1.1
 
 ```
 go get github.com/google/gnxi
+ls $GOPATH/src/github.com/google/gnxi
 ```
 
 ### Building and installing binaries
