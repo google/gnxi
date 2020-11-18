@@ -208,7 +208,7 @@ func revoke() {
 		log.Info("Certificates Revoked:\n", pretty.Sprint(revoked))
 	}
 	if len(notRevoked) != 0 {
-		log.Info("Certificates not Revoked:\n", pretty.Sprint(revoked))
+		log.Info("Certificates not Revoked:\n", pretty.Sprint(notRevoked))
 	}
 }
 
