@@ -14,11 +14,11 @@ A collection of tools for Network Management that use the gNMI and gNOI protocol
 
 ### Summary
 
-_Note_ 1: These tools are intended for testing and as reference implementation of the protocol.
+Notes about these tools:
 
-_Note_ 2: These tools log to stderr by default, disable with '-logtostderr=false'.
-
-_Note_ 3: These tools use glog's log levels, use '-v 1' to log proto message exchanges.
+*   They are intended for testing and as reference implementation of the protocol.
+*   They log to stderr by default, disable with `-logtostderr=false`.
+*   They use glog's log levels, use `-v 1` to log proto message exchanges.
 
 #### gNMI Clients:
 
