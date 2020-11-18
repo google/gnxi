@@ -136,6 +136,7 @@ func notifyReset() {
 }
 
 func main() {
+	flag.Set("logtostderr", "true")
 	flag.Parse()
 	start()
 	select {} // Loop forever.

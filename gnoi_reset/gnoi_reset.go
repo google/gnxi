@@ -38,6 +38,7 @@ var (
 )
 
 func main() {
+	flag.Set("logtostderr", "true")
 	flag.Parse()
 
 	opts := credentials.ClientCredentials()

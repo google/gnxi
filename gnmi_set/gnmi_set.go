@@ -124,6 +124,7 @@ func main() {
 	flag.Var(&deleteOpt, "delete", "xpath to be deleted.")
 	flag.Var(&replaceOpt, "replace", "xpath:value pair to be replaced. Value can be numeric, boolean, string, or IETF JSON file (. starts with '@').")
 	flag.Var(&updateOpt, "update", "xpath:value pair to be updated. Value can be numeric, boolean, string, or IETF JSON file (. starts with '@').")
+	flag.Set("logtostderr", "true")
 	flag.Parse()
 
 	opts := credentials.ClientCredentials()

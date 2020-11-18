@@ -29,6 +29,7 @@ var (
 )
 
 func main() {
+	flag.Set("logtostderr", "true")
 	flag.Parse()
 
 	if *file == "" || *version == "" {

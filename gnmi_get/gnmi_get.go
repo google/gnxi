@@ -72,6 +72,7 @@ func main() {
 	flag.Var(&xPathFlags, "xpath", "xpath of the config node to be fetched")
 	flag.Var(&pbPathFlags, "pbpath", "protobuf format path of the config node to be fetched")
 	flag.Var(&pbModelDataFlags, "model_data", "Data models to be used by the target in the format of 'name,organization,version'")
+	flag.Set("logtostderr", "true")
 	flag.Parse()
 
 	opts := credentials.ClientCredentials()

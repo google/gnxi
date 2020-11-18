@@ -96,6 +96,7 @@ func main() {
 		flag.PrintDefaults()
 	}
 
+	flag.Set("logtostderr", "true")
 	flag.Parse()
 
 	opts := credentials.ServerCredentials()
