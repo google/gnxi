@@ -254,20 +254,20 @@ func (c *Client) GetCertificates(ctx context.Context) (map[string]*x509.Certific
 	return ret, nil
 }
 
-// RevokeCertificates revokes certificates in the target, returns a map of certID to error for the ones that failed to be revoked.
-func (c *Client) RevokeCertificates(ctx context.Context, certIDs []string) (map[string]string, error) {
+// RevokeCertificates revokes certificates in the target, returns revoked certificates, a map of certID to error for the ones that failed to be revoked.
+func (c *Client) RevokeCertificates(ctx context.Context, certIDs []string) ([]string, map[string]string, error) {
 	request := &pb.RevokeCertificatesRequest{CertificateId: certIDs}
 	utils.LogProto(request)
 	response, err := c.client.RevokeCertificates(ctx, request)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	utils.LogProto(response)
 	ret := map[string]string{}
 	for _, revError := range response.CertificateRevocationError {
 		ret[revError.CertificateId] = revError.ErrorMessage
 	}
-	return ret, nil
+	return response.RevokedCertificateId, ret, nil
 }
 
 // CanGenerateCSR checks if the target can generate a CSR.

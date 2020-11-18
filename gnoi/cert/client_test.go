@@ -166,7 +166,7 @@ func TestClientRevokeCertificates(t *testing.T) {
 			client := &Client{client: &mockClient{revokeCertificates: func(ctx context.Context, in *pb.RevokeCertificatesRequest, opts ...grpc.CallOption) (*pb.RevokeCertificatesResponse, error) {
 				return &pb.RevokeCertificatesResponse{CertificateRevocationError: []*pb.CertificateRevocationError{{}}}, nil
 			}}}
-			if m, err := client.RevokeCertificates(context.Background(), []string{}); len(m) != test.wants || fmt.Sprintf("%v", err) != fmt.Sprintf("%v", test.err) {
+			if _, m, err := client.RevokeCertificates(context.Background(), []string{}); len(m) != test.wants || fmt.Sprintf("%v", err) != fmt.Sprintf("%v", test.err) {
 				t.Errorf("Wanted map of len(%d), got len(%d), wanted err %v, got err %v", test.wants, len(m), test.err, err)
 			}
 		})
