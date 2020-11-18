@@ -170,7 +170,10 @@ func (e *Entity) SignWith(parent *Entity) error {
 
 	e.Template.Issuer = parentTemplate.Subject
 	e.Template.AuthorityKeyId = parentTemplate.SubjectKeyId
-	e.Template.DNSNames = []string{e.Template.Issuer.CommonName}
+	if len(e.Template.DNSNames) == 0 {
+		e.Template.DNSNames = []string{e.Template.Subject.CommonName}
+	}
+
 	derCert, err := x509.CreateCertificate(randReader, e.Template, parentTemplate, e.PublicKey, parent.PrivateKey)
 	if err != nil {
 		return fmt.Errorf("failed to create certificate: %v", err)
