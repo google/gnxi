@@ -31,7 +31,7 @@ func PrintProgress(progress string) {
 // LogProto prints a Proto message only if the log_proto flag is true.
 func LogProto(m proto.Message) {
 	if *logProto {
-		log.Info(FormatProto(m))
+		log.Info("\n", FormatProto(m))
 	}
 }
 
