@@ -44,11 +44,11 @@ var (
 	targetCN   = credUtils.TargetName
 	targetAddr = flag.String("target_addr", "localhost:9339", "The target address in the format of host:port")
 	timeOut    = flag.Duration("time_out", 5*time.Second, "Timeout for the operation, 5 seconds by default")
-	minKeySize = flag.Uint("min_key_size", 128, "Minimum key size")
-	country    = flag.String("country", "US", "Country in CSR parameters")
-	state      = flag.String("state", "CA", "State in CSR parameters")
-	org        = flag.String("organization", "", "Organization in CSR parameters")
-	orgUnit    = flag.String("organizational_unit", "", "Organizational unit in CSR parameters")
+	minKeySize = flag.Uint("min_key_size", 1024, "Minimum key size")
+	country    = flag.String("country", "CH", "Country in CSR parameters")
+	state      = flag.String("state", "ZRH", "State in CSR parameters")
+	org        = flag.String("organization", "OpenConfig", "Organization in CSR parameters")
+	orgUnit    = flag.String("organizational_unit", "gNxI", "Organizational unit in CSR parameters")
 	ipAddress  = flag.String("ip_address", "127.0.0.1", "IP address in CSR parameters")
 
 	caEnt     *entity.Entity
