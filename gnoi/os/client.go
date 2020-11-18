@@ -23,6 +23,7 @@ import (
 	"time"
 
 	log "github.com/golang/glog"
+	"github.com/golang/protobuf/proto"
 	"github.com/google/gnxi/gnoi/os/pb"
 	"github.com/google/gnxi/utils"
 	"google.golang.org/grpc"
@@ -50,7 +51,6 @@ type Client struct {
 	client pb.OSClient
 }
 
-
 // NewClient returns a new OS service client.
 func NewClient(c *grpc.ClientConn) *Client {
 	return &Client{client: pb.NewOSClient(c)}
@@ -76,7 +76,7 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, validateT
 	request := &pb.InstallRequest{
 		Request: &pb.InstallRequest_TransferRequest{TransferRequest: &pb.TransferRequest{Version: version}},
 	}
-	utils.LogProto(request)
+	log.V(1).Info("InstallRequest:\n", proto.MarshalTextString(request))
 	if err = install.Send(request); err != nil {
 		return err
 	}
@@ -85,7 +85,7 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, validateT
 	if transferResp, err = install.Recv(); err != nil {
 		return err
 	}
-	utils.LogProto(transferResp)
+	log.V(1).Info("InstallResponse:\n", proto.MarshalTextString(transferResp))
 	switch resp := transferResp.Response.(type) {
 	case *pb.InstallResponse_Validated:
 		log.Infof("OS version %s is already installed", version)
@@ -118,11 +118,11 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, validateT
 			case *pb.InstallResponse_TransferProgress:
 				utils.PrintProgress(fmt.Sprintf("%d%% transferred", resp.TransferProgress.GetBytesReceived()/fileSize))
 			case *pb.InstallResponse_Validated:
-				utils.LogProto(response)
+				log.V(1).Info("InstallResponse_Validated:\n", proto.MarshalTextString(response))
 				validated <- true
 				return
 			case *pb.InstallResponse_InstallError:
-				utils.LogProto(response)
+				log.V(1).Info("InstallResponse_InstallError:\n", proto.MarshalTextString(response))
 				installErr := resp.InstallError
 				if installErr.GetType() == pb.InstallError_UNSPECIFIED {
 					err = fmt.Errorf("Unspecified InstallError error: %s", installErr.GetDetail())
@@ -133,7 +133,7 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, validateT
 				errs <- err
 				return
 			default:
-				utils.LogProto(response)
+				log.V(1).Info("Unexpected:\n", proto.MarshalTextString(response))
 				err = fmt.Errorf("Unexpected response: %T(%v)", resp, resp)
 				errs <- err
 				return
@@ -168,7 +168,7 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, validateT
 	select {
 	case <-doneSend:
 		request = &pb.InstallRequest{Request: &pb.InstallRequest_TransferEnd{}}
-		utils.LogProto(request)
+		log.V(1).Info("InstallRequest:\n", proto.MarshalTextString(request))
 		if err = install.Send(request); err != nil {
 			return err
 		}
@@ -189,12 +189,12 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, validateT
 // Activate invokes the Activate RPC for the OS service.
 func (c *Client) Activate(ctx context.Context, version string) error {
 	request := &pb.ActivateRequest{Version: version}
-	utils.LogProto(request)
+	log.V(1).Info("ActivateRequest:\n", proto.MarshalTextString(request))
 	response, err := c.client.Activate(ctx, request)
 	if err != nil {
 		return err
 	}
-	utils.LogProto(response)
+	log.V(1).Info("ActivateResponse:\n", proto.MarshalTextString(response))
 	switch response.Response.(type) {
 	case *pb.ActivateResponse_ActivateOk:
 		return nil
@@ -215,12 +215,12 @@ func (c *Client) Activate(ctx context.Context, version string) error {
 // Verify invokes the Verify RPC for the OS service.
 func (c *Client) Verify(ctx context.Context) (version, activationFailMsg string, err error) {
 	request := &pb.VerifyRequest{}
-	utils.LogProto(request)
+	log.V(1).Info("VerifyRequest:\n", proto.MarshalTextString(request))
 	var out *pb.VerifyResponse
 	if out, err = c.client.Verify(ctx, request); err != nil {
 		return
 	}
-	utils.LogProto(out)
+	log.V(1).Info("VerifyResponse:\n", proto.MarshalTextString(out))
 	version = out.GetVersion()
 	activationFailMsg = out.GetActivationFailMessage()
 	return

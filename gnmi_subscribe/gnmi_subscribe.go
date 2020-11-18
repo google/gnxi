@@ -170,7 +170,7 @@ func poll(subscribeClient gnmi.GNMI_SubscribeClient, updatesOnly bool, pollInput
 			if err := subscribeClient.Send(pollRequest); err != nil {
 				return err
 			}
-			utils.LogProto(pollRequest)
+			log.V(1).Info("SubscribeRequest:\n", proto.MarshalTextString(pollRequest))
 		default:
 			if closed, err := receiveNotifications(subscribeClient); err != nil {
 				return err

@@ -19,8 +19,9 @@ import (
 	"context"
 	"strings"
 
+	log "github.com/golang/glog"
+	"github.com/golang/protobuf/proto"
 	"github.com/google/gnxi/gnoi/reset/pb"
-	"github.com/google/gnxi/utils"
 	"google.golang.org/grpc"
 )
 
@@ -50,12 +51,12 @@ func (c *Client) ResetTarget(ctx context.Context, zeroFill, rollbackOS bool) *Re
 		FactoryOs: rollbackOS,
 		ZeroFill:  zeroFill,
 	}
-	utils.LogProto(request)
+	log.V(1).Info("StartRequest:\n", proto.MarshalTextString(request))
 	response, err := c.client.Start(ctx, request)
 	if err != nil {
 		return &ResetError{Msgs: []string{err.Error()}}
 	}
-	utils.LogProto(response)
+	log.V(1).Info("StartResponse:\n", proto.MarshalTextString(response))
 	return CheckResponse(response)
 }
 

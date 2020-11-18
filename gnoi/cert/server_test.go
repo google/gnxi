@@ -22,27 +22,22 @@ import (
 	"errors"
 	"fmt"
 	"reflect"
-	"strings"
 	"testing"
 	"time"
 
 	"github.com/google/gnxi/gnoi/cert/pb"
 	"github.com/google/go-cmp/cmp"
+	"google.golang.org/protobuf/testing/protocmp"
 )
-
-// FilterInternalPB returns true for protobuf internal variables in a path.
-func FilterInternalPB(p cmp.Path) bool {
-	return strings.Contains(p.String(), "XXX")
-}
 
 // Equal checks if two data structures are equal, ignoring protobuf internal variables.
 func Equal(x, y interface{}) bool {
-	return cmp.Equal(x, y, cmp.FilterPath(FilterInternalPB, cmp.Ignore()))
+	return cmp.Equal(x, y, protocmp.Transform())
 }
 
 // Diff returns the diff between two data structures, ignoring protobuf internal variables.
 func Diff(x, y interface{}) string {
-	return cmp.Diff(x, y, cmp.FilterPath(FilterInternalPB, cmp.Ignore()))
+	return cmp.Diff(x, y, protocmp.Transform())
 }
 
 type mockManagerInterface struct {

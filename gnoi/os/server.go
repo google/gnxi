@@ -17,8 +17,9 @@ import (
 	"context"
 	"errors"
 
+	log "github.com/golang/glog"
+	"github.com/golang/protobuf/proto"
 	"github.com/google/gnxi/gnoi/os/pb"
-	"github.com/google/gnxi/utils"
 	"github.com/google/gnxi/utils/mockos"
 	"google.golang.org/grpc"
 )
@@ -83,7 +84,7 @@ func (s *Server) Install(stream pb.OS_InstallServer) error {
 	if request, err = stream.Recv(); err != nil {
 		return err
 	}
-	utils.LogProto(request)
+	log.V(1).Info("InstallRequest:\n", proto.MarshalTextString(request))
 	transferRequest := request.GetTransferRequest()
 	if transferRequest == nil {
 		return errors.New("Failed to receive TransferRequest")
@@ -94,7 +95,7 @@ func (s *Server) Install(stream pb.OS_InstallServer) error {
 				Version: version,
 			},
 		}}
-		utils.LogProto(response)
+		log.V(1).Info("InstallResponse:\n", proto.MarshalTextString(response))
 		if err = stream.Send(response); err != nil {
 			return err
 		}
@@ -107,14 +108,14 @@ func (s *Server) Install(stream pb.OS_InstallServer) error {
 		}()
 	default:
 		response = &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_INSTALL_IN_PROGRESS}}}
-		utils.LogProto(response)
+		log.V(1).Info("InstallResponse:\n", proto.MarshalTextString(response))
 		if err = stream.Send(response); err != nil {
 			return err
 		}
 		return errors.New("Another install is already in progress")
 	}
 	response = &pb.InstallResponse{Response: &pb.InstallResponse_TransferReady{TransferReady: &pb.TransferReady{}}}
-	utils.LogProto(response)
+	log.V(1).Info("InstallResponse:\n", proto.MarshalTextString(response))
 	if err = stream.Send(response); err != nil {
 		return err
 	}
@@ -125,7 +126,7 @@ func (s *Server) Install(stream pb.OS_InstallServer) error {
 	mockOS := mockos.ValidateOS(bb)
 	if mockOS == nil {
 		response = &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_PARSE_FAIL}}}
-		utils.LogProto(response)
+		log.V(1).Info("InstallResponse:\n", proto.MarshalTextString(response))
 		if err = stream.Send(response); err != nil {
 			return err
 		}
@@ -133,7 +134,7 @@ func (s *Server) Install(stream pb.OS_InstallServer) error {
 	}
 	if !mockOS.CheckHash() {
 		response := &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{&pb.InstallError{Type: pb.InstallError_INTEGRITY_FAIL}}}
-		utils.LogProto(response)
+		log.V(1).Info("InstallResponse:\n", proto.MarshalTextString(response))
 		if err = stream.Send(response); err != nil {
 			return err
 		}
@@ -141,7 +142,7 @@ func (s *Server) Install(stream pb.OS_InstallServer) error {
 	}
 	if mockOS.Incompatible {
 		response := &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{&pb.InstallError{Type: pb.InstallError_INCOMPATIBLE, Detail: "Unsupported OS Version"}}}
-		utils.LogProto(response)
+		log.V(1).Info("InstallResponse:\n", proto.MarshalTextString(response))
 		if err = stream.Send(response); err != nil {
 			return err
 		}
@@ -151,7 +152,7 @@ func (s *Server) Install(stream pb.OS_InstallServer) error {
 		response = &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{
 			InstallError: &pb.InstallError{Type: pb.InstallError_INSTALL_RUN_PACKAGE},
 		}}
-		utils.LogProto(response)
+		log.V(1).Info("InstallResponse:\n", proto.MarshalTextString(response))
 		if err = stream.Send(response); err != nil {
 			return err
 		}
@@ -159,7 +160,7 @@ func (s *Server) Install(stream pb.OS_InstallServer) error {
 	}
 	s.manager.Install(mockOS.Version, mockOS.ActivationFailMessage)
 	response = &pb.InstallResponse{Response: &pb.InstallResponse_Validated{Validated: &pb.Validated{Version: mockOS.Version}}}
-	utils.LogProto(response)
+	log.V(1).Info("InstallResponse:\n", proto.MarshalTextString(response))
 	if err = stream.Send(response); err != nil {
 		return err
 	}
@@ -179,10 +180,10 @@ func ReceiveOS(stream pb.OS_InstallServer) (*bytes.Buffer, error) {
 		case *pb.InstallRequest_TransferContent:
 			bb.Write(in.GetTransferContent())
 		case *pb.InstallRequest_TransferEnd:
-			utils.LogProto(in)
+			log.V(1).Info("InstallRequest:\n", proto.MarshalTextString(in))
 			return bb, nil
 		default:
-			utils.LogProto(in)
+			log.V(1).Info("InstallRequest:\n", proto.MarshalTextString(in))
 			return nil, errors.New("Unknown request type")
 		}
 		if curr := bb.Len() / int(receiveChunkSizeAck); curr > prev {
@@ -190,7 +191,7 @@ func ReceiveOS(stream pb.OS_InstallServer) (*bytes.Buffer, error) {
 			response := &pb.InstallResponse{Response: &pb.InstallResponse_TransferProgress{
 				TransferProgress: &pb.TransferProgress{BytesReceived: uint64(bb.Len())},
 			}}
-			utils.LogProto(response)
+			log.V(1).Info("InstallResponse:\n", proto.MarshalTextString(response))
 			if err = stream.Send(response); err != nil {
 				return nil, err
 			}

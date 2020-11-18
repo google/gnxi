@@ -22,8 +22,9 @@ import (
 	"encoding/pem"
 	"fmt"
 
+	log "github.com/golang/glog"
+	"github.com/golang/protobuf/proto"
 	"github.com/google/gnxi/gnoi/cert/pb"
-	"github.com/google/gnxi/utils"
 	"google.golang.org/grpc"
 )
 
@@ -74,7 +75,7 @@ func (c *Client) Rotate(ctx context.Context, certID string, minKeySize uint32, p
 			},
 		},
 	}
-	utils.LogProto(request)
+	log.V(1).Info("RotateCertificateRequest:\n", proto.MarshalTextString(request))
 	if err = stream.Send(request); err != nil {
 		return fmt.Errorf("failed to send GenerateCSRRequest: %v", err)
 	}
@@ -82,7 +83,7 @@ func (c *Client) Rotate(ctx context.Context, certID string, minKeySize uint32, p
 	if response, err = stream.Recv(); err != nil {
 		return fmt.Errorf("failed to receive RotateCertificateResponse: %v", err)
 	}
-	utils.LogProto(response)
+	log.V(1).Info("RotateCertificateResponse:\n", proto.MarshalTextString(response))
 	genCSR := response.GetGeneratedCsr()
 	if genCSR == nil || genCSR.Csr == nil {
 		return fmt.Errorf("expected GenerateCSRRequest, got something else")
@@ -118,14 +119,14 @@ func (c *Client) Rotate(ctx context.Context, certID string, minKeySize uint32, p
 			},
 		},
 	}
-	utils.LogProto(request)
+	log.V(1).Info("RotateCertificateRequest:\n", proto.MarshalTextString(request))
 	if err = stream.Send(request); err != nil {
 		return fmt.Errorf("failed to send LoadCertificateRequest: %v", err)
 	}
 	if response, err = stream.Recv(); err != nil {
 		return fmt.Errorf("failed to receive RotateCertificateResponse: %v", err)
 	}
-	utils.LogProto(response)
+	log.V(1).Info("LoadCertificateResponse:\n", proto.MarshalTextString(response))
 	loadCertificateResponse := response.GetLoadCertificate()
 	if loadCertificateResponse == nil {
 		return fmt.Errorf("expected LoadCertificateResponse, got something else")
@@ -138,7 +139,7 @@ func (c *Client) Rotate(ctx context.Context, certID string, minKeySize uint32, p
 	request = &pb.RotateCertificateRequest{
 		RotateRequest: &pb.RotateCertificateRequest_FinalizeRotation{FinalizeRotation: &pb.FinalizeRequest{}},
 	}
-	utils.LogProto(request)
+	log.V(1).Info("RotateCertificateRequest:\n", proto.MarshalTextString(request))
 	if err := stream.Send(request); err != nil {
 		return fmt.Errorf("failed to send LoadCertificateRequest: %v", err)
 	}
@@ -168,7 +169,7 @@ func (c *Client) Install(ctx context.Context, certID string, minKeySize uint32, 
 			},
 		},
 	}
-	utils.LogProto(request)
+	log.V(1).Info("InstallCertificateRequest:\n", proto.MarshalTextString(request))
 	if err = stream.Send(request); err != nil {
 		return fmt.Errorf("failed to send GenerateCSRRequest: %v", err)
 	}
@@ -177,7 +178,7 @@ func (c *Client) Install(ctx context.Context, certID string, minKeySize uint32, 
 	if response, err = stream.Recv(); err != nil {
 		return fmt.Errorf("failed to receive InstallCertificateResponse: %v", err)
 	}
-	utils.LogProto(response)
+	log.V(1).Info("InstallCertificateResponse:\n", proto.MarshalTextString(response))
 
 	genCSR := response.GetGeneratedCsr()
 	if genCSR == nil || genCSR.Csr == nil {
@@ -215,7 +216,7 @@ func (c *Client) Install(ctx context.Context, certID string, minKeySize uint32, 
 			},
 		},
 	}
-	utils.LogProto(request)
+	log.V(1).Info("InstallCertificateRequest:\n", proto.MarshalTextString(request))
 	if err = stream.Send(request); err != nil {
 		return fmt.Errorf("failed to send LoadCertificateRequest: %v", err)
 	}
@@ -223,7 +224,7 @@ func (c *Client) Install(ctx context.Context, certID string, minKeySize uint32, 
 	if response, err = stream.Recv(); err != nil {
 		return fmt.Errorf("failed to receive InstallCertificateResponse: %v", err)
 	}
-	utils.LogProto(response)
+	log.V(1).Info("LoadCertificateResponse:\n", proto.MarshalTextString(response))
 	loadCertificateResponse := response.GetLoadCertificate()
 	if loadCertificateResponse == nil {
 		return fmt.Errorf("expected LoadCertificateResponse, got something else")
@@ -234,12 +235,12 @@ func (c *Client) Install(ctx context.Context, certID string, minKeySize uint32, 
 // GetCertificates gets a map of certificates in the target, certID to certificate
 func (c *Client) GetCertificates(ctx context.Context) (map[string]*x509.Certificate, error) {
 	request := &pb.GetCertificatesRequest{}
-	utils.LogProto(request)
+	log.V(1).Info("GetCertificatesRequest:\n", proto.MarshalTextString(request))
 	response, err := c.client.GetCertificates(ctx, request)
 	if err != nil {
 		return nil, err
 	}
-	utils.LogProto(response)
+	log.V(1).Info("GetCertificatesResponse:\n", proto.MarshalTextString(response))
 	ret := map[string]*x509.Certificate{}
 	for _, certInfo := range response.CertificateInfo {
 		if certInfo.Certificate == nil {
@@ -257,12 +258,12 @@ func (c *Client) GetCertificates(ctx context.Context) (map[string]*x509.Certific
 // RevokeCertificates revokes certificates in the target, returns revoked certificates, a map of certID to error for the ones that failed to be revoked.
 func (c *Client) RevokeCertificates(ctx context.Context, certIDs []string) ([]string, map[string]string, error) {
 	request := &pb.RevokeCertificatesRequest{CertificateId: certIDs}
-	utils.LogProto(request)
+	log.V(1).Info("RevokeCertificatesRequest:\n", proto.MarshalTextString(request))
 	response, err := c.client.RevokeCertificates(ctx, request)
 	if err != nil {
 		return nil, nil, err
 	}
-	utils.LogProto(response)
+	log.V(1).Info("RevokeCertificatesResponse:\n", proto.MarshalTextString(response))
 	ret := map[string]string{}
 	for _, revError := range response.CertificateRevocationError {
 		ret[revError.CertificateId] = revError.ErrorMessage
@@ -277,11 +278,11 @@ func (c *Client) CanGenerateCSR(ctx context.Context) (bool, error) {
 		CertificateType: pb.CertificateType_CT_X509,
 		KeySize:         2048,
 	}
-	utils.LogProto(request)
+	log.V(1).Info("CanGenerateCSRRequest:\n", proto.MarshalTextString(request))
 	response, err := c.client.CanGenerateCSR(ctx, request)
 	if err != nil {
 		return false, err
 	}
-	utils.LogProto(response)
+	log.V(1).Info("CanGenerateCSRResponse:\n", proto.MarshalTextString(response))
 	return response.CanGenerate, nil
 }

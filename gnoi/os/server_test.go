@@ -22,8 +22,20 @@ import (
 	"github.com/google/gnxi/gnoi/os/pb"
 	"github.com/google/gnxi/utils/mockos"
 	mockosPb "github.com/google/gnxi/utils/mockos/pb"
-	"github.com/kylelemons/godebug/pretty"
+	"github.com/google/go-cmp/cmp"
+	"github.com/google/go-cmp/cmp/cmpopts"
+	"google.golang.org/protobuf/testing/protocmp"
 )
+
+// Equal checks if two data structures are equal, ignoring protobuf internal variables.
+func Equal(x, y interface{}) bool {
+	return cmp.Equal(x, y, protocmp.Transform(), cmpopts.IgnoreUnexported(Server{}), cmpopts.IgnoreUnexported(installResult{}), cmpopts.EquateErrors())
+}
+
+// Diff returns the diff between two data structures, ignoring protobuf internal variables.
+func Diff(x, y interface{}) string {
+	return cmp.Diff(x, y, protocmp.Transform(), cmpopts.IgnoreUnexported(Server{}), cmpopts.IgnoreUnexported(installResult{}), cmpopts.EquateErrors())
+}
 
 type installResult struct {
 	res *pb.InstallResponse
@@ -98,8 +110,8 @@ func TestNewServer(t *testing.T) {
 		},
 	}
 	got := NewServer(test.settings)
-	if diff := pretty.Compare(test.want, got); diff != "" {
-		t.Errorf("NewServer(%v): (-want +got):\n%s", test.settings, diff)
+	if !Equal(test.want, got) {
+		t.Errorf("NewServer(%v): (-want +got):\n%s", test.settings, Diff(test.want, got))
 	}
 }
 
@@ -138,8 +150,8 @@ func TestTargetActivate(t *testing.T) {
 	}
 	for _, test := range tests {
 		got, _ := server.Activate(context.Background(), test.request)
-		if diff := pretty.Compare(test.want.Response, got.Response); diff != "" {
-			t.Errorf("Activate(context.Background(), %s): (-want +got):\n%s", test.request, diff)
+		if !Equal(test.want.Response, got.Response) {
+			t.Errorf("Activate(context.Background(), %s): (-want +got):\n%s", test.request, Diff(test.want.Response, got.Response))
 		}
 	}
 }
@@ -161,8 +173,8 @@ func TestTargetVerify(t *testing.T) {
 	for _, test := range tests {
 		server := NewServer(test.settings)
 		got, _ := server.Verify(context.Background(), &pb.VerifyRequest{})
-		if diff := pretty.Compare(test.want, got); diff != "" {
-			t.Errorf("Verify(context.Background(), &pb.VerifyRequest{}): (-want +got):\n%s", diff)
+		if !Equal(test.want, got) {
+			t.Errorf("Verify(context.Background(), &pb.VerifyRequest{}): (-want +got):\n%s", Diff(test.want, got))
 		}
 	}
 }
@@ -186,8 +198,8 @@ func TestTargetVerifyFail(t *testing.T) {
 		server := NewServer(test.settings)
 		server.manager.activationFailMessage = "Failed to activate OS..."
 		got, _ := server.Verify(context.Background(), &pb.VerifyRequest{})
-		if diff := pretty.Compare(test.want, got); diff != "" {
-			t.Errorf("Verify(context.Background(), &pb.VerifyRequest{}): (-want +got):\n%s", diff)
+		if !Equal(test.want, got) {
+			t.Errorf("Verify(context.Background(), &pb.VerifyRequest{}): (-want +got):\n%s", Diff(test.want, got))
 		}
 	}
 }
@@ -209,8 +221,8 @@ func TestTargetActivateAndVerify(t *testing.T) {
 	server.manager.Install("1.0.1a", "Failed to activate OS...")
 	server.Activate(context.Background(), &pb.ActivateRequest{Version: "1.0.1a"})
 	got, _ := server.Verify(context.Background(), &pb.VerifyRequest{})
-	if diff := pretty.Compare(test.want, got); diff != "" {
-		t.Errorf("Verify(context.Background(), &pb.VerifyRequest{}): (-want +got):\n%s", diff)
+	if !Equal(test.want, got) {
+		t.Errorf("Verify(context.Background(), &pb.VerifyRequest{}): (-want +got):\n%s", Diff(test.want, got))
 	}
 }
 
@@ -243,15 +255,15 @@ func TestTargetReceiveOS(t *testing.T) {
 				errorReq: &pb.InstallRequest{Request: &pb.InstallRequest_TransferRequest{}}, // Unexpected request after transfer begins.
 				os:       oS,
 			},
-			err: errors.New("Unknown request type"),
+			err: cmpopts.AnyError,
 		},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			test.stream.response <- &pb.InstallResponse{Response: &pb.InstallResponse_TransferReady{}}
 			_, err := ReceiveOS(test.stream)
-			if diff := pretty.Compare(test.err, err); diff != "" {
-				t.Errorf("ReceiveOS(stream): (-want +got):\n%s", diff)
+			if !Equal(test.err, err) {
+				t.Errorf("ReceiveOS(stream): (-want +got):\n%s", Diff(test.err, err))
 			}
 		})
 	}
@@ -394,8 +406,8 @@ func TestTargetInstall(t *testing.T) {
 				close(test.stream.result)
 			}
 			got.res = <-test.stream.result
-			if diff := pretty.Compare(test.want, got); diff != "" {
-				t.Errorf("Install(stream pb.OS_InstallServer): (-want +got):\n%s", diff)
+			if !Equal(test.want, got) {
+				t.Errorf("Install(stream pb.OS_InstallServer): (-want +got):\n%s", Diff(test.want, got))
 			}
 		})
 	}
@@ -428,10 +440,9 @@ func TestMultipleInstalls(t *testing.T) {
 		s1res := <-s1.result
 		s2res := <-s2.result
 		expect := &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_INSTALL_IN_PROGRESS}}}
-		diff1 := pretty.Compare(expect, s1res)
-		diff2 := pretty.Compare(expect, s2res)
-		if (diff1 != "" && diff2 != "") || diff1 == diff2 {
-			t.Errorf("Install(stream pb.OS_InstallServer): (-want +got):\n%s\n%s", diff1, diff2)
+
+		if !Equal(expect, s1res) && !Equal(expect, s2res) || Diff(expect, s1res) == Diff(expect, s2res) {
+			t.Errorf("Install(stream pb.OS_InstallServer): (-want +got):\n%s\n%s", Diff(expect, s1res), Diff(expect, s2res))
 		}
 	})
 }

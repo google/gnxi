@@ -60,6 +60,7 @@ var (
 
 func main() {
 	flag.Parse()
+	flag.Set("logtostderr", "true")
 
 	if *targetCN == "" {
 		log.Exit("Must set a Common Name ID with -target_name.")
