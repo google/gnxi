@@ -17,6 +17,7 @@ package os
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"io"
 	"os"
@@ -25,8 +26,11 @@ import (
 	log "github.com/golang/glog"
 	"github.com/golang/protobuf/proto"
 	"github.com/google/gnxi/gnoi/os/pb"
-	"github.com/google/gnxi/utils"
 	"google.golang.org/grpc"
+)
+
+var (
+	printProgess = flag.Bool("print_progress", false, "Prints progress periodically of file transfer.")
 )
 
 var fileReader = func(path string) (file io.ReaderAt, size uint64, close func() error, err error) {
@@ -116,7 +120,9 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, validateT
 			}
 			switch resp := response.Response.(type) {
 			case *pb.InstallResponse_TransferProgress:
-				utils.PrintProgress(fmt.Sprintf("%d%% transferred", resp.TransferProgress.GetBytesReceived()/fileSize))
+				if *printProgess {
+					fmt.Printf("%d%% transferred\n", resp.TransferProgress.GetBytesReceived()/fileSize)
+				}
 			case *pb.InstallResponse_Validated:
 				log.V(1).Info("InstallResponse_Validated:\n", proto.MarshalTextString(response))
 				validated <- true
