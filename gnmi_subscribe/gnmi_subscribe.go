@@ -22,7 +22,6 @@ import (
 
 	log "github.com/golang/glog"
 	"github.com/golang/protobuf/proto"
-	"github.com/google/gnxi/utils"
 	"github.com/google/gnxi/utils/credentials"
 	"github.com/google/gnxi/utils/xpath"
 	"github.com/openconfig/gnmi/proto/gnmi"
@@ -114,7 +113,8 @@ func main() {
 			},
 		},
 	}
-	utils.PrintProto(request)
+	log.V(1).Info("SubscribeRequest:\n", proto.MarshalTextString(request))
+
 	if err := subscribeClient.Send(request); err != nil {
 		log.Exitf("Failed to send request: %v", err)
 	}
@@ -205,7 +205,7 @@ func receiveNotifications(subscribeClient gnmi.GNMI_SubscribeClient) (bool, erro
 			log.Info("SyncResponse received")
 			return false, nil
 		case *pb.SubscribeResponse_Update:
-			utils.PrintProto(res)
+			fmt.Println("==>\n", proto.MarshalTextString(res))
 		default:
 			return false, errors.New("unexpected response type")
 		}

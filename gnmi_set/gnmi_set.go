@@ -29,7 +29,7 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	"github.com/google/gnxi/utils"
+	"github.com/golang/protobuf/proto"
 	"github.com/google/gnxi/utils/credentials"
 	"github.com/google/gnxi/utils/xpath"
 
@@ -150,16 +150,12 @@ func main() {
 		Replace: replaceList,
 		Update:  updateList,
 	}
-
-	fmt.Println("== setRequest:")
-	utils.PrintProto(setRequest)
+	fmt.Println("== SetRequest:\n", proto.MarshalTextString(setRequest))
 
 	cli := pb.NewGNMIClient(conn)
 	setResponse, err := cli.Set(context.Background(), setRequest)
 	if err != nil {
 		log.Exitf("Set failed: %v", err)
 	}
-
-	fmt.Println("== getResponse:")
-	utils.PrintProto(setResponse)
+	fmt.Println("== SetResponse:\n", proto.MarshalTextString(setResponse))
 }

@@ -27,7 +27,6 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	"github.com/google/gnxi/utils"
 	"github.com/google/gnxi/utils/credentials"
 	"github.com/google/gnxi/utils/xpath"
 
@@ -124,15 +123,11 @@ func main() {
 		Path:      pbPathList,
 		UseModels: pbModelDataList,
 	}
-
-	fmt.Println("== getRequest:")
-	utils.PrintProto(getRequest)
+	fmt.Println("== GetRequest:\n", proto.MarshalTextString(getRequest))
 
 	getResponse, err := cli.Get(ctx, getRequest)
 	if err != nil {
 		log.Exitf("Get failed: %v", err)
 	}
-
-	fmt.Println("== getResponse:")
-	utils.PrintProto(getResponse)
+	fmt.Println("== GetResponse:\n", proto.MarshalTextString(getResponse))
 }

@@ -22,10 +22,10 @@ import (
 	"time"
 
 	log "github.com/golang/glog"
+	"github.com/golang/protobuf/proto"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	"github.com/google/gnxi/utils"
 	"github.com/google/gnxi/utils/credentials"
 
 	pb "github.com/openconfig/gnmi/proto/gnmi"
@@ -57,6 +57,5 @@ func main() {
 		log.Exitf("error in getting capabilities: %v", err)
 	}
 
-	fmt.Println("== capabilitiesResponse:")
-	utils.PrintProto(capResponse)
+	fmt.Println("== CapabilitiesResponse:\n", proto.MarshalTextString(capResponse))
 }
