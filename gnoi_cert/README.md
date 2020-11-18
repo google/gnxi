@@ -40,6 +40,5 @@ go install github.com/google/gnxi/gnoi_cert
   -ca_key ca.key \
   -ca ca.crt \
   -op provision \
-  -cert_id provision_cert \
-  -alsologtostderr
+  -cert_id provision_cert
 ```

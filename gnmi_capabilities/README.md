@@ -17,6 +17,5 @@ go install github.com/google/gnxi/gnmi_capabilities
   -target_name target.com \
   -key client.key \
   -cert client.crt \
-  -ca ca.crt \
-  -alsologtostderr
+  -ca ca.crt
 ```

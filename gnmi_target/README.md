@@ -17,6 +17,5 @@ go install github.com/google/gnxi/gnmi_target
   -config openconfig-openflow.json \
   -key server.key \
   -cert server.crt \
-  -ca ca.crt \
-  -alsologtostderr
+  -ca ca.crt
 ```

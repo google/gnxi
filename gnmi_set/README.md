@@ -23,6 +23,5 @@ Run gnmi\_set -help to see usage. For example:
   -target_name target.com \
   -key client.key \
   -cert client.crt \
-  -ca ca.crt \
-  -alsologtostderr
+  -ca ca.crt
 ```
