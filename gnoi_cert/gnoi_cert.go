@@ -200,11 +200,16 @@ func revoke() {
 	conn, client := gnoiAuthenticated(*targetCN)
 	defer conn.Close()
 
-	revoked, err := client.RevokeCertificates(ctx, revokeCertIDs)
+	revoked, notRevoked, err := client.RevokeCertificates(ctx, revokeCertIDs)
 	if err != nil {
 		log.Exit("Failed RevokeCertificates:", err)
 	}
-	log.Info("RevokeCertificates:\n", pretty.Sprint(revoked))
+	if len(revoked) != 0 {
+		log.Info("Certificates Revoked:\n", pretty.Sprint(revoked))
+	}
+	if len(notRevoked) != 0 {
+		log.Info("Certificates not Revoked:\n", pretty.Sprint(revoked))
+	}
 }
 
 // revoke checks if a target can generate certificates - authenticated mode.
