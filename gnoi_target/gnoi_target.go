@@ -127,8 +127,7 @@ func start() {
 	notifyCerts(numCerts, numCA) // Triggers bootstraping mode.
 }
 
-// notifyReset is called when the factory reset service requires the server
-// to be restarted.
+// notifyReset is called when the factory reset service requires the server to be restarted.
 func notifyReset() {
 	log.Info("Server factory reset triggered")
 	<-time.After(*resetDelay)
