@@ -33,8 +33,8 @@ require (
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
 	github.com/nwaples/rardecode v1.1.0 // indirect
 	github.com/openconfig/gnmi v0.0.0-20200617225440-d2b4e6a45802
-	github.com/openconfig/goyang v0.2.1
-	github.com/openconfig/ygot v0.8.12-0.20201023161441-127e8d999db2
+	github.com/openconfig/goyang v0.0.0-20200623182805-6be32aef2bcd
+	github.com/openconfig/ygot v0.8.9
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/pelletier/go-toml v1.8.1 // indirect
 	github.com/pierrec/lz4 v2.6.0+incompatible // indirect
