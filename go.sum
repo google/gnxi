@@ -266,6 +266,7 @@ github.com/openconfig/gnmi v0.0.0-20200617225440-d2b4e6a45802 h1:WXFwJlWOJINlwly
 github.com/openconfig/gnmi v0.0.0-20200617225440-d2b4e6a45802/go.mod h1:M/EcuapNQgvzxo1DDXHK4tx3QpYM/uG4l591v33jG2A=
 github.com/openconfig/goyang v0.0.0-20200115183954-d0a48929f0ea/go.mod h1:dhXaV0JgHJzdrHi2l+w0fZrwArtXL7jEFoiqLEdmkvU=
 github.com/openconfig/goyang v0.0.0-20200603222342-a0c8aa1ee274/go.mod h1:vX61x01Q46AzbZUzG617vWqh/cB+aisc+RrNkXRd3W8=
+github.com/openconfig/goyang v0.0.0-20200616001533-c0659aea65dd/go.mod h1:vX61x01Q46AzbZUzG617vWqh/cB+aisc+RrNkXRd3W8=
 github.com/openconfig/goyang v0.0.0-20200623182805-6be32aef2bcd h1:hY5WHBFKH+yl3P1CdxtuhDuffncqfJLpQM+b1LwsK9k=
 github.com/openconfig/goyang v0.0.0-20200623182805-6be32aef2bcd/go.mod h1:vX61x01Q46AzbZUzG617vWqh/cB+aisc+RrNkXRd3W8=
 github.com/openconfig/goyang v0.2.1 h1:TaADsLGzULGQL8xTmvLjmXqZ/J1F73dMzURDqrv9cLs=
@@ -273,6 +274,9 @@ github.com/openconfig/goyang v0.2.1/go.mod h1:vX61x01Q46AzbZUzG617vWqh/cB+aisc+R
 github.com/openconfig/ygot v0.6.0/go.mod h1:o30svNf7O0xK+R35tlx95odkDmZWS9JyWWQSmIhqwAs=
 github.com/openconfig/ygot v0.8.0 h1:b4aE8fFTE+b+DgUatCNeJmp22Vaom5Wk7slCnQ5+bbI=
 github.com/openconfig/ygot v0.8.0/go.mod h1:p9HLFh47WYWnuxDSpZoQrH7UTQHlw5mH+Z4OSCigzZU=
+github.com/openconfig/ygot v0.8.9 h1:6osocujxXlalRBr7OFqiKIZ/ojFRVVtKo7L1B8laIvE=
+github.com/openconfig/ygot v0.8.9/go.mod h1:AqXe0HNEITTcmcYkr+yzDMY8ofitImUdfZV4IgRsJWU=
+github.com/openconfig/ygot v0.8.10/go.mod h1:UAkYToFDht4rDNQ+mrPyxHhvWLmbiclF1mzA7U+HHvY=
 github.com/openconfig/ygot v0.8.11 h1:s9BtpSeqChokRQHhTatv2xmwkTLHPz0ghPnVpgmz8WU=
 github.com/openconfig/ygot v0.8.11/go.mod h1:Qh/F0ycMLXJlZn4cR+5iuefEMthLggO8KBq8wjXYPTY=
 github.com/openconfig/ygot v0.8.12-0.20201023161441-127e8d999db2 h1:6tBQFMRvThO156XAftRIzEMULliKqMM46kfAT4Gb0Ms=
@@ -280,6 +284,7 @@ github.com/openconfig/ygot v0.8.12-0.20201023161441-127e8d999db2/go.mod h1:Qh/F0
 github.com/opencontainers/go-digest v1.0.0 h1:apOUWs51W5PlhuyGyz9FCeeBIOUDA/6nW8Oi/yOhh5U=
 github.com/opencontainers/go-digest v1.0.0/go.mod h1:0JzlMkj0TRzQZfJkVvzbP0HBR3IKzErnv2BNG4W4MAM=
 github.com/pascaldekloe/goe v0.0.0-20180627143212-57f6aae5913c/go.mod h1:lzWF7FIEvWOWxwDKqyGYQf6ZUaNfKdP144TG7ZOy1lc=
+github.com/pborman/getopt v0.0.0-20190409184431-ee0cd42419d3 h1:YtFkrqsMEj7YqpIhRteVxJxCeC3jJBieuLr0d4C4rSA=
 github.com/pborman/getopt v0.0.0-20190409184431-ee0cd42419d3/go.mod h1:85jBQOZwpVEaDAr341tbn15RS4fCAsIst0qp7i8ex1o=
 github.com/pelletier/go-toml v1.0.1-0.20170904195809-1d6b12b7cb29/go.mod h1:5z9KED0ma1S8pY6P1sdut58dfprrGBbd/94hg7ilaic=
 github.com/pelletier/go-toml v1.2.0 h1:T5zMGML61Wp+FlcbWjRDT7yAxhJNAiPPLOFECq181zc=
