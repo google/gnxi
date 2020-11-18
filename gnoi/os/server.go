@@ -133,7 +133,7 @@ func (s *Server) Install(stream pb.OS_InstallServer) error {
 		return nil
 	}
 	if !mockOS.CheckHash() {
-		response := &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{&pb.InstallError{Type: pb.InstallError_INTEGRITY_FAIL}}}
+		response := &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_INTEGRITY_FAIL}}}
 		log.V(1).Info("InstallResponse:\n", proto.MarshalTextString(response))
 		if err = stream.Send(response); err != nil {
 			return err
@@ -141,7 +141,7 @@ func (s *Server) Install(stream pb.OS_InstallServer) error {
 		return nil
 	}
 	if mockOS.Incompatible {
-		response := &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{&pb.InstallError{Type: pb.InstallError_INCOMPATIBLE, Detail: "Unsupported OS Version"}}}
+		response := &pb.InstallResponse{Response: &pb.InstallResponse_InstallError{InstallError: &pb.InstallError{Type: pb.InstallError_INCOMPATIBLE, Detail: "Unsupported OS Version"}}}
 		log.V(1).Info("InstallResponse:\n", proto.MarshalTextString(response))
 		if err = stream.Send(response); err != nil {
 			return err
