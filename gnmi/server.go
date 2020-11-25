@@ -34,12 +34,12 @@ import (
 	log "github.com/golang/glog"
 	"github.com/golang/protobuf/proto"
 	"github.com/openconfig/gnmi/value"
-	"github.com/openconfig/ygot/experimental/ygotutils"
+	"github.com/openconfig/ygot/util"
 	"github.com/openconfig/ygot/ygot"
+	"github.com/openconfig/ygot/ytypes"
 
 	dpb "github.com/golang/protobuf/protoc-gen-go/descriptor"
 	pb "github.com/openconfig/gnmi/proto/gnmi"
-	cpb "google.golang.org/genproto/googleapis/rpc/code"
 )
 
 // ConfigCallback is the signature of the function to apply a validated config to the physical device.
@@ -183,9 +183,9 @@ func (s *Server) doDelete(jsonTree map[string]interface{}, prefix, path *pb.Path
 func (s *Server) doReplaceOrUpdate(jsonTree map[string]interface{}, op pb.UpdateResult_Operation, prefix, path *pb.Path, val *pb.TypedValue) (*pb.UpdateResult, error) {
 	// Validate the operation.
 	fullPath := gnmiFullPath(prefix, path)
-	emptyNode, stat := ygotutils.NewNode(s.model.structRootType, fullPath)
-	if stat.GetCode() != int32(cpb.Code_OK) {
-		return nil, status.Errorf(codes.NotFound, "path %v is not found in the config structure: %v", fullPath, stat)
+	emptyNode, _, err := ytypes.GetOrCreateNode(s.model.schemaTreeRoot, s.model.newRootValue(), fullPath)
+	if err != nil {
+		return nil, status.Errorf(codes.NotFound, "path %v is not found in the config structure: %v", fullPath, err)
 	}
 	var nodeVal interface{}
 	nodeStruct, ok := emptyNode.(ygot.ValidatedGoStruct)
@@ -471,10 +471,11 @@ func (s *Server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, 
 		if fullPath.GetElem() == nil && fullPath.GetElement() != nil {
 			return nil, status.Error(codes.Unimplemented, "deprecated path element type is unsupported")
 		}
-		node, stat := ygotutils.GetNode(s.model.schemaTreeRoot, s.config, fullPath)
-		if isNil(node) || stat.GetCode() != int32(cpb.Code_OK) {
-			return nil, status.Errorf(codes.NotFound, "path %v not found", fullPath)
+		nodes, err := ytypes.GetNode(s.model.schemaTreeRoot, s.config, fullPath)
+		if len(nodes) == 0 || err != nil || util.IsValueNil(nodes[0].Data) {
+			return nil, status.Errorf(codes.NotFound, "path %v not found: %v", fullPath, err)
 		}
+		node := nodes[0].Data
 
 		ts := time.Now().UnixNano()
 
