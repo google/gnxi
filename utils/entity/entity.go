@@ -20,7 +20,7 @@ import (
 	"crypto"
 	"crypto/rand"
 	"crypto/rsa"
-	"crypto/sha1"
+	"crypto/sha256"
 	"crypto/tls"
 	"crypto/x509"
 	"crypto/x509/pkix"
@@ -154,7 +154,7 @@ func keyID(pub crypto.PublicKey) ([]byte, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to marshal public key: %v", err)
 	}
-	subjectKeyID := sha1.Sum(pkBytes)
+	subjectKeyID := sha256.Sum256(pkBytes)
 	return subjectKeyID[:], nil
 }
 
