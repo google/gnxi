@@ -3,7 +3,7 @@ syntax = "proto3";
 
 package gnoi.os;
 
-option go_package = ".;pb";
+option go_package = "github.com/google/gnxi/gnoi/os/pb";
 
 
 // The OS service provides an interface for OS installation on a Target. The

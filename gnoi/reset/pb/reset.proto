@@ -3,6 +3,8 @@ syntax = "proto3";
 
 package pb;
 
+option go_package = "github.com/google/gnxi/gnoi/reset/pb";
+
 // The FactoryReset service exported by Targets.
 service FactoryReset {
   // The Start RPC allows the Client to instruct the Target to immediately
