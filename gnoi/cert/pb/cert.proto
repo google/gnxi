@@ -20,6 +20,8 @@ syntax = "proto3";
 
 package gnoi.certificate;
 
+option go_package = "github.com/google/gnxi/gnoi/cert/pb";
+
 // The Certificate Management Service exported by targets.
 // The service primarily exports two main RPCs, Install & Rotate which are used
 // for installation of a new certificate, and rotation of an existing
