@@ -25,7 +25,7 @@ import (
 )
 
 func TestServer(t *testing.T) {
-	conString := "127.0.0.1:4456"
+	conString := "localhost:4456"
 
 	s, err := NewServer(&cert.Settings{}, &reset.Settings{}, func() {}, &os.Settings{})
 	if err != nil {
