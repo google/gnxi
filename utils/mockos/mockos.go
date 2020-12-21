@@ -14,8 +14,8 @@ package mockos
 import (
 	"bufio"
 	"bytes"
-	"crypto/md5"
 	"crypto/rand"
+	"crypto/sha256"
 	"errors"
 	"os"
 
@@ -104,6 +104,6 @@ func calcHash(os *OS) []byte {
 	bb = append(bb, []byte(os.MockOS.Padding)...)
 	bb = append(bb, map[bool]byte{false: 0, true: 1}[os.MockOS.Incompatible])
 	bb = append(bb, []byte(os.MockOS.ActivationFailMessage)...)
-	hash := md5.Sum(bb)
+	hash := sha256.Sum256(bb)
 	return hash[:]
 }

@@ -24,7 +24,7 @@ func TestCheckHash(t *testing.T) {
 					Padding:               []byte("These are some bits to pad things out"),
 					Incompatible:          true,
 					ActivationFailMessage: "This is a test activationFailMessage",
-					Hash:                  []byte{252, 85, 174, 147, 254, 203, 37, 51, 0, 249, 102, 183, 117, 56, 23, 63},
+					Hash:                  []byte{127, 63, 248, 60, 103, 96, 72, 104, 168, 195, 34, 35, 147, 150, 74, 165, 142, 151, 158, 106, 191, 249, 103, 224, 157, 41, 222, 176, 116, 158, 103, 96},
 				},
 			},
 			want: true,
@@ -66,7 +66,7 @@ func TestCalcHash(t *testing.T) {
 					ActivationFailMessage: "This is a test activationFailMessage",
 				},
 			},
-			want: []byte{252, 85, 174, 147, 254, 203, 37, 51, 0, 249, 102, 183, 117, 56, 23, 63},
+			want: []byte{127, 63, 248, 60, 103, 96, 72, 104, 168, 195, 34, 35, 147, 150, 74, 165, 142, 151, 158, 106, 191, 249, 103, 224, 157, 41, 222, 176, 116, 158, 103, 96},
 		},
 		{
 			os: &OS{
@@ -78,13 +78,13 @@ func TestCalcHash(t *testing.T) {
 					ActivationFailMessage: "This is a test activationFailMessage",
 				},
 			},
-			want: []byte{98, 49, 38, 77, 248, 23, 48, 91, 68, 99, 25, 226, 238, 224, 47, 213},
+			want: []byte{54, 11, 186, 215, 225, 58, 244, 159, 230, 156, 31, 18, 99, 184, 130, 41, 91, 84, 157, 36, 113, 106, 199, 251, 64, 167, 214, 245, 87, 210, 225, 165},
 		},
 	}
 	for _, test := range tests {
 		hash := calcHash(test.os)
 		if !bytes.Equal(test.want, hash) {
-			t.Errorf("Want %x, got %x", test.want, hash)
+			t.Errorf("Want %v, got %v", test.want, hash)
 		}
 	}
 }
@@ -161,7 +161,7 @@ func TestPackageOS(t *testing.T) {
 					Cookie:                "cookiestring",
 					Incompatible:          true,
 					ActivationFailMessage: "This is a test activationFailMessage",
-					Hash:                  []byte{122, 63, 198, 213, 205, 32, 172, 235, 80, 248, 51, 116, 45, 185, 200, 210},
+					Hash:                  []byte{0xd3, 0x73, 0x78, 0x56, 0xdd, 0xc4, 0x2e, 0xde, 0x11, 0x64, 0xf9, 0x41, 0x7d, 0xf6, 0x2d, 0xfc, 0x8c, 0x1a, 0x7f, 0x41, 0x7c, 0x2d, 0x08, 0xf5, 0x74, 0x4b, 0xc8, 0xee, 0xd6, 0x51, 0xf8, 0xfa},
 				},
 			},
 		},
