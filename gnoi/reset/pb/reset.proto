@@ -1,7 +1,7 @@
 // This file defines a gNOI API used for factory reseting a Target.
 syntax = "proto3";
 
-package pb;
+package gnoi.factory_reset;
 
 option go_package = "github.com/google/gnxi/gnoi/reset/pb";
 
