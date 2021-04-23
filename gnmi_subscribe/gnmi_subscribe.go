@@ -77,6 +77,8 @@ func main() {
 		defer cancel()
 	}
 
+	ctx = credentials.AttachToContext(ctx)
+
 	subscribeClient, err := client.Subscribe(ctx)
 	if err != nil {
 		log.Fatalf("Error creating GNMI_SubscribeClient: %v", err)

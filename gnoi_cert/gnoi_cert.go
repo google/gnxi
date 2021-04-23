@@ -69,6 +69,8 @@ func main() {
 	ctx, cancel = context.WithTimeout(context.Background(), *timeOut)
 	defer cancel()
 
+	ctx = credUtils.AttachToContext(ctx)
+
 	switch *op {
 	case "provision":
 		caEnt = credUtils.GetCAEntity()

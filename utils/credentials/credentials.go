@@ -158,6 +158,13 @@ func ClientCredentials() []grpc.DialOption {
 	return opts
 }
 
+func AttachToContext(ctx context.Context) context.Context {
+	if authorizedUser.username != "" {
+		return metadata.AppendToOutgoingContext(ctx, usernameKey, authorizedUser.username, passwordKey, authorizedUser.password)
+	}
+	return ctx
+}
+
 // GetCAEntity gets a CA entity from a CA file and private key.
 func GetCAEntity() *entity.Entity {
 	if caEnt != nil {
