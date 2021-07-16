@@ -109,10 +109,8 @@ func certIDCheck() {
 func loadCABundle() {
 	if *otherCAs != "" {
 		otherCAFileNames := strings.FieldsFunc(*otherCAs, func(r rune) bool { return r == ',' })
-		var ent *entity.Entity
-		var err error
 		for _, s := range otherCAFileNames {
-			ent, err = entity.FromFile(s+".pem", s+".key")
+			ent, err := entity.FromFile(s+".pem", s+".key")
 			if err != nil {
 				log.Exitf("Cannot read files %s.pem and %s.key: %v", s, s, err)
 			}
