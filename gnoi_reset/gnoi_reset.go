@@ -55,7 +55,7 @@ func main() {
 
 	ctx = credentials.AttachToContext(ctx)
 
-	if err := client.ResetTarget(ctx, *rollbackOs, *zeroFill); err != nil {
+	if err := client.ResetTarget(ctx, *zeroFill, *rollbackOs); err != nil {
 		log.Errorf("Error Resetting Target: %v", err)
 	} else {
 		log.Infoln("Reset Called Successfully!")
