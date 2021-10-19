@@ -251,7 +251,7 @@ func parseElement(elem string) ([]interface{}, error) {
 // and pattern correctness. Errors are generated for invalid YANG identifiers,
 // malformed List key-value string, etc.. In the above example, the second pass
 // produces:
-//	[]interface{}{"a", "list-name", map[string]string{"k", "v/v"}, "c"}.
+//	[]interface{}{"a", "list-name", map[string]string{"k": "v/v"}, "c"}.
 func ParseStringPath(stringPath string) ([]interface{}, error) {
 	elems, err := splitPath(stringPath)
 	if err != nil {
