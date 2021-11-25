@@ -35,6 +35,8 @@ pip3 install -r requirements.txt
 python3 -m oc_config_validate --version
 ```
 
+Optionally, build a Python package with `python3 -m build`
+
 ### Demo
 
 Run the script `run_demo.sh` to see a quick demonstration of `oc_config_validate`.
