@@ -110,7 +110,9 @@ main() {
     if parse_options "$@"; then
         if [[ ! ( -f $BASEDIR/certs/target.key && -f $BASEDIR/certs/target.crt  ) ]]; then
           echo "--- Creating local self-signed certificates"
-          $BASEDIR/certs/create_certs.sh
+          mkdir -p $BASEDIR/certs
+          cd $BASEDIR/certs
+          wget https://raw.githubusercontent.com/google/gnxi/master/certs/generate.sh -O - -o /dev/null | bash
         fi
         start_gnmi_target "${GNMI_PORT}"
         start_oc_config_validate "${GNMI_PORT}"
