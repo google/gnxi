@@ -1,0 +1,176 @@
+!TestContext
+
+description: Test to setup static and IPv4 addresses on subinterfaces
+
+labels:
+- subif
+- ipv4
+
+tests:
+
+- !TestCase
+  name: "Add IPv4 on ethernet1/1.0"
+  class_name: subif_ip.AddSubifIp
+  args:
+    interface: "ethernet1/1"
+    index: 0
+    address: "192.168.1.1"
+    prefix_length: 25
+
+- !TestCase
+  name: "Disable DHCP client on ethernet1/1.0"
+  class_name: subif_ip.SetSubifDhcp
+  args:
+    interface: "ethernet1/1"
+    index: 0
+    dhcp: False
+
+- !TestCase
+  name: "Re-add IPv4 on ethernet1/1.0"
+  class_name: subif_ip.AddSubifIp
+  args:
+    interface: "ethernet1/1"
+    index: 0
+    address: "192.168.1.1"
+    prefix_length: 25
+
+- !TestCase
+  name: "Check IPv4 on ethernet1/1.0 State"
+  class_name: subif_ip.CheckSubifIpState
+  args:
+    interface: "ethernet1/1"
+    index: 0
+    address: "192.168.1.1"
+    prefix_length: 25
+
+- !TestCase
+  name: "Set and check IPv4 on ethernet1/2.0"
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/interfaces/interface[name=ethernet1/2]/subinterfaces/subinterface[index=0]/ipv4/addresses/address[ip=172.16.0.1]"
+    model: "interfaces.interface.subinterfaces.subinterface.ipv4.addresses.address"
+    json_value: {
+      "ip": "172.16.0.1",
+      "prefix-length": 24
+    }
+
+- !TestCase
+  name: "Add additional IPv4 on ethernet1/1.0"
+  class_name: subif_ip.AddSubifIp
+  args:
+    interface: "ethernet1/1"
+    index: 0
+    address: "192.168.99.1"
+    prefix_length: 28
+
+- !TestCase
+  name: "Check IPv4s on ethernet1/1.0"
+  class_name: get.GetJsonCheckCompare
+  args:
+    xpath: "/interfaces/interface[name=ethernet1/1]/subinterfaces/subinterface[index=0]/ipv4/addresses"
+    model: "interfaces.interface.subinterfaces.subinterface.ipv4.addresses.addresses"
+    want_json: {
+      "address": [
+        {
+          "config": {
+            "ip": "192.168.1.1",
+            "prefix-length": 25
+          },
+          "ip": "192.168.1.1",
+          "state": {
+            "ip": "192.168.1.1",
+            "origin": "STATIC",
+            "prefix-length": 25
+          }
+        },
+        {
+          "config": {
+            "ip": "192.168.99.1",
+            "prefix-length": 28
+          },
+          "ip": "192.168.99.1",
+          "state": {
+            "ip": "192.168.99.1",
+            "origin": "STATIC",
+            "prefix-length": 28
+          }
+        }
+      ]
+    }
+
+- !TestCase
+  name: "Set and check DHCP client on eth1/2.0"
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/interfaces/interface[name=ethernet1/2]/subinterfaces/subinterface[index=0]/ipv4"
+    model: "interfaces.interface.subinterfaces.subinterface.ipv4"
+    json_value: {
+      "dhcp-client": true
+    }
+
+- !TestCase
+  name: "Remove IPv4 on ethernet1/2.0"
+  class_name: set.SetDelete
+  args:
+    xpath: "/interfaces/interface[name=ethernet1/2]/subinterfaces/subinterface[index=0]/ipv4/addresses/address[ip=172.16.0.1]"
+
+- !TestCase
+  name: "Check there is no IPv4 on ethernet1/2.0"
+  class_name: get.GetJsonCheckCompare
+  args:
+    xpath: "/interfaces/interface[name=ethernet1/2]/subinterfaces/subinterface[index=0]/ipv4/addresses"
+    model: "interfaces.interface.subinterfaces.subinterface.ipv4.addresses.addresses"
+    want_json: {
+      "address": []
+    }
+
+- !TestCase
+  name: "Remove additional IPv4 on ethernet1/1.0"
+  class_name: subif_ip.RemoveSubifIp
+  args:
+    interface: "ethernet1/1"
+    index: 0
+    address: "192.168.99.1"
+    prefix_length: 28
+
+- !TestCase
+  name: "Check Single IP on ethernet1/1.0"
+  class_name: get.GetJsonCheckCompare
+  args:
+    xpath: "/interfaces/interface[name=ethernet1/1]/subinterfaces/subinterface[index=0]/ipv4/addresses"
+    model: "interfaces.interface.subinterfaces.subinterface.ipv4.addresses.addresses"
+    want_json: {
+      "address": [
+        {
+          "config": {
+            "ip": "192.168.1.1",
+            "prefix-length": 25
+          },
+          "ip": "192.168.1.1",
+          "state": {
+            "ip": "192.168.1.1",
+            "origin": "STATIC",
+            "prefix-length": 25
+          }
+        }
+      ]
+    }
+
+- !TestCase
+  name: "Remove IPv4 on ethernet1/1.0"
+  class_name: subif_ip.RemoveSubifIp
+  args:
+    interface: "ethernet1/1"
+    index: 0
+    address: "192.168.1.1"
+    prefix_length: 25
+
+- !TestCase
+  name: "Check no IP on ethernet1/1.0"
+  class_name: get.GetJsonCheckCompare
+  args:
+    xpath: "/interfaces/interface[name=ethernet1/1]/subinterfaces/subinterface[index=0]/ipv4/addresses"
+    model: "interfaces.interface.subinterfaces.subinterface.ipv4.addresses.addresses"
+    want_json: {
+      "address": []
+    }

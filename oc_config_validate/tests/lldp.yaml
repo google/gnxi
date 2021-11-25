@@ -1,0 +1,77 @@
+!TestContext
+description: "Configure LLDP"
+
+tests:
+
+- !TestCase
+  name: "Enable LLDP at System"
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/lldp"
+    model: "lldp"
+    json_value: {
+      "openconfig-lldp:enabled": true,
+      "openconfig-lldp:hello-timer": 30
+    }
+
+- !TestCase
+  name: "Configure System information"
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/lldp"
+    model: "lldp"
+    json_value: {
+      "system-name": "foobar",
+      "system-description": "A mysterious device"
+    }
+
+- !TestCase
+  name: "Enable LLDP at Interface"
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/lldp/interfaces/interface[name=ethernet1/1]"
+    model: "lldp.interfaces.interface"
+    json_value: {
+      "name": "ethernet1/1",
+      "enabled": true
+    }
+
+- !TestCase
+  name: "Disable LLDP at Interface"
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/lldp/interfaces/interface[name=ethernet1/1]"
+    model: "lldp.interfaces.interface"
+    json_value: {
+      "name": "ethernet1/1",
+      "enabled": false
+    }
+
+- !TestCase
+  name: "Enable LLDP at Interface"
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/lldp/interfaces/interface[name=ethernet1/1]"
+    model: "lldp.interfaces.interface"
+    json_value: {
+      "name": "ethernet1/1",
+      "enabled": true
+    }
+
+- !TestCase
+  name: "Disable LLDP at System"
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/lldp"
+    model: "lldp"
+    json_value: {
+      "openconfig-lldp:enabled": true,
+      "openconfig-lldp:hello-timer": 30
+    }
+
+- !TestCase
+  name: "Check LLDP at interface"
+  class_name: get.getCompare
+  args:
+    xpath: "/lldp/interfaces/interface[name=ethernet1/1]/state/enabled"
+    want_value: false

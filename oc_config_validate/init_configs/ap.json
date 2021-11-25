@@ -1,0 +1,256 @@
+{
+  "hostname": "ap.example.com",
+  "radios": {
+    "radio": [
+      {
+        "id": 0,
+        "operating-frequency": "FREQ_5GHZ",
+        "config": {
+          "id": 0,
+          "operating-frequency": "openconfig-wifi-types:FREQ_5GHZ",
+          "enabled": true,
+          "transmit-power": 9,
+          "channel-width": 40,
+          "scanning": false
+        }
+      },
+      {
+        "id": 1,
+        "operating-frequency": "FREQ_2GHZ",
+        "config": {
+          "id": 1,
+          "operating-frequency": "openconfig-wifi-types:FREQ_2GHZ",
+          "enabled": true,
+          "transmit-power": 4,
+          "channel-width": 20,
+          "scanning": false
+        }
+      }
+    ]
+  },
+  "ssids": {
+    "ssid": [
+      {
+        "name": "Test-A",
+        "config": {
+          "name": "Test-A",
+          "enabled": true,
+          "hidden": false,
+          "default-vlan": 250,
+          "operating-frequency": "openconfig-wifi-types:FREQ_5GHZ",
+          "basic-data-rates-5g": [
+            "RATE_36MB",
+            "RATE_48MB",
+            "RATE_54MB"
+          ],
+          "supported-data-rates-5g": [
+            "RATE_36MB",
+            "RATE_48MB",
+            "RATE_54MB"
+          ],
+          "broadcast-filter": true,
+          "multicast-filter": true,
+          "station-isolation": true,
+          "opmode": "WPA2_ENTERPRISE",
+          "server-group": "Test-A-srv_grp",
+          "dva": true,
+          "qbss-load": true,
+          "advertise-apname": true,
+          "dot11k": true,
+          "okc": false
+        },
+        "wmm": {
+          "config": {
+            "trust-dscp": true
+          }
+        },
+        "dot11r": {
+          "config": {
+            "dot11r": false
+          }
+        },
+        "band-steering": {
+          "config": {
+            "band-steering": false
+          }
+        }
+      },
+      {
+        "name": "TestGuestPSK",
+        "config": {
+          "name": "TestGuestPSK",
+          "enabled": true,
+          "hidden": false,
+          "default-vlan": 666,
+          "operating-frequency": "openconfig-wifi-types:FREQ_5GHZ",
+          "basic-data-rates-5g": [
+            "RATE_36MB",
+            "RATE_48MB",
+            "RATE_54MB"
+          ],
+          "supported-data-rates-5g": [
+            "RATE_36MB",
+            "RATE_48MB",
+            "RATE_54MB"
+          ],
+          "broadcast-filter": true,
+          "multicast-filter": true,
+          "station-isolation": true,
+          "opmode": "WPA2_PERSONAL",
+          "wpa2-psk": "/key/TestGuestPSK",
+          "dva": true,
+          "qbss-load": true,
+          "advertise-apname": true,
+          "dot11k": true
+        },
+        "wmm": {
+          "config": {
+            "trust-dscp": true
+          }
+        },
+        "dot11r": {
+          "config": {
+            "dot11r": false
+          }
+        },
+        "band-steering": {
+          "config": {
+            "band-steering": false
+          }
+        }
+      },
+      {
+        "name": "TestGuestPSK-Legacy",
+        "config": {
+          "name": "TestGuestPSK-Legacy",
+          "enabled": true,
+          "hidden": false,
+          "default-vlan": 666,
+          "operating-frequency": "openconfig-wifi-types:FREQ_2GHZ",
+          "basic-data-rates-2g": [
+            "RATE_36MB",
+            "RATE_48MB",
+            "RATE_54MB"
+          ],
+          "supported-data-rates-2g": [
+            "RATE_36MB",
+            "RATE_48MB",
+            "RATE_54MB"
+          ],
+          "broadcast-filter": true,
+          "multicast-filter": true,
+          "station-isolation": true,
+          "opmode": "WPA2_PERSONAL",
+          "wpa2-psk": "/key/TestGuestPSK-Legacy",
+          "dva": true,
+          "qbss-load": true,
+          "advertise-apname": true,
+          "dot11k": true
+        },
+        "wmm": {
+          "config": {
+            "trust-dscp": true
+          }
+        },
+        "dot11r": {
+          "config": {
+            "dot11r": false
+          }
+        },
+        "band-steering": {
+          "config": {
+            "band-steering": false
+          }
+        }
+      },
+      {
+        "name": "TestOpen",
+        "config": {
+          "name": "TestOpen",
+          "enabled": true,
+          "hidden": false,
+          "default-vlan": 666,
+          "operating-frequency": "openconfig-wifi-types:FREQ_2_5_GHZ",
+          "basic-data-rates-5g": [
+            "RATE_36MB",
+            "RATE_48MB",
+            "RATE_54MB"
+          ],
+          "basic-data-rates-2g": [
+            "RATE_36MB",
+            "RATE_48MB",
+            "RATE_54MB"
+          ],
+          "supported-data-rates-5g": [
+            "RATE_36MB",
+            "RATE_48MB",
+            "RATE_54MB"
+          ],
+          "supported-data-rates-2g": [
+            "RATE_36MB",
+            "RATE_48MB",
+            "RATE_54MB"
+          ],
+          "broadcast-filter": true,
+          "multicast-filter": true,
+          "station-isolation": true,
+          "opmode": "OPEN",
+          "qbss-load": true,
+          "advertise-apname": true,
+          "dot11k": true
+        },
+        "wmm": {
+          "config": {
+            "trust-dscp": true
+          }
+        },
+        "dot11r": {
+          "config": {
+            "dot11r": false
+          }
+        },
+        "band-steering": {
+          "config": {
+            "band-steering": false
+          }
+        }
+      }
+    ]
+  },
+  "system": {
+    "ssh-server": {
+      "config": {
+        "enable": false
+      }
+    },
+    "aaa": {
+      "server-groups": {
+        "server-group": [
+          {
+            "name": "Test-A-srv_grp",
+            "config": {
+              "name": "Test-A-srv_grp",
+              "type": "openconfig-aaa:RADIUS"
+            },
+            "servers": {
+              "server": [
+                {
+                  "address": "10.10.10.10",
+                  "config": {
+                    "address": "10.10.10.10"
+                  },
+                  "radius": {
+                    "config": {
+                      "auth-port": 1812,
+                      "secret-key": "/key/radius"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "hostname": "atestdevice",
+  "domain-name": "foo.bar.com",
+  "login-banner": "This device is for authorized use only",
+  "motd-banner": "Welcome"
+}
