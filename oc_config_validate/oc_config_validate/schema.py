@@ -15,9 +15,10 @@ limitations under the License.
 """
 
 import json
+import os
 import re
 from inspect import isclass
-from typing import Union
+from typing import List, Union
 
 from pyangbind.lib.base import PybindBase
 from pyangbind.lib.serialise import pybindJSONDecoder
@@ -104,3 +105,15 @@ def fixSubifIndex(json_value: dict):
         'subinterface'][0]['index']
     json_value['openconfig-interfaces:subinterfaces']['subinterface'][0][
         'index'] = int(index)
+
+
+def getOcModelsVersions() -> List[str]:
+    """Returns a list of the OC models versions used.
+
+     Returns an empty list if unable to read the models/versions file.
+     """
+    versions_file = os.path.join(os.path.dirname(models.__file__), "versions")
+    if os.path.isfile(versions_file):
+        with open(versions_file) as f:
+            return [line.strip() for line in f]
+    return []

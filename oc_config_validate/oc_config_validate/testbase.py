@@ -399,6 +399,7 @@ class TestRun():
 
     def __init__(self, tgt: str, ctx: context.TestContext):
         self.test_target = tgt
+        self.oc_models = schema.getOcModelsVersions()
         if ctx.description:
             self.description = ctx.description
         if ctx.labels:
