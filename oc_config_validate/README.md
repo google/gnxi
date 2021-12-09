@@ -25,7 +25,7 @@ looking for:
 
 ### Install
 
-Clone this repo and install the needed dependencies. Preferably, use a virtual environment:
+1. Clone this repo and install the needed dependencies. Preferably, use a virtual environment:
 
 ```
 cd oc_config_validate
@@ -35,7 +35,9 @@ pip3 install -r requirements.txt
 python3 -m oc_config_validate --version
 ```
 
-Optionally, build a Python package with `python3 -m build`
+1. Get the OC Models from GitHub, running `oc_config_validate/update_models.sh`.
+
+1. Optionally, build a Python package with `python3 -m build`.
 
 ### Demo
 
@@ -170,6 +172,23 @@ In case of errors, use the `--debug` flag to help understand the underlying TLS 
 The model bindings are used in tests that validate the gNMI JSON payloads against the expected OpenConfig model. See [docs/tests](docs/tests.md) for more details.
 
 Run `python3 -m oc_config_validate -models` to get a list of the versions (revisions) of the OC models used. These are also added to the results file.
+
+##### Using specific OpenConfig models
+
+If specific OpenConfig models need to be used, place them in a directory and have pyang create the bindings and store their revisions:
+
+```
+MODELS=$(find "$MODELS_DIRECTORY" -name *.yang)
+PYBINDPLUGIN=$(/usr/bin/env python -c 'import pyangbind; import os; print ("{}/plugin".format(os.path.dirname(pyangbind.__file__)))')
+
+pyang --plugindir $PYBINDPLUGIN -f pybind  --path oc_config_validate/models/ \
+  --split-class-dir oc_config_validate/models/ $MODELS
+
+pyang --plugindir $PYBINDPLUGIN -f name --name-print-revision \
+  --path oc_config_validate/models/ --output oc_config_validate/models/versions \
+  $MODELS
+
+```
 
 ## Copyright
 
