@@ -15,11 +15,12 @@ limitations under the License.
 """
 
 import io
+import json
 import logging
 import threading
 import time
 import unittest
-from typing import List, Optional, Union
+from typing import List, Optional
 
 from oc_config_validate import context, target, testbase, testcases
 
@@ -176,3 +177,31 @@ def runTests(ctx: context.TestContext,
         if stop_on_error and not thread.results.wasSuccessful():
             break
     return results
+
+
+def setInitConfigs(ctx: context.TestContext,
+                   tgt: target.TestTarget,
+                   stop_on_error: bool = False) -> bool:
+    """Applies the initial configurations to the target.
+
+    Args:
+        ctx: A context.TestContext object.
+        tgt: A target.TestTarget with a connection established.
+        stop_on_error: If True, stop if there is an error.
+
+    Returns:
+        True is the initial configurations were applied.
+
+    """
+    for init_config in ctx.init_configs:
+        try:
+            target.parsePath(init_config.xpath)
+            tgt.gNMISetConfigFile(init_config.filename, init_config.xpath)
+            logging.info("Initial OpenConfig '%s' applied at %s",
+                         init_config.filename, init_config.xpath)
+        except (IOError, json.JSONDecodeError, target.BaseError) as err:
+            logging.error("Unable to set configuration '%s' at '%s': %s",
+                          init_config.filename, init_config.xpath, err)
+            if stop_on_error:
+                return False
+    return True

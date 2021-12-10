@@ -27,6 +27,8 @@ import re
 import ssl
 from typing import Any, Dict, List, Optional, Tuple, Union
 
+import grpc
+
 from oc_config_validate.gnmi import gnmi_pb2, gnmi_pb2_grpc
 
 _RE_GNMI_PATH_ELEM = re.compile(r'''^
@@ -56,6 +58,10 @@ class TargetError(BaseError):
 
 class GnmiError(BaseError):
     """Error using gNMI."""
+
+
+class RpcError(BaseError):
+    """Error on the RPC."""
 
 
 class TestTarget():
@@ -182,14 +188,17 @@ class TestTarget():
             A gnmi_pb2.GetResponse object.
 
         Raises:
-            grpc._channel._InactiveRpcError  if unable to connect to Target.
+            RpcError if unable to connect to Target.
         """
         path = parsePath(xpath)
         self._gNMIConnnect()
         metadata = self._buildGnmiStubMetadata()
-        return self.stub.Get(
-            gnmi_pb2.GetRequest(path=[path], encoding='JSON_IETF'),
-            **metadata)
+        try:
+            return self.stub.Get(
+                gnmi_pb2.GetRequest(path=[path], encoding='JSON_IETF'),
+                **metadata)
+        except grpc._channel._InactiveRpcError as err:
+            raise RpcError(err) from err
 
     def _gNMISet(self, xpath: str, set_type: str,
                  value: Optional[Any] = None) -> gnmi_pb2.SetResponse:
@@ -205,7 +214,7 @@ class TestTarget():
 
         Raises:
             GnmiError if the set_type is not valid.
-            grpc._channel._InactiveRpcError if unable to connect to Target.
+            RpcError if unable to connect to Target.
         """
         if set_type.lower() not in ['delete', 'update', 'replace']:
             raise GnmiError('%s is not a valid gNMI Set type' % set_type)
@@ -219,15 +228,18 @@ class TestTarget():
         self._gNMIConnnect()
         metadata = self._buildGnmiStubMetadata()
 
-        if set_type.lower() == 'delete':
-            return self.stub.Set(gnmi_pb2.SetRequest(delete=[path]),
-                                 **metadata)
-        if set_type.lower() == 'update':
-            return self.stub.Set(gnmi_pb2.SetRequest(update=[path_val]),
-                                 **metadata)
-        if set_type.lower() == 'replace':
-            return self.stub.Set(gnmi_pb2.SetRequest(replace=[path_val]),
-                                 **metadata)
+        try:
+            if set_type.lower() == 'delete':
+                return self.stub.Set(gnmi_pb2.SetRequest(delete=[path]),
+                                     **metadata)
+            if set_type.lower() == 'update':
+                return self.stub.Set(gnmi_pb2.SetRequest(update=[path_val]),
+                                     **metadata)
+            if set_type.lower() == 'replace':
+                return self.stub.Set(gnmi_pb2.SetRequest(replace=[path_val]),
+                                     **metadata)
+        except grpc._channel._InactiveRpcError as err:
+            raise RpcError(err) from err
 
     def gNMISetUpdate(self, xpath: str,
                       value: Any) -> gnmi_pb2.SetResponse:
@@ -303,7 +315,7 @@ def parsePath(xpath: str) -> gnmi_pb2.Path:
     for part in path_parts:
         part_search = _RE_GNMI_PATH_ELEM.search(part)
         if not part_search:  # Invalid path specified.
-            raise XpathError('xpath component parse error: %s' % part_search)
+            raise XpathError('xpath component parse error: %s' % part)
         if part_search.group('key') is not None:  # A path key was provided.
             key = {}
             for k in _RE_GNMI_KEY.findall(part):
