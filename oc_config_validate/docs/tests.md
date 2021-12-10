@@ -4,12 +4,23 @@
 
 ```
 !TestContext
+
 # Informative text about this test run.
 description: [:string]
+
 # Optional list of text labels, passed to the Results. Can be used for tagging and filtering. 
 labels: 
 - [:string]
 - [:string]
+
+# Optional list of initial configurations and xpaths to apply before the tests.
+init_configs:
+- !InitConfig
+  # Path to the initial configuration JSON file.
+  filename: [:string]
+  #Xpath where to send a gNMI Set Update messages with the configuration.
+  xpath: [:string]
+  
 # List of Tests to run
 tests: 
 - !TestCase
