@@ -1,0 +1,146 @@
+!TestContext
+description: Example of test profile for oc_config_validator
+labels:
+- FOO
+- BAR
+tests:
+
+- !TestCase
+  name: "Get System Config"
+  class_name: get.Get
+  args:
+    xpath: "system/config"
+
+- !TestCase
+  name: "Check System Config"
+  class_name: get.GetJsonCheck
+  args:
+    xpath: "system/config"
+    model: system.config.config
+
+- !TestCase
+  name: "Check AAA State"
+  class_name: get.GetJsonCheck
+  args:
+    xpath: "system/aaa/authentication/state"
+    model: system.aaa.authentication.state.state
+
+- !TestCase
+  name: "Compare Hostname Configured"
+  class_name: get.GetCompare
+  args:
+    xpath: "system/config/hostname"
+    want: "atestdevice"
+
+- !TestCase
+  name: "Compare mgmt Interface state"
+  class_name: get.GetCompare
+  args:
+    xpath: "interfaces/interface[name=mgmt]/state/enabled"
+    want: true
+
+- !TestCase
+  name: "Compare mgmt Interface state JSON"
+  class_name: get.GetCompare
+  args:
+    xpath: "interfaces/interface[name=mgmt]"
+    want: {"openconfig-interfaces:state": {
+      "openconfig-interfaces:enabled": true, "oper-status": "UP"}
+    }
+
+- !TestCase
+  name: "Bad Compare mgmt Interface state JSON"
+  class_name: get.GetCompare
+  args:
+    xpath: "interfaces/interface[name=mgmt]/state"
+    want: {"openconfig-interfaces:enabled": false}
+
+- !TestCase
+  name: "Set Hostname"
+  class_name: set.SetUpdate
+  args:
+    xpath: "system/config/hostname"
+    value: "foobar"
+
+- !TestCase
+  name: "Compare System Config"
+  class_name: get.GetJsonCheckCompare
+  args:
+    xpath: "system/config"
+    model: system.config.config
+    want_json: {
+      "openconfig-system:domain-name": "foo.bar.com",
+      "openconfig-system:hostname": "foobar"
+    }
+
+- !TestCase
+  name: "Bad model to compare System config"
+  class_name: get.GetJsonCheckCompare
+  args:
+    xpath: "system/config"
+    model: system.config.state
+    want_json: {
+      "openconfig-system:domain-name": "foo.bar.com",
+      "openconfig-system:hostname": "foobar"
+    }
+
+- !TestCase
+  name: "Bad data to compare System config"
+  class_name: get.GetJsonCheckCompare
+  args:
+    xpath: "system/config"
+    model: system.config.config
+    want_json: {
+      "openconfig-system:domain-name": "la.la.la.com",
+      "openconfig-system:hostname": "lalala"
+    }
+
+- !TestCase
+  name: "Set timezone with a valid Json blob"
+  class_name: set.JsonCheckSetUpdate
+  args:
+    xpath: "system/clock/config"
+    model: "system.clock.config.config"
+    json_value: {
+      "timezone-name": "Europe/London"
+    }
+
+- !TestCase
+  name: "Compare Timezone"
+  class_name: get.GetJsonCheckCompare
+  args:
+    xpath: "system/clock/config"
+    model: "system.clock.config.config"
+    want_json: {
+      "openconfig-system:timezone-name": "Europe/London"
+    }
+
+- !TestCase
+  name: "Set timezone with a valid Json blob"
+  class_name: setget.JsonCheck
+  args:
+    xpath: "system/clock/config"
+    model: "system.clock.config.config"
+    json_value: {
+      "openconfig-system:timezone-name": "Europe/Paris"
+    }
+
+- !TestCase
+  name: "Set timezone with a valid Json blob, and check it is Zurich"
+  class_name: setget.JsonCheckCompare
+  args:
+    xpath: "system/clock/config"
+    model: "system.clock.config.config"
+    json_value: {
+      "openconfig-system:timezone-name": "Europe/Zurich"
+    }
+
+- !TestCase
+  name: "Bad Set Clock Check State"
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "system/clock"
+    model: "system.clock"
+    json_value: {
+      "openconfig-system:timezone-name": "Europe/Paris"
+    }

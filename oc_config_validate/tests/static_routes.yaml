@@ -1,0 +1,90 @@
+!TestContext
+description: "Configure static routes"
+
+tests:
+
+- !TestCase
+  name: "Configure and check a default route"
+  class_name: static_route.AddStaticRoute
+  args:
+    prefix: "0.0.0.0/0"
+    next_hop: "192.168.1.126"
+
+- !TestCase
+  name: "Configure a description on the default route"
+  class_name: static_route.AddStaticRoute
+  args:
+    prefix: "0.0.0.0/0"
+    next_hop: "192.168.1.126"
+    description: "Default Route"
+
+- !TestCase
+  name: "Configure and check a static route with description"
+  class_name: static_route.AddStaticRoute
+  args:
+    prefix: "10.10.10.0/24"
+    description: "Route to Dev"
+    next_hop: "192.168.1.126"
+
+- !TestCase
+  name: "Configure and check another static route"
+  class_name: static_route.AddStaticRoute
+  args:
+    prefix: "10.10.20.0/24"
+    next_hop: "192.168.1.126"
+
+- !TestCase
+  name: "Configure a not directly-connected next hop"
+  class_name: static_route.AddStaticRoute
+  args:
+    prefix: "10.10.30.0/24"
+    next_hop: "192.168.99.99"
+
+- !TestCase
+  name: "Replace next hop of a static route"
+  class_name: static_route.AddStaticRoute
+  args:
+    prefix: "10.10.20.0/24"
+    next_hop: "192.168.1.124"
+
+- !TestCase
+  name: "Add next hop to a static route"
+  class_name: static_route.AddStaticRoute
+  args:
+    prefix: "10.10.10.0/24"
+    index: 1
+    next_hop: "192.168.1.124"
+
+- !TestCase
+  name: "Edit next hop to a static route, with metric"
+  class_name: static_route.AddStaticRoute
+  args:
+    prefix: "10.10.10.0/24"
+    index: 1
+    next_hop: "192.168.1.122"
+    metric: 200
+
+- !TestCase
+  name: "Delete a next hop from a static route"
+  class_name: static_route.RemoveStaticRoute
+  args:
+    prefix: "10.10.10.0/24"
+    index: 1
+
+- !TestCase
+  name: "Delete next hop to a static route"
+  class_name: static_route.RemoveStaticRoute
+  args:
+    prefix: "10.10.10.0/24"
+
+- !TestCase
+  name: "Delete next hop to a static route"
+  class_name: static_route.RemoveStaticRoute
+  args:
+    prefix: "10.10.20.0/24"
+
+- !TestCase
+  name: "Delete default route"
+  class_name: static_route.RemoveStaticRoute
+  args:
+    prefix: "0.0.0.0/0"

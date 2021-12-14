@@ -1,0 +1,39 @@
+!TestContext
+description: Example of test profile to test AccessPoints
+labels:
+- AP
+- VENDOR
+- VERSION
+tests:
+- !TestCase
+  name: Get FullConfig
+  class_name: get.TestGnmiGet
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/"
+- !TestCase
+  name: Disable 2GHz Radio
+  class_name: set.TestGnmiSetUpdate
+  args:
+    xpath: /access-points/access-point[hostname=ap.example.com]/radios/radio[id=1]/config/enabled
+    value: false
+- !TestCase
+  name: "Check disabled state of 2GHz Radio"
+  class_name: get.TestGnmiGetCheck
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=1]/state/enabled"
+    want_json: >
+      {
+      "/access-points/access-point/radios/radio/state/enabled": false
+      }
+- !TestCase
+  name: "Enable 2GHz Radio"
+  class_name: set.TestGnmiSetUpdate
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=1]/config/enabled"
+    value: true
+- !TestCase
+  name: "Check enabled state of 2GHz Radio"
+  class_name: get.TestGnmiGetCheck
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=1]/config/state"
+    want_json: {"/access-points/access-point/radios/radio/state/enabled": true}

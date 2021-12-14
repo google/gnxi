@@ -1,0 +1,86 @@
+{
+    "openconfig-interfaces:interfaces": {
+        "interface": [
+            {
+                "name": "mgmt",
+                "config": {
+                    "name": "mgmt",
+                    "enabled": true
+                },
+                "state": {
+                    "name": "mgmt",
+                    "enabled": true,
+                    "admin-status": "UP",
+                    "oper-status": "UP"
+                }
+            },
+            {
+                "name": "FortyGigabitEthernet1/1/1",
+                "config": {
+                    "name": "FortyGigabitEthernet1/1/1"
+                },
+                "state": {
+                    "name": "mgmt",
+                    "admin-status": "DOWN",
+                    "oper-status": "DOWN"
+                }
+            },
+            {
+                "name": "FortyGigabitEthernet1/1/2",
+                "config": {
+                    "name": "FortyGigabitEthernet1/1/2"
+                },
+                 "state": {
+                    "name": "mgmt",
+                    "admin-status": "DOWN",
+                    "oper-status": "DOWN"
+                }
+            }
+        ]
+    },
+    "openconfig-system:system": {
+        "aaa": {
+            "authentication": {
+                "admin-user": {
+                    "config": {
+                        "admin-password": "password"
+                    },
+                    "state": {
+                        "admin-password": "password",
+                        "admin-username": "admin"
+                    }
+                },
+                "config": {
+                    "authentication-method": [
+                        "openconfig-aaa-types:LOCAL"
+                    ]
+                },
+                "state": {
+                    "authentication-method": [
+                        "openconfig-aaa-types:LOCAL"
+                    ]
+                }
+            }
+        },
+        "clock": {
+            "config": {
+                "timezone-name": "Europe/Stockholm"
+            },
+            "state": {
+                "timezone-name": "Europe/Stockholm"
+            }
+        },
+        "config": {
+            "hostname": "zz-tri-dev01",
+            "domain-name": "foo.bar.com",
+            "login-banner": "This device is for authorized use only",
+            "motd-banner": "Welcome to Open vSwitch"
+        },
+        "state": {
+            "hostname": "zz-tri-dev01",
+            "domain-name": "foo.bar.com",
+            "login-banner": "This device is for authorized use only",
+            "motd-banner": "Welcome to Open vSwitch"
+        }
+    }
+}

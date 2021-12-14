@@ -1,0 +1,12 @@
+{
+  "config": {
+    "domain-name": ".",
+    "hostname": "PA-VM",
+    "login-banner": ""
+  },
+  "openconfig-system:clock": {
+    "config": {
+      "timezone-name": "GMT"
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "openconfig-system:system": {
+    "openconfig-openflow:openflow": {
+      "agent": {
+        "config": {
+          "backoff-interval": 5,
+          "datapath-id": "00:16:3e:00:00:00:00:00",
+          "failure-mode": "SECURE",
+          "inactivity-probe": 10,
+          "max-backoff": 10
+        }
+      },
+      "controllers": {
+        "controller": [
+          {
+            "config": {
+              "name": "main"
+            },
+            "connections": {
+              "connection": [
+                {
+                  "aux-id": 0,
+                  "config": {
+                    "address": "192.0.2.10",
+                    "aux-id": 0,
+                    "port": 6633,
+                    "priority": 1,
+                    "source-interface": "admin",
+                    "transport": "TLS"
+                  },
+                  "state": {
+                    "address": "192.0.2.10",
+                    "aux-id": 0,
+                    "port": 6633,
+                    "priority": 1,
+                    "source-interface": "admin",
+                    "transport": "TLS"
+                  }
+                }
+              ]
+            },
+            "name": "main"
+          }
+        ]
+      }
+    }
+  }
+}

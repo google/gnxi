@@ -1,0 +1,133 @@
+!TestContext
+
+description: Test the BGP model
+
+labels:
+- bgp
+
+tests:
+
+- !TestCase
+  name: "Config and check global BGP config"
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/bgp/global"
+    model: bgp.global_
+    json_value: {
+      "as": "65333",
+      "router-id": "10.1.1.1"
+    }
+
+- !TestCase
+  name: "Config and check BGP peer-group"
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/bgp/peer-groups/peer-group[peer-group-name=default]"
+    model: bgp.peer_groups.peer_group
+    json_value: {
+      "peer-group-name": "default"
+    }
+
+- !TestCase
+  name: "Update and check global BGP config"
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/bgp/global"
+    model: bgp.global_
+    json_value: {
+      "as": 65123,
+      "router-id": "192.168.1.1"
+    }
+
+- !TestCase
+  name: "Config and check a secure BGP Neighbor"
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/bgp/neighbors/neighbor[neighbor-address=192.168.1.11]"
+    model: bgp.neighbors.neighbor
+    json_value: {
+      "neighbor-address": "192.168.1.11",
+      "peer-as": 65123,
+      "auth-password": "SuperSecretPassword",
+      "peer-group": ""
+    }
+
+- !TestCase
+  name: "Update BGP Neighbor"
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/bgp/neighbors/neighbor[neighbor-address=192.168.1.11]"
+    model: bgp.neighbors.neighbor
+    json_value: {
+      "peer-as": 65123
+    }
+
+- !TestCase
+  name: "Set description for a BGP Neighbor"
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/bgp/neighbors/neighbor[neighbor-address=192.168.1.11]"
+    model: bgp.neighbors.neighbor
+    json_value: {
+      "description": "Secure BGP peer"
+    }
+
+- !TestCase
+  name: "Update BGP Neighbor secret"
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/bgp/neighbors/neighbor[neighbor-address=192.168.1.11]"
+    model: bgp.neighbors.neighbor
+    json_value: {
+      "auth-password": "MegaUltraSecretPassword"
+    }
+
+- !TestCase
+  name: "Remove BGP Neighbor secret"
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/bgp/neighbors/neighbor[neighbor-address=192.168.1.11]"
+    model: bgp.neighbors.neighbor
+    json_value: {
+      "auth-password": ""
+    }
+
+- !TestCase
+  name: "Config and check an insecure BGP Neighbor"
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/bgp/neighbors/neighbor[neighbor-address=192.168.1.22]"
+    model: bgp.neighbors.neighbor
+    json_value: {
+      "neighbor-address": "192.168.1.22",
+      "peer-as": 65123,
+      "peer-group": ""
+    }
+
+- !TestCase
+  name: "Check all BGP Neighbors"
+  class_name: get.GetJsonCheckCompare
+  args:
+    xpath: "/bgp/neighbors"
+    model: bgp.neighbors.neighbors
+    json_value: {
+      "neighbor": {}
+    }
+
+- !TestCase
+  name: "Delete and check an insecure BGP Neighbor"
+  class_name: config_state.DeleteConfigCheckState
+  args:
+    xpath: "/bgp/neighbors/neighbor[neighbor-address=192.168.1.22]"
+
+- !TestCase
+  name: "Delete and check a secure BGP Neighbor"
+  class_name: config_state.DeleteConfigCheckState
+  args:
+    xpath: "/bgp/neighbors/neighbor[neighbor-address=192.168.1.11]"
+
+- !TestCase
+  name: "Delete global BGP config"
+  class_name: config_state.DeleteConfigCheckState
+  args:
+    xpath: "/bgp/global"
