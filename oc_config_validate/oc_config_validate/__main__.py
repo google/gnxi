@@ -14,12 +14,11 @@ limitations under the License.
 
 """
 import argparse
-import json
 import logging
 import os
 import sys
 import time
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 import yaml
 
@@ -181,6 +180,12 @@ def validateArgs(args: Dict[str, Any]) -> bool:  # noqa
                                                  False):
         return False
 
+    # Provide init_config file and xpath
+    if bool(args["init_config_file"]) ^ bool(args["init_config_xpath"]):
+        logging.error(
+            "Initial configuration file and xpath are both needed.")
+        return False
+
     # Either TLS or not
     if any([args[arg] for arg in [
             "private_key", "cert_chain", "root_ca_cert",
@@ -201,56 +206,6 @@ def validateArgs(args: Dict[str, Any]) -> bool:  # noqa
         logging.error("Output format %s is not supported.")
         return False
 
-    return True
-
-
-def loadTestContextFromFile(file_path) -> Optional[context.TestContext]:
-    """Loads the tests description file and returns a TestContext.
-
-     Args:
-        file_path: Path to a YAML file with test profile.
-
-     Returns:
-        A TestContext object with all test information, or None if
-           error.
-
-     Raises:
-        IOError: An error occurred while trying to read the file.
-        YAMLError: An error occurred while trying to parse the YAML
-           file.
-     """
-    ctx = None
-    try:
-        with open(file_path, encoding="utf8") as raw_profile_data:
-            ctx = context.fromFile(raw_profile_data)
-    except IOError as io_error:
-        logging.error("Unable to read %s: %s", file_path, io_error)
-        return None
-    except yaml.YAMLError as yaml_error:
-        logging.error("Unable to parse YAML file %s: %s", file_path,
-                      yaml_error)
-        return None
-    return ctx
-
-
-def setConfigFile(file_path: str, xpath: str,
-                  tgt: target.TestTarget) -> bool:
-    """Applies the JSON-formated configuration to the target.
-
-    Args:
-        file_path: Path to a JSON file with the configuration to apply.
-        xpath: gNMI xpath where to apply the configuration.
-        tgt: Target to configure.
-
-    Returns:
-        True if the configuration was applied successfully.
-    """
-    try:
-        tgt.gNMISetConfigFile(file_path, xpath)
-    except (IOError, json.JSONDecodeError, target.BaseError) as err:
-        logging.error("Unable to set configuration '%s' via gNMI: %s",
-                      file_path, err)
-        return False
     return True
 
 
@@ -277,9 +232,14 @@ def main():  # noqa
     if not validateArgs(args):
         sys.exit(1)
 
-    ctx = loadTestContextFromFile(args["tests_file"])
-    if ctx is None:
-        sys.exit(1)
+    try:
+        ctx = context.fromFile(args["tests_file"])
+    except IOError as io_error:
+        sys.exit("Unable to read %s: %s", args["tests_file"], io_error)
+    except yaml.YAMLError as yaml_error:
+        sys.exit("Unable to parse YAML file %s: %s", args["tests_file"],
+                 yaml_error)
+
     logging.info("Read tests file '%s': %d tests to run",
                  args["tests_file"], len(ctx.tests))
 
@@ -302,13 +262,11 @@ def main():  # noqa
 
     # Apply initial configuration
     if args["init_config_file"]:
-        if not setConfigFile(args["init_config_file"],
-                             args["init_config_xpath"],
-                             tgt):
-            logging.error("Unable to set the initial configuration")
-            sys.exit(1)
-        logging.info("Initial OpenConfig '%s' applied on gNMI xpath %s",
-                     args["init_config_file"], args["init_config_xpath"])
+        ctx.init_configs.append(context.InitConfig(args["init_config_file"],
+                                                   args["init_config_xpath"]))
+    if not runner.setInitConfigs(ctx, tgt,
+                                 stop_on_error=args["stop_on_error"]):
+        sys.exit(1)
 
     start_t = time.time()
     results = runner.runTests(ctx, tgt, stop_on_error=args["stop_on_error"])

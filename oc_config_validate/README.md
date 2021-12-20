@@ -49,12 +49,14 @@ Run the script `run_demo.sh` to see a quick demonstration of `oc_config_validate
 
 ### Use
 
- 1. Prepare the initial OpenConfig configuration for your device, in JSON format.
+ 1. Prepare the initial OpenConfig configuration(s) for your device, in JSON format.
 
-    This configuration will be applied to the device before any other operation,
+    This configuration(s) will be applied to the device before any other operation,
     to bring it to a known initial state.
 
-    The initial configuration is sent in a single gNMI Set Update message to the indicated xpath. 
+    Each initial configuration file is sent in a single gNMI Set Update message to the indicated xpath.
+
+    All initial configurations found on the test file and on the command line are applied, sequentially.
 
  1. Then, write your OpenConfig configuration tests, in YAML format.
  
@@ -65,11 +67,12 @@ Run the script `run_demo.sh` to see a quick demonstration of `oc_config_validate
  1. Finally, validate your configurations against a gNMI target using:
  
 ```
-    python3 -m oc_config_validate --target {$HOSTNAME}:{$PORT} \
-       [--username {$USERNAME}] -[-password {$PASSWORD}] \
-       [--tls_host_override ${TLS_HOSTNAME} | --no_tls ] \
-       -tests ${TESTS} -results ${RESULTS} 
-       [-init ${INIT_CONFIG_FILE} -xpath ${INIT_CONFIG_XPATH}]
+    python3 -m oc_config_validate --target HOSTNAME:PORT \
+       -tests TESTS_FILE -results RESULTS_FILE \
+       [--username USERNAME] [--password PASSWORD] \
+       [--tls_host_override TLS_HOSTNAME | --no_tls ] \
+       [-init INIT_CONFIG_FILE -xpath INIT_CONFIG_XPATH] \
+       [--verbose] [--log_gnmi] [--stop_on_error]
 ```
     
     For an example:
@@ -77,9 +80,10 @@ Run the script `run_demo.sh` to see a quick demonstration of `oc_config_validate
 ```
     python3 -m oc_config_validate --target localhost:9339 \
        --username gnmi --password gnmi \
-       --tls_host_override target.com
-       -tests tests/example.yaml -results results/example.json
-       -init init_configs/example.json -xpath "/system/"
+       --tls_host_override target.com \
+       -tests tests/example.yaml -results results/example.json \
+       -init init_configs/example.json -xpath "/system/" \
+       --log_gnmi
 ```
 
  1. Expect an output similar to:

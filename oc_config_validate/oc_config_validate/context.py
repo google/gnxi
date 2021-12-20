@@ -22,12 +22,14 @@ class TestContext(yaml.YAMLObject):
 
     yaml_loader = yaml.SafeLoader
     yaml_tag = u'!TestContext'
+    init_configs = []
     labels = []
     tests = []
     description = ""
 
-    def __init__(self, description, labels, tests):
+    def __init__(self, description, init_configs, labels, tests):
         self.description = description
+        self.init_configs = init_configs
         self.labels = labels
         self.tests = tests
 
@@ -52,12 +54,31 @@ class TestCase(yaml.YAMLObject):
                 (self.name, self.class_name, self.args))
 
 
-def fromFile(yaml_stream):
+class InitConfig(yaml.YAMLObject):
+    """Object parsed from the TestContext YAML file."""
+
+    yaml_loader = yaml.SafeLoader
+    yaml_tag = u'!InitConfig'
+
+    def __init__(self, filename, xpath):
+        self.filename = filename
+        self.xpath = xpath
+
+    def __repr__(self):
+        return ('InitConfig(filename=%r, xpath=%r)' %
+                (self.filename, self.xpath))
+
+
+def fromFile(file_path) -> TestContext:
     """Create a TestContext object from a YAML file.
 
     Args:
-        yaml_stream: A file-like object that supports the .read() method.
+        file_path: Path to a YAML file with test profile.
 
+    Raises:
+        IOError: An error occurred while trying to read the file.
+        YAMLError: An error occurred while trying to parse the YAML
+           file.
     """
-    context = yaml.safe_load(yaml_stream)
-    return context
+    with open(file_path, encoding="utf8") as raw_profile_data:
+        return yaml.safe_load(raw_profile_data)

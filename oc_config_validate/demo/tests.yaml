@@ -1,10 +1,16 @@
 !TestContext
 description: Example of test profile for oc_config_validator
+
 labels:
 - FOO
 - BAR
-tests:
 
+init_configs:
+- !InitConfig
+  filename: init_config.json
+  xpath: /system/config
+
+tests:
 - !TestCase
   name: "Get System Config"
   class_name: get.Get

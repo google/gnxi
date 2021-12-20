@@ -21,7 +21,6 @@ import unittest
 from functools import wraps
 from typing import Any, Dict, List, Optional, Tuple, Union
 
-import grpc
 from pyangbind.lib import pybindJSON
 
 from oc_config_validate import context, schema, target
@@ -125,7 +124,7 @@ class TestCase(unittest.case.TestCase):
         """
         try:
             resp = self.test_target.gNMIGet(xpath)
-        except grpc._channel._InactiveRpcError as err:
+        except target.RpcError as err:
             if LOG_GNMI:
                 self.log("gNMI Get(%s) => ", xpath)
             self.log("gRCP Error: %s", err)
@@ -149,7 +148,7 @@ class TestCase(unittest.case.TestCase):
             self.log("gNMI Set Update(%s) => %s", xpath, value)
         try:
             self.test_target.gNMISetUpdate(xpath, value)
-        except grpc._channel._InactiveRpcError as err:
+        except target.RpcError as err:
             self.log("gRCP Error: %s", err)
             return False
         return True
@@ -167,7 +166,7 @@ class TestCase(unittest.case.TestCase):
             self.log("gNMI Set Delete(%s) =>", xpath)
         try:
             self.test_target.gNMISetDelete(xpath)
-        except grpc._channel._InactiveRpcError as err:
+        except target.RpcError as err:
             self.log("gRCP Error: %s", err)
             return False
         return True
@@ -311,7 +310,7 @@ class TestResult(unittest.TestResult):
             self.log_message, self._exc_info_to_string(err, test))
         self.errors.append((test, log))
         self._mirrorOutput = True
-        logging.info("%s - ERR:\n%s", test, log)
+        logging.error("%s - ERR:\n%s", test, log)
 
     @failfast
     def addFailure(self, test: TestCase, err):
@@ -320,13 +319,13 @@ class TestResult(unittest.TestResult):
             self.log_message, self._exc_info_to_string(err, test))
         self.failures.append((test, log))
         self._mirrorOutput = True
-        logging.info("%s - FAIL:\n%s", test, log)
+        logging.error("%s - FAIL:\n%s", test, log)
 
     def addSuccess(self, test: TestCase):
         """Store the log messages for every successful test."""
         self.successes.append((test, self.log_message))
         logging.debug("%s - PASS:\n%s", test, self.log_message)
-        
+
     def addSkip(self, test: TestCase, reason: str):
         """Override parent addFailure to support logging."""
         self.skipped.append((test, reason))
