@@ -165,6 +165,8 @@ In case of errors, use the `--debug` flag to help understand the underlying TLS 
 
 The model bindings are used in tests that validate the gNMI JSON payloads against the expected OpenConfig model. See [docs/tests](docs/tests.md) for more details.
 
+Run `python3 -m oc_config_validate -models` to get a list of the versions (revisions) of the OC models used. These are also added to the results file.
+
 ## Copyright
 
 Contains code from https://github.com/google/gnxi/tree/master/gnmi_cli_py and

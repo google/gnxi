@@ -23,7 +23,8 @@ from typing import Any, Dict, Optional
 
 import yaml
 
-from oc_config_validate import context, formatter, runner, target, testbase
+from oc_config_validate import (context, formatter, runner, schema, target,
+                                testbase)
 
 __version__ = "1.0.0"
 
@@ -115,6 +116,9 @@ def createArgsParser() -> argparse.ArgumentParser:
         "-v", "--version", help="Print program version", action="store_true")
     parser.add_argument(
         "-V", "--verbose", help="Enable gRPC debugging and extra logging",
+        action="store_true")
+    parser.add_argument(
+        "-models", "--oc_models_versions", help="Print OC models versions",
         action="store_true")
     parser.add_argument(
         "--no_tls", help="gRPC insecure mode", action="store_true")
@@ -254,9 +258,14 @@ def main():  # noqa
     """Executes this library."""
     argparser = createArgsParser()
     args = vars(argparser.parse_args())
+
     if args["version"]:
         print(__version__)
         sys.exit()
+    if args["oc_models_versions"]:
+        print(schema.getOcModelsVersions())
+        sys.exit()
+
     if args["verbose"]:
         # os.environ["GRPC_TRACE"] = "all"
         os.environ["GRPC_VERBOSITY"] = "DEBUG"
