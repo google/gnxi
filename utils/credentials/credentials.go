@@ -161,11 +161,19 @@ func ClientCredentials() []grpc.DialOption {
 }
 
 // AttachToContext attaches credentials to a context.
+// If there are existing credentials, it overrides their values.
 func AttachToContext(ctx context.Context) context.Context {
 	if authorizedUser.username == "" {
 		return ctx
 	}
-	return metadata.AppendToOutgoingContext(ctx, usernameKey, authorizedUser.username, passwordKey, authorizedUser.password)
+	md, ok := metadata.FromOutgoingContext(ctx)
+	if !ok {
+		md = metadata.MD{}
+	}
+	md.Set(usernameKey, authorizedUser.username)
+	md.Set(passwordKey, authorizedUser.password)
+
+	return metadata.NewOutgoingContext(ctx, md)
 }
 
 // GetCAEntity gets a CA entity from a CA file and private key.
