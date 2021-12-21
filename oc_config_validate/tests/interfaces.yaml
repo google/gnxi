@@ -1,0 +1,52 @@
+!TestContext
+
+description: Test to setup an interface
+
+labels:
+- interface
+
+tests:
+
+- !TestCase
+  name: "Configure loopback interface"
+  class_name: setget.JsonCheckCompare
+  args:
+    xpath: "/interfaces/interface[name=loopback]/config"
+    model: interfaces.interface.config.config
+    json_value: {
+      "enabled": true,
+      "mtu": 1500
+    }
+
+- !TestCase
+  name: "Configure description on interface"
+  class_name: setget.JsonCheckCompare
+  args:
+    xpath: "/interfaces/interface[name=ethernet1/1]/config"
+    model: interfaces.interface.config.config
+    json_value: {
+      "description": "Test interface"
+    }
+
+- !TestCase
+  name: "Check configuration of interface"
+  class_name: get.GetCompare
+  args:
+    xpath: "/interfaces/interface[name=loopback]/config"
+    want: {
+      "description": "Test interface",
+      "enabled": true,
+      "mtu": 1500,
+      "loopback-mode": false,
+      "name": "ethernet1/1"
+    }
+
+- !TestCase
+  name: "Configure loopback mode on interface"
+  class_name: setget.JsonCheckCompare
+  args:
+    xpath: "/interfaces/interface[name=ethernet1/1]/config"
+    model: interfaces.interface.config.config
+    json_value: {
+      "loopback-mode": true
+    }

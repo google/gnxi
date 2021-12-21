@@ -34,11 +34,13 @@ import (
 )
 
 var (
-	ca             = flag.String("ca", "", "CA certificate file.")
-	caKey          = flag.String("ca_key", "", "CA private key file.")
-	cert           = flag.String("cert", "", "Certificate file.")
-	key            = flag.String("key", "", "Private key file.")
-	TargetName     = flag.String("target_name", "", "The target name used to verify the hostname returned by TLS handshake") // TargetName is a flag containing the hostname verfified by TLS handshake
+	ca    = flag.String("ca", "", "CA certificate file.")
+	caKey = flag.String("ca_key", "", "CA private key file.")
+	cert  = flag.String("cert", "", "Certificate file.")
+	key   = flag.String("key", "", "Private key file.")
+
+	// TargetName is a flag containing the hostname verfified by TLS handshake.
+	TargetName     = flag.String("target_name", "", "The target name used to verify the hostname returned by TLS handshake")
 	insecure       = flag.Bool("insecure", false, "Skip TLS validation.")
 	notls          = flag.Bool("notls", false, "Disable TLS validation. If true, no need to specify TLS related options.")
 	authorizedUser = userCredentials{}
@@ -156,6 +158,22 @@ func ClientCredentials() []grpc.DialOption {
 		return append(opts, grpc.WithPerRPCCredentials(&authorizedUser))
 	}
 	return opts
+}
+
+// AttachToContext attaches credentials to a context.
+// If there are existing credentials, it overrides their values.
+func AttachToContext(ctx context.Context) context.Context {
+	if authorizedUser.username == "" {
+		return ctx
+	}
+	md, ok := metadata.FromOutgoingContext(ctx)
+	if !ok {
+		md = metadata.MD{}
+	}
+	md.Set(usernameKey, authorizedUser.username)
+	md.Set(passwordKey, authorizedUser.password)
+
+	return metadata.NewOutgoingContext(ctx, md)
 }
 
 // GetCAEntity gets a CA entity from a CA file and private key.

@@ -50,8 +50,10 @@ var (
 	org        = flag.String("organization", "OpenConfig", "Organization in CSR parameters")
 	orgUnit    = flag.String("organizational_unit", "gNxI", "Organizational unit in CSR parameters")
 	ipAddress  = flag.String("ip_address", "127.0.0.1", "IP address in CSR parameters")
+	otherCAs   = flag.String("other_cas", "", "Other CA certificate files that will get sent in the CA bundle but are not used to establish a connection or sign the CSR. Only filename prefix required. Suffixes assumed to be .pem and .key")
 
 	caEnt     *entity.Entity
+	caBundle  []*x509.Certificate
 	ctx       context.Context
 	cancel    func()
 	dial      = grpc.Dial
@@ -69,17 +71,22 @@ func main() {
 	ctx, cancel = context.WithTimeout(context.Background(), *timeOut)
 	defer cancel()
 
+	ctx = credUtils.AttachToContext(ctx)
+
 	switch *op {
 	case "provision":
 		caEnt = credUtils.GetCAEntity()
+		loadCABundle()
 		certIDCheck()
 		provision()
 	case "install":
 		caEnt = credUtils.GetCAEntity()
+		loadCABundle()
 		certIDCheck()
 		install()
 	case "rotate":
 		caEnt = credUtils.GetCAEntity()
+		loadCABundle()
 		certIDCheck()
 		rotate()
 	case "revoke":
@@ -97,6 +104,20 @@ func certIDCheck() {
 	if *certID == "" {
 		log.Exit("Must set a certificate ID with -cert_id.")
 	}
+}
+
+func loadCABundle() {
+	if *otherCAs != "" {
+		otherCAFileNames := strings.FieldsFunc(*otherCAs, func(r rune) bool { return r == ',' })
+		for _, s := range otherCAFileNames {
+			ent, err := entity.FromFile(s+".pem", s+".key")
+			if err != nil {
+				log.Exitf("Cannot read files %s.pem and %s.key: %v", s, s, err)
+			}
+			caBundle = append(caBundle, ent.Certificate.Leaf)
+		}
+	}
+	caBundle = append(caBundle, caEnt.Certificate.Leaf)
 }
 
 // gnoiEncrypted creates an encrypted TLS connection to the target.
@@ -156,7 +177,7 @@ func provision() {
 	defer conn.Close()
 	pkiName := pkix.Name{CommonName: *targetCN, Organization: []string{*org}, OrganizationalUnit: []string{*orgUnit}, Country: []string{*country}, Province: []string{*state}}
 
-	if err := client.Install(ctx, *certID, uint32(*minKeySize), pkiName, *ipAddress, signer, []*x509.Certificate{caEnt.Certificate.Leaf}); err != nil {
+	if err := client.Install(ctx, *certID, uint32(*minKeySize), pkiName, *ipAddress, signer, caBundle); err != nil {
 		log.Exit("Failed Install:", err)
 	}
 	log.Info("Install success")
@@ -168,7 +189,7 @@ func install() {
 	defer conn.Close()
 	pkiName := pkix.Name{CommonName: *targetCN, Organization: []string{*org}, OrganizationalUnit: []string{*orgUnit}, Country: []string{*country}, Province: []string{*state}}
 
-	if err := client.Install(ctx, *certID, uint32(*minKeySize), pkiName, *ipAddress, signer, []*x509.Certificate{caEnt.Certificate.Leaf}); err != nil {
+	if err := client.Install(ctx, *certID, uint32(*minKeySize), pkiName, *ipAddress, signer, caBundle); err != nil {
 		log.Exit("Failed Install:", err)
 	}
 	log.Info("Install success")
@@ -180,7 +201,7 @@ func rotate() {
 	defer conn.Close()
 	pkiName := pkix.Name{CommonName: *targetCN, Organization: []string{*org}, OrganizationalUnit: []string{*orgUnit}, Country: []string{*country}, Province: []string{*state}}
 
-	if err := client.Rotate(ctx, *certID, uint32(*minKeySize), pkiName, *ipAddress, signer, []*x509.Certificate{caEnt.Certificate.Leaf}, func() error { return nil }); err != nil {
+	if err := client.Rotate(ctx, *certID, uint32(*minKeySize), pkiName, *ipAddress, signer, caBundle, func() error { return nil }); err != nil {
 		log.Exit("Failed Rotate:", err)
 	}
 	log.Info("Rotate success")

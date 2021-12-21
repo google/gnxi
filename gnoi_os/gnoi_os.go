@@ -54,6 +54,8 @@ func main() {
 	ctx, cancel = context.WithTimeout(context.Background(), *timeOut)
 	defer cancel()
 
+	ctx = credentials.AttachToContext(ctx)
+
 	switch *op {
 	case "install":
 		install()

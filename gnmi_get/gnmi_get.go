@@ -83,9 +83,6 @@ func main() {
 
 	cli := pb.NewGNMIClient(conn)
 
-	ctx, cancel := context.WithTimeout(context.Background(), *timeOut)
-	defer cancel()
-
 	encoding, ok := pb.Encoding_value[*encodingName]
 	if !ok {
 		var gnmiEncodingList []string
@@ -124,6 +121,11 @@ func main() {
 		UseModels: pbModelDataList,
 	}
 	fmt.Println("== GetRequest:\n", proto.MarshalTextString(getRequest))
+
+	ctx, cancel := context.WithTimeout(context.Background(), *timeOut)
+	defer cancel()
+
+	ctx = credentials.AttachToContext(ctx)
 
 	getResponse, err := cli.Get(ctx, getRequest)
 	if err != nil {

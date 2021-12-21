@@ -1,0 +1,76 @@
+!TestContext
+description: Example test profile for OpenFlow devices
+labels:
+- Switch
+- Vendor
+- Version
+tests:
+- !TestCase
+  name: Get all connections to controller
+  class_name: get.TestGnmiGet
+  args:
+    xpath: "/openflow/controllers/controller[name=main]/connections"
+- !TestCase
+  name: Check connection is TLS
+  class_name: get.TestGnmiGetCheck
+  args:
+    xpath: "/openflow/controllers/controller[name=main]/connections/connection[aux-id=0]/state/transport"
+    want_json: {"/openflow/controllers/controller/connections/connection/state/transport": "TLS"}
+- !TestCase
+  name: Change connection port
+  class_name: set.TestGnmiSetUpdate
+  args:
+    xpath: "/openflow/controllers/controller[name=main]/connections/connection[aux-id=0]/config/port"
+    value: 6453
+- !TestCase
+  name: Check connection port was changed.
+  class_name: get.TestGnmiGetCheck
+  args:
+    xpath: "/openflow/controllers/controller[name=main]/connections/connection[aux-id=0]/state/port"
+    want_json: {"/openflow/controllers/controller/connections/connection/state/port": 6453}
+- !TestCase
+  name: Add a backup Controller connection
+  class_name: set.TestGnmiSetUpdate
+  args:
+    xpath: "/openflow/controllers/"
+    value: >
+      {
+      "controller": [
+      {
+        "name": "main"
+        "config": {
+          "name": "main"
+        },
+        "connections": {
+          "connection": [
+            {
+              "aux-id": 0,
+              "config": {
+                "address": "192.0.2.20",
+                "aux-id": 0,
+                "port": 6633,
+                "priority": 1,
+                "source-interface": "admin",
+                "transport": "TLS"
+              }
+            }
+          ]
+        }
+      }
+      ]
+      }
+- !TestCase
+  name: Check backup Controller was configured
+  class_name: set.TestGnmiGetCheck
+  args:
+    xpath: "/openflow/controllers/controller[name=backup]/connections/connection[aux-id=0]/config"
+    want_json: {
+      "/openflow/controllers/controller[name=backup]/connections/connection[aux-id=0]/config": {
+        "address": "192.0.2.20",
+        "aux-id": 0,
+        "port": 6633,
+        "priority": 1,
+        "source-interface": "admin",
+        "transport": "TLS"
+      }
+    }

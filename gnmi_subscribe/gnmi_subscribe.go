@@ -77,6 +77,8 @@ func main() {
 		defer cancel()
 	}
 
+	ctx = credentials.AttachToContext(ctx)
+
 	subscribeClient, err := client.Subscribe(ctx)
 	if err != nil {
 		log.Fatalf("Error creating GNMI_SubscribeClient: %v", err)
@@ -153,7 +155,7 @@ func stream(subscribeClient gnmi.GNMI_SubscribeClient) error {
 func poll(subscribeClient gnmi.GNMI_SubscribeClient, updatesOnly bool, pollInput func()) error {
 	ready := make(chan bool, 1)
 	ready <- true
-	pollRequest := &pb.SubscribeRequest{Request: &pb.SubscribeRequest_Poll{}}
+	pollRequest := &pb.SubscribeRequest{Request: &pb.SubscribeRequest_Poll{&pb.Poll{}}}
 	if updatesOnly {
 		res, err := subscribeClient.Recv()
 		if err != nil {

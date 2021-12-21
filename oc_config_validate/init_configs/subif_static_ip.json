@@ -1,0 +1,70 @@
+{
+  "interface": [
+    {
+      "name": "ethernet1/1",
+      "config": {
+        "name": "ethernet1/1",
+        "enabled": true
+      },
+      "subinterfaces": {
+        "subinterface": [
+          {
+            "index": 0,
+            "config": {
+              "index": 0
+            },
+            "ipv4": {
+              "config": {
+                "dhcp-client": false
+              },
+              "addresses": {
+                "address": [
+                  {
+                    "config": {
+                      "ip": "192.168.1.1",
+                      "prefix-length": 25
+                    },
+                    "ip": "192.168.1.1"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ethernet1/2",
+      "config": {
+        "name": "ethernet1/2",
+        "enabled": true
+      },
+      "subinterfaces": {
+        "subinterface": [
+          {
+            "index": 0,
+            "config": {
+              "index": 0
+            },
+            "ipv4": {
+              "config": {
+                "dhcp-client": true
+              },
+              "addresses": {
+                "address": [
+                  {
+                    "config": {
+                      "ip": "172.16.1.1",
+                      "prefix-length": 24
+                    },
+                    "ip": "172.16.1.1"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

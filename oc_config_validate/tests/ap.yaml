@@ -1,0 +1,641 @@
+!TestContext
+description: Example of a test profile to test AccessPoints
+labels:
+- AP
+- VENDOR
+- VERSION
+tests:
+- !TestCase
+  name: Get Hostname
+  class_name: get.GetCompare
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/hostname"
+    want: "ap.example.com"
+    
+- !TestCase
+  name: Check base model with baseline (init) configuration.
+  class_name: get.GetJsonCheck
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/"
+    model: "access_points.access_point.access_point"
+
+- !TestCase
+  name: Check radio static channel 1, width 20.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=1][operating-frequency=FREQ_2GHZ]"
+    json_value: {
+      "openconfig-access-points:operating-frequency": "openconfig-wifi-types:FREQ_2GHZ",
+      "openconfig-access-points:enabled": true,
+      "openconfig-access-points:scanning": false,
+      "openconfig-access-points:channel-width": 20,
+      "openconfig-access-points:id": 1,
+      "openconfig-access-points:channel": 1,
+      "openconfig-access-points:dtp": false,
+      "openconfig-access-points:dca": false,
+      "openconfig-access-points:transmit-power": 6
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 6, width 20.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=1][operating-frequency=FREQ_2GHZ]"
+    json_value: {
+      "openconfig-access-points:channel": 6
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 11, width 20.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=1][operating-frequency=FREQ_2GHZ]"
+    json_value: {
+      "openconfig-access-points:channel": 11
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 36, width 20.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:operating-frequency": "openconfig-wifi-types:FREQ_5GHZ",
+      "openconfig-access-points:enabled": true,
+      "openconfig-access-points:scanning": false,
+      "openconfig-access-points:channel-width": 20,
+      "openconfig-access-points:id": 0,
+      "openconfig-access-points:channel": 36,
+      "openconfig-access-points:dtp": false,
+      "openconfig-access-points:dca": false,
+      "openconfig-access-points:transmit-power": 6
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 40, width 20.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]"
+    json_value: {
+      "openconfig-access-points:channel": 40
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 44, width 20.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:channel": 44
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 48, width 20.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]"
+    json_value: {
+      "openconfig-access-points:channel": 48
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 52, width 20.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]"
+    json_value: {
+      "openconfig-access-points:channel": 52
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 56, width 20.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]"
+    json_value: {
+      "openconfig-access-points:channel": 56
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 60, width 20.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:channel": 60
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 64, width 20.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]"
+    json_value: {
+      "openconfig-access-points:channel": 64
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 100, width 20.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]"
+    json_value: {
+      "openconfig-access-points:channel": 100
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 104, width 20.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]"
+    json_value: {
+      "openconfig-access-points:channel": 104
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 108, width 20.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]"
+    json_value: {
+      "openconfig-access-points:channel": 108
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 112, width 20.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]"
+    json_value: {
+      "openconfig-access-points:channel": 112
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 116, width 20.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:channel": 116
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 120, width 20.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:channel": 120
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 124, width 20.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]"
+    json_value: {
+      "openconfig-access-points:channel": 124
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 128, width 20.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]"
+    json_value: {
+      "openconfig-access-points:channel": 128
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 132, width 20.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:channel": 132
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 136, width 20.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:channel": 136
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 140, width 20.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:channel": 140
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 144, width 20.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:channel": 144
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 149, width 20.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:channel": 149
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 153, width 20.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:channel": 153
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 157, width 20.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:channel": 157
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 161, width 20.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:channel": 161
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 165, width 20.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:channel": 165
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 36, width 40.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]"
+    json_value: {
+      "openconfig-access-points:operating-frequency": "openconfig-wifi-types:FREQ_5GHZ",
+      "openconfig-access-points:enabled": true,
+      "openconfig-access-points:scanning": false,
+      "openconfig-access-points:channel-width": 40,
+      "openconfig-access-points:id": 0,
+      "openconfig-access-points:channel": 36,
+      "openconfig-access-points:dtp": false,
+      "openconfig-access-points:dca": false,
+      "openconfig-access-points:transmit-power": 6
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 44, width 40.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:channel": 44
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 52, width 40.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:channel": 52
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 60, width 40.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:channel": 60
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 100, width 40.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:channel": 100
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 108, width 40.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:channel": 108
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 116, width 40.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:channel": 116
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 124, width 40.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:channel": 124
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 132, width 40.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:channel": 132
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 140, width 40.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:channel": 140
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 149, width 40.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:channel": 149
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Check radio static channel 157, width 40.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:channel": 157
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: SetCheck tx-power 9.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:transmit-power": 9
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: SetCheck tx-power 15.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:transmit-power": 15
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Disable five radio.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:enabled": false
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Enable five radio.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=0][operating-frequency=FREQ_5GHZ]/"
+    json_value: {
+      "openconfig-access-points:enabled": true
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Disable two radio.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=1][operating-frequency=FREQ_2GHZ]/"
+    json_value: {
+      "openconfig-access-points:enabled": false
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Enable two radio.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/radios/radio[id=1][operating-frequency=FREQ_2GHZ]/"
+    json_value: {
+      "openconfig-access-points:enabled": true
+    }
+    model: "access_points.access_point.radios.radio"
+
+- !TestCase
+  name: Set baseline SSID container.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/ssids/ssid[name=Test-A]/"
+    json_value: {
+      "openconfig-access-points:dot11k": true,
+      "openconfig-access-points:default-vlan": 666,
+      "openconfig-access-points:advertise-apname": true,
+      "openconfig-access-points:operating-frequency": "openconfig-wifi-types:FREQ_5GHZ",
+      "openconfig-access-points:multicast-filter": true,
+      "openconfig-access-points:broadcast-filter": true,
+      "openconfig-access-points:supported-data-rates-5g": [
+        "openconfig-wifi-types:RATE_36MB",
+        "openconfig-wifi-types:RATE_48MB",
+        "openconfig-wifi-types:RATE_54MB"
+      ],
+      "openconfig-access-points:station-isolation": true,
+      "openconfig-access-points:hidden": false,
+      "openconfig-access-points:name": "Test-A",
+      "openconfig-access-points:qbss-load": true,
+      "openconfig-access-points:basic-data-rates-5g": [
+        "openconfig-wifi-types:RATE_36MB",
+        "openconfig-wifi-types:RATE_48MB",
+        "openconfig-wifi-types:RATE_54MB"
+      ]
+    }
+    model: "access_points.access_point.ssids.ssid"
+
+- !TestCase
+  name: Set baseline SSID container - alternate.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/ssids/ssid[name=Test-A]/"
+    json_value: {
+      "openconfig-access-points:dot11k": false,
+      "openconfig-access-points:default-vlan": 999,
+      "openconfig-access-points:advertise-apname": false,
+      "openconfig-access-points:operating-frequency": "openconfig-wifi-types:FREQ_5GHZ",
+      "openconfig-access-points:multicast-filter": false,
+      "openconfig-access-points:broadcast-filter": false,
+      "openconfig-access-points:supported-data-rates-5g": [
+        "openconfig-wifi-types:RATE_1MB",
+        "openconfig-wifi-types:RATE_2MB",
+        "openconfig-wifi-types:RATE_5.5MB",
+        "openconfig-wifi-types:RATE_6MB",
+        "openconfig-wifi-types:RATE_9MB",
+        "openconfig-wifi-types:RATE_11MB",
+        "openconfig-wifi-types:RATE_12MB",
+        "openconfig-wifi-types:RATE_18MB",
+        "openconfig-wifi-types:RATE_24MB",
+        "openconfig-wifi-types:RATE_36MB",
+        "openconfig-wifi-types:RATE_48MB",
+        "openconfig-wifi-types:RATE_54MB"
+      ],
+      "openconfig-access-points:station-isolation": false,
+      "openconfig-access-points:hidden": True,
+      "openconfig-access-points:name": "Test-A",
+      "openconfig-access-points:qbss-load": false,
+      "openconfig-access-points:basic-data-rates-5g": [
+        "openconfig-wifi-types:RATE_1MB",
+        "openconfig-wifi-types:RATE_2MB",
+        "openconfig-wifi-types:RATE_5.5MB",
+        "openconfig-wifi-types:RATE_6MB",
+        "openconfig-wifi-types:RATE_9MB",
+        "openconfig-wifi-types:RATE_11MB",
+        "openconfig-wifi-types:RATE_12MB",
+        "openconfig-wifi-types:RATE_18MB",
+        "openconfig-wifi-types:RATE_24MB",
+        "openconfig-wifi-types:RATE_36MB",
+        "openconfig-wifi-types:RATE_48MB",
+        "openconfig-wifi-types:RATE_54MB"
+      ]
+    }
+    model: "access_points.access_point.ssids.ssid"
+
+- !TestCase
+  name: Set band-steering container.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/ssids/ssid[name=Test-A]/band-steering/"
+    json_value: {
+      "openconfig-access-points:band-steering": true,
+      "openconfig-access-points:steering-rssi": 18
+    }
+    model: "access_points.access_point.ssids.ssid.band_steering"
+
+- !TestCase
+  name: Disable SSH.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/system/ssh-server/"
+    json_value: {
+      "openconfig-access-points:enable": false
+    }
+    model: "access_points.access_point.system.ssh_server"
+
+- !TestCase
+  name: Enable SSH.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/access-points/access-point[hostname=ap.example.com]/system/ssh-server/"
+    json_value: {
+      "openconfig-access-points:enable": true
+    }
+    model: "access_points.access_point.system.ssh_server"
+
+- !TestCase
+  name: Provision container.
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/provision-aps/provision-ap[mac=30:86:2D:C0:BC:6F]/"
+    json_value: {
+      "openconfig-ap-manager:hostname": "ap.example.com",
+      "openconfig-ap-manager:country-code": "US",
+      "openconfig-ap-manager:mac": "30:86:2D:25:E6:1F"
+    }
+    model: "provision_aps.provision_ap"
+
+- !TestCase
+  name: Verify joined-aps container.
+  class_name: get.GetJsonCheckCompare
+  args:
+    xpath: "/joined-aps/joined-ap[hostname=ap.example.com]/state"
+    want_json: {
+      "openconfig-ap-manager:enabled": true,
+      "openconfig-ap-manager:hostname": "ap.example.com",
+      "openconfig-ap-manager:ipv4": "10.0.0.166",
+      "openconfig-ap-manager:mac": "30:86:2D:C0:BC:6F",
+      "openconfig-ap-manager:model": "C-230",
+      "openconfig-ap-manager:opstate": "openconfig-wifi-types:UP",
+      "openconfig-ap-manager:power-source": "AT",
+      "openconfig-ap-manager:serial": "30862DC0BC6F",
+      "openconfig-ap-manager:software-version": "9.0.1-14:6",
+    }
+    model: "joined_aps.joined_ap.state.state"

@@ -52,6 +52,8 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), *timeOut)
 	defer cancel()
 
+	ctx = credentials.AttachToContext(ctx)
+
 	capResponse, err := cli.Capabilities(ctx, &pb.CapabilityRequest{})
 	if err != nil {
 		log.Exitf("error in getting capabilities: %v", err)

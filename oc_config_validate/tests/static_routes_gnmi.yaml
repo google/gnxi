@@ -1,0 +1,137 @@
+!TestContext
+description: "Configure static routes"
+
+tests:
+
+- !TestCase
+  name: "Configure and check a default route, without next hop"
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/local-routes/static-routes/static[prefix=0.0.0.0/0]"
+    model: "local_routes.static_routes.static"
+    json_value: {
+      "prefix": "0.0.0.0/0"
+    }
+
+- !TestCase
+  name: "Configure and check a next-hop for the default route"
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/local-routes/static-routes/static[prefix=0.0.0.0/0]/next-hops/next-hop[index=0]"
+    model: "local_routes.static_routes.static.next_hops.next_hop"
+    json_value: {
+      "index": "0",
+      "next-hop": "192.168.1.126"
+    }
+
+- !TestCase
+  name: "Configure a description on the default route"
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/local-routes/static-routes/static[prefix=0.0.0.0/0]"
+    model: "local_routes.static_routes.static"
+    json_value: {
+      "prefix": "0.0.0.0/0",
+      "description": "Default Route"
+    }
+
+- !TestCase
+  name: "Configure and check another static route"
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/local-routes/static-routes/static[prefix=10.10.10.0/24]"
+    model: "local_routes.static_routes.static"
+    json_value: {
+      "prefix": "0.0.0.0/0",
+      "next-hops": {
+        "next-hop": [
+          {
+            "config": {
+              "index": "0",
+              "next-hop": "192.168.1.126"
+            },
+            "index": "0"
+          }
+        ]
+      }
+    }
+
+- !TestCase
+  name: "Configure and check another static route"
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/local-routes/static-routes/static[prefix=10.10.20.0/24]/next-hops/next-hop[index=0]"
+    model: "local_routes.static_routes.static.next_hops.next_hop"
+    json_value: {
+      "index": "0",
+      "next-hop": "192.168.1.126"
+    }
+
+- !TestCase
+  name: "Configure a not directly-connected next hop"
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/local-routes/static-routes/static[prefix=10.10.30.0/24]/next-hops/next-hop[index=0]"
+    model: "local_routes.static_routes.static.next_hops.next_hop"
+    json_value: {
+      "index": "0",
+      "next-hop": "192.168.99.99"
+    }
+
+- !TestCase
+  name: "Replace next hop of a static route"
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/local-routes/static-routes/static[prefix=10.10.20.0/24]/next-hops/next-hop[index=0]"
+    model: "local_routes.static_routes.static.next_hops.next_hop"
+    json_value: {
+      "index": "0",
+      "next-hop": "192.168.1.124"
+    }
+
+- !TestCase
+  name: "Add next hop to a static route"
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/local-routes/static-routes/static[prefix=10.10.10.0/24]/next-hops/next-hop[index=1]"
+    model: "local_routes.static_routes.static.next_hops.next_hop"
+    json_value: {
+      "index": "1",
+      "next-hop": "192.168.1.124"
+    }
+
+- !TestCase
+  name: "Edit next hop of a static route, with metric"
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/local-routes/static-routes/static[prefix=10.10.10.0/24]/next-hops/next-hop[index=1]"
+    model: "local_routes.static_routes.static.next_hops.next_hop"
+    json_value: {
+      "index": "1",
+      "next-hop": "192.168.1.122",
+      "metric": 200
+    }
+
+- !TestCase
+  name: "Delete a next hop from a static route"
+  class_name: config_state.DeleteConfigCheckState
+  args:
+    xpath: "/local-routes/static-routes/static[prefix=10.10.10.0/24]/next-hops/next-hop[index=1]"
+
+- !TestCase
+  name: "Delete next hop to a static route"
+  class_name: config_state.DeleteConfigCheckState
+  args:
+    xpath: "/local-routes/static-routes/static[prefix=10.10.10.0/24]/next-hops/next-hop[index=0]"
+
+- !TestCase
+  name: "Delete next hop to a static route"
+  class_name: config_state.DeleteConfigCheckState
+  args:
+    xpath: "/local-routes/static-routes/static[prefix=10.10.20.0/24]/next-hops/next-hop[index=0]"
+
+- !TestCase
+  name: "Delete default route"
+  class_name: config_state.DeleteConfigCheckState
+  args:
+    xpath: "/local-routes/static-routes/static[prefix=0.0.0.0/0]/next-hops/next-hop[index=0]"

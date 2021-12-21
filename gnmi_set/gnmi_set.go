@@ -52,7 +52,7 @@ var (
 	replaceOpt arrayFlags
 	updateOpt  arrayFlags
 	targetAddr = flag.String("target_addr", "localhost:9339", "The target address in the format of host:port")
-	timeOut    = flag.Duration("time_out", 10*time.Second, "Timeout for the Get request, 10 seconds by default")
+	timeOut    = flag.Duration("time_out", 10*time.Second, "Timeout for the Set request, 10 seconds by default")
 )
 
 func buildPbUpdateList(pathValuePairs []string) []*pb.Update {
@@ -153,7 +153,13 @@ func main() {
 	fmt.Println("== SetRequest:\n", proto.MarshalTextString(setRequest))
 
 	cli := pb.NewGNMIClient(conn)
-	setResponse, err := cli.Set(context.Background(), setRequest)
+
+	ctx, cancel := context.WithTimeout(context.Background(), *timeOut)
+	defer cancel()
+
+	ctx = credentials.AttachToContext(ctx)
+
+	setResponse, err := cli.Set(ctx, setRequest)
 	if err != nil {
 		log.Exitf("Set failed: %v", err)
 	}
