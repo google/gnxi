@@ -29,6 +29,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 
 import grpc
 
+from oc_config_validate import context
 from oc_config_validate.gnmi import gnmi_pb2, gnmi_pb2_grpc
 
 _RE_GNMI_PATH_ELEM = re.compile(r'''^
@@ -71,17 +72,22 @@ class TestTarget():
         hostname_port: Target to connect to, as 'hostname:port'.
     """
 
-    def __init__(self, hostname_port: str):
-        self.address = hostname_port
-        self.notls = False
-        self.username = None
-        self.password = None
-        self.host_tls_override = None
+    def __init__(self, tgt: context.Target):
+        self.address = tgt.target
+        self.notls = tgt.no_tls
+        self.username = tgt.username
+        self.password = tgt.password
+        self.notls = tgt.no_tls
+        self.host_tls_override = tgt.tls_host_override
         self.key = None
         self.cert = None
         self.root_ca = None
         self.connection = None
         self.stub = None
+
+        if not self.notls:
+            self.setCertificates(key=tgt.private_key, cert=tgt.cert_chain,
+                                 root_ca=tgt.root_ca_cert)
 
     def __repr__(self):
         return ('TestTarget(address=%r, username=%r, notls=%r)' %
@@ -89,16 +95,6 @@ class TestTarget():
 
     def __str__(self):
         return self.address
-
-    def setCredentials(self, username: str, password: str):
-        """Set the username and password to use on connections.
-
-        Args:
-            username: The username.
-            password: The password value, passed verbatim to the target.
-        """
-        self.username = username
-        self.password = password
 
     def setCertificates(self, key: Optional[str] = None,
                         cert: Optional[str] = None,
@@ -292,6 +288,20 @@ class TestTarget():
         with open(file_path, encoding="utf8") as file:
             json_data = json.load(file)
         self.gNMISetUpdate(xpath, json_data)
+
+    def validate(self):
+        """Ensures the Target is defined appropriately.
+
+        Raises:
+          ValueError when the Target is not defined correctly.
+        """
+        parts = self.address.split(":")
+        if len(parts) != 2 or not bool(parts[0]) or not parts[1].isdigit():
+            raise ValueError("Needed valid target HOSTNAME:PORT")
+
+        # If using client certificates for TLS, provide key and cert
+        if not self.notls and (bool(self.key) ^ bool(self.cert)):
+            raise ValueError("TLS key and cert are both needed.")
 
 
 def parsePath(xpath: str) -> gnmi_pb2.Path:
