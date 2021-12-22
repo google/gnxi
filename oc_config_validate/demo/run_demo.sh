@@ -41,12 +41,12 @@ stop_gnmi_target() {
 
 # start_oc_config_validate <gnmi_port>
 start_oc_config_validate() {
-    OPTS="--tls_host_override target.com"
+    OPTS=""
     if [[ "$NO_TLS" -eq 1 ]]; then
         OPTS="--no_tls"
     fi
     if [[ "$ROOT_CA" -eq 1 ]]; then
-        OPTS="$OPTS -ca $BASEDIR/certs/ca.crt"
+        OPTS="-ca $BASEDIR/certs/ca.crt"
     fi
     if [[ "$CLIENT_TLS" -eq 1 ]]; then
         OPTS="$OPTS -key $BASEDIR/certs/client.key -cert $BASEDIR/certs/client.crt"

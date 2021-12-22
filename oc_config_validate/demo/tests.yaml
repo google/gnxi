@@ -5,6 +5,11 @@ labels:
 - FOO
 - BAR
 
+target:
+  !Target
+  target: "localhost:8080"
+  tls_host_override: "target.com"
+
 init_configs:
 - !InitConfig
   filename: init_config.json

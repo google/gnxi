@@ -69,8 +69,8 @@ Run the script `run_demo.sh` to see a quick demonstration of `oc_config_validate
  1. Finally, validate your configurations against a gNMI target using:
  
 ```
-    python3 -m oc_config_validate --target HOSTNAME:PORT \
-       -tests TESTS_FILE -results RESULTS_FILE \
+    python3 -m oc_config_validate -tests TESTS_FILE -results RESULTS_FILE \
+       [--target HOSTNAME:PORT] \
        [--username USERNAME] [--password PASSWORD] \
        [--tls_host_override TLS_HOSTNAME | --no_tls ] \
        [-init INIT_CONFIG_FILE -xpath INIT_CONFIG_XPATH] \
@@ -150,15 +150,15 @@ By default, *oc_config_validate* will use TLS for the gNMI connection, will
 validate the hostname presented by the Target in its certificate and will fetch
 the Root CA certificate from the Target.
 
- *  Use the `--tls_host_override` flag to provide the hostname value present
+ *  Use the `tls_host_override` option to provide the hostname value present
     in the Target's certificate.
- *  Use the `--root_cat` flag to provide the Root CA certificate file to use.
- *  Use the `-key` and `-cert` flags to provide the TLS key and certificate 
+ *  Use the `root_ca_cert` option to provide the Root CA certificate file to use.
+ *  Use the `private_key` and `cert_chain` options to provide the TLS key and certificate 
     files that the client will present to the Target.
 
 In case of errors, use the `--debug` flag to help understand the underlying TLS issue, if any.
 
- > With case, use the `--no_tls` flag not to use TLS for the gNMI connection. 
+ > With care, use the `no_tls` option not to use TLS for the gNMI connection. 
  >
  > Warning: All communication will be in plain text.
 

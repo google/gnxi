@@ -109,7 +109,7 @@ def makeTestSuite(test_class_name: str,
                                suiteClass=testbase.TestSuite)
     suite.test_class_name = test_class_name
     suite.test_name = test_name
-    return suite
+    return suite    # pytype: disable=bad-return-type
 
 
 def getClassFromPath(class_name: str) -> Optional[testbase.TestCase]:
@@ -194,7 +194,15 @@ def setInitConfigs(ctx: context.TestContext,
 
     """
     for init_config in ctx.init_configs:
+        # Provide init_config file and xpath
+        if not init_config.filename or not init_config.xpath:
+            logging.error(
+                "Initial configuration file and xpath are both needed: %s:%s",
+                init_config.filename, init_config.xpath)
+            if stop_on_error:
+                return False
         try:
+
             target.parsePath(init_config.xpath)
             tgt.gNMISetConfigFile(init_config.filename, init_config.xpath)
             logging.info("Initial OpenConfig '%s' applied at %s",
