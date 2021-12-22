@@ -13,6 +13,18 @@ labels:
 - [:string]
 - [:string]
 
+# Target to connect to. Overridden by command arguments
+target:
+  !Target
+  target: [:string]  # As "hostname:port"
+  username: [:string]
+  password: [:string]  # Attention, this is clear text.
+  no_tls: [:bool]
+  private_key: [:string]  # Path to file
+  cert_chain: [:string]  # Path to file
+  root_ca_cert: [:string]  # Path to file
+  tls_host_override: [:string]
+
 # Optional list of initial configurations and xpaths to apply before the tests.
 init_configs:
 - !InitConfig
