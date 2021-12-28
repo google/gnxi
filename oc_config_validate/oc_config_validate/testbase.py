@@ -307,7 +307,7 @@ class TestResult(unittest.TestResult):
     def addError(self, test: TestCase, err):
         """Override parent addError to support logging."""
         log = '%s\n%s' % (
-            self.log_message, self._exc_info_to_string(err, test))  # pytype: disable=attribute-error
+            self.log_message, self._exc_info_to_string(err, test))  # pytype: disable=attribute-error # noqa
         self.errors.append((test, log))
         self._mirrorOutput = True
         logging.error("%s - ERR:\n%s", test, log)
@@ -316,7 +316,7 @@ class TestResult(unittest.TestResult):
     def addFailure(self, test: TestCase, err):
         """Override parent addFailure to support logging."""
         log = '%s\n %s' % (
-            self.log_message, self._exc_info_to_string(err, test))  # pytype: disable=attribute-error
+            self.log_message, self._exc_info_to_string(err, test))  # pytype: disable=attribute-error # noqa
         self.failures.append((test, log))
         self._mirrorOutput = True
         logging.error("%s - FAIL:\n%s", test, log)

@@ -221,7 +221,7 @@ def main():  # noqa
             setattr(ctx.target, arg, args[arg])
 
     tgt = target.TestTarget(ctx.target)
-    try: 
+    try:
         tgt.validate()
     except ValueError as error:
         sys.exit("Invalid Target: %s" % error)

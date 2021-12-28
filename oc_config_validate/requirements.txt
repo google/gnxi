@@ -1,12 +1,15 @@
 autopep8==1.5.7
+build==0.7.0
 grpcio==1.39.0
 grpcio-tools==1.39.0
+isort==5.10.1
 parameterized==0.8.1
 pyang==2.5.0
 pyangbind==0.8.1
+pycodestyle==2.8.0
+pyflakes==2.4.0
 pylama==7.7.1
 pytype==2021.7.27
 PyYAML==5.4.1
 retry==0.9.2
 yamllint==1.26.3
-build==0.7.0
