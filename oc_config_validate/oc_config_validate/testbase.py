@@ -22,6 +22,7 @@ from functools import wraps
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 from pyangbind.lib import pybindJSON
+from retry.api import retry_call
 
 from oc_config_validate import context, schema, target
 from oc_config_validate.gnmi import gnmi_pb2
@@ -37,6 +38,19 @@ def failfast(method):
         if getattr(self, 'failfast', False):
             self.stop()
         method(self, *args, **kw)
+    return inner
+
+
+def retryAssertionError(method):
+    """Wrap a test to retry if AssertionError."""
+    @wraps(method)
+    def inner(self, *args, **kw):
+        if hasattr(self, 'retries'):
+            delay = getattr(self, 'retry_delay', 10)
+            retry_call(method,  fargs=[self, *args], fkwargs=kw,
+                       tries=getattr(self, 'retries'), delay=delay)
+        else:
+            method(self, *args, **kw)
     return inner
 
 

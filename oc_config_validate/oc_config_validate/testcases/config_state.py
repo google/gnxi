@@ -2,8 +2,6 @@
 
 import json
 
-from retry import retry
-
 from oc_config_validate import schema, target, testbase
 
 
@@ -46,7 +44,7 @@ class SetConfigCheckState(testbase.TestCase):
                 self.xpath.rstrip("/") + "/config", self.json_value),
             "gNMI Set did not succeed.")
 
-    @retry(exceptions=AssertionError, tries=2, delay=10)
+    @testbase.retryAssertionError
     def test0200(self):
         """gNMI Get on /config"""
         self.assertArgs(["xpath", "model", "json_value"])
@@ -58,7 +56,7 @@ class SetConfigCheckState(testbase.TestCase):
         cmp, diff = target.intersectCmp(got, self.json_value)
         self.assertTrue(cmp, diff)
 
-    @retry(exceptions=AssertionError, tries=5, delay=10)
+    @testbase.retryAssertionError
     def test0300(self):
         """gNMI Get on /state"""
         self.assertArgs(["xpath", "model", "json_value"])
@@ -105,14 +103,14 @@ class DeleteConfigCheckState(testbase.TestCase):
             self.gNMISetDelete(self.xpath.rstrip("/")),
             "gNMI Delete did not succeed.")
 
-    @retry(exceptions=AssertionError, tries=2, delay=10)
+    @testbase.retryAssertionError
     def test0300(self):
         """gNMI Get on /config to verify it is deleted"""
         self.assertFalse(
             self.gNMIGet(self.xpath.rstrip("/") + "/config"),
             "There is still a /config container for the xpath.")
 
-    @retry(exceptions=AssertionError, tries=3, delay=10)
+    @testbase.retryAssertionError
     def test0400(self):
         """gNMI Get on /state to verify it is deleted"""
         self.assertFalse(
