@@ -14,7 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#
 # Code taken and adapted from 
 # https://github.com/openconfig/gnmitest/blob/master/schemas/openconfig/update.sh,
 # under Apache License, Version 2.0.
@@ -27,21 +26,25 @@ git clone --depth 1 https://github.com/openconfig/public.git "$MODELS_FOLDER/pub
 
 PYBINDPLUGIN=$(/usr/bin/env python -c 'import pyangbind; import os; print ("{}/plugin".format(os.path.dirname(pyangbind.__file__)))')
 
-MODELS=( "${MODELS_FOLDER}/public/release/models/interfaces/openconfig-interfaces.yang" \
+_MODELS=( "${MODELS_FOLDER}/public/release/models/interfaces/openconfig-interfaces.yang" \
           "${MODELS_FOLDER}/public/release/models/interfaces/openconfig-if-ip.yang" \
           "${MODELS_FOLDER}/public/release/models/wifi/openconfig-access-points.yang" \
           "${MODELS_FOLDER}/public/release/models/wifi/openconfig-ap-interfaces.yang" \
           "${MODELS_FOLDER}/public/release/models/wifi/openconfig-ap-manager.yang" \
-          "${MODELS_FOLDER}/public/release/models/system/openconfig-system.yang" \
-          "${MODELS_FOLDER}/public/release/models/system/openconfig-aaa.yang" \
           "${MODELS_FOLDER}/public/release/models/local-routing/openconfig-local-routing.yang" \
           "${MODELS_FOLDER}/public/release/models/bgp/openconfig-bgp.yang" \
-          "${MODELS_FOLDER}/public/release/models/bgp/openconfig-bgp-global.yang" \
-          "${MODELS_FOLDER}/public/release/models/bgp/openconfig-bgp-neighbor.yang" \
           "${MODELS_FOLDER}/public/release/models/lldp/openconfig-lldp.yang" )
 
+SYSTEM_MODELS=( "${MODELS_FOLDER}/public/release/models/system/openconfig-system.yang" \
+                "${MODELS_FOLDER}/public/release/models/system/openconfig-aaa.yang"  )
+
+MODELS=( ${_MODELS[@]} ${SYSTEM_MODELS[@]} )
+
 pyang --plugindir $PYBINDPLUGIN -f pybind  --path "$MODELS_FOLDER/" \
-  --split-class-dir "$MODELS_FOLDER/" ${MODELS[@]}
+  --split-class-dir "$MODELS_FOLDER/" ${SYSTEM_MODELS[@]}
+
+pyang --plugindir $PYBINDPLUGIN -f pybind  --path "$MODELS_FOLDER/" \
+  --split-class-dir "$MODELS_FOLDER/" ${_MODELS[@]}
 
 pyang --plugindir $PYBINDPLUGIN -f name --name-print-revision \
   --path "$MODELS_FOLDER/" --output "$MODELS_FOLDER/versions" ${MODELS[@]}
