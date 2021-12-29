@@ -16,6 +16,8 @@
     Args:
      *  `xpath`: gNMI path to read, like "system/config"
      *  `want`: Expected value; can be numeric, string or JSON-IETF
+     *  `retries`: Optional. Number of retries if the assertion fails
+     *  `retry_delay`: Optional. Delay, in seconds, between retries. Default 10
 
  *  `get.GetJsonCheck`
 
@@ -24,7 +26,9 @@
     Args:
      *  `xpath`: gNMI path to read, like "system/config"
      *  `model`: Python binding class to check the JSON reply against.
-        like `system.config.config`. 
+        like `system.config.config`.
+     *  `retries`: Optional. Number of retries if the assertion fails.
+     *  `retry_delay`: Optional. Delay, in seconds, between retries. Default 10.
 
         The binding classes are in the `oc_config_validate.models` package.
 
@@ -37,6 +41,8 @@
      *  `model`: Python binding class to check the JSON reply against.
         like `system.config.config`. 
      *  `want_json`: Expected JSON-IETF value.
+     *  `retries`: Optional. Number of retries if the assertion fails.
+     *  `retry_delay`: Optional. Delay, in seconds, between retries. Default 10.
 
         The binding classes are in the `oc_config_validate.models` package.
 
@@ -83,6 +89,8 @@
      *  `json_value`: JSON-IETF value to check set and get.
      *  `model`: Python binding class to check the JSON reply against.
         like `system.config.config`.
+     *  `retries`: Optional. Number of retries if the assertion fails.
+     *  `retry_delay`: Optional. Delay, in seconds, between retries. Default 10.
 
  *  `setget.JsonCheckCompare`
 
@@ -99,6 +107,8 @@
      *  `json_value`: JSON-IETF value to check set, get and compare.
      *  `model`: Python binding class to check the JSON reply against.
         like `system.config.config`.
+     *  `retries`: Optional. Number of retries if the assertion fails.
+     *  `retry_delay`: Optional. Delay, in seconds, between retries. Default 10.
 
 ### Module config_state
 
@@ -120,6 +130,8 @@
      *  `xpath`: gNMI path to write and read, without ending /config or /state.
      *  `json_value`: JSON-IETF value to check set, get and compare.
      *  `model`: Python binding class to check the JSON reply against.
+     *  `retries`: Optional. Number of retries if the assertion fails.
+     *  `retry_delay`: Optional. Delay, in seconds, between retries. Default 10.
 
  *  `config_state.DeleteConfigCheckState`
  
@@ -135,8 +147,12 @@
 
     Args:
      *  `xpath`: gNMI path to delete, without ending /config or /state.
+     *  `retries`: Optional. Number of retries if the assertion fails.
+     *  `retry_delay`: Optional. Delay, in seconds, between retries. Default 10.
 
 ### Module static_route
+
+By default, the tests do 3 retries, with 10 seconds delay, if the assertion fails.
 
  *  `static_route.AddStaticRoute`
 
@@ -199,6 +215,8 @@
      * `description`: Optional text description of the route.
 
 ### Module subif_ip
+
+By default, the tests do 3 retries, with 10 seconds delay, if the assertion fails.
 
  *  `subif_ip.SetSubifDhcp`
  

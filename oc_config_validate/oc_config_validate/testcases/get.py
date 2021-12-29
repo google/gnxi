@@ -35,6 +35,7 @@ class GetCompare(testbase.TestCase):
     xpath = ""
     want = ""
 
+    @testbase.retryAssertionError
     def test0200(self):
         """"""
         self.assertArgs(["xpath", "want"])
@@ -64,6 +65,7 @@ class GetJsonCheck(testbase.TestCase):
     xpath = ""
     model = ""
 
+    @testbase.retryAssertionError
     def test0200(self):
         """"""
         self.assertArgs(["xpath", "model"])
@@ -94,6 +96,7 @@ class GetJsonCheckCompare(testbase.TestCase):
     model = ""
     want_json = None
 
+    @testbase.retryAssertionError
     def test0200(self):
         """"""
         self.assertArgs(["xpath", "want_json", "model"])

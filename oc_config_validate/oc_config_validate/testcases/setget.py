@@ -48,6 +48,10 @@ class JsonCheck(TestCase):
         """"""
         self.assertTrue(self.gNMISetUpdate(self.xpath, self.json_value),
                         "gNMI Set did not succeed.")
+
+    @testbase.retryAssertionError
+    def test0200(self):
+        """"""
         resp = self.gNMIGet(self.xpath)
         self.assertIsNotNone(resp, "No gNMI GET response")
         self.resp_val = resp.json_ietf_val
@@ -74,10 +78,14 @@ class JsonCheckCompare(JsonCheck):
         model: Python binding class to check the JSON reply against.
     """
 
-    def test0200(self):
+    @testbase.retryAssertionError
+    def test0300(self):
         """"""
-        if not hasattr(self, "resp_val") or not self.resp_val:
-            self.skipTest("No JSON response to compare")
+        resp = self.gNMIGet(self.xpath)
+        self.assertIsNotNone(resp, "No gNMI GET response")
+        self.resp_val = resp.json_ietf_val
+        self.assertIsNotNone(self.resp_val,
+                             "The gNMI GET response is not JSON IETF")
         got = json.loads(self.resp_val)
         cmp, diff = target.intersectCmp(got, self.json_value)
         self.assertTrue(cmp, diff)

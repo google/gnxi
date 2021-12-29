@@ -18,6 +18,8 @@ tests:
   name: "Set and Check Hostname and Domain"
   class_name: config_state.SetConfigCheckState
   args:
+    retries: 3
+    retry_delay: 10
     xpath: "/system"
     model: "system"
     json_value: {
@@ -29,6 +31,8 @@ tests:
   name: "Update Hostname"
   class_name: setget.JsonCheckCompare
   args:
+    retries: 3
+    retry_delay: 10
     xpath: "/system/config"
     model: system.config.config
     json_value: {
@@ -50,6 +54,8 @@ tests:
   name: "Set and Check Timezone"
   class_name: config_state.SetConfigCheckState
   args:
+    retries: 3
+    retry_delay: 10
     xpath: "/system/clock"
     model: "system.clock"
     json_value: {
@@ -60,6 +66,8 @@ tests:
   name: "Update and Check Timezone"
   class_name: setget.JsonCheckCompare
   args:
+    retries: 3
+    retry_delay: 10
     xpath: "/system/clock/config"
     model: "system.clock.config.config"
     json_value: {
