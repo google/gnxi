@@ -410,8 +410,8 @@ class TestRun():
     tests_total = 0
     tests_fail = 0
 
-    def __init__(self, tgt: str, ctx: context.TestContext):
-        self.test_target = tgt
+    def __init__(self, ctx: context.TestContext):
+        self.test_target = ctx.target.target
         self.oc_models = schema.getOcModelsVersions()
         if ctx.description:
             self.description = ctx.description
