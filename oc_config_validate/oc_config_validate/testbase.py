@@ -241,7 +241,7 @@ class TestCase(unittest.case.TestCase):
         match, error = True, None
         try:
             schema.decodeJson(json_value, model_obj)
-        except AttributeError as err:
+        except (AttributeError, ValueError) as err:
             match, error = False, err
         self.assertTrue(match, "%s: %s" % (msg, error))
 
