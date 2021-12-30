@@ -1,5 +1,5 @@
 {
-  "interface": [
+  "openconfig-interfaces:interface": [
     {
       "name": "ethernet1/1",
       "config": {
@@ -13,7 +13,7 @@
             "config": {
               "index": 0
             },
-            "ipv4": {
+            "openconfig-if-ip:ipv4": {
               "config": {
                 "dhcp-client": false
               },
@@ -46,7 +46,7 @@
             "config": {
               "index": 0
             },
-            "ipv4": {
+            "openconfig-if-ip:ipv4": {
               "config": {
                 "dhcp-client": true
               },

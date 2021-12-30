@@ -1,5 +1,5 @@
 {
-  "config": {
+  "openconfig-system:config": {
     "domain-name": ".",
     "hostname": "PA-VM",
     "login-banner": ""

@@ -14,8 +14,8 @@ tests:
     xpath: "/bgp/global"
     model: bgp.global_
     json_value: {
-      "as": "65333",
-      "router-id": "10.1.1.1"
+      "openconfig-bgp:as": "65333",
+      "openconfig-bgp:router-id": "10.1.1.1"
     }
 
 - !TestCase
@@ -25,7 +25,7 @@ tests:
     xpath: "/bgp/peer-groups/peer-group[peer-group-name=default]"
     model: bgp.peer_groups.peer_group
     json_value: {
-      "peer-group-name": "default"
+      "openconfig-bgp:peer-group-name": "default"
     }
 
 - !TestCase
@@ -35,8 +35,8 @@ tests:
     xpath: "/bgp/global"
     model: bgp.global_
     json_value: {
-      "as": 65123,
-      "router-id": "192.168.1.1"
+      "openconfig-bgp:as": 65123,
+      "openconfig-bgp:router-id": "192.168.1.1"
     }
 
 - !TestCase
@@ -46,10 +46,10 @@ tests:
     xpath: "/bgp/neighbors/neighbor[neighbor-address=192.168.1.11]"
     model: bgp.neighbors.neighbor
     json_value: {
-      "neighbor-address": "192.168.1.11",
-      "peer-as": 65123,
-      "auth-password": "SuperSecretPassword",
-      "peer-group": ""
+      "openconfig-bgp:neighbor-address": "192.168.1.11",
+      "openconfig-bgp:peer-as": 65123,
+      "openconfig-bgp:auth-password": "SuperSecretPassword",
+      "openconfig-bgp:peer-group": ""
     }
 
 - !TestCase
@@ -59,7 +59,7 @@ tests:
     xpath: "/bgp/neighbors/neighbor[neighbor-address=192.168.1.11]"
     model: bgp.neighbors.neighbor
     json_value: {
-      "peer-as": 65123
+      "openconfig-bgp:peer-as": 65123
     }
 
 - !TestCase
@@ -69,7 +69,7 @@ tests:
     xpath: "/bgp/neighbors/neighbor[neighbor-address=192.168.1.11]"
     model: bgp.neighbors.neighbor
     json_value: {
-      "description": "Secure BGP peer"
+      "openconfig-bgp:description": "Secure BGP peer"
     }
 
 - !TestCase
@@ -79,7 +79,7 @@ tests:
     xpath: "/bgp/neighbors/neighbor[neighbor-address=192.168.1.11]"
     model: bgp.neighbors.neighbor
     json_value: {
-      "auth-password": "MegaUltraSecretPassword"
+      "openconfig-bgp:auth-password": "MegaUltraSecretPassword"
     }
 
 - !TestCase
@@ -89,7 +89,7 @@ tests:
     xpath: "/bgp/neighbors/neighbor[neighbor-address=192.168.1.11]"
     model: bgp.neighbors.neighbor
     json_value: {
-      "auth-password": ""
+      "openconfig-bgp:auth-password": ""
     }
 
 - !TestCase
@@ -99,9 +99,9 @@ tests:
     xpath: "/bgp/neighbors/neighbor[neighbor-address=192.168.1.22]"
     model: bgp.neighbors.neighbor
     json_value: {
-      "neighbor-address": "192.168.1.22",
-      "peer-as": 65123,
-      "peer-group": ""
+      "openconfig-bgp:neighbor-address": "192.168.1.22",
+      "openconfig-bgp:peer-as": 65123,
+      "openconfig-bgp:peer-group": ""
     }
 
 - !TestCase
@@ -111,7 +111,7 @@ tests:
     xpath: "/bgp/neighbors"
     model: bgp.neighbors.neighbors
     json_value: {
-      "neighbor": {}
+      "openconfig-bgp:neighbor": {}
     }
 
 - !TestCase
