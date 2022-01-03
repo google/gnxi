@@ -226,7 +226,7 @@ def main():  # noqa
     except ValueError as error:
         sys.exit("Invalid Target: %s" % error)
 
-    logging.info("Testing gNMI Target %s.", args["target"])
+    logging.info("Testing gNMI Target %s.", tgt)
 
     # Apply initial configuration
     if args["init_config_file"]:
@@ -240,7 +240,7 @@ def main():  # noqa
     results = runner.runTests(ctx, tgt, stop_on_error=args["stop_on_error"])
     end_t = time.time()
 
-    test_run = testbase.TestRun(args["target"], ctx)
+    test_run = testbase.TestRun(ctx)
     test_run.copyResults(results, start_t, end_t)
     logging.info("Results Summary: %s", test_run.summary())
 
