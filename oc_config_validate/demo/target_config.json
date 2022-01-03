@@ -39,7 +39,7 @@
         ]
     },
     "openconfig-system:system": {
-        "aaa": {
+        "openconfig-aaa:aaa": {
             "authentication": {
                 "admin-user": {
                     "config": {

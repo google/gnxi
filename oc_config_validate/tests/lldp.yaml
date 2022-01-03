@@ -21,8 +21,8 @@ tests:
     xpath: "/lldp"
     model: "lldp"
     json_value: {
-      "system-name": "foobar",
-      "system-description": "A mysterious device"
+      "openconfig-lldp:system-name": "foobar",
+      "openconfig-lldp:system-description": "A mysterious device"
     }
 
 - !TestCase
@@ -32,8 +32,8 @@ tests:
     xpath: "/lldp/interfaces/interface[name=ethernet1/1]"
     model: "lldp.interfaces.interface"
     json_value: {
-      "name": "ethernet1/1",
-      "enabled": true
+      "openconfig-lldp:name": "ethernet1/1",
+      "openconfig-lldp:enabled": true
     }
 
 - !TestCase
@@ -43,8 +43,8 @@ tests:
     xpath: "/lldp/interfaces/interface[name=ethernet1/1]"
     model: "lldp.interfaces.interface"
     json_value: {
-      "name": "ethernet1/1",
-      "enabled": false
+      "openconfig-lldp:name": "ethernet1/1",
+      "openconfig-lldp:enabled": false
     }
 
 - !TestCase
@@ -54,8 +54,8 @@ tests:
     xpath: "/lldp/interfaces/interface[name=ethernet1/1]"
     model: "lldp.interfaces.interface"
     json_value: {
-      "name": "ethernet1/1",
-      "enabled": true
+      "openconfig-lldp:name": "ethernet1/1",
+      "openconfig-lldp:enabled": true
     }
 
 - !TestCase

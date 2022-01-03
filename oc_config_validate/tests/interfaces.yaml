@@ -14,8 +14,8 @@ tests:
     xpath: "/interfaces/interface[name=loopback]/config"
     model: interfaces.interface.config.config
     json_value: {
-      "enabled": true,
-      "mtu": 1500
+      "openconfig-interfaces:enabled": true,
+      "openconfig-interfaces:mtu": 1500
     }
 
 - !TestCase
@@ -25,7 +25,7 @@ tests:
     xpath: "/interfaces/interface[name=ethernet1/1]/config"
     model: interfaces.interface.config.config
     json_value: {
-      "description": "Test interface"
+      "openconfig-interfaces:description": "Test interface"
     }
 
 - !TestCase
@@ -34,11 +34,11 @@ tests:
   args:
     xpath: "/interfaces/interface[name=loopback]/config"
     want: {
-      "description": "Test interface",
-      "enabled": true,
-      "mtu": 1500,
-      "loopback-mode": false,
-      "name": "ethernet1/1"
+      "openconfig-interfaces:description": "Test interface",
+      "openconfig-interfaces:enabled": true,
+      "openconfig-interfaces:mtu": 1500,
+      "openconfig-interfaces:loopback-mode": false,
+      "openconfig-interfaces:name": "ethernet1/1"
     }
 
 - !TestCase
@@ -48,5 +48,5 @@ tests:
     xpath: "/interfaces/interface[name=ethernet1/1]/config"
     model: interfaces.interface.config.config
     json_value: {
-      "loopback-mode": true
+      "openconfig-interfaces:loopback-mode": true
     }

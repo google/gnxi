@@ -1,6 +1,6 @@
 {
-  "hostname": "atestdevice",
-  "domain-name": "foo.bar.com",
-  "login-banner": "This device is for authorized use only",
-  "motd-banner": "Welcome"
+  "openconfig-system:hostname": "atestdevice",
+  "openconfig-system:domain-name": "foo.bar.com",
+  "openconfig-system:login-banner": "This device is for authorized use only",
+  "openconfig-system:motd-banner": "Welcome"
 }

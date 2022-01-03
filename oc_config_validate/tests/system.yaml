@@ -23,8 +23,8 @@ tests:
     xpath: "/system"
     model: "system"
     json_value: {
-      "domain-name": "google.com",
-      "hostname": "foobar"
+      "openconfig-system:domain-name": "google.com",
+      "openconfig-system:hostname": "foobar"
     }
 
 - !TestCase
@@ -36,7 +36,7 @@ tests:
     xpath: "/system/config"
     model: system.config.config
     json_value: {
-      "hostname": "barbar"
+      "openconfig-system:hostname": "barbar"
     }
 
 - !TestCase
@@ -46,8 +46,8 @@ tests:
     xpath: "/system/state"
     model: "system.state.state"
     want_json: {
-        "domain-name": "googles.com",
-        "hostname": "barbar"
+        "openconfig-system:domain-name": "googles.com",
+        "openconfig-system:hostname": "barbar"
     }
 
 - !TestCase
@@ -59,7 +59,7 @@ tests:
     xpath: "/system/clock"
     model: "system.clock"
     json_value: {
-      "timezone-name": "America/Los_Angeles"
+      "openconfig-system:timezone-name": "America/Los_Angeles"
     }
 
 - !TestCase
@@ -71,7 +71,7 @@ tests:
     xpath: "/system/clock/config"
     model: "system.clock.config.config"
     json_value: {
-      "timezone-name": "Europe/Zurich"
+      "openconfig-system:timezone-name": "Europe/Zurich"
     }
 
 - !TestCase
@@ -81,5 +81,5 @@ tests:
     xpath: "/system/clock/state"
     model: "system.clock.state.state"
     want_json: {
-        "timezone-name": "Europe/Zurich"
+        "openconfig-system:timezone-name": "Europe/Zurich"
     }

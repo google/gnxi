@@ -1,5 +1,5 @@
 {
-  "interface": [
+  "openconfig-interfaces:interface": [
     {
       "config": {
         "description": "",
@@ -7,7 +7,7 @@
         "mtu": 1500,
         "name": "ethernet1/1"
       },
-      "openconfig-interfaces:name": "ethernet1/1"
+      "name": "ethernet1/1"
     },
     {
       "config": {
@@ -16,7 +16,7 @@
         "mtu": 1500,
         "name": "ethernet1/2"
       },
-      "openconfig-interfaces:name": "ethernet1/2"
+      "name": "ethernet1/2"
     },
     {
       "config": {
@@ -25,7 +25,7 @@
         "mtu": 1500,
         "name": "loopback"
       },
-      "openconfig-interfaces:name": "loopback"
+      "name": "loopback"
     }
   ]
 }

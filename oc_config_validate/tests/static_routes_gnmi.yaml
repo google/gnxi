@@ -10,7 +10,7 @@ tests:
     xpath: "/local-routes/static-routes/static[prefix=0.0.0.0/0]"
     model: "local_routes.static_routes.static"
     json_value: {
-      "prefix": "0.0.0.0/0"
+      "openconfig-local-routing:prefix": "0.0.0.0/0"
     }
 
 - !TestCase
@@ -20,8 +20,8 @@ tests:
     xpath: "/local-routes/static-routes/static[prefix=0.0.0.0/0]/next-hops/next-hop[index=0]"
     model: "local_routes.static_routes.static.next_hops.next_hop"
     json_value: {
-      "index": "0",
-      "next-hop": "192.168.1.126"
+      "openconfig-local-routing:index": "0",
+      "openconfig-local-routing:next-hop": "192.168.1.126"
     }
 
 - !TestCase
@@ -31,8 +31,8 @@ tests:
     xpath: "/local-routes/static-routes/static[prefix=0.0.0.0/0]"
     model: "local_routes.static_routes.static"
     json_value: {
-      "prefix": "0.0.0.0/0",
-      "description": "Default Route"
+      "openconfig-local-routing:prefix": "0.0.0.0/0",
+      "openconfig-local-routing:description": "Default Route"
     }
 
 - !TestCase
@@ -42,8 +42,8 @@ tests:
     xpath: "/local-routes/static-routes/static[prefix=10.10.10.0/24]"
     model: "local_routes.static_routes.static"
     json_value: {
-      "prefix": "0.0.0.0/0",
-      "next-hops": {
+      "openconfig-local-routing:prefix": "0.0.0.0/0",
+      "openconfig-local-routing:next-hops": {
         "next-hop": [
           {
             "config": {
@@ -63,8 +63,8 @@ tests:
     xpath: "/local-routes/static-routes/static[prefix=10.10.20.0/24]/next-hops/next-hop[index=0]"
     model: "local_routes.static_routes.static.next_hops.next_hop"
     json_value: {
-      "index": "0",
-      "next-hop": "192.168.1.126"
+      "openconfig-local-routing:index": "0",
+      "openconfig-local-routing:next-hop": "192.168.1.126"
     }
 
 - !TestCase
@@ -74,8 +74,8 @@ tests:
     xpath: "/local-routes/static-routes/static[prefix=10.10.30.0/24]/next-hops/next-hop[index=0]"
     model: "local_routes.static_routes.static.next_hops.next_hop"
     json_value: {
-      "index": "0",
-      "next-hop": "192.168.99.99"
+      "openconfig-local-routing:index": "0",
+      "openconfig-local-routing:next-hop": "192.168.99.99"
     }
 
 - !TestCase
@@ -85,8 +85,8 @@ tests:
     xpath: "/local-routes/static-routes/static[prefix=10.10.20.0/24]/next-hops/next-hop[index=0]"
     model: "local_routes.static_routes.static.next_hops.next_hop"
     json_value: {
-      "index": "0",
-      "next-hop": "192.168.1.124"
+      "openconfig-local-routing:index": "0",
+      "openconfig-local-routing:next-hop": "192.168.1.124"
     }
 
 - !TestCase
@@ -96,8 +96,8 @@ tests:
     xpath: "/local-routes/static-routes/static[prefix=10.10.10.0/24]/next-hops/next-hop[index=1]"
     model: "local_routes.static_routes.static.next_hops.next_hop"
     json_value: {
-      "index": "1",
-      "next-hop": "192.168.1.124"
+      "openconfig-local-routing:index": "1",
+      "openconfig-local-routing:next-hop": "192.168.1.124"
     }
 
 - !TestCase
@@ -107,9 +107,9 @@ tests:
     xpath: "/local-routes/static-routes/static[prefix=10.10.10.0/24]/next-hops/next-hop[index=1]"
     model: "local_routes.static_routes.static.next_hops.next_hop"
     json_value: {
-      "index": "1",
-      "next-hop": "192.168.1.122",
-      "metric": 200
+      "openconfig-local-routing:index": "1",
+      "openconfig-local-routing:next-hop": "192.168.1.122",
+      "openconfig-local-routing:metric": 200
     }
 
 - !TestCase
