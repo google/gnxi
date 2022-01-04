@@ -46,10 +46,10 @@ class GetCompare(testbase.TestCase):
         self.assertEqual(type(got), type(self.want),
                          "Values of different types")
         if isinstance(self.want, dict):
-            cmp, diff = target.intersectCmp(got, self.want)
+            cmp, diff = target.intersectCmp(self.want, got)
             self.assertTrue(cmp,  diff)
         else:
-            self.assertEqual(got, self.want)
+            self.assertEqual(self.want, got)
 
 
 class GetJsonCheck(testbase.TestCase):
@@ -113,5 +113,5 @@ class GetJsonCheckCompare(testbase.TestCase):
         self.assertJsonModel(resp_val, self.model,
                              "Get response does not match the model")
         got = json.loads(resp_val)
-        cmp, diff = target.intersectCmp(got, self.want_json)
+        cmp, diff = target.intersectCmp(self.want_json, got)
         self.assertTrue(cmp, diff)

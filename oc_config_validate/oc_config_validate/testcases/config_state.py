@@ -53,7 +53,7 @@ class SetConfigCheckState(testbase.TestCase):
                              self.model + ".config.config",
                              "Get /config does not match the model")
         got = json.loads(resp_val)
-        cmp, diff = target.intersectCmp(got, self.json_value)
+        cmp, diff = target.intersectCmp(self.json_value, got)
         self.assertTrue(cmp, diff)
 
     @testbase.retryAssertionError
@@ -69,7 +69,7 @@ class SetConfigCheckState(testbase.TestCase):
                              self.model + ".state.state",
                              "Get /state does not match the model")
         got = json.loads(resp_val)
-        cmp, diff = target.intersectCmp(got, self.json_value)
+        cmp, diff = target.intersectCmp(self.json_value, got)
         self.assertTrue(cmp, diff)
 
 
