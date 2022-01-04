@@ -139,13 +139,17 @@ class TestCase(unittest.case.TestCase):
         try:
             resp = self.test_target.gNMIGet(xpath)
         except target.RpcError as err:
-            if LOG_GNMI:
-                self.log("gNMI Get(%s) => ", xpath)
-            self.log("gRCP Error: %s", err)
+            self.log("Get(%s) <= gRCP Error: %s", xpath, err)
             return None
-        resp_val = resp.notification[0].update[0].val
+        try:
+            resp_val = resp.notification[0].update[0].val
+        except IndexError:
+            self.log("Get(%s) <= Bad response: %s", xpath, resp)
+            return None
         if LOG_GNMI:
-            self.log("gNMI Get(%s) <= %s", xpath, resp_val)
+            msg = ("gNMI Get(%s) <= %s", xpath, resp_val)
+            self.log(*msg)
+            logging.info(*msg)
         return resp_val
 
     def gNMISetUpdate(self, xpath: str, value: Any) -> bool:
@@ -159,11 +163,13 @@ class TestCase(unittest.case.TestCase):
           False if the gNMI Set did not succeed.
         """
         if LOG_GNMI:
-            self.log("gNMI Set Update(%s) => %s", xpath, value)
+            msg = ("gNMI Set Update(%s) => %s", xpath, value)
+            self.log(*msg)
+            logging.info(*msg)
         try:
             self.test_target.gNMISetUpdate(xpath, value)
         except target.RpcError as err:
-            self.log("gRCP Error: %s", err)
+            self.log("Set(%s) <= gRCP Error: %s", xpath, err)
             return False
         return True
 
@@ -177,11 +183,13 @@ class TestCase(unittest.case.TestCase):
           False if the gNMI Set did not succeed.
         """
         if LOG_GNMI:
-            self.log("gNMI Set Delete(%s) =>", xpath)
+            msg = ("gNMI Set Delete(%s) =>", xpath)
+            self.log(*msg)
+            logging.info(*msg)
         try:
             self.test_target.gNMISetDelete(xpath)
         except target.RpcError as err:
-            self.log("gRCP Error: %s", err)
+            self.log("Set(%s) <= gRCP Error: %s", xpath, err)
             return False
         return True
 
@@ -277,7 +285,7 @@ class TestCase(unittest.case.TestCase):
         """
         got = json.loads(json_value)
         cmp, diff = target.intersectCmp(
-            got, json.loads(pybindJSON.dumps(want, mode='ietf')))
+            json.loads(pybindJSON.dumps(want, mode='ietf')), got)
         self.assertTrue(cmp, diff)
 
     def assertXpath(self, xpath: str):
