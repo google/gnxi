@@ -43,7 +43,7 @@ class TestThread(threading.Thread):
         self.conn_lock = connection_lock
         self.results = testbase.TestResult()
         self.stream = io.StringIO()
-        self.duration_msec = 0.0
+        self.duration_sec = 0
         self.stop_on_error = stop_on_error
 
     def run(self):
@@ -53,18 +53,18 @@ class TestThread(threading.Thread):
         if self.conn_lock:
             self.conn_lock.acquire()
         logging.info("Running Test '%s'", self.test_suite.test_name)
-        start_time = time.time() * 1000
+        start_time = int(time.time())
         self.results = text_test_runner.run(self.test_suite)
-        self.duration_msec = (time.time() * 1000) - start_time
-        logging.info("Test '%s' took %f msecs: %s\n",
+        self.duration_sec = int(time.time() - start_time)
+        logging.info("Test '%s' took %d secs: %s\n",
                      self.test_suite.test_name,
-                     self.duration_msec,
+                     self.duration_sec,
                      "PASS" if self.results.wasSuccessful() else "FAIL")
         if self.conn_lock:
             self.conn_lock.release()
         self.results.test_class_name = self.test_suite.test_class_name
         self.results.test_name = self.test_suite.test_name
-        self.results.duration_msec = self.duration_msec
+        self.results.duration_sec = self.duration_sec
 
 
 def getRunner(stream: io.StringIO) -> unittest.TextTestRunner:

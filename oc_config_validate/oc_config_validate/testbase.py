@@ -95,8 +95,8 @@ class TestCase(unittest.case.TestCase):
     """
     result = None
     test_target = None
-    duration_msec = 0
-    start_time_msec = 0
+    duration_sec = 0
+    start_time_sec = 0
 
     def phony(self):
         """A phony test method to be used for testing."""
@@ -106,11 +106,10 @@ class TestCase(unittest.case.TestCase):
         logging.debug('Starting test %s ...', self)
         self.result = result
         if result:
-            self.start_time_msec = int(round(time.time() * 1000))
+            self.start_time_sec = int(time.time())
             super().run(result)
-            self.duration_msec = (int(round(time.time() * 1000)) -
-                                  self.start_time_msec)
-            logging.debug('Finished %s in %d msec', self, self.duration_msec)
+            self.duration_sec = int(time.time() - self.start_time_sec)
+            logging.debug('Finished %s in %d secs', self, self.duration_sec)
 
     def log(self, formatter, *args):
         """Log a message during a test.
@@ -300,7 +299,7 @@ class TestResult(unittest.TestResult):
         self.successes = []
         self.log_message = ''
         self.test_name = 'Test'
-        self.duration_msec = 0.0
+        self.duration_sec = 0
 
     def log(self, formatter, *args):
         """Log a message during a test.
@@ -361,8 +360,8 @@ class MethodResult():
         self.test_case = split_trace[-1]
         self.test_class = split_trace[-2]
         self.test_module = '.'.join(split_trace[0:-3])
-        self.start_time_msec = test_case.start_time_msec
-        self.duration_msec = test_case.duration_msec
+        self.start_time_sec = test_case.start_time_sec
+        self.duration_sec = test_case.duration_sec
         self.result = result
         self.log = log
 
@@ -379,7 +378,7 @@ class TestcaseResult():
         """
         self.test_name = test_result.test_name
         self.success = test_result.wasSuccessful()
-        self.duration_msec = test_result.duration_msec
+        self.duration_sec = test_result.duration_sec
         self.results = []
         for m in test_result.successes:
             self.results.append(MethodResult(m, 'PASS'))
@@ -404,8 +403,8 @@ class TestRun():
     description = ""
     labels = []
     results = []
-    start_time_sec = 0.0
-    end_time_sec = 0.0
+    start_time_sec = 0
+    end_time_sec = 0
     tests_pass = 0
     tests_total = 0
     tests_fail = 0
@@ -418,8 +417,8 @@ class TestRun():
         if ctx.labels:
             self.labels = ctx.labels.copy()
 
-    def copyResults(self, results: List[TestResult], start_time_sec: float,
-                    end_time_sec: float):
+    def copyResults(self, results: List[TestResult], start_time_sec: int,
+                    end_time_sec: int):
         """Copy the run test results.
 
         Args:
