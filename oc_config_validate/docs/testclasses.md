@@ -129,7 +129,9 @@
     Args:
      *  `xpath`: gNMI path to write and read, without ending /config or /state.
      *  `json_value`: JSON-IETF value to check set, get and compare.
-     *  `model`: Python binding class to check the JSON reply against.
+     *  `model`: Python binding module to check the against. 
+        Do not specify a Python class, the test will instantiance the config()
+        and state() objects from the module.
      *  `retries`: Optional. Number of retries if the assertion fails.
      *  `retry_delay`: Optional. Delay, in seconds, between retries. Default 10.
 
@@ -216,7 +218,7 @@ By default, the tests do 3 retries, with 10 seconds delay, if the assertion fail
 
 ### Module subif_ip
 
-By default, the tests do 3 retries, with 10 seconds delay, if the assertion fails.
+By default, the tests do 5 retries, with 15 seconds delay, if the assertion fails.
 
  *  `subif_ip.SetSubifDhcp`
  
