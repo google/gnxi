@@ -60,15 +60,33 @@ Each Class accepts or needs some arguments, which are passed in the `args:` sect
 
 The way to compare the JSON values given in the tests with the responses obtained form the gNMI Target is:
 
- 1.  Only the common JSON Keys are compared. If there are no common keys, it is considered as unequal.
- 1.  For each common key, the values are compared for equality.
+ 1.  Only the keys from the JSON in the tests are compared. The gNMI response can have more members in the JSON, those are not compared.
+ 1.  For key in the JSON in the test, the values are compared for equality in the gNMI response.
  1.  If there are nested JSON objects, the same comparison is applied to them.
+ 1.  If a key contains a list of JSON objects, all objects in the list in the JSON text in the tests must be present in the gNMI response. 
+     The gNMI response can have more elements in the list, those are not compared.
+ 1.  The same comparison mechanism applies to JSON objects contained in a list, in the JSON text in the tests.
 
-This means that a test can get a whole model container (like `interfaces/interface[name=mgmt]/state`) and compare only a subset of the values, like:
+This means that a test can get a whole model container and compare only a subset of the values, like:
 
 ```
-{
-  "enabled": true,
-  "oper-status": "UP"
-}
+xpath : interfaces/interface[name=mgmt]/state
+want_json: {
+    "enabled": true,
+    "oper-status": "UP"
+  }
+```
+
+or
+
+```
+xpath : /local-routes/static-routes/static[prefix=10.10.20.0/24]/next-hops/
+want_json:{
+    "next-hop": [
+      {
+        "index": "1",
+        "next-hop": "192.168.1.125"
+      }
+    ]
+  }
 ```

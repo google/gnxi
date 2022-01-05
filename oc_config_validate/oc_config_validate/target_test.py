@@ -24,38 +24,43 @@ from oc_config_validate import target
 class TestIntersectCmp(unittest.TestCase):
     """Test for intersectCmp."""
 
+    abc = {"a": True, "b": 2.5, "c": "str"}
+    abcd = {"a": True, "b": 2.5, "c": "str", "d": None}
+    ab = {"a": False, "b": 2.5}
+    pq = {"p": False, "q": -2.5}
+    list1 = [1, 2, 3]
+    list2 = [2, 3]
+    list3 = [2, abc]
+
     @parameterized.expand([
-        ("allKeys_equal", {"a": True, "b": 2.5, "c": "str"},
-         {"a": True, "b": 2.5, "c": "str"}, True, ""),
-        ("allKeys_diffType", {"a": True, "b": 2.5, "c": "str"},
-         {"a": True, "b": "str", "c": "str"}, False, "key b: 2.5 != str"),
-        ("allKeys_diffValue", {"a": True, "b": 2.5, "c": "str"},
-         {"a": True, "b": 1.5, "c": "str"}, False, "key b: 2.5 != 1.5"),
-        ("nested_equal", {"a": True, "b": {"b": 2.5, "c": "str"}},
-         {"a": True, "b": {"b": 2.5, "c": "str"}}, True, ""),
-        ("nested_diffType", {"a": True, "b": {"b": 2.5, "c": "str"}},
-         {"a": True, "b": {"b": "str", "c": "str"}}, False,
-         "key b: 2.5 != str"),
-        ("nested_diffValue", {"a": True, "b": {"b": 2.5, "c": "str"}},
-         {"a": True, "b": {"b": 2.5, "c": "notstr"}}, False,
-         "key c: str != notstr"),
-        ("someKeys_equal", {"a": True, "b": 2.5, "c": "str"},
-         {"a": True, "c": "str", "d": 2.5}, True, ""),
-        ("someKeys_diffType", {"a": {}, "b": 2.5, "c": "str"},
-         {"a": True, "c": "str", "d": 2.5}, False, "key a: {} != True"),
-        ("someKeys_diffValue", {"a": False, "b": 2.5, "c": "str"},
-         {"a": True, "c": "str", "d": 2.5}, False, "key a: False != True"),
-        ("nested_someKs_equal", {"a": True, "b": {"b": 2.5, "c": "str"}},
-         {"z": True, "b": {"c": "str", "d": 2.5}}, True, ""),
-        ("nested_someKS_diffType", {"a": True, "b": {"b": 2.5, "c": "str"}},
-         {"z": True, "b": {"c": False, "d": 2.5}}, False,
-         "key c: str != False"),
-        ("nested_someKs_diffValue", {"a": True, "b": {"b": 2.5, "c": "str"}},
-         {"z": True, "b": {"c": "nostr", "d": 2.5}}, False,
-         "key c: str != nostr"),
-        ("noKeys", {"a": True, "b": 2.5},
-         {"c": True, "d": 2.5}, False,
-         "got dict_keys(['a', 'b']), wanted dict_keys(['c', 'd'])")
+        ("allKeys_equal", abc, abc, True, ""),
+        ("extraKeys_equal", abc, abcd, True, ""),
+        ("missingKeys_equal", abcd, abc, False, "key d not found"),
+        ("keys_diff", ab, abc, False, "key a: got 'True', wanted 'False'"),
+        ("nested_equal", {"a": abc}, {"a": abcd, "b": True}, True, ""),
+        ("nested_equal", {"a": abcd}, {
+         "a": abc, "b": True}, False, "key d not found"),
+        ("nested_diff", {"a": ab}, {"a": abc, "b": True},
+         False, "key a: got 'True', wanted 'False'"),
+        ("noKeys", abc, pq, False, "key a not found"),
+        ("nested_list_equal", {"a": True, "b": list1},
+         {"a": True, "b": list1}, True, ""),
+        ("nested_list_equal", {"a": True, "b": list1},
+         {"a": True, "b": list1[::-1]}, True, ""),
+        ("nested_list_diff", {"a": True, "b": list2},
+         {"a": True, "b": list1}, True, ""),
+        ("nested_list_diff", {"a": True, "b": list1},  {
+         "a": True, "b": list2}, False, "List element 1 not matched"),
+        ("nested_list_diff", {"a": True, "b": list1},  {
+         "a": True, "b": list3}, False, "List element 1 not matched"),
+        ("nested_list_diff", {"a": True, "b": list3},  {"a": True, "b": list1},
+         False, "List element {'a': True, 'b': 2.5, 'c': 'str'} not matched"),
+        ("nested_list_keys_equal", {"b": [abc]}, {
+         "a": True, "b": [abcd, pq]}, True, ""),
+        ("nested_list_keys_diff", {"b": [ab]}, {"a": True, "b": [
+         abc, pq]}, False, "List element {'a': False, 'b': 2.5} not matched"),
+        ("nested_list_keys_diff", {"b": [ab]}, {"a": True, "b": [
+         0, pq]}, False, "List element {'a': False, 'b': 2.5} not matched"),
     ])
     def test_intersectCmp(self, name, a, b, want_cmp, want_diff):
         self.assertEqual(target.intersectCmp(a, b), (want_cmp, want_diff),

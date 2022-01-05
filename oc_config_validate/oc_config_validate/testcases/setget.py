@@ -87,5 +87,5 @@ class JsonCheckCompare(JsonCheck):
         self.assertIsNotNone(self.resp_val,
                              "The gNMI GET response is not JSON IETF")
         got = json.loads(self.resp_val)
-        cmp, diff = target.intersectCmp(got, self.json_value)
+        cmp, diff = target.intersectCmp(self.json_value, got)
         self.assertTrue(cmp, diff)

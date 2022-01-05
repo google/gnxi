@@ -159,7 +159,7 @@ class TestTarget():
                     (address_elems[0], int(address_elems[1]))).encode('utf-8')
             except ConnectionRefusedError as err:
                 raise TargetError(
-                    "Unable to get Root CA from Target: %s") from err
+                    "Unable to get Root CA from Target") from err
 
         return gnmi_pb2_grpc.grpc.ssl_channel_credentials(
             root_certificates=self.root_ca,
@@ -396,34 +396,64 @@ def typedValueToPython(value: gnmi_pb2.TypedValue, tp: type) -> Union[
     raise GnmiError("Unsupported TypedValue")
 
 
-def intersectCmp(a: dict, b: dict) -> Tuple[bool, str]:
-    """Return true if the common keys have the same values.
+def intersectCmp(want: dict, got: dict) -> Tuple[bool, str]:
+    """Return true if all the keys of want are the same in got.
 
-    E.g.: Taking {"foo": 0, "bla": "test"} and
-        {"foo": 1, "bar": true, "bla": "test"}, the intersected keys are
-        "foo" and "bla", and the values are not equal.
+    E.g.: Taking want={"foo": 0, "bla": "test"} and
+        got={"foo": 1, "bar": true, "bla": "test"}, the keys "foo"
+        and "bla" are looked for and compared in got.
 
-    If there are no common keys, returns False.
-
-    The same comparison applies to nested dictionaries
+    The same comparison applies to nested dictionaries and lists.
 
     Args:
-        a, b: Dictionaries to intersect and compare.
+        want, got: Dictionaries to compare.
 
     Returns:
         A tuple with the comparison result and a diff text, if different.
     """
-    common_keys = a.keys() & b.keys()
-    if not common_keys:
-        return False, "got %s, wanted %s" % (a.keys(), b.keys())
-    for k in common_keys:
-        x = a[k]
-        y = b[k]
+    for k in want.keys():
+        x = want[k]
+        y = got.get(k)
+        if y is None:
+            return False, "key %s not found" % k
         if isinstance(x, dict) and isinstance(y, dict):
-            cmp, diff = intersectCmp(x, y)
-            if not cmp:
-                return False, diff
-        else:
-            if x != y:
-                return False, "key %s: %s != %s" % (k, x, y)
+            return intersectCmp(x, y)
+        if isinstance(x, list) and isinstance(y, list):
+            return intersectListCmp(x, y)
+        if x != y:
+            return False, "key %s: got '%s', wanted '%s'" % (k, y, x)
+    return True, ""
+
+
+def intersectListCmp(want: list, got: list) -> Tuple[bool, str]:
+    """Return true if all the elements in want are the same in got.
+
+    For dictionaries, intersectCmp() is used for comparison.
+    Order is not considered.
+
+    E.g.: Taking [0, "bla"] and [1, "bar", "bla"], the elements 0 and "bla"
+        are looked for and compared in got.
+
+    The same comparison applies to nested dictionaries and lists.
+
+    Args:
+        want, got: Lists to compare.
+
+    Returns:
+        A tuple with the comparison result and a diff text, if different.
+    """
+    for i in want:
+        for j in got:
+            matched = False
+            if type(i) != type(j):
+                continue
+            if isinstance(i, dict):
+                cmp, _ = intersectCmp(i, j)
+            else:
+                cmp = bool(i == j)
+            if cmp:
+                matched = True
+                break
+        if not matched:
+            return False, "List element %s not matched" % i
     return True, ""
