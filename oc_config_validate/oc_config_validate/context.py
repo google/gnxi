@@ -85,6 +85,7 @@ class Target(yaml.YAMLObject):
     cert_chain = ""
     no_tls = False
     tls_host_override = ""
+    gnmi_set_cooldown_secs = 10
 
     def __repr__(self):
         return 'Target(target=%r, no_tls=%r)' % (self.target, self.no_tls)

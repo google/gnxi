@@ -9,6 +9,7 @@ target:
   !Target
   target: "localhost:8080"
   tls_host_override: "target.com"
+  gnmi_set_cooldown_secs: 2
 
 init_configs:
 - !InitConfig

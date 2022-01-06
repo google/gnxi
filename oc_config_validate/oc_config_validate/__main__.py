@@ -43,39 +43,39 @@ def createArgsParser() -> argparse.ArgumentParser:
         "-tgt",
         "--target",
         type=str,
-        help="The gNMI Target, as hostname:port",
+        help="The gNMI Target, as hostname:port.",
     )
     parser.add_argument(
         "-user",
         "--username",
         type=str,
-        help="Username to use when establishing a gNMI Channel to the Target",
+        help="Username to use when establishing a gNMI Channel to the Target.",
     )
     parser.add_argument(
         "-pass",
         "--password",
         type=str,
-        help="Password to use when establishing a gNMI Channel to the Target",
+        help="Password to use when establishing a gNMI Channel to the Target.",
     )
     parser.add_argument(
         "-key",
         "--private_key",
         type=str,
         help="Path to the Private key to use when establishing"
-        "a gNMI Channel to the Target",
+        "a gNMI Channel to the Target.",
     )
     parser.add_argument(
         "-ca",
         "--root_ca_cert",
         type=str,
-        help="Path to Root CA to use when building the gNMI Channel",
+        help="Path to Root CA to use when building the gNMI Channel.",
     )
     parser.add_argument(
         "-cert",
         "--cert_chain",
         type=str,
         help="Path to Certificate chain to use when"
-        "establishing a gNMI Channel to the Target")
+        "establishing a gNMI Channel to the Target.")
     parser.add_argument(
         "-tests",
         "--tests_file",
@@ -114,29 +114,36 @@ def createArgsParser() -> argparse.ArgumentParser:
     parser.add_argument(
         "-v", "--version", help="Print program version", action="store_true")
     parser.add_argument(
-        "-V", "--verbose", help="Enable gRPC debugging and extra logging",
+        "-V", "--verbose", help="Enable gRPC debugging and extra logging.",
         action="store_true")
     parser.add_argument(
-        "-models", "--oc_models_versions", help="Print OC models versions",
+        "-models", "--oc_models_versions", help="Print OC models versions.",
         action="store_true")
     parser.add_argument(
-        "--no_tls", help="gRPC insecure mode", action="store_true")
+        "--no_tls", help="gRPC insecure mode.", action="store_true")
     parser.add_argument(
         "-o",
         "--tls_host_override",
         type=str,
         action="store",
-        help="Hostname to use during the TLS certificate check",
+        help="Hostname to use during the TLS certificate check.",
+    )
+    parser.add_argument(
+        "-set_cooldown",
+        "--gnmi_set_cooldown_secs",
+        type=str,
+        action="store",
+        help="Seconds to wait after a successful gNMI Set message.",
     )
     parser.add_argument(
         "--stop_on_error",
         action="store_true",
-        help="Stop the execution if a test fails",
+        help="Stop the execution if a test fails.",
     )
     parser.add_argument(
         "--log_gnmi",
         action="store_true",
-        help="Log the gnmi requests to the tests results",
+        help="Log the gnmi requests to the tests results.",
     )
     return parser
 
@@ -227,6 +234,10 @@ def main():  # noqa
         sys.exit("Invalid Target: %s" % error)
 
     logging.info("Testing gNMI Target %s.", tgt)
+
+    if tgt.gnmi_set_cooldown_secs:
+        logging.info("Using gNMI Set Cooldown of %d secs",
+                     tgt.gnmi_set_cooldown_secs)
 
     # Apply initial configuration
     if args["init_config_file"]:
