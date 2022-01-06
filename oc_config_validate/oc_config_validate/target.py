@@ -25,6 +25,7 @@ import json
 import logging
 import re
 import ssl
+import time
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 import grpc
@@ -79,6 +80,7 @@ class TestTarget():
         self.password = tgt.password
         self.notls = tgt.no_tls
         self.host_tls_override = tgt.tls_host_override
+        self.gnmi_set_cooldown_secs = tgt.gnmi_set_cooldown_secs
         self.key = None
         self.cert = None
         self.root_ca = None
@@ -216,7 +218,6 @@ class TestTarget():
             raise GnmiError('%s is not a valid gNMI Set type' % set_type)
 
         path = parsePath(xpath)
-
         path_val = None
         if value:
             val = pythonToTypedValue(value)
@@ -224,18 +225,24 @@ class TestTarget():
         self._gNMIConnnect()
         metadata = self._buildGnmiStubMetadata()
 
+        response = None
         try:
             if set_type.lower() == 'delete':
-                return self.stub.Set(gnmi_pb2.SetRequest(delete=[path]),
-                                     **metadata)
+                response = self.stub.Set(gnmi_pb2.SetRequest(delete=[path]),
+                                         **metadata)
             if set_type.lower() == 'update':
-                return self.stub.Set(gnmi_pb2.SetRequest(update=[path_val]),
-                                     **metadata)
+                response = self.stub.Set(gnmi_pb2.SetRequest(update=[path_val]),
+                                         **metadata)
             if set_type.lower() == 'replace':
-                return self.stub.Set(gnmi_pb2.SetRequest(replace=[path_val]),
-                                     **metadata)
+                response = self.stub.Set(gnmi_pb2.SetRequest(replace=[path_val]),
+                                         **metadata)
         except grpc._channel._InactiveRpcError as err:
             raise RpcError(err) from err
+
+        if self.gnmi_set_cooldown_secs:
+            time.sleep(self.gnmi_set_cooldown_secs)
+
+        return response
 
     def gNMISetUpdate(self, xpath: str,
                       value: Any) -> gnmi_pb2.SetResponse:
