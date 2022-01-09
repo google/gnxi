@@ -1,10 +1,11 @@
 openconfig-interfaces@2021-04-06
 openconfig-if-ip@2019-01-08
-openconfig-access-points@2020-04-28
-openconfig-ap-interfaces@2020-03-24
-openconfig-ap-manager@2020-06-30
+openconfig-access-points@2021-08-02
+openconfig-ap-interfaces@2021-08-02
+openconfig-ap-manager@2021-08-02
 openconfig-local-routing@2020-03-24
-openconfig-bgp@2021-06-16
 openconfig-lldp@2018-11-21
 openconfig-system@2021-07-20
 openconfig-aaa@2020-07-30
+openconfig-bgp@2021-10-21
+openconfig-network-instance@2021-11-17

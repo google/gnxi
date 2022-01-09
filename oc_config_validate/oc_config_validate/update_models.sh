@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Code taken and adapted from 
+# Code taken and adapted from
 # https://github.com/openconfig/gnmitest/blob/master/schemas/openconfig/update.sh,
 # under Apache License, Version 2.0.
 
@@ -32,16 +32,21 @@ _MODELS=( "${MODELS_FOLDER}/public/release/models/interfaces/openconfig-interfac
           "${MODELS_FOLDER}/public/release/models/wifi/openconfig-ap-interfaces.yang" \
           "${MODELS_FOLDER}/public/release/models/wifi/openconfig-ap-manager.yang" \
           "${MODELS_FOLDER}/public/release/models/local-routing/openconfig-local-routing.yang" \
-          "${MODELS_FOLDER}/public/release/models/bgp/openconfig-bgp.yang" \
           "${MODELS_FOLDER}/public/release/models/lldp/openconfig-lldp.yang" )
+
+BGP_MODELS=( "${MODELS_FOLDER}/public/release/models/bgp/openconfig-bgp.yang" \
+             "${MODELS_FOLDER}/public/release/models/network-instance/openconfig-network-instance.yang" )
 
 SYSTEM_MODELS=( "${MODELS_FOLDER}/public/release/models/system/openconfig-system.yang" \
                 "${MODELS_FOLDER}/public/release/models/system/openconfig-aaa.yang"  )
 
-MODELS=( ${_MODELS[@]} ${SYSTEM_MODELS[@]} )
+MODELS=( ${_MODELS[@]} ${SYSTEM_MODELS[@]} ${BGP_MODELS[@]})
 
 pyang --plugindir $PYBINDPLUGIN -f pybind  --path "$MODELS_FOLDER/" \
   --split-class-dir "$MODELS_FOLDER/" ${SYSTEM_MODELS[@]}
+
+pyang --plugindir $PYBINDPLUGIN -f pybind  --path "$MODELS_FOLDER/" \
+    --split-class-dir "$MODELS_FOLDER/" ${BGP_MODELS[@]}
 
 pyang --plugindir $PYBINDPLUGIN -f pybind  --path "$MODELS_FOLDER/" \
   --split-class-dir "$MODELS_FOLDER/" ${_MODELS[@]}
