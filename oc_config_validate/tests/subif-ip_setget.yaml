@@ -1,0 +1,119 @@
+!TestContext
+
+description: Test to setup static IPv4 addresses on subinterfaces
+
+labels:
+- subif
+- ipv4
+
+init_configs:
+- !InitConfig
+  filename: init_configs/interfaces.json
+  xpath: /interfaces
+
+tests:
+
+- !TestCase
+  name: "Add IPv4 on ethernet1/1.0"
+  class_name: setget.JsonCheckCompare
+  args:
+    xpath: "/interfaces/interface[name=ethernet1/1]/subinterfaces/subinterface[index=0]/ipv4/addresses/address[ip=192.168.1.1]/config"
+    model: interfaces.interface.subinterfaces.subinterface.ipv4.addresses.address.config.config
+    json_value: {
+      "openconfig-if-ip:ip": "192.168.1.1",
+      "openconfig-if-ip:prefix-length": 25
+    }
+
+- !TestCase
+  name: "Add another IPv4 on ethernet1/1.0"
+  class_name: set.JsonCheckSetUpdate
+  args:
+    xpath: "/interfaces/interface[name=ethernet1/1]/subinterfaces/subinterface[index=0]/"
+    model: interfaces.interface.subinterfaces.subinterface.subinterface
+    json_value: {
+      "openconfig-if-ip:ipv4": {
+        "addresses": {
+          "address": [
+            {
+              "ip": "192.168.2.1",
+              "config": {
+                "ip": "192.168.2.1",
+                "prefix-length": 26
+              }
+            }
+           ]
+        }
+      }
+    }
+
+- !TestCase
+  name: "Check ethernet1/1.0"
+  class_name: get.GetJsonCheckCompare
+  args:
+    retries: 3
+    retry_delay: 15
+    xpath: "/interfaces/interface[name=ethernet1/1]/subinterfaces/subinterface[index=0]"
+    model: interfaces.interface.subinterfaces.subinterface.subinterface
+    want_json: {
+      "openconfig-if-ip:ipv4": {
+        "addresses": {
+          "address": [
+            {
+              "ip": "192.168.1.1",
+              "config": {
+                "ip": "192.168.1.1",
+                "prefix-length": 25
+              }
+            },
+            {
+              "ip": "192.168.2.1",
+              "config": {
+                "ip": "192.168.2.1",
+                "prefix-length": 26
+              }
+            }
+           ]
+        }
+      }
+    }
+
+- !TestCase
+  name: "Check IPv4 on ethernet1/1.0"
+  class_name: get.GetJsonCheckCompare
+  args:
+    xpath: "/interfaces/interface[name=ethernet1/1]/subinterfaces/subinterface[index=0]/ipv4/addresses/address[ip=192.168.1.1]/state"
+    model: interfaces.interface.subinterfaces.subinterface.ipv4.addresses.address.state.state
+    want_json: {
+      "openconfig-if-ip:ip": "192.168.1.1",
+      "openconfig-if-ip:prefix-length": 25
+    }
+
+- !TestCase
+  name: "Remove IPv4 on ethernet1/1.0"
+  class_name: set.SetDelete
+  args:
+    xpath: "/interfaces/interface[name=ethernet1/1]/subinterfaces/subinterface[index=0]/ipv4/addresses/address[ip=192.168.1.1]"
+
+- !TestCase
+  name: "Remove IPv4 on ethernet1/1.0"
+  class_name: set.SetDelete
+  args:
+    xpath: "/interfaces/interface[name=ethernet1/1]/subinterfaces/subinterface[index=0]/ipv4/addresses/address[ip=192.168.2.1]"
+
+- !TestCase
+  name: "Check ethernet1/1.0 has no IPs"
+  class_name: get.GetJsonCheckCompare
+  args:
+    retries: 5
+    retry_delay: 15
+    xpath: "/interfaces/interface[name=ethernet1/1]/subinterfaces/subinterface[index=0]/ipv4/addresses"
+    model: interfaces.interface.subinterfaces.subinterface.ipv4.addresses.addresses
+    want_json: {
+      "openconfig-if-ip:address": []
+      }
+
+- !TestCase
+  name: "Remove subinterface ethernet1/1.0"
+  class_name: set.SetDelete
+  args:
+    xpath: "/interfaces/interface[name=ethernet1/1]/subinterfaces/subinterface[index=0]"
