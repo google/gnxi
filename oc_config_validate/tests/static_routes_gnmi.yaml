@@ -1,48 +1,30 @@
 !TestContext
 description: "Configure static routes"
 
+init_configs:
+- !InitConfig
+  filename: init_configs/subif_static_ip.json
+  xpath: /interfaces
+- !InitConfig
+  filename: init_configs/routing_instance.json
+  xpath: /network-instances
+
 tests:
 
 - !TestCase
-  name: "Configure and check a default route, without next hop"
-  class_name: config_state.SetConfigCheckState
+  name: "Configure a default route, with next hop but no description"
+  class_name: setget.JsonCheckCompare
   args:
+    retries: 3
+    retry_delay: 15
     xpath: "/local-routes/static-routes/static[prefix=0.0.0.0/0]"
-    model: "local_routes.static_routes.static"
-    json_value: {
-      "openconfig-local-routing:prefix": "0.0.0.0/0"
-    }
-
-- !TestCase
-  name: "Configure and check a next-hop for the default route"
-  class_name: config_state.SetConfigCheckState
-  args:
-    xpath: "/local-routes/static-routes/static[prefix=0.0.0.0/0]/next-hops/next-hop[index=0]"
-    model: "local_routes.static_routes.static.next_hops.next_hop"
-    json_value: {
-      "openconfig-local-routing:index": "0",
-      "openconfig-local-routing:next-hop": "192.168.1.126"
-    }
-
-- !TestCase
-  name: "Configure a description on the default route"
-  class_name: config_state.SetConfigCheckState
-  args:
-    xpath: "/local-routes/static-routes/static[prefix=0.0.0.0/0]"
-    model: "local_routes.static_routes.static"
+    model: "local_routes.static_routes.static.static"
     json_value: {
       "openconfig-local-routing:prefix": "0.0.0.0/0",
-      "openconfig-local-routing:description": "Default Route"
-    }
-
-- !TestCase
-  name: "Configure and check another static route"
-  class_name: config_state.SetConfigCheckState
-  args:
-    xpath: "/local-routes/static-routes/static[prefix=10.10.10.0/24]"
-    model: "local_routes.static_routes.static"
-    json_value: {
-      "openconfig-local-routing:prefix": "0.0.0.0/0",
+      "openconfig-local-routing:config": {
+        "prefix": "0.0.0.0/0",
+        "description": "Default"
+      },
       "openconfig-local-routing:next-hops": {
         "next-hop": [
           {
@@ -57,9 +39,72 @@ tests:
     }
 
 - !TestCase
-  name: "Configure and check another static route"
+  name: "Configure a description on default route"
   class_name: config_state.SetConfigCheckState
   args:
+    retries: 3
+    retry_delay: 15
+    xpath: "/local-routes/static-routes/static[prefix=0.0.0.0/0]"
+    model: "local_routes.static_routes.static"
+    json_value: {
+      "openconfig-local-routing:description": "A default Route"
+    }
+
+- !TestCase
+  name: "Check default route's next hop"
+  class_name: get.GetJsonCheckCompare
+  args:
+    xpath: "/local-routes/static-routes/static[prefix=0.0.0.0/0]/next-hops/next-hop[index=0]/state"
+    model: "local_routes.static_routes.static.next_hops.next_hop.state.state"
+    want_json: {
+              "openconfig-local-routing:index": "0",
+              "openconfig-local-routing:next-hop": "192.168.1.126"
+            }
+
+- !TestCase
+  name: "Configure static route"
+  class_name: setget.JsonCheckCompare
+  args:
+    retries: 3
+    retry_delay: 15
+    xpath: "/local-routes/static-routes/static[prefix=10.10.10.0/24]"
+    model: "local_routes.static_routes.static.static"
+    json_value: {
+      "openconfig-local-routing:prefix": "10.10.10.0/24",
+      "openconfig-local-routing:config": {
+        "prefix": "10.10.10.0/24",
+        "description": "A static Route"
+      },
+      "openconfig-local-routing:next-hops": {
+        "next-hop": [
+          {
+            "config": {
+              "index": "0",
+              "next-hop": "192.168.1.126"
+            },
+            "index": "0"
+          }
+        ]
+      }
+    }
+
+- !TestCase
+  name: "Check static route's next hop"
+  class_name: get.GetJsonCheckCompare
+  args:
+    xpath: "/local-routes/static-routes/static[prefix=10.10.10.0/24]/next-hops/next-hop[index=0]/state"
+    model: "local_routes.static_routes.static.next_hops.next_hop.state.state"
+    want_json: {
+              "openconfig-local-routing:index": "0",
+              "openconfig-local-routing:next-hop": "192.168.1.126"
+            }
+
+- !TestCase
+  name: "Configure and check another static route, by setting the next-hop"
+  class_name: config_state.SetConfigCheckState
+  args:
+    retries: 3
+    retry_delay: 15
     xpath: "/local-routes/static-routes/static[prefix=10.10.20.0/24]/next-hops/next-hop[index=0]"
     model: "local_routes.static_routes.static.next_hops.next_hop"
     json_value: {
@@ -68,35 +113,79 @@ tests:
     }
 
 - !TestCase
+  name: "Configure and check another static route's next-hop"
+  class_name: config_state.SetConfigCheckState
+  args:
+    xpath: "/local-routes/static-routes/static[prefix=10.10.20.0/24]/next-hops/next-hop[index=1]"
+    model: "local_routes.static_routes.static.next_hops.next_hop"
+    retries: 3
+    retry_delay: 30
+    json_value: {
+      "openconfig-local-routing:index": "1",
+      "openconfig-local-routing:next-hop": "192.168.1.125"
+    }
+
+- !TestCase
+  name: "Check static route's multiple next-hop"
+  class_name: get.GetJsonCheckCompare
+  args:
+    xpath: "/local-routes/static-routes/static[prefix=10.10.20.0/24]/next-hops/"
+    model: "local_routes.static_routes.static.next_hops.next_hops"
+    want_json: {
+    "openconfig-local-routing:next-hop": [
+      {
+        "index": "0",
+        "config": {
+          "index": "0",
+          "next-hop": "192.168.1.126"
+        }
+      },
+      {
+        "index": "1",
+        "config": {
+          "index": "1",
+          "next-hop": "192.168.1.125"
+        }
+      }
+    ]
+  }
+
+- !TestCase
+  name: "Configure a long description on a route"
+  class_name: config_state.SetConfigCheckState
+  args:
+    retries: 3
+    retry_delay: 15
+    xpath: "/local-routes/static-routes/static[prefix=10.10.10.0/24]"
+    model: "local_routes.static_routes.static"
+    json_value: {
+      "openconfig-local-routing:description": "A static Route to save the packets"
+    }
+
+- !TestCase
   name: "Configure a not directly-connected next hop"
   class_name: config_state.SetConfigCheckState
   args:
-    xpath: "/local-routes/static-routes/static[prefix=10.10.30.0/24]/next-hops/next-hop[index=0]"
+    retries: 3
+    retry_delay: 15
+    xpath: "/local-routes/static-routes/static[prefix=10.10.10.0/24]/next-hops/next-hop[index=0]"
     model: "local_routes.static_routes.static.next_hops.next_hop"
     json_value: {
       "openconfig-local-routing:index": "0",
-      "openconfig-local-routing:next-hop": "192.168.99.99"
+      "openconfig-local-routing:next-hop": "192.168.99.99",
+      "openconfig-local-routing:recurse": true
     }
 
 - !TestCase
   name: "Replace next hop of a static route"
   class_name: config_state.SetConfigCheckState
   args:
-    xpath: "/local-routes/static-routes/static[prefix=10.10.20.0/24]/next-hops/next-hop[index=0]"
+    retries: 3
+    retry_delay: 15
+    xpath: "/local-routes/static-routes/static[prefix=10.10.10.0/24]/next-hops/next-hop[index=0]"
     model: "local_routes.static_routes.static.next_hops.next_hop"
     json_value: {
       "openconfig-local-routing:index": "0",
-      "openconfig-local-routing:next-hop": "192.168.1.124"
-    }
-
-- !TestCase
-  name: "Add next hop to a static route"
-  class_name: config_state.SetConfigCheckState
-  args:
-    xpath: "/local-routes/static-routes/static[prefix=10.10.10.0/24]/next-hops/next-hop[index=1]"
-    model: "local_routes.static_routes.static.next_hops.next_hop"
-    json_value: {
-      "openconfig-local-routing:index": "1",
       "openconfig-local-routing:next-hop": "192.168.1.124"
     }
 
@@ -104,34 +193,36 @@ tests:
   name: "Edit next hop of a static route, with metric"
   class_name: config_state.SetConfigCheckState
   args:
-    xpath: "/local-routes/static-routes/static[prefix=10.10.10.0/24]/next-hops/next-hop[index=1]"
+    retries: 3
+    retry_delay: 15
+    xpath: "/local-routes/static-routes/static[prefix=10.10.10.0/24]/next-hops/next-hop[index=0]"
     model: "local_routes.static_routes.static.next_hops.next_hop"
     json_value: {
-      "openconfig-local-routing:index": "1",
+      "openconfig-local-routing:index": "0",
       "openconfig-local-routing:next-hop": "192.168.1.122",
       "openconfig-local-routing:metric": 200
     }
 
 - !TestCase
-  name: "Delete a next hop from a static route"
+  name: "Delete next hop of a static route"
   class_name: config_state.DeleteConfigCheckState
   args:
-    xpath: "/local-routes/static-routes/static[prefix=10.10.10.0/24]/next-hops/next-hop[index=1]"
-
-- !TestCase
-  name: "Delete next hop to a static route"
-  class_name: config_state.DeleteConfigCheckState
-  args:
+    retries: 3
+    retry_delay: 15
     xpath: "/local-routes/static-routes/static[prefix=10.10.10.0/24]/next-hops/next-hop[index=0]"
 
 - !TestCase
-  name: "Delete next hop to a static route"
+  name: "Delete a static route"
   class_name: config_state.DeleteConfigCheckState
   args:
-    xpath: "/local-routes/static-routes/static[prefix=10.10.20.0/24]/next-hops/next-hop[index=0]"
+    retries: 3
+    retry_delay: 15
+    xpath: "/local-routes/static-routes/static[prefix=10.10.20.0/24]/"
 
 - !TestCase
   name: "Delete default route"
   class_name: config_state.DeleteConfigCheckState
   args:
-    xpath: "/local-routes/static-routes/static[prefix=0.0.0.0/0]/next-hops/next-hop[index=0]"
+    retries: 3
+    retry_delay: 15
+    xpath: "/local-routes/static-routes/static[prefix=0.0.0.0/0]"

@@ -1,0 +1,20 @@
+{
+ "openconfig-network-instance:network-instance": [
+ {
+   "config": {
+     "name": "default"
+   },
+   "interfaces": {
+     "interface": [
+       {
+         "config": {
+           "id": "ethernet1/1.0"
+         },
+         "id": "ethernet1/1.0"
+       }
+     ]
+   },
+   "name": "default"
+   }
+ ]
+}

@@ -48,7 +48,7 @@
             },
             "openconfig-if-ip:ipv4": {
               "config": {
-                "dhcp-client": true
+                "dhcp-client": false
               },
               "addresses": {
                 "address": [

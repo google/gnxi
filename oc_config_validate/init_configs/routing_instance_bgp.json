@@ -1,0 +1,33 @@
+{
+ "network-instance": [
+ {
+   "config": {
+     "name": "default"
+   },
+   "interfaces": {
+     "interface": [
+       {
+         "config": {
+           "id": "ethernet1/1.0"
+         },
+         "id": "ethernet1/1.0"
+       }
+     ]
+   },
+   "name": "default",
+   "protocols": {
+     "protocol": [
+       {
+         "config": {
+            "identifier": "BGP",
+            "name": "bgp",
+            "enabled": true
+         },
+         "identifier": "BGP",
+         "name": "bgp"
+       }
+     ]
+    }
+   }
+ ]
+}
