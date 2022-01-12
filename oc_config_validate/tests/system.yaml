@@ -46,8 +46,8 @@ tests:
     xpath: "/system/state"
     model: "system.state.state"
     want_json: {
-        "openconfig-system:domain-name": "googles.com",
-        "openconfig-system:hostname": "barbar"
+      "openconfig-system:domain-name": "googles.com",
+      "openconfig-system:hostname": "barbar"
     }
 
 - !TestCase
@@ -81,5 +81,5 @@ tests:
     xpath: "/system/clock/state"
     model: "system.clock.state.state"
     want_json: {
-        "openconfig-system:timezone-name": "Europe/Zurich"
+      "openconfig-system:timezone-name": "Europe/Zurich"
     }

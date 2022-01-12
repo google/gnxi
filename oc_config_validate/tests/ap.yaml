@@ -11,7 +11,7 @@ tests:
   args:
     xpath: "/access-points/access-point[hostname=ap.example.com]/hostname"
     want: "ap.example.com"
-    
+
 - !TestCase
   name: Check base model with baseline (init) configuration.
   class_name: get.GetJsonCheck

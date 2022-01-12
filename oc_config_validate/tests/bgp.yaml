@@ -51,7 +51,7 @@ tests:
     xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP]/bgp/peer-groups/peer-group[peer-group-name=default]"
     model: network_instances.network_instance.protocols.protocol.bgp.peer_groups.peer_group
     json_value: {
-      "openconfig-bgp:peer-group-name": "default"
+      "openconfig-bgp:peer-group-name": "default",
       "openconfig-bgp:peer-type": EXTERNAL
     }
 
@@ -84,9 +84,9 @@ tests:
         "peer-group": "default"
       },
       "openconfig-bgp:transport": {
-          "config": {
-              "local-address": "192.168.1.1/25"
-          }
+        "config": {
+          "local-address": "192.168.1.1/25"
+        }
       }
     }
 
@@ -128,9 +128,9 @@ tests:
         "peer-group": "default"
       },
       "openconfig-bgp:transport": {
-          "config": {
-              "local-address": "ethernet1/1.0"
-          }
+        "config": {
+          "local-address": "ethernet1/1.0"
+        }
       }
     }
 
@@ -149,9 +149,9 @@ tests:
         "peer-group": "internal"
       },
       "openconfig-bgp:transport": {
-          "config": {
-              "local-address": "192.168.1.1/25"
-          }
+        "config": {
+          "local-address": "192.168.1.1/25"
+        }
       }
     }
 
@@ -164,19 +164,19 @@ tests:
     want_json: {
       "openconfig-bgp:neighbor": [
         {
-        "neighbor-address": "192.168.1.11",
-        "state": {
           "neighbor-address": "192.168.1.11",
-          "peer-group": "default",
-          "peer-type": "EXTERNAL"
+          "state": {
+            "neighbor-address": "192.168.1.11",
+            "peer-group": "default",
+            "peer-type": "EXTERNAL"
           }
         },
         {
-        "neighbor-address": "192.168.2.22",
-        "state": {
           "neighbor-address": "192.168.2.22",
-          "peer-group": "internal",
-          "peer-type": "INTERNAL"
+          "state": {
+            "neighbor-address": "192.168.2.22",
+            "peer-group": "internal",
+            "peer-type": "INTERNAL"
           }
         }
       ]

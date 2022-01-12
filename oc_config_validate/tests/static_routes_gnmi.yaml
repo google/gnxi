@@ -57,9 +57,9 @@ tests:
     xpath: "/local-routes/static-routes/static[prefix=0.0.0.0/0]/next-hops/next-hop[index=0]/state"
     model: "local_routes.static_routes.static.next_hops.next_hop.state.state"
     want_json: {
-              "openconfig-local-routing:index": "0",
-              "openconfig-local-routing:next-hop": "192.168.1.126"
-            }
+      "openconfig-local-routing:index": "0",
+      "openconfig-local-routing:next-hop": "192.168.1.126"
+    }
 
 - !TestCase
   name: "Configure static route"
@@ -95,9 +95,9 @@ tests:
     xpath: "/local-routes/static-routes/static[prefix=10.10.10.0/24]/next-hops/next-hop[index=0]/state"
     model: "local_routes.static_routes.static.next_hops.next_hop.state.state"
     want_json: {
-              "openconfig-local-routing:index": "0",
-              "openconfig-local-routing:next-hop": "192.168.1.126"
-            }
+      "openconfig-local-routing:index": "0",
+      "openconfig-local-routing:next-hop": "192.168.1.126"
+    }
 
 - !TestCase
   name: "Configure and check another static route, by setting the next-hop"
@@ -132,23 +132,23 @@ tests:
     xpath: "/local-routes/static-routes/static[prefix=10.10.20.0/24]/next-hops/"
     model: "local_routes.static_routes.static.next_hops.next_hops"
     want_json: {
-    "openconfig-local-routing:next-hop": [
-      {
-        "index": "0",
-        "config": {
+      "openconfig-local-routing:next-hop": [
+        {
           "index": "0",
-          "next-hop": "192.168.1.126"
-        }
-      },
-      {
-        "index": "1",
-        "config": {
+          "config": {
+            "index": "0",
+            "next-hop": "192.168.1.126"
+          }
+        },
+        {
           "index": "1",
-          "next-hop": "192.168.1.125"
+          "config": {
+            "index": "1",
+            "next-hop": "192.168.1.125"
+          }
         }
-      }
-    ]
-  }
+      ]
+    }
 
 - !TestCase
   name: "Configure a long description on a route"
