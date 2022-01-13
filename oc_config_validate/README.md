@@ -28,16 +28,29 @@ looking for:
 1. Clone this repo and install the needed dependencies. Preferably, use a virtual environment:
 
 ```
-cd oc_config_validate
+git clone https://github.com/google/gnxi.git
+cd gnxi/oc_config_validate
 virtualenv --clear venv
 source venv/bin/activate
 pip3 install -r requirements.txt
-python3 -m oc_config_validate --version
 ```
 
 1. Get the OC Models from GitHub, running `oc_config_validate/update_models.sh`.
 
-1. Optionally, build a Python package with `python3 -m build`.
+1. Check it is all working as expected:
+
+```
+python3 -m oc_config_validate --version
+python3 -m oc_config_validate -models
+```
+
+#### Why I cannot do `pip install oc_config_validate` ?
+
+`oc_config_validate` is not delivered as a self-contained Python package in the [Python Package Index](https://pypi.org/).
+
+`oc_config_validate` depends on the Python files generated from OpenConfig models. A Python package for distribution would need to contain all these many files.
+
+You can still create such a package by running `python3 -m build` and maybe use it for internal distribution.
 
 ### Demo
 
@@ -175,7 +188,7 @@ Run `python3 -m oc_config_validate -models` to get a list of the versions (revis
 
 ##### Using specific OpenConfig models
 
-If specific OpenConfig models need to be used, place them in a directory and have pyang create the bindings and store their revisions:
+If specific OpenConfig models need to be used, place them in a directory (here `$MODELS_DIRECTORY`) and have **pyang** create the bindings and store them in `oc_config_validate/models/` (also write their revisions in `oc_config_validate/models/versions`):
 
 ```
 MODELS=$(find "$MODELS_DIRECTORY" -name *.yang)
