@@ -5,7 +5,7 @@ import json
 from pyangbind.lib import pybindJSON
 from retry import retry
 
-from oc_config_validate import schema, target, testbase
+from oc_config_validate import schema, testbase
 from oc_config_validate.models import interfaces as oc_interfaces
 from oc_config_validate.models.interfaces.interface.subinterfaces.subinterface.ipv4 import \
     addresses as oc_addresses  # noqa

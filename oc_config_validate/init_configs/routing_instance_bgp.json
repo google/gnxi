@@ -1,5 +1,5 @@
 {
- "network-instance": [
+ "openconfig-network-instance:network-instance": [
  {
    "config": {
      "name": "default"

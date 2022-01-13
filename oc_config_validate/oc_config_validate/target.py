@@ -231,11 +231,11 @@ class TestTarget():
                 response = self.stub.Set(gnmi_pb2.SetRequest(delete=[path]),
                                          **metadata)
             if set_type.lower() == 'update':
-                response = self.stub.Set(gnmi_pb2.SetRequest(update=[path_val]),
-                                         **metadata)
+                response = self.stub.Set(gnmi_pb2.SetRequest(
+                    update=[path_val]), **metadata)
             if set_type.lower() == 'replace':
-                response = self.stub.Set(gnmi_pb2.SetRequest(replace=[path_val]),
-                                         **metadata)
+                response = self.stub.Set(gnmi_pb2.SetRequest(
+                    replace=[path_val]), **metadata)
         except grpc._channel._InactiveRpcError as err:
             raise RpcError(err) from err
 

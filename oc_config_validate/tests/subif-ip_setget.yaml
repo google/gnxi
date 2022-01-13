@@ -41,7 +41,7 @@ tests:
                 "prefix-length": 26
               }
             }
-           ]
+          ]
         }
       }
     }
@@ -72,7 +72,7 @@ tests:
                 "prefix-length": 26
               }
             }
-           ]
+          ]
         }
       }
     }
@@ -110,7 +110,7 @@ tests:
     model: interfaces.interface.subinterfaces.subinterface.ipv4.addresses.addresses
     want_json: {
       "openconfig-if-ip:address": []
-      }
+    }
 
 - !TestCase
   name: "Remove subinterface ethernet1/1.0"
