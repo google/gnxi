@@ -60,7 +60,7 @@ Run the script `run_demo.sh` to see a quick demonstration of `oc_config_validate
  1. It runs `oc_config_validate` with a sample test file.
  1. See `run_demo.sh -h` for additional TLS-connection options to use.
 
-> For the first execution, it first create local TLS certificates.
+> It uses the local TLS certificates from [gnxi/certs/](../certs/).
 
 ### Use
 
