@@ -2,7 +2,7 @@
 
 import json
 
-from oc_config_validate import target, testbase
+from oc_config_validate import schema, target, testbase
 
 
 class TestCase(testbase.TestCase):
@@ -23,7 +23,9 @@ class TestCase(testbase.TestCase):
         self.assertXpath(self.xpath)
         self.assertIsInstance(self.json_value, dict,
                               "The value is not a valid JSON object")
-        self.assertJsonModel(json.dumps(self.json_value), self.model,
+        self.assertModelXpath(self.model, self.xpath)
+        model = schema.ocContainerFromPath(self.model, self.xpath)
+        self.assertJsonModel(json.dumps(self.json_value), model,
                              "JSON value to Set does not match the model")
 
 
@@ -57,7 +59,8 @@ class JsonCheck(TestCase):
         self.resp_val = resp.json_ietf_val
         self.assertIsNotNone(self.resp_val,
                              "The gNMI GET response is not JSON IETF")
-        self.assertJsonModel(self.resp_val, self.model,
+        model = schema.ocContainerFromPath(self.model, self.xpath)
+        self.assertJsonModel(self.resp_val, model,
                              "Get response JSON does not match the model")
 
 

@@ -24,15 +24,20 @@ MODELS_PATH=${MODELS_FOLDER}/public/release/models
 PYBINDPLUGIN=$(/usr/bin/env python -c 'import pyangbind; import os; print ("{}/plugin".format(os.path.dirname(pyangbind.__file__)))')
 
 rm -fr ${MODELS_FOLDER}
+touch ${MODELS_FOLDER}/__init__.py
 git clone --depth 1 https://github.com/openconfig/public.git "$MODELS_FOLDER/public"
 
-# Skip openconfig-bdf model until https://github.com/robshakir/pyangbind/issues/286 is fixed
-for model in $(ls -d ${MODELS_PATH}/* | grep -v bfd); do
-  MODELS=$(find $model -name openconfig-*.yang)
-  echo "Binding models in $model"
+for m in $( ls -d ${MODELS_PATH}/*/ ); do
+  MODELS=$(find $m -name openconfig-*.yang)
+  MODEL_NAME=$(basename $m | tr "-" "_")
+  # Skip openconfig-bdf model until https://github.com/robshakir/pyangbind/issues/286 is fixed
+  if [[ $MODEL_NAME == "bfd" ]]; then
+    continue
+  fi
+  echo "Binding models in $m"
   # Skipping Warnings due to https://github.com/openconfig/public/issues/571
   pyang -W none --plugindir $PYBINDPLUGIN -f pybind \
-    --path "$MODELS_PATH/" --split-class-dir "$MODELS_FOLDER/" ${MODELS}
+    --path "$MODELS_PATH/" --output "$MODELS_FOLDER/${MODEL_NAME}.py" ${MODELS}
   pyang -W none --plugindir $PYBINDPLUGIN -f name --name-print-revision \
   --path "$MODELS_PATH/" ${MODELS} >> ${MODELS_FOLDER}/versions
 done

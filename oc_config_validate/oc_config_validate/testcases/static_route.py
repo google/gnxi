@@ -5,9 +5,8 @@ import json
 from pyangbind.lib import pybindJSON
 from retry import retry
 
-from oc_config_validate import target, testbase
-from oc_config_validate.models.local_routes import \
-    static_routes as oc_static_routes  # noqa
+from oc_config_validate import schema, testbase
+from oc_config_validate.models.local_routing import openconfig_local_routing
 
 
 class AddStaticRoute(testbase.TestCase):
@@ -30,26 +29,26 @@ class AddStaticRoute(testbase.TestCase):
     next_hop = ""
     index = 0
     metric = None
-    want = None
+    route = None
+
+    def setUp(self):
+        self.route = openconfig_local_routing(
+        ).local_routes.static_routes.static.add(self.prefix)
+        self.route.config.prefix = self.prefix
+        if self.description is not None:
+            self.route.config.description = self.description
+        self.nh = self.route.next_hops.next_hop.add(self.index)
+        self.nh.config.index = self.index
+        self.nh.config.next_hop = self.next_hop
+        if self.metric is not None:
+            self.nh.config.metric = self.metric
 
     def test0001(self):
         self.assertArgs(["prefix", "next_hop"])
 
     def test0100(self):
-        route = oc_static_routes.static_routes().static.add(self.prefix)
-        route.config.prefix = self.prefix
-        if self.description is not None:
-            route.config.description = self.description
-        nh = route.next_hops.next_hop.add(self.index)
-        nh.config.index = self.index
-        nh.config.next_hop = self.next_hop
-        if self.metric is not None:
-            nh.config.metric = self.metric
-
-        self.want = nh.config
-
         xpath = "/local-routes/static-routes/static[prefix=%s]" % self.prefix
-        _json_value = json.loads(pybindJSON.dumps(route, mode='ietf'))
+        _json_value = json.loads(pybindJSON.dumps(self.route, mode='ietf'))
         self.assertTrue(self.gNMISetUpdate(xpath, _json_value),
                         "gNMI Set did not succeed.")
 
@@ -60,11 +59,12 @@ class AddStaticRoute(testbase.TestCase):
             self.prefix, self.index)
         resp_val = self.gNMIGetJson(xpath)
         self.assertJsonModel(
-            resp_val,
-            'local_routes.static_routes.static.next_hops.'
-            'next_hop.config.config',
+            resp_val, self.nh.config,
             'gNMI Get on the /config container does not match model')
-        self.assertJsonCmp(resp_val, self.want)
+        want = json.loads(
+            schema.removeOpenConfigPrefix(
+                pybindJSON.dumps(self.nh.config, mode='ietf')))
+        self.assertJsonCmp(resp_val, want)
 
     @retry(exceptions=AssertionError, tries=3, delay=10)
     def test0300(self):
@@ -72,14 +72,17 @@ class AddStaticRoute(testbase.TestCase):
                  "next-hops/next-hop[index=%d]/state") % (
             self.prefix, self.index)
         resp_val = self.gNMIGetJson(xpath)
+        self.nh.state._set_index(self.index)
+        self.nh.state._set_next_hop(self.next_hop)
+        if self.metric is not None:
+            self.nh.state._set_metric(self.metric)
         self.assertJsonModel(
-            resp_val,
-            'local_routes.static_routes.static.next_hops.'
-            'next_hop.state.state',
+            resp_val, self.nh.state,
             'gNMI Get on the /state container does not match model')
-        got = json.loads(resp_val)
-        cmp, diff = target.intersectCmp(got, self.want)
-        self.assertTrue(cmp, diff)
+        want = json.loads(
+            schema.removeOpenConfigPrefix(
+                pybindJSON.dumps(self.nh.state, mode='ietf')))
+        self.assertJsonCmp(resp_val, want)
 
 
 class RemoveStaticRoute(testbase.TestCase):
@@ -162,18 +165,20 @@ class CheckRouteState(testbase.TestCase):
                  "/next-hops/next-hop[index=%d]/state") % (
             self.prefix, self.index)
 
-        want = oc_static_routes.static.next_hops.next_hop.state.state()
-        want._set_index(self.index)
-        want._set_next_hop(self.next_hop)
+        ste = openconfig_local_routing().local_routes.static_routes.static.\
+            add(prefix=self.prefix).next_hops.next_hop.add(index=self.index).\
+            state
+        ste._set_index(self.index)
+        ste._set_next_hop(self.next_hop)
         if self.metric is not None:
-            want._set_metric(self.metric)
-
+            ste._set_metric(self.metric)
         resp_val = self.gNMIGetJson(xpath)
         self.assertJsonModel(
-            resp_val,
-            'local_routes.static_routes.static.next_hops.'
-            'next_hop.state.state',
+            resp_val, ste,
             'gNMI Get on the /state container does not match model')
+        want = json.loads(
+            schema.removeOpenConfigPrefix(
+                pybindJSON.dumps(ste, mode='ietf')))
         self.assertJsonCmp(resp_val, want)
 
 
@@ -204,16 +209,18 @@ class CheckRouteConfig(testbase.TestCase):
                  "/next-hops/next-hop[index=%d]/config") % (
             self.prefix, self.index)
 
-        want = oc_static_routes.static.next_hops.next_hop.config.config()
-        want._set_index(self.index)
-        want._set_next_hop(self.next_hop)
+        cfg = openconfig_local_routing().local_routes.static_routes.static.\
+            add(prefix=self.prefix).next_hops.next_hop.add(index=self.index).\
+            config.config()
+        cfg._set_index(self.index)
+        cfg._set_next_hop(self.next_hop)
         if self.metric is not None:
-            want._set_metric(self.metric)
-
+            cfg._set_metric(self.metric)
         resp_val = self.gNMIGetJson(xpath)
         self.assertJsonModel(
-            resp_val,
-            'local_routes.static_routes.static.next_hops.'
-            'next_hop.config.config',
+            resp_val, cfg,
             'gNMI Get on the /config container does not match model')
+        want = json.loads(
+            schema.removeOpenConfigPrefix(
+                pybindJSON.dumps(cfg, mode='ietf')))
         self.assertJsonCmp(resp_val, want)

@@ -14,6 +14,7 @@ limitations under the License.
 
 """
 
+import copy
 import json
 import logging
 import time
@@ -22,6 +23,7 @@ from functools import wraps
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 from pyangbind.lib import pybindJSON
+from pyangbind.lib.base import PybindBase
 from retry.api import retry_call
 
 from oc_config_validate import context, schema, target
@@ -229,23 +231,22 @@ class TestCase(unittest.case.TestCase):
             self.assertTrue(bool(getattr(self, arg)),
                             "Missing class argument: %s" % arg)
 
-    def assertJsonModel(self, json_value: Union[str, bytes], model: str,
-                        msg: str):
+    def assertJsonModel(self, json_value: Union[str, bytes],
+                        model: PybindBase, msg: str):
         """Assert that the JSON text complies to the model schema.
 
         Args:
             json_value: JSON-IETF to check.
-            model: Python binding class name, to check the JSON reply against.
+            model: the OC model class name in the oc_config_validate.models
+              package, as `module.class`.
+            xpath: the xpath to the OC container to create.
             mgs: Message to show when the check fails.
 
         Raises:
-          AssertionError if unable to find the model's binding of the JSON
-            does not match the model.
+          AssertionError if the JSON text does not match the model.
         """
-        model_obj = schema.containerFromName(model)
-        self.assertIsNotNone(model_obj,
-                             "Unable to find model '%s' binding" % model)
         match, error = True, None
+        model_obj = copy.copy(model)
         try:
             schema.decodeJson(json_value, model_obj)
         except (AttributeError, ValueError) as err:
@@ -297,6 +298,26 @@ class TestCase(unittest.case.TestCase):
           AssertionError if xpath is not valid
         """
         self.assertTrue(target.isPathOK(xpath), "'%s' not a gNMI path" % xpath)
+
+    def assertModelXpath(self, model: str, xpath: str):
+        """Assert that the model and xpath correspond to a valid OC container.
+
+        Args:
+            model: the OC model class name in the oc_config_validate.models
+              package, as `module.class`.
+            xpath: the xpath to the OC container to create.
+
+        Raises: AssertionError.
+        """
+        match, error = True, None
+        try:
+            schema.ocContainerFromPath(model, xpath)
+        except (AttributeError, target.XpathError, schema.Error) as err:
+            match, error = False, err
+        self.assertTrue(
+            match,
+            "xpath %s does not point to a container in model %s: %s" % (
+                xpath, model, error))
 
 
 class TestResult(unittest.TestResult):
