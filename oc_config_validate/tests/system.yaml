@@ -12,7 +12,7 @@ tests:
   class_name: get.GetJsonCheck
   args:
     xpath: "/system"
-    model: system.system
+    model: system.openconfig_system
 
 - !TestCase
   name: "Set and Check Hostname and Domain"
@@ -21,7 +21,7 @@ tests:
     retries: 3
     retry_delay: 10
     xpath: "/system"
-    model: "system"
+    model: system.openconfig_system
     json_value: {
       "openconfig-system:domain-name": "google.com",
       "openconfig-system:hostname": "foobar"
@@ -34,7 +34,7 @@ tests:
     retries: 3
     retry_delay: 10
     xpath: "/system/config"
-    model: system.config.config
+    model: system.openconfig_system
     json_value: {
       "openconfig-system:hostname": "barbar"
     }
@@ -44,7 +44,7 @@ tests:
   class_name: get.GetJsonCheckCompare
   args:
     xpath: "/system/state"
-    model: "system.state.state"
+    model: system.openconfig_system
     want_json: {
       "openconfig-system:domain-name": "googles.com",
       "openconfig-system:hostname": "barbar"
@@ -57,7 +57,7 @@ tests:
     retries: 3
     retry_delay: 10
     xpath: "/system/clock"
-    model: "system.clock"
+    model: system.openconfig_system
     json_value: {
       "openconfig-system:timezone-name": "America/Los_Angeles"
     }
@@ -69,7 +69,7 @@ tests:
     retries: 3
     retry_delay: 10
     xpath: "/system/clock/config"
-    model: "system.clock.config.config"
+    model: system.openconfig_system
     json_value: {
       "openconfig-system:timezone-name": "Europe/Zurich"
     }
@@ -79,7 +79,7 @@ tests:
   class_name: get.GetJsonCheckCompare
   args:
     xpath: "/system/clock/state"
-    model: "system.clock.state.state"
+    model: system.openconfig_system
     want_json: {
       "openconfig-system:timezone-name": "Europe/Zurich"
     }

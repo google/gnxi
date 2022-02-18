@@ -18,7 +18,7 @@ tests:
   class_name: setget.JsonCheckCompare
   args:
     xpath: "/interfaces/interface[name=ethernet1/1]/subinterfaces/subinterface[index=0]/ipv4/addresses/address[ip=192.168.1.1]/config"
-    model: interfaces.interface.subinterfaces.subinterface.ipv4.addresses.address.config.config
+    model: interfaces.openconfig_interfaces
     json_value: {
       "openconfig-if-ip:ip": "192.168.1.1",
       "openconfig-if-ip:prefix-length": 25
@@ -29,7 +29,7 @@ tests:
   class_name: set.JsonCheckSetUpdate
   args:
     xpath: "/interfaces/interface[name=ethernet1/1]/subinterfaces/subinterface[index=0]/"
-    model: interfaces.interface.subinterfaces.subinterface.subinterface
+    model: interfaces.openconfig_interfaces
     json_value: {
       "openconfig-if-ip:ipv4": {
         "addresses": {
@@ -53,7 +53,7 @@ tests:
     retries: 3
     retry_delay: 15
     xpath: "/interfaces/interface[name=ethernet1/1]/subinterfaces/subinterface[index=0]"
-    model: interfaces.interface.subinterfaces.subinterface.subinterface
+    model: interfaces.openconfig_interfaces
     want_json: {
       "openconfig-if-ip:ipv4": {
         "addresses": {
@@ -82,7 +82,7 @@ tests:
   class_name: get.GetJsonCheckCompare
   args:
     xpath: "/interfaces/interface[name=ethernet1/1]/subinterfaces/subinterface[index=0]/ipv4/addresses/address[ip=192.168.1.1]/state"
-    model: interfaces.interface.subinterfaces.subinterface.ipv4.addresses.address.state.state
+    model: interfaces.openconfig_interfaces
     want_json: {
       "openconfig-if-ip:ip": "192.168.1.1",
       "openconfig-if-ip:prefix-length": 25
@@ -107,7 +107,7 @@ tests:
     retries: 5
     retry_delay: 15
     xpath: "/interfaces/interface[name=ethernet1/1]/subinterfaces/subinterface[index=0]/ipv4/addresses"
-    model: interfaces.interface.subinterfaces.subinterface.ipv4.addresses.addresses
+    model: interfaces.openconfig_interfaces
     want_json: {
       "openconfig-if-ip:address": []
     }
