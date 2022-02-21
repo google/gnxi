@@ -35,8 +35,6 @@ source venv/bin/activate
 pip3 install -r requirements.txt
 ```
 
-1. Get the OC Models from GitHub, running `oc_config_validate/update_models.sh`.
-
 1. Check it is all working as expected:
 
 ```
@@ -46,11 +44,15 @@ python3 -m oc_config_validate -models
 
 #### Why I cannot do `pip install oc_config_validate` ?
 
-`oc_config_validate` is not delivered as a self-contained Python package in the [Python Package Index](https://pypi.org/).
+`oc_config_validate` is not delivered yet as a self-contained Python package in the [Python Package Index](https://pypi.org/). It will likely be if general usage justifies it.
 
-`oc_config_validate` depends on the Python files generated from OpenConfig models. A Python package for distribution would need to contain all these many files.
+You can still create such a package for yourself, by running `python3 -m build` and maybe use it for internal distribution.
 
-You can still create such a package by running `python3 -m build` and maybe use it for internal distribution.
+### Update OC models
+
+1. To get the latest OC Models from GitHub, running `oc_config_validate/update_models.sh`.
+
+This will take some time, be patient.
 
 ### Demo
 
@@ -177,32 +179,23 @@ In case of errors, use the `--debug` flag to help understand the underlying TLS 
 
 #### OpenConfig Models
 
-`oc_config_validate` includes the Python bindings of [all public OpenConfig models](https://github.com/openconfig/public.git), in the package `oc_config_validate.models`.
+`oc_config_validate` includes the Python bindings of most OpenConfig models, in the package `oc_config_validate.models`.
 
- *  To update the bindings to the latest model versions, run `update_models.sh`
- *  To add more OpenConfig models, update `update_models.sh`
+The model `openconfig-bdf` is skipped until https://github.com/robshakir/pyangbind/issues/286 is fixed.
+
+> To update the bindings to the latest model versions, run `update_models.sh`
 
 The model bindings are used in tests that validate the gNMI JSON payloads against the OpenConfig model. See [docs/testclasses](docs/testclasses.md) for more details.
 
 The Python bindings are in a directory tree structure that allows to reference any container element of any OpenConfig model, for validation or to write specific testcases.
 
-Run `python3 -m oc_config_validate -models` to get a list of the versions (revisions) of the OC models used. These are also added to the results file.
+Run `python3 -m oc_config_validate -models` to get a list of the versions (revisions) of the OC models used.
 
 ##### Using specific OpenConfig models
 
 If specific OpenConfig models need to be used, place them in a directory (here `$MODELS_DIRECTORY`) and have **pyang** create the bindings and store them in `oc_config_validate/models/` (also write their revisions in `oc_config_validate/models/versions`):
 
-```
-
-MODELS=$(find "$MODELS_DIRECTORY" -name *.yang)
-PYBINDPLUGIN=$(/usr/bin/env python -c 'import pyangbind; import os; print ("{}/plugin".format(os.path.dirname(pyangbind.__file__)))')
-
-pyang --plugindir $PYBINDPLUGIN -f pybind  --path $MODELS_DIRECTORY/ \
-  --split-class-dir oc_config_validate/models/ $MODELS
-
-pyang --plugindir $PYBINDPLUGIN -f name --name-print-revision \
-  --path $MODELS_DIRECTORY/ $MODELS >> --output oc_config_validate/models/versions
-```
+See [docs/oc_models.md](docs/oc_models.md) for details.
 
 #### Timing in gNMI Sets and Gets
 
