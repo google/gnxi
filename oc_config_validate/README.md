@@ -177,12 +177,14 @@ In case of errors, use the `--debug` flag to help understand the underlying TLS 
 
 #### OpenConfig Models
 
-`oc_config_validate` includes the Python bindings of some OpenConfig models, in the package `oc_config_validate.models`.
+`oc_config_validate` includes the Python bindings of [all public OpenConfig models](https://github.com/openconfig/public.git), in the package `oc_config_validate.models`.
 
  *  To update the bindings to the latest model versions, run `update_models.sh`
  *  To add more OpenConfig models, update `update_models.sh`
 
-The model bindings are used in tests that validate the gNMI JSON payloads against the expected OpenConfig model. See [docs/tests](docs/tests.md) for more details.
+The model bindings are used in tests that validate the gNMI JSON payloads against the OpenConfig model. See [docs/testclasses](docs/testclasses.md) for more details.
+
+The Python bindings are in a directory tree structure that allows to reference any container element of any OpenConfig model, for validation or to write specific testcases.
 
 Run `python3 -m oc_config_validate -models` to get a list of the versions (revisions) of the OC models used. These are also added to the results file.
 
@@ -191,16 +193,15 @@ Run `python3 -m oc_config_validate -models` to get a list of the versions (revis
 If specific OpenConfig models need to be used, place them in a directory (here `$MODELS_DIRECTORY`) and have **pyang** create the bindings and store them in `oc_config_validate/models/` (also write their revisions in `oc_config_validate/models/versions`):
 
 ```
+
 MODELS=$(find "$MODELS_DIRECTORY" -name *.yang)
 PYBINDPLUGIN=$(/usr/bin/env python -c 'import pyangbind; import os; print ("{}/plugin".format(os.path.dirname(pyangbind.__file__)))')
 
-pyang --plugindir $PYBINDPLUGIN -f pybind  --path oc_config_validate/models/ \
+pyang --plugindir $PYBINDPLUGIN -f pybind  --path $MODELS_DIRECTORY/ \
   --split-class-dir oc_config_validate/models/ $MODELS
 
 pyang --plugindir $PYBINDPLUGIN -f name --name-print-revision \
-  --path oc_config_validate/models/ --output oc_config_validate/models/versions \
-  $MODELS
-
+  --path $MODELS_DIRECTORY/ $MODELS >> --output oc_config_validate/models/versions
 ```
 
 #### Timing in gNMI Sets and Gets

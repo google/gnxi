@@ -19,39 +19,22 @@
 # under Apache License, Version 2.0.
 
 MODELS_FOLDER=$(dirname $0)/models
-
-rm -rf "${MODELS_FOLDER}"
-
-git clone --depth 1 https://github.com/openconfig/public.git "$MODELS_FOLDER/public"
+MODELS_PATH=${MODELS_FOLDER}/public/release/models
 
 PYBINDPLUGIN=$(/usr/bin/env python -c 'import pyangbind; import os; print ("{}/plugin".format(os.path.dirname(pyangbind.__file__)))')
 
-_MODELS=( "${MODELS_FOLDER}/public/release/models/interfaces/openconfig-interfaces.yang" \
-          "${MODELS_FOLDER}/public/release/models/interfaces/openconfig-if-ip.yang" \
-          "${MODELS_FOLDER}/public/release/models/wifi/openconfig-access-points.yang" \
-          "${MODELS_FOLDER}/public/release/models/wifi/openconfig-ap-interfaces.yang" \
-          "${MODELS_FOLDER}/public/release/models/wifi/openconfig-ap-manager.yang" \
-          "${MODELS_FOLDER}/public/release/models/local-routing/openconfig-local-routing.yang" \
-          "${MODELS_FOLDER}/public/release/models/lldp/openconfig-lldp.yang" )
+rm -fr ${MODELS_FOLDER}
+git clone --depth 1 https://github.com/openconfig/public.git "$MODELS_FOLDER/public"
 
-BGP_MODELS=( "${MODELS_FOLDER}/public/release/models/bgp/openconfig-bgp.yang" \
-             "${MODELS_FOLDER}/public/release/models/network-instance/openconfig-network-instance.yang" )
-
-SYSTEM_MODELS=( "${MODELS_FOLDER}/public/release/models/system/openconfig-system.yang" \
-                "${MODELS_FOLDER}/public/release/models/system/openconfig-aaa.yang"  )
-
-MODELS=( ${_MODELS[@]} ${SYSTEM_MODELS[@]} ${BGP_MODELS[@]})
-
-pyang --plugindir $PYBINDPLUGIN -f pybind  --path "$MODELS_FOLDER/" \
-  --split-class-dir "$MODELS_FOLDER/" ${SYSTEM_MODELS[@]}
-
-pyang --plugindir $PYBINDPLUGIN -f pybind  --path "$MODELS_FOLDER/" \
-    --split-class-dir "$MODELS_FOLDER/" ${BGP_MODELS[@]}
-
-pyang --plugindir $PYBINDPLUGIN -f pybind  --path "$MODELS_FOLDER/" \
-  --split-class-dir "$MODELS_FOLDER/" ${_MODELS[@]}
-
-pyang --plugindir $PYBINDPLUGIN -f name --name-print-revision \
-  --path "$MODELS_FOLDER/" --output "$MODELS_FOLDER/versions" ${MODELS[@]}
+# Skip openconfig-bdf model until https://github.com/robshakir/pyangbind/issues/286 is fixed
+for model in $(ls -d ${MODELS_PATH}/* | grep -v bfd); do
+  MODELS=$(find $model -name openconfig-*.yang)
+  echo "Binding models in $model"
+  # Skipping Warnings due to https://github.com/openconfig/public/issues/571
+  pyang -W none --plugindir $PYBINDPLUGIN -f pybind \
+    --path "$MODELS_PATH/" --split-class-dir "$MODELS_FOLDER/" ${MODELS}
+  pyang -W none --plugindir $PYBINDPLUGIN -f name --name-print-revision \
+  --path "$MODELS_PATH/" ${MODELS} >> ${MODELS_FOLDER}/versions
+done
 
 rm -rf "$MODELS_FOLDER/public"

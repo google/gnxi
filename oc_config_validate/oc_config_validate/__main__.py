@@ -25,7 +25,7 @@ import yaml
 from oc_config_validate import (context, formatter, runner, schema, target,
                                 testbase)
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 LOGGING_FORMAT = "%(levelname)s(%(filename)s:%(lineno)d):%(message)s"
 
