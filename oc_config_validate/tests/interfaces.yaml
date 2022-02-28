@@ -12,7 +12,7 @@ tests:
   class_name: setget.JsonCheckCompare
   args:
     xpath: "/interfaces/interface[name=loopback]/config"
-    model: interfaces.interface.config.config
+    model: interfaces.openconfig_interfaces
     json_value: {
       "openconfig-interfaces:enabled": true,
       "openconfig-interfaces:mtu": 1500
@@ -23,7 +23,7 @@ tests:
   class_name: setget.JsonCheckCompare
   args:
     xpath: "/interfaces/interface[name=ethernet1/1]/config"
-    model: interfaces.interface.config.config
+    model: interfaces.openconfig_interfaces
     json_value: {
       "openconfig-interfaces:description": "Test interface"
     }
@@ -46,7 +46,7 @@ tests:
   class_name: setget.JsonCheckCompare
   args:
     xpath: "/interfaces/interface[name=ethernet1/1]/config"
-    model: interfaces.interface.config.config
+    model: interfaces.openconfig_interfaces
     json_value: {
       "openconfig-interfaces:loopback-mode": true
     }

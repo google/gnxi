@@ -30,6 +30,6 @@ setup(
   packages= find_packages( where="oc_config_validate" ),
 
   python_requires = ">=3.6",
-  install_requires = [ "grpcio", "grpcio-tools", "pyang", "pyangbind", "PyYAML", "retry" ]
+  install_requires = [ "grpcio", "grpcio-tools", "pyang", "pyangbind", "PyYAML", "retry", "importlib" ]
 
 )

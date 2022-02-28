@@ -73,7 +73,6 @@ openconfig-evpn@2021-06-11
 openconfig-network-instance@2021-11-17
 openconfig-network-instance-l3@2018-11-21
 openconfig-evpn-types@2021-06-16
-openconfig-extensions@2020-06-16
 openconfig-openflow@2018-11-21
 openconfig-openflow-types@2020-06-30
 openconfig-optical-amplifier@2019-12-06

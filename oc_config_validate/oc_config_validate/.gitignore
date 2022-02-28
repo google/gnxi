@@ -1,5 +1,3 @@
 /__pycache__/
 **/__pycache__/
 /oc_config_validate.egg-info/
-/models/*.py
-/models/**/*.py

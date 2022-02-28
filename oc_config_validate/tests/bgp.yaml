@@ -21,8 +21,8 @@ tests:
   args:
     retries: 2
     retry_delay: 15
-    xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP]/bgp/global"
-    model: network_instances.network_instance.protocols.protocol.bgp.global_
+    xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=bgp]/bgp/global"
+    model: network_instance.openconfig_network_instance
     json_value: {
       "openconfig-bgp:as": 65333,
       "openconfig-bgp:router-id": "192.168.1.1"
@@ -35,8 +35,8 @@ tests:
   args:
     retries: 2
     retry_delay: 15
-    xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP]/bgp/global"
-    model: network_instances.network_instance.protocols.protocol.bgp.global_
+    xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=bgp]/bgp/global"
+    model: network_instance.openconfig_network_instance
     json_value: {
       "openconfig-bgp:as": 65123,
       "openconfig-bgp:router-id": "1.1.1.1"
@@ -48,8 +48,8 @@ tests:
   args:
     retries: 2
     retry_delay: 15
-    xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP]/bgp/peer-groups/peer-group[peer-group-name=default]"
-    model: network_instances.network_instance.protocols.protocol.bgp.peer_groups.peer_group
+    xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=bgp]/bgp/peer-groups/peer-group[peer-group-name=default]"
+    model: network_instance.openconfig_network_instance
     json_value: {
       "openconfig-bgp:peer-group-name": "default",
       "openconfig-bgp:peer-type": EXTERNAL
@@ -61,8 +61,8 @@ tests:
   args:
     retries: 2
     retry_delay: 15
-    xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP]/bgp/peer-groups/peer-group[peer-group-name=internal]"
-    model: network_instances.network_instance.protocols.protocol.bgp.peer_groups.peer_group
+    xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=bgp]/bgp/peer-groups/peer-group[peer-group-name=internal]"
+    model: network_instance.openconfig_network_instance
     json_value: {
       "openconfig-bgp:peer-group-name": "internal",
       "openconfig-bgp:peer-type": INTERNAL
@@ -74,8 +74,8 @@ tests:
   args:
     retries: 2
     retry_delay: 15
-    xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP]/bgp/neighbors/neighbor[neighbor-address=192.168.1.11]"
-    model: network_instances.network_instance.protocols.protocol.bgp.neighbors.neighbor.neighbor
+    xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=bgp]/bgp/neighbors/neighbor[neighbor-address=192.168.1.11]"
+    model: network_instance.openconfig_network_instance
     json_value: {
       "openconfig-bgp:neighbor-address": "192.168.1.11",
       "openconfig-bgp:config": {
@@ -97,8 +97,8 @@ tests:
   args:
     retries: 2
     retry_delay: 15
-    xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP]/bgp/neighbors/neighbor[neighbor-address=192.168.1.11]"
-    model: network_instances.network_instance.protocols.protocol.bgp.neighbors.neighbor
+    xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=bgp]/bgp/neighbors/neighbor[neighbor-address=192.168.1.11]"
+    model: network_instance.openconfig_network_instance
     json_value: {
       "openconfig-bgp:peer-as": 65333
     }
@@ -107,8 +107,8 @@ tests:
   name: "Set description for a BGP Neighbor"
   class_name: config_state.SetConfigCheckState
   args:
-    xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP]/bgp/neighbors/neighbor[neighbor-address=192.168.1.11]"
-    model: network_instances.network_instance.protocols.protocol.bgp.neighbors.neighbor
+    xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=bgp]/bgp/neighbors/neighbor[neighbor-address=192.168.1.11]"
+    model: network_instance.openconfig_network_instance
     json_value: {
       "openconfig-bgp:description": "eBGP peer"
     }
@@ -117,8 +117,8 @@ tests:
   name: "Config and check an iBGP Neighbor"
   class_name: setget.JsonCheckCompare
   args:
-    xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP]/bgp/neighbors/neighbor[neighbor-address=192.168.2.22]"
-    model: network_instances.network_instance.protocols.protocol.bgp.neighbors.neighbor.neighbor
+    xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=bgp]/bgp/neighbors/neighbor[neighbor-address=192.168.2.22]"
+    model: network_instance.openconfig_network_instance
     json_value: {
       "openconfig-bgp:neighbor-address": "192.168.2.22",
       "openconfig-bgp:config": {
@@ -140,8 +140,8 @@ tests:
   args:
     retries: 2
     retry_delay: 15
-    xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP]/bgp/neighbors/neighbor[neighbor-address=192.168.2.22]"
-    model: network_instances.network_instance.protocols.protocol.bgp.neighbors.neighbor.neighbor
+    xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=bgp]/bgp/neighbors/neighbor[neighbor-address=192.168.2.22]"
+    model: network_instance.openconfig_network_instance
     json_value: {
       "openconfig-bgp:neighbor-address": "192.168.2.22",
       "openconfig-bgp:config": {
@@ -159,8 +159,8 @@ tests:
   name: "Check all BGP Neighbors"
   class_name: get.GetJsonCheckCompare
   args:
-    xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP]/bgp/neighbors"
-    model: network_instances.network_instance.protocols.protocol.bgp.neighbors.neighbors
+    xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=bgp]/bgp/neighbors"
+    model: network_instance.openconfig_network_instance
     want_json: {
       "openconfig-bgp:neighbor": [
         {
@@ -188,7 +188,7 @@ tests:
   args:
     retries: 3
     retry_delay: 15
-    xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP]/bgp/neighbors/neighbor[neighbor-address=192.168.2.22]"
+    xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=bgp]/bgp/neighbors/neighbor[neighbor-address=192.168.2.22]"
 
 - !TestCase
   name: "Delete and check the iBGP Neighbor"
@@ -196,7 +196,7 @@ tests:
   args:
     retries: 3
     retry_delay: 15
-    xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP]/bgp/neighbors/neighbor[neighbor-address=192.168.1.11]"
+    xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=bgp]/bgp/neighbors/neighbor[neighbor-address=192.168.1.11]"
 
 - !TestCase
   name: "Delete BGP Peer-Groups"
@@ -204,7 +204,7 @@ tests:
   args:
     retries: 3
     retry_delay: 15
-    xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP]/bgp/peer-groups"
+    xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=bgp]/bgp/peer-groups"
 
 - !TestCase
   name: "Delete global BGP config"
@@ -212,4 +212,4 @@ tests:
   args:
     retries: 3
     retry_delay: 15
-    xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP]/bgp/global"
+    xpath: "/network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=bgp]/bgp/global"

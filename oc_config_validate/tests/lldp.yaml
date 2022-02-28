@@ -8,7 +8,7 @@ tests:
   class_name: config_state.SetConfigCheckState
   args:
     xpath: "/lldp"
-    model: "lldp"
+    model: "lldp.openconfig_lldp"
     json_value: {
       "openconfig-lldp:enabled": true,
       "openconfig-lldp:hello-timer": 30
@@ -19,7 +19,7 @@ tests:
   class_name: config_state.SetConfigCheckState
   args:
     xpath: "/lldp"
-    model: "lldp"
+    model: "lldp.openconfig_lldp"
     json_value: {
       "openconfig-lldp:system-name": "foobar",
       "openconfig-lldp:system-description": "A mysterious device"
@@ -30,7 +30,7 @@ tests:
   class_name: config_state.SetConfigCheckState
   args:
     xpath: "/lldp/interfaces/interface[name=ethernet1/1]"
-    model: "lldp.interfaces.interface"
+    model: "lldp.openconfig_lldp"
     json_value: {
       "openconfig-lldp:name": "ethernet1/1",
       "openconfig-lldp:enabled": true
@@ -41,7 +41,7 @@ tests:
   class_name: config_state.SetConfigCheckState
   args:
     xpath: "/lldp/interfaces/interface[name=ethernet1/1]"
-    model: "lldp.interfaces.interface"
+    model: "lldp.openconfig_lldp"
     json_value: {
       "openconfig-lldp:name": "ethernet1/1",
       "openconfig-lldp:enabled": false
@@ -52,7 +52,7 @@ tests:
   class_name: config_state.SetConfigCheckState
   args:
     xpath: "/lldp/interfaces/interface[name=ethernet1/1]"
-    model: "lldp.interfaces.interface"
+    model: "lldp.openconfig_lldp"
     json_value: {
       "openconfig-lldp:name": "ethernet1/1",
       "openconfig-lldp:enabled": true
@@ -63,7 +63,7 @@ tests:
   class_name: config_state.SetConfigCheckState
   args:
     xpath: "/lldp"
-    model: "lldp"
+    model: "lldp.openconfig_lldp"
     json_value: {
       "openconfig-lldp:enabled": true,
       "openconfig-lldp:hello-timer": 30

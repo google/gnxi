@@ -6,9 +6,8 @@ from pyangbind.lib import pybindJSON
 from retry import retry
 
 from oc_config_validate import schema, testbase
-from oc_config_validate.models import interfaces as oc_interfaces
-from oc_config_validate.models.interfaces.interface.subinterfaces.subinterface.ipv4 import \
-    addresses as oc_addresses  # noqa
+from oc_config_validate.models.interfaces import \
+    openconfig_interfaces as oc_interfaces
 
 
 class SetSubifDhcp(testbase.TestCase):
@@ -31,7 +30,7 @@ class SetSubifDhcp(testbase.TestCase):
     def test0100(self):
         self.assertArgs(["interface"])
 
-        iface = oc_interfaces.interfaces().interface.add(self.interface)
+        iface = oc_interfaces().interfaces.interface.add(self.interface)
         subif = iface.subinterfaces.subinterface.add(self.index)
         if self.index:
             subif.vlan.config.vlan_id = self.index
@@ -154,18 +153,21 @@ class AddSubifIp(testbase.TestCase):
     index = 0
     address = ""
     prefix_length = 32
+    iface = None
+
+    def setUp(self):
+        self.iface = oc_interfaces().interfaces.interface.add(self.interface)
+        subif = self.iface.subinterfaces.subinterface.add(self.index)
+        if self.index:
+            subif.vlan.config.vlan_id = self.index
+        self.addr = subif.ipv4.addresses.address.add(self.address)
+        self.addr.config.ip = self.address
+        self.addr.config.prefix_length = self.prefix_length
 
     def test0100(self):
         self.assertArgs(["interface", "address", "prefix_length"])
-        iface = oc_interfaces.interfaces().interface.add(self.interface)
-        subif = iface.subinterfaces.subinterface.add(self.index)
-        if self.index:
-            subif.vlan.config.vlan_id = self.index
-        addr = subif.ipv4.addresses.address.add(self.address)
-        addr.config.ip = self.address
-        addr.config.prefix_length = self.prefix_length
         xpath = "/interfaces/interface[name=%s]" % self.interface
-        _json_value = json.loads(pybindJSON.dumps(iface, mode='ietf'))
+        _json_value = json.loads(pybindJSON.dumps(self.iface, mode='ietf'))
         schema.fixSubifIndex(_json_value)
         self.assertTrue(self.gNMISetUpdate(xpath, _json_value),
                         "gNMI Set did not succeed.")
@@ -178,16 +180,11 @@ class AddSubifIp(testbase.TestCase):
             self.interface, self.index, self.address)
         resp_val = self.gNMIGetJson(xpath)
         self.assertJsonModel(
-            resp_val,
-            'interfaces.interface.subinterfaces.subinterface.ipv4.addresses.'
-            'address.config.config',
+            resp_val, self.addr.config,
             'gNMI Get on the /config container does not match model')
-        cfg = oc_addresses.address.config.config()
-        cfg.ip = self.address
-        cfg.prefix_length = self.prefix_length
         want = json.loads(
             schema.removeOpenConfigPrefix(
-                pybindJSON.dumps(cfg, mode='ietf')))
+                pybindJSON.dumps(self.addr.config, mode='ietf')))
         self.assertJsonCmp(resp_val, want)
 
     @retry(exceptions=AssertionError, tries=5, delay=15)
@@ -197,17 +194,15 @@ class AddSubifIp(testbase.TestCase):
                  "/address[ip=%s]/state") % (
             self.interface, self.index, self.address)
         resp_val = self.gNMIGetJson(xpath)
+
+        self.addr.state._set_ip(self.address)
+        self.addr.state._set_prefix_length(self.prefix_length)
         self.assertJsonModel(
-            resp_val,
-            'interfaces.interface.subinterfaces.subinterface.ipv4.addresses.'
-            'address.state.state',
+            resp_val, self.addr.state,
             'gNMI Get on the /state container does not match model')
-        ste = oc_addresses.address.state.state()
-        ste._set_ip(self.address)
-        ste._set_prefix_length(self.prefix_length)
         want = json.loads(
             schema.removeOpenConfigPrefix(
-                pybindJSON.dumps(ste, mode='ietf')))
+                pybindJSON.dumps(self.addr.state, mode='ietf')))
         self.assertJsonCmp(resp_val, want)
 
 
@@ -289,17 +284,19 @@ class CheckSubifIpState(testbase.TestCase):
                  "address[ip=%s]/state") % (
             self.interface, self.index, self.address)
         resp_val = self.gNMIGetJson(xpath)
+        iface = oc_interfaces().interfaces.interface.add(self.interface)
+        subif = iface.subinterfaces.subinterface.add(self.index)
+        if self.index:
+            subif.vlan.config.vlan_id = self.index
+        addr = subif.ipv4.addresses.address.add(self.address)
+        addr.state._set_ip(self.address)
+        addr.state._set_prefix_length(self.prefix_length)
         self.assertJsonModel(
-            resp_val,
-            'interfaces.interface.subinterfaces.subinterface.ipv4.addresses.'
-            'address.state.state',
+            resp_val, addr.state,
             'gNMI Get on the /state container does not match model')
-        ste = oc_addresses.address.state.state()
-        ste._set_ip(self.address)
-        ste._set_prefix_length(self.prefix_length)
         want = json.loads(
             schema.removeOpenConfigPrefix(
-                pybindJSON.dumps(ste, mode='ietf')))
+                pybindJSON.dumps(addr.state, mode='ietf')))
         self.assertJsonCmp(resp_val, want)
 
 
@@ -329,15 +326,17 @@ class CheckSubifIpConfig(testbase.TestCase):
                  "address[ip=%s]/config") % (
             self.interface, self.index, self.address)
         resp_val = self.gNMIGetJson(xpath)
+        iface = oc_interfaces().interfaces.interface.add(self.interface)
+        subif = iface.subinterfaces.subinterface.add(self.index)
+        if self.index:
+            subif.vlan.config.vlan_id = self.index
+        addr = subif.ipv4.addresses.address.add(self.address)
+        addr.config.ip = self.address
+        addr.config.prefix_length = self.prefix_length
         self.assertJsonModel(
-            resp_val,
-            'interfaces.interface.subinterfaces.subinterface.ipv4.addresses.'
-            'address.config.config',
+            resp_val, addr.config,
             'gNMI Get on the /config container does not match model')
-        cfg = oc_addresses.address.config.config()
-        cfg.ip = self.address
-        cfg.prefix_length = self.prefix_length
         want = json.loads(
             schema.removeOpenConfigPrefix(
-                pybindJSON.dumps(cfg, mode='ietf')))
+                pybindJSON.dumps(addr.config, mode='ietf')))
         self.assertJsonCmp(resp_val, want)

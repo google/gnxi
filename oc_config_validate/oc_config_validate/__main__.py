@@ -25,7 +25,7 @@ import yaml
 from oc_config_validate import (context, formatter, runner, schema, target,
                                 testbase)
 
-__version__ = "1.0.1"
+__version__ = "2.0.0"
 
 LOGGING_FORMAT = "%(levelname)s(%(filename)s:%(lineno)d):%(message)s"
 
@@ -131,7 +131,7 @@ def createArgsParser() -> argparse.ArgumentParser:
     parser.add_argument(
         "-set_cooldown",
         "--gnmi_set_cooldown_secs",
-        type=str,
+        type=int,
         action="store",
         help="Seconds to wait after a successful gNMI Set message.",
     )
@@ -223,7 +223,8 @@ def main():  # noqa
 
     # Override Target options
     for arg in ["target", "username", "password", "no_tls", "private_key",
-                "cert_chain", "root_ca_cert", "tls_host_override"]:
+                "cert_chain", "root_ca_cert", "tls_host_override",
+                "gnmi_set_cooldown_secs"]:
         if args[arg]:
             setattr(ctx.target, arg, args[arg])
 

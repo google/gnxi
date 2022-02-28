@@ -63,11 +63,11 @@ class JsonCheckSetUpdate(testbase.TestCase):
         """"""
         self.assertArgs(["xpath", "json_value", "model", ])
         self.assertXpath(self.xpath)
-        self.assertIsNotNone(schema.containerFromName(self.model),
-                             "Unable to find model '%s' binding" % self.model)
+        self.assertModelXpath(self.model, self.xpath)
         self.assertIsInstance(self.json_value, dict,
                               "The value is not a valid JSON object")
-        self.assertJsonModel(json.dumps(self.json_value), self.model,
+        model = schema.ocContainerFromPath(self.model, self.xpath)
+        self.assertJsonModel(json.dumps(self.json_value), model,
                              "JSON to Set does not match the model")
         self.assertTrue(self.gNMISetUpdate(self.xpath, self.json_value),
                         "gNMI Set did not succeed.")
