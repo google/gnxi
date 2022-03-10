@@ -53,6 +53,7 @@ var (
 	updateOpt  arrayFlags
 	targetAddr = flag.String("target_addr", "localhost:9339", "The target address in the format of host:port")
 	timeOut    = flag.Duration("time_out", 10*time.Second, "Timeout for the Set request, 10 seconds by default")
+	prefix     = flag.String("prefix", "", "prefix for the path. this is optional. valid values: oc, srl.")
 )
 
 func buildPbUpdateList(pathValuePairs []string) []*pb.Update {
@@ -145,10 +146,13 @@ func main() {
 	replaceList := buildPbUpdateList(replaceOpt)
 	updateList := buildPbUpdateList(updateOpt)
 
+	var pbPrefixPath = &pb.Path{Origin: string(*prefix)}
+
 	setRequest := &pb.SetRequest{
 		Delete:  deleteList,
 		Replace: replaceList,
 		Update:  updateList,
+		Prefix:  pbPrefixPath,
 	}
 	fmt.Println("== SetRequest:\n", proto.MarshalTextString(setRequest))
 
