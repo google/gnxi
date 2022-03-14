@@ -65,6 +65,8 @@ var (
 	targetAddr       = flag.String("target_addr", "localhost:9339", "The target address in the format of host:port")
 	timeOut          = flag.Duration("time_out", 10*time.Second, "Timeout for the Get request, 10 seconds by default")
 	encodingName     = flag.String("encoding", "JSON_IETF", "value encoding format to be used")
+	prefix           = flag.String("prefix", "", "prefix for the path. this is optional. valid values: oc, srl.")
+	dataType         = flag.Int("data_type", 0, "dataType - 0 (ALL), 1 (CONFIG), 2 (STATE) 3 (OPERATIONAL). Default is 0.")
 )
 
 func main() {
@@ -92,6 +94,8 @@ func main() {
 		log.Exitf("Supported encodings: %s", strings.Join(gnmiEncodingList, ", "))
 	}
 
+	var dataTypeEnum = pb.GetRequest_DataType(*dataType)
+
 	var pbPathList []*pb.Path
 	var pbModelDataList []*pb.ModelData
 	for _, xPath := range xPathFlags {
@@ -115,10 +119,14 @@ func main() {
 		}
 	}
 
+	var pbPrefixPath = &pb.Path{Origin: string(*prefix)}
+
 	getRequest := &pb.GetRequest{
 		Encoding:  pb.Encoding(encoding),
 		Path:      pbPathList,
 		UseModels: pbModelDataList,
+		Prefix:    pbPrefixPath,
+		Type:      dataTypeEnum,
 	}
 	fmt.Println("== GetRequest:\n", proto.MarshalTextString(getRequest))
 
