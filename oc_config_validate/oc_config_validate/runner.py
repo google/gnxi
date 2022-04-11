@@ -83,6 +83,19 @@ def getRunner(stream: io.StringIO) -> unittest.TextTestRunner:
         resultclass=testbase.TestResult)
 
 
+def getTestSuites(ctx: context.TestContext,
+                  tgt: target.TestTarget):
+    suites = []
+    for t in ctx.tests:
+        s = makeTestSuite(t.class_name, t.name)
+        if s is not None:
+            s.insertTarget(tgt)
+            if hasattr(t, 'args') and t.args:
+                s.insertArgs(t.args)
+            suites.append(s)
+    return suites
+
+
 def makeTestSuite(test_class_name: str,
                   test_name: str) -> Optional[testbase.TestSuite]:
     """Build a test suite of the provided test class.
@@ -153,14 +166,7 @@ def runTests(ctx: context.TestContext,
         A list of testbase.TestResult objects.
 
     """
-    suites = []
-    for t in ctx.tests:
-        s = makeTestSuite(t.class_name, t.name)
-        if s is not None:
-            s.insertTarget(tgt)
-            if hasattr(t, 'args') and t.args:
-                s.insertArgs(t.args)
-                suites.append(s)
+    suites = getTestSuites(ctx, tgt)
     errored_test = len(ctx.tests) - len(suites)
     if errored_test:
         logging.error("Running %d/%d Tests, %d failed to load.",
