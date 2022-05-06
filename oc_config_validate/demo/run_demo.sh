@@ -14,15 +14,10 @@ DEBUG=0
 
 BASEDIR=$(dirname $0)
 CERTSDIR=${BASEDIR}/../../certs
+GNMI_TARGET=${BASEDIR}/../../gnmi_target/
 
 # start_gnmi_target <gnmi_port>
 start_gnmi_target() {
-
-    # From https://github.com/google/gnxi/tree/master/gnmi_target
-
-    if [[ ! -x "$(go env GOPATH)/bin/gnmi_target" ]]; then
-        go install github.com/google/gnxi/gnmi_target@latest
-    fi
 
     OPTS="-key $CERTSDIR/target.key -cert $CERTSDIR/target.crt -ca $CERTSDIR/ca.crt"
     if [[ "$NO_TLS" -eq 1 ]]; then
@@ -30,7 +25,7 @@ start_gnmi_target() {
     fi
 
     echo "--- Start TARGET $OPTS"
-    $(go env GOPATH)/bin/gnmi_target -bind_address ":$1" -config $BASEDIR/target_config.json --insecure $OPTS >> /dev/null 2>&1 &
+    go run ${GNMI_TARGET} -bind_address ":$1" -config $BASEDIR/target_config.json --insecure $OPTS >> /dev/null 2>&1 &
     sleep 3
 }
 
@@ -108,6 +103,12 @@ return 0
 }
 
 main() {
+    # check if golang is installed
+    if ! which go ; then
+      echo "Install golang to run the gNMI Target"
+      return 1
+    fi
+
     if parse_options "$@"; then
         echo "--- Creating local self-signed certificates"
         ( cd $CERTSDIR && ./generate.sh >> /dev/null 2>&1 )

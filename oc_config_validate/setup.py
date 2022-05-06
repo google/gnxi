@@ -21,15 +21,15 @@ setup(
   url='https://github.com/google/gnxi',
 
   classifiers = [
-    "Programming Language :: Python :: 3"
-    "License :: OSI Approved :: Apache Software License"
-    "Operating System :: OS Independent"
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
   ],
 
   package_dir = { "" : "oc_config_validate" },
   packages= find_packages( where="oc_config_validate" ),
 
-  python_requires = ">=3.6",
-  install_requires = [ "grpcio", "grpcio-tools", "pyang", "pyangbind", "PyYAML", "retry", "importlib" ]
+  python_requires = ">=3.9",
+  install_requires = [ "grpcio", "grpcio-tools", "pyang", "pyangbind", "PyYAML", "retry" ]
 
 )

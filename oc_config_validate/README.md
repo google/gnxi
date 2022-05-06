@@ -25,6 +25,8 @@ looking for:
 
 ### Install
 
+1. Install Python3.9 or later.
+
 1. Clone this repo and install the needed dependencies. Preferably, use a virtual environment:
 
 ```
@@ -42,7 +44,7 @@ python3 -m oc_config_validate --version
 python3 -m oc_config_validate -models
 ```
 
-#### Why I cannot do `pip install oc_config_validate` ?
+#### Why I cannot do `pip3 install oc_config_validate` ?
 
 `oc_config_validate` is not delivered yet as a self-contained Python package in the [Python Package Index](https://pypi.org/). It will likely be if general usage justifies it.
 
@@ -56,13 +58,16 @@ This will take some time, be patient.
 
 ### Demo
 
-Run the script `run_demo.sh` to see a quick demonstration of `oc_config_validate`.
+Run the script `demo/run_demo.sh` to see a quick demonstration of `oc_config_validate`.
 
- 1. It starts an instance of [gnmmi_target](https://github.com/google/gnxi/blob/master/gnmi_target/gnmi_target.go) with a sample configuration
- 1. It runs `oc_config_validate` with a sample test file.
- 1. See `run_demo.sh -h` for additional TLS-connection options to use.
+ 1. It starts an instance of [gnmmi_target](../gnmi_target) with a sample configuration.
+ 1. It runs `oc_config_validate` with a sample [test file](demo/tests.yaml).
+ 1. It writes the results to [a JSON file](demo/results.json).
+
+ Run `demo/run_demo.sh -h` for additional options to use.
 
 > It uses the local TLS certificates from [gnxi/certs/](../certs/).
+> `gnmmi_target` needs `golang>=1.17` runtime, install it first.
 
 ### Use
 
