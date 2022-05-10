@@ -37,7 +37,7 @@ looking for:
 1. Install from TestPypi
 
     ```
-    pip3 install -i https://test.pypi.org/simple/ oc-config-validate
+    pip3 install --extra-index-url https://test.pypi.org/simple/ oc-config-validate
     ```
 
 1. Check it is all working as expected:
