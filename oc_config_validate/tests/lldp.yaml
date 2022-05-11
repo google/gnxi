@@ -8,7 +8,7 @@ tests:
   class_name: config_state.SetConfigCheckState
   args:
     xpath: "/lldp"
-    model: "lldp"
+    model: "lldp.openconfig_lldp"
     json_value: {
       "openconfig-lldp:enabled": true,
       "openconfig-lldp:hello-timer": 30
@@ -19,10 +19,10 @@ tests:
   class_name: config_state.SetConfigCheckState
   args:
     xpath: "/lldp"
-    model: "lldp"
+    model: "lldp.openconfig_lldp"
     json_value: {
-      "system-name": "foobar",
-      "system-description": "A mysterious device"
+      "openconfig-lldp:system-name": "foobar",
+      "openconfig-lldp:system-description": "A mysterious device"
     }
 
 - !TestCase
@@ -30,10 +30,10 @@ tests:
   class_name: config_state.SetConfigCheckState
   args:
     xpath: "/lldp/interfaces/interface[name=ethernet1/1]"
-    model: "lldp.interfaces.interface"
+    model: "lldp.openconfig_lldp"
     json_value: {
-      "name": "ethernet1/1",
-      "enabled": true
+      "openconfig-lldp:name": "ethernet1/1",
+      "openconfig-lldp:enabled": true
     }
 
 - !TestCase
@@ -41,10 +41,10 @@ tests:
   class_name: config_state.SetConfigCheckState
   args:
     xpath: "/lldp/interfaces/interface[name=ethernet1/1]"
-    model: "lldp.interfaces.interface"
+    model: "lldp.openconfig_lldp"
     json_value: {
-      "name": "ethernet1/1",
-      "enabled": false
+      "openconfig-lldp:name": "ethernet1/1",
+      "openconfig-lldp:enabled": false
     }
 
 - !TestCase
@@ -52,10 +52,10 @@ tests:
   class_name: config_state.SetConfigCheckState
   args:
     xpath: "/lldp/interfaces/interface[name=ethernet1/1]"
-    model: "lldp.interfaces.interface"
+    model: "lldp.openconfig_lldp"
     json_value: {
-      "name": "ethernet1/1",
-      "enabled": true
+      "openconfig-lldp:name": "ethernet1/1",
+      "openconfig-lldp:enabled": true
     }
 
 - !TestCase
@@ -63,7 +63,7 @@ tests:
   class_name: config_state.SetConfigCheckState
   args:
     xpath: "/lldp"
-    model: "lldp"
+    model: "lldp.openconfig_lldp"
     json_value: {
       "openconfig-lldp:enabled": true,
       "openconfig-lldp:hello-timer": 30

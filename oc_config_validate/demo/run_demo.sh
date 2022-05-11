@@ -13,6 +13,7 @@ LOG_GNMI=0
 DEBUG=0
 
 BASEDIR=$(dirname $0)
+CERTSDIR=${BASEDIR}/../../certs
 
 # start_gnmi_target <gnmi_port>
 start_gnmi_target() {
@@ -23,7 +24,7 @@ start_gnmi_target() {
         go install github.com/google/gnxi/gnmi_target@latest
     fi
 
-    OPTS="-key $BASEDIR/certs/target.key -cert $BASEDIR/certs/target.crt -ca $BASEDIR/certs/ca.crt"
+    OPTS="-key $CERTSDIR/target.key -cert $CERTSDIR/target.crt -ca $CERTSDIR/ca.crt"
     if [[ "$NO_TLS" -eq 1 ]]; then
         OPTS="--notls"
     fi
@@ -41,15 +42,15 @@ stop_gnmi_target() {
 
 # start_oc_config_validate <gnmi_port>
 start_oc_config_validate() {
-    OPTS="--tls_host_override target.com"
+    OPTS=""
     if [[ "$NO_TLS" -eq 1 ]]; then
         OPTS="--no_tls"
     fi
     if [[ "$ROOT_CA" -eq 1 ]]; then
-        OPTS="$OPTS -ca $BASEDIR/certs/ca.crt"
+        OPTS="-ca $CERTSDIR/ca.crt"
     fi
     if [[ "$CLIENT_TLS" -eq 1 ]]; then
-        OPTS="$OPTS -key $BASEDIR/certs/client.key -cert $BASEDIR/certs/client.crt"
+        OPTS="$OPTS -key $CERTSDIR/client.key -cert $CERTSDIR/client.crt"
     fi
     if [[ "$STOP_ON_ERROR" -eq 1 ]]; then
         OPTS="$OPTS --stop_on_error"
@@ -57,16 +58,16 @@ start_oc_config_validate() {
     if [[ "$LOG_GNMI" -eq 1 ]]; then
         OPTS="$OPTS --log_gnmi"
     fi
-    if [[ "$DEBUG" -eq 1 ]]; then
-        OPTS="$OPTS --debug"
+    if [[ "$VERBOSE" -eq 1 ]]; then
+        OPTS="$OPTS --verbose"
     fi
     echo "--- Start oc_config_validate $OPTS"
-    PYTHONPATH=$PYTHONPATH:$BASEDIR/.. python3 -m oc_config_validate --target "localhost:$1" --tests_file $BASEDIR/tests.yaml --results_file $BASEDIR/results.json --init_config_file $BASEDIR/init_config.json --init_config_xpath "/system/config" $OPTS
+    PYTHONPATH="$PYTHONPATH:${BASEDIR}/.." python3 -m oc_config_validate --target "localhost:$1" --tests_file $BASEDIR/tests.yaml --results_file $BASEDIR/results.json --init_config_file $BASEDIR/init_config.json --init_config_xpath "/system/config" $OPTS
 
   }
 
 parse_options() {
-  while getopts "p:NRCSLDh" opt; do
+  while getopts "p:NRCSLVh" opt; do
     case ${opt} in
       p )
         GNMI_PORT=$OPTARG
@@ -86,10 +87,10 @@ parse_options() {
       L )
         LOG_GNMI=1
         ;;
-      D )
-        DEBUG=1
+      V )
+        VERBOSE=1
         ;;
-      * ) 
+      * )
         echo "
 demo.sh [-p <gNMI Port>]
         [-N] # No TLS
@@ -97,7 +98,7 @@ demo.sh [-p <gNMI Port>]
         [-C] # Use client TLS files
         [-S] # Stop on error
         [-L] # Log Gnmi messages to the test results
-        [-D] # Enable debug output
+        [-V] # Enable verbose output
 "
           return 1
         ;;
@@ -108,12 +109,8 @@ return 0
 
 main() {
     if parse_options "$@"; then
-        if [[ ! ( -f $BASEDIR/certs/target.key && -f $BASEDIR/certs/target.crt  ) ]]; then
-          echo "--- Creating local self-signed certificates"
-          mkdir -p $BASEDIR/certs
-          cd $BASEDIR/certs
-          wget https://raw.githubusercontent.com/google/gnxi/master/certs/generate.sh -O - -o /dev/null | bash
-        fi
+        echo "--- Creating local self-signed certificates"
+        ( cd $CERTSDIR && ./generate.sh >> /dev/null 2>&1 )
         start_gnmi_target "${GNMI_PORT}"
         start_oc_config_validate "${GNMI_PORT}"
         stop_gnmi_target "${GNMI_PORT}"

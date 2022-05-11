@@ -5,6 +5,12 @@ labels:
 - FOO
 - BAR
 
+target:
+  !Target
+  target: "localhost:8080"
+  tls_host_override: "target.com"
+  gnmi_set_cooldown_secs: 2
+
 init_configs:
 - !InitConfig
   filename: init_config.json
@@ -22,14 +28,14 @@ tests:
   class_name: get.GetJsonCheck
   args:
     xpath: "system/config"
-    model: system.config.config
+    model: system.openconfig_system
 
 - !TestCase
   name: "Check AAA State"
   class_name: get.GetJsonCheck
   args:
     xpath: "system/aaa/authentication/state"
-    model: system.aaa.authentication.state.state
+    model: system.openconfig_system
 
 - !TestCase
   name: "Compare Hostname Configured"
@@ -50,9 +56,11 @@ tests:
   class_name: get.GetCompare
   args:
     xpath: "interfaces/interface[name=mgmt]"
-    want: {"openconfig-interfaces:state": {
-      "openconfig-interfaces:enabled": true, "oper-status": "UP"}
-    }
+    want: {
+      "openconfig-interfaces:state": {
+        "enabled": true,
+        "oper-status": "UP"}
+      }
 
 - !TestCase
   name: "Bad Compare mgmt Interface state JSON"
@@ -73,7 +81,7 @@ tests:
   class_name: get.GetJsonCheckCompare
   args:
     xpath: "system/config"
-    model: system.config.config
+    model: system.openconfig_system
     want_json: {
       "openconfig-system:domain-name": "foo.bar.com",
       "openconfig-system:hostname": "foobar"
@@ -84,7 +92,7 @@ tests:
   class_name: get.GetJsonCheckCompare
   args:
     xpath: "system/config"
-    model: system.config.state
+    model: system.openconfig_system
     want_json: {
       "openconfig-system:domain-name": "foo.bar.com",
       "openconfig-system:hostname": "foobar"
@@ -95,7 +103,7 @@ tests:
   class_name: get.GetJsonCheckCompare
   args:
     xpath: "system/config"
-    model: system.config.config
+    model: system.openconfig_system
     want_json: {
       "openconfig-system:domain-name": "la.la.la.com",
       "openconfig-system:hostname": "lalala"
@@ -106,7 +114,7 @@ tests:
   class_name: set.JsonCheckSetUpdate
   args:
     xpath: "system/clock/config"
-    model: "system.clock.config.config"
+    model: system.openconfig_system
     json_value: {
       "timezone-name": "Europe/London"
     }
@@ -116,7 +124,7 @@ tests:
   class_name: get.GetJsonCheckCompare
   args:
     xpath: "system/clock/config"
-    model: "system.clock.config.config"
+    model: system.openconfig_system
     want_json: {
       "openconfig-system:timezone-name": "Europe/London"
     }
@@ -126,7 +134,7 @@ tests:
   class_name: setget.JsonCheck
   args:
     xpath: "system/clock/config"
-    model: "system.clock.config.config"
+    model: system.openconfig_system
     json_value: {
       "openconfig-system:timezone-name": "Europe/Paris"
     }
@@ -136,7 +144,7 @@ tests:
   class_name: setget.JsonCheckCompare
   args:
     xpath: "system/clock/config"
-    model: "system.clock.config.config"
+    model: system.openconfig_system
     json_value: {
       "openconfig-system:timezone-name": "Europe/Zurich"
     }
@@ -146,7 +154,7 @@ tests:
   class_name: config_state.SetConfigCheckState
   args:
     xpath: "system/clock"
-    model: "system.clock"
+    model: system.openconfig_system
     json_value: {
       "openconfig-system:timezone-name": "Europe/Paris"
     }

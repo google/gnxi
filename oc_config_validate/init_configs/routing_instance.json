@@ -1,0 +1,32 @@
+{
+ "network-instance": [
+ {
+   "config": {
+     "name": "default"
+   },
+   "interfaces": {
+     "interface": [
+       {
+         "config": {
+           "id": "ethernet1/1"
+         },
+         "id": "ethernet1/1"
+       },
+       {
+         "config": {
+           "id": "ethernet1/2"
+         },
+         "id": "ethernet1/2"
+       },
+       {
+         "config": {
+           "id": "ethernet1/3"
+         },
+         "id": "ethernet1/3"
+       }
+     ]
+   },
+   "name": "default"
+   }
+ ]
+}

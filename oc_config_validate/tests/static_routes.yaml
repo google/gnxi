@@ -3,8 +3,10 @@ description: "Configure static routes"
 
 tests:
 
+tests:
+
 - !TestCase
-  name: "Configure and check a default route"
+  name: "Configure a default route"
   class_name: static_route.AddStaticRoute
   args:
     prefix: "0.0.0.0/0"
@@ -17,6 +19,13 @@ tests:
     prefix: "0.0.0.0/0"
     next_hop: "192.168.1.126"
     description: "Default Route"
+
+- !TestCase
+  name: "Check default route's next hop"
+  class_name: static_route.CheckRouteState
+  args:
+    prefix: "0.0.0.0/0"
+    next_hop: "192.168.1.126"
 
 - !TestCase
   name: "Configure and check a static route with description"
@@ -32,6 +41,7 @@ tests:
   args:
     prefix: "10.10.20.0/24"
     next_hop: "192.168.1.126"
+    metric: 100
 
 - !TestCase
   name: "Configure a not directly-connected next hop"

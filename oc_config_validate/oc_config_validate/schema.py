@@ -14,16 +14,18 @@ limitations under the License.
 
 """
 
+import importlib
 import json
 import os
 import re
 from inspect import isclass
 from typing import List, Union
 
+from pyangbind.lib import yangtypes
 from pyangbind.lib.base import PybindBase
 from pyangbind.lib.serialise import pybindJSONDecoder
 
-from oc_config_validate import models
+from oc_config_validate import models, target
 
 
 class Error(Exception):
@@ -67,30 +69,50 @@ def removeOpenConfigPrefix(json_text: Union[str, bytes]) -> Union[str, bytes]:
     return re.sub(r'(openconfig(-[a-z]+)+\:)', '', json_text)
 
 
-def containerFromName(class_name: str) -> PybindBase:
-    """Create an empty PybindBase instance of the model class.
+def ocContainerFromPath(model: str, xpath: str) -> PybindBase:
+    """Create an empty PybindBase instance of the model for the path.
 
-    This method interprets the class_name as part of the
-        oc_config_validate.models package
+    This method look for the model class in the oc_config_validate.models
+      package
 
     Args:
-        class_name: a string with the class name.
+        model: the OC model class name in the oc_config_validate.models
+        package, as `module.class`.
+        xpath: the xpath to the OC container to create.
 
     Returns:
         An PybindBase object of the class.
 
     Raises:
-        AttributeError is unable to find the Python class.
-        Error if the class is not derived from PybindBase.
+        Error if unable to find the Python class or if the class is not derived
+          from PybindBase.
+        target.XpathError if the xpath is invalid.
+        AttributeError if unable to find an xpath element in the OC class.
     """
-    cls = models
-    for part in class_name.split('.'):
-        cls = getattr(cls, part)
-    if not isclass(cls):
-        raise Error("%s is not a class" % class_name)
-    if not issubclass(cls, PybindBase):
-        raise Error("%s is not derived from PybindBase" % class_name)
-    return cls()
+
+    parts = model.split('.')
+    if len(parts) != 2:
+        raise Error("%s is not module.class" % model)
+    model_mod = importlib.import_module(
+        "oc_config_validate.models." + parts[0])
+    model_cls = getattr(model_mod, parts[1])
+    if not isclass(model_cls):
+        raise Error(
+            "%s is not a class in oc_config_validate.models package" % model)
+
+    gnmi_xpath = target.parsePath(xpath)
+
+    model_inst = model_cls()
+    for e in gnmi_xpath.elem:
+        model_inst = getattr(model_inst, yangtypes.safe_name(e.name))
+        if e.key:
+            save_key = {}
+            for k, v in e.key.items():
+                save_key[yangtypes.safe_name(k)] = v
+            model_inst = model_inst.add(**save_key)
+    if not issubclass(model_inst.__class__, PybindBase):
+        raise Error("%s:%s is not a valid container class" % (model, xpath))
+    return model_inst
 
 
 def fixSubifIndex(json_value: dict):
@@ -112,7 +134,7 @@ def getOcModelsVersions() -> List[str]:
 
      Returns an empty list if unable to read the models/versions file.
      """
-    versions_file = os.path.join(os.path.dirname(models.__file__), "versions")
+    versions_file = os.path.join(models.__path__[0], "versions")
     if os.path.isfile(versions_file):
         with open(versions_file) as f:
             return [line.strip() for line in f]

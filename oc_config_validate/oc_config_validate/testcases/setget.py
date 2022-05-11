@@ -2,7 +2,7 @@
 
 import json
 
-from oc_config_validate import target, testbase
+from oc_config_validate import schema, target, testbase
 
 
 class TestCase(testbase.TestCase):
@@ -23,7 +23,9 @@ class TestCase(testbase.TestCase):
         self.assertXpath(self.xpath)
         self.assertIsInstance(self.json_value, dict,
                               "The value is not a valid JSON object")
-        self.assertJsonModel(json.dumps(self.json_value), self.model,
+        self.assertModelXpath(self.model, self.xpath)
+        model = schema.ocContainerFromPath(self.model, self.xpath)
+        self.assertJsonModel(json.dumps(self.json_value), model,
                              "JSON value to Set does not match the model")
 
 
@@ -48,12 +50,17 @@ class JsonCheck(TestCase):
         """"""
         self.assertTrue(self.gNMISetUpdate(self.xpath, self.json_value),
                         "gNMI Set did not succeed.")
+
+    @testbase.retryAssertionError
+    def test0200(self):
+        """"""
         resp = self.gNMIGet(self.xpath)
         self.assertIsNotNone(resp, "No gNMI GET response")
         self.resp_val = resp.json_ietf_val
         self.assertIsNotNone(self.resp_val,
                              "The gNMI GET response is not JSON IETF")
-        self.assertJsonModel(self.resp_val, self.model,
+        model = schema.ocContainerFromPath(self.model, self.xpath)
+        self.assertJsonModel(self.resp_val, model,
                              "Get response JSON does not match the model")
 
 
@@ -74,10 +81,14 @@ class JsonCheckCompare(JsonCheck):
         model: Python binding class to check the JSON reply against.
     """
 
-    def test0200(self):
+    @testbase.retryAssertionError
+    def test0300(self):
         """"""
-        if not hasattr(self, "resp_val") or not self.resp_val:
-            self.skipTest("No JSON response to compare")
+        resp = self.gNMIGet(self.xpath)
+        self.assertIsNotNone(resp, "No gNMI GET response")
+        self.resp_val = resp.json_ietf_val
+        self.assertIsNotNone(self.resp_val,
+                             "The gNMI GET response is not JSON IETF")
         got = json.loads(self.resp_val)
-        cmp, diff = target.intersectCmp(got, self.json_value)
+        cmp, diff = target.intersectCmp(self.json_value, got)
         self.assertTrue(cmp, diff)

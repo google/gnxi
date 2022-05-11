@@ -2,8 +2,6 @@
 
 import json
 
-from retry import retry
-
 from oc_config_validate import schema, target, testbase
 
 
@@ -31,47 +29,46 @@ class SetConfigCheckState(testbase.TestCase):
     def test0100(self):
         """gNMI Set on /config"""
         self.assertArgs(["xpath", "model", "json_value"])
-        self.assertTrue(target.isPathOK(self.xpath),
-                        "Xpath '%s' not a gNMI path" % self.xpath)
-        self.assertIsNotNone(schema.containerFromName(self.model +
-                                                      ".config.config"),
-                             "Unable to find model '%s' binding" % self.model)
+        xpath = self.xpath.rstrip("/") + "/config"
+        self.assertXpath(xpath)
+        self.assertModelXpath(self.model, xpath)
         self.assertIsInstance(self.json_value, dict,
                               "The value is not a valid JSON object")
-        self.assertJsonModel(json.dumps(self.json_value),
-                             self.model + ".config.config",
+        model = schema.ocContainerFromPath(self.model, xpath)
+        self.assertJsonModel(json.dumps(self.json_value), model,
                              "JSON value to Set does not match the model")
         self.assertTrue(
-            self.gNMISetUpdate(
-                self.xpath.rstrip("/") + "/config", self.json_value),
+            self.gNMISetUpdate(xpath, self.json_value),
             "gNMI Set did not succeed.")
 
-    @retry(exceptions=AssertionError, tries=2, delay=10)
+    @testbase.retryAssertionError
     def test0200(self):
         """gNMI Get on /config"""
         self.assertArgs(["xpath", "model", "json_value"])
-        resp_val = self.gNMIGetJson(self.xpath.rstrip("/") + "/config")
-        self.assertJsonModel(resp_val,
-                             self.model + ".config.config",
+        xpath = self.xpath.rstrip("/") + "/config"
+        resp_val = self.gNMIGetJson(xpath)
+        model = schema.ocContainerFromPath(self.model, xpath)
+        self.assertJsonModel(resp_val, model,
                              "Get /config does not match the model")
         got = json.loads(resp_val)
-        cmp, diff = target.intersectCmp(got, self.json_value)
+        cmp, diff = target.intersectCmp(self.json_value, got)
         self.assertTrue(cmp, diff)
 
-    @retry(exceptions=AssertionError, tries=5, delay=10)
+    @testbase.retryAssertionError
     def test0300(self):
         """gNMI Get on /state"""
         self.assertArgs(["xpath", "model", "json_value"])
-        resp = self.gNMIGet(self.xpath.rstrip("/") + "/state")
+        xpath = self.xpath.rstrip("/") + "/state"
+        resp = self.gNMIGet(xpath)
         self.assertIsNotNone(resp, "No gNMI GET response")
         resp_val = resp.json_ietf_val
         self.assertIsNotNone(resp_val,
                              "The gNMI GET response is not JSON IETF")
-        self.assertJsonModel(resp_val,
-                             self.model + ".state.state",
+        model = schema.ocContainerFromPath(self.model, xpath)
+        self.assertJsonModel(resp_val, model,
                              "Get /state does not match the model")
         got = json.loads(resp_val)
-        cmp, diff = target.intersectCmp(got, self.json_value)
+        cmp, diff = target.intersectCmp(self.json_value, got)
         self.assertTrue(cmp, diff)
 
 
@@ -93,8 +90,7 @@ class DeleteConfigCheckState(testbase.TestCase):
     def test0100(self):
         """gNMI Get on /config to verify it is configured"""
         self.assertArgs(["xpath"])
-        self.assertTrue(target.isPathOK(self.xpath),
-                        "Xpath '%s' not a gNMI path" % self.xpath)
+        self.assertXpath(self.xpath)
         self.assertTrue(
             self.gNMIGet(self.xpath.rstrip("/") + "/config"),
             "There is no configured /config container for the xpath.")
@@ -105,14 +101,14 @@ class DeleteConfigCheckState(testbase.TestCase):
             self.gNMISetDelete(self.xpath.rstrip("/")),
             "gNMI Delete did not succeed.")
 
-    @retry(exceptions=AssertionError, tries=2, delay=10)
+    @testbase.retryAssertionError
     def test0300(self):
         """gNMI Get on /config to verify it is deleted"""
         self.assertFalse(
             self.gNMIGet(self.xpath.rstrip("/") + "/config"),
             "There is still a /config container for the xpath.")
 
-    @retry(exceptions=AssertionError, tries=3, delay=10)
+    @testbase.retryAssertionError
     def test0400(self):
         """gNMI Get on /state to verify it is deleted"""
         self.assertFalse(

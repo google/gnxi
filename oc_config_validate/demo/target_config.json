@@ -20,7 +20,7 @@
                     "name": "FortyGigabitEthernet1/1/1"
                 },
                 "state": {
-                    "name": "mgmt",
+                    "name": "FortyGigabitEthernet1/1/1",
                     "admin-status": "DOWN",
                     "oper-status": "DOWN"
                 }
@@ -31,7 +31,7 @@
                     "name": "FortyGigabitEthernet1/1/2"
                 },
                  "state": {
-                    "name": "mgmt",
+                    "name": "FortyGigabitEthernet1/1/2",
                     "admin-status": "DOWN",
                     "oper-status": "DOWN"
                 }
@@ -39,7 +39,7 @@
         ]
     },
     "openconfig-system:system": {
-        "aaa": {
+        "openconfig-aaa:aaa": {
             "authentication": {
                 "admin-user": {
                     "config": {

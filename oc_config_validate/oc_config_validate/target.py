@@ -25,10 +25,12 @@ import json
 import logging
 import re
 import ssl
+import time
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 import grpc
 
+from oc_config_validate import context
 from oc_config_validate.gnmi import gnmi_pb2, gnmi_pb2_grpc
 
 _RE_GNMI_PATH_ELEM = re.compile(r'''^
@@ -71,17 +73,23 @@ class TestTarget():
         hostname_port: Target to connect to, as 'hostname:port'.
     """
 
-    def __init__(self, hostname_port: str):
-        self.address = hostname_port
-        self.notls = False
-        self.username = None
-        self.password = None
-        self.host_tls_override = None
+    def __init__(self, tgt: context.Target):
+        self.address = tgt.target
+        self.notls = tgt.no_tls
+        self.username = tgt.username
+        self.password = tgt.password
+        self.notls = tgt.no_tls
+        self.host_tls_override = tgt.tls_host_override
+        self.gnmi_set_cooldown_secs = tgt.gnmi_set_cooldown_secs
         self.key = None
         self.cert = None
         self.root_ca = None
         self.connection = None
         self.stub = None
+
+        if not self.notls:
+            self.setCertificates(key=tgt.private_key, cert=tgt.cert_chain,
+                                 root_ca=tgt.root_ca_cert)
 
     def __repr__(self):
         return ('TestTarget(address=%r, username=%r, notls=%r)' %
@@ -89,16 +97,6 @@ class TestTarget():
 
     def __str__(self):
         return self.address
-
-    def setCredentials(self, username: str, password: str):
-        """Set the username and password to use on connections.
-
-        Args:
-            username: The username.
-            password: The password value, passed verbatim to the target.
-        """
-        self.username = username
-        self.password = password
 
     def setCertificates(self, key: Optional[str] = None,
                         cert: Optional[str] = None,
@@ -163,7 +161,7 @@ class TestTarget():
                     (address_elems[0], int(address_elems[1]))).encode('utf-8')
             except ConnectionRefusedError as err:
                 raise TargetError(
-                    "Unable to get Root CA from Target: %s") from err
+                    "Unable to get Root CA from Target") from err
 
         return gnmi_pb2_grpc.grpc.ssl_channel_credentials(
             root_certificates=self.root_ca,
@@ -220,7 +218,6 @@ class TestTarget():
             raise GnmiError('%s is not a valid gNMI Set type' % set_type)
 
         path = parsePath(xpath)
-
         path_val = None
         if value:
             val = pythonToTypedValue(value)
@@ -228,18 +225,24 @@ class TestTarget():
         self._gNMIConnnect()
         metadata = self._buildGnmiStubMetadata()
 
+        response = None
         try:
             if set_type.lower() == 'delete':
-                return self.stub.Set(gnmi_pb2.SetRequest(delete=[path]),
-                                     **metadata)
+                response = self.stub.Set(gnmi_pb2.SetRequest(delete=[path]),
+                                         **metadata)
             if set_type.lower() == 'update':
-                return self.stub.Set(gnmi_pb2.SetRequest(update=[path_val]),
-                                     **metadata)
+                response = self.stub.Set(gnmi_pb2.SetRequest(
+                    update=[path_val]), **metadata)
             if set_type.lower() == 'replace':
-                return self.stub.Set(gnmi_pb2.SetRequest(replace=[path_val]),
-                                     **metadata)
+                response = self.stub.Set(gnmi_pb2.SetRequest(
+                    replace=[path_val]), **metadata)
         except grpc._channel._InactiveRpcError as err:
             raise RpcError(err) from err
+
+        if self.gnmi_set_cooldown_secs:
+            time.sleep(self.gnmi_set_cooldown_secs)
+
+        return response
 
     def gNMISetUpdate(self, xpath: str,
                       value: Any) -> gnmi_pb2.SetResponse:
@@ -292,6 +295,20 @@ class TestTarget():
         with open(file_path, encoding="utf8") as file:
             json_data = json.load(file)
         self.gNMISetUpdate(xpath, json_data)
+
+    def validate(self):
+        """Ensures the Target is defined appropriately.
+
+        Raises:
+          ValueError when the Target is not defined correctly.
+        """
+        parts = self.address.split(":")
+        if len(parts) != 2 or not bool(parts[0]) or not parts[1].isdigit():
+            raise ValueError("Needed valid target HOSTNAME:PORT")
+
+        # If using client certificates for TLS, provide key and cert
+        if not self.notls and (bool(self.key) ^ bool(self.cert)):
+            raise ValueError("TLS key and cert are both needed.")
 
 
 def parsePath(xpath: str) -> gnmi_pb2.Path:
@@ -386,34 +403,64 @@ def typedValueToPython(value: gnmi_pb2.TypedValue, tp: type) -> Union[
     raise GnmiError("Unsupported TypedValue")
 
 
-def intersectCmp(a: dict, b: dict) -> Tuple[bool, str]:
-    """Return true if the common keys have the same values.
+def intersectCmp(want: dict, got: dict) -> Tuple[bool, str]:
+    """Return true if all the keys of want are the same in got.
 
-    E.g.: Taking {"foo": 0, "bla": "test"} and
-        {"foo": 1, "bar": true, "bla": "test"}, the intersected keys are
-        "foo" and "bla", and the values are not equal.
+    E.g.: Taking want={"foo": 0, "bla": "test"} and
+        got={"foo": 1, "bar": true, "bla": "test"}, the keys "foo"
+        and "bla" are looked for and compared in got.
 
-    If there are no common keys, returns False.
-
-    The same comparison applies to nested dictionaries
+    The same comparison applies to nested dictionaries and lists.
 
     Args:
-        a, b: Dictionaries to intersect and compare.
+        want, got: Dictionaries to compare.
 
     Returns:
         A tuple with the comparison result and a diff text, if different.
     """
-    common_keys = a.keys() & b.keys()
-    if not common_keys:
-        return False, "got %s, wanted %s" % (a.keys(), b.keys())
-    for k in common_keys:
-        x = a[k]
-        y = b[k]
+    for k in want.keys():
+        x = want[k]
+        y = got.get(k)
+        if y is None:
+            return False, "key %s not found" % k
         if isinstance(x, dict) and isinstance(y, dict):
-            cmp, diff = intersectCmp(x, y)
-            if not cmp:
-                return False, diff
-        else:
-            if x != y:
-                return False, "key %s: %s != %s" % (k, x, y)
+            return intersectCmp(x, y)
+        if isinstance(x, list) and isinstance(y, list):
+            return intersectListCmp(x, y)
+        if x != y:
+            return False, "key %s: got '%s', wanted '%s'" % (k, y, x)
+    return True, ""
+
+
+def intersectListCmp(want: list, got: list) -> Tuple[bool, str]:
+    """Return true if all the elements in want are the same in got.
+
+    For dictionaries, intersectCmp() is used for comparison.
+    Order is not considered.
+
+    E.g.: Taking [0, "bla"] and [1, "bar", "bla"], the elements 0 and "bla"
+        are looked for and compared in got.
+
+    The same comparison applies to nested dictionaries and lists.
+
+    Args:
+        want, got: Lists to compare.
+
+    Returns:
+        A tuple with the comparison result and a diff text, if different.
+    """
+    for i in want:
+        for j in got:
+            matched = False
+            if type(i) != type(j):
+                continue
+            if isinstance(i, dict):
+                cmp, _ = intersectCmp(i, j)
+            else:
+                cmp = bool(i == j)
+            if cmp:
+                matched = True
+                break
+        if not matched:
+            return False, "List element %s not matched" % i
     return True, ""

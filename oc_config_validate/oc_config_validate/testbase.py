@@ -14,6 +14,7 @@ limitations under the License.
 
 """
 
+import copy
 import json
 import logging
 import time
@@ -22,6 +23,8 @@ from functools import wraps
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 from pyangbind.lib import pybindJSON
+from pyangbind.lib.base import PybindBase
+from retry.api import retry_call
 
 from oc_config_validate import context, schema, target
 from oc_config_validate.gnmi import gnmi_pb2
@@ -37,6 +40,19 @@ def failfast(method):
         if getattr(self, 'failfast', False):
             self.stop()
         method(self, *args, **kw)
+    return inner
+
+
+def retryAssertionError(method):
+    """Wrap a test to retry if AssertionError."""
+    @wraps(method)
+    def inner(self, *args, **kw):
+        if hasattr(self, 'retries'):
+            delay = getattr(self, 'retry_delay', 10)
+            retry_call(method,  fargs=[self, *args], fkwargs=kw,
+                       tries=getattr(self, 'retries'), delay=delay)
+        else:
+            method(self, *args, **kw)
     return inner
 
 
@@ -81,8 +97,8 @@ class TestCase(unittest.case.TestCase):
     """
     result = None
     test_target = None
-    duration_msec = 0
-    start_time_msec = 0
+    duration_sec = 0
+    start_time_sec = 0
 
     def phony(self):
         """A phony test method to be used for testing."""
@@ -92,11 +108,10 @@ class TestCase(unittest.case.TestCase):
         logging.debug('Starting test %s ...', self)
         self.result = result
         if result:
-            self.start_time_msec = int(round(time.time() * 1000))
+            self.start_time_sec = int(time.time())
             super().run(result)
-            self.duration_msec = (int(round(time.time() * 1000)) -
-                                  self.start_time_msec)
-            logging.debug('Finished %s in %d msec', self, self.duration_msec)
+            self.duration_sec = int(time.time() - self.start_time_sec)
+            logging.debug('Finished %s in %d secs', self, self.duration_sec)
 
     def log(self, formatter, *args):
         """Log a message during a test.
@@ -125,13 +140,17 @@ class TestCase(unittest.case.TestCase):
         try:
             resp = self.test_target.gNMIGet(xpath)
         except target.RpcError as err:
-            if LOG_GNMI:
-                self.log("gNMI Get(%s) => ", xpath)
-            self.log("gRCP Error: %s", err)
+            self.log("Get(%s) <= gRCP Error: %s", xpath, err)
             return None
-        resp_val = resp.notification[0].update[0].val
+        try:
+            resp_val = resp.notification[0].update[0].val
+        except IndexError:
+            self.log("Get(%s) <= Bad response: %s", xpath, resp)
+            return None
         if LOG_GNMI:
-            self.log("gNMI Get(%s) <= %s", xpath, resp_val)
+            msg = ("gNMI Get(%s) <= %s", xpath, resp_val)
+            self.log(*msg)
+            logging.info(*msg)
         return resp_val
 
     def gNMISetUpdate(self, xpath: str, value: Any) -> bool:
@@ -145,11 +164,13 @@ class TestCase(unittest.case.TestCase):
           False if the gNMI Set did not succeed.
         """
         if LOG_GNMI:
-            self.log("gNMI Set Update(%s) => %s", xpath, value)
+            msg = ("gNMI Set Update(%s) => %s", xpath, value)
+            self.log(*msg)
+            logging.info(*msg)
         try:
             self.test_target.gNMISetUpdate(xpath, value)
         except target.RpcError as err:
-            self.log("gRCP Error: %s", err)
+            self.log("Set(%s) <= gRCP Error: %s", xpath, err)
             return False
         return True
 
@@ -163,11 +184,13 @@ class TestCase(unittest.case.TestCase):
           False if the gNMI Set did not succeed.
         """
         if LOG_GNMI:
-            self.log("gNMI Set Delete(%s) =>", xpath)
+            msg = ("gNMI Set Delete(%s) =>", xpath)
+            self.log(*msg)
+            logging.info(*msg)
         try:
             self.test_target.gNMISetDelete(xpath)
         except target.RpcError as err:
-            self.log("gRCP Error: %s", err)
+            self.log("Set(%s) <= gRCP Error: %s", xpath, err)
             return False
         return True
 
@@ -208,26 +231,25 @@ class TestCase(unittest.case.TestCase):
             self.assertTrue(bool(getattr(self, arg)),
                             "Missing class argument: %s" % arg)
 
-    def assertJsonModel(self, json_value: Union[str, bytes], model: str,
-                        msg: str):
+    def assertJsonModel(self, json_value: Union[str, bytes],
+                        model: PybindBase, msg: str):
         """Assert that the JSON text complies to the model schema.
 
         Args:
             json_value: JSON-IETF to check.
-            model: Python binding class name, to check the JSON reply against.
+            model: the OC model class name in the oc_config_validate.models
+              package, as `module.class`.
+            xpath: the xpath to the OC container to create.
             mgs: Message to show when the check fails.
 
         Raises:
-          AssertionError if unable to find the model's binding of the JSON
-            does not match the model.
+          AssertionError if the JSON text does not match the model.
         """
-        model_obj = schema.containerFromName(model)
-        self.assertIsNotNone(model_obj,
-                             "Unable to find model '%s' binding" % model)
         match, error = True, None
+        model_obj = copy.copy(model)
         try:
             schema.decodeJson(json_value, model_obj)
-        except AttributeError as err:
+        except (AttributeError, ValueError) as err:
             match, error = False, err
         self.assertTrue(match, "%s: %s" % (msg, error))
 
@@ -263,7 +285,7 @@ class TestCase(unittest.case.TestCase):
         """
         got = json.loads(json_value)
         cmp, diff = target.intersectCmp(
-            got, json.loads(pybindJSON.dumps(want, mode='ietf')))
+            json.loads(pybindJSON.dumps(want, mode='ietf')), got)
         self.assertTrue(cmp, diff)
 
     def assertXpath(self, xpath: str):
@@ -277,6 +299,26 @@ class TestCase(unittest.case.TestCase):
         """
         self.assertTrue(target.isPathOK(xpath), "'%s' not a gNMI path" % xpath)
 
+    def assertModelXpath(self, model: str, xpath: str):
+        """Assert that the model and xpath correspond to a valid OC container.
+
+        Args:
+            model: the OC model class name in the oc_config_validate.models
+              package, as `module.class`.
+            xpath: the xpath to the OC container to create.
+
+        Raises: AssertionError.
+        """
+        match, error = True, None
+        try:
+            schema.ocContainerFromPath(model, xpath)
+        except (AttributeError, target.XpathError, schema.Error) as err:
+            match, error = False, err
+        self.assertTrue(
+            match,
+            "xpath %s does not point to a container in model %s: %s" % (
+                xpath, model, error))
+
 
 class TestResult(unittest.TestResult):
     """TestResult allows logging messages during the tests."""
@@ -286,7 +328,7 @@ class TestResult(unittest.TestResult):
         self.successes = []
         self.log_message = ''
         self.test_name = 'Test'
-        self.duration_msec = 0.0
+        self.duration_sec = 0
 
     def log(self, formatter, *args):
         """Log a message during a test.
@@ -307,7 +349,7 @@ class TestResult(unittest.TestResult):
     def addError(self, test: TestCase, err):
         """Override parent addError to support logging."""
         log = '%s\n%s' % (
-            self.log_message, self._exc_info_to_string(err, test))
+            self.log_message, self._exc_info_to_string(err, test))  # pytype: disable=attribute-error # noqa
         self.errors.append((test, log))
         self._mirrorOutput = True
         logging.error("%s - ERR:\n%s", test, log)
@@ -316,7 +358,7 @@ class TestResult(unittest.TestResult):
     def addFailure(self, test: TestCase, err):
         """Override parent addFailure to support logging."""
         log = '%s\n %s' % (
-            self.log_message, self._exc_info_to_string(err, test))
+            self.log_message, self._exc_info_to_string(err, test))  # pytype: disable=attribute-error # noqa
         self.failures.append((test, log))
         self._mirrorOutput = True
         logging.error("%s - FAIL:\n%s", test, log)
@@ -347,8 +389,8 @@ class MethodResult():
         self.test_case = split_trace[-1]
         self.test_class = split_trace[-2]
         self.test_module = '.'.join(split_trace[0:-3])
-        self.start_time_msec = test_case.start_time_msec
-        self.duration_msec = test_case.duration_msec
+        self.start_time_sec = test_case.start_time_sec
+        self.duration_sec = test_case.duration_sec
         self.result = result
         self.log = log
 
@@ -365,7 +407,7 @@ class TestcaseResult():
         """
         self.test_name = test_result.test_name
         self.success = test_result.wasSuccessful()
-        self.duration_msec = test_result.duration_msec
+        self.duration_sec = test_result.duration_sec
         self.results = []
         for m in test_result.successes:
             self.results.append(MethodResult(m, 'PASS'))
@@ -390,22 +432,21 @@ class TestRun():
     description = ""
     labels = []
     results = []
-    start_time_sec = 0.0
-    end_time_sec = 0.0
+    start_time_sec = 0
+    end_time_sec = 0
     tests_pass = 0
     tests_total = 0
     tests_fail = 0
 
-    def __init__(self, tgt: str, ctx: context.TestContext):
-        self.test_target = tgt
-        self.oc_models = schema.getOcModelsVersions()
+    def __init__(self, ctx: context.TestContext):
+        self.test_target = ctx.target.target
         if ctx.description:
             self.description = ctx.description
         if ctx.labels:
             self.labels = ctx.labels.copy()
 
-    def copyResults(self, results: List[TestResult], start_time_sec: float,
-                    end_time_sec: float):
+    def copyResults(self, results: List[TestResult], start_time_sec: int,
+                    end_time_sec: int):
         """Copy the run test results.
 
         Args:

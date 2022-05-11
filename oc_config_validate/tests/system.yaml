@@ -8,78 +8,78 @@ labels:
 tests:
 
 - !TestCase
-  name: "Check System Config model validity"
+  name: "Check System model validity"
   class_name: get.GetJsonCheck
   args:
     xpath: "/system"
-    model: system.system
+    model: system.openconfig_system
 
 - !TestCase
-  name: "Set Hostname and Domain"
-  class_name: set.JsonCheckSetUpdate
+  name: "Set and Check Hostname and Domain"
+  class_name: config_state.SetConfigCheckState
   args:
-    xpath: "/system/config"
-    model: system.config.config
+    retries: 3
+    retry_delay: 10
+    xpath: "/system"
+    model: system.openconfig_system
     json_value: {
-      "openconfig-system:domain-name": "corp.google.com",
+      "openconfig-system:domain-name": "google.com",
       "openconfig-system:hostname": "foobar"
     }
 
 - !TestCase
-  name: "Compare Hostname and Domain configured"
-  class_name: get.GetCompare
-  args:
-    xpath: "/system/config"
-    want: {
-      "config": {
-        "domain-name": "corp.google.com",
-        "hostname": "foobar"
-      }
-    }
-
-- !TestCase
-  name: "Check Hostname and Domain configured"
-  class_name: get.GetJsonCheck
-  args:
-    xpath: "/system/config"
-    model: system.config.config
-
-- !TestCase
-  name: "Set Hostname and Domain"
+  name: "Update Hostname"
   class_name: setget.JsonCheckCompare
   args:
+    retries: 3
+    retry_delay: 10
     xpath: "/system/config"
-    model: system.config.config
+    model: system.openconfig_system
     json_value: {
-      "openconfig-system:domain-name": "prod.google.com",
-      "openconfig-system:hostname": "lalala"
+      "openconfig-system:hostname": "barbar"
     }
 
 - !TestCase
   name: "Compare Hostname and Domain state"
-  class_name: get.GetCompare
+  class_name: get.GetJsonCheckCompare
   args:
     xpath: "/system/state"
-    want: {
-      "state": {
-        "domain-name": "prod.google.com",
-        "hostname": "lalala"
-      }
+    model: system.openconfig_system
+    want_json: {
+      "openconfig-system:domain-name": "googles.com",
+      "openconfig-system:hostname": "barbar"
     }
-
-- !TestCase
-  name: "Check Hostname and Domain state"
-  class_name: get.GetJsonCheck
-  args:
-    xpath: "/system/state"
-    model: system.state.state
 
 - !TestCase
   name: "Set and Check Timezone"
   class_name: config_state.SetConfigCheckState
   args:
+    retries: 3
+    retry_delay: 10
     xpath: "/system/clock"
-    model: "system.clock"
+    model: system.openconfig_system
     json_value: {
       "openconfig-system:timezone-name": "America/Los_Angeles"
+    }
+
+- !TestCase
+  name: "Update and Check Timezone"
+  class_name: setget.JsonCheckCompare
+  args:
+    retries: 3
+    retry_delay: 10
+    xpath: "/system/clock/config"
+    model: system.openconfig_system
+    json_value: {
+      "openconfig-system:timezone-name": "Europe/Zurich"
+    }
+
+- !TestCase
+  name: "Compare Timezone state"
+  class_name: get.GetJsonCheckCompare
+  args:
+    xpath: "/system/clock/state"
+    model: system.openconfig_system
+    want_json: {
+      "openconfig-system:timezone-name": "Europe/Zurich"
     }

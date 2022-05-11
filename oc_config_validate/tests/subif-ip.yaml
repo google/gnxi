@@ -6,6 +6,14 @@ labels:
 - subif
 - ipv4
 
+init_configs:
+- !InitConfig
+  filename: init_configs/interfaces_up.json
+  xpath: /interfaces
+- !InitConfig
+  filename: init_configs/routing_instance.json
+  xpath: /network-instances
+
 tests:
 
 - !TestCase
@@ -18,20 +26,12 @@ tests:
     prefix_length: 25
 
 - !TestCase
-  name: "Disable DHCP client on ethernet1/1.0"
-  class_name: subif_ip.SetSubifDhcp
-  args:
-    interface: "ethernet1/1"
-    index: 0
-    dhcp: False
-
-- !TestCase
-  name: "Re-add IPv4 on ethernet1/1.0"
+  name: "Add IPv4 on ethernet1/1.1"
   class_name: subif_ip.AddSubifIp
   args:
     interface: "ethernet1/1"
-    index: 0
-    address: "192.168.1.1"
+    index: 1
+    address: "192.168.9.1"
     prefix_length: 25
 
 - !TestCase
@@ -44,15 +44,26 @@ tests:
     prefix_length: 25
 
 - !TestCase
-  name: "Set and check IPv4 on ethernet1/2.0"
-  class_name: config_state.SetConfigCheckState
+  name: "Enable DHCP client on ethernet1/1.0"
+  class_name: subif_ip.SetSubifDhcp
   args:
-    xpath: "/interfaces/interface[name=ethernet1/2]/subinterfaces/subinterface[index=0]/ipv4/addresses/address[ip=172.16.0.1]"
-    model: "interfaces.interface.subinterfaces.subinterface.ipv4.addresses.address"
-    json_value: {
-      "ip": "172.16.0.1",
-      "prefix-length": 24
-    }
+    interface: "ethernet1/1"
+    index: 0
+    dhcp: True
+
+- !TestCase
+  name: "Enable DHCP client on ethernet1/2.0"
+  class_name: subif_ip.SetSubifDhcp
+  args:
+    interface: "ethernet1/2"
+    dhcp: True
+
+- !TestCase
+  name: "Check DHCP client on ethernet1/2.0"
+  class_name: subif_ip.CheckSubifDhcpState
+  args:
+    interface: "ethernet1/2"
+    dhcp: True
 
 - !TestCase
   name: "Add additional IPv4 on ethernet1/1.0"
@@ -68,7 +79,7 @@ tests:
   class_name: get.GetJsonCheckCompare
   args:
     xpath: "/interfaces/interface[name=ethernet1/1]/subinterfaces/subinterface[index=0]/ipv4/addresses"
-    model: "interfaces.interface.subinterfaces.subinterface.ipv4.addresses.addresses"
+    model: "interfaces.openconfig_interfaces"
     want_json: {
       "address": [
         {
@@ -99,30 +110,40 @@ tests:
     }
 
 - !TestCase
-  name: "Set and check DHCP client on eth1/2.0"
-  class_name: config_state.SetConfigCheckState
+  name: "Set and check IPv4 on ethernet1/3.100"
+  class_name: subif_ip.AddSubifIp
   args:
-    xpath: "/interfaces/interface[name=ethernet1/2]/subinterfaces/subinterface[index=0]/ipv4"
-    model: "interfaces.interface.subinterfaces.subinterface.ipv4"
-    json_value: {
-      "dhcp-client": true
-    }
+    interface: "ethernet1/3"
+    index: 100
+    address: "172.16.0.1"
+    prefix_length: 24
 
 - !TestCase
-  name: "Remove IPv4 on ethernet1/2.0"
-  class_name: set.SetDelete
+  name: "Remove IPv4 on ethernet1/3.100"
+  class_name: subif_ip.RemoveSubifIp
   args:
-    xpath: "/interfaces/interface[name=ethernet1/2]/subinterfaces/subinterface[index=0]/ipv4/addresses/address[ip=172.16.0.1]"
+    interface: "ethernet1/3"
+    index: 100
+    address: "172.16.0.1"
+    prefix_length: 24
 
 - !TestCase
-  name: "Check there is no IPv4 on ethernet1/2.0"
+  name: "Check there is no IPv4 on ethernet1/3.100"
   class_name: get.GetJsonCheckCompare
   args:
-    xpath: "/interfaces/interface[name=ethernet1/2]/subinterfaces/subinterface[index=0]/ipv4/addresses"
-    model: "interfaces.interface.subinterfaces.subinterface.ipv4.addresses.addresses"
+    retries: 3
+    retry_delay: 15
+    xpath: "/interfaces/interface[name=ethernet1/3]/subinterfaces/subinterface[index=100]/ipv4/addresses"
+    model: "interfaces.openconfig_interfaces"
     want_json: {
       "address": []
     }
+
+- !TestCase
+  name: "Remove subinterface ethernet1/2.1"
+  class_name: set.SetDelete
+  args:
+    xpath: "/interfaces/interface[name=ethernet1/2]/subinterfaces/subinterface[index=1]"
 
 - !TestCase
   name: "Remove additional IPv4 on ethernet1/1.0"
@@ -137,8 +158,10 @@ tests:
   name: "Check Single IP on ethernet1/1.0"
   class_name: get.GetJsonCheckCompare
   args:
+    retries: 3
+    retry_delay: 15
     xpath: "/interfaces/interface[name=ethernet1/1]/subinterfaces/subinterface[index=0]/ipv4/addresses"
-    model: "interfaces.interface.subinterfaces.subinterface.ipv4.addresses.addresses"
+    model: "interfaces.openconfig_interfaces"
     want_json: {
       "address": [
         {
@@ -170,7 +193,16 @@ tests:
   class_name: get.GetJsonCheckCompare
   args:
     xpath: "/interfaces/interface[name=ethernet1/1]/subinterfaces/subinterface[index=0]/ipv4/addresses"
-    model: "interfaces.interface.subinterfaces.subinterface.ipv4.addresses.addresses"
+    model: "interfaces.openconfig_interfaces"
     want_json: {
       "address": []
     }
+
+- !TestCase
+  name: "Remove IPv4 on ethernet1/1.1"
+  class_name: subif_ip.RemoveSubifIp
+  args:
+    interface: "ethernet1/1"
+    index: 1
+    address: "192.168.9.1"
+    prefix_length: 25

@@ -25,7 +25,7 @@ import yaml
 from oc_config_validate import (context, formatter, runner, schema, target,
                                 testbase)
 
-__version__ = "1.0.0"
+__version__ = "2.0.0"
 
 LOGGING_FORMAT = "%(levelname)s(%(filename)s:%(lineno)d):%(message)s"
 
@@ -43,39 +43,39 @@ def createArgsParser() -> argparse.ArgumentParser:
         "-tgt",
         "--target",
         type=str,
-        help="The gNMI Target, as hostname:port",
+        help="The gNMI Target, as hostname:port.",
     )
     parser.add_argument(
         "-user",
         "--username",
         type=str,
-        help="Username to use when establishing a gNMI Channel to the Target",
+        help="Username to use when establishing a gNMI Channel to the Target.",
     )
     parser.add_argument(
         "-pass",
         "--password",
         type=str,
-        help="Password to use when establishing a gNMI Channel to the Target",
+        help="Password to use when establishing a gNMI Channel to the Target.",
     )
     parser.add_argument(
         "-key",
         "--private_key",
         type=str,
         help="Path to the Private key to use when establishing"
-        "a gNMI Channel to the Target",
+        "a gNMI Channel to the Target.",
     )
     parser.add_argument(
         "-ca",
         "--root_ca_cert",
         type=str,
-        help="Path to Root CA to use when building the gNMI Channel",
+        help="Path to Root CA to use when building the gNMI Channel.",
     )
     parser.add_argument(
         "-cert",
         "--cert_chain",
         type=str,
         help="Path to Certificate chain to use when"
-        "establishing a gNMI Channel to the Target")
+        "establishing a gNMI Channel to the Target.")
     parser.add_argument(
         "-tests",
         "--tests_file",
@@ -114,99 +114,70 @@ def createArgsParser() -> argparse.ArgumentParser:
     parser.add_argument(
         "-v", "--version", help="Print program version", action="store_true")
     parser.add_argument(
-        "-V", "--verbose", help="Enable gRPC debugging and extra logging",
+        "-V", "--verbose", help="Enable gRPC debugging and extra logging.",
         action="store_true")
     parser.add_argument(
-        "-models", "--oc_models_versions", help="Print OC models versions",
+        "-models", "--oc_models_versions", help="Print OC models versions.",
         action="store_true")
     parser.add_argument(
-        "--no_tls", help="gRPC insecure mode", action="store_true")
+        "--no_tls", help="gRPC insecure mode.", action="store_true")
     parser.add_argument(
         "-o",
         "--tls_host_override",
         type=str,
         action="store",
-        help="Hostname to use during the TLS certificate check",
+        help="Hostname to use during the TLS certificate check.",
+    )
+    parser.add_argument(
+        "-set_cooldown",
+        "--gnmi_set_cooldown_secs",
+        type=int,
+        action="store",
+        help="Seconds to wait after a successful gNMI Set message.",
     )
     parser.add_argument(
         "--stop_on_error",
         action="store_true",
-        help="Stop the execution if a test fails",
+        help="Stop the execution if a test fails.",
     )
     parser.add_argument(
         "--log_gnmi",
         action="store_true",
-        help="Log the gnmi requests to the tests results",
+        help="Log the gnmi requests to the tests results.",
     )
     return parser
 
 
-def validateArgs(args: Dict[str, Any]) -> bool:  # noqa
+def validateArgs(args: Dict[str, Any]):
     """Returns True if the arguments are valid.
 
-    To run tests:
-     * A valid target is needed, as HOSTNAME:PORT.
-     * All readable tests, results and initial config files are needed.
-     * --notls and TLS arguments are exclusive.
+     Raises:
+       ValueError if any argument is invalid.
+       IOError is unable to open a file given in argument.
 
     """
 
-    def isTarget(tgt: str) -> bool:
-        parts = tgt.split(":")
-        return len(parts) == 2 and bool(parts[0]) and parts[1].isdigit()
-
-    def isFileOK(filename: str, writable: bool = False) -> bool:
+    def isFileOK(filename: str, writable: bool = False):
         try:
             file = open(filename, "w+" if writable else "r", encoding="utf8")
             file.close()
         except IOError as io_error:
             logging.error("Unable to open %s: %s", filename, io_error)
-            return False
-        return True
+            raise
 
     # Mandatory args for tests
-    if not args["target"] or not isTarget(args["target"]):
-        logging.error("Needed valid --target HOSTNAME:PORT argument")
-        return False
-
     for arg, write in [("tests_file", False), ("results_file", True)]:
         if not args[arg]:
-            logging.error("Needed --%s file", arg)
-            return False
-        if not isFileOK(args[arg], write):
-            return False
+            raise ValueError("Needed --%s file" % arg)
+        isFileOK(args[arg], write)
 
-    if args["init_config_file"] and not isFileOK(args["init_config_file"],
-                                                 False):
-        return False
-
-    # Provide init_config file and xpath
-    if bool(args["init_config_file"]) ^ bool(args["init_config_xpath"]):
-        logging.error(
-            "Initial configuration file and xpath are both needed.")
-        return False
-
-    # Either TLS or not
-    if any([args[arg] for arg in [
-            "private_key", "cert_chain", "root_ca_cert",
-            "tls_host_override"]]) and args["no_tls"]:
-        logging.error(
-            "TLS arguments and --notls option are mutually exclusive.")
-        return False
-
-    # If using client certificates for TLS, provide key and cert
-    if bool(args["private_key"]) ^ bool(args["cert_chain"]):
-        logging.error(
-            "TLS arguments -private_key and -cert_chain are both needed.")
-        return False
+    if args["init_config_file"]:
+        isFileOK(args["init_config_file"], False)
 
     # Output format supported
     if (args["format"] and
             args["format"].lower() not in formatter.SUPPORTED_FORMATS):
-        logging.error("Output format %s is not supported.")
-        return False
-
-    return True
+        raise ValueError("Output format %s is not supported.")
 
 
 def main():  # noqa
@@ -224,41 +195,50 @@ def main():  # noqa
     if args["verbose"]:
         # os.environ["GRPC_TRACE"] = "all"
         os.environ["GRPC_VERBOSITY"] = "DEBUG"
-
     logging.basicConfig(
         level=logging.DEBUG if args["verbose"] else logging.INFO,
         format=LOGGING_FORMAT)
 
-    if not validateArgs(args):
-        sys.exit(1)
-
     try:
-        ctx = context.fromFile(args["tests_file"])
-    except IOError as io_error:
-        sys.exit("Unable to read %s: %s", args["tests_file"], io_error)
-    except yaml.YAMLError as yaml_error:
-        sys.exit("Unable to parse YAML file %s: %s", args["tests_file"],
-                 yaml_error)
-
-    logging.info("Read tests file '%s': %d tests to run",
-                 args["tests_file"], len(ctx.tests))
-
-    tgt = target.TestTarget(args["target"])
-    tgt.setCredentials(args["username"], args["password"])
-    if args["no_tls"]:
-        tgt.notls = True
-    else:
-        logging.info("Using TLS for gNMI connection")
-        tgt.setCertificates(key=args["private_key"],
-                            cert=args["cert_chain"],
-                            root_ca=args["root_ca_cert"])
-        if args["tls_host_override"]:
-            tgt.host_tls_override = args["tls_host_override"]
+        validateArgs(args)
+    except (IOError, ValueError) as error:
+        sys.exit("Invalid arguments: %s" % error)
 
     if args["log_gnmi"]:
         testbase.LOG_GNMI = args["log_gnmi"]
 
-    logging.info("Testing gNMI Target %s.", args["target"])
+    try:
+        ctx = context.fromFile(args["tests_file"])
+    except IOError as io_error:
+        sys.exit("Unable to read %s: %s" % (args["tests_file"], io_error))
+    except yaml.YAMLError as yaml_error:
+        sys.exit("Unable to parse YAML file %s: %s" % (args["tests_file"],
+                 yaml_error))
+
+    logging.info("Read tests file '%s': %d tests to run",
+                 args["tests_file"], len(ctx.tests))
+
+    if not ctx.target:
+        ctx.target = context.Target()
+
+    # Override Target options
+    for arg in ["target", "username", "password", "no_tls", "private_key",
+                "cert_chain", "root_ca_cert", "tls_host_override",
+                "gnmi_set_cooldown_secs"]:
+        if args[arg]:
+            setattr(ctx.target, arg, args[arg])
+
+    tgt = target.TestTarget(ctx.target)
+    try:
+        tgt.validate()
+    except ValueError as error:
+        sys.exit("Invalid Target: %s" % error)
+
+    logging.info("Testing gNMI Target %s.", tgt)
+
+    if tgt.gnmi_set_cooldown_secs:
+        logging.info("Using gNMI Set Cooldown of %d secs",
+                     tgt.gnmi_set_cooldown_secs)
 
     # Apply initial configuration
     if args["init_config_file"]:
@@ -272,7 +252,7 @@ def main():  # noqa
     results = runner.runTests(ctx, tgt, stop_on_error=args["stop_on_error"])
     end_t = time.time()
 
-    test_run = testbase.TestRun(args["target"], ctx)
+    test_run = testbase.TestRun(ctx)
     test_run.copyResults(results, start_t, end_t)
     logging.info("Results Summary: %s", test_run.summary())
 

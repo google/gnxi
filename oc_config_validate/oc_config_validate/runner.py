@@ -43,7 +43,7 @@ class TestThread(threading.Thread):
         self.conn_lock = connection_lock
         self.results = testbase.TestResult()
         self.stream = io.StringIO()
-        self.duration_msec = 0.0
+        self.duration_sec = 0
         self.stop_on_error = stop_on_error
 
     def run(self):
@@ -53,18 +53,18 @@ class TestThread(threading.Thread):
         if self.conn_lock:
             self.conn_lock.acquire()
         logging.info("Running Test '%s'", self.test_suite.test_name)
-        start_time = time.time() * 1000
+        start_time = int(time.time())
         self.results = text_test_runner.run(self.test_suite)
-        self.duration_msec = (time.time() * 1000) - start_time
-        logging.info("Test '%s' took %f msecs: %s\n",
+        self.duration_sec = int(time.time() - start_time)
+        logging.info("Test '%s' took %d secs: %s\n",
                      self.test_suite.test_name,
-                     self.duration_msec,
+                     self.duration_sec,
                      "PASS" if self.results.wasSuccessful() else "FAIL")
         if self.conn_lock:
             self.conn_lock.release()
         self.results.test_class_name = self.test_suite.test_class_name
         self.results.test_name = self.test_suite.test_name
-        self.results.duration_msec = self.duration_msec
+        self.results.duration_sec = self.duration_sec
 
 
 def getRunner(stream: io.StringIO) -> unittest.TextTestRunner:
@@ -81,6 +81,19 @@ def getRunner(stream: io.StringIO) -> unittest.TextTestRunner:
         buffer=False,
         verbosity=2,
         resultclass=testbase.TestResult)
+
+
+def getTestSuites(ctx: context.TestContext,
+                  tgt: target.TestTarget):
+    suites = []
+    for t in ctx.tests:
+        s = makeTestSuite(t.class_name, t.name)
+        if s is not None:
+            s.insertTarget(tgt)
+            if hasattr(t, 'args') and t.args:
+                s.insertArgs(t.args)
+            suites.append(s)
+    return suites
 
 
 def makeTestSuite(test_class_name: str,
@@ -109,7 +122,7 @@ def makeTestSuite(test_class_name: str,
                                suiteClass=testbase.TestSuite)
     suite.test_class_name = test_class_name
     suite.test_name = test_name
-    return suite
+    return suite    # pytype: disable=bad-return-type
 
 
 def getClassFromPath(class_name: str) -> Optional[testbase.TestCase]:
@@ -153,14 +166,7 @@ def runTests(ctx: context.TestContext,
         A list of testbase.TestResult objects.
 
     """
-    suites = []
-    for t in ctx.tests:
-        s = makeTestSuite(t.class_name, t.name)
-        if s is not None:
-            s.insertTarget(tgt)
-            if hasattr(t, 'args') and t.args:
-                s.insertArgs(t.args)
-                suites.append(s)
+    suites = getTestSuites(ctx, tgt)
     errored_test = len(ctx.tests) - len(suites)
     if errored_test:
         logging.error("Running %d/%d Tests, %d failed to load.",
@@ -194,7 +200,15 @@ def setInitConfigs(ctx: context.TestContext,
 
     """
     for init_config in ctx.init_configs:
+        # Provide init_config file and xpath
+        if not init_config.filename or not init_config.xpath:
+            logging.error(
+                "Initial configuration file and xpath are both needed: %s:%s",
+                init_config.filename, init_config.xpath)
+            if stop_on_error:
+                return False
         try:
+
             target.parsePath(init_config.xpath)
             tgt.gNMISetConfigFile(init_config.filename, init_config.xpath)
             logging.info("Initial OpenConfig '%s' applied at %s",

@@ -24,13 +24,15 @@ class TestContext(yaml.YAMLObject):
     yaml_tag = u'!TestContext'
     init_configs = []
     labels = []
+    target = None
     tests = []
     description = ""
 
-    def __init__(self, description, init_configs, labels, tests):
+    def __init__(self, description, init_configs, labels, target, tests):
         self.description = description
         self.init_configs = init_configs
         self.labels = labels
+        self.target = target
         self.tests = tests
 
     def __repr__(self):
@@ -67,6 +69,26 @@ class InitConfig(yaml.YAMLObject):
     def __repr__(self):
         return ('InitConfig(filename=%r, xpath=%r)' %
                 (self.filename, self.xpath))
+
+
+class Target(yaml.YAMLObject):
+    """Object parsed from the TestContext YAML file."""
+
+    yaml_loader = yaml.SafeLoader
+    yaml_tag = u'!Target'
+
+    target = ""
+    username = ""
+    password = ""
+    private_key = ""
+    root_ca_cert = ""
+    cert_chain = ""
+    no_tls = False
+    tls_host_override = ""
+    gnmi_set_cooldown_secs = 10
+
+    def __repr__(self):
+        return 'Target(target=%r, no_tls=%r)' % (self.target, self.no_tls)
 
 
 def fromFile(file_path) -> TestContext:
