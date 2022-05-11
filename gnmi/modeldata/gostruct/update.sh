@@ -1,5 +1,6 @@
 #!/bin/bash
 
+go get github.com/openconfig/ygot@latest
 go get -u github.com/google/go-cmp/cmp
 go get -u github.com/openconfig/gnmi/ctree
 go get -u github.com/openconfig/gnmi/proto/gnmi
