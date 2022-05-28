@@ -2,7 +2,6 @@ autopep8==1.5.7
 build==0.7.0
 grpcio==1.39.0
 grpcio-tools==1.39.0
-importlib==1.0.4
 isort==5.10.1
 parameterized==0.8.1
 pyang==2.5.0

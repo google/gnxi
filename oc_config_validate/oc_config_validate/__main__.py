@@ -23,9 +23,7 @@ from typing import Any, Dict
 import yaml
 
 from oc_config_validate import (context, formatter, runner, schema, target,
-                                testbase)
-
-__version__ = "2.0.0"
+                                testbase, __version__)
 
 LOGGING_FORMAT = "%(levelname)s(%(filename)s:%(lineno)d):%(message)s"
 
