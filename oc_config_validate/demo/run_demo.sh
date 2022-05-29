@@ -25,14 +25,15 @@ start_gnmi_target() {
     fi
 
     echo "--- Start TARGET $OPTS"
+    go build ${GNMI_TARGET}
     go run ${GNMI_TARGET} -bind_address ":$1" -config $BASEDIR/target_config.json --insecure $OPTS >> /dev/null 2>&1 &
-    sleep 3
+    sleep 10
 }
 
 # stop_gnmi_target <gnmi_port>
 stop_gnmi_target() {
     echo "--- Stop TARGET"
-    pkill -f "$(go env GOPATH)/bin/gnmi_target -bind_address :$1"
+    pkill -f "gnmi_target -bind_address :$1"
 }
 
 # start_oc_config_validate <gnmi_port>
