@@ -71,7 +71,7 @@
 
 ### Module setget
 
- *  `setget.JsonCheck`
+ *  `setget.SetGetJsonCheck`
 
     Sends gNMI Set and later Get, schema-checking the JSON-IETF value.
 
@@ -88,7 +88,7 @@
      *  `retries`: Optional. Number of retries if the assertion fails.
      *  `retry_delay`: Optional. Delay, in seconds, between retries. Default 10.
 
- *  `setget.JsonCheckCompare`
+ *  `setget.SetGetJsonCheckCompare`
 
     Does what setget.JsonCheck does, but also compares the JSON Get reply.
 

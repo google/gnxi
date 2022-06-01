@@ -26,8 +26,8 @@ class SetConfigCheckState(testbase.TestCase):
     json_value = None
     model = ""
 
-    def test0100(self):
-        """gNMI Set on /config"""
+    @testbase.retryAssertionError
+    def testSetConfigCheckState(self):
         self.assertArgs(["xpath", "model", "json_value"])
         xpath = self.xpath.rstrip("/") + "/config"
         self.assertXpath(xpath)
@@ -37,14 +37,13 @@ class SetConfigCheckState(testbase.TestCase):
         model = schema.ocContainerFromPath(self.model, xpath)
         self.assertJsonModel(json.dumps(self.json_value), model,
                              "JSON value to Set does not match the model")
+
+        # gNMI Set on /config
         self.assertTrue(
             self.gNMISetUpdate(xpath, self.json_value),
             "gNMI Set did not succeed.")
 
-    @testbase.retryAssertionError
-    def test0200(self):
-        """gNMI Get on /config"""
-        self.assertArgs(["xpath", "model", "json_value"])
+        # gNMI Get on /config
         xpath = self.xpath.rstrip("/") + "/config"
         resp_val = self.gNMIGetJson(xpath)
         model = schema.ocContainerFromPath(self.model, xpath)
@@ -54,10 +53,7 @@ class SetConfigCheckState(testbase.TestCase):
         cmp, diff = target.intersectCmp(self.json_value, got)
         self.assertTrue(cmp, diff)
 
-    @testbase.retryAssertionError
-    def test0300(self):
-        """gNMI Get on /state"""
-        self.assertArgs(["xpath", "model", "json_value"])
+        # gNMI Get on /state
         xpath = self.xpath.rstrip("/") + "/state"
         resp = self.gNMIGet(xpath)
         self.assertIsNotNone(resp, "No gNMI GET response")
@@ -87,30 +83,27 @@ class DeleteConfigCheckState(testbase.TestCase):
     """
     xpath = ""
 
-    def test0100(self):
-        """gNMI Get on /config to verify it is configured"""
+    @testbase.retryAssertionError
+    def testDeleteConfigCheckState(self):
         self.assertArgs(["xpath"])
         self.assertXpath(self.xpath)
+
+        # gNMI Get on /config to verify it is configured
         self.assertTrue(
             self.gNMIGet(self.xpath.rstrip("/") + "/config"),
             "There is no configured /config container for the xpath.")
 
-    def test0200(self):
-        """gNMI Delete on the xpath"""
+        # gNMI Delete on the xpath
         self.assertTrue(
             self.gNMISetDelete(self.xpath.rstrip("/")),
             "gNMI Delete did not succeed.")
 
-    @testbase.retryAssertionError
-    def test0300(self):
-        """gNMI Get on /config to verify it is deleted"""
+        # gNMI Get on /config to verify it is deleted
         self.assertFalse(
             self.gNMIGet(self.xpath.rstrip("/") + "/config"),
             "There is still a /config container for the xpath.")
 
-    @testbase.retryAssertionError
-    def test0400(self):
-        """gNMI Get on /state to verify it is deleted"""
+        # gNMI Get on /state to verify it is deleted
         self.assertFalse(
             self.gNMIGet(self.xpath.rstrip("/") + "/state"),
             "There is still a /state container for the xpath.")
