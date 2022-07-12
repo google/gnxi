@@ -23,7 +23,7 @@ MODELS_PATH=${MODELS_FOLDER}/public/release/models
 
 PYBINDPLUGIN=$(/usr/bin/env python -c 'import pyangbind; import os; print ("{}/plugin".format(os.path.dirname(pyangbind.__file__)))')
 
-rm -fr ${MODELS_FOLDER}
+rm -fr ${MODELS_FOLDER}/*
 touch ${MODELS_FOLDER}/__init__.py
 git clone --depth 1 https://github.com/openconfig/public.git "$MODELS_FOLDER/public"
 
