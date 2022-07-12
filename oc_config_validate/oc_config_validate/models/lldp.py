@@ -32,7 +32,6 @@ class yc_config_openconfig_lldp__lldp_config(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__enabled','__hello_timer','__suppress_tlv_advertisement','__system_name','__system_description','__chassis_id','__chassis_id_type',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/lldp'
 
   _pybind_generated_by = 'container'
 
@@ -394,7 +393,6 @@ class yc_counters_openconfig_lldp__lldp_state_counters(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__frame_in','__frame_out','__frame_error_in','__frame_discard','__tlv_discard','__tlv_unknown','__last_clear','__tlv_accepted','__entries_aged_out',)
 
   _yang_name = 'counters'
-  _yang_namespace = 'http://openconfig.net/yang/lldp'
 
   _pybind_generated_by = 'container'
 
@@ -800,7 +798,6 @@ class yc_state_openconfig_lldp__lldp_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__enabled','__hello_timer','__suppress_tlv_advertisement','__system_name','__system_description','__chassis_id','__chassis_id_type','__counters',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/lldp'
 
   _pybind_generated_by = 'container'
 
@@ -1201,7 +1198,6 @@ class yc_config_openconfig_lldp__lldp_interfaces_interface_config(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__name','__enabled',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/lldp'
 
   _pybind_generated_by = 'container'
 
@@ -1332,7 +1328,6 @@ class yc_counters_openconfig_lldp__lldp_interfaces_interface_state_counters(Pybi
   __slots__ = ('_path_helper', '_extmethods', '__frame_in','__frame_out','__frame_error_in','__frame_discard','__tlv_discard','__tlv_unknown','__last_clear','__frame_error_out',)
 
   _yang_name = 'counters'
-  _yang_namespace = 'http://openconfig.net/yang/lldp'
 
   _pybind_generated_by = 'container'
 
@@ -1701,7 +1696,6 @@ class yc_state_openconfig_lldp__lldp_interfaces_interface_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__name','__enabled','__counters',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/lldp'
 
   _pybind_generated_by = 'container'
 
@@ -1871,7 +1865,6 @@ class yc_state_openconfig_lldp__lldp_interfaces_interface_neighbors_neighbor_sta
   __slots__ = ('_path_helper', '_extmethods', '__system_name','__system_description','__chassis_id','__chassis_id_type','__id','__age','__last_update','__ttl','__port_id','__port_id_type','__port_description','__management_address','__management_address_type',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/lldp'
 
   _pybind_generated_by = 'container'
 
@@ -2493,7 +2486,6 @@ class yc_state_openconfig_lldp__lldp_interfaces_interface_neighbors_neighbor_cus
   __slots__ = ('_path_helper', '_extmethods', '__type','__oui','__oui_subtype','__value',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/lldp'
 
   _pybind_generated_by = 'container'
 
@@ -2718,7 +2710,6 @@ class yc_tlv_openconfig_lldp__lldp_interfaces_interface_neighbors_neighbor_custo
   __slots__ = ('_path_helper', '_extmethods', '__type','__oui','__oui_subtype','__state',)
 
   _yang_name = 'tlv'
-  _yang_namespace = 'http://openconfig.net/yang/lldp'
 
   _pybind_generated_by = 'container'
 
@@ -2943,7 +2934,6 @@ neighbor
   __slots__ = ('_path_helper', '_extmethods', '__tlv',)
 
   _yang_name = 'custom-tlvs'
-  _yang_namespace = 'http://openconfig.net/yang/lldp'
 
   _pybind_generated_by = 'container'
 
@@ -3035,7 +3025,6 @@ class yc_state_openconfig_lldp__lldp_interfaces_interface_neighbors_neighbor_cap
   __slots__ = ('_path_helper', '_extmethods', '__name','__enabled',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/lldp'
 
   _pybind_generated_by = 'container'
 
@@ -3175,7 +3164,6 @@ neighbor
   __slots__ = ('_path_helper', '_extmethods', '__name','__state',)
 
   _yang_name = 'capability'
-  _yang_namespace = 'http://openconfig.net/yang/lldp'
 
   _pybind_generated_by = 'container'
 
@@ -3311,7 +3299,6 @@ class yc_capabilities_openconfig_lldp__lldp_interfaces_interface_neighbors_neigh
   __slots__ = ('_path_helper', '_extmethods', '__capability',)
 
   _yang_name = 'capabilities'
-  _yang_namespace = 'http://openconfig.net/yang/lldp'
 
   _pybind_generated_by = 'container'
 
@@ -3405,7 +3392,6 @@ class yc_neighbor_openconfig_lldp__lldp_interfaces_interface_neighbors_neighbor(
   __slots__ = ('_path_helper', '_extmethods', '__id','__state','__custom_tlvs','__capabilities',)
 
   _yang_name = 'neighbor'
-  _yang_namespace = 'http://openconfig.net/yang/lldp'
 
   _pybind_generated_by = 'container'
 
@@ -3622,7 +3608,6 @@ interface
   __slots__ = ('_path_helper', '_extmethods', '__neighbor',)
 
   _yang_name = 'neighbors'
-  _yang_namespace = 'http://openconfig.net/yang/lldp'
 
   _pybind_generated_by = 'container'
 
@@ -3714,7 +3699,6 @@ class yc_interface_openconfig_lldp__lldp_interfaces_interface(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state','__neighbors',)
 
   _yang_name = 'interface'
-  _yang_namespace = 'http://openconfig.net/yang/lldp'
 
   _pybind_generated_by = 'container'
 
@@ -3930,7 +3914,6 @@ class yc_interfaces_openconfig_lldp__lldp_interfaces(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__interface',)
 
   _yang_name = 'interfaces'
-  _yang_namespace = 'http://openconfig.net/yang/lldp'
 
   _pybind_generated_by = 'container'
 
@@ -4022,7 +4005,6 @@ class yc_lldp_openconfig_lldp__lldp(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__interfaces',)
 
   _yang_name = 'lldp'
-  _yang_namespace = 'http://openconfig.net/yang/lldp'
 
   _pybind_generated_by = 'container'
 
@@ -4193,7 +4175,6 @@ for the LLDP protocol.
   __slots__ = ('_path_helper', '_extmethods', '__lldp',)
 
   _yang_name = 'openconfig-lldp'
-  _yang_namespace = 'http://openconfig.net/yang/lldp'
 
   _pybind_generated_by = 'container'
 

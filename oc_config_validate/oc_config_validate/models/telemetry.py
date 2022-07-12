@@ -47,7 +47,6 @@ telemetry sensor grouping
   __slots__ = ('_path_helper', '_extmethods', '__sensor_group_id',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -144,7 +143,6 @@ sensor group
   __slots__ = ('_path_helper', '_extmethods', '__sensor_group_id',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -241,7 +239,6 @@ of data model paths as a sensor grouping
   __slots__ = ('_path_helper', '_extmethods', '__path','__exclude_filter',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -377,7 +374,6 @@ of data model paths as a sensor grouping
   __slots__ = ('_path_helper', '_extmethods', '__path','__exclude_filter',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -514,7 +510,6 @@ to exclude items are also provided.
   __slots__ = ('_path_helper', '_extmethods', '__path','__config','__state',)
 
   _yang_name = 'sensor-path'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -694,7 +689,6 @@ paths grouped together
   __slots__ = ('_path_helper', '_extmethods', '__sensor_path',)
 
   _yang_name = 'sensor-paths'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -792,7 +786,6 @@ grouping of multiple paths and exclude filters.
   __slots__ = ('_path_helper', '_extmethods', '__sensor_group_id','__config','__state','__sensor_paths',)
 
   _yang_name = 'sensor-group'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -1014,7 +1007,6 @@ class yc_sensor_groups_openconfig_telemetry__telemetry_system_sensor_groups(Pybi
   __slots__ = ('_path_helper', '_extmethods', '__sensor_group',)
 
   _yang_name = 'sensor-groups'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -1110,7 +1102,6 @@ class yc_config_openconfig_telemetry__telemetry_system_destination_groups_destin
   __slots__ = ('_path_helper', '_extmethods', '__group_id',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -1202,7 +1193,6 @@ class yc_state_openconfig_telemetry__telemetry_system_destination_groups_destina
   __slots__ = ('_path_helper', '_extmethods', '__group_id',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -1295,7 +1285,6 @@ telemetry destinations
   __slots__ = ('_path_helper', '_extmethods', '__destination_address','__destination_port',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -1429,7 +1418,6 @@ telemetry destinations
   __slots__ = ('_path_helper', '_extmethods', '__destination_address','__destination_port',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -1562,7 +1550,6 @@ class yc_destination_openconfig_telemetry__telemetry_system_destination_groups_d
   __slots__ = ('_path_helper', '_extmethods', '__destination_address','__destination_port','__config','__state',)
 
   _yang_name = 'destination'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -1791,7 +1778,6 @@ telemetry messages from the network element.
   __slots__ = ('_path_helper', '_extmethods', '__destination',)
 
   _yang_name = 'destinations'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -1890,7 +1876,6 @@ destinations
   __slots__ = ('_path_helper', '_extmethods', '__group_id','__config','__state','__destinations',)
 
   _yang_name = 'destination-group'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -2109,7 +2094,6 @@ and state.
   __slots__ = ('_path_helper', '_extmethods', '__destination_group',)
 
   _yang_name = 'destination-groups'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -2216,7 +2200,6 @@ subscriptions on the local device
   __slots__ = ('_path_helper', '_extmethods', '__name','__local_source_address','__originated_qos_marking','__protocol','__encoding',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -2479,7 +2462,6 @@ subscriptions on the local device
   __slots__ = ('_path_helper', '_extmethods', '__name','__id','__local_source_address','__originated_qos_marking','__protocol','__encoding',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -2783,7 +2765,6 @@ profile for a subscription
   __slots__ = ('_path_helper', '_extmethods', '__sensor_group','__sample_interval','__heartbeat_interval','__suppress_redundant',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -3037,7 +3018,6 @@ for a subscription
   __slots__ = ('_path_helper', '_extmethods', '__sensor_group','__sample_interval','__heartbeat_interval','__suppress_redundant',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -3291,7 +3271,6 @@ in the subscription
   __slots__ = ('_path_helper', '_extmethods', '__sensor_group','__config','__state',)
 
   _yang_name = 'sensor-profile'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -3474,7 +3453,6 @@ defined collectors.
   __slots__ = ('_path_helper', '_extmethods', '__sensor_profile',)
 
   _yang_name = 'sensor-profiles'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -3569,7 +3547,6 @@ destinations.
   __slots__ = ('_path_helper', '_extmethods', '__group_id',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -3666,7 +3643,6 @@ destinations
   __slots__ = ('_path_helper', '_extmethods', '__group_id',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -3763,7 +3739,6 @@ group
   __slots__ = ('_path_helper', '_extmethods', '__group_id','__config','__state',)
 
   _yang_name = 'destination-group'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -3961,7 +3936,6 @@ a subscription.
   __slots__ = ('_path_helper', '_extmethods', '__destination_group',)
 
   _yang_name = 'destination-groups'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -4058,7 +4032,6 @@ state information in the model (sensor data)
   __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state','__sensor_profiles','__destination_groups',)
 
   _yang_name = 'persistent-subscription'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -4365,7 +4338,6 @@ other redundancy changes.
   __slots__ = ('_path_helper', '_extmethods', '__persistent_subscription',)
 
   _yang_name = 'persistent-subscriptions'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -4464,7 +4436,6 @@ subscriptions.
   __slots__ = ('_path_helper', '_extmethods', '__id','__destination_address','__destination_port','__sample_interval','__heartbeat_interval','__suppress_redundant','__originated_qos_marking','__protocol','__encoding',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -4923,7 +4894,6 @@ paths of interest
   __slots__ = ('_path_helper', '_extmethods', '__path','__exclude_filter',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -5060,7 +5030,6 @@ to exclude items are also provided.
   __slots__ = ('_path_helper', '_extmethods', '__path','__state',)
 
   _yang_name = 'sensor-path'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -5199,7 +5168,6 @@ paths grouped together
   __slots__ = ('_path_helper', '_extmethods', '__sensor_path',)
 
   _yang_name = 'sensor-paths'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -5297,7 +5265,6 @@ as dynamic telemetry subscriptions.
   __slots__ = ('_path_helper', '_extmethods', '__id','__state','__sensor_paths',)
 
   _yang_name = 'dynamic-subscription'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -5484,7 +5451,6 @@ reset or otherwise torn down.
   __slots__ = ('_path_helper', '_extmethods', '__dynamic_subscription',)
 
   _yang_name = 'dynamic-subscriptions'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -5581,7 +5547,6 @@ and dynamic telemetry subscriptions.
   __slots__ = ('_path_helper', '_extmethods', '__persistent_subscriptions','__dynamic_subscriptions',)
 
   _yang_name = 'subscriptions'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -5729,7 +5694,6 @@ device's telemetry system.
   __slots__ = ('_path_helper', '_extmethods', '__sensor_groups','__destination_groups','__subscriptions',)
 
   _yang_name = 'telemetry-system'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 
@@ -5904,7 +5868,6 @@ systems and functions on the device.
   __slots__ = ('_path_helper', '_extmethods', '__telemetry_system',)
 
   _yang_name = 'openconfig-telemetry'
-  _yang_namespace = 'http://openconfig.net/yang/telemetry'
 
   _pybind_generated_by = 'container'
 

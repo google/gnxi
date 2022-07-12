@@ -127,7 +127,6 @@ class yc_config_openconfig_messages__messages_config(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__severity',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/messages'
 
   _pybind_generated_by = 'container'
 
@@ -231,7 +230,6 @@ syslog-severity.
   __slots__ = ('_path_helper', '_extmethods', '__msg','__priority','__app_name','__procid','__msgid',)
 
   _yang_name = 'message'
-  _yang_namespace = 'http://openconfig.net/yang/messages'
 
   _pybind_generated_by = 'container'
 
@@ -499,7 +497,6 @@ class yc_state_openconfig_messages__messages_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__severity','__message',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/messages'
 
   _pybind_generated_by = 'container'
 
@@ -644,7 +641,6 @@ class yc_config_openconfig_messages__messages_debug_entries_debug_service_config
   __slots__ = ('_path_helper', '_extmethods', '__service','__enabled',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/messages'
 
   _pybind_generated_by = 'container'
 
@@ -779,7 +775,6 @@ class yc_state_openconfig_messages__messages_debug_entries_debug_service_state(P
   __slots__ = ('_path_helper', '_extmethods', '__service','__enabled',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/messages'
 
   _pybind_generated_by = 'container'
 
@@ -914,7 +909,6 @@ class yc_debug_service_openconfig_messages__messages_debug_entries_debug_service
   __slots__ = ('_path_helper', '_extmethods', '__service','__config','__state',)
 
   _yang_name = 'debug-service'
-  _yang_namespace = 'http://openconfig.net/yang/messages'
 
   _pybind_generated_by = 'container'
 
@@ -1089,7 +1083,6 @@ class yc_debug_entries_openconfig_messages__messages_debug_entries(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__debug_service',)
 
   _yang_name = 'debug-entries'
-  _yang_namespace = 'http://openconfig.net/yang/messages'
 
   _pybind_generated_by = 'container'
 
@@ -1181,7 +1174,6 @@ class yc_messages_openconfig_messages__messages(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__debug_entries',)
 
   _yang_name = 'messages'
-  _yang_namespace = 'http://openconfig.net/yang/messages'
 
   _pybind_generated_by = 'container'
 
@@ -1362,7 +1354,6 @@ Operator with an alternative method of consuming messages.
   __slots__ = ('_path_helper', '_extmethods', '__messages',)
 
   _yang_name = 'openconfig-messages'
-  _yang_namespace = 'http://openconfig.net/yang/messages'
 
   _pybind_generated_by = 'container'
 
@@ -1588,7 +1579,6 @@ class yc_config_openconfig_system__system_config(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__hostname','__domain_name','__login_banner','__motd_banner',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -1809,7 +1799,6 @@ class yc_state_openconfig_system__system_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__hostname','__domain_name','__login_banner','__motd_banner','__current_datetime','__boot_time',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -2112,7 +2101,6 @@ class yc_state_openconfig_system__system_mount_points_mount_point_state(PybindBa
   __slots__ = ('_path_helper', '_extmethods', '__name','__storage_component','__size','__available','__utilized',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -2374,7 +2362,6 @@ class yc_mount_point_openconfig_system__system_mount_points_mount_point(PybindBa
   __slots__ = ('_path_helper', '_extmethods', '__name','__state',)
 
   _yang_name = 'mount-point'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -2514,7 +2501,6 @@ filesystem (/) they should also be included in this list.
   __slots__ = ('_path_helper', '_extmethods', '__mount_point',)
 
   _yang_name = 'mount-points'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -2606,7 +2592,6 @@ class yc_config_openconfig_system__system_clock_config(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__timezone_name',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -2700,7 +2685,6 @@ class yc_state_openconfig_system__system_clock_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__timezone_name',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -2794,7 +2778,6 @@ class yc_clock_openconfig_system__system_clock(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'clock'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -2925,7 +2908,6 @@ class yc_config_openconfig_system__system_dns_config(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__search',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -3019,7 +3001,6 @@ class yc_state_openconfig_system__system_dns_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__search',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -3113,7 +3094,6 @@ class yc_config_openconfig_system__system_dns_servers_server_config(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__address','__port',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -3246,7 +3226,6 @@ class yc_state_openconfig_system__system_dns_servers_server_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__address','__port',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -3392,7 +3371,6 @@ list.
   __slots__ = ('_path_helper', '_extmethods', '__address','__config','__state',)
 
   _yang_name = 'server'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -3567,7 +3545,6 @@ class yc_servers_openconfig_system__system_dns_servers(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__server',)
 
   _yang_name = 'servers'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -3685,7 +3662,6 @@ class yc_config_openconfig_system__system_dns_host_entries_host_entry_config(Pyb
   __slots__ = ('_path_helper', '_extmethods', '__hostname','__alias','__ipv4_address','__ipv6_address',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -3894,7 +3870,6 @@ class yc_state_openconfig_system__system_dns_host_entries_host_entry_state(Pybin
   __slots__ = ('_path_helper', '_extmethods', '__hostname','__alias','__ipv4_address','__ipv6_address',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -4103,7 +4078,6 @@ class yc_host_entry_openconfig_system__system_dns_host_entries_host_entry(Pybind
   __slots__ = ('_path_helper', '_extmethods', '__hostname','__config','__state',)
 
   _yang_name = 'host-entry'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -4278,7 +4252,6 @@ class yc_host_entries_openconfig_system__system_dns_host_entries(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__host_entry',)
 
   _yang_name = 'host-entries'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -4370,7 +4343,6 @@ class yc_dns_openconfig_system__system_dns(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__servers','__host_entries',)
 
   _yang_name = 'dns'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -4579,7 +4551,6 @@ class yc_config_openconfig_system__system_ntp_config(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__enabled','__ntp_source_address','__enable_ntp_auth',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -4757,7 +4728,6 @@ class yc_state_openconfig_system__system_ntp_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__enabled','__ntp_source_address','__enable_ntp_auth','__auth_mismatch',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -4976,7 +4946,6 @@ class yc_config_openconfig_system__system_ntp_ntp_keys_ntp_key_config(PybindBase
   __slots__ = ('_path_helper', '_extmethods', '__key_id','__key_type','__key_value',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -5150,7 +5119,6 @@ class yc_state_openconfig_system__system_ntp_ntp_keys_ntp_key_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__key_id','__key_type','__key_value',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -5324,7 +5292,6 @@ class yc_ntp_key_openconfig_system__system_ntp_ntp_keys_ntp_key(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__key_id','__config','__state',)
 
   _yang_name = 'ntp-key'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -5499,7 +5466,6 @@ class yc_ntp_keys_openconfig_system__system_ntp_ntp_keys(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__ntp_key',)
 
   _yang_name = 'ntp-keys'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -5591,7 +5557,6 @@ class yc_config_openconfig_system__system_ntp_servers_server_config(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__address','__port','__version','__association_type','__iburst','__prefer',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -5882,7 +5847,6 @@ class yc_state_openconfig_system__system_ntp_servers_server_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__address','__port','__version','__association_type','__iburst','__prefer','__stratum','__root_delay','__root_dispersion','__offset','__poll_interval',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -6395,7 +6359,6 @@ contact and utilize the specified NTP servers.
   __slots__ = ('_path_helper', '_extmethods', '__address','__config','__state',)
 
   _yang_name = 'server'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -6572,7 +6535,6 @@ class yc_servers_openconfig_system__system_ntp_servers(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__server',)
 
   _yang_name = 'servers'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -6670,7 +6632,6 @@ class yc_ntp_openconfig_system__system_ntp(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__ntp_keys','__servers',)
 
   _yang_name = 'ntp'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -6879,7 +6840,6 @@ class yc_config_openconfig_system__system_ssh_server_config(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__enable','__protocol_version','__timeout','__rate_limit','__session_limit',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -7137,7 +7097,6 @@ class yc_state_openconfig_system__system_ssh_server_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__enable','__protocol_version','__timeout','__rate_limit','__session_limit',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -7395,7 +7354,6 @@ class yc_ssh_server_openconfig_system__system_ssh_server(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'ssh-server'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -7526,7 +7484,6 @@ class yc_config_openconfig_system__system_telnet_server_config(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__enable','__timeout','__rate_limit','__session_limit',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -7745,7 +7702,6 @@ class yc_state_openconfig_system__system_telnet_server_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__enable','__timeout','__rate_limit','__session_limit',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -7964,7 +7920,6 @@ class yc_telnet_server_openconfig_system__system_telnet_server(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'telnet-server'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -8095,7 +8050,6 @@ class yc_config_openconfig_system__system_logging_console_selectors_selector_con
   __slots__ = ('_path_helper', '_extmethods', '__facility','__severity',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -8228,7 +8182,6 @@ class yc_state_openconfig_system__system_logging_console_selectors_selector_stat
   __slots__ = ('_path_helper', '_extmethods', '__facility','__severity',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -8361,7 +8314,6 @@ class yc_selector_openconfig_system__system_logging_console_selectors_selector(P
   __slots__ = ('_path_helper', '_extmethods', '__facility','__severity','__config','__state',)
 
   _yang_name = 'selector'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -8580,7 +8532,6 @@ class yc_selectors_openconfig_system__system_logging_console_selectors(PybindBas
   __slots__ = ('_path_helper', '_extmethods', '__selector',)
 
   _yang_name = 'selectors'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -8673,7 +8624,6 @@ logging
   __slots__ = ('_path_helper', '_extmethods', '__selectors',)
 
   _yang_name = 'console'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -8765,7 +8715,6 @@ class yc_config_openconfig_system__system_logging_remote_servers_remote_server_c
   __slots__ = ('_path_helper', '_extmethods', '__host','__source_address','__remote_port',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -8937,7 +8886,6 @@ class yc_state_openconfig_system__system_logging_remote_servers_remote_server_st
   __slots__ = ('_path_helper', '_extmethods', '__host','__source_address','__remote_port',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -9109,7 +9057,6 @@ class yc_config_openconfig_system__system_logging_remote_servers_remote_server_s
   __slots__ = ('_path_helper', '_extmethods', '__facility','__severity',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -9242,7 +9189,6 @@ class yc_state_openconfig_system__system_logging_remote_servers_remote_server_se
   __slots__ = ('_path_helper', '_extmethods', '__facility','__severity',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -9375,7 +9321,6 @@ class yc_selector_openconfig_system__system_logging_remote_servers_remote_server
   __slots__ = ('_path_helper', '_extmethods', '__facility','__severity','__config','__state',)
 
   _yang_name = 'selector'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -9594,7 +9539,6 @@ class yc_selectors_openconfig_system__system_logging_remote_servers_remote_serve
   __slots__ = ('_path_helper', '_extmethods', '__selector',)
 
   _yang_name = 'selectors'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -9686,7 +9630,6 @@ class yc_remote_server_openconfig_system__system_logging_remote_servers_remote_s
   __slots__ = ('_path_helper', '_extmethods', '__host','__config','__state','__selectors',)
 
   _yang_name = 'remote-server'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -9900,7 +9843,6 @@ class yc_remote_servers_openconfig_system__system_logging_remote_servers(PybindB
   __slots__ = ('_path_helper', '_extmethods', '__remote_server',)
 
   _yang_name = 'remote-servers'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -9992,7 +9934,6 @@ class yc_logging_openconfig_system__system_logging(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__console','__remote_servers',)
 
   _yang_name = 'logging'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -10125,7 +10066,6 @@ class yc_config_openconfig_system__system_aaa_authentication_config(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__authentication_method',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -10228,7 +10168,6 @@ services
   __slots__ = ('_path_helper', '_extmethods', '__authentication_method',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -10330,7 +10269,6 @@ class yc_config_openconfig_system__system_aaa_authentication_admin_user_config(P
   __slots__ = ('_path_helper', '_extmethods', '__admin_password','__admin_password_hashed',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -10469,7 +10407,6 @@ class yc_state_openconfig_system__system_aaa_authentication_admin_user_state(Pyb
   __slots__ = ('_path_helper', '_extmethods', '__admin_password','__admin_password_hashed','__admin_username',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -10650,7 +10587,6 @@ configuration and operational state
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'admin-user'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -10781,7 +10717,6 @@ class yc_config_openconfig_system__system_aaa_authentication_users_user_config(P
   __slots__ = ('_path_helper', '_extmethods', '__username','__password','__password_hashed','__ssh_key','__role',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -11039,7 +10974,6 @@ class yc_state_openconfig_system__system_aaa_authentication_users_user_state(Pyb
   __slots__ = ('_path_helper', '_extmethods', '__username','__password','__password_hashed','__ssh_key','__role',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -11297,7 +11231,6 @@ class yc_user_openconfig_system__system_aaa_authentication_users_user(PybindBase
   __slots__ = ('_path_helper', '_extmethods', '__username','__config','__state',)
 
   _yang_name = 'user'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -11472,7 +11405,6 @@ class yc_users_openconfig_system__system_aaa_authentication_users(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__user',)
 
   _yang_name = 'users'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -11564,7 +11496,6 @@ class yc_authentication_openconfig_system__system_aaa_authentication(PybindBase)
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__admin_user','__users',)
 
   _yang_name = 'authentication'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -11778,7 +11709,6 @@ methods
   __slots__ = ('_path_helper', '_extmethods', '__authorization_method',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -11880,7 +11810,6 @@ class yc_state_openconfig_system__system_aaa_authorization_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__authorization_method',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -11982,7 +11911,6 @@ class yc_config_openconfig_system__system_aaa_authorization_events_event_config(
   __slots__ = ('_path_helper', '_extmethods', '__event_type',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -12076,7 +12004,6 @@ class yc_state_openconfig_system__system_aaa_authorization_events_event_state(Py
   __slots__ = ('_path_helper', '_extmethods', '__event_type',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -12170,7 +12097,6 @@ class yc_event_openconfig_system__system_aaa_authorization_events_event(PybindBa
   __slots__ = ('_path_helper', '_extmethods', '__event_type','__config','__state',)
 
   _yang_name = 'event'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -12346,7 +12272,6 @@ to authorization
   __slots__ = ('_path_helper', '_extmethods', '__event',)
 
   _yang_name = 'events'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -12439,7 +12364,6 @@ and operational state data
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__events',)
 
   _yang_name = 'authorization'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -12613,7 +12537,6 @@ class yc_config_openconfig_system__system_aaa_accounting_config(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__accounting_method',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -12713,7 +12636,6 @@ class yc_state_openconfig_system__system_aaa_accounting_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__accounting_method',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -12813,7 +12735,6 @@ class yc_config_openconfig_system__system_aaa_accounting_events_event_config(Pyb
   __slots__ = ('_path_helper', '_extmethods', '__event_type','__record',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -12948,7 +12869,6 @@ class yc_state_openconfig_system__system_aaa_accounting_events_event_state(Pybin
   __slots__ = ('_path_helper', '_extmethods', '__event_type','__record',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -13083,7 +13003,6 @@ class yc_event_openconfig_system__system_aaa_accounting_events_event(PybindBase)
   __slots__ = ('_path_helper', '_extmethods', '__event_type','__config','__state',)
 
   _yang_name = 'event'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -13261,7 +13180,6 @@ for accounting
   __slots__ = ('_path_helper', '_extmethods', '__event',)
 
   _yang_name = 'events'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -13353,7 +13271,6 @@ class yc_accounting_openconfig_system__system_aaa_accounting(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__events',)
 
   _yang_name = 'accounting'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -13525,7 +13442,6 @@ class yc_config_openconfig_system__system_aaa_server_groups_server_group_config(
   __slots__ = ('_path_helper', '_extmethods', '__name','__type',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -13658,7 +13574,6 @@ class yc_state_openconfig_system__system_aaa_server_groups_server_group_state(Py
   __slots__ = ('_path_helper', '_extmethods', '__name','__type',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -13791,7 +13706,6 @@ class yc_config_openconfig_system__system_aaa_server_groups_server_group_servers
   __slots__ = ('_path_helper', '_extmethods', '__name','__address','__timeout',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -13963,7 +13877,6 @@ class yc_state_openconfig_system__system_aaa_server_groups_server_group_servers_
   __slots__ = ('_path_helper', '_extmethods', '__name','__address','__timeout','__connection_opens','__connection_closes','__connection_aborts','__connection_failures','__connection_timeouts','__messages_sent','__messages_received','__errors_received',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -14453,7 +14366,6 @@ class yc_config_openconfig_system__system_aaa_server_groups_server_group_servers
   __slots__ = ('_path_helper', '_extmethods', '__port','__secret_key','__secret_key_hashed','__source_address',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -14666,7 +14578,6 @@ class yc_state_openconfig_system__system_aaa_server_groups_server_group_servers_
   __slots__ = ('_path_helper', '_extmethods', '__port','__secret_key','__secret_key_hashed','__source_address',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -14879,7 +14790,6 @@ class yc_tacacs_openconfig_system__system_aaa_server_groups_server_group_servers
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'tacacs'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -15010,7 +14920,6 @@ class yc_config_openconfig_system__system_aaa_server_groups_server_group_servers
   __slots__ = ('_path_helper', '_extmethods', '__auth_port','__acct_port','__secret_key','__secret_key_hashed','__source_address','__retransmit_attempts',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -15303,7 +15212,6 @@ class yc_counters_openconfig_system__system_aaa_server_groups_server_group_serve
   __slots__ = ('_path_helper', '_extmethods', '__retried_access_requests','__access_accepts','__access_rejects','__timeout_access_requests',)
 
   _yang_name = 'counters'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -15514,7 +15422,6 @@ class yc_state_openconfig_system__system_aaa_server_groups_server_group_servers_
   __slots__ = ('_path_helper', '_extmethods', '__auth_port','__acct_port','__secret_key','__secret_key_hashed','__source_address','__retransmit_attempts','__counters',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -15846,7 +15753,6 @@ class yc_radius_openconfig_system__system_aaa_server_groups_server_group_servers
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'radius'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -15977,7 +15883,6 @@ class yc_server_openconfig_system__system_aaa_server_groups_server_group_servers
   __slots__ = ('_path_helper', '_extmethods', '__address','__config','__state','__tacacs','__radius',)
 
   _yang_name = 'server'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -16230,7 +16135,6 @@ class yc_servers_openconfig_system__system_aaa_server_groups_server_group_server
   __slots__ = ('_path_helper', '_extmethods', '__server',)
 
   _yang_name = 'servers'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -16324,7 +16228,6 @@ type.
   __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state','__servers',)
 
   _yang_name = 'server-group'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -16538,7 +16441,6 @@ class yc_server_groups_openconfig_system__system_aaa_server_groups(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__server_group',)
 
   _yang_name = 'server-groups'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -16634,7 +16536,6 @@ class yc_aaa_openconfig_system__system_aaa(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__authentication','__authorization','__accounting','__server_groups',)
 
   _yang_name = 'aaa'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -16845,7 +16746,6 @@ class yc_counters_openconfig_system__system_memory_state_counters(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__correctable_ecc_errors','__uncorrectable_ecc_errors','__total_ecc_errors',)
 
   _yang_name = 'counters'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -17023,7 +16923,6 @@ class yc_state_openconfig_system__system_memory_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__counters','__physical','__reserved','__used','__free',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -17273,7 +17172,6 @@ class yc_memory_openconfig_system__system_memory(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__state',)
 
   _yang_name = 'memory'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -17365,7 +17263,6 @@ class yc_total_openconfig_system__system_cpus_cpu_state_total(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'total'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -17709,7 +17606,6 @@ class yc_user_openconfig_system__system_cpus_cpu_state_user(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'user'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -18053,7 +17949,6 @@ class yc_kernel_openconfig_system__system_cpus_cpu_state_kernel(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'kernel'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -18398,7 +18293,6 @@ user processes.
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'nice'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -18742,7 +18636,6 @@ class yc_idle_openconfig_system__system_cpus_cpu_state_idle(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'idle'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -19086,7 +18979,6 @@ class yc_wait_openconfig_system__system_cpus_cpu_state_wait(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'wait'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -19430,7 +19322,6 @@ class yc_hardware_interrupt_openconfig_system__system_cpus_cpu_state_hardware_in
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'hardware-interrupt'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -19774,7 +19665,6 @@ class yc_software_interrupt_openconfig_system__system_cpus_cpu_state_software_in
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'software-interrupt'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -20118,7 +20008,6 @@ class yc_state_openconfig_system__system_cpus_cpu_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__index','__total','__user','__kernel','__nice','__idle','__wait','__hardware_interrupt','__software_interrupt',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -20533,7 +20422,6 @@ aggregation across all CPUs.
   __slots__ = ('_path_helper', '_extmethods', '__index','__state',)
 
   _yang_name = 'cpu'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -20670,7 +20558,6 @@ system
   __slots__ = ('_path_helper', '_extmethods', '__cpu',)
 
   _yang_name = 'cpus'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -20768,7 +20655,6 @@ class yc_state_openconfig_system__system_processes_process_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__pid','__name','__args','__start_time','__cpu_usage_user','__cpu_usage_system','__cpu_utilization','__memory_usage','__memory_utilization',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -21190,7 +21076,6 @@ class yc_process_openconfig_system__system_processes_process(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__pid','__state',)
 
   _yang_name = 'process'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -21326,7 +21211,6 @@ class yc_processes_openconfig_system__system_processes(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__process',)
 
   _yang_name = 'processes'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -21418,7 +21302,6 @@ class yc_state_openconfig_system__system_alarms_alarm_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__id','__resource','__text','__time_created','__severity','__type_id',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -21743,7 +21626,6 @@ class yc_alarm_openconfig_system__system_alarms_alarm(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__id','__state',)
 
   _yang_name = 'alarm'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -21879,7 +21761,6 @@ class yc_alarms_openconfig_system__system_alarms(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__alarm',)
 
   _yang_name = 'alarms'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -21971,7 +21852,6 @@ class yc_config_openconfig_system__system_messages_config(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__severity',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -22075,7 +21955,6 @@ syslog-severity.
   __slots__ = ('_path_helper', '_extmethods', '__msg','__priority','__app_name','__procid','__msgid',)
 
   _yang_name = 'message'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -22343,7 +22222,6 @@ class yc_state_openconfig_system__system_messages_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__severity','__message',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -22488,7 +22366,6 @@ class yc_config_openconfig_system__system_messages_debug_entries_debug_service_c
   __slots__ = ('_path_helper', '_extmethods', '__service','__enabled',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -22623,7 +22500,6 @@ class yc_state_openconfig_system__system_messages_debug_entries_debug_service_st
   __slots__ = ('_path_helper', '_extmethods', '__service','__enabled',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -22758,7 +22634,6 @@ class yc_debug_service_openconfig_system__system_messages_debug_entries_debug_se
   __slots__ = ('_path_helper', '_extmethods', '__service','__config','__state',)
 
   _yang_name = 'debug-service'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -22933,7 +22808,6 @@ class yc_debug_entries_openconfig_system__system_messages_debug_entries(PybindBa
   __slots__ = ('_path_helper', '_extmethods', '__debug_service',)
 
   _yang_name = 'debug-entries'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -23025,7 +22899,6 @@ class yc_messages_openconfig_system__system_messages(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__debug_entries',)
 
   _yang_name = 'messages'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -23195,7 +23068,6 @@ class yc_config_openconfig_system__system_license_licenses_license_config(Pybind
   __slots__ = ('_path_helper', '_extmethods', '__license_id','__license_data','__active',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -23371,7 +23243,6 @@ class yc_state_openconfig_system__system_license_licenses_license_state(PybindBa
   __slots__ = ('_path_helper', '_extmethods', '__license_id','__license_data','__active','__description','__issue_date','__expiration_date','__in_use','__expired','__valid',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -23795,7 +23666,6 @@ class yc_license_openconfig_system__system_license_licenses_license(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__license_id','__config','__state',)
 
   _yang_name = 'license'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -23970,7 +23840,6 @@ class yc_licenses_openconfig_system__system_license_licenses(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__license',)
 
   _yang_name = 'licenses'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -24062,7 +23931,6 @@ class yc_license_openconfig_system__system_license(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__licenses',)
 
   _yang_name = 'license'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -24154,7 +24022,6 @@ class yc_config_openconfig_system__system_grpc_servers_grpc_server_config(Pybind
   __slots__ = ('_path_helper', '_extmethods', '__name','__services','__enable','__port','__transport_security','__certificate_id','__metadata_authentication','__listen_addresses','__network_instance',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -24163,7 +24030,7 @@ class yc_config_openconfig_system__system_grpc_servers_grpc_server_config(Pybind
     self._path_helper = False
 
     self._extmethods = False
-    self.__name = YANGDynClass(base=six.text_type, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system-grpc', defining_module='openconfig-system-grpc', yang_type='string', is_config=True)
+    self.__name = YANGDynClass(base=six.text_type, default=six.text_type("DEFAULT"), is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system-grpc', defining_module='openconfig-system-grpc', yang_type='string', is_config=True)
     self.__services = YANGDynClass(unique=True, base=TypedListType(allowed_type=RestrictedClassType(base_type=six.text_type, restriction_type="dict_key", restriction_arg={'GNMI': {'@module': 'openconfig-system-grpc', '@namespace': 'http://openconfig.net/yang/system-grpc'}, 'oc-sys-grpc:GNMI': {'@module': 'openconfig-system-grpc', '@namespace': 'http://openconfig.net/yang/system-grpc'}},)), is_leaf=False, yang_name="services", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system-grpc', defining_module='openconfig-system-grpc', yang_type='identityref', is_config=True)
     self.__enable = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system-grpc', defining_module='openconfig-system-grpc', yang_type='boolean', is_config=True)
     self.__port = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="port", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system-grpc', defining_module='openconfig-system-grpc', yang_type='oc-inet:port-number', is_config=True)
@@ -24206,6 +24073,12 @@ class yc_config_openconfig_system__system_grpc_servers_grpc_server_config(Pybind
 
     YANG Description: The name of the gRPC server instance that is running on
 the local system.
+
+If the operator does not designate a name for the protocol
+instance (e.g. config), the implementation should use the
+name of 'DEFAULT' (e.g. state).  In addition, for
+implementations that support a single gRPC server instance,
+the default value is recommended for consistency.
     """
     return self.__name
       
@@ -24219,16 +24092,22 @@ the local system.
 
     YANG Description: The name of the gRPC server instance that is running on
 the local system.
+
+If the operator does not designate a name for the protocol
+instance (e.g. config), the implementation should use the
+name of 'DEFAULT' (e.g. state).  In addition, for
+implementations that support a single gRPC server instance,
+the default value is recommended for consistency.
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=six.text_type, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system-grpc', defining_module='openconfig-system-grpc', yang_type='string', is_config=True)
+      t = YANGDynClass(v,base=six.text_type, default=six.text_type("DEFAULT"), is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system-grpc', defining_module='openconfig-system-grpc', yang_type='string', is_config=True)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """name must be of a type compatible with string""",
           'defined-type': "string",
-          'generated-type': """YANGDynClass(base=six.text_type, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system-grpc', defining_module='openconfig-system-grpc', yang_type='string', is_config=True)""",
+          'generated-type': """YANGDynClass(base=six.text_type, default=six.text_type("DEFAULT"), is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system-grpc', defining_module='openconfig-system-grpc', yang_type='string', is_config=True)""",
         })
 
     self.__name = t
@@ -24236,7 +24115,7 @@ the local system.
       self._set()
 
   def _unset_name(self):
-    self.__name = YANGDynClass(base=six.text_type, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system-grpc', defining_module='openconfig-system-grpc', yang_type='string', is_config=True)
+    self.__name = YANGDynClass(base=six.text_type, default=six.text_type("DEFAULT"), is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system-grpc', defining_module='openconfig-system-grpc', yang_type='string', is_config=True)
 
 
   def _get_services(self):
@@ -24598,7 +24477,6 @@ class yc_state_openconfig_system__system_grpc_servers_grpc_server_state(PybindBa
   __slots__ = ('_path_helper', '_extmethods', '__name','__services','__enable','__port','__transport_security','__certificate_id','__metadata_authentication','__listen_addresses','__network_instance',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -24607,7 +24485,7 @@ class yc_state_openconfig_system__system_grpc_servers_grpc_server_state(PybindBa
     self._path_helper = False
 
     self._extmethods = False
-    self.__name = YANGDynClass(base=six.text_type, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system-grpc', defining_module='openconfig-system-grpc', yang_type='string', is_config=False)
+    self.__name = YANGDynClass(base=six.text_type, default=six.text_type("DEFAULT"), is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system-grpc', defining_module='openconfig-system-grpc', yang_type='string', is_config=False)
     self.__services = YANGDynClass(unique=True, base=TypedListType(allowed_type=RestrictedClassType(base_type=six.text_type, restriction_type="dict_key", restriction_arg={'GNMI': {'@module': 'openconfig-system-grpc', '@namespace': 'http://openconfig.net/yang/system-grpc'}, 'oc-sys-grpc:GNMI': {'@module': 'openconfig-system-grpc', '@namespace': 'http://openconfig.net/yang/system-grpc'}},)), is_leaf=False, yang_name="services", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system-grpc', defining_module='openconfig-system-grpc', yang_type='identityref', is_config=False)
     self.__enable = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system-grpc', defining_module='openconfig-system-grpc', yang_type='boolean', is_config=False)
     self.__port = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="port", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system-grpc', defining_module='openconfig-system-grpc', yang_type='oc-inet:port-number', is_config=False)
@@ -24650,6 +24528,12 @@ class yc_state_openconfig_system__system_grpc_servers_grpc_server_state(PybindBa
 
     YANG Description: The name of the gRPC server instance that is running on
 the local system.
+
+If the operator does not designate a name for the protocol
+instance (e.g. config), the implementation should use the
+name of 'DEFAULT' (e.g. state).  In addition, for
+implementations that support a single gRPC server instance,
+the default value is recommended for consistency.
     """
     return self.__name
       
@@ -24663,16 +24547,22 @@ the local system.
 
     YANG Description: The name of the gRPC server instance that is running on
 the local system.
+
+If the operator does not designate a name for the protocol
+instance (e.g. config), the implementation should use the
+name of 'DEFAULT' (e.g. state).  In addition, for
+implementations that support a single gRPC server instance,
+the default value is recommended for consistency.
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=six.text_type, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system-grpc', defining_module='openconfig-system-grpc', yang_type='string', is_config=False)
+      t = YANGDynClass(v,base=six.text_type, default=six.text_type("DEFAULT"), is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system-grpc', defining_module='openconfig-system-grpc', yang_type='string', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """name must be of a type compatible with string""",
           'defined-type': "string",
-          'generated-type': """YANGDynClass(base=six.text_type, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system-grpc', defining_module='openconfig-system-grpc', yang_type='string', is_config=False)""",
+          'generated-type': """YANGDynClass(base=six.text_type, default=six.text_type("DEFAULT"), is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system-grpc', defining_module='openconfig-system-grpc', yang_type='string', is_config=False)""",
         })
 
     self.__name = t
@@ -24680,7 +24570,7 @@ the local system.
       self._set()
 
   def _unset_name(self):
-    self.__name = YANGDynClass(base=six.text_type, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system-grpc', defining_module='openconfig-system-grpc', yang_type='string', is_config=False)
+    self.__name = YANGDynClass(base=six.text_type, default=six.text_type("DEFAULT"), is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system-grpc', defining_module='openconfig-system-grpc', yang_type='string', is_config=False)
 
 
   def _get_services(self):
@@ -25047,7 +24937,6 @@ identity to list the supported service types.
   __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state',)
 
   _yang_name = 'grpc-server'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -25222,7 +25111,6 @@ class yc_grpc_servers_openconfig_system__system_grpc_servers(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__grpc_server',)
 
   _yang_name = 'grpc-servers'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -25325,7 +25213,6 @@ operational state data
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__mount_points','__clock','__dns','__ntp','__ssh_server','__telnet_server','__logging','__aaa','__memory','__cpus','__processes','__alarms','__messages','__license','__grpc_servers',)
 
   _yang_name = 'system'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 
@@ -26066,7 +25953,6 @@ to IETF Documents (http://trustee.ietf.org/license-info).
   __slots__ = ('_path_helper', '_extmethods', '__system',)
 
   _yang_name = 'openconfig-system'
-  _yang_namespace = 'http://openconfig.net/yang/system'
 
   _pybind_generated_by = 'container'
 

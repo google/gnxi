@@ -32,7 +32,6 @@ class yc_config_openconfig_probes__probes_probe_config(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__name','__enabled',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/probes'
 
   _pybind_generated_by = 'container'
 
@@ -163,7 +162,6 @@ class yc_state_openconfig_probes__probes_probe_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__name','__enabled',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/probes'
 
   _pybind_generated_by = 'container'
 
@@ -294,7 +292,6 @@ class yc_config_openconfig_probes__probes_probe_tests_test_config(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__name','__enabled','__test_type','__count','__interval','__source','__history_size','__source_port','__dscp',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/probes'
 
   _pybind_generated_by = 'container'
 
@@ -698,7 +695,6 @@ class yc_state_openconfig_probes__probes_probe_tests_test_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__name','__enabled','__test_type','__count','__interval','__source','__history_size','__source_port','__dscp',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/probes'
 
   _pybind_generated_by = 'container'
 
@@ -1102,7 +1098,6 @@ class yc_config_openconfig_probes__probes_probe_tests_test_target_config(PybindB
   __slots__ = ('_path_helper', '_extmethods', '__address','__port','__url',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/probes'
 
   _pybind_generated_by = 'container'
 
@@ -1272,7 +1267,6 @@ class yc_state_openconfig_probes__probes_probe_tests_test_target_state(PybindBas
   __slots__ = ('_path_helper', '_extmethods', '__address','__port','__url',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/probes'
 
   _pybind_generated_by = 'container'
 
@@ -1445,7 +1439,6 @@ while ICMP probes require an IP address to monitor.
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'target'
-  _yang_namespace = 'http://openconfig.net/yang/probes'
 
   _pybind_generated_by = 'container'
 
@@ -1576,7 +1569,6 @@ class yc_state_openconfig_probes__probes_probe_tests_test_results_state(PybindBa
   __slots__ = ('_path_helper', '_extmethods', '__timestamp','__start_timestamp','__last_test_timestamp','__test_duration','__failed','__probes_sent','__probes_received','__loss_percentage','__jitter','__min_delay','__max_delay','__avg_delay','__stddev_delay',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/probes'
 
   _pybind_generated_by = 'container'
 
@@ -2144,7 +2136,6 @@ class yc_state_openconfig_probes__probes_probe_tests_test_results_history_items_
   __slots__ = ('_path_helper', '_extmethods', '__id','__timestamp','__start_timestamp','__end_timestamp','__test_duration','__failed','__probes_sent','__probes_received','__loss_percentage','__jitter','__min_delay','__max_delay','__avg_delay','__stddev_delay',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/probes'
 
   _pybind_generated_by = 'container'
 
@@ -2751,7 +2742,6 @@ class yc_item_openconfig_probes__probes_probe_tests_test_results_history_items_i
   __slots__ = ('_path_helper', '_extmethods', '__id','__state',)
 
   _yang_name = 'item'
-  _yang_namespace = 'http://openconfig.net/yang/probes'
 
   _pybind_generated_by = 'container'
 
@@ -2888,7 +2878,6 @@ The length depends on the history size.
   __slots__ = ('_path_helper', '_extmethods', '__item',)
 
   _yang_name = 'items'
-  _yang_namespace = 'http://openconfig.net/yang/probes'
 
   _pybind_generated_by = 'container'
 
@@ -2980,7 +2969,6 @@ class yc_history_openconfig_probes__probes_probe_tests_test_results_history(Pybi
   __slots__ = ('_path_helper', '_extmethods', '__items',)
 
   _yang_name = 'history'
-  _yang_namespace = 'http://openconfig.net/yang/probes'
 
   _pybind_generated_by = 'container'
 
@@ -3074,7 +3062,6 @@ class yc_results_openconfig_probes__probes_probe_tests_test_results(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__state','__history',)
 
   _yang_name = 'results'
-  _yang_namespace = 'http://openconfig.net/yang/probes'
 
   _pybind_generated_by = 'container'
 
@@ -3205,7 +3192,6 @@ class yc_test_openconfig_probes__probes_probe_tests_test(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state','__target','__results',)
 
   _yang_name = 'test'
-  _yang_namespace = 'http://openconfig.net/yang/probes'
 
   _pybind_generated_by = 'container'
 
@@ -3464,7 +3450,6 @@ class yc_tests_openconfig_probes__probes_probe_tests(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__test',)
 
   _yang_name = 'tests'
-  _yang_namespace = 'http://openconfig.net/yang/probes'
 
   _pybind_generated_by = 'container'
 
@@ -3556,7 +3541,6 @@ class yc_probe_openconfig_probes__probes_probe(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state','__tests',)
 
   _yang_name = 'probe'
-  _yang_namespace = 'http://openconfig.net/yang/probes'
 
   _pybind_generated_by = 'container'
 
@@ -3770,7 +3754,6 @@ class yc_probes_openconfig_probes__probes(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__probe',)
 
   _yang_name = 'probes'
-  _yang_namespace = 'http://openconfig.net/yang/probes'
 
   _pybind_generated_by = 'container'
 
@@ -3872,7 +3855,6 @@ items, whose length can be controlled using the history-size.
   __slots__ = ('_path_helper', '_extmethods', '__probes',)
 
   _yang_name = 'openconfig-probes'
-  _yang_namespace = 'http://openconfig.net/yang/probes'
 
   _pybind_generated_by = 'container'
 

@@ -47,7 +47,6 @@ class yc_counters_openconfig_ate_flow__flows_flow_state_counters(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__in_octets','__in_pkts','__out_octets','__out_pkts',)
 
   _yang_name = 'counters'
-  _yang_namespace = 'http://openconfig.net/yang/ate-flow'
 
   _pybind_generated_by = 'container'
 
@@ -257,10 +256,9 @@ class yc_state_openconfig_ate_flow__flows_flow_state(PybindBase):
 
   YANG Description: Operational state of the individual flow.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__name','__src_port','__dst_port','__mpls_label','__src_ipv4','__dst_ipv4','__src_ipv6','__dst_ipv6','__filter','__loss_pct','__out_frame_rate','__in_frame_rate','__out_rate','__in_rate','__counters',)
+  __slots__ = ('_path_helper', '_extmethods', '__name','__src_port','__dst_port','__mpls_label','__src_ipv4','__dst_ipv4','__src_ipv6','__dst_ipv6','__vlan_id','__filter','__loss_pct','__out_frame_rate','__in_frame_rate','__out_rate','__in_rate','__first_packet_latency','__convergence_time','__counters',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/ate-flow'
 
   _pybind_generated_by = 'container'
 
@@ -277,12 +275,15 @@ class yc_state_openconfig_ate_flow__flows_flow_state(PybindBase):
     self.__dst_ipv4 = YANGDynClass(base=RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])){3}'}), is_leaf=True, yang_name="dst-ipv4", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-inet:ipv4-address', is_config=False)
     self.__src_ipv6 = YANGDynClass(base=RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:))'}), is_leaf=True, yang_name="src-ipv6", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-inet:ipv6-address', is_config=False)
     self.__dst_ipv6 = YANGDynClass(base=RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:))'}), is_leaf=True, yang_name="dst-ipv6", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-inet:ipv6-address', is_config=False)
+    self.__vlan_id = YANGDynClass(base=RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}), is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-vlan:vlan-id', is_config=False)
     self.__filter = YANGDynClass(base=six.text_type, is_leaf=True, yang_name="filter", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='string', is_config=False)
     self.__loss_pct = YANGDynClass(base=RestrictedClassType(base_type=bitarray, restriction_dict={'length': ['4']}), is_leaf=True, yang_name="loss-pct", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:ieeefloat32', is_config=False)
     self.__out_frame_rate = YANGDynClass(base=RestrictedClassType(base_type=bitarray, restriction_dict={'length': ['4']}), is_leaf=True, yang_name="out-frame-rate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:ieeefloat32', is_config=False)
     self.__in_frame_rate = YANGDynClass(base=RestrictedClassType(base_type=bitarray, restriction_dict={'length': ['4']}), is_leaf=True, yang_name="in-frame-rate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:ieeefloat32', is_config=False)
     self.__out_rate = YANGDynClass(base=RestrictedClassType(base_type=bitarray, restriction_dict={'length': ['4']}), is_leaf=True, yang_name="out-rate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:ieeefloat32', is_config=False)
     self.__in_rate = YANGDynClass(base=RestrictedClassType(base_type=bitarray, restriction_dict={'length': ['4']}), is_leaf=True, yang_name="in-rate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:ieeefloat32', is_config=False)
+    self.__first_packet_latency = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="first-packet-latency", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)
+    self.__convergence_time = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="convergence-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)
     self.__counters = YANGDynClass(base=yc_counters_openconfig_ate_flow__flows_flow_state_counters, is_container='container', yang_name="counters", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='container', is_config=False)
 
     load = kwargs.pop("load", None)
@@ -610,6 +611,43 @@ name must be unique for the flows tracked and exported by the target.
     self.__dst_ipv6 = YANGDynClass(base=RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:))'}), is_leaf=True, yang_name="dst-ipv6", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-inet:ipv6-address', is_config=False)
 
 
+  def _get_vlan_id(self):
+    """
+    Getter method for vlan_id, mapped from YANG variable /flows/flow/state/vlan_id (oc-vlan:vlan-id)
+
+    YANG Description: The VLAN ID of the traffic header.
+    """
+    return self.__vlan_id
+      
+  def _set_vlan_id(self, v, load=False):
+    """
+    Setter method for vlan_id, mapped from YANG variable /flows/flow/state/vlan_id (oc-vlan:vlan-id)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_vlan_id is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_vlan_id() directly.
+
+    YANG Description: The VLAN ID of the traffic header.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}), is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-vlan:vlan-id', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """vlan_id must be of a type compatible with oc-vlan:vlan-id""",
+          'defined-type': "oc-vlan:vlan-id",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}), is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-vlan:vlan-id', is_config=False)""",
+        })
+
+    self.__vlan_id = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_vlan_id(self):
+    self.__vlan_id = YANGDynClass(base=RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}), is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-vlan:vlan-id', is_config=False)
+
+
   def _get_filter(self):
     """
     Getter method for filter, mapped from YANG variable /flows/flow/state/filter (string)
@@ -842,6 +880,84 @@ received.
     self.__in_rate = YANGDynClass(base=RestrictedClassType(base_type=bitarray, restriction_dict={'length': ['4']}), is_leaf=True, yang_name="in-rate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:ieeefloat32', is_config=False)
 
 
+  def _get_first_packet_latency(self):
+    """
+    Getter method for first_packet_latency, mapped from YANG variable /flows/flow/state/first_packet_latency (oc-types:timeticks64)
+
+    YANG Description: The time from when the flow was started to when the first packet was
+received.
+    """
+    return self.__first_packet_latency
+      
+  def _set_first_packet_latency(self, v, load=False):
+    """
+    Setter method for first_packet_latency, mapped from YANG variable /flows/flow/state/first_packet_latency (oc-types:timeticks64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_first_packet_latency is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_first_packet_latency() directly.
+
+    YANG Description: The time from when the flow was started to when the first packet was
+received.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="first-packet-latency", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """first_packet_latency must be of a type compatible with oc-types:timeticks64""",
+          'defined-type': "oc-types:timeticks64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="first-packet-latency", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)""",
+        })
+
+    self.__first_packet_latency = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_first_packet_latency(self):
+    self.__first_packet_latency = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="first-packet-latency", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)
+
+
+  def _get_convergence_time(self):
+    """
+    Getter method for convergence_time, mapped from YANG variable /flows/flow/state/convergence_time (oc-types:timeticks64)
+
+    YANG Description: The time from when the first packet was received to when traffic
+loss dropped below a minimal threshold value.
+    """
+    return self.__convergence_time
+      
+  def _set_convergence_time(self, v, load=False):
+    """
+    Setter method for convergence_time, mapped from YANG variable /flows/flow/state/convergence_time (oc-types:timeticks64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_convergence_time is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_convergence_time() directly.
+
+    YANG Description: The time from when the first packet was received to when traffic
+loss dropped below a minimal threshold value.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="convergence-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """convergence_time must be of a type compatible with oc-types:timeticks64""",
+          'defined-type': "oc-types:timeticks64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="convergence-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)""",
+        })
+
+    self.__convergence_time = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_convergence_time(self):
+    self.__convergence_time = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="convergence-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)
+
+
   def _get_counters(self):
     """
     Getter method for counters, mapped from YANG variable /flows/flow/state/counters (container)
@@ -886,16 +1002,19 @@ received.
   dst_ipv4 = __builtin__.property(_get_dst_ipv4)
   src_ipv6 = __builtin__.property(_get_src_ipv6)
   dst_ipv6 = __builtin__.property(_get_dst_ipv6)
+  vlan_id = __builtin__.property(_get_vlan_id)
   filter = __builtin__.property(_get_filter)
   loss_pct = __builtin__.property(_get_loss_pct)
   out_frame_rate = __builtin__.property(_get_out_frame_rate)
   in_frame_rate = __builtin__.property(_get_in_frame_rate)
   out_rate = __builtin__.property(_get_out_rate)
   in_rate = __builtin__.property(_get_in_rate)
+  first_packet_latency = __builtin__.property(_get_first_packet_latency)
+  convergence_time = __builtin__.property(_get_convergence_time)
   counters = __builtin__.property(_get_counters)
 
 
-  _pyangbind_elements = OrderedDict([('name', name), ('src_port', src_port), ('dst_port', dst_port), ('mpls_label', mpls_label), ('src_ipv4', src_ipv4), ('dst_ipv4', dst_ipv4), ('src_ipv6', src_ipv6), ('dst_ipv6', dst_ipv6), ('filter', filter), ('loss_pct', loss_pct), ('out_frame_rate', out_frame_rate), ('in_frame_rate', in_frame_rate), ('out_rate', out_rate), ('in_rate', in_rate), ('counters', counters), ])
+  _pyangbind_elements = OrderedDict([('name', name), ('src_port', src_port), ('dst_port', dst_port), ('mpls_label', mpls_label), ('src_ipv4', src_ipv4), ('dst_ipv4', dst_ipv4), ('src_ipv6', src_ipv6), ('dst_ipv6', dst_ipv6), ('vlan_id', vlan_id), ('filter', filter), ('loss_pct', loss_pct), ('out_frame_rate', out_frame_rate), ('in_frame_rate', in_frame_rate), ('out_rate', out_rate), ('in_rate', in_rate), ('first_packet_latency', first_packet_latency), ('convergence_time', convergence_time), ('counters', counters), ])
 
 
 class yc_counters_openconfig_ate_flow__flows_flow_ingress_tracking_ingress_tracking_state_counters(PybindBase):
@@ -910,7 +1029,6 @@ class yc_counters_openconfig_ate_flow__flows_flow_ingress_tracking_ingress_track
   __slots__ = ('_path_helper', '_extmethods', '__in_octets','__in_pkts','__out_octets','__out_pkts',)
 
   _yang_name = 'counters'
-  _yang_namespace = 'http://openconfig.net/yang/ate-flow'
 
   _pybind_generated_by = 'container'
 
@@ -1120,10 +1238,9 @@ class yc_state_openconfig_ate_flow__flows_flow_ingress_tracking_ingress_tracking
 
   YANG Description: Operational state of the flow by ingress tracking filter.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__name','__src_port','__dst_port','__mpls_label','__src_ipv4','__dst_ipv4','__src_ipv6','__dst_ipv6','__filter','__loss_pct','__out_frame_rate','__in_frame_rate','__out_rate','__in_rate','__counters',)
+  __slots__ = ('_path_helper', '_extmethods', '__name','__src_port','__dst_port','__mpls_label','__src_ipv4','__dst_ipv4','__src_ipv6','__dst_ipv6','__vlan_id','__filter','__loss_pct','__out_frame_rate','__in_frame_rate','__out_rate','__in_rate','__first_packet_latency','__convergence_time','__counters',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/ate-flow'
 
   _pybind_generated_by = 'container'
 
@@ -1140,12 +1257,15 @@ class yc_state_openconfig_ate_flow__flows_flow_ingress_tracking_ingress_tracking
     self.__dst_ipv4 = YANGDynClass(base=RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])){3}'}), is_leaf=True, yang_name="dst-ipv4", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-inet:ipv4-address', is_config=False)
     self.__src_ipv6 = YANGDynClass(base=RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:))'}), is_leaf=True, yang_name="src-ipv6", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-inet:ipv6-address', is_config=False)
     self.__dst_ipv6 = YANGDynClass(base=RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:))'}), is_leaf=True, yang_name="dst-ipv6", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-inet:ipv6-address', is_config=False)
+    self.__vlan_id = YANGDynClass(base=RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}), is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-vlan:vlan-id', is_config=False)
     self.__filter = YANGDynClass(base=six.text_type, is_leaf=True, yang_name="filter", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='string', is_config=False)
     self.__loss_pct = YANGDynClass(base=RestrictedClassType(base_type=bitarray, restriction_dict={'length': ['4']}), is_leaf=True, yang_name="loss-pct", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:ieeefloat32', is_config=False)
     self.__out_frame_rate = YANGDynClass(base=RestrictedClassType(base_type=bitarray, restriction_dict={'length': ['4']}), is_leaf=True, yang_name="out-frame-rate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:ieeefloat32', is_config=False)
     self.__in_frame_rate = YANGDynClass(base=RestrictedClassType(base_type=bitarray, restriction_dict={'length': ['4']}), is_leaf=True, yang_name="in-frame-rate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:ieeefloat32', is_config=False)
     self.__out_rate = YANGDynClass(base=RestrictedClassType(base_type=bitarray, restriction_dict={'length': ['4']}), is_leaf=True, yang_name="out-rate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:ieeefloat32', is_config=False)
     self.__in_rate = YANGDynClass(base=RestrictedClassType(base_type=bitarray, restriction_dict={'length': ['4']}), is_leaf=True, yang_name="in-rate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:ieeefloat32', is_config=False)
+    self.__first_packet_latency = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="first-packet-latency", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)
+    self.__convergence_time = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="convergence-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)
     self.__counters = YANGDynClass(base=yc_counters_openconfig_ate_flow__flows_flow_ingress_tracking_ingress_tracking_state_counters, is_container='container', yang_name="counters", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='container', is_config=False)
 
     load = kwargs.pop("load", None)
@@ -1473,6 +1593,43 @@ name must be unique for the flows tracked and exported by the target.
     self.__dst_ipv6 = YANGDynClass(base=RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:))'}), is_leaf=True, yang_name="dst-ipv6", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-inet:ipv6-address', is_config=False)
 
 
+  def _get_vlan_id(self):
+    """
+    Getter method for vlan_id, mapped from YANG variable /flows/flow/ingress_tracking/ingress_tracking/state/vlan_id (oc-vlan:vlan-id)
+
+    YANG Description: The VLAN ID of the traffic header.
+    """
+    return self.__vlan_id
+      
+  def _set_vlan_id(self, v, load=False):
+    """
+    Setter method for vlan_id, mapped from YANG variable /flows/flow/ingress_tracking/ingress_tracking/state/vlan_id (oc-vlan:vlan-id)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_vlan_id is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_vlan_id() directly.
+
+    YANG Description: The VLAN ID of the traffic header.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}), is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-vlan:vlan-id', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """vlan_id must be of a type compatible with oc-vlan:vlan-id""",
+          'defined-type': "oc-vlan:vlan-id",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}), is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-vlan:vlan-id', is_config=False)""",
+        })
+
+    self.__vlan_id = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_vlan_id(self):
+    self.__vlan_id = YANGDynClass(base=RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}), is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-vlan:vlan-id', is_config=False)
+
+
   def _get_filter(self):
     """
     Getter method for filter, mapped from YANG variable /flows/flow/ingress_tracking/ingress_tracking/state/filter (string)
@@ -1705,6 +1862,84 @@ received.
     self.__in_rate = YANGDynClass(base=RestrictedClassType(base_type=bitarray, restriction_dict={'length': ['4']}), is_leaf=True, yang_name="in-rate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:ieeefloat32', is_config=False)
 
 
+  def _get_first_packet_latency(self):
+    """
+    Getter method for first_packet_latency, mapped from YANG variable /flows/flow/ingress_tracking/ingress_tracking/state/first_packet_latency (oc-types:timeticks64)
+
+    YANG Description: The time from when the flow was started to when the first packet was
+received.
+    """
+    return self.__first_packet_latency
+      
+  def _set_first_packet_latency(self, v, load=False):
+    """
+    Setter method for first_packet_latency, mapped from YANG variable /flows/flow/ingress_tracking/ingress_tracking/state/first_packet_latency (oc-types:timeticks64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_first_packet_latency is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_first_packet_latency() directly.
+
+    YANG Description: The time from when the flow was started to when the first packet was
+received.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="first-packet-latency", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """first_packet_latency must be of a type compatible with oc-types:timeticks64""",
+          'defined-type': "oc-types:timeticks64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="first-packet-latency", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)""",
+        })
+
+    self.__first_packet_latency = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_first_packet_latency(self):
+    self.__first_packet_latency = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="first-packet-latency", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)
+
+
+  def _get_convergence_time(self):
+    """
+    Getter method for convergence_time, mapped from YANG variable /flows/flow/ingress_tracking/ingress_tracking/state/convergence_time (oc-types:timeticks64)
+
+    YANG Description: The time from when the first packet was received to when traffic
+loss dropped below a minimal threshold value.
+    """
+    return self.__convergence_time
+      
+  def _set_convergence_time(self, v, load=False):
+    """
+    Setter method for convergence_time, mapped from YANG variable /flows/flow/ingress_tracking/ingress_tracking/state/convergence_time (oc-types:timeticks64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_convergence_time is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_convergence_time() directly.
+
+    YANG Description: The time from when the first packet was received to when traffic
+loss dropped below a minimal threshold value.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="convergence-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """convergence_time must be of a type compatible with oc-types:timeticks64""",
+          'defined-type': "oc-types:timeticks64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="convergence-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)""",
+        })
+
+    self.__convergence_time = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_convergence_time(self):
+    self.__convergence_time = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="convergence-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)
+
+
   def _get_counters(self):
     """
     Getter method for counters, mapped from YANG variable /flows/flow/ingress_tracking/ingress_tracking/state/counters (container)
@@ -1749,16 +1984,19 @@ received.
   dst_ipv4 = __builtin__.property(_get_dst_ipv4)
   src_ipv6 = __builtin__.property(_get_src_ipv6)
   dst_ipv6 = __builtin__.property(_get_dst_ipv6)
+  vlan_id = __builtin__.property(_get_vlan_id)
   filter = __builtin__.property(_get_filter)
   loss_pct = __builtin__.property(_get_loss_pct)
   out_frame_rate = __builtin__.property(_get_out_frame_rate)
   in_frame_rate = __builtin__.property(_get_in_frame_rate)
   out_rate = __builtin__.property(_get_out_rate)
   in_rate = __builtin__.property(_get_in_rate)
+  first_packet_latency = __builtin__.property(_get_first_packet_latency)
+  convergence_time = __builtin__.property(_get_convergence_time)
   counters = __builtin__.property(_get_counters)
 
 
-  _pyangbind_elements = OrderedDict([('name', name), ('src_port', src_port), ('dst_port', dst_port), ('mpls_label', mpls_label), ('src_ipv4', src_ipv4), ('dst_ipv4', dst_ipv4), ('src_ipv6', src_ipv6), ('dst_ipv6', dst_ipv6), ('filter', filter), ('loss_pct', loss_pct), ('out_frame_rate', out_frame_rate), ('in_frame_rate', in_frame_rate), ('out_rate', out_rate), ('in_rate', in_rate), ('counters', counters), ])
+  _pyangbind_elements = OrderedDict([('name', name), ('src_port', src_port), ('dst_port', dst_port), ('mpls_label', mpls_label), ('src_ipv4', src_ipv4), ('dst_ipv4', dst_ipv4), ('src_ipv6', src_ipv6), ('dst_ipv6', dst_ipv6), ('vlan_id', vlan_id), ('filter', filter), ('loss_pct', loss_pct), ('out_frame_rate', out_frame_rate), ('in_frame_rate', in_frame_rate), ('out_rate', out_rate), ('in_rate', in_rate), ('first_packet_latency', first_packet_latency), ('convergence_time', convergence_time), ('counters', counters), ])
 
 
 class yc_counters_openconfig_ate_flow__flows_flow_ingress_tracking_ingress_tracking_egress_tracking_egress_tracking_state_counters(PybindBase):
@@ -1773,7 +2011,6 @@ class yc_counters_openconfig_ate_flow__flows_flow_ingress_tracking_ingress_track
   __slots__ = ('_path_helper', '_extmethods', '__in_octets','__in_pkts','__out_octets','__out_pkts',)
 
   _yang_name = 'counters'
-  _yang_namespace = 'http://openconfig.net/yang/ate-flow'
 
   _pybind_generated_by = 'container'
 
@@ -1983,10 +2220,9 @@ class yc_state_openconfig_ate_flow__flows_flow_ingress_tracking_ingress_tracking
 
   YANG Description: Operational state of the flow by egress tracking filter.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__filter','__loss_pct','__out_frame_rate','__in_frame_rate','__out_rate','__in_rate','__counters',)
+  __slots__ = ('_path_helper', '_extmethods', '__filter','__loss_pct','__out_frame_rate','__in_frame_rate','__out_rate','__in_rate','__first_packet_latency','__convergence_time','__counters',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/ate-flow'
 
   _pybind_generated_by = 'container'
 
@@ -2001,6 +2237,8 @@ class yc_state_openconfig_ate_flow__flows_flow_ingress_tracking_ingress_tracking
     self.__in_frame_rate = YANGDynClass(base=RestrictedClassType(base_type=bitarray, restriction_dict={'length': ['4']}), is_leaf=True, yang_name="in-frame-rate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:ieeefloat32', is_config=False)
     self.__out_rate = YANGDynClass(base=RestrictedClassType(base_type=bitarray, restriction_dict={'length': ['4']}), is_leaf=True, yang_name="out-rate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:ieeefloat32', is_config=False)
     self.__in_rate = YANGDynClass(base=RestrictedClassType(base_type=bitarray, restriction_dict={'length': ['4']}), is_leaf=True, yang_name="in-rate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:ieeefloat32', is_config=False)
+    self.__first_packet_latency = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="first-packet-latency", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)
+    self.__convergence_time = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="convergence-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)
     self.__counters = YANGDynClass(base=yc_counters_openconfig_ate_flow__flows_flow_ingress_tracking_ingress_tracking_egress_tracking_egress_tracking_state_counters, is_container='container', yang_name="counters", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='container', is_config=False)
 
     load = kwargs.pop("load", None)
@@ -2262,6 +2500,84 @@ received.
     self.__in_rate = YANGDynClass(base=RestrictedClassType(base_type=bitarray, restriction_dict={'length': ['4']}), is_leaf=True, yang_name="in-rate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:ieeefloat32', is_config=False)
 
 
+  def _get_first_packet_latency(self):
+    """
+    Getter method for first_packet_latency, mapped from YANG variable /flows/flow/ingress_tracking/ingress_tracking/egress_tracking/egress_tracking/state/first_packet_latency (oc-types:timeticks64)
+
+    YANG Description: The time from when the flow was started to when the first packet was
+received.
+    """
+    return self.__first_packet_latency
+      
+  def _set_first_packet_latency(self, v, load=False):
+    """
+    Setter method for first_packet_latency, mapped from YANG variable /flows/flow/ingress_tracking/ingress_tracking/egress_tracking/egress_tracking/state/first_packet_latency (oc-types:timeticks64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_first_packet_latency is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_first_packet_latency() directly.
+
+    YANG Description: The time from when the flow was started to when the first packet was
+received.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="first-packet-latency", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """first_packet_latency must be of a type compatible with oc-types:timeticks64""",
+          'defined-type': "oc-types:timeticks64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="first-packet-latency", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)""",
+        })
+
+    self.__first_packet_latency = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_first_packet_latency(self):
+    self.__first_packet_latency = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="first-packet-latency", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)
+
+
+  def _get_convergence_time(self):
+    """
+    Getter method for convergence_time, mapped from YANG variable /flows/flow/ingress_tracking/ingress_tracking/egress_tracking/egress_tracking/state/convergence_time (oc-types:timeticks64)
+
+    YANG Description: The time from when the first packet was received to when traffic
+loss dropped below a minimal threshold value.
+    """
+    return self.__convergence_time
+      
+  def _set_convergence_time(self, v, load=False):
+    """
+    Setter method for convergence_time, mapped from YANG variable /flows/flow/ingress_tracking/ingress_tracking/egress_tracking/egress_tracking/state/convergence_time (oc-types:timeticks64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_convergence_time is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_convergence_time() directly.
+
+    YANG Description: The time from when the first packet was received to when traffic
+loss dropped below a minimal threshold value.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="convergence-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """convergence_time must be of a type compatible with oc-types:timeticks64""",
+          'defined-type': "oc-types:timeticks64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="convergence-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)""",
+        })
+
+    self.__convergence_time = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_convergence_time(self):
+    self.__convergence_time = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="convergence-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)
+
+
   def _get_counters(self):
     """
     Getter method for counters, mapped from YANG variable /flows/flow/ingress_tracking/ingress_tracking/egress_tracking/egress_tracking/state/counters (container)
@@ -2304,10 +2620,12 @@ received.
   in_frame_rate = __builtin__.property(_get_in_frame_rate)
   out_rate = __builtin__.property(_get_out_rate)
   in_rate = __builtin__.property(_get_in_rate)
+  first_packet_latency = __builtin__.property(_get_first_packet_latency)
+  convergence_time = __builtin__.property(_get_convergence_time)
   counters = __builtin__.property(_get_counters)
 
 
-  _pyangbind_elements = OrderedDict([('filter', filter), ('loss_pct', loss_pct), ('out_frame_rate', out_frame_rate), ('in_frame_rate', in_frame_rate), ('out_rate', out_rate), ('in_rate', in_rate), ('counters', counters), ])
+  _pyangbind_elements = OrderedDict([('filter', filter), ('loss_pct', loss_pct), ('out_frame_rate', out_frame_rate), ('in_frame_rate', in_frame_rate), ('out_rate', out_rate), ('in_rate', in_rate), ('first_packet_latency', first_packet_latency), ('convergence_time', convergence_time), ('counters', counters), ])
 
 
 class yc_egress_tracking_openconfig_ate_flow__flows_flow_ingress_tracking_ingress_tracking_egress_tracking_egress_tracking(PybindBase):
@@ -2324,7 +2642,6 @@ specific to frames that match that value.
   __slots__ = ('_path_helper', '_extmethods', '__filter','__state',)
 
   _yang_name = 'egress-tracking'
-  _yang_namespace = 'http://openconfig.net/yang/ate-flow'
 
   _pybind_generated_by = 'container'
 
@@ -2460,7 +2777,6 @@ class yc_egress_tracking_openconfig_ate_flow__flows_flow_ingress_tracking_ingres
   __slots__ = ('_path_helper', '_extmethods', '__egress_tracking',)
 
   _yang_name = 'egress-tracking'
-  _yang_namespace = 'http://openconfig.net/yang/ate-flow'
 
   _pybind_generated_by = 'container'
 
@@ -2556,10 +2872,9 @@ fields, this list will map combinations of values of those header
 fields to the flow statistics specific to frames that match that
 combination.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__src_port','__dst_port','__mpls_label','__src_ipv4','__dst_ipv4','__src_ipv6','__dst_ipv6','__state','__egress_tracking',)
+  __slots__ = ('_path_helper', '_extmethods', '__src_port','__dst_port','__mpls_label','__src_ipv4','__dst_ipv4','__src_ipv6','__dst_ipv6','__vlan_id','__state','__egress_tracking',)
 
   _yang_name = 'ingress-tracking'
-  _yang_namespace = 'http://openconfig.net/yang/ate-flow'
 
   _pybind_generated_by = 'container'
 
@@ -2575,6 +2890,7 @@ combination.
     self.__dst_ipv4 = YANGDynClass(base=six.text_type, is_leaf=True, yang_name="dst-ipv4", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='leafref', is_config=False)
     self.__src_ipv6 = YANGDynClass(base=six.text_type, is_leaf=True, yang_name="src-ipv6", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='leafref', is_config=False)
     self.__dst_ipv6 = YANGDynClass(base=six.text_type, is_leaf=True, yang_name="dst-ipv6", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='leafref', is_config=False)
+    self.__vlan_id = YANGDynClass(base=six.text_type, is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='leafref', is_config=False)
     self.__state = YANGDynClass(base=yc_state_openconfig_ate_flow__flows_flow_ingress_tracking_ingress_tracking_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='container', is_config=False)
     self.__egress_tracking = YANGDynClass(base=yc_egress_tracking_openconfig_ate_flow__flows_flow_ingress_tracking_ingress_tracking_egress_tracking, is_container='container', yang_name="egress-tracking", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='container', is_config=False)
 
@@ -2899,6 +3215,48 @@ combination.
     self.__dst_ipv6 = YANGDynClass(base=six.text_type, is_leaf=True, yang_name="dst-ipv6", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='leafref', is_config=False)
 
 
+  def _get_vlan_id(self):
+    """
+    Getter method for vlan_id, mapped from YANG variable /flows/flow/ingress_tracking/ingress_tracking/vlan_id (leafref)
+
+    YANG Description: The VLAN ID value of the traffic header.
+    """
+    return self.__vlan_id
+      
+  def _set_vlan_id(self, v, load=False):
+    """
+    Setter method for vlan_id, mapped from YANG variable /flows/flow/ingress_tracking/ingress_tracking/vlan_id (leafref)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_vlan_id is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_vlan_id() directly.
+
+    YANG Description: The VLAN ID value of the traffic header.
+    """
+    parent = getattr(self, "_parent", None)
+    if parent is not None and load is False:
+      raise AttributeError("Cannot set keys directly when" +
+                             " within an instantiated list")
+
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=six.text_type, is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='leafref', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """vlan_id must be of a type compatible with leafref""",
+          'defined-type': "leafref",
+          'generated-type': """YANGDynClass(base=six.text_type, is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='leafref', is_config=False)""",
+        })
+
+    self.__vlan_id = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_vlan_id(self):
+    self.__vlan_id = YANGDynClass(base=six.text_type, is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='leafref', is_config=False)
+
+
   def _get_state(self):
     """
     Getter method for state, mapped from YANG variable /flows/flow/ingress_tracking/ingress_tracking/state (container)
@@ -2979,11 +3337,12 @@ combination.
   dst_ipv4 = __builtin__.property(_get_dst_ipv4)
   src_ipv6 = __builtin__.property(_get_src_ipv6)
   dst_ipv6 = __builtin__.property(_get_dst_ipv6)
+  vlan_id = __builtin__.property(_get_vlan_id)
   state = __builtin__.property(_get_state)
   egress_tracking = __builtin__.property(_get_egress_tracking)
 
 
-  _pyangbind_elements = OrderedDict([('src_port', src_port), ('dst_port', dst_port), ('mpls_label', mpls_label), ('src_ipv4', src_ipv4), ('dst_ipv4', dst_ipv4), ('src_ipv6', src_ipv6), ('dst_ipv6', dst_ipv6), ('state', state), ('egress_tracking', egress_tracking), ])
+  _pyangbind_elements = OrderedDict([('src_port', src_port), ('dst_port', dst_port), ('mpls_label', mpls_label), ('src_ipv4', src_ipv4), ('dst_ipv4', dst_ipv4), ('src_ipv6', src_ipv6), ('dst_ipv6', dst_ipv6), ('vlan_id', vlan_id), ('state', state), ('egress_tracking', egress_tracking), ])
 
 
 class yc_ingress_tracking_openconfig_ate_flow__flows_flow_ingress_tracking(PybindBase):
@@ -2998,7 +3357,6 @@ class yc_ingress_tracking_openconfig_ate_flow__flows_flow_ingress_tracking(Pybin
   __slots__ = ('_path_helper', '_extmethods', '__ingress_tracking',)
 
   _yang_name = 'ingress-tracking'
-  _yang_namespace = 'http://openconfig.net/yang/ate-flow'
 
   _pybind_generated_by = 'container'
 
@@ -3007,7 +3365,7 @@ class yc_ingress_tracking_openconfig_ate_flow__flows_flow_ingress_tracking(Pybin
     self._path_helper = False
 
     self._extmethods = False
-    self.__ingress_tracking = YANGDynClass(base=YANGListType("src_port dst_port mpls_label src_ipv4 dst_ipv4 src_ipv6 dst_ipv6",yc_ingress_tracking_openconfig_ate_flow__flows_flow_ingress_tracking_ingress_tracking, yang_name="ingress-tracking", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='src-port dst-port mpls-label src-ipv4 dst-ipv4 src-ipv6 dst-ipv6', extensions=None), is_container='list', yang_name="ingress-tracking", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='list', is_config=False)
+    self.__ingress_tracking = YANGDynClass(base=YANGListType("src_port dst_port mpls_label src_ipv4 dst_ipv4 src_ipv6 dst_ipv6 vlan_id",yc_ingress_tracking_openconfig_ate_flow__flows_flow_ingress_tracking_ingress_tracking, yang_name="ingress-tracking", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='src-port dst-port mpls-label src-ipv4 dst-ipv4 src-ipv6 dst-ipv6 vlan-id', extensions=None), is_container='list', yang_name="ingress-tracking", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='list', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -3063,12 +3421,12 @@ combination.
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=YANGListType("src_port dst_port mpls_label src_ipv4 dst_ipv4 src_ipv6 dst_ipv6",yc_ingress_tracking_openconfig_ate_flow__flows_flow_ingress_tracking_ingress_tracking, yang_name="ingress-tracking", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='src-port dst-port mpls-label src-ipv4 dst-ipv4 src-ipv6 dst-ipv6', extensions=None), is_container='list', yang_name="ingress-tracking", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='list', is_config=False)
+      t = YANGDynClass(v,base=YANGListType("src_port dst_port mpls_label src_ipv4 dst_ipv4 src_ipv6 dst_ipv6 vlan_id",yc_ingress_tracking_openconfig_ate_flow__flows_flow_ingress_tracking_ingress_tracking, yang_name="ingress-tracking", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='src-port dst-port mpls-label src-ipv4 dst-ipv4 src-ipv6 dst-ipv6 vlan-id', extensions=None), is_container='list', yang_name="ingress-tracking", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='list', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """ingress_tracking must be of a type compatible with list""",
           'defined-type': "list",
-          'generated-type': """YANGDynClass(base=YANGListType("src_port dst_port mpls_label src_ipv4 dst_ipv4 src_ipv6 dst_ipv6",yc_ingress_tracking_openconfig_ate_flow__flows_flow_ingress_tracking_ingress_tracking, yang_name="ingress-tracking", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='src-port dst-port mpls-label src-ipv4 dst-ipv4 src-ipv6 dst-ipv6', extensions=None), is_container='list', yang_name="ingress-tracking", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='list', is_config=False)""",
+          'generated-type': """YANGDynClass(base=YANGListType("src_port dst_port mpls_label src_ipv4 dst_ipv4 src_ipv6 dst_ipv6 vlan_id",yc_ingress_tracking_openconfig_ate_flow__flows_flow_ingress_tracking_ingress_tracking, yang_name="ingress-tracking", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='src-port dst-port mpls-label src-ipv4 dst-ipv4 src-ipv6 dst-ipv6 vlan-id', extensions=None), is_container='list', yang_name="ingress-tracking", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='list', is_config=False)""",
         })
 
     self.__ingress_tracking = t
@@ -3076,7 +3434,7 @@ combination.
       self._set()
 
   def _unset_ingress_tracking(self):
-    self.__ingress_tracking = YANGDynClass(base=YANGListType("src_port dst_port mpls_label src_ipv4 dst_ipv4 src_ipv6 dst_ipv6",yc_ingress_tracking_openconfig_ate_flow__flows_flow_ingress_tracking_ingress_tracking, yang_name="ingress-tracking", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='src-port dst-port mpls-label src-ipv4 dst-ipv4 src-ipv6 dst-ipv6', extensions=None), is_container='list', yang_name="ingress-tracking", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='list', is_config=False)
+    self.__ingress_tracking = YANGDynClass(base=YANGListType("src_port dst_port mpls_label src_ipv4 dst_ipv4 src_ipv6 dst_ipv6 vlan_id",yc_ingress_tracking_openconfig_ate_flow__flows_flow_ingress_tracking_ingress_tracking, yang_name="ingress-tracking", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='src-port dst-port mpls-label src-ipv4 dst-ipv4 src-ipv6 dst-ipv6 vlan-id', extensions=None), is_container='list', yang_name="ingress-tracking", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='list', is_config=False)
 
   ingress_tracking = __builtin__.property(_get_ingress_tracking)
 
@@ -3096,7 +3454,6 @@ class yc_counters_openconfig_ate_flow__flows_flow_egress_tracking_egress_trackin
   __slots__ = ('_path_helper', '_extmethods', '__in_octets','__in_pkts','__out_octets','__out_pkts',)
 
   _yang_name = 'counters'
-  _yang_namespace = 'http://openconfig.net/yang/ate-flow'
 
   _pybind_generated_by = 'container'
 
@@ -3306,10 +3663,9 @@ class yc_state_openconfig_ate_flow__flows_flow_egress_tracking_egress_tracking_s
 
   YANG Description: Operational state of the flow by egress tracking filter.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__filter','__loss_pct','__out_frame_rate','__in_frame_rate','__out_rate','__in_rate','__counters',)
+  __slots__ = ('_path_helper', '_extmethods', '__filter','__loss_pct','__out_frame_rate','__in_frame_rate','__out_rate','__in_rate','__first_packet_latency','__convergence_time','__counters',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/ate-flow'
 
   _pybind_generated_by = 'container'
 
@@ -3324,6 +3680,8 @@ class yc_state_openconfig_ate_flow__flows_flow_egress_tracking_egress_tracking_s
     self.__in_frame_rate = YANGDynClass(base=RestrictedClassType(base_type=bitarray, restriction_dict={'length': ['4']}), is_leaf=True, yang_name="in-frame-rate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:ieeefloat32', is_config=False)
     self.__out_rate = YANGDynClass(base=RestrictedClassType(base_type=bitarray, restriction_dict={'length': ['4']}), is_leaf=True, yang_name="out-rate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:ieeefloat32', is_config=False)
     self.__in_rate = YANGDynClass(base=RestrictedClassType(base_type=bitarray, restriction_dict={'length': ['4']}), is_leaf=True, yang_name="in-rate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:ieeefloat32', is_config=False)
+    self.__first_packet_latency = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="first-packet-latency", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)
+    self.__convergence_time = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="convergence-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)
     self.__counters = YANGDynClass(base=yc_counters_openconfig_ate_flow__flows_flow_egress_tracking_egress_tracking_state_counters, is_container='container', yang_name="counters", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='container', is_config=False)
 
     load = kwargs.pop("load", None)
@@ -3585,6 +3943,84 @@ received.
     self.__in_rate = YANGDynClass(base=RestrictedClassType(base_type=bitarray, restriction_dict={'length': ['4']}), is_leaf=True, yang_name="in-rate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:ieeefloat32', is_config=False)
 
 
+  def _get_first_packet_latency(self):
+    """
+    Getter method for first_packet_latency, mapped from YANG variable /flows/flow/egress_tracking/egress_tracking/state/first_packet_latency (oc-types:timeticks64)
+
+    YANG Description: The time from when the flow was started to when the first packet was
+received.
+    """
+    return self.__first_packet_latency
+      
+  def _set_first_packet_latency(self, v, load=False):
+    """
+    Setter method for first_packet_latency, mapped from YANG variable /flows/flow/egress_tracking/egress_tracking/state/first_packet_latency (oc-types:timeticks64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_first_packet_latency is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_first_packet_latency() directly.
+
+    YANG Description: The time from when the flow was started to when the first packet was
+received.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="first-packet-latency", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """first_packet_latency must be of a type compatible with oc-types:timeticks64""",
+          'defined-type': "oc-types:timeticks64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="first-packet-latency", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)""",
+        })
+
+    self.__first_packet_latency = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_first_packet_latency(self):
+    self.__first_packet_latency = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="first-packet-latency", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)
+
+
+  def _get_convergence_time(self):
+    """
+    Getter method for convergence_time, mapped from YANG variable /flows/flow/egress_tracking/egress_tracking/state/convergence_time (oc-types:timeticks64)
+
+    YANG Description: The time from when the first packet was received to when traffic
+loss dropped below a minimal threshold value.
+    """
+    return self.__convergence_time
+      
+  def _set_convergence_time(self, v, load=False):
+    """
+    Setter method for convergence_time, mapped from YANG variable /flows/flow/egress_tracking/egress_tracking/state/convergence_time (oc-types:timeticks64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_convergence_time is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_convergence_time() directly.
+
+    YANG Description: The time from when the first packet was received to when traffic
+loss dropped below a minimal threshold value.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="convergence-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """convergence_time must be of a type compatible with oc-types:timeticks64""",
+          'defined-type': "oc-types:timeticks64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="convergence-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)""",
+        })
+
+    self.__convergence_time = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_convergence_time(self):
+    self.__convergence_time = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="convergence-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ate-flow', defining_module='openconfig-ate-flow', yang_type='oc-types:timeticks64', is_config=False)
+
+
   def _get_counters(self):
     """
     Getter method for counters, mapped from YANG variable /flows/flow/egress_tracking/egress_tracking/state/counters (container)
@@ -3627,10 +4063,12 @@ received.
   in_frame_rate = __builtin__.property(_get_in_frame_rate)
   out_rate = __builtin__.property(_get_out_rate)
   in_rate = __builtin__.property(_get_in_rate)
+  first_packet_latency = __builtin__.property(_get_first_packet_latency)
+  convergence_time = __builtin__.property(_get_convergence_time)
   counters = __builtin__.property(_get_counters)
 
 
-  _pyangbind_elements = OrderedDict([('filter', filter), ('loss_pct', loss_pct), ('out_frame_rate', out_frame_rate), ('in_frame_rate', in_frame_rate), ('out_rate', out_rate), ('in_rate', in_rate), ('counters', counters), ])
+  _pyangbind_elements = OrderedDict([('filter', filter), ('loss_pct', loss_pct), ('out_frame_rate', out_frame_rate), ('in_frame_rate', in_frame_rate), ('out_rate', out_rate), ('in_rate', in_rate), ('first_packet_latency', first_packet_latency), ('convergence_time', convergence_time), ('counters', counters), ])
 
 
 class yc_egress_tracking_openconfig_ate_flow__flows_flow_egress_tracking_egress_tracking(PybindBase):
@@ -3647,7 +4085,6 @@ specific to frames that match that value.
   __slots__ = ('_path_helper', '_extmethods', '__filter','__state',)
 
   _yang_name = 'egress-tracking'
-  _yang_namespace = 'http://openconfig.net/yang/ate-flow'
 
   _pybind_generated_by = 'container'
 
@@ -3783,7 +4220,6 @@ class yc_egress_tracking_openconfig_ate_flow__flows_flow_egress_tracking(PybindB
   __slots__ = ('_path_helper', '_extmethods', '__egress_tracking',)
 
   _yang_name = 'egress-tracking'
-  _yang_namespace = 'http://openconfig.net/yang/ate-flow'
 
   _pybind_generated_by = 'container'
 
@@ -3882,7 +4318,6 @@ an arbitrary string identifier.
   __slots__ = ('_path_helper', '_extmethods', '__name','__state','__ingress_tracking','__egress_tracking',)
 
   _yang_name = 'flow'
-  _yang_namespace = 'http://openconfig.net/yang/ate-flow'
 
   _pybind_generated_by = 'container'
 
@@ -4098,7 +4533,6 @@ context of the module.
   __slots__ = ('_path_helper', '_extmethods', '__flow',)
 
   _yang_name = 'flows'
-  _yang_namespace = 'http://openconfig.net/yang/ate-flow'
 
   _pybind_generated_by = 'container'
 
@@ -4199,7 +4633,6 @@ module.
   __slots__ = ('_path_helper', '_extmethods', '__flows',)
 
   _yang_name = 'openconfig-ate-flow'
-  _yang_namespace = 'http://openconfig.net/yang/ate-flow'
 
   _pybind_generated_by = 'container'
 
