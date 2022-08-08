@@ -32,7 +32,6 @@ class yc_classification_openconfig_module_catalog__organizations_organization_mo
   __slots__ = ('_path_helper', '_extmethods', '__category','__subcategory','__deployment_status',)
 
   _yang_name = 'classification'
-  _yang_namespace = 'http://openconfig.net/yang/module-catalog'
 
   _pybind_generated_by = 'container'
 
@@ -208,7 +207,6 @@ class yc_dependencies_openconfig_module_catalog__organizations_organization_modu
   __slots__ = ('_path_helper', '_extmethods', '__required_module',)
 
   _yang_name = 'dependencies'
-  _yang_namespace = 'http://openconfig.net/yang/module-catalog'
 
   _pybind_generated_by = 'container'
 
@@ -309,7 +307,6 @@ module
   __slots__ = ('_path_helper', '_extmethods', '__uri','__md5_hash',)
 
   _yang_name = 'access'
-  _yang_namespace = 'http://openconfig.net/yang/module-catalog'
 
   _pybind_generated_by = 'container'
 
@@ -447,7 +444,6 @@ module
   __slots__ = ('_path_helper', '_extmethods', '__uri','__md5_hash',)
 
   _yang_name = 'access'
-  _yang_namespace = 'http://openconfig.net/yang/module-catalog'
 
   _pybind_generated_by = 'container'
 
@@ -586,7 +582,6 @@ included in this list.
   __slots__ = ('_path_helper', '_extmethods', '__name','__access',)
 
   _yang_name = 'submodule'
-  _yang_namespace = 'http://openconfig.net/yang/module-catalog'
 
   _pybind_generated_by = 'container'
 
@@ -728,7 +723,6 @@ should be empty.
   __slots__ = ('_path_helper', '_extmethods', '__submodule',)
 
   _yang_name = 'submodules'
-  _yang_namespace = 'http://openconfig.net/yang/module-catalog'
 
   _pybind_generated_by = 'container'
 
@@ -824,7 +818,6 @@ class yc_module_openconfig_module_catalog__organizations_organization_modules_mo
   __slots__ = ('_path_helper', '_extmethods', '__name','__version','__namespace','__prefix','__revision','__summary','__classification','__dependencies','__access','__submodules',)
 
   _yang_name = 'module'
-  _yang_namespace = 'http://openconfig.net/yang/module-catalog'
 
   _pybind_generated_by = 'container'
 
@@ -1315,7 +1308,6 @@ class yc_modules_openconfig_module_catalog__organizations_organization_modules(P
   __slots__ = ('_path_helper', '_extmethods', '__module',)
 
   _yang_name = 'modules'
-  _yang_namespace = 'http://openconfig.net/yang/module-catalog'
 
   _pybind_generated_by = 'container'
 
@@ -1413,7 +1405,6 @@ of separate modules.
   __slots__ = ('_path_helper', '_extmethods', '__id','__type','__module','__release_bundle','__publisher','__compatible_versions',)
 
   _yang_name = 'member'
-  _yang_namespace = 'http://openconfig.net/yang/module-catalog'
 
   _pybind_generated_by = 'container'
 
@@ -1739,7 +1730,6 @@ models together.
   __slots__ = ('_path_helper', '_extmethods', '__member',)
 
   _yang_name = 'members'
-  _yang_namespace = 'http://openconfig.net/yang/module-catalog'
 
   _pybind_generated_by = 'container'
 
@@ -1844,7 +1834,6 @@ bundles which are interoperable
   __slots__ = ('_path_helper', '_extmethods', '__name','__version','__members',)
 
   _yang_name = 'release-bundle'
-  _yang_namespace = 'http://openconfig.net/yang/module-catalog'
 
   _pybind_generated_by = 'container'
 
@@ -2062,7 +2051,6 @@ class yc_release_bundles_openconfig_module_catalog__organizations_organization_r
   __slots__ = ('_path_helper', '_extmethods', '__release_bundle',)
 
   _yang_name = 'release-bundles'
-  _yang_namespace = 'http://openconfig.net/yang/module-catalog'
 
   _pybind_generated_by = 'container'
 
@@ -2159,7 +2147,6 @@ created to support the feature bundle.
   __slots__ = ('_path_helper', '_extmethods', '__name','__publisher','__version',)
 
   _yang_name = 'release-bundle'
-  _yang_namespace = 'http://openconfig.net/yang/module-catalog'
 
   _pybind_generated_by = 'container'
 
@@ -2332,7 +2319,6 @@ feature bundle.
   __slots__ = ('_path_helper', '_extmethods', '__name','__publisher','__version',)
 
   _yang_name = 'feature-bundle'
-  _yang_namespace = 'http://openconfig.net/yang/module-catalog'
 
   _pybind_generated_by = 'container'
 
@@ -2509,7 +2495,6 @@ smaller feature units
   __slots__ = ('_path_helper', '_extmethods', '__feature_bundle',)
 
   _yang_name = 'feature-bundles'
-  _yang_namespace = 'http://openconfig.net/yang/module-catalog'
 
   _pybind_generated_by = 'container'
 
@@ -2603,7 +2588,6 @@ class yc_feature_bundle_openconfig_module_catalog__organizations_organization_fe
   __slots__ = ('_path_helper', '_extmethods', '__name','__version','__path','__release_bundle','__feature_bundles',)
 
   _yang_name = 'feature-bundle'
-  _yang_namespace = 'http://openconfig.net/yang/module-catalog'
 
   _pybind_generated_by = 'container'
 
@@ -2905,7 +2889,6 @@ class yc_feature_bundles_openconfig_module_catalog__organizations_organization_f
   __slots__ = ('_path_helper', '_extmethods', '__feature_bundle',)
 
   _yang_name = 'feature-bundles'
-  _yang_namespace = 'http://openconfig.net/yang/module-catalog'
 
   _pybind_generated_by = 'container'
 
@@ -2997,7 +2980,6 @@ class yc_feature_bundle_openconfig_module_catalog__organizations_organization_im
   __slots__ = ('_path_helper', '_extmethods', '__name','__publisher','__version',)
 
   _yang_name = 'feature-bundle'
-  _yang_namespace = 'http://openconfig.net/yang/module-catalog'
 
   _pybind_generated_by = 'container'
 
@@ -3177,7 +3159,6 @@ class yc_feature_bundles_openconfig_module_catalog__organizations_organization_i
   __slots__ = ('_path_helper', '_extmethods', '__feature_bundle',)
 
   _yang_name = 'feature-bundles'
-  _yang_namespace = 'http://openconfig.net/yang/module-catalog'
 
   _pybind_generated_by = 'container'
 
@@ -3272,7 +3253,6 @@ key to uniquely identify an implementation.
   __slots__ = ('_path_helper', '_extmethods', '__id','__description','__reference','__platform','__platform_version','__status','__feature_bundles',)
 
   _yang_name = 'implementation'
-  _yang_namespace = 'http://openconfig.net/yang/module-catalog'
 
   _pybind_generated_by = 'container'
 
@@ -3629,7 +3609,6 @@ class yc_implementations_openconfig_module_catalog__organizations_organization_i
   __slots__ = ('_path_helper', '_extmethods', '__implementation',)
 
   _yang_name = 'implementations'
-  _yang_namespace = 'http://openconfig.net/yang/module-catalog'
 
   _pybind_generated_by = 'container'
 
@@ -3728,7 +3707,6 @@ module bundles
   __slots__ = ('_path_helper', '_extmethods', '__name','__type','__contact','__modules','__release_bundles','__feature_bundles','__implementations',)
 
   _yang_name = 'organization'
-  _yang_namespace = 'http://openconfig.net/yang/module-catalog'
 
   _pybind_generated_by = 'container'
 
@@ -4075,7 +4053,6 @@ class yc_organizations_openconfig_module_catalog__organizations(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__organization',)
 
   _yang_name = 'organizations'
-  _yang_namespace = 'http://openconfig.net/yang/module-catalog'
 
   _pybind_generated_by = 'container'
 
@@ -4190,7 +4167,6 @@ contains several categories of data:
   __slots__ = ('_path_helper', '_extmethods', '__organizations',)
 
   _yang_name = 'openconfig-module-catalog'
-  _yang_namespace = 'http://openconfig.net/yang/module-catalog'
 
   _pybind_generated_by = 'container'
 

@@ -32,7 +32,6 @@ class yc_config_openconfig_lacp__lacp_config(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__system_priority',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/lacp'
 
   _pybind_generated_by = 'container'
 
@@ -128,7 +127,6 @@ class yc_state_openconfig_lacp__lacp_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__system_priority',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/lacp'
 
   _pybind_generated_by = 'container'
 
@@ -224,7 +222,6 @@ class yc_config_openconfig_lacp__lacp_interfaces_interface_config(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__name','__interval','__lacp_mode','__system_id_mac','__system_priority',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/lacp'
 
   _pybind_generated_by = 'container'
 
@@ -491,7 +488,6 @@ interface
   __slots__ = ('_path_helper', '_extmethods', '__name','__interval','__lacp_mode','__system_id_mac','__system_priority',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/lacp'
 
   _pybind_generated_by = 'container'
 
@@ -757,7 +753,6 @@ class yc_counters_openconfig_lacp__lacp_interfaces_interface_members_member_stat
   __slots__ = ('_path_helper', '_extmethods', '__lacp_in_pkts','__lacp_out_pkts','__lacp_rx_errors','__lacp_tx_errors','__lacp_unknown_errors','__lacp_errors','__lacp_timeout_transitions',)
 
   _yang_name = 'counters'
-  _yang_namespace = 'http://openconfig.net/yang/lacp'
 
   _pybind_generated_by = 'container'
 
@@ -1095,7 +1090,6 @@ class yc_state_openconfig_lacp__lacp_interfaces_interface_members_member_state(P
   __slots__ = ('_path_helper', '_extmethods', '__interface','__activity','__timeout','__synchronization','__aggregatable','__collecting','__distributing','__system_id','__oper_key','__partner_id','__partner_key','__port_num','__partner_port_num','__last_change','__counters',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/lacp'
 
   _pybind_generated_by = 'container'
 
@@ -1770,7 +1764,6 @@ its participation in the LAG.
   __slots__ = ('_path_helper', '_extmethods', '__interface','__state',)
 
   _yang_name = 'member'
-  _yang_namespace = 'http://openconfig.net/yang/lacp'
 
   _pybind_generated_by = 'container'
 
@@ -1908,7 +1901,6 @@ only so is labeled config false and has no config container
   __slots__ = ('_path_helper', '_extmethods', '__member',)
 
   _yang_name = 'members'
-  _yang_namespace = 'http://openconfig.net/yang/lacp'
 
   _pybind_generated_by = 'container'
 
@@ -2006,7 +1998,6 @@ class yc_interface_openconfig_lacp__lacp_interfaces_interface(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state','__members',)
 
   _yang_name = 'interface'
-  _yang_namespace = 'http://openconfig.net/yang/lacp'
 
   _pybind_generated_by = 'container'
 
@@ -2227,7 +2218,6 @@ interfaces
   __slots__ = ('_path_helper', '_extmethods', '__interface',)
 
   _yang_name = 'interfaces'
-  _yang_namespace = 'http://openconfig.net/yang/lacp'
 
   _pybind_generated_by = 'container'
 
@@ -2320,7 +2310,6 @@ operation on the aggregate interface
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__interfaces',)
 
   _yang_name = 'lacp'
-  _yang_namespace = 'http://openconfig.net/yang/lacp'
 
   _pybind_generated_by = 'container'
 
@@ -2495,7 +2484,6 @@ the OpenConfig interfaces and aggregate interfaces models.
   __slots__ = ('_path_helper', '_extmethods', '__lacp',)
 
   _yang_name = 'openconfig-lacp'
-  _yang_namespace = 'http://openconfig.net/yang/lacp'
 
   _pybind_generated_by = 'container'
 

@@ -32,7 +32,6 @@ class yc_config_openconfig_keychain__keychains_keychain_config(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__name','__tolerance',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/oc-keychain'
 
   _pybind_generated_by = 'container'
 
@@ -169,7 +168,6 @@ class yc_state_openconfig_keychain__keychains_keychain_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__name','__tolerance',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/oc-keychain'
 
   _pybind_generated_by = 'container'
 
@@ -306,7 +304,6 @@ class yc_config_openconfig_keychain__keychains_keychain_keys_key_config(PybindBa
   __slots__ = ('_path_helper', '_extmethods', '__key_id','__secret_key','__crypto_algorithm',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/oc-keychain'
 
   _pybind_generated_by = 'container'
 
@@ -480,7 +477,6 @@ class yc_state_openconfig_keychain__keychains_keychain_keys_key_state(PybindBase
   __slots__ = ('_path_helper', '_extmethods', '__key_id','__secret_key','__crypto_algorithm',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/oc-keychain'
 
   _pybind_generated_by = 'container'
 
@@ -654,7 +650,6 @@ class yc_config_openconfig_keychain__keychains_keychain_keys_key_send_lifetime_c
   __slots__ = ('_path_helper', '_extmethods', '__start_time','__end_time','__send_and_receive',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/oc-keychain'
 
   _pybind_generated_by = 'container'
 
@@ -848,7 +843,6 @@ class yc_state_openconfig_keychain__keychains_keychain_keys_key_send_lifetime_st
   __slots__ = ('_path_helper', '_extmethods', '__start_time','__end_time','__send_and_receive',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/oc-keychain'
 
   _pybind_generated_by = 'container'
 
@@ -1043,7 +1037,6 @@ information to the peer.
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'send-lifetime'
-  _yang_namespace = 'http://openconfig.net/yang/oc-keychain'
 
   _pybind_generated_by = 'container'
 
@@ -1174,7 +1167,6 @@ class yc_config_openconfig_keychain__keychains_keychain_keys_key_receive_lifetim
   __slots__ = ('_path_helper', '_extmethods', '__start_time','__end_time',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/oc-keychain'
 
   _pybind_generated_by = 'container'
 
@@ -1319,7 +1311,6 @@ class yc_state_openconfig_keychain__keychains_keychain_keys_key_receive_lifetime
   __slots__ = ('_path_helper', '_extmethods', '__start_time','__end_time',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/oc-keychain'
 
   _pybind_generated_by = 'container'
 
@@ -1466,7 +1457,6 @@ in which case the receive-lifetime is typically not specified.
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'receive-lifetime'
-  _yang_namespace = 'http://openconfig.net/yang/oc-keychain'
 
   _pybind_generated_by = 'container'
 
@@ -1597,7 +1587,6 @@ class yc_key_openconfig_keychain__keychains_keychain_keys_key(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__key_id','__config','__state','__send_lifetime','__receive_lifetime',)
 
   _yang_name = 'key'
-  _yang_namespace = 'http://openconfig.net/yang/oc-keychain'
 
   _pybind_generated_by = 'container'
 
@@ -1856,7 +1845,6 @@ class yc_keys_openconfig_keychain__keychains_keychain_keys(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__key',)
 
   _yang_name = 'keys'
-  _yang_namespace = 'http://openconfig.net/yang/oc-keychain'
 
   _pybind_generated_by = 'container'
 
@@ -1948,7 +1936,6 @@ class yc_keychain_openconfig_keychain__keychains_keychain(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state','__keys',)
 
   _yang_name = 'keychain'
-  _yang_namespace = 'http://openconfig.net/yang/oc-keychain'
 
   _pybind_generated_by = 'container'
 
@@ -2162,7 +2149,6 @@ class yc_keychains_openconfig_keychain__keychains(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__keychain',)
 
   _yang_name = 'keychains'
-  _yang_namespace = 'http://openconfig.net/yang/oc-keychain'
 
   _pybind_generated_by = 'container'
 
@@ -2265,7 +2251,6 @@ management.
   __slots__ = ('_path_helper', '_extmethods', '__keychains',)
 
   _yang_name = 'openconfig-keychain'
-  _yang_namespace = 'http://openconfig.net/yang/oc-keychain'
 
   _pybind_generated_by = 'container'
 

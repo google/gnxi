@@ -2,7 +2,7 @@
 
 ## Install and run from source
 
-1. Install Python3.9 or later.
+1. Install Python3.9.
 
 1. Clone this repo and install the needed dependencies. Preferably, use a virtual environment:
 
@@ -81,3 +81,16 @@ Before committing Python code, make sure:
  * Analyze your code using `pytype`
 
 To make things a bit easier, there is the `lint.sh` script that helps you with this.
+
+## Updating the `oc_config_validate` PyPi package
+
+1. Update the OC models, by running `./update_models.sh`
+1. Update the version of oc_config_validate, by editing `__init__.py`
+1. Run the demo to verify it all works, by running `demo/run_demo.sh`
+1. Run `oc_config_validate` with a real gNMI target to verify it all works.
+1. Create a cleared virtual environment and call `python3 -m build` to build the packages
+1. Upload the latest packages to TestPyPi
+
+```
+python3 -m twine upload --verbose --repository testpypi --skip-existing dist/*
+```

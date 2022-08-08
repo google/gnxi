@@ -166,7 +166,6 @@ level
   __slots__ = ('_path_helper', '_extmethods', '__name','__type','__mtu','__loopback_mode','__description','__enabled','__tpid','__forwarding_viable',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -725,7 +724,6 @@ class yc_counters_openconfig_interfaces__interfaces_interface_state_counters(Pyb
   __slots__ = ('_path_helper', '_extmethods', '__in_octets','__in_pkts','__in_unicast_pkts','__in_broadcast_pkts','__in_multicast_pkts','__in_discards','__in_errors','__in_unknown_protos','__in_fcs_errors','__out_octets','__out_pkts','__out_unicast_pkts','__out_broadcast_pkts','__out_multicast_pkts','__out_discards','__out_errors','__carrier_transitions','__last_clear',)
 
   _yang_name = 'counters'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -1732,7 +1730,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__name','__type','__mtu','__loopback_mode','__description','__enabled','__ifindex','__admin_status','__oper_status','__last_change','__logical','__management','__cpu','__counters','__tpid','__forwarding_viable',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -2649,7 +2646,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_hold_time_config(Pyb
   __slots__ = ('_path_helper', '_extmethods', '__up','__down',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -2788,7 +2784,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_hold_time_state(Pybin
   __slots__ = ('_path_helper', '_extmethods', '__up','__down',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -2928,7 +2923,6 @@ dampening advertisements of interface transitions.
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'hold-time'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -3059,7 +3053,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_subinterfaces_subint
   __slots__ = ('_path_helper', '_extmethods', '__index','__description','__enabled',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -3305,7 +3298,6 @@ class yc_counters_openconfig_interfaces__interfaces_interface_subinterfaces_subi
   __slots__ = ('_path_helper', '_extmethods', '__in_octets','__in_pkts','__in_unicast_pkts','__in_broadcast_pkts','__in_multicast_pkts','__in_discards','__in_errors','__in_unknown_protos','__in_fcs_errors','__out_octets','__out_pkts','__out_unicast_pkts','__out_broadcast_pkts','__out_multicast_pkts','__out_discards','__out_errors','__carrier_transitions','__last_clear',)
 
   _yang_name = 'counters'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -4312,7 +4304,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_subinterfaces_subinte
   __slots__ = ('_path_helper', '_extmethods', '__index','__description','__enabled','__name','__ifindex','__admin_status','__oper_status','__last_change','__logical','__management','__cpu','__counters',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -4961,7 +4952,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_subinterfaces_subint
   __slots__ = ('_path_helper', '_extmethods', '__vlan_id',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -4970,7 +4960,7 @@ class yc_config_openconfig_interfaces__interfaces_interface_subinterfaces_subint
     self._path_helper = False
 
     self._extmethods = False
-    self.__vlan_id = YANGDynClass(base=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.((409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])|\\*)$'}),], is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=True)
+    self.__vlan_id = YANGDynClass(base=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.((409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])|\\*)'}),], is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=True)
 
     load = kwargs.pop("load", None)
     if args:
@@ -5030,12 +5020,12 @@ making more expressive VLAN matches.
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.((409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])|\\*)$'}),], is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=True)
+      t = YANGDynClass(v,base=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.((409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])|\\*)'}),], is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=True)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """vlan_id must be of a type compatible with union""",
           'defined-type': "openconfig-vlan:union",
-          'generated-type': """YANGDynClass(base=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.((409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])|\\*)$'}),], is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=True)""",
+          'generated-type': """YANGDynClass(base=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.((409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])|\\*)'}),], is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=True)""",
         })
 
     self.__vlan_id = t
@@ -5043,7 +5033,7 @@ making more expressive VLAN matches.
       self._set()
 
   def _unset_vlan_id(self):
-    self.__vlan_id = YANGDynClass(base=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.((409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])|\\*)$'}),], is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=True)
+    self.__vlan_id = YANGDynClass(base=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.((409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])|\\*)'}),], is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=True)
 
   vlan_id = __builtin__.property(_get_vlan_id, _set_vlan_id)
 
@@ -5063,7 +5053,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_subinterfaces_subinte
   __slots__ = ('_path_helper', '_extmethods', '__vlan_id',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -5072,7 +5061,7 @@ class yc_state_openconfig_interfaces__interfaces_interface_subinterfaces_subinte
     self._path_helper = False
 
     self._extmethods = False
-    self.__vlan_id = YANGDynClass(base=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.((409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])|\\*)$'}),], is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=False)
+    self.__vlan_id = YANGDynClass(base=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.((409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])|\\*)'}),], is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -5132,12 +5121,12 @@ making more expressive VLAN matches.
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.((409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])|\\*)$'}),], is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=False)
+      t = YANGDynClass(v,base=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.((409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])|\\*)'}),], is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """vlan_id must be of a type compatible with union""",
           'defined-type': "openconfig-vlan:union",
-          'generated-type': """YANGDynClass(base=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.((409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])|\\*)$'}),], is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=False)""",
+          'generated-type': """YANGDynClass(base=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.((409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])|\\*)'}),], is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=False)""",
         })
 
     self.__vlan_id = t
@@ -5145,7 +5134,7 @@ making more expressive VLAN matches.
       self._set()
 
   def _unset_vlan_id(self):
-    self.__vlan_id = YANGDynClass(base=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.((409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])|\\*)$'}),], is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=False)
+    self.__vlan_id = YANGDynClass(base=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.((409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])|\\*)'}),], is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=False)
 
   vlan_id = __builtin__.property(_get_vlan_id)
 
@@ -5166,7 +5155,6 @@ VLAN identifier.
   __slots__ = ('_path_helper', '_extmethods', '__vlan_id',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -5259,7 +5247,6 @@ identifier.
   __slots__ = ('_path_helper', '_extmethods', '__vlan_id',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -5351,7 +5338,6 @@ class yc_single_tagged_openconfig_interfaces__interfaces_interface_subinterfaces
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'single-tagged'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -5487,7 +5473,6 @@ VLAN identifiers.
   __slots__ = ('_path_helper', '_extmethods', '__vlan_ids',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -5580,7 +5565,6 @@ identifiers.
   __slots__ = ('_path_helper', '_extmethods', '__vlan_ids',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -5672,7 +5656,6 @@ class yc_single_tagged_list_openconfig_interfaces__interfaces_interface_subinter
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'single-tagged-list'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -5808,7 +5791,6 @@ VLAN identifiers.
   __slots__ = ('_path_helper', '_extmethods', '__low_vlan_id','__high_vlan_id',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -5944,7 +5926,6 @@ identifiers.
   __slots__ = ('_path_helper', '_extmethods', '__low_vlan_id','__high_vlan_id',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -6079,7 +6060,6 @@ class yc_single_tagged_range_openconfig_interfaces__interfaces_interface_subinte
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'single-tagged-range'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -6215,7 +6195,6 @@ exact and outer exact VLAN identifiers.
   __slots__ = ('_path_helper', '_extmethods', '__inner_vlan_id','__outer_vlan_id',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -6347,7 +6326,6 @@ and outer exact VLAN identifiers.
   __slots__ = ('_path_helper', '_extmethods', '__inner_vlan_id','__outer_vlan_id',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -6479,7 +6457,6 @@ VLAN identifiers.
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'double-tagged'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -6615,7 +6592,6 @@ inner list and outer exact VLAN identifiers.
   __slots__ = ('_path_helper', '_extmethods', '__inner_vlan_ids','__outer_vlan_id',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -6747,7 +6723,6 @@ and outer exact VLAN identifiers.
   __slots__ = ('_path_helper', '_extmethods', '__inner_vlan_ids','__outer_vlan_id',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -6879,7 +6854,6 @@ VLAN identifiers.
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'double-tagged-inner-list'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -7015,7 +6989,6 @@ inner exact and outer list of VLAN identifiers.
   __slots__ = ('_path_helper', '_extmethods', '__inner_vlan_id','__outer_vlan_ids',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -7147,7 +7120,6 @@ exact and outer list of VLAN identifiers.
   __slots__ = ('_path_helper', '_extmethods', '__inner_vlan_id','__outer_vlan_ids',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -7279,7 +7251,6 @@ of VLAN identifiers.
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'double-tagged-outer-list'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -7415,7 +7386,6 @@ inner range and outer exact VLAN identifiers.
   __slots__ = ('_path_helper', '_extmethods', '__inner_low_vlan_id','__inner_high_vlan_id','__outer_vlan_id',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -7590,7 +7560,6 @@ range and outer exact VLAN identifiers.
   __slots__ = ('_path_helper', '_extmethods', '__inner_low_vlan_id','__inner_high_vlan_id','__outer_vlan_id',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -7765,7 +7734,6 @@ exact VLAN identifiers.
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'double-tagged-inner-range'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -7901,7 +7869,6 @@ inner exact and an outer range of VLAN identifiers.
   __slots__ = ('_path_helper', '_extmethods', '__inner_vlan_id','__outer_low_vlan_id','__outer_high_vlan_id',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -8076,7 +8043,6 @@ exact and an outer range of VLAN identifiers.
   __slots__ = ('_path_helper', '_extmethods', '__inner_vlan_id','__outer_low_vlan_id','__outer_high_vlan_id',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -8251,7 +8217,6 @@ range of VLAN identifiers.
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'double-tagged-outer-range'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -8387,7 +8352,6 @@ inner range and an outer range of VLAN identifiers.
   __slots__ = ('_path_helper', '_extmethods', '__inner_low_vlan_id','__inner_high_vlan_id','__outer_low_vlan_id','__outer_high_vlan_id',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -8605,7 +8569,6 @@ range and an outer range of VLAN identifiers.
   __slots__ = ('_path_helper', '_extmethods', '__inner_low_vlan_id','__inner_high_vlan_id','__outer_low_vlan_id','__outer_high_vlan_id',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -8823,7 +8786,6 @@ range of VLAN identifiers.
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'double-tagged-inner-outer-range'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -8973,7 +8935,6 @@ applied to packets on egress.
   __slots__ = ('_path_helper', '_extmethods', '__single_tagged','__single_tagged_list','__single_tagged_range','__double_tagged','__double_tagged_inner_list','__double_tagged_outer_list','__double_tagged_inner_range','__double_tagged_outer_range','__double_tagged_inner_outer_range',)
 
   _yang_name = 'match'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -9391,7 +9352,6 @@ identifier(s) have been matched.
   __slots__ = ('_path_helper', '_extmethods', '__vlan_stack_action','__vlan_id','__tpid',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -9578,7 +9538,6 @@ that arrive on this subinterface.
   __slots__ = ('_path_helper', '_extmethods', '__vlan_stack_action','__vlan_id','__tpid',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -9766,7 +9725,6 @@ matched.
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'ingress-mapping'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -9904,7 +9862,6 @@ packets that are destined for output via this subinterface.
   __slots__ = ('_path_helper', '_extmethods', '__vlan_stack_action','__vlan_id','__tpid',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -10091,7 +10048,6 @@ that are destined for output via this subinterface.
   __slots__ = ('_path_helper', '_extmethods', '__vlan_stack_action','__vlan_id','__tpid',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -10278,7 +10234,6 @@ destined for output via this subinterface.
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'egress-mapping'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -10414,7 +10369,6 @@ data on subinterfaces
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__match','__ingress_mapping','__egress_mapping',)
 
   _yang_name = 'vlan'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -10699,7 +10653,6 @@ address on the interface
   __slots__ = ('_path_helper', '_extmethods', '__ip','__prefix_length',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -10831,7 +10784,6 @@ configured on the interface
   __slots__ = ('_path_helper', '_extmethods', '__ip','__prefix_length','__origin',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -11003,7 +10955,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_subinterfaces_subint
   __slots__ = ('_path_helper', '_extmethods', '__virtual_router_id','__virtual_address','__priority','__preempt','__preempt_delay','__accept_mode','__advertisement_interval',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -11355,7 +11306,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_subinterfaces_subinte
   __slots__ = ('_path_helper', '_extmethods', '__virtual_router_id','__virtual_address','__priority','__preempt','__preempt_delay','__accept_mode','__advertisement_interval','__current_priority',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -11748,7 +11698,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_subinterfaces_subint
   __slots__ = ('_path_helper', '_extmethods', '__track_interface','__priority_decrement',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -11895,7 +11844,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_subinterfaces_subinte
   __slots__ = ('_path_helper', '_extmethods', '__track_interface','__priority_decrement',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -12042,7 +11990,6 @@ class yc_interface_tracking_openconfig_interfaces__interfaces_interface_subinter
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'interface-tracking'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -12173,7 +12120,6 @@ class yc_vrrp_group_openconfig_interfaces__interfaces_interface_subinterfaces_su
   __slots__ = ('_path_helper', '_extmethods', '__virtual_router_id','__config','__state','__interface_tracking',)
 
   _yang_name = 'vrrp-group'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -12390,7 +12336,6 @@ IP interface
   __slots__ = ('_path_helper', '_extmethods', '__vrrp_group',)
 
   _yang_name = 'vrrp'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -12482,7 +12427,6 @@ class yc_address_openconfig_interfaces__interfaces_interface_subinterfaces_subin
   __slots__ = ('_path_helper', '_extmethods', '__ip','__config','__state','__vrrp',)
 
   _yang_name = 'address'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -12702,7 +12646,6 @@ class yc_addresses_openconfig_interfaces__interfaces_interface_subinterfaces_sub
   __slots__ = ('_path_helper', '_extmethods', '__address',)
 
   _yang_name = 'addresses'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -12794,7 +12737,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_subinterfaces_subint
   __slots__ = ('_path_helper', '_extmethods', '__mode',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -12900,7 +12842,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_subinterfaces_subinte
   __slots__ = ('_path_helper', '_extmethods', '__mode',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -13009,7 +12950,6 @@ explicitly destined to the local system.
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'proxy-arp'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -13141,7 +13081,6 @@ address on the interface
   __slots__ = ('_path_helper', '_extmethods', '__ip','__link_layer_address',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -13273,7 +13212,6 @@ configured on the interface
   __slots__ = ('_path_helper', '_extmethods', '__ip','__link_layer_address','__origin',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -13447,7 +13385,6 @@ ARP Cache.
   __slots__ = ('_path_helper', '_extmethods', '__ip','__config','__state',)
 
   _yang_name = 'neighbor'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -13626,7 +13563,6 @@ class yc_neighbors_openconfig_interfaces__interfaces_interface_subinterfaces_sub
   __slots__ = ('_path_helper', '_extmethods', '__neighbor',)
 
   _yang_name = 'neighbors'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -13726,7 +13662,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_subinterfaces_subint
   __slots__ = ('_path_helper', '_extmethods', '__enabled',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -13822,7 +13757,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_subinterfaces_subinte
   __slots__ = ('_path_helper', '_extmethods', '__enabled',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -13918,7 +13852,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_subinterfaces_subint
   __slots__ = ('_path_helper', '_extmethods', '__interface','__subinterface',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -14059,7 +13992,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_subinterfaces_subinte
   __slots__ = ('_path_helper', '_extmethods', '__interface','__subinterface',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -14200,7 +14132,6 @@ class yc_interface_ref_openconfig_interfaces__interfaces_interface_subinterfaces
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'interface-ref'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -14333,7 +14264,6 @@ address information
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__interface_ref',)
 
   _yang_name = 'unnumbered'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -14503,7 +14433,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_subinterfaces_subint
   __slots__ = ('_path_helper', '_extmethods', '__enabled','__mtu','__dhcp_client',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -14696,7 +14625,6 @@ reception for the address family.
   __slots__ = ('_path_helper', '_extmethods', '__in_pkts','__in_octets','__in_error_pkts','__in_forwarded_pkts','__in_forwarded_octets','__in_discarded_pkts','__out_pkts','__out_octets','__out_error_pkts','__out_forwarded_pkts','__out_forwarded_octets','__out_discarded_pkts',)
 
   _yang_name = 'counters'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -15285,7 +15213,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_subinterfaces_subinte
   __slots__ = ('_path_helper', '_extmethods', '__enabled','__mtu','__dhcp_client','__counters',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -15518,7 +15445,6 @@ class yc_ipv4_openconfig_interfaces__interfaces_interface_subinterfaces_subinter
   __slots__ = ('_path_helper', '_extmethods', '__addresses','__proxy_arp','__neighbors','__unnumbered','__config','__state',)
 
   _yang_name = 'ipv4'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -15816,7 +15742,6 @@ the interface
   __slots__ = ('_path_helper', '_extmethods', '__ip','__prefix_length',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -15948,7 +15873,6 @@ interface
   __slots__ = ('_path_helper', '_extmethods', '__ip','__prefix_length','__origin','__status',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -16161,7 +16085,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_subinterfaces_subint
   __slots__ = ('_path_helper', '_extmethods', '__virtual_router_id','__virtual_address','__priority','__preempt','__preempt_delay','__accept_mode','__advertisement_interval','__virtual_link_local',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -16554,7 +16477,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_subinterfaces_subinte
   __slots__ = ('_path_helper', '_extmethods', '__virtual_router_id','__virtual_address','__priority','__preempt','__preempt_delay','__accept_mode','__advertisement_interval','__current_priority','__virtual_link_local',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -16988,7 +16910,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_subinterfaces_subint
   __slots__ = ('_path_helper', '_extmethods', '__track_interface','__priority_decrement',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -17135,7 +17056,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_subinterfaces_subinte
   __slots__ = ('_path_helper', '_extmethods', '__track_interface','__priority_decrement',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -17282,7 +17202,6 @@ class yc_interface_tracking_openconfig_interfaces__interfaces_interface_subinter
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'interface-tracking'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -17413,7 +17332,6 @@ class yc_vrrp_group_openconfig_interfaces__interfaces_interface_subinterfaces_su
   __slots__ = ('_path_helper', '_extmethods', '__virtual_router_id','__config','__state','__interface_tracking',)
 
   _yang_name = 'vrrp-group'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -17630,7 +17548,6 @@ IP interface
   __slots__ = ('_path_helper', '_extmethods', '__vrrp_group',)
 
   _yang_name = 'vrrp'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -17722,7 +17639,6 @@ class yc_address_openconfig_interfaces__interfaces_interface_subinterfaces_subin
   __slots__ = ('_path_helper', '_extmethods', '__ip','__config','__state','__vrrp',)
 
   _yang_name = 'address'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -17942,7 +17858,6 @@ class yc_addresses_openconfig_interfaces__interfaces_interface_subinterfaces_sub
   __slots__ = ('_path_helper', '_extmethods', '__address',)
 
   _yang_name = 'addresses'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -18035,7 +17950,6 @@ for IPv6.
   __slots__ = ('_path_helper', '_extmethods', '__interval','__lifetime','__suppress',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -18214,7 +18128,6 @@ advertisements for IPv6.
   __slots__ = ('_path_helper', '_extmethods', '__interval','__lifetime','__suppress',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -18393,7 +18306,6 @@ router advertisements.
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'router-advertisement'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -18529,7 +18441,6 @@ the interface
   __slots__ = ('_path_helper', '_extmethods', '__ip','__link_layer_address',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -18661,7 +18572,6 @@ interface
   __slots__ = ('_path_helper', '_extmethods', '__ip','__link_layer_address','__origin','__is_router','__neighbor_state',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -18911,7 +18821,6 @@ class yc_neighbor_openconfig_interfaces__interfaces_interface_subinterfaces_subi
   __slots__ = ('_path_helper', '_extmethods', '__ip','__config','__state',)
 
   _yang_name = 'neighbor'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -19090,7 +18999,6 @@ class yc_neighbors_openconfig_interfaces__interfaces_interface_subinterfaces_sub
   __slots__ = ('_path_helper', '_extmethods', '__neighbor',)
 
   _yang_name = 'neighbors'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -19182,7 +19090,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_subinterfaces_subint
   __slots__ = ('_path_helper', '_extmethods', '__enabled',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -19278,7 +19185,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_subinterfaces_subinte
   __slots__ = ('_path_helper', '_extmethods', '__enabled',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -19374,7 +19280,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_subinterfaces_subint
   __slots__ = ('_path_helper', '_extmethods', '__interface','__subinterface',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -19515,7 +19420,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_subinterfaces_subinte
   __slots__ = ('_path_helper', '_extmethods', '__interface','__subinterface',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -19656,7 +19560,6 @@ class yc_interface_ref_openconfig_interfaces__interfaces_interface_subinterfaces
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'interface-ref'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -19789,7 +19692,6 @@ address information
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__interface_ref',)
 
   _yang_name = 'unnumbered'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -19959,7 +19861,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_subinterfaces_subint
   __slots__ = ('_path_helper', '_extmethods', '__enabled','__mtu','__dup_addr_detect_transmits','__dhcp_client',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -20201,7 +20102,6 @@ reception for the address family.
   __slots__ = ('_path_helper', '_extmethods', '__in_pkts','__in_octets','__in_error_pkts','__in_forwarded_pkts','__in_forwarded_octets','__in_discarded_pkts','__out_pkts','__out_octets','__out_error_pkts','__out_forwarded_pkts','__out_forwarded_octets','__out_discarded_pkts',)
 
   _yang_name = 'counters'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -20790,7 +20690,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_subinterfaces_subinte
   __slots__ = ('_path_helper', '_extmethods', '__enabled','__mtu','__dup_addr_detect_transmits','__dhcp_client','__counters',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -21075,7 +20974,6 @@ addresses, as described in RFC 4862.
   __slots__ = ('_path_helper', '_extmethods', '__create_global_addresses','__create_temporary_addresses','__temporary_valid_lifetime','__temporary_preferred_lifetime',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -21308,7 +21206,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_subinterfaces_subinte
   __slots__ = ('_path_helper', '_extmethods', '__create_global_addresses','__create_temporary_addresses','__temporary_valid_lifetime','__temporary_preferred_lifetime',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -21541,7 +21438,6 @@ class yc_autoconf_openconfig_interfaces__interfaces_interface_subinterfaces_subi
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'autoconf'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -21678,7 +21574,6 @@ class yc_ipv6_openconfig_interfaces__interfaces_interface_subinterfaces_subinter
   __slots__ = ('_path_helper', '_extmethods', '__addresses','__router_advertisement','__neighbors','__unnumbered','__config','__state','__autoconf',)
 
   _yang_name = 'ipv6'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -22011,7 +21906,6 @@ with a physical interface
   __slots__ = ('_path_helper', '_extmethods', '__index','__config','__state','__vlan','__ipv4','__ipv6',)
 
   _yang_name = 'subinterface'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -22308,7 +22202,6 @@ with a physical interface
   __slots__ = ('_path_helper', '_extmethods', '__subinterface',)
 
   _yang_name = 'subinterfaces'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -22402,7 +22295,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_ethernet_config(Pybi
   __slots__ = ('_path_helper', '_extmethods', '__mac_address','__auto_negotiate','__standalone_link_training','__duplex_mode','__port_speed','__enable_flow_control','__fec_mode','__aggregate_id',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -22837,7 +22729,6 @@ class yc_in_distribution_openconfig_interfaces__interfaces_interface_ethernet_st
   __slots__ = ('_path_helper', '_extmethods', '__in_frames_64_octets','__in_frames_65_127_octets','__in_frames_128_255_octets','__in_frames_256_511_octets','__in_frames_512_1023_octets','__in_frames_1024_1518_octets',)
 
   _yang_name = 'in-distribution'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -23148,7 +23039,6 @@ class yc_counters_openconfig_interfaces__interfaces_interface_ethernet_state_cou
   __slots__ = ('_path_helper', '_extmethods', '__in_mac_control_frames','__in_mac_pause_frames','__in_oversize_frames','__in_undersize_frames','__in_jabber_frames','__in_fragment_frames','__in_8021q_frames','__in_crc_errors','__in_block_errors','__in_carrier_errors','__in_interrupted_tx','__in_late_collision','__in_mac_errors_rx','__in_single_collision','__in_symbol_error','__in_maxsize_exceeded','__out_mac_control_frames','__out_mac_pause_frames','__out_8021q_frames','__out_mac_errors_tx','__in_distribution',)
 
   _yang_name = 'counters'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -24116,7 +24006,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_ethernet_state(Pybind
   __slots__ = ('_path_helper', '_extmethods', '__mac_address','__auto_negotiate','__standalone_link_training','__duplex_mode','__port_speed','__enable_flow_control','__fec_mode','__hw_mac_address','__negotiated_duplex_mode','__negotiated_port_speed','__counters','__aggregate_id',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -24496,7 +24385,7 @@ the interface.
     """
     Getter method for hw_mac_address, mapped from YANG variable /interfaces/interface/ethernet/state/hw_mac_address (oc-yang:mac-address)
 
-    YANG Description: Represenets the 'burned-in', or system-assigned, MAC
+    YANG Description: Represents the 'burned-in', or system-assigned, MAC
 address for the Ethernet interface.
     """
     return self.__hw_mac_address
@@ -24509,7 +24398,7 @@ address for the Ethernet interface.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_hw_mac_address() directly.
 
-    YANG Description: Represenets the 'burned-in', or system-assigned, MAC
+    YANG Description: Represents the 'burned-in', or system-assigned, MAC
 address for the Ethernet interface.
     """
     if hasattr(v, "_utype"):
@@ -24717,7 +24606,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_ethernet_switched_vl
   __slots__ = ('_path_helper', '_extmethods', '__interface_mode','__native_vlan','__access_vlan','__trunk_vlans',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -24729,7 +24617,7 @@ class yc_config_openconfig_interfaces__interfaces_interface_ethernet_switched_vl
     self.__interface_mode = YANGDynClass(base=RestrictedClassType(base_type=six.text_type,                                     restriction_type="dict_key",                                     restriction_arg={'ACCESS': {}, 'TRUNK': {}},), is_leaf=True, yang_name="interface-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='oc-vlan-types:vlan-mode-type', is_config=True)
     self.__native_vlan = YANGDynClass(base=RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}), is_leaf=True, yang_name="native-vlan", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='oc-vlan-types:vlan-id', is_config=True)
     self.__access_vlan = YANGDynClass(base=RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}), is_leaf=True, yang_name="access-vlan", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='oc-vlan-types:vlan-id', is_config=True)
-    self.__trunk_vlans = YANGDynClass(unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])$'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=True)
+    self.__trunk_vlans = YANGDynClass(unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=True)
 
     load = kwargs.pop("load", None)
     if args:
@@ -24908,12 +24796,12 @@ that the VLAN range is x <= range <= y.
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])$'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=True)
+      t = YANGDynClass(v,unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=True)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """trunk_vlans must be of a type compatible with union""",
           'defined-type': "openconfig-vlan:union",
-          'generated-type': """YANGDynClass(unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])$'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=True)""",
+          'generated-type': """YANGDynClass(unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=True)""",
         })
 
     self.__trunk_vlans = t
@@ -24921,7 +24809,7 @@ that the VLAN range is x <= range <= y.
       self._set()
 
   def _unset_trunk_vlans(self):
-    self.__trunk_vlans = YANGDynClass(unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])$'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=True)
+    self.__trunk_vlans = YANGDynClass(unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=True)
 
   interface_mode = __builtin__.property(_get_interface_mode, _set_interface_mode)
   native_vlan = __builtin__.property(_get_native_vlan, _set_native_vlan)
@@ -24944,7 +24832,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_ethernet_switched_vla
   __slots__ = ('_path_helper', '_extmethods', '__interface_mode','__native_vlan','__access_vlan','__trunk_vlans',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -24956,7 +24843,7 @@ class yc_state_openconfig_interfaces__interfaces_interface_ethernet_switched_vla
     self.__interface_mode = YANGDynClass(base=RestrictedClassType(base_type=six.text_type,                                     restriction_type="dict_key",                                     restriction_arg={'ACCESS': {}, 'TRUNK': {}},), is_leaf=True, yang_name="interface-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='oc-vlan-types:vlan-mode-type', is_config=False)
     self.__native_vlan = YANGDynClass(base=RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}), is_leaf=True, yang_name="native-vlan", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='oc-vlan-types:vlan-id', is_config=False)
     self.__access_vlan = YANGDynClass(base=RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}), is_leaf=True, yang_name="access-vlan", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='oc-vlan-types:vlan-id', is_config=False)
-    self.__trunk_vlans = YANGDynClass(unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])$'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=False)
+    self.__trunk_vlans = YANGDynClass(unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -25135,12 +25022,12 @@ that the VLAN range is x <= range <= y.
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])$'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=False)
+      t = YANGDynClass(v,unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """trunk_vlans must be of a type compatible with union""",
           'defined-type': "openconfig-vlan:union",
-          'generated-type': """YANGDynClass(unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])$'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=False)""",
+          'generated-type': """YANGDynClass(unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=False)""",
         })
 
     self.__trunk_vlans = t
@@ -25148,7 +25035,7 @@ that the VLAN range is x <= range <= y.
       self._set()
 
   def _unset_trunk_vlans(self):
-    self.__trunk_vlans = YANGDynClass(unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])$'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=False)
+    self.__trunk_vlans = YANGDynClass(unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=False)
 
   interface_mode = __builtin__.property(_get_interface_mode)
   native_vlan = __builtin__.property(_get_native_vlan)
@@ -25172,7 +25059,6 @@ name in the VLAN ID to VLAN name mapping
   __slots__ = ('_path_helper', '_extmethods', '__vlan_name','__id',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -25304,7 +25190,6 @@ to VLAN name mapping.
   __slots__ = ('_path_helper', '_extmethods', '__vlan_name','__id',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -25438,7 +25323,6 @@ tunnel-private-group-id.
   __slots__ = ('_path_helper', '_extmethods', '__vlan_name','__config','__state',)
 
   _yang_name = 'vlan-name'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -25617,7 +25501,6 @@ class yc_dot1x_vlan_map_openconfig_interfaces__interfaces_interface_ethernet_swi
   __slots__ = ('_path_helper', '_extmethods', '__vlan_name',)
 
   _yang_name = 'dot1x-vlan-map'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -25717,7 +25600,6 @@ L2, switched-style VLANs.
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__dot1x_vlan_map',)
 
   _yang_name = 'switched-vlan'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -25887,7 +25769,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_ethernet_dot1x_confi
   __slots__ = ('_path_helper', '_extmethods', '__authenticate_port','__host_mode','__reauthenticate_interval','__retransmit_interval','__supplicant_timeout','__max_requests','__server_fail_vlan','__auth_fail_vlan',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -26278,7 +26159,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_ethernet_dot1x_state(
   __slots__ = ('_path_helper', '_extmethods', '__authenticate_port','__host_mode','__reauthenticate_interval','__retransmit_interval','__supplicant_timeout','__max_requests','__server_fail_vlan','__auth_fail_vlan',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -26670,7 +26550,6 @@ state data.
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'dot1x'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -26801,7 +26680,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_ethernet_authenticate
   __slots__ = ('_path_helper', '_extmethods', '__mac','__session_id','__status',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -26975,7 +26853,6 @@ class yc_authenticated_session_openconfig_interfaces__interfaces_interface_ether
   __slots__ = ('_path_helper', '_extmethods', '__mac','__state',)
 
   _yang_name = 'authenticated-session'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -27111,7 +26988,6 @@ class yc_authenticated_sessions_openconfig_interfaces__interfaces_interface_ethe
   __slots__ = ('_path_helper', '_extmethods', '__authenticated_session',)
 
   _yang_name = 'authenticated-sessions'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -27203,7 +27079,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_ethernet_poe_config(
   __slots__ = ('_path_helper', '_extmethods', '__enabled',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -27295,7 +27170,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_ethernet_poe_state(Py
   __slots__ = ('_path_helper', '_extmethods', '__enabled','__power_used','__power_class',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -27467,7 +27341,6 @@ class yc_poe_openconfig_interfaces__interfaces_interface_ethernet_poe(PybindBase
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'poe'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -27599,7 +27472,6 @@ and state
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__switched_vlan','__dot1x','__authenticated_sessions','__poe',)
 
   _yang_name = 'ethernet'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -27893,7 +27765,6 @@ LAG interfaces
   __slots__ = ('_path_helper', '_extmethods', '__lag_type','__min_links',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -28031,7 +27902,6 @@ aggregate / LAG interfaces
   __slots__ = ('_path_helper', '_extmethods', '__lag_type','__min_links','__lag_speed','__member',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -28250,7 +28120,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_aggregation_switched
   __slots__ = ('_path_helper', '_extmethods', '__interface_mode','__native_vlan','__access_vlan','__trunk_vlans',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -28262,7 +28131,7 @@ class yc_config_openconfig_interfaces__interfaces_interface_aggregation_switched
     self.__interface_mode = YANGDynClass(base=RestrictedClassType(base_type=six.text_type,                                     restriction_type="dict_key",                                     restriction_arg={'ACCESS': {}, 'TRUNK': {}},), is_leaf=True, yang_name="interface-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='oc-vlan-types:vlan-mode-type', is_config=True)
     self.__native_vlan = YANGDynClass(base=RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}), is_leaf=True, yang_name="native-vlan", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='oc-vlan-types:vlan-id', is_config=True)
     self.__access_vlan = YANGDynClass(base=RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}), is_leaf=True, yang_name="access-vlan", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='oc-vlan-types:vlan-id', is_config=True)
-    self.__trunk_vlans = YANGDynClass(unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])$'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=True)
+    self.__trunk_vlans = YANGDynClass(unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=True)
 
     load = kwargs.pop("load", None)
     if args:
@@ -28441,12 +28310,12 @@ that the VLAN range is x <= range <= y.
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])$'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=True)
+      t = YANGDynClass(v,unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=True)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """trunk_vlans must be of a type compatible with union""",
           'defined-type': "openconfig-vlan:union",
-          'generated-type': """YANGDynClass(unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])$'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=True)""",
+          'generated-type': """YANGDynClass(unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=True)""",
         })
 
     self.__trunk_vlans = t
@@ -28454,7 +28323,7 @@ that the VLAN range is x <= range <= y.
       self._set()
 
   def _unset_trunk_vlans(self):
-    self.__trunk_vlans = YANGDynClass(unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])$'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=True)
+    self.__trunk_vlans = YANGDynClass(unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=True)
 
   interface_mode = __builtin__.property(_get_interface_mode, _set_interface_mode)
   native_vlan = __builtin__.property(_get_native_vlan, _set_native_vlan)
@@ -28477,7 +28346,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_aggregation_switched_
   __slots__ = ('_path_helper', '_extmethods', '__interface_mode','__native_vlan','__access_vlan','__trunk_vlans',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -28489,7 +28357,7 @@ class yc_state_openconfig_interfaces__interfaces_interface_aggregation_switched_
     self.__interface_mode = YANGDynClass(base=RestrictedClassType(base_type=six.text_type,                                     restriction_type="dict_key",                                     restriction_arg={'ACCESS': {}, 'TRUNK': {}},), is_leaf=True, yang_name="interface-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='oc-vlan-types:vlan-mode-type', is_config=False)
     self.__native_vlan = YANGDynClass(base=RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}), is_leaf=True, yang_name="native-vlan", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='oc-vlan-types:vlan-id', is_config=False)
     self.__access_vlan = YANGDynClass(base=RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}), is_leaf=True, yang_name="access-vlan", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='oc-vlan-types:vlan-id', is_config=False)
-    self.__trunk_vlans = YANGDynClass(unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])$'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=False)
+    self.__trunk_vlans = YANGDynClass(unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -28668,12 +28536,12 @@ that the VLAN range is x <= range <= y.
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])$'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=False)
+      t = YANGDynClass(v,unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """trunk_vlans must be of a type compatible with union""",
           'defined-type': "openconfig-vlan:union",
-          'generated-type': """YANGDynClass(unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])$'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=False)""",
+          'generated-type': """YANGDynClass(unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=False)""",
         })
 
     self.__trunk_vlans = t
@@ -28681,7 +28549,7 @@ that the VLAN range is x <= range <= y.
       self._set()
 
   def _unset_trunk_vlans(self):
-    self.__trunk_vlans = YANGDynClass(unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])$'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=False)
+    self.__trunk_vlans = YANGDynClass(unique=True, base=TypedListType(allowed_type=[RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1..4094']}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])\\.\\.(409[0-4]|40[0-8][0-9]|[1-3][0-9]{3}|[1-9][0-9]{1,2}|[1-9])'}),]), is_leaf=False, yang_name="trunk-vlans", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/vlan', defining_module='openconfig-vlan', yang_type='union', is_config=False)
 
   interface_mode = __builtin__.property(_get_interface_mode)
   native_vlan = __builtin__.property(_get_native_vlan)
@@ -28706,7 +28574,6 @@ L2, switched-style VLANs.
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'switched-vlan'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -28838,7 +28705,6 @@ aggregates
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__switched_vlan',)
 
   _yang_name = 'aggregation'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -29016,7 +28882,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_routed_vlan_config(P
   __slots__ = ('_path_helper', '_extmethods', '__vlan',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -29114,7 +28979,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_routed_vlan_state(Pyb
   __slots__ = ('_path_helper', '_extmethods', '__vlan',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -29213,7 +29077,6 @@ address on the interface
   __slots__ = ('_path_helper', '_extmethods', '__ip','__prefix_length',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -29345,7 +29208,6 @@ configured on the interface
   __slots__ = ('_path_helper', '_extmethods', '__ip','__prefix_length','__origin',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -29517,7 +29379,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_routed_vlan_ipv4_add
   __slots__ = ('_path_helper', '_extmethods', '__virtual_router_id','__virtual_address','__priority','__preempt','__preempt_delay','__accept_mode','__advertisement_interval',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -29869,7 +29730,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_routed_vlan_ipv4_addr
   __slots__ = ('_path_helper', '_extmethods', '__virtual_router_id','__virtual_address','__priority','__preempt','__preempt_delay','__accept_mode','__advertisement_interval','__current_priority',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -30262,7 +30122,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_routed_vlan_ipv4_add
   __slots__ = ('_path_helper', '_extmethods', '__track_interface','__priority_decrement',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -30409,7 +30268,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_routed_vlan_ipv4_addr
   __slots__ = ('_path_helper', '_extmethods', '__track_interface','__priority_decrement',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -30556,7 +30414,6 @@ class yc_interface_tracking_openconfig_interfaces__interfaces_interface_routed_v
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'interface-tracking'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -30687,7 +30544,6 @@ class yc_vrrp_group_openconfig_interfaces__interfaces_interface_routed_vlan_ipv4
   __slots__ = ('_path_helper', '_extmethods', '__virtual_router_id','__config','__state','__interface_tracking',)
 
   _yang_name = 'vrrp-group'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -30904,7 +30760,6 @@ IP interface
   __slots__ = ('_path_helper', '_extmethods', '__vrrp_group',)
 
   _yang_name = 'vrrp'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -30996,7 +30851,6 @@ class yc_address_openconfig_interfaces__interfaces_interface_routed_vlan_ipv4_ad
   __slots__ = ('_path_helper', '_extmethods', '__ip','__config','__state','__vrrp',)
 
   _yang_name = 'address'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -31216,7 +31070,6 @@ class yc_addresses_openconfig_interfaces__interfaces_interface_routed_vlan_ipv4_
   __slots__ = ('_path_helper', '_extmethods', '__address',)
 
   _yang_name = 'addresses'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -31308,7 +31161,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_routed_vlan_ipv4_pro
   __slots__ = ('_path_helper', '_extmethods', '__mode',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -31414,7 +31266,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_routed_vlan_ipv4_prox
   __slots__ = ('_path_helper', '_extmethods', '__mode',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -31523,7 +31374,6 @@ explicitly destined to the local system.
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'proxy-arp'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -31655,7 +31505,6 @@ address on the interface
   __slots__ = ('_path_helper', '_extmethods', '__ip','__link_layer_address',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -31787,7 +31636,6 @@ configured on the interface
   __slots__ = ('_path_helper', '_extmethods', '__ip','__link_layer_address','__origin',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -31961,7 +31809,6 @@ ARP Cache.
   __slots__ = ('_path_helper', '_extmethods', '__ip','__config','__state',)
 
   _yang_name = 'neighbor'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -32140,7 +31987,6 @@ class yc_neighbors_openconfig_interfaces__interfaces_interface_routed_vlan_ipv4_
   __slots__ = ('_path_helper', '_extmethods', '__neighbor',)
 
   _yang_name = 'neighbors'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -32240,7 +32086,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_routed_vlan_ipv4_unn
   __slots__ = ('_path_helper', '_extmethods', '__enabled',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -32336,7 +32181,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_routed_vlan_ipv4_unnu
   __slots__ = ('_path_helper', '_extmethods', '__enabled',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -32432,7 +32276,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_routed_vlan_ipv4_unn
   __slots__ = ('_path_helper', '_extmethods', '__interface','__subinterface',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -32573,7 +32416,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_routed_vlan_ipv4_unnu
   __slots__ = ('_path_helper', '_extmethods', '__interface','__subinterface',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -32714,7 +32556,6 @@ class yc_interface_ref_openconfig_interfaces__interfaces_interface_routed_vlan_i
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'interface-ref'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -32847,7 +32688,6 @@ address information
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__interface_ref',)
 
   _yang_name = 'unnumbered'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -33017,7 +32857,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_routed_vlan_ipv4_con
   __slots__ = ('_path_helper', '_extmethods', '__enabled','__mtu','__dhcp_client',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -33210,7 +33049,6 @@ reception for the address family.
   __slots__ = ('_path_helper', '_extmethods', '__in_pkts','__in_octets','__in_error_pkts','__in_forwarded_pkts','__in_forwarded_octets','__in_discarded_pkts','__out_pkts','__out_octets','__out_error_pkts','__out_forwarded_pkts','__out_forwarded_octets','__out_discarded_pkts',)
 
   _yang_name = 'counters'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -33799,7 +33637,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_routed_vlan_ipv4_stat
   __slots__ = ('_path_helper', '_extmethods', '__enabled','__mtu','__dhcp_client','__counters',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -34032,7 +33869,6 @@ class yc_ipv4_openconfig_interfaces__interfaces_interface_routed_vlan_ipv4(Pybin
   __slots__ = ('_path_helper', '_extmethods', '__addresses','__proxy_arp','__neighbors','__unnumbered','__config','__state',)
 
   _yang_name = 'ipv4'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -34330,7 +34166,6 @@ the interface
   __slots__ = ('_path_helper', '_extmethods', '__ip','__prefix_length',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -34462,7 +34297,6 @@ interface
   __slots__ = ('_path_helper', '_extmethods', '__ip','__prefix_length','__origin','__status',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -34675,7 +34509,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_routed_vlan_ipv6_add
   __slots__ = ('_path_helper', '_extmethods', '__virtual_router_id','__virtual_address','__priority','__preempt','__preempt_delay','__accept_mode','__advertisement_interval','__virtual_link_local',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -35068,7 +34901,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_routed_vlan_ipv6_addr
   __slots__ = ('_path_helper', '_extmethods', '__virtual_router_id','__virtual_address','__priority','__preempt','__preempt_delay','__accept_mode','__advertisement_interval','__current_priority','__virtual_link_local',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -35502,7 +35334,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_routed_vlan_ipv6_add
   __slots__ = ('_path_helper', '_extmethods', '__track_interface','__priority_decrement',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -35649,7 +35480,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_routed_vlan_ipv6_addr
   __slots__ = ('_path_helper', '_extmethods', '__track_interface','__priority_decrement',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -35796,7 +35626,6 @@ class yc_interface_tracking_openconfig_interfaces__interfaces_interface_routed_v
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'interface-tracking'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -35927,7 +35756,6 @@ class yc_vrrp_group_openconfig_interfaces__interfaces_interface_routed_vlan_ipv6
   __slots__ = ('_path_helper', '_extmethods', '__virtual_router_id','__config','__state','__interface_tracking',)
 
   _yang_name = 'vrrp-group'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -36144,7 +35972,6 @@ IP interface
   __slots__ = ('_path_helper', '_extmethods', '__vrrp_group',)
 
   _yang_name = 'vrrp'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -36236,7 +36063,6 @@ class yc_address_openconfig_interfaces__interfaces_interface_routed_vlan_ipv6_ad
   __slots__ = ('_path_helper', '_extmethods', '__ip','__config','__state','__vrrp',)
 
   _yang_name = 'address'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -36456,7 +36282,6 @@ class yc_addresses_openconfig_interfaces__interfaces_interface_routed_vlan_ipv6_
   __slots__ = ('_path_helper', '_extmethods', '__address',)
 
   _yang_name = 'addresses'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -36549,7 +36374,6 @@ for IPv6.
   __slots__ = ('_path_helper', '_extmethods', '__interval','__lifetime','__suppress',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -36728,7 +36552,6 @@ advertisements for IPv6.
   __slots__ = ('_path_helper', '_extmethods', '__interval','__lifetime','__suppress',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -36907,7 +36730,6 @@ router advertisements.
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'router-advertisement'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -37043,7 +36865,6 @@ the interface
   __slots__ = ('_path_helper', '_extmethods', '__ip','__link_layer_address',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -37175,7 +36996,6 @@ interface
   __slots__ = ('_path_helper', '_extmethods', '__ip','__link_layer_address','__origin','__is_router','__neighbor_state',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -37425,7 +37245,6 @@ class yc_neighbor_openconfig_interfaces__interfaces_interface_routed_vlan_ipv6_n
   __slots__ = ('_path_helper', '_extmethods', '__ip','__config','__state',)
 
   _yang_name = 'neighbor'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -37604,7 +37423,6 @@ class yc_neighbors_openconfig_interfaces__interfaces_interface_routed_vlan_ipv6_
   __slots__ = ('_path_helper', '_extmethods', '__neighbor',)
 
   _yang_name = 'neighbors'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -37696,7 +37514,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_routed_vlan_ipv6_unn
   __slots__ = ('_path_helper', '_extmethods', '__enabled',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -37792,7 +37609,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_routed_vlan_ipv6_unnu
   __slots__ = ('_path_helper', '_extmethods', '__enabled',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -37888,7 +37704,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_routed_vlan_ipv6_unn
   __slots__ = ('_path_helper', '_extmethods', '__interface','__subinterface',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -38029,7 +37844,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_routed_vlan_ipv6_unnu
   __slots__ = ('_path_helper', '_extmethods', '__interface','__subinterface',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -38170,7 +37984,6 @@ class yc_interface_ref_openconfig_interfaces__interfaces_interface_routed_vlan_i
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'interface-ref'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -38303,7 +38116,6 @@ address information
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__interface_ref',)
 
   _yang_name = 'unnumbered'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -38473,7 +38285,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_routed_vlan_ipv6_con
   __slots__ = ('_path_helper', '_extmethods', '__enabled','__mtu','__dup_addr_detect_transmits','__dhcp_client',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -38715,7 +38526,6 @@ reception for the address family.
   __slots__ = ('_path_helper', '_extmethods', '__in_pkts','__in_octets','__in_error_pkts','__in_forwarded_pkts','__in_forwarded_octets','__in_discarded_pkts','__out_pkts','__out_octets','__out_error_pkts','__out_forwarded_pkts','__out_forwarded_octets','__out_discarded_pkts',)
 
   _yang_name = 'counters'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -39304,7 +39114,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_routed_vlan_ipv6_stat
   __slots__ = ('_path_helper', '_extmethods', '__enabled','__mtu','__dup_addr_detect_transmits','__dhcp_client','__counters',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -39586,7 +39395,6 @@ class yc_ipv6_openconfig_interfaces__interfaces_interface_routed_vlan_ipv6(Pybin
   __slots__ = ('_path_helper', '_extmethods', '__addresses','__router_advertisement','__neighbors','__unnumbered','__config','__state',)
 
   _yang_name = 'ipv6'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -39882,7 +39690,6 @@ interface), IRB (integrated routing and bridging), RVI
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__ipv4','__ipv6',)
 
   _yang_name = 'routed-vlan'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -40092,7 +39899,6 @@ tunnel interface
   __slots__ = ('_path_helper', '_extmethods', '__src','__dst','__ttl','__gre_key',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -40310,7 +40116,6 @@ the tunnel interface.
   __slots__ = ('_path_helper', '_extmethods', '__src','__dst','__ttl','__gre_key',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -40528,7 +40333,6 @@ address on the interface
   __slots__ = ('_path_helper', '_extmethods', '__ip','__prefix_length',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -40660,7 +40464,6 @@ configured on the interface
   __slots__ = ('_path_helper', '_extmethods', '__ip','__prefix_length','__origin',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -40832,7 +40635,6 @@ class yc_address_openconfig_interfaces__interfaces_interface_tunnel_ipv4_address
   __slots__ = ('_path_helper', '_extmethods', '__ip','__config','__state',)
 
   _yang_name = 'address'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -41011,7 +40813,6 @@ class yc_addresses_openconfig_interfaces__interfaces_interface_tunnel_ipv4_addre
   __slots__ = ('_path_helper', '_extmethods', '__address',)
 
   _yang_name = 'addresses'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -41103,7 +40904,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_tunnel_ipv4_proxy_ar
   __slots__ = ('_path_helper', '_extmethods', '__mode',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -41209,7 +41009,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_tunnel_ipv4_proxy_arp
   __slots__ = ('_path_helper', '_extmethods', '__mode',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -41318,7 +41117,6 @@ explicitly destined to the local system.
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'proxy-arp'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -41450,7 +41248,6 @@ address on the interface
   __slots__ = ('_path_helper', '_extmethods', '__ip','__link_layer_address',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -41582,7 +41379,6 @@ configured on the interface
   __slots__ = ('_path_helper', '_extmethods', '__ip','__link_layer_address','__origin',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -41756,7 +41552,6 @@ ARP Cache.
   __slots__ = ('_path_helper', '_extmethods', '__ip','__config','__state',)
 
   _yang_name = 'neighbor'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -41935,7 +41730,6 @@ class yc_neighbors_openconfig_interfaces__interfaces_interface_tunnel_ipv4_neigh
   __slots__ = ('_path_helper', '_extmethods', '__neighbor',)
 
   _yang_name = 'neighbors'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -42035,7 +41829,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_tunnel_ipv4_unnumber
   __slots__ = ('_path_helper', '_extmethods', '__enabled',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -42131,7 +41924,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_tunnel_ipv4_unnumbere
   __slots__ = ('_path_helper', '_extmethods', '__enabled',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -42227,7 +42019,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_tunnel_ipv4_unnumber
   __slots__ = ('_path_helper', '_extmethods', '__interface','__subinterface',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -42368,7 +42159,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_tunnel_ipv4_unnumbere
   __slots__ = ('_path_helper', '_extmethods', '__interface','__subinterface',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -42509,7 +42299,6 @@ class yc_interface_ref_openconfig_interfaces__interfaces_interface_tunnel_ipv4_u
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'interface-ref'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -42642,7 +42431,6 @@ address information
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__interface_ref',)
 
   _yang_name = 'unnumbered'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -42812,7 +42600,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_tunnel_ipv4_config(P
   __slots__ = ('_path_helper', '_extmethods', '__enabled','__mtu','__dhcp_client',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -43005,7 +42792,6 @@ reception for the address family.
   __slots__ = ('_path_helper', '_extmethods', '__in_pkts','__in_octets','__in_error_pkts','__in_forwarded_pkts','__in_forwarded_octets','__in_discarded_pkts','__out_pkts','__out_octets','__out_error_pkts','__out_forwarded_pkts','__out_forwarded_octets','__out_discarded_pkts',)
 
   _yang_name = 'counters'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -43594,7 +43380,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_tunnel_ipv4_state(Pyb
   __slots__ = ('_path_helper', '_extmethods', '__enabled','__mtu','__dhcp_client','__counters',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -43827,7 +43612,6 @@ class yc_ipv4_openconfig_interfaces__interfaces_interface_tunnel_ipv4(PybindBase
   __slots__ = ('_path_helper', '_extmethods', '__addresses','__proxy_arp','__neighbors','__unnumbered','__config','__state',)
 
   _yang_name = 'ipv4'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -44125,7 +43909,6 @@ the interface
   __slots__ = ('_path_helper', '_extmethods', '__ip','__prefix_length',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -44257,7 +44040,6 @@ interface
   __slots__ = ('_path_helper', '_extmethods', '__ip','__prefix_length','__origin','__status',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -44470,7 +44252,6 @@ class yc_address_openconfig_interfaces__interfaces_interface_tunnel_ipv6_address
   __slots__ = ('_path_helper', '_extmethods', '__ip','__config','__state',)
 
   _yang_name = 'address'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -44649,7 +44430,6 @@ class yc_addresses_openconfig_interfaces__interfaces_interface_tunnel_ipv6_addre
   __slots__ = ('_path_helper', '_extmethods', '__address',)
 
   _yang_name = 'addresses'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -44742,7 +44522,6 @@ for IPv6.
   __slots__ = ('_path_helper', '_extmethods', '__interval','__lifetime','__suppress',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -44921,7 +44700,6 @@ advertisements for IPv6.
   __slots__ = ('_path_helper', '_extmethods', '__interval','__lifetime','__suppress',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -45100,7 +44878,6 @@ router advertisements.
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'router-advertisement'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -45236,7 +45013,6 @@ the interface
   __slots__ = ('_path_helper', '_extmethods', '__ip','__link_layer_address',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -45368,7 +45144,6 @@ interface
   __slots__ = ('_path_helper', '_extmethods', '__ip','__link_layer_address','__origin','__is_router','__neighbor_state',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -45618,7 +45393,6 @@ class yc_neighbor_openconfig_interfaces__interfaces_interface_tunnel_ipv6_neighb
   __slots__ = ('_path_helper', '_extmethods', '__ip','__config','__state',)
 
   _yang_name = 'neighbor'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -45797,7 +45571,6 @@ class yc_neighbors_openconfig_interfaces__interfaces_interface_tunnel_ipv6_neigh
   __slots__ = ('_path_helper', '_extmethods', '__neighbor',)
 
   _yang_name = 'neighbors'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -45889,7 +45662,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_tunnel_ipv6_unnumber
   __slots__ = ('_path_helper', '_extmethods', '__enabled',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -45985,7 +45757,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_tunnel_ipv6_unnumbere
   __slots__ = ('_path_helper', '_extmethods', '__enabled',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -46081,7 +45852,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_tunnel_ipv6_unnumber
   __slots__ = ('_path_helper', '_extmethods', '__interface','__subinterface',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -46222,7 +45992,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_tunnel_ipv6_unnumbere
   __slots__ = ('_path_helper', '_extmethods', '__interface','__subinterface',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -46363,7 +46132,6 @@ class yc_interface_ref_openconfig_interfaces__interfaces_interface_tunnel_ipv6_u
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'interface-ref'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -46496,7 +46264,6 @@ address information
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__interface_ref',)
 
   _yang_name = 'unnumbered'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -46666,7 +46433,6 @@ class yc_config_openconfig_interfaces__interfaces_interface_tunnel_ipv6_config(P
   __slots__ = ('_path_helper', '_extmethods', '__enabled','__mtu','__dup_addr_detect_transmits','__dhcp_client',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -46908,7 +46674,6 @@ reception for the address family.
   __slots__ = ('_path_helper', '_extmethods', '__in_pkts','__in_octets','__in_error_pkts','__in_forwarded_pkts','__in_forwarded_octets','__in_discarded_pkts','__out_pkts','__out_octets','__out_error_pkts','__out_forwarded_pkts','__out_forwarded_octets','__out_discarded_pkts',)
 
   _yang_name = 'counters'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -47497,7 +47262,6 @@ class yc_state_openconfig_interfaces__interfaces_interface_tunnel_ipv6_state(Pyb
   __slots__ = ('_path_helper', '_extmethods', '__enabled','__mtu','__dup_addr_detect_transmits','__dhcp_client','__counters',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -47779,7 +47543,6 @@ class yc_ipv6_openconfig_interfaces__interfaces_interface_tunnel_ipv6(PybindBase
   __slots__ = ('_path_helper', '_extmethods', '__addresses','__router_advertisement','__neighbors','__unnumbered','__config','__state',)
 
   _yang_name = 'ipv6'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -48076,7 +47839,6 @@ with them.
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__ipv4','__ipv6',)
 
   _yang_name = 'tunnel'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -48289,7 +48051,6 @@ class yc_interface_openconfig_interfaces__interfaces_interface(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state','__hold_time','__subinterfaces','__ethernet','__aggregation','__routed_vlan','__tunnel',)
 
   _yang_name = 'interface'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -48723,7 +48484,6 @@ and state data.
   __slots__ = ('_path_helper', '_extmethods', '__interface',)
 
   _yang_name = 'interfaces'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -48842,7 +48602,6 @@ to IETF Documents (http://trustee.ietf.org/license-info).
   __slots__ = ('_path_helper', '_extmethods', '__interfaces',)
 
   _yang_name = 'openconfig-interfaces'
-  _yang_namespace = 'http://openconfig.net/yang/interfaces'
 
   _pybind_generated_by = 'container'
 
@@ -48933,22 +48692,6 @@ class openconfig_if_ethernet(PybindBase):
 
   YANG Description: Model for managing Ethernet interfaces -- augments the OpenConfig
 model for interface configuration and state.
-  """
-  _pyangbind_elements = {}
-
-  
-
-class openconfig_if_types(PybindBase):
-  """
-  This class was auto-generated by the PythonClass plugin for PYANG
-  from YANG module openconfig-if-types - based on the path /openconfig-if-types. Each member element of
-  the container is represented as a class variable - with a specific
-  YANG type.
-
-  YANG Description: This module contains a set of interface type definitions that
-are used across OpenConfig models. These are generally physical
-or logical interfaces, distinct from hardware ports (which are
-described by the OpenConfig platform model).
   """
   _pyangbind_elements = {}
 

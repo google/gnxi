@@ -33,7 +33,7 @@ parameters for configuration and state provide extensions that control
 the P4RT service, or allow it to be used alongside other OpenConfig
 data models.
 
-The P4RT protocol specification is linkde from https://p4.org/specs/
+The P4RT protocol specification is linked from https://p4.org/specs/
 under the P4Runtime heading.
   """
   _pyangbind_elements = {}

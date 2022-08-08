@@ -47,7 +47,6 @@ class yc_config_openconfig_routing_policy__routing_policy_defined_sets_prefix_se
   __slots__ = ('_path_helper', '_extmethods', '__name','__mode',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -192,7 +191,6 @@ class yc_state_openconfig_routing_policy__routing_policy_defined_sets_prefix_set
   __slots__ = ('_path_helper', '_extmethods', '__name','__mode',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -337,7 +335,6 @@ class yc_config_openconfig_routing_policy__routing_policy_defined_sets_prefix_se
   __slots__ = ('_path_helper', '_extmethods', '__ip_prefix','__masklength_range',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -347,7 +344,7 @@ class yc_config_openconfig_routing_policy__routing_policy_defined_sets_prefix_se
 
     self._extmethods = False
     self.__ip_prefix = YANGDynClass(base=[RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])){3}/([0-9]|[12][0-9]|3[0-2])'}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:))/(12[0-8]|1[0-1][0-9]|[1-9][0-9]|[0-9])'}),], is_leaf=True, yang_name="ip-prefix", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/routing-policy', defining_module='openconfig-routing-policy', yang_type='oc-inet:ip-prefix', is_config=True)
-    self.__masklength_range = YANGDynClass(base=RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(([0-9]+\\.\\.[0-9]+)|exact)$'}), is_leaf=True, yang_name="masklength-range", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/routing-policy', defining_module='openconfig-routing-policy', yang_type='string', is_config=True)
+    self.__masklength_range = YANGDynClass(base=RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(([0-9]+\\.\\.[0-9]+)|exact)'}), is_leaf=True, yang_name="masklength-range", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/routing-policy', defining_module='openconfig-routing-policy', yang_type='string', is_config=True)
 
     load = kwargs.pop("load", None)
     if args:
@@ -460,12 +457,12 @@ masklength-range: exact
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(([0-9]+\\.\\.[0-9]+)|exact)$'}), is_leaf=True, yang_name="masklength-range", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/routing-policy', defining_module='openconfig-routing-policy', yang_type='string', is_config=True)
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(([0-9]+\\.\\.[0-9]+)|exact)'}), is_leaf=True, yang_name="masklength-range", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/routing-policy', defining_module='openconfig-routing-policy', yang_type='string', is_config=True)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """masklength_range must be of a type compatible with string""",
           'defined-type': "string",
-          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(([0-9]+\\.\\.[0-9]+)|exact)$'}), is_leaf=True, yang_name="masklength-range", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/routing-policy', defining_module='openconfig-routing-policy', yang_type='string', is_config=True)""",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(([0-9]+\\.\\.[0-9]+)|exact)'}), is_leaf=True, yang_name="masklength-range", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/routing-policy', defining_module='openconfig-routing-policy', yang_type='string', is_config=True)""",
         })
 
     self.__masklength_range = t
@@ -473,7 +470,7 @@ masklength-range: exact
       self._set()
 
   def _unset_masklength_range(self):
-    self.__masklength_range = YANGDynClass(base=RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(([0-9]+\\.\\.[0-9]+)|exact)$'}), is_leaf=True, yang_name="masklength-range", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/routing-policy', defining_module='openconfig-routing-policy', yang_type='string', is_config=True)
+    self.__masklength_range = YANGDynClass(base=RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(([0-9]+\\.\\.[0-9]+)|exact)'}), is_leaf=True, yang_name="masklength-range", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/routing-policy', defining_module='openconfig-routing-policy', yang_type='string', is_config=True)
 
   ip_prefix = __builtin__.property(_get_ip_prefix, _set_ip_prefix)
   masklength_range = __builtin__.property(_get_masklength_range, _set_masklength_range)
@@ -494,7 +491,6 @@ class yc_state_openconfig_routing_policy__routing_policy_defined_sets_prefix_set
   __slots__ = ('_path_helper', '_extmethods', '__ip_prefix','__masklength_range',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -504,7 +500,7 @@ class yc_state_openconfig_routing_policy__routing_policy_defined_sets_prefix_set
 
     self._extmethods = False
     self.__ip_prefix = YANGDynClass(base=[RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])){3}/([0-9]|[12][0-9]|3[0-2])'}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:))/(12[0-8]|1[0-1][0-9]|[1-9][0-9]|[0-9])'}),], is_leaf=True, yang_name="ip-prefix", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/routing-policy', defining_module='openconfig-routing-policy', yang_type='oc-inet:ip-prefix', is_config=False)
-    self.__masklength_range = YANGDynClass(base=RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(([0-9]+\\.\\.[0-9]+)|exact)$'}), is_leaf=True, yang_name="masklength-range", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/routing-policy', defining_module='openconfig-routing-policy', yang_type='string', is_config=False)
+    self.__masklength_range = YANGDynClass(base=RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(([0-9]+\\.\\.[0-9]+)|exact)'}), is_leaf=True, yang_name="masklength-range", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/routing-policy', defining_module='openconfig-routing-policy', yang_type='string', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -617,12 +613,12 @@ masklength-range: exact
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(([0-9]+\\.\\.[0-9]+)|exact)$'}), is_leaf=True, yang_name="masklength-range", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/routing-policy', defining_module='openconfig-routing-policy', yang_type='string', is_config=False)
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(([0-9]+\\.\\.[0-9]+)|exact)'}), is_leaf=True, yang_name="masklength-range", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/routing-policy', defining_module='openconfig-routing-policy', yang_type='string', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """masklength_range must be of a type compatible with string""",
           'defined-type': "string",
-          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(([0-9]+\\.\\.[0-9]+)|exact)$'}), is_leaf=True, yang_name="masklength-range", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/routing-policy', defining_module='openconfig-routing-policy', yang_type='string', is_config=False)""",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(([0-9]+\\.\\.[0-9]+)|exact)'}), is_leaf=True, yang_name="masklength-range", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/routing-policy', defining_module='openconfig-routing-policy', yang_type='string', is_config=False)""",
         })
 
     self.__masklength_range = t
@@ -630,7 +626,7 @@ masklength-range: exact
       self._set()
 
   def _unset_masklength_range(self):
-    self.__masklength_range = YANGDynClass(base=RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '^(([0-9]+\\.\\.[0-9]+)|exact)$'}), is_leaf=True, yang_name="masklength-range", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/routing-policy', defining_module='openconfig-routing-policy', yang_type='string', is_config=False)
+    self.__masklength_range = YANGDynClass(base=RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(([0-9]+\\.\\.[0-9]+)|exact)'}), is_leaf=True, yang_name="masklength-range", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/routing-policy', defining_module='openconfig-routing-policy', yang_type='string', is_config=False)
 
   ip_prefix = __builtin__.property(_get_ip_prefix)
   masklength_range = __builtin__.property(_get_masklength_range)
@@ -651,7 +647,6 @@ class yc_prefix_openconfig_routing_policy__routing_policy_defined_sets_prefix_se
   __slots__ = ('_path_helper', '_extmethods', '__ip_prefix','__masklength_range','__config','__state',)
 
   _yang_name = 'prefix'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -871,7 +866,6 @@ prefix list
   __slots__ = ('_path_helper', '_extmethods', '__prefix',)
 
   _yang_name = 'prefixes'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -963,7 +957,6 @@ class yc_prefix_set_openconfig_routing_policy__routing_policy_defined_sets_prefi
   __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state','__prefixes',)
 
   _yang_name = 'prefix-set'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -1179,7 +1172,6 @@ class yc_prefix_sets_openconfig_routing_policy__routing_policy_defined_sets_pref
   __slots__ = ('_path_helper', '_extmethods', '__prefix_set',)
 
   _yang_name = 'prefix-sets'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -1271,7 +1263,6 @@ class yc_config_openconfig_routing_policy__routing_policy_defined_sets_neighbor_
   __slots__ = ('_path_helper', '_extmethods', '__name','__address',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -1404,7 +1395,6 @@ class yc_state_openconfig_routing_policy__routing_policy_defined_sets_neighbor_s
   __slots__ = ('_path_helper', '_extmethods', '__name','__address',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -1537,7 +1527,6 @@ class yc_neighbor_set_openconfig_routing_policy__routing_policy_defined_sets_nei
   __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state',)
 
   _yang_name = 'neighbor-set'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -1713,7 +1702,6 @@ definitions
   __slots__ = ('_path_helper', '_extmethods', '__neighbor_set',)
 
   _yang_name = 'neighbor-sets'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -1805,7 +1793,6 @@ class yc_config_openconfig_routing_policy__routing_policy_defined_sets_tag_sets_
   __slots__ = ('_path_helper', '_extmethods', '__name','__tag_value',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -1938,7 +1925,6 @@ class yc_state_openconfig_routing_policy__routing_policy_defined_sets_tag_sets_t
   __slots__ = ('_path_helper', '_extmethods', '__name','__tag_value',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -2071,7 +2057,6 @@ class yc_tag_set_openconfig_routing_policy__routing_policy_defined_sets_tag_sets
   __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state',)
 
   _yang_name = 'tag-set'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -2246,7 +2231,6 @@ class yc_tag_sets_openconfig_routing_policy__routing_policy_defined_sets_tag_set
   __slots__ = ('_path_helper', '_extmethods', '__tag_set',)
 
   _yang_name = 'tag-sets'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -2339,7 +2323,6 @@ statements
   __slots__ = ('_path_helper', '_extmethods', '__prefix_sets','__neighbor_sets','__tag_sets',)
 
   _yang_name = 'defined-sets'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -2511,7 +2494,6 @@ class yc_config_openconfig_routing_policy__routing_policy_policy_definitions_pol
   __slots__ = ('_path_helper', '_extmethods', '__name',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -2605,7 +2587,6 @@ class yc_state_openconfig_routing_policy__routing_policy_policy_definitions_poli
   __slots__ = ('_path_helper', '_extmethods', '__name',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -2699,7 +2680,6 @@ class yc_config_openconfig_routing_policy__routing_policy_policy_definitions_pol
   __slots__ = ('_path_helper', '_extmethods', '__name',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -2791,7 +2771,6 @@ class yc_state_openconfig_routing_policy__routing_policy_policy_definitions_poli
   __slots__ = ('_path_helper', '_extmethods', '__name',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -2883,7 +2862,6 @@ class yc_config_openconfig_routing_policy__routing_policy_policy_definitions_pol
   __slots__ = ('_path_helper', '_extmethods', '__call_policy','__install_protocol_eq',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -3036,7 +3014,6 @@ class yc_state_openconfig_routing_policy__routing_policy_policy_definitions_poli
   __slots__ = ('_path_helper', '_extmethods', '__call_policy','__install_protocol_eq',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -3189,7 +3166,6 @@ class yc_config_openconfig_routing_policy__routing_policy_policy_definitions_pol
   __slots__ = ('_path_helper', '_extmethods', '__interface','__subinterface',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -3330,7 +3306,6 @@ class yc_state_openconfig_routing_policy__routing_policy_policy_definitions_poli
   __slots__ = ('_path_helper', '_extmethods', '__interface','__subinterface',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -3471,7 +3446,6 @@ class yc_match_interface_openconfig_routing_policy__routing_policy_policy_defini
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'match-interface'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -3602,7 +3576,6 @@ class yc_config_openconfig_routing_policy__routing_policy_policy_definitions_pol
   __slots__ = ('_path_helper', '_extmethods', '__prefix_set','__match_set_options',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -3739,7 +3712,6 @@ class yc_state_openconfig_routing_policy__routing_policy_policy_definitions_poli
   __slots__ = ('_path_helper', '_extmethods', '__prefix_set','__match_set_options',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -3877,7 +3849,6 @@ defined in the match-set-options leaf
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'match-prefix-set'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -4008,7 +3979,6 @@ class yc_config_openconfig_routing_policy__routing_policy_policy_definitions_pol
   __slots__ = ('_path_helper', '_extmethods', '__neighbor_set','__match_set_options',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -4145,7 +4115,6 @@ class yc_state_openconfig_routing_policy__routing_policy_policy_definitions_poli
   __slots__ = ('_path_helper', '_extmethods', '__neighbor_set','__match_set_options',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -4283,7 +4252,6 @@ defined in the match-set-options-leaf
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'match-neighbor-set'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -4414,7 +4382,6 @@ class yc_config_openconfig_routing_policy__routing_policy_policy_definitions_pol
   __slots__ = ('_path_helper', '_extmethods', '__tag_set','__match_set_options',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -4551,7 +4518,6 @@ class yc_state_openconfig_routing_policy__routing_policy_policy_definitions_poli
   __slots__ = ('_path_helper', '_extmethods', '__tag_set','__match_set_options',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -4689,7 +4655,6 @@ in the match-options-set leaf
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'match-tag-set'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -4820,7 +4785,6 @@ class yc_conditions_openconfig_routing_policy__routing_policy_policy_definitions
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__match_interface','__match_prefix_set','__match_neighbor_set','__match_tag_set',)
 
   _yang_name = 'conditions'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -5113,7 +5077,6 @@ class yc_config_openconfig_routing_policy__routing_policy_policy_definitions_pol
   __slots__ = ('_path_helper', '_extmethods', '__policy_result',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -5207,7 +5170,6 @@ class yc_state_openconfig_routing_policy__routing_policy_policy_definitions_poli
   __slots__ = ('_path_helper', '_extmethods', '__policy_result',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -5301,7 +5263,6 @@ class yc_config_openconfig_routing_policy__routing_policy_policy_definitions_pol
   __slots__ = ('_path_helper', '_extmethods', '__mode',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -5401,7 +5362,6 @@ class yc_state_openconfig_routing_policy__routing_policy_policy_definitions_poli
   __slots__ = ('_path_helper', '_extmethods', '__mode',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -5501,7 +5461,6 @@ class yc_config_openconfig_routing_policy__routing_policy_policy_definitions_pol
   __slots__ = ('_path_helper', '_extmethods', '__tag',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -5603,7 +5562,6 @@ class yc_state_openconfig_routing_policy__routing_policy_policy_definitions_poli
   __slots__ = ('_path_helper', '_extmethods', '__tag',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -5707,7 +5665,6 @@ is explicitly specified as INLINE.
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'inline'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -5839,7 +5796,6 @@ a route.
   __slots__ = ('_path_helper', '_extmethods', '__tag_set',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -5942,7 +5898,6 @@ route.
   __slots__ = ('_path_helper', '_extmethods', '__tag_set',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -6046,7 +6001,6 @@ specified within the tag-set
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'reference'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -6183,7 +6137,6 @@ protocol attributes where applicable.
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__inline','__reference',)
 
   _yang_name = 'set-tag'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -6400,7 +6353,6 @@ class yc_actions_openconfig_routing_policy__routing_policy_policy_definitions_po
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__set_tag',)
 
   _yang_name = 'actions'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -6577,7 +6529,6 @@ evaluation at the top of this module.
   __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state','__conditions','__actions',)
 
   _yang_name = 'statement'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -6830,7 +6781,6 @@ class yc_statements_openconfig_routing_policy__routing_policy_policy_definitions
   __slots__ = ('_path_helper', '_extmethods', '__statement',)
 
   _yang_name = 'statements'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -6931,7 +6881,6 @@ or export configuration statements.
   __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state','__statements',)
 
   _yang_name = 'policy-definition'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -7146,7 +7095,6 @@ class yc_policy_definitions_openconfig_routing_policy__routing_policy_policy_def
   __slots__ = ('_path_helper', '_extmethods', '__policy_definition',)
 
   _yang_name = 'policy-definitions'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -7244,7 +7192,6 @@ class yc_routing_policy_openconfig_routing_policy__routing_policy(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__defined_sets','__policy_definitions',)
 
   _yang_name = 'routing-policy'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 
@@ -7432,7 +7379,6 @@ subroutine performed any changes to the route).
   __slots__ = ('_path_helper', '_extmethods', '__routing_policy',)
 
   _yang_name = 'openconfig-routing-policy'
-  _yang_namespace = 'http://openconfig.net/yang/routing-policy'
 
   _pybind_generated_by = 'container'
 

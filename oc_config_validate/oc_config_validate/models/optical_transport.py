@@ -32,7 +32,6 @@ class yc_config_openconfig_optical_amplifier__optical_amplifier_amplifiers_ampli
   __slots__ = ('_path_helper', '_extmethods', '__name','__type','__target_gain','__min_gain','__max_gain','__target_gain_tilt','__gain_range','__amp_mode','__target_output_power','__max_output_power','__enabled','__fiber_type_profile',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/optical-amplfier'
 
   _pybind_generated_by = 'container'
 
@@ -591,7 +590,6 @@ just supply the instant value
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'actual-gain'
-  _yang_namespace = 'http://openconfig.net/yang/optical-amplfier'
 
   _pybind_generated_by = 'container'
 
@@ -935,7 +933,6 @@ just supply the instant value
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'actual-gain-tilt'
-  _yang_namespace = 'http://openconfig.net/yang/optical-amplfier'
 
   _pybind_generated_by = 'container'
 
@@ -1279,7 +1276,6 @@ just supply the instant value
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'input-power-total'
-  _yang_namespace = 'http://openconfig.net/yang/optical-amplfier'
 
   _pybind_generated_by = 'container'
 
@@ -1624,7 +1620,6 @@ just supply the instant value
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'input-power-c-band'
-  _yang_namespace = 'http://openconfig.net/yang/optical-amplfier'
 
   _pybind_generated_by = 'container'
 
@@ -1969,7 +1964,6 @@ just supply the instant value
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'input-power-l-band'
-  _yang_namespace = 'http://openconfig.net/yang/optical-amplfier'
 
   _pybind_generated_by = 'container'
 
@@ -2313,7 +2307,6 @@ just supply the instant value
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'output-power-total'
-  _yang_namespace = 'http://openconfig.net/yang/optical-amplfier'
 
   _pybind_generated_by = 'container'
 
@@ -2658,7 +2651,6 @@ just supply the instant value
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'output-power-c-band'
-  _yang_namespace = 'http://openconfig.net/yang/optical-amplfier'
 
   _pybind_generated_by = 'container'
 
@@ -3003,7 +2995,6 @@ just supply the instant value
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'output-power-l-band'
-  _yang_namespace = 'http://openconfig.net/yang/optical-amplfier'
 
   _pybind_generated_by = 'container'
 
@@ -3348,7 +3339,6 @@ are not supported, just supply the instant value
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'laser-bias-current'
-  _yang_namespace = 'http://openconfig.net/yang/optical-amplfier'
 
   _pybind_generated_by = 'container'
 
@@ -3695,7 +3685,6 @@ statistics are not supported, just supply the instant value
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'optical-return-loss'
-  _yang_namespace = 'http://openconfig.net/yang/optical-amplfier'
 
   _pybind_generated_by = 'container'
 
@@ -4037,7 +4026,6 @@ class yc_state_openconfig_optical_amplifier__optical_amplifier_amplifiers_amplif
   __slots__ = ('_path_helper', '_extmethods', '__name','__type','__target_gain','__min_gain','__max_gain','__target_gain_tilt','__gain_range','__amp_mode','__target_output_power','__max_output_power','__enabled','__fiber_type_profile','__component','__ingress_port','__egress_port','__actual_gain','__actual_gain_tilt','__input_power_total','__input_power_c_band','__input_power_l_band','__output_power_total','__output_power_c_band','__output_power_l_band','__laser_bias_current','__optical_return_loss',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/optical-amplfier'
 
   _pybind_generated_by = 'container'
 
@@ -5163,7 +5151,6 @@ class yc_amplifier_openconfig_optical_amplifier__optical_amplifier_amplifiers_am
   __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state',)
 
   _yang_name = 'amplifier'
-  _yang_namespace = 'http://openconfig.net/yang/optical-amplfier'
 
   _pybind_generated_by = 'container'
 
@@ -5338,7 +5325,6 @@ class yc_amplifiers_openconfig_optical_amplifier__optical_amplifier_amplifiers(P
   __slots__ = ('_path_helper', '_extmethods', '__amplifier',)
 
   _yang_name = 'amplifiers'
-  _yang_namespace = 'http://openconfig.net/yang/optical-amplfier'
 
   _pybind_generated_by = 'container'
 
@@ -5430,7 +5416,6 @@ class yc_config_openconfig_optical_amplifier__optical_amplifier_supervisory_chan
   __slots__ = ('_path_helper', '_extmethods', '__interface',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/optical-amplfier'
 
   _pybind_generated_by = 'container'
 
@@ -5524,7 +5509,6 @@ the target is expected to just supply the instant value
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'input-power'
-  _yang_namespace = 'http://openconfig.net/yang/optical-amplfier'
 
   _pybind_generated_by = 'container'
 
@@ -5868,7 +5852,6 @@ the target is expected to just supply the instant value
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'output-power'
-  _yang_namespace = 'http://openconfig.net/yang/optical-amplfier'
 
   _pybind_generated_by = 'container'
 
@@ -6214,7 +6197,6 @@ the instant value
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'laser-bias-current'
-  _yang_namespace = 'http://openconfig.net/yang/optical-amplfier'
 
   _pybind_generated_by = 'container'
 
@@ -6558,7 +6540,6 @@ class yc_state_openconfig_optical_amplifier__optical_amplifier_supervisory_chann
   __slots__ = ('_path_helper', '_extmethods', '__interface','__input_power','__output_power','__laser_bias_current','__output_frequency',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/optical-amplfier'
 
   _pybind_generated_by = 'container'
 
@@ -6828,7 +6809,6 @@ class yc_supervisory_channel_openconfig_optical_amplifier__optical_amplifier_sup
   __slots__ = ('_path_helper', '_extmethods', '__interface','__config','__state',)
 
   _yang_name = 'supervisory-channel'
-  _yang_namespace = 'http://openconfig.net/yang/optical-amplfier'
 
   _pybind_generated_by = 'container'
 
@@ -7003,7 +6983,6 @@ class yc_supervisory_channels_openconfig_optical_amplifier__optical_amplifier_su
   __slots__ = ('_path_helper', '_extmethods', '__supervisory_channel',)
 
   _yang_name = 'supervisory-channels'
-  _yang_namespace = 'http://openconfig.net/yang/optical-amplfier'
 
   _pybind_generated_by = 'container'
 
@@ -7095,7 +7074,6 @@ class yc_optical_amplifier_openconfig_optical_amplifier__optical_amplifier(Pybin
   __slots__ = ('_path_helper', '_extmethods', '__amplifiers','__supervisory_channels',)
 
   _yang_name = 'optical-amplifier'
-  _yang_namespace = 'http://openconfig.net/yang/optical-amplfier'
 
   _pybind_generated_by = 'container'
 
@@ -7228,7 +7206,6 @@ line system.
   __slots__ = ('_path_helper', '_extmethods', '__optical_amplifier',)
 
   _yang_name = 'openconfig-optical-amplifier'
-  _yang_namespace = 'http://openconfig.net/yang/optical-amplfier'
 
   _pybind_generated_by = 'container'
 
@@ -7336,7 +7313,6 @@ switch module
   __slots__ = ('_path_helper', '_extmethods', '__name','__revertive','__wait_to_restore_time','__hold_off_time','__primary_switch_threshold','__primary_switch_hysteresis','__secondary_switch_threshold','__relative_switch_threshold','__relative_switch_threshold_offset','__force_to_port',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -7870,7 +7846,6 @@ switch module
   __slots__ = ('_path_helper', '_extmethods', '__name','__revertive','__wait_to_restore_time','__hold_off_time','__primary_switch_threshold','__primary_switch_hysteresis','__secondary_switch_threshold','__relative_switch_threshold','__relative_switch_threshold_offset','__force_to_port','__active_path',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -8444,7 +8419,6 @@ class yc_config_openconfig_transport_line_protection__aps_aps_modules_aps_module
   __slots__ = ('_path_helper', '_extmethods', '__enabled','__target_attenuation',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -8586,7 +8560,6 @@ just supply the instant value
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'optical-power'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -8928,7 +8901,6 @@ class yc_state_openconfig_transport_line_protection__aps_aps_modules_aps_module_
   __slots__ = ('_path_helper', '_extmethods', '__enabled','__target_attenuation','__attenuation','__optical_power',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -9156,7 +9128,6 @@ input port
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'line-primary-in'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -9287,7 +9258,6 @@ class yc_config_openconfig_transport_line_protection__aps_aps_modules_aps_module
   __slots__ = ('_path_helper', '_extmethods', '__target_attenuation',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -9386,7 +9356,6 @@ just supply the instant value
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'optical-power'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -9728,7 +9697,6 @@ class yc_state_openconfig_transport_line_protection__aps_aps_modules_aps_module_
   __slots__ = ('_path_helper', '_extmethods', '__target_attenuation','__attenuation','__optical_power',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -9913,7 +9881,6 @@ output port
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'line-primary-out'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -10044,7 +10011,6 @@ class yc_config_openconfig_transport_line_protection__aps_aps_modules_aps_module
   __slots__ = ('_path_helper', '_extmethods', '__enabled','__target_attenuation',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -10186,7 +10152,6 @@ just supply the instant value
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'optical-power'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -10528,7 +10493,6 @@ class yc_state_openconfig_transport_line_protection__aps_aps_modules_aps_module_
   __slots__ = ('_path_helper', '_extmethods', '__enabled','__target_attenuation','__attenuation','__optical_power',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -10756,7 +10720,6 @@ input port
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'line-secondary-in'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -10887,7 +10850,6 @@ class yc_config_openconfig_transport_line_protection__aps_aps_modules_aps_module
   __slots__ = ('_path_helper', '_extmethods', '__target_attenuation',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -10986,7 +10948,6 @@ just supply the instant value
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'optical-power'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -11328,7 +11289,6 @@ class yc_state_openconfig_transport_line_protection__aps_aps_modules_aps_module_
   __slots__ = ('_path_helper', '_extmethods', '__target_attenuation','__attenuation','__optical_power',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -11513,7 +11473,6 @@ output port
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'line-secondary-out'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -11644,7 +11603,6 @@ class yc_config_openconfig_transport_line_protection__aps_aps_modules_aps_module
   __slots__ = ('_path_helper', '_extmethods', '__enabled','__target_attenuation',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -11786,7 +11744,6 @@ just supply the instant value
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'optical-power'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -12128,7 +12085,6 @@ class yc_state_openconfig_transport_line_protection__aps_aps_modules_aps_module_
   __slots__ = ('_path_helper', '_extmethods', '__enabled','__target_attenuation','__attenuation','__optical_power',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -12356,7 +12312,6 @@ input port
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'common-in'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -12487,7 +12442,6 @@ class yc_config_openconfig_transport_line_protection__aps_aps_modules_aps_module
   __slots__ = ('_path_helper', '_extmethods', '__target_attenuation',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -12586,7 +12540,6 @@ just supply the instant value
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'optical-power'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -12928,7 +12881,6 @@ class yc_state_openconfig_transport_line_protection__aps_aps_modules_aps_module_
   __slots__ = ('_path_helper', '_extmethods', '__target_attenuation','__attenuation','__optical_power',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -13113,7 +13065,6 @@ output port
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'common-output'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -13244,7 +13195,6 @@ class yc_ports_openconfig_transport_line_protection__aps_aps_modules_aps_module_
   __slots__ = ('_path_helper', '_extmethods', '__line_primary_in','__line_primary_out','__line_secondary_in','__line_secondary_out','__common_in','__common_output',)
 
   _yang_name = 'ports'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -13544,7 +13494,6 @@ in the device
   __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state','__ports',)
 
   _yang_name = 'aps-module'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -13763,7 +13712,6 @@ class yc_aps_modules_openconfig_transport_line_protection__aps_aps_modules(Pybin
   __slots__ = ('_path_helper', '_extmethods', '__aps_module',)
 
   _yang_name = 'aps-modules'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -13857,7 +13805,6 @@ class yc_aps_openconfig_transport_line_protection__aps(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__aps_modules',)
 
   _yang_name = 'aps'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -13962,7 +13909,6 @@ in the descending order as shown in the following table
   __slots__ = ('_path_helper', '_extmethods', '__aps',)
 
   _yang_name = 'openconfig-transport-line-protection'
-  _yang_namespace = 'http://openconfig.net/yang/optical-transport-line-protection'
 
   _pybind_generated_by = 'container'
 
@@ -14068,7 +14014,6 @@ class yc_config_openconfig_terminal_device__terminal_device_logical_channels_cha
   __slots__ = ('_path_helper', '_extmethods', '__index','__description','__admin_state','__rate_class','__trib_protocol','__logical_channel_type','__loopback_mode','__test_signal','__client_mapping_mode',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -14556,7 +14501,6 @@ class yc_state_openconfig_terminal_device__terminal_device_logical_channels_chan
   __slots__ = ('_path_helper', '_extmethods', '__index','__description','__admin_state','__rate_class','__trib_protocol','__logical_channel_type','__loopback_mode','__test_signal','__client_mapping_mode','__link_state',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -15085,7 +15029,6 @@ class yc_config_openconfig_terminal_device__terminal_device_logical_channels_cha
   __slots__ = ('_path_helper', '_extmethods', '__tti_msg_transmit','__tti_msg_expected','__tti_msg_auto','__tributary_slot_granularity',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -15312,7 +15255,6 @@ instant value
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'pre-fec-ber'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -15664,7 +15606,6 @@ instant value
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'post-fec-ber'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -16012,7 +15953,6 @@ to just supply the instant value
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'q-value'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -16360,7 +16300,6 @@ to just supply the instant value
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'esnr'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -16700,10 +16639,9 @@ class yc_state_openconfig_terminal_device__terminal_device_logical_channels_chan
   YANG Description: Operational state data for OTN protocol PMs, statistics,
 etc.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__tti_msg_transmit','__tti_msg_expected','__tti_msg_auto','__tributary_slot_granularity','__tti_msg_recv','__rdi_msg','__errored_seconds','__severely_errored_seconds','__unavailable_seconds','__code_violations','__errored_blocks','__fec_uncorrectable_blocks','__fec_uncorrectable_words','__fec_corrected_bytes','__fec_corrected_bits','__background_block_errors','__pre_fec_ber','__post_fec_ber','__q_value','__esnr',)
+  __slots__ = ('_path_helper', '_extmethods', '__tti_msg_transmit','__tti_msg_expected','__tti_msg_auto','__tributary_slot_granularity','__tti_msg_recv','__rdi_msg','__errored_seconds','__severely_errored_seconds','__unavailable_seconds','__code_violations','__errored_blocks','__fec_uncorrectable_words','__fec_corrected_bytes','__fec_corrected_bits','__background_block_errors','__fec_uncorrectable_blocks','__pre_fec_ber','__post_fec_ber','__q_value','__esnr',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -16723,11 +16661,11 @@ etc.
     self.__unavailable_seconds = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="unavailable-seconds", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='yang:counter64', is_config=False)
     self.__code_violations = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="code-violations", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='yang:counter64', is_config=False)
     self.__errored_blocks = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="errored-blocks", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='yang:counter64', is_config=False)
-    self.__fec_uncorrectable_blocks = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="fec-uncorrectable-blocks", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='yang:counter64', is_config=False)
     self.__fec_uncorrectable_words = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="fec-uncorrectable-words", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='yang:counter64', is_config=False)
     self.__fec_corrected_bytes = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="fec-corrected-bytes", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='yang:counter64', is_config=False)
     self.__fec_corrected_bits = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="fec-corrected-bits", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='yang:counter64', is_config=False)
     self.__background_block_errors = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="background-block-errors", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='yang:counter64', is_config=False)
+    self.__fec_uncorrectable_blocks = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="fec-uncorrectable-blocks", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='yang:counter64', is_config=False)
     self.__pre_fec_ber = YANGDynClass(base=yc_pre_fec_ber_openconfig_terminal_device__terminal_device_logical_channels_channel_otn_state_pre_fec_ber, is_container='container', yang_name="pre-fec-ber", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='container', is_config=False)
     self.__post_fec_ber = YANGDynClass(base=yc_post_fec_ber_openconfig_terminal_device__terminal_device_logical_channels_channel_otn_state_post_fec_ber, is_container='container', yang_name="post-fec-ber", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='container', is_config=False)
     self.__q_value = YANGDynClass(base=yc_q_value_openconfig_terminal_device__terminal_device_logical_channels_channel_otn_state_q_value, is_container='container', yang_name="q-value", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='container', is_config=False)
@@ -17199,43 +17137,6 @@ the block.
     self.__errored_blocks = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="errored-blocks", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='yang:counter64', is_config=False)
 
 
-  def _get_fec_uncorrectable_blocks(self):
-    """
-    Getter method for fec_uncorrectable_blocks, mapped from YANG variable /terminal_device/logical_channels/channel/otn/state/fec_uncorrectable_blocks (yang:counter64)
-
-    YANG Description: The number of blocks that were uncorrectable by the FEC
-    """
-    return self.__fec_uncorrectable_blocks
-      
-  def _set_fec_uncorrectable_blocks(self, v, load=False):
-    """
-    Setter method for fec_uncorrectable_blocks, mapped from YANG variable /terminal_device/logical_channels/channel/otn/state/fec_uncorrectable_blocks (yang:counter64)
-    If this variable is read-only (config: false) in the
-    source YANG file, then _set_fec_uncorrectable_blocks is considered as a private
-    method. Backends looking to populate this variable should
-    do so via calling thisObj._set_fec_uncorrectable_blocks() directly.
-
-    YANG Description: The number of blocks that were uncorrectable by the FEC
-    """
-    if hasattr(v, "_utype"):
-      v = v._utype(v)
-    try:
-      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="fec-uncorrectable-blocks", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='yang:counter64', is_config=False)
-    except (TypeError, ValueError):
-      raise ValueError({
-          'error-string': """fec_uncorrectable_blocks must be of a type compatible with yang:counter64""",
-          'defined-type': "yang:counter64",
-          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="fec-uncorrectable-blocks", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='yang:counter64', is_config=False)""",
-        })
-
-    self.__fec_uncorrectable_blocks = t
-    if hasattr(self, '_set'):
-      self._set()
-
-  def _unset_fec_uncorrectable_blocks(self):
-    self.__fec_uncorrectable_blocks = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="fec-uncorrectable-blocks", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='yang:counter64', is_config=False)
-
-
   def _get_fec_uncorrectable_words(self):
     """
     Getter method for fec_uncorrectable_words, mapped from YANG variable /terminal_device/logical_channels/channel/otn/state/fec_uncorrectable_words (yang:counter64)
@@ -17382,6 +17283,45 @@ the block.
 
   def _unset_background_block_errors(self):
     self.__background_block_errors = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="background-block-errors", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='yang:counter64', is_config=False)
+
+
+  def _get_fec_uncorrectable_blocks(self):
+    """
+    Getter method for fec_uncorrectable_blocks, mapped from YANG variable /terminal_device/logical_channels/channel/otn/state/fec_uncorrectable_blocks (yang:counter64)
+
+    YANG Description: The number of blocks or frames that were uncorrectable by
+the FEC
+    """
+    return self.__fec_uncorrectable_blocks
+      
+  def _set_fec_uncorrectable_blocks(self, v, load=False):
+    """
+    Setter method for fec_uncorrectable_blocks, mapped from YANG variable /terminal_device/logical_channels/channel/otn/state/fec_uncorrectable_blocks (yang:counter64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fec_uncorrectable_blocks is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fec_uncorrectable_blocks() directly.
+
+    YANG Description: The number of blocks or frames that were uncorrectable by
+the FEC
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="fec-uncorrectable-blocks", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='yang:counter64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fec_uncorrectable_blocks must be of a type compatible with yang:counter64""",
+          'defined-type': "yang:counter64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="fec-uncorrectable-blocks", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='yang:counter64', is_config=False)""",
+        })
+
+    self.__fec_uncorrectable_blocks = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fec_uncorrectable_blocks(self):
+    self.__fec_uncorrectable_blocks = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="fec-uncorrectable-blocks", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='yang:counter64', is_config=False)
 
 
   def _get_pre_fec_ber(self):
@@ -17594,18 +17534,18 @@ to just supply the instant value
   unavailable_seconds = __builtin__.property(_get_unavailable_seconds)
   code_violations = __builtin__.property(_get_code_violations)
   errored_blocks = __builtin__.property(_get_errored_blocks)
-  fec_uncorrectable_blocks = __builtin__.property(_get_fec_uncorrectable_blocks)
   fec_uncorrectable_words = __builtin__.property(_get_fec_uncorrectable_words)
   fec_corrected_bytes = __builtin__.property(_get_fec_corrected_bytes)
   fec_corrected_bits = __builtin__.property(_get_fec_corrected_bits)
   background_block_errors = __builtin__.property(_get_background_block_errors)
+  fec_uncorrectable_blocks = __builtin__.property(_get_fec_uncorrectable_blocks)
   pre_fec_ber = __builtin__.property(_get_pre_fec_ber)
   post_fec_ber = __builtin__.property(_get_post_fec_ber)
   q_value = __builtin__.property(_get_q_value)
   esnr = __builtin__.property(_get_esnr)
 
 
-  _pyangbind_elements = OrderedDict([('tti_msg_transmit', tti_msg_transmit), ('tti_msg_expected', tti_msg_expected), ('tti_msg_auto', tti_msg_auto), ('tributary_slot_granularity', tributary_slot_granularity), ('tti_msg_recv', tti_msg_recv), ('rdi_msg', rdi_msg), ('errored_seconds', errored_seconds), ('severely_errored_seconds', severely_errored_seconds), ('unavailable_seconds', unavailable_seconds), ('code_violations', code_violations), ('errored_blocks', errored_blocks), ('fec_uncorrectable_blocks', fec_uncorrectable_blocks), ('fec_uncorrectable_words', fec_uncorrectable_words), ('fec_corrected_bytes', fec_corrected_bytes), ('fec_corrected_bits', fec_corrected_bits), ('background_block_errors', background_block_errors), ('pre_fec_ber', pre_fec_ber), ('post_fec_ber', post_fec_ber), ('q_value', q_value), ('esnr', esnr), ])
+  _pyangbind_elements = OrderedDict([('tti_msg_transmit', tti_msg_transmit), ('tti_msg_expected', tti_msg_expected), ('tti_msg_auto', tti_msg_auto), ('tributary_slot_granularity', tributary_slot_granularity), ('tti_msg_recv', tti_msg_recv), ('rdi_msg', rdi_msg), ('errored_seconds', errored_seconds), ('severely_errored_seconds', severely_errored_seconds), ('unavailable_seconds', unavailable_seconds), ('code_violations', code_violations), ('errored_blocks', errored_blocks), ('fec_uncorrectable_words', fec_uncorrectable_words), ('fec_corrected_bytes', fec_corrected_bytes), ('fec_corrected_bits', fec_corrected_bits), ('background_block_errors', background_block_errors), ('fec_uncorrectable_blocks', fec_uncorrectable_blocks), ('pre_fec_ber', pre_fec_ber), ('post_fec_ber', post_fec_ber), ('q_value', q_value), ('esnr', esnr), ])
 
 
 class yc_otn_openconfig_terminal_device__terminal_device_logical_channels_channel_otn(PybindBase):
@@ -17622,7 +17562,6 @@ etc.
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'otn'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -17756,7 +17695,6 @@ logical channels
   __slots__ = ('_path_helper', '_extmethods', '__client_als','__als_delay',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -17889,6 +17827,1400 @@ set to LASER_SHUTDOWN
   _pyangbind_elements = OrderedDict([('client_als', client_als), ('als_delay', als_delay), ])
 
 
+class yc_pre_fec_ber_openconfig_terminal_device__terminal_device_logical_channels_channel_ethernet_state_pre_fec_ber(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-terminal-device - based on the path /terminal-device/logical-channels/channel/ethernet/state/pre-fec-ber. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Bit error rate before forward error correction -- computed
+value with 18 decimal precision. Note that decimal64
+supports values as small as i x 10^-18 where i is an
+integer. Values smaller than this should be reported as 0
+to inidicate error free or near error free performance.
+Values include the instantaneous, average, minimum, and
+maximum statistics. If avg/min/max statistics are not
+supported, the target is expected to just supply the
+instant value
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
+
+  _yang_name = 'pre-fec-ber'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__instant = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="instant", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    self.__avg = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="avg", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    self.__min_ = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="min", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    self.__max_ = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="max", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    self.__interval = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:stat-interval', is_config=False)
+    self.__min_time = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="min-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+    self.__max_time = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="max-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['terminal-device', 'logical-channels', 'channel', 'ethernet', 'state', 'pre-fec-ber']
+
+  def _get_instant(self):
+    """
+    Getter method for instant, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/pre_fec_ber/instant (decimal64)
+
+    YANG Description: The instantaneous value of the statistic.
+    """
+    return self.__instant
+      
+  def _set_instant(self, v, load=False):
+    """
+    Setter method for instant, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/pre_fec_ber/instant (decimal64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_instant is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_instant() directly.
+
+    YANG Description: The instantaneous value of the statistic.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="instant", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """instant must be of a type compatible with decimal64""",
+          'defined-type': "decimal64",
+          'generated-type': """YANGDynClass(base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="instant", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)""",
+        })
+
+    self.__instant = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_instant(self):
+    self.__instant = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="instant", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+
+
+  def _get_avg(self):
+    """
+    Getter method for avg, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/pre_fec_ber/avg (decimal64)
+
+    YANG Description: The arithmetic mean value of the statistic over the
+time interval.
+    """
+    return self.__avg
+      
+  def _set_avg(self, v, load=False):
+    """
+    Setter method for avg, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/pre_fec_ber/avg (decimal64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_avg is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_avg() directly.
+
+    YANG Description: The arithmetic mean value of the statistic over the
+time interval.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="avg", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """avg must be of a type compatible with decimal64""",
+          'defined-type': "decimal64",
+          'generated-type': """YANGDynClass(base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="avg", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)""",
+        })
+
+    self.__avg = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_avg(self):
+    self.__avg = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="avg", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+
+
+  def _get_min_(self):
+    """
+    Getter method for min_, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/pre_fec_ber/min (decimal64)
+
+    YANG Description: The minimum value of the statistic over the time
+interval.
+    """
+    return self.__min_
+      
+  def _set_min_(self, v, load=False):
+    """
+    Setter method for min_, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/pre_fec_ber/min (decimal64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_min_ is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_min_() directly.
+
+    YANG Description: The minimum value of the statistic over the time
+interval.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="min", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """min_ must be of a type compatible with decimal64""",
+          'defined-type': "decimal64",
+          'generated-type': """YANGDynClass(base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="min", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)""",
+        })
+
+    self.__min_ = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_min_(self):
+    self.__min_ = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="min", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+
+
+  def _get_max_(self):
+    """
+    Getter method for max_, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/pre_fec_ber/max (decimal64)
+
+    YANG Description: The maximum value of the statistic over the time
+interval.
+    """
+    return self.__max_
+      
+  def _set_max_(self, v, load=False):
+    """
+    Setter method for max_, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/pre_fec_ber/max (decimal64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_max_ is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_max_() directly.
+
+    YANG Description: The maximum value of the statistic over the time
+interval.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="max", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """max_ must be of a type compatible with decimal64""",
+          'defined-type': "decimal64",
+          'generated-type': """YANGDynClass(base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="max", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)""",
+        })
+
+    self.__max_ = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_max_(self):
+    self.__max_ = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="max", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+
+
+  def _get_interval(self):
+    """
+    Getter method for interval, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/pre_fec_ber/interval (oc-types:stat-interval)
+
+    YANG Description: If supported by the system, this reports the time interval
+over which the min/max/average statistics are computed by
+the system.
+    """
+    return self.__interval
+      
+  def _set_interval(self, v, load=False):
+    """
+    Setter method for interval, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/pre_fec_ber/interval (oc-types:stat-interval)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_interval is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_interval() directly.
+
+    YANG Description: If supported by the system, this reports the time interval
+over which the min/max/average statistics are computed by
+the system.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:stat-interval', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """interval must be of a type compatible with oc-types:stat-interval""",
+          'defined-type': "oc-types:stat-interval",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:stat-interval', is_config=False)""",
+        })
+
+    self.__interval = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_interval(self):
+    self.__interval = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:stat-interval', is_config=False)
+
+
+  def _get_min_time(self):
+    """
+    Getter method for min_time, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/pre_fec_ber/min_time (oc-types:timeticks64)
+
+    YANG Description: The absolute time at which the minimum value occurred.
+The value is the timestamp in nanoseconds relative to
+ the Unix Epoch (Jan 1, 1970 00:00:00 UTC).
+    """
+    return self.__min_time
+      
+  def _set_min_time(self, v, load=False):
+    """
+    Setter method for min_time, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/pre_fec_ber/min_time (oc-types:timeticks64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_min_time is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_min_time() directly.
+
+    YANG Description: The absolute time at which the minimum value occurred.
+The value is the timestamp in nanoseconds relative to
+ the Unix Epoch (Jan 1, 1970 00:00:00 UTC).
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="min-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """min_time must be of a type compatible with oc-types:timeticks64""",
+          'defined-type': "oc-types:timeticks64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="min-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)""",
+        })
+
+    self.__min_time = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_min_time(self):
+    self.__min_time = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="min-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+
+
+  def _get_max_time(self):
+    """
+    Getter method for max_time, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/pre_fec_ber/max_time (oc-types:timeticks64)
+
+    YANG Description: The absolute time at which the maximum value occurred.
+The value is the timestamp in nanoseconds relative to
+ the Unix Epoch (Jan 1, 1970 00:00:00 UTC).
+    """
+    return self.__max_time
+      
+  def _set_max_time(self, v, load=False):
+    """
+    Setter method for max_time, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/pre_fec_ber/max_time (oc-types:timeticks64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_max_time is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_max_time() directly.
+
+    YANG Description: The absolute time at which the maximum value occurred.
+The value is the timestamp in nanoseconds relative to
+ the Unix Epoch (Jan 1, 1970 00:00:00 UTC).
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="max-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """max_time must be of a type compatible with oc-types:timeticks64""",
+          'defined-type': "oc-types:timeticks64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="max-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)""",
+        })
+
+    self.__max_time = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_max_time(self):
+    self.__max_time = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="max-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+
+  instant = __builtin__.property(_get_instant)
+  avg = __builtin__.property(_get_avg)
+  min_ = __builtin__.property(_get_min_)
+  max_ = __builtin__.property(_get_max_)
+  interval = __builtin__.property(_get_interval)
+  min_time = __builtin__.property(_get_min_time)
+  max_time = __builtin__.property(_get_max_time)
+
+
+  _pyangbind_elements = OrderedDict([('instant', instant), ('avg', avg), ('min_', min_), ('max_', max_), ('interval', interval), ('min_time', min_time), ('max_time', max_time), ])
+
+
+class yc_post_fec_ber_openconfig_terminal_device__terminal_device_logical_channels_channel_ethernet_state_post_fec_ber(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-terminal-device - based on the path /terminal-device/logical-channels/channel/ethernet/state/post-fec-ber. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Bit error rate after forward error correction -- computed
+value with 18 decimal precision. Note that decimal64
+supports values as small as i x 10^-18 where i is an
+integer. Values smaller than this should be reported as 0
+to inidicate error free or near error free performance.
+Values include the instantaneous, average, minimum, and
+maximum statistics. If avg/min/max statistics are not
+supported, the target is expected to just supply the
+instant value
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
+
+  _yang_name = 'post-fec-ber'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__instant = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="instant", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    self.__avg = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="avg", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    self.__min_ = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="min", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    self.__max_ = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="max", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    self.__interval = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:stat-interval', is_config=False)
+    self.__min_time = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="min-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+    self.__max_time = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="max-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['terminal-device', 'logical-channels', 'channel', 'ethernet', 'state', 'post-fec-ber']
+
+  def _get_instant(self):
+    """
+    Getter method for instant, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/post_fec_ber/instant (decimal64)
+
+    YANG Description: The instantaneous value of the statistic.
+    """
+    return self.__instant
+      
+  def _set_instant(self, v, load=False):
+    """
+    Setter method for instant, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/post_fec_ber/instant (decimal64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_instant is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_instant() directly.
+
+    YANG Description: The instantaneous value of the statistic.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="instant", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """instant must be of a type compatible with decimal64""",
+          'defined-type': "decimal64",
+          'generated-type': """YANGDynClass(base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="instant", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)""",
+        })
+
+    self.__instant = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_instant(self):
+    self.__instant = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="instant", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+
+
+  def _get_avg(self):
+    """
+    Getter method for avg, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/post_fec_ber/avg (decimal64)
+
+    YANG Description: The arithmetic mean value of the statistic over the
+time interval.
+    """
+    return self.__avg
+      
+  def _set_avg(self, v, load=False):
+    """
+    Setter method for avg, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/post_fec_ber/avg (decimal64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_avg is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_avg() directly.
+
+    YANG Description: The arithmetic mean value of the statistic over the
+time interval.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="avg", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """avg must be of a type compatible with decimal64""",
+          'defined-type': "decimal64",
+          'generated-type': """YANGDynClass(base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="avg", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)""",
+        })
+
+    self.__avg = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_avg(self):
+    self.__avg = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="avg", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+
+
+  def _get_min_(self):
+    """
+    Getter method for min_, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/post_fec_ber/min (decimal64)
+
+    YANG Description: The minimum value of the statistic over the time
+interval.
+    """
+    return self.__min_
+      
+  def _set_min_(self, v, load=False):
+    """
+    Setter method for min_, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/post_fec_ber/min (decimal64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_min_ is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_min_() directly.
+
+    YANG Description: The minimum value of the statistic over the time
+interval.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="min", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """min_ must be of a type compatible with decimal64""",
+          'defined-type': "decimal64",
+          'generated-type': """YANGDynClass(base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="min", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)""",
+        })
+
+    self.__min_ = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_min_(self):
+    self.__min_ = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="min", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+
+
+  def _get_max_(self):
+    """
+    Getter method for max_, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/post_fec_ber/max (decimal64)
+
+    YANG Description: The maximum value of the statistic over the time
+interval.
+    """
+    return self.__max_
+      
+  def _set_max_(self, v, load=False):
+    """
+    Setter method for max_, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/post_fec_ber/max (decimal64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_max_ is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_max_() directly.
+
+    YANG Description: The maximum value of the statistic over the time
+interval.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="max", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """max_ must be of a type compatible with decimal64""",
+          'defined-type': "decimal64",
+          'generated-type': """YANGDynClass(base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="max", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)""",
+        })
+
+    self.__max_ = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_max_(self):
+    self.__max_ = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=18), is_leaf=True, yang_name="max", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+
+
+  def _get_interval(self):
+    """
+    Getter method for interval, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/post_fec_ber/interval (oc-types:stat-interval)
+
+    YANG Description: If supported by the system, this reports the time interval
+over which the min/max/average statistics are computed by
+the system.
+    """
+    return self.__interval
+      
+  def _set_interval(self, v, load=False):
+    """
+    Setter method for interval, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/post_fec_ber/interval (oc-types:stat-interval)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_interval is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_interval() directly.
+
+    YANG Description: If supported by the system, this reports the time interval
+over which the min/max/average statistics are computed by
+the system.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:stat-interval', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """interval must be of a type compatible with oc-types:stat-interval""",
+          'defined-type': "oc-types:stat-interval",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:stat-interval', is_config=False)""",
+        })
+
+    self.__interval = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_interval(self):
+    self.__interval = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:stat-interval', is_config=False)
+
+
+  def _get_min_time(self):
+    """
+    Getter method for min_time, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/post_fec_ber/min_time (oc-types:timeticks64)
+
+    YANG Description: The absolute time at which the minimum value occurred.
+The value is the timestamp in nanoseconds relative to
+ the Unix Epoch (Jan 1, 1970 00:00:00 UTC).
+    """
+    return self.__min_time
+      
+  def _set_min_time(self, v, load=False):
+    """
+    Setter method for min_time, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/post_fec_ber/min_time (oc-types:timeticks64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_min_time is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_min_time() directly.
+
+    YANG Description: The absolute time at which the minimum value occurred.
+The value is the timestamp in nanoseconds relative to
+ the Unix Epoch (Jan 1, 1970 00:00:00 UTC).
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="min-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """min_time must be of a type compatible with oc-types:timeticks64""",
+          'defined-type': "oc-types:timeticks64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="min-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)""",
+        })
+
+    self.__min_time = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_min_time(self):
+    self.__min_time = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="min-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+
+
+  def _get_max_time(self):
+    """
+    Getter method for max_time, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/post_fec_ber/max_time (oc-types:timeticks64)
+
+    YANG Description: The absolute time at which the maximum value occurred.
+The value is the timestamp in nanoseconds relative to
+ the Unix Epoch (Jan 1, 1970 00:00:00 UTC).
+    """
+    return self.__max_time
+      
+  def _set_max_time(self, v, load=False):
+    """
+    Setter method for max_time, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/post_fec_ber/max_time (oc-types:timeticks64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_max_time is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_max_time() directly.
+
+    YANG Description: The absolute time at which the maximum value occurred.
+The value is the timestamp in nanoseconds relative to
+ the Unix Epoch (Jan 1, 1970 00:00:00 UTC).
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="max-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """max_time must be of a type compatible with oc-types:timeticks64""",
+          'defined-type': "oc-types:timeticks64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="max-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)""",
+        })
+
+    self.__max_time = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_max_time(self):
+    self.__max_time = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="max-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+
+  instant = __builtin__.property(_get_instant)
+  avg = __builtin__.property(_get_avg)
+  min_ = __builtin__.property(_get_min_)
+  max_ = __builtin__.property(_get_max_)
+  interval = __builtin__.property(_get_interval)
+  min_time = __builtin__.property(_get_min_time)
+  max_time = __builtin__.property(_get_max_time)
+
+
+  _pyangbind_elements = OrderedDict([('instant', instant), ('avg', avg), ('min_', min_), ('max_', max_), ('interval', interval), ('min_time', min_time), ('max_time', max_time), ])
+
+
+class yc_q_value_openconfig_terminal_device__terminal_device_logical_channels_channel_ethernet_state_q_value(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-terminal-device - based on the path /terminal-device/logical-channels/channel/ethernet/state/q-value. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Quality value (factor) in dB of a channel with two
+decimal precision. Values include the instantaneous,
+average, minimum, and maximum statistics. If avg/min/max
+statistics are not supported, the target is expected
+to just supply the instant value
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
+
+  _yang_name = 'q-value'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__instant = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="instant", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    self.__avg = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="avg", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    self.__min_ = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="min", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    self.__max_ = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="max", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    self.__interval = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:stat-interval', is_config=False)
+    self.__min_time = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="min-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+    self.__max_time = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="max-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['terminal-device', 'logical-channels', 'channel', 'ethernet', 'state', 'q-value']
+
+  def _get_instant(self):
+    """
+    Getter method for instant, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/q_value/instant (decimal64)
+
+    YANG Description: The instantaneous value of the statistic.
+    """
+    return self.__instant
+      
+  def _set_instant(self, v, load=False):
+    """
+    Setter method for instant, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/q_value/instant (decimal64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_instant is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_instant() directly.
+
+    YANG Description: The instantaneous value of the statistic.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="instant", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """instant must be of a type compatible with decimal64""",
+          'defined-type': "decimal64",
+          'generated-type': """YANGDynClass(base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="instant", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)""",
+        })
+
+    self.__instant = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_instant(self):
+    self.__instant = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="instant", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+
+
+  def _get_avg(self):
+    """
+    Getter method for avg, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/q_value/avg (decimal64)
+
+    YANG Description: The arithmetic mean value of the statistic over the
+time interval.
+    """
+    return self.__avg
+      
+  def _set_avg(self, v, load=False):
+    """
+    Setter method for avg, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/q_value/avg (decimal64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_avg is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_avg() directly.
+
+    YANG Description: The arithmetic mean value of the statistic over the
+time interval.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="avg", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """avg must be of a type compatible with decimal64""",
+          'defined-type': "decimal64",
+          'generated-type': """YANGDynClass(base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="avg", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)""",
+        })
+
+    self.__avg = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_avg(self):
+    self.__avg = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="avg", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+
+
+  def _get_min_(self):
+    """
+    Getter method for min_, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/q_value/min (decimal64)
+
+    YANG Description: The minimum value of the statistic over the time interval.
+    """
+    return self.__min_
+      
+  def _set_min_(self, v, load=False):
+    """
+    Setter method for min_, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/q_value/min (decimal64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_min_ is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_min_() directly.
+
+    YANG Description: The minimum value of the statistic over the time interval.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="min", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """min_ must be of a type compatible with decimal64""",
+          'defined-type': "decimal64",
+          'generated-type': """YANGDynClass(base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="min", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)""",
+        })
+
+    self.__min_ = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_min_(self):
+    self.__min_ = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="min", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+
+
+  def _get_max_(self):
+    """
+    Getter method for max_, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/q_value/max (decimal64)
+
+    YANG Description: The maximum value of the statistic over the time
+interval.
+    """
+    return self.__max_
+      
+  def _set_max_(self, v, load=False):
+    """
+    Setter method for max_, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/q_value/max (decimal64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_max_ is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_max_() directly.
+
+    YANG Description: The maximum value of the statistic over the time
+interval.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="max", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """max_ must be of a type compatible with decimal64""",
+          'defined-type': "decimal64",
+          'generated-type': """YANGDynClass(base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="max", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)""",
+        })
+
+    self.__max_ = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_max_(self):
+    self.__max_ = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="max", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+
+
+  def _get_interval(self):
+    """
+    Getter method for interval, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/q_value/interval (oc-types:stat-interval)
+
+    YANG Description: If supported by the system, this reports the time interval
+over which the min/max/average statistics are computed by
+the system.
+    """
+    return self.__interval
+      
+  def _set_interval(self, v, load=False):
+    """
+    Setter method for interval, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/q_value/interval (oc-types:stat-interval)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_interval is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_interval() directly.
+
+    YANG Description: If supported by the system, this reports the time interval
+over which the min/max/average statistics are computed by
+the system.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:stat-interval', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """interval must be of a type compatible with oc-types:stat-interval""",
+          'defined-type': "oc-types:stat-interval",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:stat-interval', is_config=False)""",
+        })
+
+    self.__interval = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_interval(self):
+    self.__interval = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:stat-interval', is_config=False)
+
+
+  def _get_min_time(self):
+    """
+    Getter method for min_time, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/q_value/min_time (oc-types:timeticks64)
+
+    YANG Description: The absolute time at which the minimum value occurred.
+The value is the timestamp in nanoseconds relative to
+ the Unix Epoch (Jan 1, 1970 00:00:00 UTC).
+    """
+    return self.__min_time
+      
+  def _set_min_time(self, v, load=False):
+    """
+    Setter method for min_time, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/q_value/min_time (oc-types:timeticks64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_min_time is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_min_time() directly.
+
+    YANG Description: The absolute time at which the minimum value occurred.
+The value is the timestamp in nanoseconds relative to
+ the Unix Epoch (Jan 1, 1970 00:00:00 UTC).
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="min-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """min_time must be of a type compatible with oc-types:timeticks64""",
+          'defined-type': "oc-types:timeticks64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="min-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)""",
+        })
+
+    self.__min_time = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_min_time(self):
+    self.__min_time = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="min-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+
+
+  def _get_max_time(self):
+    """
+    Getter method for max_time, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/q_value/max_time (oc-types:timeticks64)
+
+    YANG Description: The absolute time at which the maximum value occurred.
+The value is the timestamp in nanoseconds relative to
+ the Unix Epoch (Jan 1, 1970 00:00:00 UTC).
+    """
+    return self.__max_time
+      
+  def _set_max_time(self, v, load=False):
+    """
+    Setter method for max_time, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/q_value/max_time (oc-types:timeticks64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_max_time is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_max_time() directly.
+
+    YANG Description: The absolute time at which the maximum value occurred.
+The value is the timestamp in nanoseconds relative to
+ the Unix Epoch (Jan 1, 1970 00:00:00 UTC).
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="max-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """max_time must be of a type compatible with oc-types:timeticks64""",
+          'defined-type': "oc-types:timeticks64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="max-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)""",
+        })
+
+    self.__max_time = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_max_time(self):
+    self.__max_time = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="max-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+
+  instant = __builtin__.property(_get_instant)
+  avg = __builtin__.property(_get_avg)
+  min_ = __builtin__.property(_get_min_)
+  max_ = __builtin__.property(_get_max_)
+  interval = __builtin__.property(_get_interval)
+  min_time = __builtin__.property(_get_min_time)
+  max_time = __builtin__.property(_get_max_time)
+
+
+  _pyangbind_elements = OrderedDict([('instant', instant), ('avg', avg), ('min_', min_), ('max_', max_), ('interval', interval), ('min_time', min_time), ('max_time', max_time), ])
+
+
+class yc_esnr_openconfig_terminal_device__terminal_device_logical_channels_channel_ethernet_state_esnr(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-terminal-device - based on the path /terminal-device/logical-channels/channel/ethernet/state/esnr. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Electrical signal to noise ratio. Baud rate
+normalized signal to noise ratio based on
+error vector magnitude in dB with two decimal
+precision. Values include the instantaneous, average,
+minimum, and maximum statistics. If avg/min/max
+statistics are not supported, the target is expected
+to just supply the instant value
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
+
+  _yang_name = 'esnr'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__instant = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="instant", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    self.__avg = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="avg", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    self.__min_ = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="min", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    self.__max_ = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="max", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    self.__interval = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:stat-interval', is_config=False)
+    self.__min_time = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="min-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+    self.__max_time = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="max-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['terminal-device', 'logical-channels', 'channel', 'ethernet', 'state', 'esnr']
+
+  def _get_instant(self):
+    """
+    Getter method for instant, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/esnr/instant (decimal64)
+
+    YANG Description: The instantaneous value of the statistic.
+    """
+    return self.__instant
+      
+  def _set_instant(self, v, load=False):
+    """
+    Setter method for instant, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/esnr/instant (decimal64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_instant is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_instant() directly.
+
+    YANG Description: The instantaneous value of the statistic.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="instant", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """instant must be of a type compatible with decimal64""",
+          'defined-type': "decimal64",
+          'generated-type': """YANGDynClass(base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="instant", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)""",
+        })
+
+    self.__instant = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_instant(self):
+    self.__instant = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="instant", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+
+
+  def _get_avg(self):
+    """
+    Getter method for avg, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/esnr/avg (decimal64)
+
+    YANG Description: The arithmetic mean value of the statistic over the
+time interval.
+    """
+    return self.__avg
+      
+  def _set_avg(self, v, load=False):
+    """
+    Setter method for avg, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/esnr/avg (decimal64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_avg is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_avg() directly.
+
+    YANG Description: The arithmetic mean value of the statistic over the
+time interval.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="avg", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """avg must be of a type compatible with decimal64""",
+          'defined-type': "decimal64",
+          'generated-type': """YANGDynClass(base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="avg", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)""",
+        })
+
+    self.__avg = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_avg(self):
+    self.__avg = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="avg", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+
+
+  def _get_min_(self):
+    """
+    Getter method for min_, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/esnr/min (decimal64)
+
+    YANG Description: The minimum value of the statistic over the time interval.
+    """
+    return self.__min_
+      
+  def _set_min_(self, v, load=False):
+    """
+    Setter method for min_, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/esnr/min (decimal64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_min_ is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_min_() directly.
+
+    YANG Description: The minimum value of the statistic over the time interval.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="min", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """min_ must be of a type compatible with decimal64""",
+          'defined-type': "decimal64",
+          'generated-type': """YANGDynClass(base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="min", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)""",
+        })
+
+    self.__min_ = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_min_(self):
+    self.__min_ = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="min", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+
+
+  def _get_max_(self):
+    """
+    Getter method for max_, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/esnr/max (decimal64)
+
+    YANG Description: The maximum value of the statistic over the time
+interval.
+    """
+    return self.__max_
+      
+  def _set_max_(self, v, load=False):
+    """
+    Setter method for max_, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/esnr/max (decimal64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_max_ is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_max_() directly.
+
+    YANG Description: The maximum value of the statistic over the time
+interval.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="max", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """max_ must be of a type compatible with decimal64""",
+          'defined-type': "decimal64",
+          'generated-type': """YANGDynClass(base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="max", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)""",
+        })
+
+    self.__max_ = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_max_(self):
+    self.__max_ = YANGDynClass(base=RestrictedPrecisionDecimalType(precision=2), is_leaf=True, yang_name="max", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='decimal64', is_config=False)
+
+
+  def _get_interval(self):
+    """
+    Getter method for interval, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/esnr/interval (oc-types:stat-interval)
+
+    YANG Description: If supported by the system, this reports the time interval
+over which the min/max/average statistics are computed by
+the system.
+    """
+    return self.__interval
+      
+  def _set_interval(self, v, load=False):
+    """
+    Setter method for interval, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/esnr/interval (oc-types:stat-interval)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_interval is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_interval() directly.
+
+    YANG Description: If supported by the system, this reports the time interval
+over which the min/max/average statistics are computed by
+the system.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:stat-interval', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """interval must be of a type compatible with oc-types:stat-interval""",
+          'defined-type': "oc-types:stat-interval",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:stat-interval', is_config=False)""",
+        })
+
+    self.__interval = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_interval(self):
+    self.__interval = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:stat-interval', is_config=False)
+
+
+  def _get_min_time(self):
+    """
+    Getter method for min_time, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/esnr/min_time (oc-types:timeticks64)
+
+    YANG Description: The absolute time at which the minimum value occurred.
+The value is the timestamp in nanoseconds relative to
+ the Unix Epoch (Jan 1, 1970 00:00:00 UTC).
+    """
+    return self.__min_time
+      
+  def _set_min_time(self, v, load=False):
+    """
+    Setter method for min_time, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/esnr/min_time (oc-types:timeticks64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_min_time is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_min_time() directly.
+
+    YANG Description: The absolute time at which the minimum value occurred.
+The value is the timestamp in nanoseconds relative to
+ the Unix Epoch (Jan 1, 1970 00:00:00 UTC).
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="min-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """min_time must be of a type compatible with oc-types:timeticks64""",
+          'defined-type': "oc-types:timeticks64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="min-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)""",
+        })
+
+    self.__min_time = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_min_time(self):
+    self.__min_time = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="min-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+
+
+  def _get_max_time(self):
+    """
+    Getter method for max_time, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/esnr/max_time (oc-types:timeticks64)
+
+    YANG Description: The absolute time at which the maximum value occurred.
+The value is the timestamp in nanoseconds relative to
+ the Unix Epoch (Jan 1, 1970 00:00:00 UTC).
+    """
+    return self.__max_time
+      
+  def _set_max_time(self, v, load=False):
+    """
+    Setter method for max_time, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/esnr/max_time (oc-types:timeticks64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_max_time is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_max_time() directly.
+
+    YANG Description: The absolute time at which the maximum value occurred.
+The value is the timestamp in nanoseconds relative to
+ the Unix Epoch (Jan 1, 1970 00:00:00 UTC).
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="max-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """max_time must be of a type compatible with oc-types:timeticks64""",
+          'defined-type': "oc-types:timeticks64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="max-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)""",
+        })
+
+    self.__max_time = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_max_time(self):
+    self.__max_time = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="max-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+
+  instant = __builtin__.property(_get_instant)
+  avg = __builtin__.property(_get_avg)
+  min_ = __builtin__.property(_get_min_)
+  max_ = __builtin__.property(_get_max_)
+  interval = __builtin__.property(_get_interval)
+  min_time = __builtin__.property(_get_min_time)
+  max_time = __builtin__.property(_get_max_time)
+
+
+  _pyangbind_elements = OrderedDict([('instant', instant), ('avg', avg), ('min_', min_), ('max_', max_), ('interval', interval), ('min_time', min_time), ('max_time', max_time), ])
+
+
 class yc_state_openconfig_terminal_device__terminal_device_logical_channels_channel_ethernet_state(PybindBase):
   """
   This class was auto-generated by the PythonClass plugin for PYANG
@@ -17899,10 +19231,9 @@ class yc_state_openconfig_terminal_device__terminal_device_logical_channels_chan
   YANG Description: Operational state data for Ethernet protocol framing
 on logical channels
   """
-  __slots__ = ('_path_helper', '_extmethods', '__client_als','__als_delay','__in_mac_control_frames','__in_mac_pause_frames','__in_oversize_frames','__in_undersize_frames','__in_jabber_frames','__in_fragment_frames','__in_8021q_frames','__in_crc_errors','__in_block_errors','__in_carrier_errors','__in_interrupted_tx','__in_late_collision','__in_mac_errors_rx','__in_single_collision','__in_symbol_error','__in_maxsize_exceeded','__out_mac_control_frames','__out_mac_pause_frames','__out_8021q_frames','__out_mac_errors_tx','__in_pcs_bip_errors','__in_pcs_errored_seconds','__in_pcs_severely_errored_seconds','__in_pcs_unavailable_seconds','__out_pcs_bip_errors','__out_crc_errors','__out_block_errors',)
+  __slots__ = ('_path_helper', '_extmethods', '__client_als','__als_delay','__in_mac_control_frames','__in_mac_pause_frames','__in_oversize_frames','__in_undersize_frames','__in_jabber_frames','__in_fragment_frames','__in_8021q_frames','__in_crc_errors','__in_block_errors','__in_carrier_errors','__in_interrupted_tx','__in_late_collision','__in_mac_errors_rx','__in_single_collision','__in_symbol_error','__in_maxsize_exceeded','__out_mac_control_frames','__out_mac_pause_frames','__out_8021q_frames','__out_mac_errors_tx','__in_pcs_bip_errors','__in_pcs_errored_seconds','__in_pcs_severely_errored_seconds','__in_pcs_unavailable_seconds','__out_pcs_bip_errors','__out_crc_errors','__out_block_errors','__fec_uncorrectable_blocks','__pre_fec_ber','__post_fec_ber','__q_value','__esnr',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -17940,6 +19271,11 @@ on logical channels
     self.__out_pcs_bip_errors = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="out-pcs-bip-errors", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-yang:counter64', is_config=False)
     self.__out_crc_errors = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="out-crc-errors", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-yang:counter64', is_config=False)
     self.__out_block_errors = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="out-block-errors", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-yang:counter64', is_config=False)
+    self.__fec_uncorrectable_blocks = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="fec-uncorrectable-blocks", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='yang:counter64', is_config=False)
+    self.__pre_fec_ber = YANGDynClass(base=yc_pre_fec_ber_openconfig_terminal_device__terminal_device_logical_channels_channel_ethernet_state_pre_fec_ber, is_container='container', yang_name="pre-fec-ber", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='container', is_config=False)
+    self.__post_fec_ber = YANGDynClass(base=yc_post_fec_ber_openconfig_terminal_device__terminal_device_logical_channels_channel_ethernet_state_post_fec_ber, is_container='container', yang_name="post-fec-ber", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='container', is_config=False)
+    self.__q_value = YANGDynClass(base=yc_q_value_openconfig_terminal_device__terminal_device_logical_channels_channel_ethernet_state_q_value, is_container='container', yang_name="q-value", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='container', is_config=False)
+    self.__esnr = YANGDynClass(base=yc_esnr_openconfig_terminal_device__terminal_device_logical_channels_channel_ethernet_state_esnr, is_container='container', yang_name="esnr", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='container', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -19182,6 +20518,245 @@ bits within the block
   def _unset_out_block_errors(self):
     self.__out_block_errors = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="out-block-errors", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-yang:counter64', is_config=False)
 
+
+  def _get_fec_uncorrectable_blocks(self):
+    """
+    Getter method for fec_uncorrectable_blocks, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/fec_uncorrectable_blocks (yang:counter64)
+
+    YANG Description: The number of blocks or frames that were uncorrectable by
+the FEC
+    """
+    return self.__fec_uncorrectable_blocks
+      
+  def _set_fec_uncorrectable_blocks(self, v, load=False):
+    """
+    Setter method for fec_uncorrectable_blocks, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/fec_uncorrectable_blocks (yang:counter64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fec_uncorrectable_blocks is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fec_uncorrectable_blocks() directly.
+
+    YANG Description: The number of blocks or frames that were uncorrectable by
+the FEC
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="fec-uncorrectable-blocks", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='yang:counter64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fec_uncorrectable_blocks must be of a type compatible with yang:counter64""",
+          'defined-type': "yang:counter64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="fec-uncorrectable-blocks", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='yang:counter64', is_config=False)""",
+        })
+
+    self.__fec_uncorrectable_blocks = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fec_uncorrectable_blocks(self):
+    self.__fec_uncorrectable_blocks = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="fec-uncorrectable-blocks", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='yang:counter64', is_config=False)
+
+
+  def _get_pre_fec_ber(self):
+    """
+    Getter method for pre_fec_ber, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/pre_fec_ber (container)
+
+    YANG Description: Bit error rate before forward error correction -- computed
+value with 18 decimal precision. Note that decimal64
+supports values as small as i x 10^-18 where i is an
+integer. Values smaller than this should be reported as 0
+to inidicate error free or near error free performance.
+Values include the instantaneous, average, minimum, and
+maximum statistics. If avg/min/max statistics are not
+supported, the target is expected to just supply the
+instant value
+    """
+    return self.__pre_fec_ber
+      
+  def _set_pre_fec_ber(self, v, load=False):
+    """
+    Setter method for pre_fec_ber, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/pre_fec_ber (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_pre_fec_ber is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_pre_fec_ber() directly.
+
+    YANG Description: Bit error rate before forward error correction -- computed
+value with 18 decimal precision. Note that decimal64
+supports values as small as i x 10^-18 where i is an
+integer. Values smaller than this should be reported as 0
+to inidicate error free or near error free performance.
+Values include the instantaneous, average, minimum, and
+maximum statistics. If avg/min/max statistics are not
+supported, the target is expected to just supply the
+instant value
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_pre_fec_ber_openconfig_terminal_device__terminal_device_logical_channels_channel_ethernet_state_pre_fec_ber, is_container='container', yang_name="pre-fec-ber", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='container', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """pre_fec_ber must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_pre_fec_ber_openconfig_terminal_device__terminal_device_logical_channels_channel_ethernet_state_pre_fec_ber, is_container='container', yang_name="pre-fec-ber", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='container', is_config=False)""",
+        })
+
+    self.__pre_fec_ber = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_pre_fec_ber(self):
+    self.__pre_fec_ber = YANGDynClass(base=yc_pre_fec_ber_openconfig_terminal_device__terminal_device_logical_channels_channel_ethernet_state_pre_fec_ber, is_container='container', yang_name="pre-fec-ber", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='container', is_config=False)
+
+
+  def _get_post_fec_ber(self):
+    """
+    Getter method for post_fec_ber, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/post_fec_ber (container)
+
+    YANG Description: Bit error rate after forward error correction -- computed
+value with 18 decimal precision. Note that decimal64
+supports values as small as i x 10^-18 where i is an
+integer. Values smaller than this should be reported as 0
+to inidicate error free or near error free performance.
+Values include the instantaneous, average, minimum, and
+maximum statistics. If avg/min/max statistics are not
+supported, the target is expected to just supply the
+instant value
+    """
+    return self.__post_fec_ber
+      
+  def _set_post_fec_ber(self, v, load=False):
+    """
+    Setter method for post_fec_ber, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/post_fec_ber (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_post_fec_ber is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_post_fec_ber() directly.
+
+    YANG Description: Bit error rate after forward error correction -- computed
+value with 18 decimal precision. Note that decimal64
+supports values as small as i x 10^-18 where i is an
+integer. Values smaller than this should be reported as 0
+to inidicate error free or near error free performance.
+Values include the instantaneous, average, minimum, and
+maximum statistics. If avg/min/max statistics are not
+supported, the target is expected to just supply the
+instant value
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_post_fec_ber_openconfig_terminal_device__terminal_device_logical_channels_channel_ethernet_state_post_fec_ber, is_container='container', yang_name="post-fec-ber", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='container', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """post_fec_ber must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_post_fec_ber_openconfig_terminal_device__terminal_device_logical_channels_channel_ethernet_state_post_fec_ber, is_container='container', yang_name="post-fec-ber", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='container', is_config=False)""",
+        })
+
+    self.__post_fec_ber = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_post_fec_ber(self):
+    self.__post_fec_ber = YANGDynClass(base=yc_post_fec_ber_openconfig_terminal_device__terminal_device_logical_channels_channel_ethernet_state_post_fec_ber, is_container='container', yang_name="post-fec-ber", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='container', is_config=False)
+
+
+  def _get_q_value(self):
+    """
+    Getter method for q_value, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/q_value (container)
+
+    YANG Description: Quality value (factor) in dB of a channel with two
+decimal precision. Values include the instantaneous,
+average, minimum, and maximum statistics. If avg/min/max
+statistics are not supported, the target is expected
+to just supply the instant value
+    """
+    return self.__q_value
+      
+  def _set_q_value(self, v, load=False):
+    """
+    Setter method for q_value, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/q_value (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_q_value is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_q_value() directly.
+
+    YANG Description: Quality value (factor) in dB of a channel with two
+decimal precision. Values include the instantaneous,
+average, minimum, and maximum statistics. If avg/min/max
+statistics are not supported, the target is expected
+to just supply the instant value
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_q_value_openconfig_terminal_device__terminal_device_logical_channels_channel_ethernet_state_q_value, is_container='container', yang_name="q-value", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='container', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """q_value must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_q_value_openconfig_terminal_device__terminal_device_logical_channels_channel_ethernet_state_q_value, is_container='container', yang_name="q-value", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='container', is_config=False)""",
+        })
+
+    self.__q_value = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_q_value(self):
+    self.__q_value = YANGDynClass(base=yc_q_value_openconfig_terminal_device__terminal_device_logical_channels_channel_ethernet_state_q_value, is_container='container', yang_name="q-value", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='container', is_config=False)
+
+
+  def _get_esnr(self):
+    """
+    Getter method for esnr, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/esnr (container)
+
+    YANG Description: Electrical signal to noise ratio. Baud rate
+normalized signal to noise ratio based on
+error vector magnitude in dB with two decimal
+precision. Values include the instantaneous, average,
+minimum, and maximum statistics. If avg/min/max
+statistics are not supported, the target is expected
+to just supply the instant value
+    """
+    return self.__esnr
+      
+  def _set_esnr(self, v, load=False):
+    """
+    Setter method for esnr, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/state/esnr (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_esnr is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_esnr() directly.
+
+    YANG Description: Electrical signal to noise ratio. Baud rate
+normalized signal to noise ratio based on
+error vector magnitude in dB with two decimal
+precision. Values include the instantaneous, average,
+minimum, and maximum statistics. If avg/min/max
+statistics are not supported, the target is expected
+to just supply the instant value
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_esnr_openconfig_terminal_device__terminal_device_logical_channels_channel_ethernet_state_esnr, is_container='container', yang_name="esnr", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='container', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """esnr must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_esnr_openconfig_terminal_device__terminal_device_logical_channels_channel_ethernet_state_esnr, is_container='container', yang_name="esnr", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='container', is_config=False)""",
+        })
+
+    self.__esnr = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_esnr(self):
+    self.__esnr = YANGDynClass(base=yc_esnr_openconfig_terminal_device__terminal_device_logical_channels_channel_ethernet_state_esnr, is_container='container', yang_name="esnr", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='container', is_config=False)
+
   client_als = __builtin__.property(_get_client_als)
   als_delay = __builtin__.property(_get_als_delay)
   in_mac_control_frames = __builtin__.property(_get_in_mac_control_frames)
@@ -19211,9 +20786,14 @@ bits within the block
   out_pcs_bip_errors = __builtin__.property(_get_out_pcs_bip_errors)
   out_crc_errors = __builtin__.property(_get_out_crc_errors)
   out_block_errors = __builtin__.property(_get_out_block_errors)
+  fec_uncorrectable_blocks = __builtin__.property(_get_fec_uncorrectable_blocks)
+  pre_fec_ber = __builtin__.property(_get_pre_fec_ber)
+  post_fec_ber = __builtin__.property(_get_post_fec_ber)
+  q_value = __builtin__.property(_get_q_value)
+  esnr = __builtin__.property(_get_esnr)
 
 
-  _pyangbind_elements = OrderedDict([('client_als', client_als), ('als_delay', als_delay), ('in_mac_control_frames', in_mac_control_frames), ('in_mac_pause_frames', in_mac_pause_frames), ('in_oversize_frames', in_oversize_frames), ('in_undersize_frames', in_undersize_frames), ('in_jabber_frames', in_jabber_frames), ('in_fragment_frames', in_fragment_frames), ('in_8021q_frames', in_8021q_frames), ('in_crc_errors', in_crc_errors), ('in_block_errors', in_block_errors), ('in_carrier_errors', in_carrier_errors), ('in_interrupted_tx', in_interrupted_tx), ('in_late_collision', in_late_collision), ('in_mac_errors_rx', in_mac_errors_rx), ('in_single_collision', in_single_collision), ('in_symbol_error', in_symbol_error), ('in_maxsize_exceeded', in_maxsize_exceeded), ('out_mac_control_frames', out_mac_control_frames), ('out_mac_pause_frames', out_mac_pause_frames), ('out_8021q_frames', out_8021q_frames), ('out_mac_errors_tx', out_mac_errors_tx), ('in_pcs_bip_errors', in_pcs_bip_errors), ('in_pcs_errored_seconds', in_pcs_errored_seconds), ('in_pcs_severely_errored_seconds', in_pcs_severely_errored_seconds), ('in_pcs_unavailable_seconds', in_pcs_unavailable_seconds), ('out_pcs_bip_errors', out_pcs_bip_errors), ('out_crc_errors', out_crc_errors), ('out_block_errors', out_block_errors), ])
+  _pyangbind_elements = OrderedDict([('client_als', client_als), ('als_delay', als_delay), ('in_mac_control_frames', in_mac_control_frames), ('in_mac_pause_frames', in_mac_pause_frames), ('in_oversize_frames', in_oversize_frames), ('in_undersize_frames', in_undersize_frames), ('in_jabber_frames', in_jabber_frames), ('in_fragment_frames', in_fragment_frames), ('in_8021q_frames', in_8021q_frames), ('in_crc_errors', in_crc_errors), ('in_block_errors', in_block_errors), ('in_carrier_errors', in_carrier_errors), ('in_interrupted_tx', in_interrupted_tx), ('in_late_collision', in_late_collision), ('in_mac_errors_rx', in_mac_errors_rx), ('in_single_collision', in_single_collision), ('in_symbol_error', in_symbol_error), ('in_maxsize_exceeded', in_maxsize_exceeded), ('out_mac_control_frames', out_mac_control_frames), ('out_mac_pause_frames', out_mac_pause_frames), ('out_8021q_frames', out_8021q_frames), ('out_mac_errors_tx', out_mac_errors_tx), ('in_pcs_bip_errors', in_pcs_bip_errors), ('in_pcs_errored_seconds', in_pcs_errored_seconds), ('in_pcs_severely_errored_seconds', in_pcs_severely_errored_seconds), ('in_pcs_unavailable_seconds', in_pcs_unavailable_seconds), ('out_pcs_bip_errors', out_pcs_bip_errors), ('out_crc_errors', out_crc_errors), ('out_block_errors', out_block_errors), ('fec_uncorrectable_blocks', fec_uncorrectable_blocks), ('pre_fec_ber', pre_fec_ber), ('post_fec_ber', post_fec_ber), ('q_value', q_value), ('esnr', esnr), ])
 
 
 class yc_config_openconfig_terminal_device__terminal_device_logical_channels_channel_ethernet_lldp_config(PybindBase):
@@ -19228,7 +20808,6 @@ class yc_config_openconfig_terminal_device__terminal_device_logical_channels_cha
   __slots__ = ('_path_helper', '_extmethods', '__enabled','__snooping',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -19375,7 +20954,6 @@ class yc_counters_openconfig_terminal_device__terminal_device_logical_channels_c
   __slots__ = ('_path_helper', '_extmethods', '__frame_in','__frame_out','__frame_error_in','__frame_discard','__tlv_discard','__tlv_unknown','__last_clear','__frame_error_out',)
 
   _yang_name = 'counters'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -19744,7 +21322,6 @@ class yc_state_openconfig_terminal_device__terminal_device_logical_channels_chan
   __slots__ = ('_path_helper', '_extmethods', '__enabled','__snooping','__counters',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -19930,7 +21507,6 @@ class yc_state_openconfig_terminal_device__terminal_device_logical_channels_chan
   __slots__ = ('_path_helper', '_extmethods', '__system_name','__system_description','__chassis_id','__chassis_id_type','__id','__age','__last_update','__ttl','__port_id','__port_id_type','__port_description','__management_address','__management_address_type',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -20552,7 +22128,6 @@ class yc_state_openconfig_terminal_device__terminal_device_logical_channels_chan
   __slots__ = ('_path_helper', '_extmethods', '__type','__oui','__oui_subtype','__value',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -20777,7 +22352,6 @@ class yc_tlv_openconfig_terminal_device__terminal_device_logical_channels_channe
   __slots__ = ('_path_helper', '_extmethods', '__type','__oui','__oui_subtype','__state',)
 
   _yang_name = 'tlv'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -21002,7 +22576,6 @@ neighbor
   __slots__ = ('_path_helper', '_extmethods', '__tlv',)
 
   _yang_name = 'custom-tlvs'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -21098,7 +22671,6 @@ this would be supported
   __slots__ = ('_path_helper', '_extmethods', '__id','__state','__custom_tlvs',)
 
   _yang_name = 'neighbor'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -21278,7 +22850,6 @@ a logical channel
   __slots__ = ('_path_helper', '_extmethods', '__neighbor',)
 
   _yang_name = 'neighbors'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -21378,7 +22949,6 @@ class yc_lldp_openconfig_terminal_device__terminal_device_logical_channels_chann
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__neighbors',)
 
   _yang_name = 'lldp'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -21551,7 +23121,6 @@ for the logical channel
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__lldp',)
 
   _yang_name = 'ethernet'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -21726,7 +23295,6 @@ logical channel
   __slots__ = ('_path_helper', '_extmethods', '__transceiver','__physical_channel','__interface',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -21925,7 +23493,6 @@ logical channel
   __slots__ = ('_path_helper', '_extmethods', '__transceiver','__physical_channel','__interface',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -22125,7 +23692,6 @@ transceiver, individual physical channels, or an interface
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'ingress'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -22260,7 +23826,6 @@ class yc_config_openconfig_terminal_device__terminal_device_logical_channels_cha
   __slots__ = ('_path_helper', '_extmethods', '__index','__description','__assignment_type','__logical_channel','__optical_channel','__allocation','__tributary_slot_index','__mapping',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -22653,7 +24218,6 @@ class yc_state_openconfig_terminal_device__terminal_device_logical_channels_chan
   __slots__ = ('_path_helper', '_extmethods', '__index','__description','__assignment_type','__logical_channel','__optical_channel','__allocation','__tributary_slot_index','__mapping',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -23064,7 +24628,6 @@ assignment (e.g., to split or combine signal).
   __slots__ = ('_path_helper', '_extmethods', '__index','__config','__state',)
 
   _yang_name = 'assignment'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -23241,7 +24804,6 @@ class yc_logical_channel_assignments_openconfig_terminal_device__terminal_device
   __slots__ = ('_path_helper', '_extmethods', '__assignment',)
 
   _yang_name = 'logical-channel-assignments'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -23369,7 +24931,6 @@ class yc_channel_openconfig_terminal_device__terminal_device_logical_channels_ch
   __slots__ = ('_path_helper', '_extmethods', '__index','__config','__state','__otn','__ethernet','__ingress','__logical_channel_assignments',)
 
   _yang_name = 'channel'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -23710,7 +25271,6 @@ class yc_logical_channels_openconfig_terminal_device__terminal_device_logical_ch
   __slots__ = ('_path_helper', '_extmethods', '__channel',)
 
   _yang_name = 'logical-channels'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -23803,7 +25363,6 @@ operational mode
   __slots__ = ('_path_helper', '_extmethods', '__mode_id','__description','__vendor_id',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -23984,7 +25543,6 @@ shaping, etc.
   __slots__ = ('_path_helper', '_extmethods', '__mode_id','__state',)
 
   _yang_name = 'mode'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -24122,7 +25680,6 @@ class yc_operational_modes_openconfig_terminal_device__terminal_device_operation
   __slots__ = ('_path_helper', '_extmethods', '__mode',)
 
   _yang_name = 'operational-modes'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -24220,7 +25777,6 @@ class yc_terminal_device_openconfig_terminal_device__terminal_device(PybindBase)
   __slots__ = ('_path_helper', '_extmethods', '__logical_channels','__operational_modes',)
 
   _yang_name = 'terminal-device'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -24399,7 +25955,6 @@ etc.).
   __slots__ = ('_path_helper', '_extmethods', '__terminal_device',)
 
   _yang_name = 'openconfig-terminal-device'
-  _yang_namespace = 'http://openconfig.net/yang/terminal-device'
 
   _pybind_generated_by = 'container'
 
@@ -24491,7 +26046,6 @@ class yc_config_openconfig_transport_line_connectivity__connections_connection_c
   __slots__ = ('_path_helper', '_extmethods', '__index','__source','__dest','__fiber_type',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/openconfig-transport-line-connectivity'
 
   _pybind_generated_by = 'container'
 
@@ -24728,7 +26282,6 @@ class yc_state_openconfig_transport_line_connectivity__connections_connection_st
   __slots__ = ('_path_helper', '_extmethods', '__index','__source','__dest','__fiber_type',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/openconfig-transport-line-connectivity'
 
   _pybind_generated_by = 'container'
 
@@ -24965,7 +26518,6 @@ class yc_connection_openconfig_transport_line_connectivity__connections_connecti
   __slots__ = ('_path_helper', '_extmethods', '__index','__config','__state',)
 
   _yang_name = 'connection'
-  _yang_namespace = 'http://openconfig.net/yang/openconfig-transport-line-connectivity'
 
   _pybind_generated_by = 'container'
 
@@ -25140,7 +26692,6 @@ class yc_connections_openconfig_transport_line_connectivity__connections(PybindB
   __slots__ = ('_path_helper', '_extmethods', '__connection',)
 
   _yang_name = 'connections'
-  _yang_namespace = 'http://openconfig.net/yang/openconfig-transport-line-connectivity'
 
   _pybind_generated_by = 'container'
 
@@ -25238,7 +26789,6 @@ for modeling internal links
   __slots__ = ('_path_helper', '_extmethods', '__connections',)
 
   _yang_name = 'openconfig-transport-line-connectivity'
-  _yang_namespace = 'http://openconfig.net/yang/openconfig-transport-line-connectivity'
 
   _pybind_generated_by = 'container'
 
@@ -25330,7 +26880,6 @@ class yc_config_openconfig_wavelength_router__wavelength_router_media_channels_c
   __slots__ = ('_path_helper', '_extmethods', '__index','__name','__lower_frequency','__upper_frequency','__admin_status','__super_channel','__super_channel_parent','__ase_control_mode','__ase_injection_mode','__ase_injection_threshold','__ase_injection_delta','__attenuation_control_mode',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/wavelength-router'
 
   _pybind_generated_by = 'container'
 
@@ -25903,7 +27452,6 @@ class yc_state_openconfig_wavelength_router__wavelength_router_media_channels_ch
   __slots__ = ('_path_helper', '_extmethods', '__index','__name','__lower_frequency','__upper_frequency','__admin_status','__super_channel','__super_channel_parent','__ase_control_mode','__ase_injection_mode','__ase_injection_threshold','__ase_injection_delta','__attenuation_control_mode','__oper_status','__ase_status',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/wavelength-router'
 
   _pybind_generated_by = 'container'
 
@@ -26554,7 +28102,6 @@ class yc_config_openconfig_wavelength_router__wavelength_router_media_channels_c
   __slots__ = ('_path_helper', '_extmethods', '__port_name',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/wavelength-router'
 
   _pybind_generated_by = 'container'
 
@@ -26646,7 +28193,6 @@ class yc_state_openconfig_wavelength_router__wavelength_router_media_channels_ch
   __slots__ = ('_path_helper', '_extmethods', '__port_name',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/wavelength-router'
 
   _pybind_generated_by = 'container'
 
@@ -26738,7 +28284,6 @@ class yc_source_openconfig_wavelength_router__wavelength_router_media_channels_c
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'source'
-  _yang_namespace = 'http://openconfig.net/yang/wavelength-router'
 
   _pybind_generated_by = 'container'
 
@@ -26869,7 +28414,6 @@ class yc_config_openconfig_wavelength_router__wavelength_router_media_channels_c
   __slots__ = ('_path_helper', '_extmethods', '__port_name',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/wavelength-router'
 
   _pybind_generated_by = 'container'
 
@@ -26961,7 +28505,6 @@ class yc_state_openconfig_wavelength_router__wavelength_router_media_channels_ch
   __slots__ = ('_path_helper', '_extmethods', '__port_name',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/wavelength-router'
 
   _pybind_generated_by = 'container'
 
@@ -27053,7 +28596,6 @@ class yc_dest_openconfig_wavelength_router__wavelength_router_media_channels_cha
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'dest'
-  _yang_namespace = 'http://openconfig.net/yang/wavelength-router'
 
   _pybind_generated_by = 'container'
 
@@ -27184,7 +28726,6 @@ class yc_config_openconfig_wavelength_router__wavelength_router_media_channels_c
   __slots__ = ('_path_helper', '_extmethods', '__lower_frequency','__upper_frequency','__target_power',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/wavelength-router'
 
   _pybind_generated_by = 'container'
 
@@ -27356,7 +28897,6 @@ class yc_state_openconfig_wavelength_router__wavelength_router_media_channels_ch
   __slots__ = ('_path_helper', '_extmethods', '__lower_frequency','__upper_frequency','__target_power',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/wavelength-router'
 
   _pybind_generated_by = 'container'
 
@@ -27529,7 +29069,6 @@ distribution
   __slots__ = ('_path_helper', '_extmethods', '__lower_frequency','__upper_frequency','__config','__state',)
 
   _yang_name = 'distribution'
-  _yang_namespace = 'http://openconfig.net/yang/wavelength-router'
 
   _pybind_generated_by = 'container'
 
@@ -27749,7 +29288,6 @@ the target spectrum powers
   __slots__ = ('_path_helper', '_extmethods', '__distribution',)
 
   _yang_name = 'spectrum-power-profile'
-  _yang_namespace = 'http://openconfig.net/yang/wavelength-router'
 
   _pybind_generated_by = 'container'
 
@@ -27843,7 +29381,6 @@ class yc_channel_openconfig_wavelength_router__wavelength_router_media_channels_
   __slots__ = ('_path_helper', '_extmethods', '__index','__config','__state','__source','__dest','__spectrum_power_profile',)
 
   _yang_name = 'channel'
-  _yang_namespace = 'http://openconfig.net/yang/wavelength-router'
 
   _pybind_generated_by = 'container'
 
@@ -28137,7 +29674,6 @@ class yc_media_channels_openconfig_wavelength_router__wavelength_router_media_ch
   __slots__ = ('_path_helper', '_extmethods', '__channel',)
 
   _yang_name = 'media-channels'
-  _yang_namespace = 'http://openconfig.net/yang/wavelength-router'
 
   _pybind_generated_by = 'container'
 
@@ -28229,7 +29765,6 @@ class yc_config_openconfig_wavelength_router__wavelength_router_port_spectrum_po
   __slots__ = ('_path_helper', '_extmethods', '__name',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/wavelength-router'
 
   _pybind_generated_by = 'container'
 
@@ -28323,7 +29858,6 @@ class yc_state_openconfig_wavelength_router__wavelength_router_port_spectrum_pow
   __slots__ = ('_path_helper', '_extmethods', '__name',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/wavelength-router'
 
   _pybind_generated_by = 'container'
 
@@ -28417,7 +29951,6 @@ class yc_config_openconfig_wavelength_router__wavelength_router_port_spectrum_po
   __slots__ = ('_path_helper', '_extmethods', '__lower_frequency','__upper_frequency','__target_power',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/wavelength-router'
 
   _pybind_generated_by = 'container'
 
@@ -28589,7 +30122,6 @@ class yc_state_openconfig_wavelength_router__wavelength_router_port_spectrum_pow
   __slots__ = ('_path_helper', '_extmethods', '__lower_frequency','__upper_frequency','__target_power',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/wavelength-router'
 
   _pybind_generated_by = 'container'
 
@@ -28762,7 +30294,6 @@ distribution
   __slots__ = ('_path_helper', '_extmethods', '__lower_frequency','__upper_frequency','__config','__state',)
 
   _yang_name = 'distribution'
-  _yang_namespace = 'http://openconfig.net/yang/wavelength-router'
 
   _pybind_generated_by = 'container'
 
@@ -28982,7 +30513,6 @@ the target spectrum powers
   __slots__ = ('_path_helper', '_extmethods', '__distribution',)
 
   _yang_name = 'spectrum-power-profile'
-  _yang_namespace = 'http://openconfig.net/yang/wavelength-router'
 
   _pybind_generated_by = 'container'
 
@@ -29076,7 +30606,6 @@ class yc_port_openconfig_wavelength_router__wavelength_router_port_spectrum_powe
   __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state','__spectrum_power_profile',)
 
   _yang_name = 'port'
-  _yang_namespace = 'http://openconfig.net/yang/wavelength-router'
 
   _pybind_generated_by = 'container'
 
@@ -29293,7 +30822,6 @@ power profiles
   __slots__ = ('_path_helper', '_extmethods', '__port',)
 
   _yang_name = 'port-spectrum-power-profiles'
-  _yang_namespace = 'http://openconfig.net/yang/wavelength-router'
 
   _pybind_generated_by = 'container'
 
@@ -29385,7 +30913,6 @@ class yc_wavelength_router_openconfig_wavelength_router__wavelength_router(Pybin
   __slots__ = ('_path_helper', '_extmethods', '__media_channels','__port_spectrum_power_profiles',)
 
   _yang_name = 'wavelength-router'
-  _yang_namespace = 'http://openconfig.net/yang/wavelength-router'
 
   _pybind_generated_by = 'container'
 
@@ -29536,7 +31063,6 @@ supported.
   __slots__ = ('_path_helper', '_extmethods', '__wavelength_router',)
 
   _yang_name = 'openconfig-wavelength-router'
-  _yang_namespace = 'http://openconfig.net/yang/wavelength-router'
 
   _pybind_generated_by = 'container'
 
@@ -29628,7 +31154,6 @@ class yc_config_openconfig_channel_monitor__channel_monitors_channel_monitor_con
   __slots__ = ('_path_helper', '_extmethods', '__name','__monitor_port',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/channel-monitor'
 
   _pybind_generated_by = 'container'
 
@@ -29783,7 +31308,6 @@ class yc_state_openconfig_channel_monitor__channel_monitors_channel_monitor_stat
   __slots__ = ('_path_helper', '_extmethods', '__name','__monitor_port',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/channel-monitor'
 
   _pybind_generated_by = 'container'
 
@@ -29938,7 +31462,6 @@ class yc_state_openconfig_channel_monitor__channel_monitors_channel_monitor_chan
   __slots__ = ('_path_helper', '_extmethods', '__lower_frequency','__upper_frequency','__power',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/channel-monitor'
 
   _pybind_generated_by = 'container'
 
@@ -30108,7 +31631,6 @@ class yc_channel_openconfig_channel_monitor__channel_monitors_channel_monitor_ch
   __slots__ = ('_path_helper', '_extmethods', '__lower_frequency','__upper_frequency','__state',)
 
   _yang_name = 'channel'
-  _yang_namespace = 'http://openconfig.net/yang/channel-monitor'
 
   _pybind_generated_by = 'container'
 
@@ -30289,7 +31811,6 @@ the spectrum power distribution
   __slots__ = ('_path_helper', '_extmethods', '__channel',)
 
   _yang_name = 'channels'
-  _yang_namespace = 'http://openconfig.net/yang/channel-monitor'
 
   _pybind_generated_by = 'container'
 
@@ -30381,7 +31902,6 @@ class yc_channel_monitor_openconfig_channel_monitor__channel_monitors_channel_mo
   __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state','__channels',)
 
   _yang_name = 'channel-monitor'
-  _yang_namespace = 'http://openconfig.net/yang/channel-monitor'
 
   _pybind_generated_by = 'container'
 
@@ -30597,7 +32117,6 @@ class yc_channel_monitors_openconfig_channel_monitor__channel_monitors(PybindBas
   __slots__ = ('_path_helper', '_extmethods', '__channel_monitor',)
 
   _yang_name = 'channel-monitors'
-  _yang_namespace = 'http://openconfig.net/yang/channel-monitor'
 
   _pybind_generated_by = 'container'
 
@@ -30691,7 +32210,6 @@ elements such as wavelength routers (ROADMs) and amplifiers.
   __slots__ = ('_path_helper', '_extmethods', '__channel_monitors',)
 
   _yang_name = 'openconfig-channel-monitor'
-  _yang_namespace = 'http://openconfig.net/yang/channel-monitor'
 
   _pybind_generated_by = 'container'
 
@@ -30783,7 +32301,6 @@ class yc_config_openconfig_optical_attenuator__optical_attenuator_attenuators_at
   __slots__ = ('_path_helper', '_extmethods', '__name','__attenuation_mode','__target_output_power','__attenuation','__enabled',)
 
   _yang_name = 'config'
-  _yang_namespace = 'http://openconfig.net/yang/optical-attenuator'
 
   _pybind_generated_by = 'container'
 
@@ -31043,7 +32560,6 @@ just supply the instant value
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'actual-attenuation'
-  _yang_namespace = 'http://openconfig.net/yang/optical-attenuator'
 
   _pybind_generated_by = 'container'
 
@@ -31387,7 +32903,6 @@ just supply the instant value
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'output-power-total'
-  _yang_namespace = 'http://openconfig.net/yang/optical-attenuator'
 
   _pybind_generated_by = 'container'
 
@@ -31732,7 +33247,6 @@ statistics are not supported, just supply the instant value.
   __slots__ = ('_path_helper', '_extmethods', '__instant','__avg','__min_','__max_','__interval','__min_time','__max_time',)
 
   _yang_name = 'optical-return-loss'
-  _yang_namespace = 'http://openconfig.net/yang/optical-attenuator'
 
   _pybind_generated_by = 'container'
 
@@ -32074,7 +33588,6 @@ class yc_state_openconfig_optical_attenuator__optical_attenuator_attenuators_att
   __slots__ = ('_path_helper', '_extmethods', '__name','__attenuation_mode','__target_output_power','__attenuation','__enabled','__component','__ingress_port','__egress_port','__actual_attenuation','__output_power_total','__optical_return_loss',)
 
   _yang_name = 'state'
-  _yang_namespace = 'http://openconfig.net/yang/optical-attenuator'
 
   _pybind_generated_by = 'container'
 
@@ -32590,7 +34103,6 @@ class yc_attenuator_openconfig_optical_attenuator__optical_attenuator_attenuator
   __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state',)
 
   _yang_name = 'attenuator'
-  _yang_namespace = 'http://openconfig.net/yang/optical-attenuator'
 
   _pybind_generated_by = 'container'
 
@@ -32765,7 +34277,6 @@ class yc_attenuators_openconfig_optical_attenuator__optical_attenuator_attenuato
   __slots__ = ('_path_helper', '_extmethods', '__attenuator',)
 
   _yang_name = 'attenuators'
-  _yang_namespace = 'http://openconfig.net/yang/optical-attenuator'
 
   _pybind_generated_by = 'container'
 
@@ -32857,7 +34368,6 @@ class yc_optical_attenuator_openconfig_optical_attenuator__optical_attenuator(Py
   __slots__ = ('_path_helper', '_extmethods', '__attenuators',)
 
   _yang_name = 'optical-attenuator'
-  _yang_namespace = 'http://openconfig.net/yang/optical-attenuator'
 
   _pybind_generated_by = 'container'
 
@@ -32951,7 +34461,6 @@ line system.
   __slots__ = ('_path_helper', '_extmethods', '__optical_attenuator',)
 
   _yang_name = 'openconfig-optical-attenuator'
-  _yang_namespace = 'http://openconfig.net/yang/optical-attenuator'
 
   _pybind_generated_by = 'container'
 
