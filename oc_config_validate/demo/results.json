@@ -1,13 +1,12 @@
 {
   "test_target": "localhost:9339",
-  "oc_models": [],
   "description": "Example of test profile for oc_config_validator",
   "labels": [
     "FOO",
     "BAR"
   ],
-  "start_time_sec": 1645041042.7153726,
-  "end_time_sec": 1645041053.3374372,
+  "start_time_sec": 1654064882.4712753,
+  "end_time_sec": 1654064888.912269,
   "results": [
     {
       "test_name": "Get System Config",
@@ -18,7 +17,7 @@
           "test_case": "test0200",
           "test_class": "Get",
           "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1645041042,
+          "start_time_sec": 1654064882,
           "duration_sec": 0,
           "result": "PASS",
           "log": ""
@@ -31,10 +30,10 @@
       "duration_sec": 0,
       "results": [
         {
-          "test_case": "test0200",
+          "test_case": "testGetJsonCheck",
           "test_class": "GetJsonCheck",
           "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1645041042,
+          "start_time_sec": 1654064882,
           "duration_sec": 0,
           "result": "PASS",
           "log": ""
@@ -47,10 +46,10 @@
       "duration_sec": 0,
       "results": [
         {
-          "test_case": "test0200",
+          "test_case": "testGetJsonCheck",
           "test_class": "GetJsonCheck",
           "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1645041042,
+          "start_time_sec": 1654064882,
           "duration_sec": 0,
           "result": "PASS",
           "log": ""
@@ -63,10 +62,10 @@
       "duration_sec": 0,
       "results": [
         {
-          "test_case": "test0200",
+          "test_case": "testGetCompare",
           "test_class": "GetCompare",
           "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1645041042,
+          "start_time_sec": 1654064882,
           "duration_sec": 0,
           "result": "PASS",
           "log": ""
@@ -79,10 +78,10 @@
       "duration_sec": 0,
       "results": [
         {
-          "test_case": "test0200",
+          "test_case": "testGetCompare",
           "test_class": "GetCompare",
           "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1645041042,
+          "start_time_sec": 1654064882,
           "duration_sec": 0,
           "result": "PASS",
           "log": ""
@@ -95,10 +94,10 @@
       "duration_sec": 0,
       "results": [
         {
-          "test_case": "test0200",
+          "test_case": "testGetCompare",
           "test_class": "GetCompare",
           "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1645041042,
+          "start_time_sec": 1654064882,
           "duration_sec": 0,
           "result": "PASS",
           "log": ""
@@ -111,13 +110,13 @@
       "duration_sec": 0,
       "results": [
         {
-          "test_case": "test0200",
+          "test_case": "testGetCompare",
           "test_class": "GetCompare",
           "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1645041042,
+          "start_time_sec": 1654064882,
           "duration_sec": 0,
           "result": "FAIL",
-          "log": "\n Traceback (most recent call last):\n  File \"/usr/local/google/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testbase.py\", line 53, in inner\n    method(self, *args, **kw)\n  File \"/usr/local/google/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testcases/get.py\", line 50, in test0200\n    self.assertTrue(cmp,  diff)\nAssertionError: False is not true : key openconfig-interfaces:enabled: got 'True', wanted 'False'\n"
+          "log": "\n Traceback (most recent call last):\n  File \"/usr/local/google/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testbase.py\", line 55, in inner\n    method(self, *args, **kw)\n  File \"/usr/local/google/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testcases/get.py\", line 50, in testGetCompare\n    self.assertTrue(cmp,  diff)\nAssertionError: False is not true : key openconfig-interfaces:enabled: got 'True', wanted 'False'\n"
         }
       ]
     },
@@ -127,10 +126,10 @@
       "duration_sec": 2,
       "results": [
         {
-          "test_case": "test0200",
+          "test_case": "testSetUpdate",
           "test_class": "SetUpdate",
           "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1645041042,
+          "start_time_sec": 1654064882,
           "duration_sec": 2,
           "result": "PASS",
           "log": ""
@@ -143,10 +142,10 @@
       "duration_sec": 0,
       "results": [
         {
-          "test_case": "test0200",
+          "test_case": "testGetJsonCheckCompare",
           "test_class": "GetJsonCheckCompare",
           "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1645041044,
+          "start_time_sec": 1654064884,
           "duration_sec": 0,
           "result": "PASS",
           "log": ""
@@ -159,10 +158,10 @@
       "duration_sec": 0,
       "results": [
         {
-          "test_case": "test0200",
+          "test_case": "testGetJsonCheckCompare",
           "test_class": "GetJsonCheckCompare",
           "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1645041044,
+          "start_time_sec": 1654064884,
           "duration_sec": 0,
           "result": "PASS",
           "log": ""
@@ -175,27 +174,27 @@
       "duration_sec": 0,
       "results": [
         {
-          "test_case": "test0200",
+          "test_case": "testGetJsonCheckCompare",
           "test_class": "GetJsonCheckCompare",
           "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1645041044,
+          "start_time_sec": 1654064884,
           "duration_sec": 0,
           "result": "FAIL",
-          "log": "\n Traceback (most recent call last):\n  File \"/usr/local/google/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testbase.py\", line 53, in inner\n    method(self, *args, **kw)\n  File \"/usr/local/google/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testcases/get.py\", line 115, in test0200\n    self.assertTrue(cmp, diff)\nAssertionError: False is not true : key openconfig-system:domain-name: got 'foo.bar.com', wanted 'la.la.la.com'\n"
+          "log": "\n Traceback (most recent call last):\n  File \"/usr/local/google/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testbase.py\", line 55, in inner\n    method(self, *args, **kw)\n  File \"/usr/local/google/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testcases/get.py\", line 117, in testGetJsonCheckCompare\n    self.assertTrue(cmp, diff)\nAssertionError: False is not true : key openconfig-system:domain-name: got 'foo.bar.com', wanted 'la.la.la.com'\n"
         }
       ]
     },
     {
       "test_name": "Set timezone with a valid Json blob",
       "success": true,
-      "duration_sec": 3,
+      "duration_sec": 2,
       "results": [
         {
-          "test_case": "test0100",
+          "test_case": "testJsonCheckSetUpdate",
           "test_class": "JsonCheckSetUpdate",
           "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1645041044,
-          "duration_sec": 3,
+          "start_time_sec": 1654064884,
+          "duration_sec": 2,
           "result": "PASS",
           "log": ""
         }
@@ -207,87 +206,10 @@
       "duration_sec": 0,
       "results": [
         {
-          "test_case": "test0200",
+          "test_case": "testGetJsonCheckCompare",
           "test_class": "GetJsonCheckCompare",
           "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1645041047,
-          "duration_sec": 0,
-          "result": "PASS",
-          "log": ""
-        }
-      ]
-    },
-    {
-      "test_name": "Set timezone with a valid Json blob",
-      "success": true,
-      "duration_sec": 2,
-      "results": [
-        {
-          "test_case": "test0000",
-          "test_class": "JsonCheck",
-          "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1645041047,
-          "duration_sec": 0,
-          "result": "PASS",
-          "log": ""
-        },
-        {
-          "test_case": "test0100",
-          "test_class": "JsonCheck",
-          "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1645041047,
-          "duration_sec": 2,
-          "result": "PASS",
-          "log": ""
-        },
-        {
-          "test_case": "test0200",
-          "test_class": "JsonCheck",
-          "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1645041049,
-          "duration_sec": 0,
-          "result": "PASS",
-          "log": ""
-        }
-      ]
-    },
-    {
-      "test_name": "Set timezone with a valid Json blob, and check it is Zurich",
-      "success": true,
-      "duration_sec": 2,
-      "results": [
-        {
-          "test_case": "test0000",
-          "test_class": "JsonCheckCompare",
-          "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1645041049,
-          "duration_sec": 0,
-          "result": "PASS",
-          "log": ""
-        },
-        {
-          "test_case": "test0100",
-          "test_class": "JsonCheckCompare",
-          "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1645041049,
-          "duration_sec": 2,
-          "result": "PASS",
-          "log": ""
-        },
-        {
-          "test_case": "test0200",
-          "test_class": "JsonCheckCompare",
-          "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1645041051,
-          "duration_sec": 0,
-          "result": "PASS",
-          "log": ""
-        },
-        {
-          "test_case": "test0300",
-          "test_class": "JsonCheckCompare",
-          "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1645041051,
+          "start_time_sec": 1654064886,
           "duration_sec": 0,
           "result": "PASS",
           "log": ""
@@ -300,36 +222,18 @@
       "duration_sec": 2,
       "results": [
         {
-          "test_case": "test0100",
+          "test_case": "testSetConfigCheckState",
           "test_class": "SetConfigCheckState",
           "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1645041051,
+          "start_time_sec": 1654064886,
           "duration_sec": 2,
-          "result": "PASS",
-          "log": ""
-        },
-        {
-          "test_case": "test0200",
-          "test_class": "SetConfigCheckState",
-          "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1645041053,
-          "duration_sec": 0,
-          "result": "PASS",
-          "log": ""
-        },
-        {
-          "test_case": "test0300",
-          "test_class": "SetConfigCheckState",
-          "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1645041053,
-          "duration_sec": 0,
           "result": "FAIL",
-          "log": "\n Traceback (most recent call last):\n  File \"/usr/local/google/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testbase.py\", line 53, in inner\n    method(self, *args, **kw)\n  File \"/usr/local/google/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testcases/config_state.py\", line 70, in test0300\n    self.assertTrue(cmp, diff)\nAssertionError: False is not true : key openconfig-system:timezone-name: got 'Europe/Stockholm', wanted 'Europe/Paris'\n"
+          "log": "\n Traceback (most recent call last):\n  File \"/usr/local/google/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testbase.py\", line 55, in inner\n    method(self, *args, **kw)\n  File \"/usr/local/google/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testcases/config_state.py\", line 68, in testSetConfigCheckState\n    self.assertTrue(cmp, diff)\nAssertionError: False is not true : key openconfig-system:timezone-name: got 'Europe/Stockholm', wanted 'Europe/Paris'\n"
         }
       ]
     }
   ],
-  "tests_pass": 13,
-  "tests_total": 16,
+  "tests_pass": 11,
+  "tests_total": 14,
   "tests_fail": 3
 }

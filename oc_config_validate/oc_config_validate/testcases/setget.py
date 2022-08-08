@@ -17,7 +17,7 @@ class TestCase(testbase.TestCase):
     json_value = None
     model = ""
 
-    def test0000(self):
+    def _validate_args(self):
         """Check testcase arguments."""
         self.assertArgs(["xpath", "json_value", "model"])
         self.assertXpath(self.xpath)
@@ -29,7 +29,7 @@ class TestCase(testbase.TestCase):
                              "JSON value to Set does not match the model")
 
 
-class JsonCheck(TestCase):
+class SetGetJsonCheck(TestCase):
     """Sends gNMI Set and later Get, schema-checking the JSON-IETF value.
 
     1. The intended JSON-IETF configuration is checked for schema validity.
@@ -44,16 +44,13 @@ class JsonCheck(TestCase):
         json_value: JSON-IETF value to check, set and get.
         model: Python binding class to check the JSON reply against.
     """
-    resp_val = None
-
-    def test0100(self):
-        """"""
-        self.assertTrue(self.gNMISetUpdate(self.xpath, self.json_value),
-                        "gNMI Set did not succeed.")
 
     @testbase.retryAssertionError
-    def test0200(self):
+    def testSetGetJsonCheck(self):
         """"""
+        self._validate_args()
+        self.assertTrue(self.gNMISetUpdate(self.xpath, self.json_value),
+                        "gNMI Set did not succeed.")
         resp = self.gNMIGet(self.xpath)
         self.assertIsNotNone(resp, "No gNMI GET response")
         self.resp_val = resp.json_ietf_val
@@ -64,8 +61,8 @@ class JsonCheck(TestCase):
                              "Get response JSON does not match the model")
 
 
-class JsonCheckCompare(JsonCheck):
-    """Does what setget.JsonCheck does, but also compares the JSON Get reply.
+class SetGetJsonCheckCompare(TestCase):
+    """Does what setget.SetGetJsonCheck does, but also compares the JSON Get reply.
 
     1. The intended JSON-IETF configuration is checked for schema validity.
     1. It is sent in a gNMI Set request.
@@ -82,13 +79,19 @@ class JsonCheckCompare(JsonCheck):
     """
 
     @testbase.retryAssertionError
-    def test0300(self):
+    def testSetGetJsonCheckCompare(self):
         """"""
+        self._validate_args()
+        self.assertTrue(self.gNMISetUpdate(self.xpath, self.json_value),
+                        "gNMI Set did not succeed.")
         resp = self.gNMIGet(self.xpath)
         self.assertIsNotNone(resp, "No gNMI GET response")
         self.resp_val = resp.json_ietf_val
         self.assertIsNotNone(self.resp_val,
                              "The gNMI GET response is not JSON IETF")
+        model = schema.ocContainerFromPath(self.model, self.xpath)
+        self.assertJsonModel(self.resp_val, model,
+                             "Get response JSON does not match the model")
         got = json.loads(self.resp_val)
         cmp, diff = target.intersectCmp(self.json_value, got)
         self.assertTrue(cmp, diff)

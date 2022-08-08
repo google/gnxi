@@ -17,7 +17,7 @@ class SetUpdate(testbase.TestCase):
     xpath = ""
     value = None
 
-    def test0200(self):
+    def testSetUpdate(self):
         """"""
         self.assertArgs(["xpath", "value"])
         self.assertXpath(self.xpath)
@@ -35,7 +35,7 @@ class SetDelete(testbase.TestCase):
     """
     xpath = ""
 
-    def test0200(self):
+    def testSetDelete(self):
         """"""
         self.assertArgs(["xpath"])
         self.assertXpath(self.xpath)
@@ -59,7 +59,7 @@ class JsonCheckSetUpdate(testbase.TestCase):
     json_value = None
     model = ""
 
-    def test0100(self):
+    def testJsonCheckSetUpdate(self):
         """"""
         self.assertArgs(["xpath", "json_value", "model", ])
         self.assertXpath(self.xpath)
