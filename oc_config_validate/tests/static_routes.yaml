@@ -3,8 +3,6 @@ description: "Configure static routes"
 
 tests:
 
-tests:
-
 - !TestCase
   name: "Configure a default route"
   class_name: static_route.AddStaticRoute
