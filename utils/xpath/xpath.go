@@ -26,7 +26,7 @@ var (
 	idPattern = `[a-zA-Z_][a-zA-Z\d\_\-\.]*`
 	// YANG identifiers must follow RFC 6020:
 	// https://tools.ietf.org/html/rfc6020#section-6.2.
-	idRe = regexp.MustCompile(`^` + idPattern + `$`)
+	idRe = regexp.MustCompile(`^(?:`+idPattern+`:)?` + idPattern + `$`)
 	// The sting representation of List key value pairs must follow the
 	// following pattern: [key=value], where key is the List key leaf name,
 	// and value is the string representation of key leaf value.
