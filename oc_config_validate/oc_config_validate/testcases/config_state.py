@@ -2,7 +2,7 @@
 
 import json
 
-from oc_config_validate import schema, target, testbase
+from oc_config_validate import schema, testbase
 
 
 class SetConfigCheckState(testbase.TestCase):
@@ -50,7 +50,7 @@ class SetConfigCheckState(testbase.TestCase):
         self.assertJsonModel(resp_val, model,
                              "Get /config does not match the model")
         got = json.loads(resp_val)
-        cmp, diff = target.intersectCmp(self.json_value, got)
+        cmp, diff = schema.intersectCmp(self.json_value, got)
         self.assertTrue(cmp, diff)
 
         # gNMI Get on /state
@@ -64,7 +64,7 @@ class SetConfigCheckState(testbase.TestCase):
         self.assertJsonModel(resp_val, model,
                              "Get /state does not match the model")
         got = json.loads(resp_val)
-        cmp, diff = target.intersectCmp(self.json_value, got)
+        cmp, diff = schema.intersectCmp(self.json_value, got)
         self.assertTrue(cmp, diff)
 
 

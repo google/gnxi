@@ -2,7 +2,7 @@
 
 import json
 
-from oc_config_validate import schema, target, testbase
+from oc_config_validate import schema, testbase
 
 
 class TestCase(testbase.TestCase):
@@ -13,9 +13,9 @@ class TestCase(testbase.TestCase):
         json_value: JSON-IETF value to check, set and get.
         model: Python binding class to check the JSON reply against.
     """
-    xpath = ""
+    xpath = None
     json_value = None
-    model = ""
+    model = None
 
     def _validate_args(self):
         """Check testcase arguments."""
@@ -62,7 +62,7 @@ class SetGetJsonCheck(TestCase):
 
 
 class SetGetJsonCheckCompare(TestCase):
-    """Does what setget.SetGetJsonCheck does, but also compares the JSON Get reply.
+    """Does what SetGetJsonCheck does, but also compares the JSON Get reply.
 
     1. The intended JSON-IETF configuration is checked for schema validity.
     1. It is sent in a gNMI Set request.
@@ -93,5 +93,5 @@ class SetGetJsonCheckCompare(TestCase):
         self.assertJsonModel(self.resp_val, model,
                              "Get response JSON does not match the model")
         got = json.loads(self.resp_val)
-        cmp, diff = target.intersectCmp(self.json_value, got)
+        cmp, diff = schema.intersectCmp(self.json_value, got)
         self.assertTrue(cmp, diff)

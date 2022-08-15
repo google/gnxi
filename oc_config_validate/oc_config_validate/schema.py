@@ -19,17 +19,45 @@ import json
 import os
 import re
 from inspect import isclass
-from typing import List, Union
+from typing import Any, List, Tuple, Union
 
 from pyangbind.lib import yangtypes
 from pyangbind.lib.base import PybindBase
 from pyangbind.lib.serialise import pybindJSONDecoder
 
-from oc_config_validate import models, target
+from oc_config_validate import models
+from oc_config_validate.gnmi import gnmi_pb2  # type: ignore
+
+_RE_GNMI_PATH_ELEM = re.compile(r'''^
+(?P<name>[^[]+)   # gNMI path name
+(\[(?P<key>\w\D+) # gNMI path key
+=
+(?P<value>.*)     # gNMI path value
+\])?$
+''', re.VERBOSE)
+
+_RE_GNMI_XPATH = re.compile(r'''/(?=(?:[^\[\]]|\[[^\[\]]+\])*$)''')
+
+_RE_GNMI_KEY = re.compile(r'\[([^]]*)\]')
+
+type_translate_map = {int: 'int_val', float: 'float_val', bool: 'bool_val',
+                      str: 'string_val', dict: 'json_ietf_val'}
 
 
-class Error(Exception):
+class BaseError(Exception):
     """Base Exception raised by this module."""
+
+
+class ModelClassError(BaseError):
+    """Error parsing or loading an OC Model Class."""
+
+
+class XpathError(BaseError):
+    """Error parsing gNMI xpath."""
+
+
+class GnmiError(BaseError):
+    """Error using gNMI."""
 
 
 def decodeJson(json_text: Union[str, bytes], obj: PybindBase):
@@ -84,23 +112,76 @@ def ocContainerFromPath(model: str, xpath: str) -> PybindBase:
         An PybindBase object of the class.
 
     Raises:
-        Error if unable to find the Python class or if the class is not derived
-          from PybindBase.
-        target.XpathError if the xpath is invalid.
+        ModelClassError if unable to find the Python class or if the class is
+          not derived from PybindBase.
+        XpathError if the xpath is invalid.
+        AttributeError if unable to find an xpath element in the OC class.
+    """
+    model_inst = _ocObjFromPath(model, xpath)
+    if not issubclass(model_inst.__class__, PybindBase):
+        raise ModelClassError(
+            "%s:%s is not a valid container class" % (model, xpath))
+    return model_inst
+
+
+def ocLeafFromPath(model: str, xpath: str) -> Any:
+    """Create an empty value of the model leaf pointed by the xpath.
+
+    This method look for the model type in the oc_config_validate.models
+      package
+
+    Args:
+        model: the OC model class name in the oc_config_validate.models
+          package, as `module.class`.
+        xpath: the xpath to the OC leaf to create.
+
+    Returns:
+        A value object of the leaf, like int, float, str, etc.
+
+    Raises:
+        ModelClassError if unable to find the Python class or if the instance
+          is not a Leaf.
+        XpathError if the xpath is invalid.
+        AttributeError if unable to find an xpath element in the OC class.
+    """
+    model_inst = _ocObjFromPath(model, xpath)
+    if issubclass(model_inst.__class__, PybindBase):
+        raise ModelClassError(
+            "%s:%s is not a valid leaf class" % (model, xpath))
+    return model_inst
+
+
+def _ocObjFromPath(model: str, xpath: str) -> Any:
+    """Create an empty Object of the model for the path.
+
+    This method look for the model class in the oc_config_validate.models
+      package
+
+    Args:
+        model: the OC model class name in the oc_config_validate.models
+        package, as `module.class`.
+        xpath: the xpath to the OC container to create.
+
+    Returns:
+        An object of the class.
+
+    Raises:
+        ModelClassError if unable to find the Python class or if the class.
+        XpathError if the xpath is invalid.
         AttributeError if unable to find an xpath element in the OC class.
     """
 
     parts = model.split('.')
     if len(parts) != 2:
-        raise Error("%s is not module.class" % model)
+        raise ModelClassError("%s is not module.class" % model)
     model_mod = importlib.import_module(
         "oc_config_validate.models." + parts[0])
     model_cls = getattr(model_mod, parts[1])
     if not isclass(model_cls):
-        raise Error(
+        raise ModelClassError(
             "%s is not a class in oc_config_validate.models package" % model)
 
-    gnmi_xpath = target.parsePath(xpath)
+    gnmi_xpath = parsePath(xpath)
 
     model_inst = model_cls()
     for e in gnmi_xpath.elem:
@@ -110,8 +191,6 @@ def ocContainerFromPath(model: str, xpath: str) -> PybindBase:
             for k, v in e.key.items():
                 save_key[yangtypes.safe_name(k)] = v
             model_inst = model_inst.add(**save_key)
-    if not issubclass(model_inst.__class__, PybindBase):
-        raise Error("%s:%s is not a valid container class" % (model, xpath))
     return model_inst
 
 
@@ -134,8 +213,243 @@ def getOcModelsVersions() -> List[str]:
 
      Returns an empty list if unable to read the models/versions file.
      """
-    versions_file = os.path.join(models.__path__[0], "versions")
+    versions_file = os.path.join(
+        models.__path__[0], "versions")  # pytype: disable=unsupported-operands
     if os.path.isfile(versions_file):
         with open(versions_file) as f:
             return [line.strip() for line in f]
     return []
+
+
+def ocLeafsPaths(model: str, xpath: str) -> List[str]:
+    """Returns a list of xpaths to leafs, rooted at xpath.
+
+    This method look for the model class in the oc_config_validate.models
+      package
+
+    Args:
+        model: the OC model class name in the oc_config_validate.models
+        package, as `module.class`.
+        xpath: the xpath to the OC container to root at.
+
+    Returns:
+        A list of paths to leafs, rooted at the xpath.
+
+    Raises:
+        Error if unable to find the Python class or if the class is not derived
+          from PybindBase.
+        XpathError if the xpath is invalid.
+        AttributeError if unable to find an xpath element in the OC class.
+
+    """
+    obj = ocContainerFromPath(model, xpath)
+
+    paths = []
+    for leaf, val in obj.get().items():
+        if type(val) == dict:
+            paths.extend(ocLeafsPaths(model, xpath + "/" + leaf))
+        else:
+            paths.append(xpath + "/" + leaf)
+    return paths
+
+
+def parsePath(xpath: str) -> gnmi_pb2.Path:
+    """Parse an xpath string into gNMI.Path object.
+
+    Args:
+        xpath: String representation of a gNMI path.
+
+    Returs:
+        A gNMI.Path oject.
+
+    Raises:
+        XpathError: If unable to parse the xpath provided.
+    """
+
+    if not xpath or xpath == '/':
+        return gnmi_pb2.Path(elem=[])
+    xpath = xpath.strip('/').strip('/')  # Removes leading/trailing '/'.
+    path_parts = _RE_GNMI_XPATH.split(xpath)
+    gnmi_elems = []
+    for part in path_parts:
+        part_search = _RE_GNMI_PATH_ELEM.search(part)
+        if not part_search:  # Invalid path specified.
+            raise XpathError('xpath component parse error: %s' % part)
+        if part_search.group('key') is not None:  # A path key was provided.
+            key = {}
+            for k in _RE_GNMI_KEY.findall(part):
+                key[k.split('=')[0]] = k.split('=')[-1]
+            gnmi_elems.append(
+                gnmi_pb2.PathElem(name=part_search.group('name'), key=key))
+        else:
+            gnmi_elems.append(gnmi_pb2.PathElem(name=part, key={}))
+    return gnmi_pb2.Path(elem=gnmi_elems)
+
+
+def isPathOK(xpath: str) -> bool:
+    """Return True is the xpath is parsed correctly into a gNMI Path
+
+    Args:
+        xpath: The xpath to parse
+    """
+    try:
+        parsePath(xpath)
+    except XpathError:
+        return False
+    return True
+
+
+def isPathIn(xpath: str, xpaths: List[str]) -> bool:
+    """Returns True if xpath in included or equal to any path in xpaths.
+
+    xpaths can contain paths with wildcard '*'.
+
+    Args:
+      xpath: Non-wildcard xpath to check.
+      xpaths: List of xpaths (can have wildcards) to contain xpath.
+    """
+    def _inOrEqual(x: str):
+        x_regex = re.escape(x).replace(r"\*", r"(.+)")
+        return re.match(x_regex, xpath) is not None
+
+    return any(map(_inOrEqual, xpaths))
+
+
+def pathToString(path: gnmi_pb2.Path) -> str:
+    """Parse a gNMI Path to a URI-like string.
+
+    Args:
+        A gNMI.Path oject.
+
+    Returs:
+        xpath: String representation of a gNMI path.
+
+    Raises:
+        XpathError: If unable to parse the xpath provided.
+    """
+    path_elems = []
+    for e in path.elem:
+        elem = e.name
+        if hasattr(e, "key"):
+            keys = [f"[{k}={v}]" for k, v in e.key.items()]
+            elem += f"{','.join(keys)}"
+        path_elems.append(elem)
+    return "/" + "/".join(path_elems)
+
+
+def pythonToTypedValue(value: Any) -> gnmi_pb2.TypedValue:
+    """Return the gNMI TypedValue for a Python variable.
+
+    Args:
+        value: Value to set; can be int, float, bool, str or dict.
+
+    Raises:
+        GnmiError if type is unsupported.
+    """
+
+    val = gnmi_pb2.TypedValue()
+    if type(value) not in type_translate_map:
+        raise GnmiError("Value '%s' cannot be converted to gNMI TypedValue" %
+                        value)
+    if isinstance(value, dict):
+        setattr(val, type_translate_map[type(
+            value)], json.dumps(value).encode())
+    else:
+        setattr(val, type_translate_map[type(value)], value)
+    return val
+
+
+def typedValueToPython(value: gnmi_pb2.TypedValue, tp: type) -> Union[
+        bool, int, float, dict, str]:
+    """Return the Python variable for a gNMI TypedValue.
+
+    Args:
+        value: gNMI TypedValue to convert.
+        tp: Type to extract, from [bool, int, float, dict, str]
+
+    Raises:
+        GnmiError if type is unsupported.
+    """
+    if tp not in type_translate_map:
+        raise GnmiError(f"Unsupported Type {tp}")
+    if tp == dict:
+        return json.loads(value.json_ietf_val)
+    return tp(getattr(value, type_translate_map[tp]))
+
+
+def isTypedValueOfType(value: gnmi_pb2.TypedValue, tp: type) -> bool:
+    """Returns True if the gNMI TypedValue is of a given Python type.
+
+    Args:
+        value: gNMI TypedValue to convert.
+        tp: Expected type, from [bool, int, float, dict, str]
+
+    Raises:
+        GnmiError if type is unsupported.
+    """
+    if tp not in type_translate_map:
+        raise GnmiError(f"Unsupported Type {tp}")
+    return value.HasField(type_translate_map[tp])
+
+
+def intersectCmp(want: dict, got: dict) -> Tuple[bool, str]:
+    """Return true if all the keys of want are the same in got.
+
+    E.g.: Taking want={"foo": 0, "bla": "test"} and
+        got={"foo": 1, "bar": true, "bla": "test"}, the keys "foo"
+        and "bla" are looked for and compared in got.
+
+    The same comparison applies to nested dictionaries and lists.
+
+    Args:
+        want, got: Dictionaries to compare.
+
+    Returns:
+        A tuple with the comparison result and a diff text, if different.
+    """
+    for k in want.keys():
+        x = want[k]
+        y = got.get(k)
+        if y is None:
+            return False, "key %s not found" % k
+        if isinstance(x, dict) and isinstance(y, dict):
+            return intersectCmp(x, y)
+        if isinstance(x, list) and isinstance(y, list):
+            return intersectListCmp(x, y)
+        if x != y:
+            return False, "key %s: got '%s', wanted '%s'" % (k, y, x)
+    return True, ""
+
+
+def intersectListCmp(want: list, got: list) -> Tuple[bool, str]:
+    """Return true if all the elements in want are the same in got.
+
+    For dictionaries, intersectCmp() is used for comparison.
+    Order is not considered.
+
+    E.g.: Taking [0, "bla"] and [1, "bar", "bla"], the elements 0 and "bla"
+        are looked for and compared in got.
+
+    The same comparison applies to nested dictionaries and lists.
+
+    Args:
+        want, got: Lists to compare.
+
+    Returns:
+        A tuple with the comparison result and a diff text, if different.
+    """
+    for i in want:
+        for j in got:
+            matched = False
+            if type(i) != type(j):
+                continue
+            if isinstance(i, dict):
+                cmp, _ = intersectCmp(i, j)
+            else:
+                cmp = bool(i == j)
+            if cmp:
+                matched = True
+                break
+        if not matched:
+            return False, "List element %s not matched" % i
+    return True, ""

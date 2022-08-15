@@ -22,7 +22,7 @@ import time
 import unittest
 from typing import List, Optional
 
-from oc_config_validate import context, target, testbase, testcases
+from oc_config_validate import context, schema, target, testbase, testcases
 
 
 class TestThread(threading.Thread):
@@ -209,7 +209,7 @@ def setInitConfigs(ctx: context.TestContext,
                 return False
         try:
 
-            target.parsePath(init_config.xpath)
+            schema.parsePath(init_config.xpath)
             tgt.gNMISetConfigFile(init_config.filename, init_config.xpath)
             logging.info("Initial OpenConfig '%s' applied at %s",
                          init_config.filename, init_config.xpath)

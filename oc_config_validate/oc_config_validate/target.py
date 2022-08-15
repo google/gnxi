@@ -23,43 +23,22 @@ Code taken and adapted from
 
 import json
 import logging
-import re
 import ssl
 import time
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, Iterator, List, Optional, Tuple
 
 import grpc
 
-from oc_config_validate import context
-from oc_config_validate.gnmi import gnmi_pb2, gnmi_pb2_grpc
-
-_RE_GNMI_PATH_ELEM = re.compile(r'''^
-(?P<name>[^[]+)   # gNMI path name
-(\[(?P<key>\w\D+) # gNMI path key
-=
-(?P<value>.*)     # gNMI path value
-\])?$
-''', re.VERBOSE)
-
-_RE_GNMI_XPATH = re.compile(r'''/(?=(?:[^\[\]]|\[[^\[\]]+\])*$)''')
-
-_RE_GNMI_KEY = re.compile(r'\[([^]]*)\]')
+from oc_config_validate import context, schema
+from oc_config_validate.gnmi import gnmi_pb2, gnmi_pb2_grpc  # type: ignore
 
 
 class BaseError(Exception):
     """Base Error for the target class"""
 
 
-class XpathError(BaseError):
-    """Error parsing gNMI xpath."""
-
-
 class TargetError(BaseError):
     """Error connecting to Target."""
-
-
-class GnmiError(BaseError):
-    """Error using gNMI."""
 
 
 class RpcError(BaseError):
@@ -188,7 +167,7 @@ class TestTarget():
         Raises:
             RpcError if unable to connect to Target.
         """
-        path = parsePath(xpath)
+        path = schema.parsePath(xpath)
         self._gNMIConnnect()
         metadata = self._buildGnmiStubMetadata()
         try:
@@ -211,16 +190,16 @@ class TestTarget():
             A gnmi_pb2.SetResponse object.
 
         Raises:
-            GnmiError if the set_type is not valid.
+            TypeError if the set_type is not valid.
             RpcError if unable to connect to Target.
         """
         if set_type.lower() not in ['delete', 'update', 'replace']:
-            raise GnmiError('%s is not a valid gNMI Set type' % set_type)
+            raise TypeError('%s is not a valid gNMI Set type' % set_type)
 
-        path = parsePath(xpath)
+        path = schema.parsePath(xpath)
         path_val = None
         if value:
-            val = pythonToTypedValue(value)
+            val = schema.pythonToTypedValue(value)
             path_val = gnmi_pb2.Update(path=path, val=val)
         self._gNMIConnnect()
         metadata = self._buildGnmiStubMetadata()
@@ -296,6 +275,52 @@ class TestTarget():
             json_data = json.load(file)
         self.gNMISetUpdate(xpath, json_data)
 
+    def gNMISubsOnce(self, xpaths: List[str]) -> List[gnmi_pb2.Notification]:
+        """Subscribes using ONCE mode, returns the Notifications received.
+
+        Args:
+            xpaths: List of gNMI paths to subscribe to.
+
+        Returns:
+            A list of gnmi_pb2.Notification objects received.
+            None on error.
+
+        Raises:
+            RpcError if unable to connect to Target.
+            ValueError if the SubscribeResponse is invalid.
+        """
+        def _subscribe_requet_generator(
+            requests: List[gnmi_pb2.SubscribeRequest]
+        ) -> Iterator[gnmi_pb2.SubscribeRequest]:
+            for r in requests:
+                yield r
+
+        paths = [schema.parsePath(xpath) for xpath in xpaths]
+        self._gNMIConnnect()
+        metadata = self._buildGnmiStubMetadata()
+        notifications = []
+        stream_requests = _subscribe_requet_generator(
+            [gnmi_pb2.SubscribeRequest(subscribe=gnmi_pb2.SubscriptionList(
+                subscription=[
+                    gnmi_pb2.Subscription(path=path)
+                    for path in paths],
+                mode=gnmi_pb2.SubscriptionList.ONCE,
+                encoding='JSON_IETF'))
+             ])
+        try:
+            for resp in self.stub.Subscribe(
+                    stream_requests,
+                    **metadata):
+                if resp.sync_response:
+                    pass
+                elif resp.update:
+                    notifications.append(resp.update)
+                else:
+                    raise ValueError("Invalid SubscribeResponse %s" % resp)
+            return notifications
+        except grpc._channel._InactiveRpcError as err:
+            raise RpcError(err) from err
+
     def validate(self):
         """Ensures the Target is defined appropriately.
 
@@ -309,158 +334,3 @@ class TestTarget():
         # If using client certificates for TLS, provide key and cert
         if not self.notls and (bool(self.key) ^ bool(self.cert)):
             raise ValueError("TLS key and cert are both needed.")
-
-
-def parsePath(xpath: str) -> gnmi_pb2.Path:
-    """Parse an xpath string into gNMI.Path object.
-
-    Args:
-        xpath: String representation of a gNMI path.
-
-    Returs:
-        A gNMI.Path oject.
-
-    Raises:
-        XpathError: If unable to parse the xpath provided.
-    """
-
-    if not xpath or xpath == '/':
-        return gnmi_pb2.Path(elem=[])
-    xpath = xpath.strip('/').strip('/')  # Removes leading/trailing '/'.
-    path_parts = _RE_GNMI_XPATH.split(xpath)
-    gnmi_elems = []
-    for part in path_parts:
-        part_search = _RE_GNMI_PATH_ELEM.search(part)
-        if not part_search:  # Invalid path specified.
-            raise XpathError('xpath component parse error: %s' % part)
-        if part_search.group('key') is not None:  # A path key was provided.
-            key = {}
-            for k in _RE_GNMI_KEY.findall(part):
-                key[k.split('=')[0]] = k.split('=')[-1]
-            gnmi_elems.append(
-                gnmi_pb2.PathElem(name=part_search.group('name'), key=key))
-        else:
-            gnmi_elems.append(gnmi_pb2.PathElem(name=part, key={}))
-    return gnmi_pb2.Path(elem=gnmi_elems)
-
-
-def isPathOK(xpath: str) -> bool:
-    """Return True is the xpath is parsed correctly into a gNMI Path
-
-    Args:
-        xpath: The xpath to parse
-    """
-    try:
-        parsePath(xpath)
-    except XpathError:
-        return False
-    return True
-
-
-def pythonToTypedValue(value: Any) -> gnmi_pb2.TypedValue:
-    """Return the gNMI TypedValue for a Python variable.
-
-    Args:
-        value: Value to set; can be int, float, bool, str or dict.
-
-    Raises:
-        GnmiError if type is unsupported.
-    """
-    translate_map = {int: 'int_val', float: 'float_val', bool: 'bool_val',
-                     str: 'string_val', dict: 'json_ietf_val'}
-    val = gnmi_pb2.TypedValue()
-    if type(value) not in translate_map:
-        raise GnmiError("Value '%s' cannot be converted to gNMI TypedValue" %
-                        value)
-    if isinstance(value, dict):
-        setattr(val, translate_map[type(value)], json.dumps(value).encode())
-    else:
-        setattr(val, translate_map[type(value)], value)
-    return val
-
-
-def typedValueToPython(value: gnmi_pb2.TypedValue, tp: type) -> Union[
-        bool, int, float, dict, str]:
-    """Return the Python variable for a gNMI TypedValue.
-
-    Args:
-        value: gNMI TypedValue to convert.
-        tp: Type to extract, from [bool, int, float, dict, str]
-
-    Raises:
-        GnmiError if type is unsupported.
-    """
-    if tp == dict:
-        return json.loads(value.json_ietf_val)
-    if tp == bool:
-        return bool(value.bool_val)
-    if tp == int:
-        return int(value.int_val)
-    if tp == float:
-        return float(value.float_val)
-    if tp == str:
-        return str(value.string_val)
-    raise GnmiError("Unsupported TypedValue")
-
-
-def intersectCmp(want: dict, got: dict) -> Tuple[bool, str]:
-    """Return true if all the keys of want are the same in got.
-
-    E.g.: Taking want={"foo": 0, "bla": "test"} and
-        got={"foo": 1, "bar": true, "bla": "test"}, the keys "foo"
-        and "bla" are looked for and compared in got.
-
-    The same comparison applies to nested dictionaries and lists.
-
-    Args:
-        want, got: Dictionaries to compare.
-
-    Returns:
-        A tuple with the comparison result and a diff text, if different.
-    """
-    for k in want.keys():
-        x = want[k]
-        y = got.get(k)
-        if y is None:
-            return False, "key %s not found" % k
-        if isinstance(x, dict) and isinstance(y, dict):
-            return intersectCmp(x, y)
-        if isinstance(x, list) and isinstance(y, list):
-            return intersectListCmp(x, y)
-        if x != y:
-            return False, "key %s: got '%s', wanted '%s'" % (k, y, x)
-    return True, ""
-
-
-def intersectListCmp(want: list, got: list) -> Tuple[bool, str]:
-    """Return true if all the elements in want are the same in got.
-
-    For dictionaries, intersectCmp() is used for comparison.
-    Order is not considered.
-
-    E.g.: Taking [0, "bla"] and [1, "bar", "bla"], the elements 0 and "bla"
-        are looked for and compared in got.
-
-    The same comparison applies to nested dictionaries and lists.
-
-    Args:
-        want, got: Lists to compare.
-
-    Returns:
-        A tuple with the comparison result and a diff text, if different.
-    """
-    for i in want:
-        for j in got:
-            matched = False
-            if type(i) != type(j):
-                continue
-            if isinstance(i, dict):
-                cmp, _ = intersectCmp(i, j)
-            else:
-                cmp = bool(i == j)
-            if cmp:
-                matched = True
-                break
-        if not matched:
-            return False, "List element %s not matched" % i
-    return True, ""
