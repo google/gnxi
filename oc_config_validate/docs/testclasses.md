@@ -158,8 +158,6 @@ By default, the tests do 3 retries, with 10 seconds delay, if the assertion fail
     1. A gNMI Set message is sent to configure the route.
     1. A gNMI Get message on the /config and /state containers validates it.
 
-    All arguments are read from the Test YAML description.
-
     Args:
      * `prefix`: Destination prefix of the static route.
      * `next_hop`: IP of the next hop of the route.
@@ -175,8 +173,6 @@ By default, the tests do 3 retries, with 10 seconds delay, if the assertion fail
     1. gNMI Set message to delete the route.
     1. gNMI Get message on the /config container to check it is not there.
 
-    All arguments are read from the Test YAML description.
-
     Args:
      * `prefix`: Destination prefix of the static route.
      * `index`: Index of the next hop for the prefix. Defaults to 0.
@@ -186,8 +182,6 @@ By default, the tests do 3 retries, with 10 seconds delay, if the assertion fail
      Checks the state on a static route.
 
     1. A gNMI Get message on the /state container.
-
-    All arguments are read from the Test YAML description.
 
     Args:
      * `prefix`: Destination prefix of the static route.
@@ -201,8 +195,6 @@ By default, the tests do 3 retries, with 10 seconds delay, if the assertion fail
      Checks the config on a static route.
 
     1. A gNMI Get message on the /config container.
-
-    All arguments are read from the Test YAML description.
 
     Args:
      * `prefix`: Destination prefix of the static route.
@@ -222,8 +214,6 @@ By default, the tests do 5 retries, with 15 seconds delay, if the assertion fail
     1. A gNMI Set message is sent to configure the subinterface.
     1. A gNMI Get message on the /config container validates it.
 
-    All arguments are read from the Test YAML description.
-
     Args:
      * `interface`: Name of the physical interface.
      * `index`: Index of the subinterface, defaults to 0.
@@ -234,8 +224,6 @@ By default, the tests do 5 retries, with 15 seconds delay, if the assertion fail
     Checks the DHCP state on a subinterface.
 
     1. A gNMI Get message on the /state container.
-
-    All arguments are read from the Test YAML description.
 
     Args:
      * `interface`: Name of the physical interface.
@@ -248,8 +236,6 @@ By default, the tests do 5 retries, with 15 seconds delay, if the assertion fail
 
     1. A gNMI Get message on the /config container.
 
-    All arguments are read from the Test YAML description.
-
     Args:
      * `interface`: Name of the physical interface.
      * `index`: Index of the subinterface, defaults to 0.
@@ -261,8 +247,6 @@ By default, the tests do 5 retries, with 15 seconds delay, if the assertion fail
 
     1. A gNMI Set message is sent to configure the subinterface.
     1. A gNMI Get message on the /config container validates it.
-
-    All arguments are read from the Test YAML description.
 
     Args:
      * `interface`: Name of the physical interface.
@@ -279,8 +263,6 @@ By default, the tests do 5 retries, with 15 seconds delay, if the assertion fail
     1. gNMI Get message on the /config container to check it is not there.
     1. gNMI Get message on the /state container to check it is not there.
 
-    All arguments are read from the Test YAML description.
-
     Args:
      * `interface`: Name of the physical interface.
      * `index`: Index of the subinterface, defaults to 0.
@@ -292,8 +274,6 @@ By default, the tests do 5 retries, with 15 seconds delay, if the assertion fail
     Checks the state on an ip address configured on a subinterface.
 
     1. A gNMI Get message on the /state container.
-
-    All arguments are read from the Test YAML description.
 
     Args:
      * `interface`: Name of the physical interface.
@@ -307,10 +287,69 @@ By default, the tests do 5 retries, with 15 seconds delay, if the assertion fail
 
     1. A gNMI Get message on the /config container.
 
-    All arguments are read from the Test YAML description.
-
     Args:
      * `interface`: Name of the physical interface.
      * `index`: Index of the subinterface, defaults to 0.
      * `address`: IPv4 address.
      * `prefix_length`: Prefix lenght of the IPv4 address.
+
+### Module telemetry_once
+
+Uses gNMI Subscribe messages, of type ONCE.
+
+*  `telemetry_once.CountUpdatesCheckType`
+
+  Checks the returned Updates and their values type, without checking any OC
+    model. This is a rather basic test that relies on knowing exactly the expected
+    replies to the Subscription.
+
+  All Update values are expected to be of the same Type, as 'string_val',
+    'int_val', etc.
+
+  Optionally, every Update messages can have its timestamp value checked
+    against the local time when the Subscription message was sent. The absolute
+    time drift is compared against a max value in secs.
+
+  Optionally, the number of expected Notifications (equals to the amount of)
+    timestamps) is checked.
+
+  Args:
+    *  **xpaths**: List of gNMI paths to subscribe to. Paths can contain
+       wildcard '*'.
+    *  **updates_count**: Number of expected Update messages.
+    *  **values_type**: Python type of the values of the Updates.
+    *  *notifications_count*: Number of expected Notification messages.
+    *  *max_timestamp_drift_secs*: Maximum drift for the timestamp(s).
+
+
+*  `telemetry_once.CheckStateLeafs`
+
+  Checks that the subscription to */state* containers updates all leafs.
+
+  This test subscribes only xpaths of */state* containers. It renders the
+    corresponding OC model and lists all paths to the downstream Leafs. The
+    Update paths received in the Subscription reply are checked against the
+    Leafs of the Model (Update paths must match an OC Model Leaf).
+
+  The Subscription replies might not have all Leaf paths that the OC
+    mode has. Use `check_missing_model_paths` to assert that all OC model paths
+    are present in the Updates.
+
+  This check does NOT check the type of the values returned.
+
+  Optionally, every Update messages can have its timestamp value checked
+    against the local time when the Subscription message was sent. The absolute
+    time drift is compared against a max value in secs.
+
+  Optionally, the number of expected Notifications (equals to the amount of)
+    timestamps) is checked.
+
+  Args:
+    *  **xpaths**: List of /state gNMI paths to subscribe to.
+       If the paths do not end in '/state', it will be appended.
+       Paths can contain wildcard '*'.
+    *  **model**: Python binding class to check the reply against.
+    *  *check_missing_model_paths*: If True, it asserts that all OC Model Leaf
+       paths are in the received Updates. Defaults to False.
+    *  *notifications_count*: Number of expected Notification messages.
+    *  *max_timestamp_drift_secs*: Maximum drift for the timestamp(s).
