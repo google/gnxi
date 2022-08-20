@@ -1,4 +1,4 @@
-"""Copyright 2021 Google LLC.
+"""Copyright 2022 Google LLC.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -18,7 +18,9 @@ import unittest
 
 from parameterized import parameterized
 
-from oc_config_validate import target
+from oc_config_validate import schema
+
+from oc_config_validate.models.interfaces import openconfig_interfaces
 
 
 class TestIntersectCmp(unittest.TestCase):
@@ -63,9 +65,25 @@ class TestIntersectCmp(unittest.TestCase):
          0, pq]}, False, "List element {'a': False, 'b': 2.5} not matched"),
     ])
     def test_intersectCmp(self, name, a, b, want_cmp, want_diff):
-        self.assertEqual(target.intersectCmp(a, b), (want_cmp, want_diff),
+        self.assertEqual(schema.intersectCmp(a, b), (want_cmp, want_diff),
                          name)
 
+class TestOcLeafsPaths(unittest.TestCase):
+    """Test for ocSubscribePaths."""
+
+    def testInterfaceOcModel(self):
+        xpath = "/interfaces/interface[name='test']/state"
+        got_paths = schema.ocLeafsPaths(
+            "interfaces.openconfig_interfaces", xpath)
+        want_paths = [
+            "/admin-status",
+            "/oper-status",
+            "/counters/in-errors",
+            "/counters/out-errors"
+            ]
+        for w in want_paths:
+            self.assertIn(xpath + w, got_paths,
+                f"ocLeafsPaths({xpath}) does not contain {w}")
 
 if __name__ == '__main__':
     unittest.main()

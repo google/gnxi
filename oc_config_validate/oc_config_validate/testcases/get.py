@@ -2,7 +2,7 @@
 
 import json
 
-from oc_config_validate import schema, target, testbase
+from oc_config_validate import schema, testbase
 
 
 class Get(testbase.TestCase):
@@ -42,11 +42,11 @@ class GetCompare(testbase.TestCase):
         self.assertXpath(self.xpath)
         resp_val = self.gNMIGet(self.xpath)
         self.assertIsNotNone(resp_val, "No gNMI GET response")
-        got = target.typedValueToPython(resp_val, type(self.want))
+        got = schema.typedValueToPython(resp_val, type(self.want))
         self.assertEqual(type(got), type(self.want),
                          "Values of different types")
         if isinstance(self.want, dict):
-            cmp, diff = target.intersectCmp(self.want, got)
+            cmp, diff = schema.intersectCmp(self.want, got)
             self.assertTrue(cmp,  diff)
         else:
             self.assertEqual(self.want, got)
@@ -113,5 +113,5 @@ class GetJsonCheckCompare(testbase.TestCase):
         self.assertJsonModel(resp_val, model,
                              "Get response does not match the model")
         got = json.loads(resp_val)
-        cmp, diff = target.intersectCmp(self.want_json, got)
+        cmp, diff = schema.intersectCmp(self.want_json, got)
         self.assertTrue(cmp, diff)

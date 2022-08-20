@@ -27,7 +27,7 @@ from pyangbind.lib.base import PybindBase
 from retry.api import retry_call
 
 from oc_config_validate import context, schema, target
-from oc_config_validate.gnmi import gnmi_pb2
+from oc_config_validate.gnmi import gnmi_pb2  # type: ignore
 
 # Switch to enable logging of gNMI messages in the testcase logs.
 LOG_GNMI = False
@@ -180,8 +180,11 @@ class TestCase(unittest.case.TestCase):
         Args:
             xpath: The gNMI path to delete.
 
+        Args:
+            xpath:  gNMI Path.
+
         Returns:
-          False if the gNMI Set did not succeed.
+            A single response value, or None if error.
         """
         if LOG_GNMI:
             msg = ("gNMI Set Delete(%s) =>", xpath)
@@ -193,6 +196,32 @@ class TestCase(unittest.case.TestCase):
             self.log("Set(%s) <= gRCP Error: %s", xpath, err)
             return False
         return True
+
+    def gNMISubsOnce(self, xpaths: List[str]) -> Optional[
+            List[gnmi_pb2.Notification]]:
+        """Send a gNMI Subscribe message to the test's target, using ONCE mode.
+
+        Gets all the Notification messages that came as response.
+
+        Args:
+            xpaths: List of gNMI paths to subscribe to.
+
+        Returns:
+          A list of Notifications received, or None if error.
+        """
+        try:
+            resp = self.test_target.gNMISubsOnce(xpaths)
+        except target.RpcError as err:
+            self.log("SubscribeOnce(%s) <= gRCP Error: %s", xpaths, err)
+            return None
+        if not resp:
+            self.log("SubscribeOnce(%s) <= Empty response", xpaths)
+            return None
+        if LOG_GNMI:
+            msg = ("gNMI SubscribeOnce(%s) <= %s", xpaths, resp)
+            self.log(*msg)
+            logging.info(*msg)
+        return resp
 
     @classmethod
     def insertArgs(cls, test: unittest.TestCase, args: Dict[str, Any]):
@@ -228,7 +257,7 @@ class TestCase(unittest.case.TestCase):
             AssertionError if any argument is not in the class.
         """
         for arg in args:
-            self.assertTrue(bool(getattr(self, arg)),
+            self.assertTrue(bool(getattr(self, arg, None)),
                             "Missing class argument: %s" % arg)
 
     def assertJsonModel(self, json_value: Union[str, bytes],
@@ -284,7 +313,7 @@ class TestCase(unittest.case.TestCase):
             present in the response.
         """
         got = json.loads(json_value)
-        cmp, diff = target.intersectCmp(
+        cmp, diff = schema.intersectCmp(
             json.loads(pybindJSON.dumps(want, mode='ietf')), got)
         self.assertTrue(cmp, diff)
 
@@ -297,7 +326,7 @@ class TestCase(unittest.case.TestCase):
         Raises:
           AssertionError if xpath is not valid
         """
-        self.assertTrue(target.isPathOK(xpath), "'%s' not a gNMI path" % xpath)
+        self.assertTrue(schema.isPathOK(xpath), "'%s' not a gNMI path" % xpath)
 
     def assertModelXpath(self, model: str, xpath: str):
         """Assert that the model and xpath correspond to a valid OC container.
@@ -312,7 +341,7 @@ class TestCase(unittest.case.TestCase):
         match, error = True, None
         try:
             schema.ocContainerFromPath(model, xpath)
-        except (AttributeError, target.XpathError, schema.Error) as err:
+        except (AttributeError, schema.BaseError) as err:
             match, error = False, err
         self.assertTrue(
             match,
@@ -445,8 +474,8 @@ class TestRun():
         if ctx.labels:
             self.labels = ctx.labels.copy()
 
-    def copyResults(self, results: List[TestResult], start_time_sec: int,
-                    end_time_sec: int):
+    def copyResults(self, results: List[TestResult], start_time_sec: float,
+                    end_time_sec: float):
         """Copy the run test results.
 
         Args:
