@@ -1,0 +1,112 @@
+{
+  "test_target": "192.168.122.97:9339",
+  "description": "Example of a test profile to test telemetry of AccessPoints",
+  "labels": [
+    "AP",
+    "VENDOR",
+    "VERSION"
+  ],
+  "start_time_sec": 1660817734.4660301,
+  "end_time_sec": 1660817737.493495,
+  "results": [
+    {
+      "test_name": "Get Radios State",
+      "success": false,
+      "duration_sec": 0,
+      "results": [
+        {
+          "test_case": "test100",
+          "test_class": "CountUpdatesCheckType",
+          "test_module": "oc_config_validate.testcases",
+          "start_time_sec": 1660817734,
+          "duration_sec": 0,
+          "result": "FAIL",
+          "log": "gNMI SubscribeOnce(['/access-points/access-point[hostname=*]/radios/radio[id=*][operating-frequency=FREQ_2GHZ]/state']) <= [timestamp: 1660817734000000000\n]\n\n Traceback (most recent call last):\n  File \"/usr/local/google/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testcases/telemetry_once.py\", line 71, in test100\n    self.assertEqual(\nAssertionError: 0 != 6 : Expected 6 Updates, got: 0\n"
+        }
+      ]
+    },
+    {
+      "test_name": "Get MAC SSIDs",
+      "success": false,
+      "duration_sec": 1,
+      "results": [
+        {
+          "test_case": "test100",
+          "test_class": "CountUpdatesCheckType",
+          "test_module": "oc_config_validate.testcases",
+          "start_time_sec": 1660817734,
+          "duration_sec": 1,
+          "result": "FAIL",
+          "log": "gNMI SubscribeOnce(['/access-points/access-point[hostname=*]/ssids/ssid[name=*]/bssids/bssids/bssid[radio-id=*][bssid=*]/state']) <= [timestamp: 1660817734000000000\n]\n\n Traceback (most recent call last):\n  File \"/usr/local/google/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testcases/telemetry_once.py\", line 71, in test100\n    self.assertEqual(\nAssertionError: 0 != 6 : Expected 6 Updates, got: 0\n"
+        }
+      ]
+    },
+    {
+      "test_name": "Get RADIUS Couners",
+      "success": false,
+      "duration_sec": 0,
+      "results": [
+        {
+          "test_case": "test100",
+          "test_class": "CountUpdatesCheckType",
+          "test_module": "oc_config_validate.testcases",
+          "start_time_sec": 1660817735,
+          "duration_sec": 0,
+          "result": "FAIL",
+          "log": "gNMI SubscribeOnce(['/access-points/access-point[hostname=*]/system/aaa/server-groups/server-group[name=*]/servers/server[address=*]/radius/state/counters']) <= [timestamp: 1660817734000000000\n]\n\n Traceback (most recent call last):\n  File \"/usr/local/google/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testcases/telemetry_once.py\", line 71, in test100\n    self.assertEqual(\nAssertionError: 0 != 4 : Expected 4 Updates, got: 0\n"
+        }
+      ]
+    },
+    {
+      "test_name": "Get Radios State",
+      "success": false,
+      "duration_sec": 0,
+      "results": [
+        {
+          "test_case": "test100",
+          "test_class": "CheckStateLeafs",
+          "test_module": "oc_config_validate.testcases",
+          "start_time_sec": 1660817735,
+          "duration_sec": 0,
+          "result": "FAIL",
+          "log": "gNMI SubscribeOnce(['/access-points/access-point[hostname=*]/radios/radio[id=*][operating-frequency=*]/state']) <= [timestamp: 1660817735000000000\n]\n\n Traceback (most recent call last):\n  File \"/usr/local/google/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testcases/telemetry_once.py\", line 111, in test100\n    self.assertGreater(len(got_updates), 0,\nAssertionError: 0 not greater than 0 : There are no Updates as reply to the Subscription\n"
+        }
+      ]
+    },
+    {
+      "test_name": "Get MAC SSIDs",
+      "success": false,
+      "duration_sec": 1,
+      "results": [
+        {
+          "test_case": "test100",
+          "test_class": "CheckStateLeafs",
+          "test_module": "oc_config_validate.testcases",
+          "start_time_sec": 1660817735,
+          "duration_sec": 1,
+          "result": "FAIL",
+          "log": "gNMI SubscribeOnce(['/access-points/access-point[hostname=*]/ssids/ssid[name=*]/bssids/bssid[radio-id=*][bssid=*]/state']) <= [timestamp: 1660817735000000000\n]\n\n Traceback (most recent call last):\n  File \"/usr/local/google/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testcases/telemetry_once.py\", line 111, in test100\n    self.assertGreater(len(got_updates), 0,\nAssertionError: 0 not greater than 0 : There are no Updates as reply to the Subscription\n"
+        }
+      ]
+    },
+    {
+      "test_name": "Get RADIUS Counters",
+      "success": false,
+      "duration_sec": 1,
+      "results": [
+        {
+          "test_case": "test100",
+          "test_class": "CheckStateLeafs",
+          "test_module": "oc_config_validate.testcases",
+          "start_time_sec": 1660817736,
+          "duration_sec": 1,
+          "result": "FAIL",
+          "log": "gNMI SubscribeOnce(['/access-points/access-point[hostname=*]/system/aaa/server-groups/server-group[name=*]/servers/server[address=*]/radius/state']) <= [timestamp: 1660817736000000000\n]\n\n Traceback (most recent call last):\n  File \"/usr/local/google/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testcases/telemetry_once.py\", line 111, in test100\n    self.assertGreater(len(got_updates), 0,\nAssertionError: 0 not greater than 0 : There are no Updates as reply to the Subscription\n"
+        }
+      ]
+    }
+  ],
+  "tests_pass": 0,
+  "tests_total": 6,
+  "tests_fail": 6
+}
