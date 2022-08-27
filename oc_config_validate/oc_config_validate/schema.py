@@ -42,6 +42,9 @@ _RE_GNMI_KEY = re.compile(r'\[([^]]*)\]')
 
 type_translate_map = {int: 'int_val', float: 'float_val', bool: 'bool_val',
                       str: 'string_val', dict: 'json_ietf_val'}
+value_translate_map = {'int_val': int, 'float_val': float, 'bool_val': bool,
+                       'string_val': str, 'json_ietf_val': dict,
+                       'json_val': dict, 'uint_val': int, 'leaflist_val': list}
 
 
 class BaseError(Exception):
@@ -332,64 +335,64 @@ def pathToString(path: gnmi_pb2.Path) -> str:
         elem = e.name
         if hasattr(e, "key"):
             keys = [f"[{k}={v}]" for k, v in e.key.items()]
-            elem += f"{','.join(keys)}"
+            elem += f"{''.join(keys)}"
         path_elems.append(elem)
     return "/" + "/".join(path_elems)
+
+
+def notificationJsonString(resp: gnmi_pb2.Notification) -> str:
+    """Returns a JSON string of the Notification message.
+
+    Args:
+        resp: Notification message to format.
+    """
+    notif = {"timestamp": resp.timestamp, "updates": [None]*len(resp.update)}
+    for i, u in enumerate(resp.update):
+        notif["updates"][i] = {"path": pathToString(
+            u.path), "value": typedValueToPython(u.val)}
+    return json.dumps(notif, indent=2, default=str)
 
 
 def pythonToTypedValue(value: Any) -> gnmi_pb2.TypedValue:
     """Return the gNMI TypedValue for a Python variable.
 
     Args:
-        value: Value to set; can be int, float, bool, str or dict.
+        value: Value to set.
 
     Raises:
         GnmiError if type is unsupported.
     """
 
-    val = gnmi_pb2.TypedValue()
-    if type(value) not in type_translate_map:
-        raise GnmiError("Value '%s' cannot be converted to gNMI TypedValue" %
-                        value)
+    typed_val = gnmi_pb2.TypedValue()
+    try:
+        value_type = type_translate_map[type(value)]
+    except KeyError:
+        raise GnmiError(
+            f"Value type '{type(value)}' cannot be made a gNMI TypedValue")
+
     if isinstance(value, dict):
-        setattr(val, type_translate_map[type(
-            value)], json.dumps(value).encode())
+        setattr(typed_val, value_type, json.dumps(value).encode())
     else:
-        setattr(val, type_translate_map[type(value)], value)
-    return val
+        setattr(typed_val, value_type, value)
+    return typed_val
 
 
-def typedValueToPython(value: gnmi_pb2.TypedValue, tp: type) -> Union[
-        bool, int, float, dict, str]:
+def typedValueToPython(value: gnmi_pb2.TypedValue) -> Union[
+        bool, int, float, dict, str, list]:
     """Return the Python variable for a gNMI TypedValue.
 
     Args:
         value: gNMI TypedValue to convert.
-        tp: Type to extract, from [bool, int, float, dict, str]
-
-    Raises:
-        GnmiError if type is unsupported.
     """
-    if tp not in type_translate_map:
-        raise GnmiError(f"Unsupported Type {tp}")
-    if tp == dict:
-        return json.loads(value.json_ietf_val)
-    return tp(getattr(value, type_translate_map[tp]))
-
-
-def isTypedValueOfType(value: gnmi_pb2.TypedValue, tp: type) -> bool:
-    """Returns True if the gNMI TypedValue is of a given Python type.
-
-    Args:
-        value: gNMI TypedValue to convert.
-        tp: Expected type, from [bool, int, float, dict, str]
-
-    Raises:
-        GnmiError if type is unsupported.
-    """
-    if tp not in type_translate_map:
-        raise GnmiError(f"Unsupported Type {tp}")
-    return value.HasField(type_translate_map[tp])
+    value_type = value.WhichOneof("value")
+    if value_type in ["json_ietf_val", "json_val"]:
+        return json.loads(getattr(value, value_type))
+    if value_type == "leaflist_val":
+        return [typedValueToPython(v) for v in value.leaflist_val.element]
+    else:
+        tp = value_translate_map[value_type]
+        return tp(getattr(value, value_type))
+    raise GnmiError(f"Unsupported Type {value_type}")
 
 
 def intersectCmp(want: dict, got: dict) -> Tuple[bool, str]:
