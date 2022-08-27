@@ -19,8 +19,7 @@ import unittest
 from parameterized import parameterized
 
 from oc_config_validate import schema
-
-from oc_config_validate.models.interfaces import openconfig_interfaces
+from oc_config_validate.gnmi import gnmi_pb2
 
 
 class TestIntersectCmp(unittest.TestCase):
@@ -68,6 +67,7 @@ class TestIntersectCmp(unittest.TestCase):
         self.assertEqual(schema.intersectCmp(a, b), (want_cmp, want_diff),
                          name)
 
+
 class TestOcLeafsPaths(unittest.TestCase):
     """Test for ocSubscribePaths."""
 
@@ -80,10 +80,43 @@ class TestOcLeafsPaths(unittest.TestCase):
             "/oper-status",
             "/counters/in-errors",
             "/counters/out-errors"
-            ]
+        ]
         for w in want_paths:
             self.assertIn(xpath + w, got_paths,
-                f"ocLeafsPaths({xpath}) does not contain {w}")
+                          f"ocLeafsPaths({xpath}) does not contain {w}")
+
+
+class TestTypedValue(unittest.TestCase):
+    """Test for methods dealing with TypedValue."""
+
+    @parameterized.expand([
+        ("int", gnmi_pb2.TypedValue(int_val=-3), -3),
+        ("str", gnmi_pb2.TypedValue(string_val="3.3"), "3.3"),
+        ("bool", gnmi_pb2.TypedValue(bool_val=True), True),
+        ("dict", gnmi_pb2.TypedValue(
+            json_ietf_val=b'{\"value\": 3}'), {"value": 3})
+    ])
+    def test_typedValue(self, name, typed_val, val):
+        self.assertEqual(schema.typedValueToPython(typed_val), val, name)
+        self.assertEqual(schema.pythonToTypedValue(val), typed_val, name)
+
+    def test_typedValue_float(self):
+        typed_val = gnmi_pb2.TypedValue(float_val=0.3)
+        val = 0.3
+        self.assertAlmostEqual(schema.typedValueToPython(typed_val), val)
+        self.assertAlmostEqual(schema.pythonToTypedValue(val), typed_val)
+
+    @parameterized.expand([
+        ("uint", gnmi_pb2.TypedValue(uint_val=3), 3),
+        ("list", gnmi_pb2.TypedValue(
+            leaflist_val=gnmi_pb2.ScalarArray(
+                element=[gnmi_pb2.TypedValue(int_val=1),
+                         gnmi_pb2.TypedValue(int_val=2),
+                         gnmi_pb2.TypedValue(int_val=-3)])), [1, 2, -3])
+    ])
+    def test_typedValueToPython(self, name, typed_val, val):
+        self.assertEqual(schema.typedValueToPython(typed_val), val)
+
 
 if __name__ == '__main__':
     unittest.main()
