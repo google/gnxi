@@ -42,7 +42,7 @@ class GetCompare(testbase.TestCase):
         self.assertXpath(self.xpath)
         resp_val = self.gNMIGet(self.xpath)
         self.assertIsNotNone(resp_val, "No gNMI GET response")
-        got = schema.typedValueToPython(resp_val, type(self.want))
+        got = schema.typedValueToPython(resp_val)
         self.assertEqual(type(got), type(self.want),
                          "Values of different types")
         if isinstance(self.want, dict):

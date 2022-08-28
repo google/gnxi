@@ -218,9 +218,11 @@ class TestCase(unittest.case.TestCase):
             self.log("SubscribeOnce(%s) <= Empty response", xpaths)
             return None
         if LOG_GNMI:
-            msg = ("gNMI SubscribeOnce(%s) <= %s", xpaths, resp)
-            self.log(*msg)
-            logging.info(*msg)
+            for n in resp:
+                msg = ("gNMI SubscribeOnce(%s) <= %s", xpaths,
+                       schema.notificationJsonString(n))
+                self.log(*msg)
+                logging.info(*msg)
         return resp
 
     @classmethod

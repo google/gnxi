@@ -121,10 +121,12 @@ class CheckStateLeafs(SubsOnceTestCase):
             got_paths.append(got_path)
             self.assertTrue(
                 schema.isPathIn(got_path, want_paths),
-                f"Unexpected update path {got_path} for OC model {self.model}")
+                f"Unexpected update path {got_path} for OC model {self.model},"
+                f"expected {want_paths}")
 
         if self.check_missing_model_paths:
             for want_path in want_paths:
                 self.assertIn(
                     want_path, got_paths,
-                    f"Missing update path for OC model {self.model}")
+                    f"Missing update path {want_path} for OC model"
+                    f" {self.model}, got {got_paths}")
