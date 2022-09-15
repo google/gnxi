@@ -340,17 +340,22 @@ def pathToString(path: gnmi_pb2.Path) -> str:
     return "/" + "/".join(path_elems)
 
 
-def notificationJsonString(resp: gnmi_pb2.Notification) -> str:
-    """Returns a JSON string of the Notification message.
+def notificationsJsonString(notifications: List[gnmi_pb2.Notification],
+                            indent: int = 2) -> str:
+    """Returns a JSON-idented string of the Notification messages.
 
     Args:
-        resp: Notification message to format.
+        notifications: List of Notification messages to format.
+        indent: number of JSON indentation spaces
     """
-    notif = {"timestamp": resp.timestamp, "updates": [None]*len(resp.update)}
-    for i, u in enumerate(resp.update):
-        notif["updates"][i] = {"path": pathToString(
-            u.path), "value": typedValueToPython(u.val)}
-    return json.dumps(notif, indent=2, default=str)
+    notifs = []
+    for n in notifications:
+        notif = {"timestamp": n.timestamp, "updates": [None]*len(n.update)}
+        for i, u in enumerate(n.update):
+            notif["updates"][i] = {"path": pathToString(
+                u.path), "value": typedValueToPython(u.val)}
+        notifs.append(notif)
+    return json.dumps(notifs, indent=2, default=str)
 
 
 def pythonToTypedValue(value: Any) -> gnmi_pb2.TypedValue:
@@ -458,24 +463,47 @@ def intersectListCmp(want: list, got: list) -> Tuple[bool, str]:
     return True, ""
 
 
-def gNMISubscriptionRequests(
-    paths: List[gnmi_pb2.Path],
-    mode: gnmi_pb2.SubscriptionList = gnmi_pb2.SubscriptionList.STREAM,
+def gNMISubscriptionOnceRequests(
+    xpaths: List[str],
     encoding: str = 'JSON_IETF'
 ) -> Iterator[gnmi_pb2.SubscribeRequest]:
     """
-    Returns an Iterator of gNMI Subscription requests for the xpaths.
+    Returns an Iterator of gNMI Subscription ONCE requests for the xpaths.
 
     Args:
-        paths: List of gNMI xpaths to subscribe to.
-        mode: gNMI Subscription mode.
+        xpaths: List of gNMI xpaths to subscribe to.
         encoding: Encoding requested for the Updates.
     """
-
+    paths = [parsePath(xpath) for xpath in xpaths]
     for r in [
         gnmi_pb2.SubscribeRequest(subscribe=gnmi_pb2.SubscriptionList(
             subscription=[gnmi_pb2.Subscription(path=path)
                           for path in paths],
-            mode=mode,
+            mode=gnmi_pb2.SubscriptionList.ONCE,
+            encoding=encoding))]:
+        yield r
+
+
+def gNMISubscriptionStreamSampleRequests(
+    xpaths: List[str],
+    sample_interval: int,
+    encoding: str = 'JSON_IETF'
+) -> Iterator[gnmi_pb2.SubscribeRequest]:
+    """
+    Returns a gNMI Subscription STREAM SAMPLE request for the xpath.
+
+    Args:
+        xpaths: gNMI xpaths to subscribe to.
+        sample_interval: Nanoseconds interval between Updates.
+        encoding: Encoding requested for the Updates.
+    """
+    paths = [parsePath(xpath) for xpath in xpaths]
+    for r in [
+        gnmi_pb2.SubscribeRequest(subscribe=gnmi_pb2.SubscriptionList(
+            subscription=[gnmi_pb2.Subscription(
+                path=path,
+                mode=gnmi_pb2.SubscriptionMode.SAMPLE,
+                sample_interval=sample_interval) for path in paths],
+            mode=gnmi_pb2.SubscriptionList.STREAM,
             encoding=encoding))]:
         yield r

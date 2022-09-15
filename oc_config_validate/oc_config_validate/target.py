@@ -25,7 +25,7 @@ import json
 import logging
 import ssl
 import time
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Iterator, List, Optional, Tuple
 
 import grpc
 from grpc._channel import _InactiveRpcError
@@ -65,7 +65,7 @@ class TestTarget():
         self.key = None
         self.cert = None
         self.root_ca = None
-        self.connection = None
+        self.channel = None
         self.stub = None
 
         if not self.notls:
@@ -111,19 +111,22 @@ class TestTarget():
         if self.stub:
             return
         if self.notls:
-            channel = gnmi_pb2_grpc.grpc.insecure_channel(self.address)
+            self.channel = gnmi_pb2_grpc.grpc.insecure_channel(self.address)
         else:
             creds = self._buildCredentials()
             logging.debug("creds: %s", creds)
             if self.host_tls_override:
-                channel = gnmi_pb2_grpc.grpc.secure_channel(
+                self.channel = gnmi_pb2_grpc.grpc.secure_channel(
                     self.address, creds,
                     (('grpc.ssl_target_name_override',
                       self.host_tls_override,),))
             else:
-                channel = gnmi_pb2_grpc.grpc.secure_channel(
+                self.channel = gnmi_pb2_grpc.grpc.secure_channel(
                     self.address, creds)
-        self.stub = gnmi_pb2_grpc.gNMIStub(channel)
+        self.stub = gnmi_pb2_grpc.gNMIStub(self.channel)
+
+    def gNMIClose(self):
+        self.channel.close()
 
     def _buildCredentials(self) -> gnmi_pb2_grpc.grpc.ssl_channel_credentials:
         """Build credentials used in gNMI Requests.
@@ -149,13 +152,11 @@ class TestTarget():
             private_key=self.key,
             certificate_chain=self.cert)
 
-    def _buildGnmiStubMetadata(self) -> Dict[str, List[Tuple[str, str]]]:
-        """Build the gNMI metadata used for authentication."""
-        metadata = {}
+    def _GnmiStubAuth(self) -> List[Tuple[str, str]]:
+        """Returns the gNMI metadata used for authentication."""
         if self.username:  # User/pass supplied for Authentication.
-            metadata = {'metadata': [
-                ('username', self.username), ('password', self.password)]}
-        return metadata
+            return [('username', self.username), ('password', self.password)]
+        return []
 
     def gNMIGet(self, xpath: str) -> gnmi_pb2.GetResponse:
         """Create a gNMI GetRequest.
@@ -171,12 +172,12 @@ class TestTarget():
         """
         path = schema.parsePath(xpath)
         self._gNMIConnnect()
-        metadata = self._buildGnmiStubMetadata()
+        auth = self._GnmiStubAuth()
         try:
             return self.stub.Get(
                 gnmi_pb2.GetRequest(path=[path], encoding='JSON_IETF'),
-                **metadata)
-        except _InactiveRpcError as err:
+                metadata=auth)
+        except grpc._channel._InactiveRpcError as err:
             raise RpcError(err) from err
 
     def _gNMISet(self, xpath: str, set_type: str,
@@ -204,20 +205,20 @@ class TestTarget():
             val = schema.pythonToTypedValue(value)
             path_val = gnmi_pb2.Update(path=path, val=val)
         self._gNMIConnnect()
-        metadata = self._buildGnmiStubMetadata()
+        auth = self._GnmiStubAuth()
 
         response = None
         try:
             if set_type.lower() == 'delete':
                 response = self.stub.Set(gnmi_pb2.SetRequest(delete=[path]),
-                                         **metadata)
+                                         metadata=auth)
             if set_type.lower() == 'update':
                 response = self.stub.Set(gnmi_pb2.SetRequest(
-                    update=[path_val]), **metadata)
+                    update=[path_val]), metadata=auth)
             if set_type.lower() == 'replace':
                 response = self.stub.Set(gnmi_pb2.SetRequest(
-                    replace=[path_val]), **metadata)
-        except _InactiveRpcError as err:
+                    replace=[path_val]), metadata=auth)
+        except grpc._channel._InactiveRpcError as err:
             raise RpcError(err) from err
 
         if self.gnmi_set_cooldown_secs:
@@ -277,6 +278,56 @@ class TestTarget():
             json_data = json.load(file)
         self.gNMISetUpdate(xpath, json_data)
 
+    def _gNMISubscribe(self,
+                       requests: Iterator[gnmi_pb2.SubscribeRequest],
+                       timeout: int = 30,
+                       check_sync_response: bool = False
+                       ) -> List[gnmi_pb2.Notification]:
+        """Subscribes up to a timeout, returns the Notifications received.
+
+        All Updates received are accumulated and returned when the channel is
+         closed (by server, by timeout or error).
+
+        Args:
+            requests: gNMI Subscription requests to set.
+            timeout: Seconds to keep the gRPC channel open.
+            check_sync_response: If True, the method errors if no Update with
+              sync_response set.
+
+        Returns:
+            A list of gnmi_pb2.Notification objects received.
+
+        Raises:
+            RpcError if unable to connect to Target.
+            ValueError if the SubscribeResponse is invalid.
+            GnmiError if no sync_response was received, when
+                check_sync_response.
+        """
+        self._gNMIConnnect()
+        auth = self._GnmiStubAuth()
+        notifications = []
+        got_sync_response = False
+        try:
+            for resp in self.stub.Subscribe(
+                    requests, timeout=timeout, metadata=auth):
+                if resp.sync_response:
+                    got_sync_response = True
+                elif resp.update:
+                    notifications.append(resp.update)
+                else:
+                    raise ValueError("Invalid SubscribeResponse %s" % resp)
+            if check_sync_response and not got_sync_response:
+                raise schema.GnmiError(
+                    "No Response with sync_response was received")
+            return notifications
+        except grpc._channel._MultiThreadedRendezvous as err:
+            if err.code() == grpc.StatusCode.DEADLINE_EXCEEDED:
+                return notifications
+            else:
+                raise RpcError(err) from err
+        except grpc._channel._InactiveRpcError as err:
+            raise RpcError(err) from err
+
     def gNMISubsOnce(self, xpaths: List[str]) -> List[gnmi_pb2.Notification]:
         """Subscribes using ONCE mode, returns the Notifications received.
 
@@ -285,52 +336,27 @@ class TestTarget():
 
         Returns:
             A list of gnmi_pb2.Notification objects received.
-            None on error.
-
-        Raises:
-            RpcError if unable to connect to Target.
-            ValueError if the SubscribeResponse is invalid.
         """
+        requests = schema.gNMISubscriptionOnceRequests(xpaths)
+        return self._gNMISubscribe(requests)
 
-        paths = [schema.parsePath(xpath) for xpath in xpaths]
-        self._gNMIConnnect()
-        metadata = self._buildGnmiStubMetadata()
-        notifications = []
-        stream_requests = schema.gNMISubscriptionRequests(
-            paths,
-            mode=gnmi_pb2.SubscriptionList.ONCE)
-        try:
-            for resp in self.stub.Subscribe(
-                    stream_requests,
-                    **metadata):
-                if resp.sync_response:
-                    pass
-                elif resp.update:
-                    notifications.append(resp.update)
-                else:
-                    raise ValueError("Invalid SubscribeResponse %s" % resp)
-            return notifications
-        except grpc._channel._InactiveRpcError as err:
-            raise RpcError(err) from err
-
-    def gNMISubsStream(self, xpaths: List[str]):
+    def gNMISubsStreamSample(self, xpath: str, sample_interval: int,
+                             timeout: int) -> List[gnmi_pb2.Notification]:
         """Subscribes using STREAM mode, returns the Notifications received.
 
         Args:
-            xpaths: List of gNMI paths to subscribe to.
+            xpath: gNMI path to subscribe to.
+            sample_interval: Nanoseconds between updates.
+            timeout: Seconds to keep the gRPC channel open and receive
+                updates.
 
         Returns:
             A list of gnmi_pb2.Notification objects received.
-            None on error.
 
-        Raises:
-            RpcError if unable to connect to Target.
-            ValueError if the SubscribeResponse is invalid.
         """
-
-        paths = [schema.parsePath(xpath) for xpath in xpaths]
-        self._gNMIConnnect()
-        stream_requests = schema.gNMISubscriptionRequests(paths)
+        requests = schema.gNMISubscriptionStreamSampleRequests(
+            [xpath], sample_interval)
+        return self._gNMISubscribe(requests, timeout=timeout)
 
     def validate(self):
         """Ensures the Target is defined appropriately.

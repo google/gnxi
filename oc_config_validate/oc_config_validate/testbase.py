@@ -14,6 +14,7 @@ limitations under the License.
 
 """
 
+import collections
 import copy
 import json
 import logging
@@ -218,14 +219,54 @@ class TestCase(unittest.case.TestCase):
             self.log("SubscribeOnce(%s) <= Empty response", xpaths)
             return None
         if LOG_GNMI:
-            for n in resp:
-                msg = ("gNMI SubscribeOnce(%s) <= %s", xpaths,
-                       schema.notificationJsonString(n))
-                self.log(*msg)
-                logging.info(*msg)
+            msg = ("gNMI SubscribeOnce(%s) <= %s", xpaths,
+                   schema.notificationsJsonString(resp))
+            self.log(*msg)
+            logging.info(*msg)
         return resp
 
-    @classmethod
+    def gNMISubsStreamSample(
+            self, xpath: str, sample_interval: int, timeout: int) -> Optional[
+                Dict[str, List[Tuple[int, Any]]]]:
+        """Send a gNMI Subscribe message to the target, using STREAM mode.
+
+        Gets all the Notification messages that came as response. It returns
+            a dictionary of all the Updates, keyed by Update path.
+
+        Args:
+            xpath: gNMI path to subscribe to.
+            sample_interval: Nanoseconds between updates.
+            timeout: Seconds to keep the gRPC channel open and receive
+                    updates.
+
+        Returns:
+          A list of Tuples (timestamp,  value) received, keyed by Update path.
+        """
+        try:
+            resp = self.test_target.gNMISubsStreamSample(
+                xpath, sample_interval, timeout)
+        except target.RpcError as err:
+            self.log("SubscribeStream(%s) <= gRCP Error: %s", xpath, err)
+            return None
+        if not resp:
+            self.log("SubscribeStream(%s) <= Empty response", xpath)
+            return None
+
+        if LOG_GNMI:
+            msg = ("gNMI SubscribeSample(%s) <= %s", xpath,
+                   schema.notificationsJsonString(resp))
+            self.log(*msg)
+            logging.info(*msg)
+
+        stream_updates = collections.defaultdict(list)
+        for n in resp:
+            timestamp = n.timestamp
+            for u in n.update:
+                stream_updates[schema.pathToString(u.path)].append(
+                    (timestamp, schema.typedValueToPython(u.val)))
+        return stream_updates
+
+    @ classmethod
     def insertArgs(cls, test: unittest.TestCase, args: Dict[str, Any]):
         """Insert test arguments to the test.
 
@@ -237,7 +278,7 @@ class TestCase(unittest.case.TestCase):
         for key, value in args.items():
             setattr(test, key, value)
 
-    @classmethod
+    @ classmethod
     def insertTarget(cls,
                      test: unittest.TestCase,
                      tgt: target.TestTarget):
