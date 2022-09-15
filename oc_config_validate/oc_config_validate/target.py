@@ -25,7 +25,7 @@ import json
 import logging
 import ssl
 import time
-from typing import Any, Dict, Iterator, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 import grpc
 from grpc._channel import _InactiveRpcError
@@ -291,24 +291,14 @@ class TestTarget():
             RpcError if unable to connect to Target.
             ValueError if the SubscribeResponse is invalid.
         """
-        def _subscribe_requet_generator(
-            requests: List[gnmi_pb2.SubscribeRequest]
-        ) -> Iterator[gnmi_pb2.SubscribeRequest]:
-            for r in requests:
-                yield r
 
         paths = [schema.parsePath(xpath) for xpath in xpaths]
         self._gNMIConnnect()
         metadata = self._buildGnmiStubMetadata()
         notifications = []
-        stream_requests = _subscribe_requet_generator(
-            [gnmi_pb2.SubscribeRequest(subscribe=gnmi_pb2.SubscriptionList(
-                subscription=[
-                    gnmi_pb2.Subscription(path=path)
-                    for path in paths],
-                mode=gnmi_pb2.SubscriptionList.ONCE,
-                encoding='JSON_IETF'))
-             ])
+        stream_requests = schema.gNMISubscriptionRequests(
+            paths,
+            mode=gnmi_pb2.SubscriptionList.ONCE)
         try:
             for resp in self.stub.Subscribe(
                     stream_requests,
@@ -322,6 +312,25 @@ class TestTarget():
             return notifications
         except grpc._channel._InactiveRpcError as err:
             raise RpcError(err) from err
+
+    def gNMISubsStream(self, xpaths: List[str]):
+        """Subscribes using STREAM mode, returns the Notifications received.
+
+        Args:
+            xpaths: List of gNMI paths to subscribe to.
+
+        Returns:
+            A list of gnmi_pb2.Notification objects received.
+            None on error.
+
+        Raises:
+            RpcError if unable to connect to Target.
+            ValueError if the SubscribeResponse is invalid.
+        """
+
+        paths = [schema.parsePath(xpath) for xpath in xpaths]
+        self._gNMIConnnect()
+        stream_requests = schema.gNMISubscriptionRequests(paths)
 
     def validate(self):
         """Ensures the Target is defined appropriately.

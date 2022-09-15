@@ -19,7 +19,7 @@ import json
 import os
 import re
 from inspect import isclass
-from typing import Any, List, Tuple, Union
+from typing import Any, Iterator, List, Tuple, Union
 
 from pyangbind.lib import yangtypes
 from pyangbind.lib.base import PybindBase
@@ -456,3 +456,26 @@ def intersectListCmp(want: list, got: list) -> Tuple[bool, str]:
         if not matched:
             return False, "List element %s not matched" % i
     return True, ""
+
+
+def gNMISubscriptionRequests(
+    paths: List[gnmi_pb2.Path],
+    mode: gnmi_pb2.SubscriptionList = gnmi_pb2.SubscriptionList.STREAM,
+    encoding: str = 'JSON_IETF'
+) -> Iterator[gnmi_pb2.SubscribeRequest]:
+    """
+    Returns an Iterator of gNMI Subscription requests for the xpaths.
+
+    Args:
+        paths: List of gNMI xpaths to subscribe to.
+        mode: gNMI Subscription mode.
+        encoding: Encoding requested for the Updates.
+    """
+
+    for r in [
+        gnmi_pb2.SubscribeRequest(subscribe=gnmi_pb2.SubscriptionList(
+            subscription=[gnmi_pb2.Subscription(path=path)
+                          for path in paths],
+            mode=mode,
+            encoding=encoding))]:
+        yield r
