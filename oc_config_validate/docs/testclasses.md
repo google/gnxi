@@ -417,4 +417,4 @@ Update path | t0 | t15 | t30 | t45 | t60
 `/<root>/<container>/<leaf3>` | value |       | value |       | value
 
 Args:
- * **updates_count**: Number of expected distinct Update paths.
+ * **update_paths_count**: Number of expected distinct Update paths.
