@@ -30,6 +30,7 @@ tests:
     xpaths: ["/access-points/access-point[hostname=*]/system/aaa/server-groups/server-group[name=*]/servers/server[address=*]/radius/state/counters"]
     values_type: uint_val
     updates_count: 4
+    max_delay_secs: 3
 
 - !TestCase
   name: "Get Radios State"
@@ -37,6 +38,7 @@ tests:
   args:
     xpaths: ["/access-points/access-point[hostname=*]/radios/radio[id=*][operating-frequency=*]/state"]
     model: "wifi.openconfig_access_points"
+    max_delay_secs: 5
 
 - !TestCase
   name: "Get MAC SSIDs"
