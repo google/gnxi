@@ -28,6 +28,8 @@ import time
 from typing import Any, Dict, Iterator, List, Optional, Tuple
 
 import grpc
+from grpc._channel import _InactiveRpcError
+from grpc._channel import _MultiThreadedRendezvous
 
 from oc_config_validate import context, schema
 from oc_config_validate.gnmi import gnmi_pb2, gnmi_pb2_grpc  # type: ignore
@@ -174,7 +176,7 @@ class TestTarget():
             return self.stub.Get(
                 gnmi_pb2.GetRequest(path=[path], encoding='JSON_IETF'),
                 **metadata)
-        except grpc._channel._InactiveRpcError as err:
+        except _InactiveRpcError as err:
             raise RpcError(err) from err
 
     def _gNMISet(self, xpath: str, set_type: str,
@@ -215,7 +217,7 @@ class TestTarget():
             if set_type.lower() == 'replace':
                 response = self.stub.Set(gnmi_pb2.SetRequest(
                     replace=[path_val]), **metadata)
-        except grpc._channel._InactiveRpcError as err:
+        except _InactiveRpcError as err:
             raise RpcError(err) from err
 
         if self.gnmi_set_cooldown_secs:
