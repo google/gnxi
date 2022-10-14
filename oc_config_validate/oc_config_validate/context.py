@@ -85,6 +85,7 @@ class Target(yaml.YAMLObject):
     cert_chain = ""
     no_tls = False
     tls_host_override = ""
+    target_cert_as_root_ca = False
     gnmi_set_cooldown_secs = 10
 
     def __repr__(self):

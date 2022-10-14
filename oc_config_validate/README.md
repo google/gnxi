@@ -112,7 +112,9 @@ looking for:
         python3 -m oc_config_validate -tests TESTS_FILE -results RESULTS_FILE \
            [--target HOSTNAME:PORT] \
            [--username USERNAME] [--password PASSWORD] \
-           [--tls_host_override TLS_HOSTNAME | --no_tls ] \
+           [--tls_host_override TLS_HOSTNAME | --no_tls] \
+           [--target_cert_as_root_ca | --root_ca_cert FILE ] \
+           [--cert_chain FILE --private_key FILE]
            [-init INIT_CONFIG_FILE -xpath INIT_CONFIG_XPATH] \
            [--verbose] [--log_gnmi] [--stop_on_error]
     ```
@@ -133,11 +135,15 @@ looking for:
 #### gNMI TLS connection options
 
 By default, *oc_config_validate* will use TLS for the gNMI connection, will
-validate the hostname presented by the Target in its certificate and will fetch
-the Root CA certificate from the Target.
+validate the hostname presented by the Target in its certificate.
+
+Optionally, self-signed certificates presented by the Target can be trusted.
 
  *  Use the `tls_host_override` option to provide the hostname value present
-    in the Target's certificate.
+    in the Target's certificate, if different from the Target hostname.
+ *  Use the `target_cert_as_root_ca` option to fetch the TLS certificate from
+    the Target and use it as the client Root CA. This effectively trusts
+    self-signed certificates from the Target.
  *  Use the `root_ca_cert` option to provide the Root CA certificate file to use.
  *  Use the `private_key` and `cert_chain` options to provide the TLS key and certificate
     files that the client will present to the Target.

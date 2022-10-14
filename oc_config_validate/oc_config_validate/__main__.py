@@ -127,6 +127,11 @@ def createArgsParser() -> argparse.ArgumentParser:
         help="Hostname to use during the TLS certificate check.",
     )
     parser.add_argument(
+        "--target_cert_as_root_ca",
+        action="store_true",
+        help="Fetch the Target TLS cert and use it as client Root CA cert.",
+    )
+    parser.add_argument(
         "-set_cooldown",
         "--gnmi_set_cooldown_secs",
         type=int,
@@ -222,7 +227,7 @@ def main():  # noqa
     # Override Target options
     for arg in ["target", "username", "password", "no_tls", "private_key",
                 "cert_chain", "root_ca_cert", "tls_host_override",
-                "gnmi_set_cooldown_secs"]:
+                "target_cert_as_root_ca", "gnmi_set_cooldown_secs"]:
         if args[arg]:
             setattr(ctx.target, arg, args[arg])
 

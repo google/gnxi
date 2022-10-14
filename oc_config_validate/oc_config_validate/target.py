@@ -54,11 +54,11 @@ class TestTarget():
 
     def __init__(self, tgt: context.Target):
         self.address = tgt.target
-        self.notls = tgt.no_tls
         self.username = tgt.username
         self.password = tgt.password
         self.notls = tgt.no_tls
         self.host_tls_override = tgt.tls_host_override
+        self.target_cert_as_root_ca = tgt.target_cert_as_root_ca
         self.gnmi_set_cooldown_secs = tgt.gnmi_set_cooldown_secs
         self.key = None
         self.cert = None
@@ -132,7 +132,7 @@ class TestTarget():
         Raises:
             TargetError if unable to build the credentials.
         """
-        if not self.root_ca:
+        if self.target_cert_as_root_ca:
             logging.info('Obtaining Root CA certificate from Target')
             address_elems = self.address.split(':')
             try:
