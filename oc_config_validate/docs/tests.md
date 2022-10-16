@@ -24,6 +24,7 @@ target:
   cert_chain: [:string]  # Path to file.
   root_ca_cert: [:string]  # Path to file.
   tls_host_override: [:string]
+  target_cert_as_root_ca: [:bool]
   gnmi_set_cooldown_secs: [:int]  # Time to wait after a successful gNMI Set.
 
 # Optional list of initial configurations and xpaths to apply before the tests.

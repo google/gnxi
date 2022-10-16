@@ -13,11 +13,11 @@ class SubsOnceTestCase(testbase.TestCase):
     Args:
         xpaths: List of gNMI paths to subscribe to.
         notifications_count: Number of expected Notifications.
-        max_timestamp_drift_secs: Maximum drift for the timestamp(s) in the
-            reply.
+        max_delay_secs: Maximum delay of the replies, measured with the
+          timestamp value(s).
     """
-    notifications_count = 1
-    max_timestamp_drift_secs = None
+    notifications_count = None
+    max_delay_secs = None
     xpaths = None
 
     def subscribeOnce(self):
@@ -28,13 +28,13 @@ class SubsOnceTestCase(testbase.TestCase):
         self.responses = self.gNMISubsOnce(self.xpaths)
         self.assertIsNotNone(self.responses, "No gNMI Subscribe response")
 
-        if self.max_timestamp_drift_secs:
+        if self.max_delay_secs:
             for n in self.responses:
                 timestamp_diff = (n.timestamp // 1000000000) - self.now
                 self.assertTrue(
-                    (self.max_timestamp_drift_secs * -
-                     1) < timestamp_diff < self.max_timestamp_drift_secs,
-                    f"Timestamp drift too large: {timestamp_diff} secs")
+                    (self.max_delay_secs * -
+                     1) < timestamp_diff < self.max_delay_secs,
+                    f"Timestamp diff too long: {timestamp_diff} secs")
 
         if self.notifications_count:
             notifications = len(self.responses)
