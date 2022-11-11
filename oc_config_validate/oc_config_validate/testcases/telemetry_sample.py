@@ -2,6 +2,7 @@
 
 from oc_config_validate import testbase
 
+SECS_TO_NSEC = 1000000000
 
 class SubsSampleTestCase(testbase.TestCase):
     """Subscribes SAMPLE and checks the response elements.
@@ -26,16 +27,26 @@ class SubsSampleTestCase(testbase.TestCase):
         """"""
 
         def _isTimestampDiffOk(time_diff, interval, max_drift):
+            """Returns true if the timestamp differences is within limits.
+
+            Timestamp diff must be interval +- max_drift.
+
+            Args:
+              time_diff: Timestamp diff in nsecs.
+              interval: Sampling interval in nsecs.
+              max_drift: Maximum drift in nsecs.
+
+            """
             drift = time_diff - interval
             drift = drift * (-1) if drift < 0 else drift
-            return (drift < max_drift)
+            return (drift <= max_drift)
 
         self.assertArgs(["xpath", "sample_interval", "sample_timeout"])
         self.assertXpath(self.xpath)
 
         self.responses = self.gNMISubsStreamSample(
             self.xpath,
-            self.sample_interval * 1000000000,
+            self.sample_interval * SECS_TO_NSEC,
             timeout=self.sample_timeout)
         self.assertIsNotNone(self.responses, "No gNMI Subscribe response")
 
@@ -48,17 +59,17 @@ class SubsSampleTestCase(testbase.TestCase):
                     f"{got} Updates for path {path}, wanted {want}")
                 if len(updates) > 1:
                     timestamp_0, _ = updates[0]
-                    timeline = [timestamp_0]
+                    timeline = [0]
                     for timestamp_1, _ in updates[1:]:
-                        timestamp_diff = (
-                            timestamp_1 - timestamp_0) // 1000000000
-                        timeline.append(timestamp_1)
+                        timestamp_diff = timestamp_1 - timestamp_0
+                        timeline.append(timestamp_diff)
                         self.assertTrue(
-                            _isTimestampDiffOk(timestamp_diff,
-                                               self.sample_interval,
-                                               self.max_timestamp_drift_secs),
+                            _isTimestampDiffOk(
+                                timestamp_diff,
+                                self.sample_interval * SECS_TO_NSEC,
+                                self.max_timestamp_drift_secs * SECS_TO_NSEC),
                             f"Update timestamps for '{path}' out of interval: "
-                            f"{timeline}")
+                            f"{timeline} diff in nsecs")
                         timestamp_0 = timestamp_1
 
 
