@@ -412,7 +412,7 @@ class TestResult(unittest.TestResult):
         """
         self.log_message += formatter % args + '\n'
 
-    def startTest(self, test: TestCase):
+    def startTest(self, test: TestCase):  # pytype: disable=signature-mismatch
         """Clean the log before every test."""
         super().startTest(test)
         self.log_message = ''
@@ -435,12 +435,12 @@ class TestResult(unittest.TestResult):
         self._mirrorOutput = True
         logging.error("%s - FAIL:\n%s", test, log)
 
-    def addSuccess(self, test: TestCase):
+    def addSuccess(self, test: TestCase):   # pytype: disable=signature-mismatch  # noqa
         """Store the log messages for every successful test."""
         self.successes.append((test, self.log_message))
         logging.debug("%s - PASS:\n%s", test, self.log_message)
 
-    def addSkip(self, test: TestCase, reason: str):
+    def addSkip(self, test: TestCase, reason: str):   # pytype: disable=signature-mismatch  # noqa
         """Override parent addFailure to support logging."""
         self.skipped.append((test, reason))
         logging.debug("%s - SKIP:\n%s", test, reason)

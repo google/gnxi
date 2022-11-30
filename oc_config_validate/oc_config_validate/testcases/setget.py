@@ -17,8 +17,8 @@ class TestCase(testbase.TestCase):
     json_value = None
     model = None
 
-    def _validate_args(self):
-        """Check testcase arguments."""
+    def setUp(self):
+        # Check testcase arguments
         self.assertArgs(["xpath", "json_value", "model"])
         self.assertXpath(self.xpath)
         self.assertIsInstance(self.json_value, dict,
@@ -27,6 +27,9 @@ class TestCase(testbase.TestCase):
         model = schema.ocContainerFromPath(self.model, self.xpath)
         self.assertJsonModel(json.dumps(self.json_value), model,
                              "JSON value to Set does not match the model")
+        # Set Update
+        self.assertTrue(self.gNMISetUpdate(self.xpath, self.json_value),
+                        "gNMI Set did not succeed.")
 
 
 class SetGetJsonCheck(TestCase):
@@ -48,9 +51,6 @@ class SetGetJsonCheck(TestCase):
     @testbase.retryAssertionError
     def testSetGetJsonCheck(self):
         """"""
-        self._validate_args()
-        self.assertTrue(self.gNMISetUpdate(self.xpath, self.json_value),
-                        "gNMI Set did not succeed.")
         resp = self.gNMIGet(self.xpath)
         self.assertIsNotNone(resp, "No gNMI GET response")
         self.resp_val = resp.json_ietf_val
@@ -80,10 +80,6 @@ class SetGetJsonCheckCompare(TestCase):
 
     @testbase.retryAssertionError
     def testSetGetJsonCheckCompare(self):
-        """"""
-        self._validate_args()
-        self.assertTrue(self.gNMISetUpdate(self.xpath, self.json_value),
-                        "gNMI Set did not succeed.")
         resp = self.gNMIGet(self.xpath)
         self.assertIsNotNone(resp, "No gNMI GET response")
         self.resp_val = resp.json_ietf_val

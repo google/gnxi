@@ -28,8 +28,7 @@ import time
 from typing import Any, Iterator, List, Optional, Tuple
 
 import grpc
-from grpc._channel import _InactiveRpcError
-from grpc._channel import _MultiThreadedRendezvous
+from grpc._channel import _InactiveRpcError, _MultiThreadedRendezvous
 
 from oc_config_validate import context, schema
 from oc_config_validate.gnmi import gnmi_pb2, gnmi_pb2_grpc  # type: ignore
