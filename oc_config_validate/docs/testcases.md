@@ -45,13 +45,8 @@ Important to notice:
 
  * The OpenConfig models, in Python classes, can be imported from `oc_config_validate.models` package.
 
-* Some tests can retry if AssertionError was raised, with the decorator `@testbase.retryAssertionError`. The number of retries and delay are read from the Test YAML entry.
+ * Some tests can retry if AssertionError was raised, with the decorator `@testbase.retryAssertionError`. The number of retries and delay are read from the Test YAML entry.
 
  * The Class will get as attributes the arguments passed from the Test YAML description. It would be beneficial to first test that the arguments were passed (check the existence of the attributes) at first.
-
-
-
-
-
 
 > Some testcases for simple gNMI GET and SET tests are already provided for use in the `oc_config_validate.testcases` module.

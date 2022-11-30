@@ -100,7 +100,7 @@ class CheckStateLeafs(SubsOnceTestCase):
         want_paths = []
         for xpath in self.xpaths:
             # Ensure the path ends in /state.
-            elems = xpath.lower().split("/")
+            elems = xpath.split("/")
             if elems[-1] != "state":
                 elems.append("state")
             xpath = "/".join(elems)
