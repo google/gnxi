@@ -26,8 +26,7 @@ class SetConfigCheckState(testbase.TestCase):
     json_value = None
     model = ""
 
-    @testbase.retryAssertionError
-    def testSetConfigCheckState(self):
+    def setUp(self):
         self.assertArgs(["xpath", "model", "json_value"])
         xpath = self.xpath.rstrip("/") + "/config"
         self.assertXpath(xpath)
@@ -38,11 +37,8 @@ class SetConfigCheckState(testbase.TestCase):
         self.assertJsonModel(json.dumps(self.json_value), model,
                              "JSON value to Set does not match the model")
 
-        # gNMI Set on /config
-        self.assertTrue(
-            self.gNMISetUpdate(xpath, self.json_value),
-            "gNMI Set did not succeed.")
-
+    @testbase.retryAssertionError
+    def _get_check_retry(self):
         # gNMI Get on /config
         xpath = self.xpath.rstrip("/") + "/config"
         resp_val = self.gNMIGetJson(xpath)
@@ -67,6 +63,14 @@ class SetConfigCheckState(testbase.TestCase):
         cmp, diff = schema.intersectCmp(self.json_value, got)
         self.assertTrue(cmp, diff)
 
+    def testSetConfigCheckState(self):
+        # gNMI Set on /config
+        xpath = self.xpath.rstrip("/") + "/config"
+        self.assertTrue(
+            self.gNMISetUpdate(xpath, self.json_value),
+            "gNMI Set did not succeed.")
+        self._get_check_retry()
+
 
 class DeleteConfigCheckState(testbase.TestCase):
     """Deletes the xpath and checks the /config and /state container after.
@@ -83,10 +87,23 @@ class DeleteConfigCheckState(testbase.TestCase):
     """
     xpath = ""
 
-    @testbase.retryAssertionError
-    def testDeleteConfigCheckState(self):
+    def setUp(self):
         self.assertArgs(["xpath"])
         self.assertXpath(self.xpath)
+
+    @testbase.retryAssertionError
+    def _get_check_retry(self):
+        # gNMI Get on /config to verify it is deleted
+        self.assertFalse(
+            self.gNMIGet(self.xpath.rstrip("/") + "/config"),
+            "There is still a /config container for the xpath.")
+
+        # gNMI Get on /state to verify it is deleted
+        self.assertFalse(
+            self.gNMIGet(self.xpath.rstrip("/") + "/state"),
+            "There is still a /state container for the xpath.")
+
+    def testDeleteConfigCheckState(self):
 
         # gNMI Get on /config to verify it is configured
         self.assertTrue(
@@ -98,12 +115,5 @@ class DeleteConfigCheckState(testbase.TestCase):
             self.gNMISetDelete(self.xpath.rstrip("/")),
             "gNMI Delete did not succeed.")
 
-        # gNMI Get on /config to verify it is deleted
-        self.assertFalse(
-            self.gNMIGet(self.xpath.rstrip("/") + "/config"),
-            "There is still a /config container for the xpath.")
-
-        # gNMI Get on /state to verify it is deleted
-        self.assertFalse(
-            self.gNMIGet(self.xpath.rstrip("/") + "/state"),
-            "There is still a /state container for the xpath.")
+        # gNMI Gets to confirm deletion
+        self._get_check_retry()
