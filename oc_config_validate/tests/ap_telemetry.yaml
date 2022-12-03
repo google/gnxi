@@ -12,9 +12,9 @@ tests:
   class_name: telemetry_once.CountUpdatesCheckType
   args:
     xpaths: [
-    "/access-points/access-point[hostname=*]/radios/radio[id=*][operating-frequency=FREQ_2GHZ]/state/scanning"
-    "/access-points/access-point[hostname=*]/radios/radio[id=*][operating-frequency=FREQ_2GHZ]/state/enabled"
-    "/access-points/access-point[hostname=*]/radios/radio[id=*][operating-frequency=FREQ_2GHZ]/state/dca"
+      "/access-points/access-point[hostname=*]/radios/radio[id=*][operating-frequency=FREQ_2GHZ]/state/scanning",
+      "/access-points/access-point[hostname=*]/radios/radio[id=*][operating-frequency=FREQ_2GHZ]/state/enabled",
+      "/access-points/access-point[hostname=*]/radios/radio[id=*][operating-frequency=FREQ_2GHZ]/state/dca"
     ]
     values_type: bool_val
     updates_count: 3

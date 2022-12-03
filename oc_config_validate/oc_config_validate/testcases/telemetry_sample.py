@@ -4,6 +4,7 @@ from oc_config_validate import testbase
 
 SECS_TO_NSEC = 1000000000
 
+
 class SubsSampleTestCase(testbase.TestCase):
     """Subscribes SAMPLE and checks the response elements.
 
