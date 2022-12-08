@@ -313,6 +313,8 @@ By default, the tests do 5 retries, with 15 seconds delay, if the assertion fail
 
 Uses gNMI Subscribe messages, of type ONCE.
 
+This testcase supports sending multiple xpaths in the gNMI Subscribe request.
+
 Optionally, every Update messages can have its timestamp value checked
   against the local time when the Subscription message was sent. The absolute
   time drift is compared against a max value in secs.

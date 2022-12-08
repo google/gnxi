@@ -138,5 +138,54 @@ class TestParsePaths(unittest.TestCase):
             self.assertEqual(path_str, schema.pathToString(got_obj), name)
 
 
+class TestisPathInRequestedPathsRequestedPaths(unittest.TestCase):
+    """Test for isPathInRequestedPaths."""
+
+    @parameterized.expand([
+        ("_in", "/interfaces/interface[name=ethernet1/2]/state", True),
+        ("_deep_in",
+         "/interfaces/interface[name=ethernet1/2]/state/counters/out-errors",
+         True),
+        ("_not_int",
+         "/interfaces/interface[name=ethernet1/2]/config/name", False),
+    ])
+    def test_isPathInRequestedPathsRequestedPaths_singleReq(self, name, xpath,
+                                                            want):
+        request_xpaths = ["/interfaces/interface[name=ethernet1/2]/state"]
+        self.assertEqual(schema.isPathInRequestedPaths(
+            xpath, request_xpaths), want)
+
+    @parameterized.expand([
+        ("_in", "/interfaces/interface[name=ethernet1/0]/state", True),
+        ("_deep_in",
+         "/interfaces/interface[name=ethernet1/1]/state/counters/out-errors",
+         True),
+        ("_not_int",
+         "/interfaces/interface[name=ethernet1/2]/config/name", False),
+    ])
+    def test_isPathInRequestedPathsRequestedPaths_singleWcardReq(self, name,
+                                                                 xpath, want):
+        request_xpaths = ["/interfaces/interface[name=*]/state"]
+        self.assertEqual(schema.isPathInRequestedPaths(
+            xpath, request_xpaths), want)
+
+    @parameterized.expand([
+        ("_in", "/interfaces/interface[name=ethernet1/0][id=0]/state", True),
+        ("_deep_in",
+         "/interfaces/interface[id=1][name=1/1]/state/counters/out-errors",
+         True),
+        ("_not_int",
+         "/interfaces/interface[name=ethernet1/2]/config/state", False),
+    ])
+    def test_isPathInRequestedPathsRequestedPaths_manyKeysReq(self, name,
+                                                              xpath, want):
+        request_xpaths = ["/interfaces/interface[name=*][id=*]/state"]
+        self.assertEqual(schema.isPathInRequestedPaths(
+            xpath, request_xpaths), want)
+        request_xpaths = ["/interfaces/interface[id=*][name=*]/state"]
+        self.assertEqual(schema.isPathInRequestedPaths(
+            xpath, request_xpaths), want)
+
+
 if __name__ == '__main__':
     unittest.main()

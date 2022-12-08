@@ -66,6 +66,10 @@ class CountUpdatesCheckType(SubsOnceTestCase):
         for n in self.responses:
             updates += len(n.update)
             for u in n.update:
+                got_path = schema.pathToString(u.path)
+                self.assertTrue(
+                    schema.isPathInRequestedPaths(got_path, self.xpaths),
+                    f"Unexpected update path {got_path} for subscription")
                 self.assertTrue(
                     u.val.HasField(self.values_type),
                     f"Value of Update {schema.pathToString(u.path)} "
@@ -115,9 +119,8 @@ class CheckLeafs(SubsOnceTestCase):
             got_path = schema.pathToString(u.path)
             got_paths.append(got_path)
             self.assertTrue(
-                schema.isPathIn(got_path, want_paths),
-                f"Unexpected update path {got_path} for OC model {self.model},"
-                f"expected {want_paths}")
+                schema.isPathInRequestedPaths(got_path, want_paths),
+                f"Unexpected update path {got_path} for subscription")
 
         if self.check_missing_model_paths:
             for want_path in want_paths:

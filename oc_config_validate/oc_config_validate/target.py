@@ -25,7 +25,7 @@ import json
 import logging
 import ssl
 import time
-from typing import Any, Iterator, List, Optional, Tuple
+from typing import Any, List, Optional, Tuple
 
 import grpc
 from grpc._channel import _InactiveRpcError, _MultiThreadedRendezvous
@@ -278,7 +278,7 @@ class TestTarget():
         self.gNMISetUpdate(xpath, json_data)
 
     def _gNMISubscribe(self,
-                       requests: Iterator[gnmi_pb2.SubscribeRequest],
+                       request: gnmi_pb2.SubscribeRequest,
                        timeout: int = 30,
                        check_sync_response: bool = False
                        ) -> List[gnmi_pb2.Notification]:
@@ -308,7 +308,7 @@ class TestTarget():
         got_sync_response = False
         try:
             for resp in self.stub.Subscribe(
-                    requests, timeout=timeout, metadata=auth):
+                    iter([request]), timeout=timeout, metadata=auth):
                 if resp.sync_response:
                     got_sync_response = True
                 elif resp.update:
@@ -336,8 +336,8 @@ class TestTarget():
         Returns:
             A list of gnmi_pb2.Notification objects received.
         """
-        requests = schema.gNMISubscriptionOnceRequests(xpaths)
-        return self._gNMISubscribe(requests)
+        request = schema.gNMISubscriptionOnceRequest(xpaths)
+        return self._gNMISubscribe(request)
 
     def gNMISubsStreamSample(self, xpath: str, sample_interval: int,
                              timeout: int) -> List[gnmi_pb2.Notification]:
@@ -353,9 +353,9 @@ class TestTarget():
             A list of gnmi_pb2.Notification objects received.
 
         """
-        requests = schema.gNMISubscriptionStreamSampleRequests(
+        request = schema.gNMISubscriptionStreamSampleRequest(
             [xpath], sample_interval)
-        return self._gNMISubscribe(requests, timeout=timeout)
+        return self._gNMISubscribe(request, timeout=timeout)
 
     def validate(self):
         """Ensures the Target is defined appropriately.
