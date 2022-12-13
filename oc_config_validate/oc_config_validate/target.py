@@ -176,7 +176,7 @@ class TestTarget():
             return self.stub.Get(
                 gnmi_pb2.GetRequest(path=[path], encoding='JSON_IETF'),
                 metadata=auth)
-        except grpc._channel._InactiveRpcError as err:
+        except _InactiveRpcError as err:
             raise RpcError(err) from err
 
     def _gNMISet(self, xpath: str, set_type: str,
@@ -217,7 +217,7 @@ class TestTarget():
             if set_type.lower() == 'replace':
                 response = self.stub.Set(gnmi_pb2.SetRequest(
                     replace=[path_val]), metadata=auth)
-        except grpc._channel._InactiveRpcError as err:
+        except _InactiveRpcError as err:
             raise RpcError(err) from err
 
         if self.gnmi_set_cooldown_secs:
@@ -319,12 +319,12 @@ class TestTarget():
                 raise schema.GnmiError(
                     "No Response with sync_response was received")
             return notifications
-        except grpc._channel._MultiThreadedRendezvous as err:
+        except _MultiThreadedRendezvous as err:
             if err.code() == grpc.StatusCode.DEADLINE_EXCEEDED:
                 return notifications
             else:
                 raise RpcError(err) from err
-        except grpc._channel._InactiveRpcError as err:
+        except _InactiveRpcError as err:
             raise RpcError(err) from err
 
     def gNMISubsOnce(self, xpaths: List[str]) -> List[gnmi_pb2.Notification]:
