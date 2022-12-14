@@ -247,9 +247,11 @@ def main():  # noqa
     if args["init_config_file"]:
         ctx.init_configs.append(context.InitConfig(args["init_config_file"],
                                                    args["init_config_xpath"]))
-    if not runner.setInitConfigs(ctx, tgt,
-                                 stop_on_error=args["stop_on_error"]):
-        sys.exit(1)
+    try:
+        runner.setInitConfigs(ctx, tgt,
+                              stop_on_error=args["stop_on_error"])
+    except runner.InitConfigError as err:
+        sys.exit("Unable to apply init config(s): %s" % err)
 
     start_t = time.time()
     results = runner.runTests(ctx, tgt, stop_on_error=args["stop_on_error"])
