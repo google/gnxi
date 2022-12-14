@@ -24,6 +24,13 @@ from typing import List, Optional
 
 from oc_config_validate import context, schema, target, testbase, testcases
 
+class BaseError(Exception):
+    """Base Error for the runner class"""
+
+
+class InitConfigError(BaseError):
+    """Error applying initial configs."""
+
 
 class TestThread(threading.Thread):
     """Threaded class that runs tests."""
@@ -195,27 +202,26 @@ def setInitConfigs(ctx: context.TestContext,
         tgt: A target.TestTarget with a connection established.
         stop_on_error: If True, stop if there is an error.
 
-    Returns:
-        True is the initial configurations were applied.
+    Raises:
+        InitConfigError if failed to apply the config. Does not raise if
+        stop_on_error.
 
     """
     for init_config in ctx.init_configs:
-        # Provide init_config file and xpath
-        if not init_config.filename or not init_config.xpath:
-            logging.error(
-                "Initial configuration file and xpath are both needed: %s:%s",
-                init_config.filename, init_config.xpath)
+        if (not getattr(init_config, "filename", None) or
+            not getattr(init_config, "xpath", None)):
+            msg = f"Initial configuration file and xpath are both needed."
             if stop_on_error:
-                return False
+                raise InitConfigError(msg)
+            logging.error(msg)
         try:
-
             schema.parsePath(init_config.xpath)
             tgt.gNMISetConfigFile(init_config.filename, init_config.xpath)
-            logging.info("Initial OpenConfig '%s' applied at %s",
-                         init_config.filename, init_config.xpath)
+            logging.info(f"Initial OpenConfig '{init_config.filename}' "
+                         "applied at {init_config.xpath}")
         except (IOError, json.JSONDecodeError, target.BaseError) as err:
-            logging.error("Unable to set configuration '%s' at '%s': %s",
-                          init_config.filename, init_config.xpath, err)
+            msg = (f"Unable to set configuration '{init_config.filename}' "
+                   "at '{init_config.xpath}': {err}")
             if stop_on_error:
-                return False
-    return True
+                raise InitConfigError(msg) from err
+            logging.error(msg)

@@ -266,7 +266,7 @@ class TestCase(unittest.case.TestCase):
                     (timestamp, schema.typedValueToPython(u.val)))
         return stream_updates
 
-    @ classmethod
+    @classmethod
     def insertArgs(cls, test: unittest.TestCase, args: Dict[str, Any]):
         """Insert test arguments to the test.
 
@@ -278,7 +278,7 @@ class TestCase(unittest.case.TestCase):
         for key, value in args.items():
             setattr(test, key, value)
 
-    @ classmethod
+    @classmethod
     def insertTarget(cls,
                      test: unittest.TestCase,
                      tgt: target.TestTarget):
