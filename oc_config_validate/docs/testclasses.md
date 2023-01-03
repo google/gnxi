@@ -344,26 +344,25 @@ Args:
  *  **values_type**: Python type of the values of the Updates.
 
 
-####  `telemetry_once.CheckStateLeafs`
+####  `telemetry_once.CheckLeafs`
 
 In addition to the default checks of the module, this test checks that the
-subscription to */state* containers updates all leafs.
+subscription to containers updates all leafs.
 
-This test subscribes only xpaths of */state* containers. It renders the
-  corresponding OC model and lists all paths to the downstream Leafs. The
-  Update paths received in the Subscription reply are checked against the
-  Leafs of the Model (Update paths must match an OC Model Leaf).
+This test subscribes only xpaths of containers. It renders the
+corresponding OC model and lists all paths to the downstream Leafs. The
+Update paths received in the Subscription reply are checked against the
+Leafs of the Model (Update paths must match an OC Model Leaf).
 
 Optionally, use `check_missing_model_paths` to assert that all OC model paths
-  are present in the Updates. Usually, the Subscription replies might not
-  have all Leaf paths that the OC mode has.
+are present in the Updates. Usually, the Subscription replies might not
+have all Leaf paths that the OC mode has.
 
 > This check does NOT check the type of the values returned.
 
 Args:
- *  **xpaths**: List of /state gNMI paths to subscribe to.
-     If the paths do not end in '/state', it will be appended.
-     Paths can contain wildcard '*'.
+ *  **xpaths**: List of gNMI paths to subscribe to.
+     Paths can contain wildcards only in keys '*'.
  *  **model**: Python binding class to check the reply against.
  *  *check_missing_model_paths*: If True, it asserts that all OC Model Leaf
      paths are in the received Updates. Defaults to False.
@@ -394,7 +393,6 @@ that the timestamp difference of updates is 15 secs.
 > Use telemetry_once.* for that.
 
 Args:
- *  **xpath**: gNMI path to subscribe to.
  *  **sample_interval**: Seconds interval between Updates
  *  **sample_timeout**: Seconds to keep the Subscription and collect Updates.
  *  *max_timestamp_drift_secs*: Maximum drift for the timestamp(s) in the
@@ -417,4 +415,33 @@ Update path | t0 | t15 | t30 | t45 | t60
 `/<root>/<container>/<leaf3>` | value |       | value |       | value
 
 Args:
+ *  **xpath**: gNMI path to subscribe to. Path can contain wildcards '*'.
  * **update_paths_count**: Number of expected distinct Update paths.
+
+####  `telemetry_sample.CheckLeafs`
+
+In addition to the default checks of the module, this test checks that the
+subscription to a container updates all leafs under it.
+
+It renders the corresponding OC model and lists all paths to the downstream
+Leafs. The Update paths received in the Subscription replies are checked
+against the Leafs of the model (all Update paths must match an OC model Leaf).
+
+ E.g:
+ Suppose the test is subscribing to an xpath `/<root>/<container>/state`, with
+ 15 secs interval for 65 secs. After collecting subscription responses for 65
+ secs, the test checks that all Update paths are valid in the given OC model,
+ and that there are updates for all paths.
+
+ Update path | t0 | t15 | t30 | t45 | t60
+ ----------- | -- | --- | --- | --- | ---
+ `/<root>/<container>/state/<leaf1>` | value | value | value | value | value
+ `/<root>/<container>/state/<leaf2>` |       | value | value |       |
+ `/<root>/<container>/state/<leaf3>` | value |       | value |       | value
+
+> This check does NOT check the type of the values returned.
+
+Args:
+ *  **xpath**: gNMI path to subscribe to.
+    Can contain wildcards only in keys '*'.
+*  **model**: Python binding class to check the replies against.
