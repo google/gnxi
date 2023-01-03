@@ -22,7 +22,7 @@ tests:
     notifications_count: 1
 
 - !TestCase
-  name: "Get RADIUS Couners"
+  name: "Count RADIUS Counters Once"
   class_name: telemetry_once.CountUpdatesCheckType
   args:
     xpaths: ["/access-points/access-point[hostname=*]/system/aaa/server-groups/server-group[name=*]/servers/server[address=*]/radius/state/counters"]
@@ -30,29 +30,29 @@ tests:
     updates_count: 4
 
 - !TestCase
-  name: "Get Radios State"
-  class_name: telemetry_once.CheckStateLeafs
+  name: "Check Radios State Once"
+  class_name: telemetry_once.CheckLeafs
   args:
     xpaths: ["/access-points/access-point[hostname=*]/radios/radio[id=*][operating-frequency=*]/state"]
     model: "wifi.openconfig_access_points"
     max_timestamp_drift_secs: 5
 
 - !TestCase
-  name: "Get MAC SSIDs"
-  class_name: telemetry_once.CheckStateLeafs
+  name: "Check MAC SSIDs Once"
+  class_name: telemetry_once.CheckLeafs
   args:
     xpaths: ["/access-points/access-point[hostname=*]/ssids/ssid[name=*]/bssids/bssid[radio-id=*][bssid=*]/state"]
     model: "wifi.openconfig_access_points"
 
 - !TestCase
-  name: "Get RADIUS Counters"
-  class_name: telemetry_once.CheckStateLeafs
+  name: "Check RADIUS Counters Once"
+  class_name: telemetry_once.CheckLeafs
   args:
-    xpaths: ["/access-points/access-point[hostname=*]/system/aaa/server-groups/server-group[name=*]/servers/server[address=*]/radius/state"]
+    xpaths: ["/access-points/access-point[hostname=*]/system/aaa/server-groups/server-group[name=*]/servers/server[address=*]/radius/state/counters"]
     model: "wifi.openconfig_access_points"
 
 - !TestCase
-  name: "Get Radios State"
+  name: "Count Radios State Sampling"
   class_name: telemetry_sample.CountUpdates
   args:
     xpath: "/access-points/access-point[hostname=*]/radios/radio[id=*][operating-frequency=FREQ_2GHZ]/state"
@@ -61,10 +61,28 @@ tests:
     update_paths_count: 6
 
 - !TestCase
-  name: "Get RADIUS Couners"
+  name: "Check Radios State Sampling"
+  class_name: telemetry_sample.CheckLeafs
+  args:
+    xpath: "/access-points/access-point[hostname=*]/radios/radio[id=*][operating-frequency=FREQ_2GHZ]/state"
+    sample_interval: 30
+    sample_timeout: 70
+    model: "wifi.openconfig_access_points"
+
+- !TestCase
+  name: "Count RADIUS Counters Sampling"
   class_name: telemetry_sample.CountUpdates
   args:
     xpath: "/access-points/access-point[hostname=*]/system/aaa/server-groups/server-group[name=*]/servers/server[address=*]/radius/state/counters"
     sample_interval: 30
     sample_timeout: 70
     update_paths_count: 4
+
+- !TestCase
+  name: "Check RADIUS Counters Sampling"
+  class_name: telemetry_sample.CheckLeafs
+  args:
+    xpath: "/access-points/access-point[hostname=*]/system/aaa/server-groups/server-group[name=*]/servers/server[address=*]/radius/state/counters"
+    sample_interval: 30
+    sample_timeout: 70
+    model: "wifi.openconfig_access_points"
