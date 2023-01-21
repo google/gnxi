@@ -48,7 +48,7 @@ class CountUpdatesCheckType(SubsOnceTestCase):
     """Subscribes ONCE and checks the returned updates and their value types.
 
     Args:
-        xpaths: List of /state gNMI paths to subscribe to.
+        xpaths: List of gNMI paths to subscribe to. Can contain wildcards.
         updates_count: Number of expected Update messages.
         values_type: Python type of the values of the Updates.
 
@@ -76,14 +76,14 @@ class CountUpdatesCheckType(SubsOnceTestCase):
             f"Expected {self.updates_count} Updates, got: {updates}")
 
 
-class CheckStateLeafs(SubsOnceTestCase):
-    """Subscribes ONCE and checks the updates againts the state OC model.
+class CheckLeafs(SubsOnceTestCase):
+    """Subscribes ONCE and checks the updates againts the OC model.
 
     All arguments are read from the Test YAML description.
 
     Args:
-        xpaths: List of /state gNMI paths to subscribe to.
-                If the paths do not end in ''/state', it will be added.
+        xpaths: List of gNMI paths to subscribe to. The paths can contain
+          wildcards only in the keys.
         model: Python binding class to check the JSON reply against.
         check_missing_model_paths: If True, missing OC Model leaf paths in the
                                    Updates replies are checked.
@@ -95,17 +95,12 @@ class CheckStateLeafs(SubsOnceTestCase):
         """"""
         self.assertArgs(["xpaths", "model"])
 
-        self.subscribeOnce()
-
         want_paths = []
         for xpath in self.xpaths:
-            # Ensure the path ends in /state.
-            elems = xpath.split("/")
-            if elems[-1] != "state":
-                elems.append("state")
-            xpath = "/".join(elems)
             self.assertModelXpath(self.model, xpath)
             want_paths.extend(schema.ocLeafsPaths(self.model, xpath))
+
+        self.subscribeOnce()
 
         got_updates = []
         for n in self.responses:

@@ -1,6 +1,6 @@
 """Test cases based on gNMI Subscribe SAMPLE requests."""
 
-from oc_config_validate import testbase
+from oc_config_validate import schema, testbase
 
 SECS_TO_NSEC = 1000000000
 
@@ -80,6 +80,7 @@ class CountUpdates(SubsSampleTestCase):
     This tests that a Subscription consistenly reports all Update paths.
 
     Args:
+        xpath: gNMI paths to subscribe to. Can contain wildcards.
         updates_count: Number of expected disctinct Update paths, per reply.
     """
     update_paths_count = None
@@ -93,3 +94,36 @@ class CountUpdates(SubsSampleTestCase):
             got_paths, self.update_paths_count,
             f"Expected {self.update_paths_count} Update paths, "
             f"got: {got_paths}")
+
+
+class CheckLeafs(SubsSampleTestCase):
+    """Subscribes SAMPLE and checks the updates againts the state OC model.
+
+    Tests that a Sample Subscription consistenly reports all Update paths, and
+    that the paths corresponds to Leafs in the OC model.
+
+    Args:
+        xpath: gNMI paths to subscribe to. Can contain wildcards only on the
+          keys.
+        model: Python binding class to check the replies against.
+    """
+    model = None
+
+    def testSubscribeSample(self):
+        """"""
+        self.assertArgs(["model"])
+
+        self.assertModelXpath(self.model, self.xpath)
+        want_paths = schema.ocLeafsPaths(self.model, self.xpath)
+
+        self.subscribeSample()
+
+        got_paths = len(self.responses)
+        self.assertGreater(got_paths, 0,
+                           "There are no Update replies to the Subscription")
+        if self.responses:
+            for path, _ in self.responses.items():
+                self.assertTrue(
+                    schema.isPathIn(path, want_paths),
+                    f"Unexpected update path {path} for subscription to"
+                    f" {self.xpath} with model {self.model}")
