@@ -24,12 +24,17 @@ from typing import List, Optional
 
 from oc_config_validate import context, schema, target, testbase, testcases
 
+
 class BaseError(Exception):
     """Base Error for the runner class"""
 
 
 class InitConfigError(BaseError):
     """Error applying initial configs."""
+
+
+class TestClassError(BaseError):
+    """Error rendering a testclass."""
 
 
 class TestThread(threading.Thread):
@@ -120,8 +125,10 @@ def makeTestSuite(test_class_name: str,
         """Comparer method to get alphabetically-ordered strings."""
         return (a > b) - (a < b)
 
-    test_class = getClassFromPath(test_class_name)
-    if test_class is None:
+    try:
+        test_class = _getClassFromName(test_class_name)
+    except TestClassError as err:
+        logging.error(err)
         return None
     suite = unittest.makeSuite(test_class,
                                sortUsing=strCmp,
@@ -132,7 +139,7 @@ def makeTestSuite(test_class_name: str,
     return suite    # pytype: disable=bad-return-type
 
 
-def getClassFromPath(class_name: str) -> Optional[testbase.TestCase]:
+def _getClassFromName(class_name: str) -> Optional[testbase.TestCase]:
     """Find a class type from a string.
 
     This method interprets the class_name as module.class
@@ -141,21 +148,21 @@ def getClassFromPath(class_name: str) -> Optional[testbase.TestCase]:
         class_name: a string with the class name
 
     Returns:
-        A class type derived from test_testbase.TestCase,
-        None if not found or no derived from test_testbase.TestCase.
+        A class type derived from test_testbase.TestCase.
+
+    Raises:
+        TestClassError if not found or not derived from test_testbase.TestCase.
 
     """
     try:
         cls = testcases
         for part in class_name.split('.'):
             cls = getattr(cls, part)
-    except AttributeError:
-        logging.error("Unable to find test class %s", class_name)
-        return None
+    except AttributeError as err:
+        raise TestClassError(f"Unable to find test class {class_name}") from err
     if not issubclass(cls, testbase.TestCase):
-        logging.error("Test class %s not derived from test_testbase.TestCase",
-                      class_name)
-        return None
+        raise TestClassError(
+            f"Test class {class_name} not derived from test_testbase.TestCase")
     return cls
 
 
@@ -209,8 +216,8 @@ def setInitConfigs(ctx: context.TestContext,
     """
     for init_config in ctx.init_configs:
         if (not getattr(init_config, "filename", None) or
-            not getattr(init_config, "xpath", None)):
-            msg = f"Initial configuration file and xpath are both needed."
+                not getattr(init_config, "xpath", None)):
+            msg = "Initial configuration file and xpath are both needed."
             if stop_on_error:
                 raise InitConfigError(msg)
             logging.error(msg)
