@@ -131,7 +131,7 @@ tests:
 
 - !TestCase
   name: "Set timezone with a valid Json blob"
-  class_name: setget.JsonCheck
+  class_name: setget.SetGetJsonCheck
   args:
     xpath: "system/clock/config"
     model: system.openconfig_system
@@ -141,7 +141,7 @@ tests:
 
 - !TestCase
   name: "Set timezone with a valid Json blob, and check it is Zurich"
-  class_name: setget.JsonCheckCompare
+  class_name: setget.SetGetJsonCheckCompare
   args:
     xpath: "system/clock/config"
     model: system.openconfig_system
