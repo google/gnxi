@@ -72,7 +72,12 @@ If you would like to commit new tests, make sure you test your YAML and JSON fil
 
 Have your YAML and JSON files analyzed and validated with a parser. Simply the run `lint.sh` script.
 
-## Commiting code
+## Committing code
+
+Before committing JSON or YAML files, make sure:
+
+* Format your JSON code using `json.tool`.
+* Format your YAML code using `yamllint`.
 
 Before committing Python code, make sure:
 
@@ -80,7 +85,13 @@ Before committing Python code, make sure:
  * Lint your code using `pylama`
  * Analyze your code using `pytype`
 
-To make things a bit easier, there is the `lint.sh` script that helps you with this.
+> To make things a bit easier, there is the `lint.sh` script that helps you with this.
+
+### Unit Tests
+
+For your Python code, write relevant Unit tests, using the `unittest` library.
+
+Place your testing code in `py_tests/test_*.py` and run the tests with `python3 -m unittest discover py_tests`.
 
 ## Updating the `oc_config_validate` PyPi package
 

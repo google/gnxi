@@ -118,5 +118,25 @@ class TestTypedValue(unittest.TestCase):
         self.assertEqual(schema.typedValueToPython(typed_val), val)
 
 
+class TestParsePaths(unittest.TestCase):
+    """Test for methods dealing with Paths."""
+
+    @parameterized.expand([
+        ("_full_path",
+         "/protocols/protocol[identifier=BGP][name=bgp]/bgp/global",
+         True),
+        ("_root_path", "/", True),
+        ("_basic_path", "/system", True),
+        ("_bad_index",
+         "/network-instances/network-instance[default]",
+         False)
+    ])
+    def test_pathStrings(self, name, path_str, is_ok):
+        self.assertEqual(schema.isPathOK(path_str), is_ok, name)
+        if is_ok:
+            got_obj = schema.parsePath(path_str)
+            self.assertEqual(path_str, schema.pathToString(got_obj), name)
+
+
 if __name__ == '__main__':
     unittest.main()

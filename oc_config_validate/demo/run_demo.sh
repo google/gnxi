@@ -58,7 +58,7 @@ start_oc_config_validate() {
         OPTS="$OPTS --verbose"
     fi
     echo "--- Start oc_config_validate $OPTS"
-    PYTHONPATH="$PYTHONPATH:${BASEDIR}/.." python3 -m oc_config_validate --target "localhost:$1" --tests_file $BASEDIR/tests.yaml --results_file $BASEDIR/results.json --init_config_file $BASEDIR/init_config.json --init_config_xpath "/system/config" $OPTS
+    PYTHONPATH="$PYTHONPATH:${BASEDIR}/.." python3 -m oc_config_validate --target "localhost:$1" --tests_file $BASEDIR/tests.yaml --results_file $BASEDIR/results.json --init_config_file $BASEDIR/init_config.json --init_config_xpath "/system/config" --target_cert_as_root_ca $OPTS
 
   }
 
@@ -111,8 +111,10 @@ main() {
     fi
 
     if parse_options "$@"; then
-        echo "--- Creating local self-signed certificates"
-        ( cd $CERTSDIR && ./generate.sh >> /dev/null 2>&1 )
+        if [[ ! ( -f $CERTSDIR/target.key && -f $CERTSDIR/target.crt && -f $CERTSDIR/ca.crt ) ]]; then
+          echo "--- Creating local self-signed certificates"
+          ( cd $CERTSDIR && ./generate.sh >> /dev/null 2>&1 )
+        fi
         start_gnmi_target "${GNMI_PORT}"
         start_oc_config_validate "${GNMI_PORT}"
         stop_gnmi_target "${GNMI_PORT}"
