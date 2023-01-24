@@ -19,7 +19,7 @@ import json
 import os
 import re
 from inspect import isclass
-from typing import Any, Iterator, List, Tuple, Union
+from typing import Any, List, Tuple, Union
 
 from pyangbind.lib import yangtypes
 from pyangbind.lib.base import PybindBase
@@ -302,24 +302,29 @@ def isPathOK(xpath: str) -> bool:
     return True
 
 
-def isPathIn(xpath: str, xpaths: List[str]) -> bool:
-    """Returns True if xpath in included or equal to any path in xpaths.
+def isPathInRequestedPaths(xpath: str, xpaths: List[str]) -> bool:
+    """Returns True if xpath in included or equal to any request path.
 
-    xpaths can contain paths with wildcard '*'.
+    The request paths can contain paths with wildcard '*'.
 
     Args:
       xpath: Non-wildcard xpath to check.
       xpaths: List of xpaths (can have wildcards) to contain xpath.
     """
     def _inOrEqual(x: str):
+        # Ensure the path has keys sorted
+        x = pathToString(parsePath(x))
         x_regex = re.escape(x).replace(r"\*", r"(.+)")
         return re.match(x_regex, xpath) is not None
 
+    xpath = pathToString(parsePath(xpath))
     return any(map(_inOrEqual, xpaths))
 
 
 def pathToString(path: gnmi_pb2.Path) -> str:
     """Parse a gNMI Path to a URI-like string.
+
+    The keys are sorted alphabetically.
 
     Args:
         A gNMI.Path oject.
@@ -335,7 +340,7 @@ def pathToString(path: gnmi_pb2.Path) -> str:
         elem = e.name
         if hasattr(e, "key"):
             keys = [f"[{k}={v}]" for k, v in e.key.items()]
-            elem += f"{''.join(keys)}"
+            elem += f"{''.join(sorted(keys))}"
         path_elems.append(elem)
     return "/" + "/".join(path_elems)
 
@@ -463,34 +468,32 @@ def intersectListCmp(want: list, got: list) -> Tuple[bool, str]:
     return True, ""
 
 
-def gNMISubscriptionOnceRequests(
+def gNMISubscriptionOnceRequest(
     xpaths: List[str],
     encoding: str = 'JSON_IETF'
-) -> Iterator[gnmi_pb2.SubscribeRequest]:
+) -> gnmi_pb2.SubscribeRequest:
     """
-    Returns an Iterator of gNMI Subscription ONCE requests for the xpaths.
+    Returns a gNMI Subscription ONCE requests for the xpaths.
 
     Args:
         xpaths: List of gNMI xpaths to subscribe to.
         encoding: Encoding requested for the Updates.
     """
     paths = [parsePath(xpath) for xpath in xpaths]
-    for r in [
-        gnmi_pb2.SubscribeRequest(subscribe=gnmi_pb2.SubscriptionList(
-            subscription=[gnmi_pb2.Subscription(path=path)
-                          for path in paths],
-            mode=gnmi_pb2.SubscriptionList.ONCE,
-            encoding=encoding))]:
-        yield r
+    return gnmi_pb2.SubscribeRequest(subscribe=gnmi_pb2.SubscriptionList(
+        subscription=[gnmi_pb2.Subscription(path=path)
+                      for path in paths],
+        mode=gnmi_pb2.SubscriptionList.ONCE,
+        encoding=encoding))
 
 
-def gNMISubscriptionStreamSampleRequests(
+def gNMISubscriptionStreamSampleRequest(
     xpaths: List[str],
     sample_interval: int,
     encoding: str = 'JSON_IETF'
-) -> Iterator[gnmi_pb2.SubscribeRequest]:
+) -> gnmi_pb2.SubscribeRequest:
     """
-    Returns a gNMI Subscription STREAM SAMPLE request for the xpath.
+    Returns a gNMI Subscription STREAM SAMPLE request for the xpaths.
 
     Args:
         xpaths: gNMI xpaths to subscribe to.
@@ -498,12 +501,10 @@ def gNMISubscriptionStreamSampleRequests(
         encoding: Encoding requested for the Updates.
     """
     paths = [parsePath(xpath) for xpath in xpaths]
-    for r in [
-        gnmi_pb2.SubscribeRequest(subscribe=gnmi_pb2.SubscriptionList(
-            subscription=[gnmi_pb2.Subscription(
-                path=path,
-                mode=gnmi_pb2.SubscriptionMode.SAMPLE,
-                sample_interval=sample_interval) for path in paths],
-            mode=gnmi_pb2.SubscriptionList.STREAM,
-            encoding=encoding))]:
-        yield r
+    return gnmi_pb2.SubscribeRequest(subscribe=gnmi_pb2.SubscriptionList(
+        subscription=[gnmi_pb2.Subscription(
+            path=path,
+            mode=gnmi_pb2.SubscriptionMode.SAMPLE,
+            sample_interval=sample_interval) for path in paths],
+        mode=gnmi_pb2.SubscriptionList.STREAM,
+        encoding=encoding))

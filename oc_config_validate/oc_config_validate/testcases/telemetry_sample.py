@@ -94,6 +94,7 @@ class CountUpdates(SubsSampleTestCase):
             got_paths, self.update_paths_count,
             f"Expected {self.update_paths_count} Update paths, "
             f"got: {got_paths}")
+<<<<<<< HEAD
 
 
 class CheckLeafs(SubsSampleTestCase):
@@ -121,9 +122,8 @@ class CheckLeafs(SubsSampleTestCase):
         got_paths = len(self.responses)
         self.assertGreater(got_paths, 0,
                            "There are no Update replies to the Subscription")
-        if self.responses:
+       if self.responses:
             for path, _ in self.responses.items():
                 self.assertTrue(
-                    schema.isPathIn(path, want_paths),
-                    f"Unexpected update path {path} for subscription to"
-                    f" {self.xpath} with model {self.model}")
+                    schema.isPathInRequestedPaths(path, [self.xpath]),
+                    f"Unexpected update path {path} for subscription")

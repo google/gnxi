@@ -228,7 +228,7 @@ def setInitConfigs(ctx: context.TestContext,
                          "applied at {init_config.xpath}")
         except (IOError, json.JSONDecodeError, target.BaseError) as err:
             msg = (f"Unable to set configuration '{init_config.filename}' "
-                   "at '{init_config.xpath}': {err}")
+                   f"at '{init_config.xpath}': {err}")
             if stop_on_error:
                 raise InitConfigError(msg) from err
             logging.error(msg)
