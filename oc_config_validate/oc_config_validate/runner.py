@@ -64,14 +64,9 @@ class TestThread(threading.Thread):
         text_test_runner.failfast = self.stop_on_error
         if self.conn_lock:
             self.conn_lock.acquire()
-        logging.info("Running Test '%s'", self.test_suite.test_name)
         start_time = int(time.time())
         self.results = text_test_runner.run(self.test_suite)
         self.duration_sec = int(time.time() - start_time)
-        logging.info("Test '%s' took %d secs: %s\n",
-                     self.test_suite.test_name,
-                     self.duration_sec,
-                     "PASS" if self.results.wasSuccessful() else "FAIL")
         if self.conn_lock:
             self.conn_lock.release()
         self.results.test_class_name = self.test_suite.test_class_name
@@ -159,7 +154,8 @@ def _getClassFromName(class_name: str) -> Optional[testbase.TestCase]:
         for part in class_name.split('.'):
             cls = getattr(cls, part)
     except AttributeError as err:
-        raise TestClassError(f"Unable to find test class {class_name}") from err
+        raise TestClassError(
+            f"Unable to find test class {class_name}") from err
     if not issubclass(cls, testbase.TestCase):
         raise TestClassError(
             f"Test class {class_name} not derived from test_testbase.TestCase")
@@ -189,11 +185,17 @@ def runTests(ctx: context.TestContext,
         logging.info("Stopping if a Test fails.")
     results = []
     conn_lock = threading.Lock()
-    for suite in suites:
+    for i, suite in enumerate(suites):
         thread = TestThread(suite, conn_lock, stop_on_error)
+        logging.debug(f"Running Test {i+1} '{suite.test_name}'")
         thread.start()
         thread.join()
         results.append(thread.results)
+        logging.info(
+            f"Test {i+1} '{suite.test_name}' took "
+            f"{thread.results.duration_sec} secs: "
+            f"{'NOT ' if thread.results.wasSuccessful() else ''}"
+            "PASSED\n")
         if stop_on_error and not thread.results.wasSuccessful():
             break
     return results
@@ -225,7 +227,7 @@ def setInitConfigs(ctx: context.TestContext,
             schema.parsePath(init_config.xpath)
             tgt.gNMISetConfigFile(init_config.filename, init_config.xpath)
             logging.info(f"Initial OpenConfig '{init_config.filename}' "
-                         "applied at {init_config.xpath}")
+                         f"applied at {init_config.xpath}")
         except (IOError, json.JSONDecodeError, target.BaseError) as err:
             msg = (f"Unable to set configuration '{init_config.filename}' "
                    f"at '{init_config.xpath}': {err}")
