@@ -91,6 +91,21 @@ class Target(yaml.YAMLObject):
     def __repr__(self):
         return 'Target(target=%r, no_tls=%r)' % (self.target, self.no_tls)
 
+    def validate(self):
+        """Ensures the Target is defined appropriately.
+
+        Raises:
+            ValueError when the Target is not defined correctly.
+        """
+        parts = self.target.split(":")
+        if len(parts) != 2 or not bool(parts[0]) or not parts[1].isdigit():
+            raise ValueError("Needed valid target HOSTNAME:PORT")
+
+        # If using client certificates for TLS, provide key and cert
+        if not self.no_tls and (
+                bool(self.private_key) ^ bool(self.cert_chain)):
+            raise ValueError("TLS key and cert are both needed.")
+
 
 def fromFile(file_path) -> TestContext:
     """Create a TestContext object from a YAML file.
@@ -104,4 +119,10 @@ def fromFile(file_path) -> TestContext:
            file.
     """
     with open(file_path, encoding="utf8") as raw_profile_data:
-        return yaml.safe_load(raw_profile_data)
+        ctx = yaml.safe_load(raw_profile_data)
+
+    # If no Target is defined in the tests file, create a default one.
+    if not ctx.target:
+        ctx.target = Target()
+
+    return ctx

@@ -221,43 +221,35 @@ def main():  # noqa
     logging.info("Read tests file '%s': %d tests to run",
                  args["tests_file"], len(ctx.tests))
 
-    if not ctx.target:
-        ctx.target = context.Target()
-
     # Override Target options
     for arg in ["target", "username", "password", "no_tls", "private_key",
                 "cert_chain", "root_ca_cert", "tls_host_override",
                 "target_cert_as_root_ca", "gnmi_set_cooldown_secs"]:
         if args[arg]:
             setattr(ctx.target, arg, args[arg])
-
-    tgt = target.TestTarget(ctx.target)
     try:
-        tgt.validate()
+        ctx.target.validate()
     except ValueError as error:
         sys.exit("Invalid Target: %s" % error)
 
-    logging.info("Testing gNMI Target %s.", tgt)
-
-    if tgt.gnmi_set_cooldown_secs:
-        logging.info("Using gNMI Set Cooldown of %d secs",
-                     tgt.gnmi_set_cooldown_secs)
-
-    # Apply initial configuration
+    # Concatenate initial configuration paths and files
     if args["init_config_file"]:
         ctx.init_configs.append(context.InitConfig(args["init_config_file"],
                                                    args["init_config_xpath"]))
-    try:
-        runner.setInitConfigs(ctx, tgt,
-                              stop_on_error=args["stop_on_error"])
-    except runner.InitConfigError as err:
-        sys.exit("Unable to apply init config(s): %s" % err)
 
-    start_t = time.time()
-    results = runner.runTests(ctx, tgt, stop_on_error=args["stop_on_error"])
-    end_t = time.time()
+    with target.TestTarget(ctx.target) as tgt:
+        try:
+            runner.setInitConfigs(ctx, tgt,
+                                  stop_on_error=args["stop_on_error"])
+        except runner.InitConfigError as err:
+            sys.exit("Unable to apply init config(s): %s" % err)
 
-    test_run = testbase.TestRun(ctx)
+        start_t = time.time()
+        results = runner.runTests(
+            ctx, tgt, stop_on_error=args["stop_on_error"])
+        end_t = time.time()
+
+    test_run = testbase.TestRun(ctx, tgt)
     test_run.copyResults(results, start_t, end_t)
     logging.info("Results Summary: %s", test_run.summary())
 

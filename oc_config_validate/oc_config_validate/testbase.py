@@ -510,7 +510,7 @@ class TestRun():
     tests_total = 0
     tests_fail = 0
 
-    def __init__(self, ctx: context.TestContext):
+    def __init__(self, ctx: context.TestContext, tgt: target.TestTarget):
         self.test_target = ctx.target.target
         if ctx.description:
             self.description = ctx.description
