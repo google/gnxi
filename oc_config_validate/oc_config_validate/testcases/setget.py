@@ -51,11 +51,7 @@ class SetGetJsonCheck(TestCase):
     @testbase.retryAssertionError
     def testSetGetJsonCheck(self):
         """"""
-        resp = self.gNMIGet(self.xpath)
-        self.assertIsNotNone(resp, "No gNMI GET response")
-        self.resp_val = resp.json_ietf_val
-        self.assertIsNotNone(self.resp_val,
-                             "The gNMI GET response is not JSON IETF")
+        self.resp_val = self.gNMIGetAssertJson(self.xpath)
         model = schema.ocContainerFromPath(self.model, self.xpath)
         self.assertJsonModel(self.resp_val, model,
                              "Get response JSON does not match the model")
@@ -80,11 +76,7 @@ class SetGetJsonCheckCompare(TestCase):
 
     @testbase.retryAssertionError
     def testSetGetJsonCheckCompare(self):
-        resp = self.gNMIGet(self.xpath)
-        self.assertIsNotNone(resp, "No gNMI GET response")
-        self.resp_val = resp.json_ietf_val
-        self.assertIsNotNone(self.resp_val,
-                             "The gNMI GET response is not JSON IETF")
+        self.resp_val = self.gNMIGetAssertJson(self.xpath)
         model = schema.ocContainerFromPath(self.model, self.xpath)
         self.assertJsonModel(self.resp_val, model,
                              "Get response JSON does not match the model")
