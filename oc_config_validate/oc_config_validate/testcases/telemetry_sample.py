@@ -111,10 +111,9 @@ class CheckLeafs(SubsSampleTestCase):
 
     def testSubscribeSample(self):
         """"""
-        self.assertArgs(["model"])
+        self.assertArgs(["model", "xpath"])
 
         self.assertModelXpath(self.model, self.xpath)
-        want_paths = schema.ocLeafsPaths(self.model, self.xpath)
 
         self.subscribeSample()
 
