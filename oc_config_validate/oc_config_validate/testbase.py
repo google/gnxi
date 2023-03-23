@@ -154,6 +154,58 @@ class TestCase(unittest.case.TestCase):
             logging.info(*msg)
         return resp_val
 
+    def gNMIGetAssertJson(self, xpath: str) -> Union[str, bytes]:
+        """Send a gNMI Get and asserts that the response is a JSON text.
+
+        Args:
+            xpath:  gNMI Path.
+
+        Returns:
+            a JSON text.
+
+        Raises:
+          AssertionError if unable to gNMI Get or if the response is not JSON.
+        """
+        resp = self.gNMIGetAssertGet(xpath)
+        resp_val = resp.json_ietf_val
+        self.assertIsNotNone(resp_val,
+                             "The gNMI GET response is not JSON IETF")
+        return resp_val
+
+    def gNMIGetAssertBool(self, xpath: str) -> bool:
+        """Send a gNMI Get and asserts that the response is a bool value.
+
+        Args:
+            xpath:  gNMI Path.
+
+        Returns:
+            a boolean value.
+
+        Raises:
+          AssertionError if unable to gNMI Get or if the response is not bool.
+        """
+        resp = self.gNMIGetAssertGet(xpath)
+        self.assertIsNotNone(
+            resp.bool_val,
+            "The gNMI Get response is not a boolean: %s" % resp)
+        return resp
+
+    def gNMIGetAssertGet(self, xpath: str) -> gnmi_pb2.TypedValue:
+        """Send a gNMI Get and asserts that there is a response.
+
+        Args:
+            xpath:  gNMI Path.
+
+        Returns:
+            the response to the Get requets.
+
+        Raises:
+          AssertionError if unable to gNMI Get or if the response is None.
+        """
+        resp = self.gNMIGet(xpath)
+        self.assertIsNotNone(resp, "No gNMI GET response")
+        return resp
+
     def gNMISetUpdate(self, xpath: str, value: Any) -> bool:
         """Send a gNMI Set Update message to the test's target
 
@@ -325,25 +377,6 @@ class TestCase(unittest.case.TestCase):
             match, error = False, err
         self.assertTrue(match, "%s: %s" % (msg, error))
 
-    def gNMIGetJson(self, xpath: str) -> Union[str, bytes]:
-        """Send a gNMI Get and asserts that the response is a JSON text.
-
-        Args:
-            xpath:  gNMI Path.
-
-        Returns:
-            a JSON text.
-
-        Raises:
-          AssertionError if unable to gNMI Get or if the response is not JSON.
-        """
-        resp = self.gNMIGet(xpath)
-        self.assertIsNotNone(resp, "No gNMI GET response")
-        resp_val = resp.json_ietf_val
-        self.assertIsNotNone(resp_val,
-                             "The gNMI GET response is not JSON IETF")
-        return resp_val
-
     def assertJsonCmp(self, json_value: Union[str, bytes], want: dict):
         """Assert that the JSON response matches the wanted values..
 
@@ -510,7 +543,7 @@ class TestRun():
     tests_total = 0
     tests_fail = 0
 
-    def __init__(self, ctx: context.TestContext):
+    def __init__(self, ctx: context.TestContext, tgt: target.TestTarget):
         self.test_target = ctx.target.target
         if ctx.description:
             self.description = ctx.description

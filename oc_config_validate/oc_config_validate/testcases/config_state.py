@@ -41,7 +41,7 @@ class SetConfigCheckState(testbase.TestCase):
     def _get_check_retry(self):
         # gNMI Get on /config
         xpath = self.xpath.rstrip("/") + "/config"
-        resp_val = self.gNMIGetJson(xpath)
+        resp_val = self.gNMIGetAssertJson(xpath)
         model = schema.ocContainerFromPath(self.model, xpath)
         self.assertJsonModel(resp_val, model,
                              "Get /config does not match the model")
