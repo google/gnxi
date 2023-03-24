@@ -194,7 +194,7 @@ def runTests(ctx: context.TestContext,
         logging.info(
             f"Test {i+1} '{suite.test_name}' took "
             f"{thread.results.duration_sec} secs: "
-            f"{'NOT ' if thread.results.wasSuccessful() else ''}"
+            f"{'' if thread.results.wasSuccessful() else 'NOT '}"
             "PASSED\n")
         if stop_on_error and not thread.results.wasSuccessful():
             break

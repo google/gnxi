@@ -46,28 +46,20 @@ class SetSubifDhcp(testbase.TestCase):
         xpath = ("/interfaces/interface[name=%s]/subinterfaces/"
                  "subinterface[index=%d]/ipv4/config/dhcp-client") % (
             self.interface, self.index)
-        resp_val = self.gNMIGet(xpath)
-        self.assertIsNotNone(resp_val, "No gNMI GET response")
-        self.assertIsNotNone(
-            resp_val.bool_val,
-            "The gNMI Get response is not a boolean: %s" % resp_val)
-        self.assertEqual(resp_val.bool_val, self.dhcp,
+        resp_val = self.gNMIGetAssertBool(xpath)
+        self.assertEqual(resp_val, self.dhcp,
                          "Dhcp client config = %s, wanted %s" % (
-                             resp_val.bool_val, self.dhcp))
+                             resp_val, self.dhcp))
 
     @retry(exceptions=AssertionError, tries=5, delay=15)
     def test0300(self):
         xpath = ("/interfaces/interface[name=%s]/subinterfaces/"
                  "subinterface[index=%d]/ipv4/state/dhcp-client") % (
             self.interface, self.index)
-        resp_val = self.gNMIGet(xpath)
-        self.assertIsNotNone(resp_val, "No gNMI GET response")
-        self.assertIsNotNone(
-            resp_val.bool_val,
-            "The gNMI Get response is not a boolean: %s" % resp_val)
-        self.assertEqual(resp_val.bool_val, self.dhcp,
+        resp_val = self.gNMIGetAssertBool(xpath)
+        self.assertEqual(resp_val, self.dhcp,
                          "Dhcp client state = %s, wanted %s" % (
-                             resp_val.bool_val, self.dhcp))
+                             resp_val, self.dhcp))
 
 
 class CheckSubifDhcpState(testbase.TestCase):
@@ -92,14 +84,10 @@ class CheckSubifDhcpState(testbase.TestCase):
         xpath = ("/interfaces/interface[name=%s]/subinterfaces/"
                  "subinterface[index=%d]/ipv4/state/dhcp-client") % (
             self.interface, self.index)
-        resp_val = self.gNMIGet(xpath)
-        self.assertIsNotNone(resp_val, "No gNMI GET response")
-        self.assertIsNotNone(
-            resp_val.bool_val,
-            "The gNMI Get response is not a boolean: %s" % resp_val)
-        self.assertEqual(resp_val.bool_val, self.dhcp,
+        resp_val = self.gNMIGetAssertBool(xpath)
+        self.assertEqual(resp_val, self.dhcp,
                          "Dhcp client state = %s, wanted %s" % (
-                             resp_val.bool_val, self.dhcp))
+                             resp_val, self.dhcp))
 
 
 class CheckSubifDhcpConfig(testbase.TestCase):
@@ -125,14 +113,10 @@ class CheckSubifDhcpConfig(testbase.TestCase):
         xpath = ("/interfaces/interface[name=%s]/subinterfaces/"
                  "subinterface[index=%d]/ipv4/config/dhcp-client") % (
             self.interface, self.index)
-        resp_val = self.gNMIGet(xpath)
-        self.assertIsNotNone(resp_val, "No gNMI GET response")
-        self.assertIsNotNone(
-            resp_val.bool_val,
-            "The gNMI Get response is not a boolean: %s" % resp_val)
-        self.assertEqual(resp_val.bool_val, self.dhcp,
+        resp_val = self.gNMIGetAssertBool(xpath)
+        self.assertEqual(resp_val, self.dhcp,
                          "Dhcp client config = %s, wanted %s" % (
-                             resp_val.bool_val, self.dhcp))
+                             resp_val, self.dhcp))
 
 
 class AddSubifIp(testbase.TestCase):
@@ -178,7 +162,7 @@ class AddSubifIp(testbase.TestCase):
                  "subinterface[index=%d]/ipv4/addresses"
                  "/address[ip=%s]/config") % (
             self.interface, self.index, self.address)
-        resp_val = self.gNMIGetJson(xpath)
+        resp_val = self.gNMIGetAssertJson(xpath)
         self.assertJsonModel(
             resp_val, self.addr.config,
             'gNMI Get on the /config container does not match model')
@@ -193,7 +177,7 @@ class AddSubifIp(testbase.TestCase):
                  "subinterface[index=%d]/ipv4/addresses"
                  "/address[ip=%s]/state") % (
             self.interface, self.index, self.address)
-        resp_val = self.gNMIGetJson(xpath)
+        resp_val = self.gNMIGetAssertJson(xpath)
 
         self.addr.state._set_ip(self.address)
         self.addr.state._set_prefix_length(self.prefix_length)
@@ -283,7 +267,7 @@ class CheckSubifIpState(testbase.TestCase):
                  "subinterface[index=%d]/ipv4/addresses/"
                  "address[ip=%s]/state") % (
             self.interface, self.index, self.address)
-        resp_val = self.gNMIGetJson(xpath)
+        resp_val = self.gNMIGetAssertJson(xpath)
         iface = oc_interfaces().interfaces.interface.add(self.interface)
         subif = iface.subinterfaces.subinterface.add(self.index)
         if self.index:
@@ -325,7 +309,7 @@ class CheckSubifIpConfig(testbase.TestCase):
                  "subinterface[index=%d]/ipv4/addresses/"
                  "address[ip=%s]/config") % (
             self.interface, self.index, self.address)
-        resp_val = self.gNMIGetJson(xpath)
+        resp_val = self.gNMIGetAssertJson(xpath)
         iface = oc_interfaces().interfaces.interface.add(self.interface)
         subif = iface.subinterfaces.subinterface.add(self.index)
         if self.index:

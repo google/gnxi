@@ -57,7 +57,7 @@ class AddStaticRoute(testbase.TestCase):
         xpath = ("/local-routes/static-routes/static[prefix=%s]/"
                  "next-hops/next-hop[index=%d]/config") % (
             self.prefix, self.index)
-        resp_val = self.gNMIGetJson(xpath)
+        resp_val = self.gNMIGetAssertJson(xpath)
         self.assertJsonModel(
             resp_val, self.nh.config,
             'gNMI Get on the /config container does not match model')
@@ -71,7 +71,7 @@ class AddStaticRoute(testbase.TestCase):
         xpath = ("/local-routes/static-routes/static[prefix=%s]/"
                  "next-hops/next-hop[index=%d]/state") % (
             self.prefix, self.index)
-        resp_val = self.gNMIGetJson(xpath)
+        resp_val = self.gNMIGetAssertJson(xpath)
         self.nh.state._set_index(self.index)
         self.nh.state._set_next_hop(self.next_hop)
         if self.metric is not None:
@@ -172,7 +172,7 @@ class CheckRouteState(testbase.TestCase):
         ste._set_next_hop(self.next_hop)
         if self.metric is not None:
             ste._set_metric(self.metric)
-        resp_val = self.gNMIGetJson(xpath)
+        resp_val = self.gNMIGetAssertJson(xpath)
         self.assertJsonModel(
             resp_val, ste,
             'gNMI Get on the /state container does not match model')
@@ -216,7 +216,7 @@ class CheckRouteConfig(testbase.TestCase):
         cfg._set_next_hop(self.next_hop)
         if self.metric is not None:
             cfg._set_metric(self.metric)
-        resp_val = self.gNMIGetJson(xpath)
+        resp_val = self.gNMIGetAssertJson(xpath)
         self.assertJsonModel(
             resp_val, cfg,
             'gNMI Get on the /config container does not match model')

@@ -19,7 +19,7 @@ class Get(testbase.TestCase):
         """"""
         self.assertArgs(["xpath"])
         self.assertXpath(self.xpath)
-        self.gNMIGet(self.xpath)
+        self.gNMIGetAssertGet(self.xpath)
 
 
 class GetCompare(testbase.TestCase):
@@ -40,8 +40,7 @@ class GetCompare(testbase.TestCase):
         """"""
         self.assertArgs(["xpath", "want"])
         self.assertXpath(self.xpath)
-        resp_val = self.gNMIGet(self.xpath)
-        self.assertIsNotNone(resp_val, "No gNMI GET response")
+        resp_val = self.gNMIGetAssertGet(self.xpath)
         got = schema.typedValueToPython(resp_val)
         self.assertEqual(type(got), type(self.want),
                          "Values of different types")
@@ -71,11 +70,7 @@ class GetJsonCheck(testbase.TestCase):
         self.assertArgs(["xpath", "model"])
         self.assertXpath(self.xpath)
         self.assertModelXpath(self.model, self.xpath)
-        resp = self.gNMIGet(self.xpath)
-        self.assertIsNotNone(resp, "No gNMI GET response")
-        resp_val = resp.json_ietf_val
-        self.assertIsNotNone(resp_val,
-                             "The gNMI GET response is not JSON IETF")
+        resp_val = self.gNMIGetAssertJson(self.xpath)
         model = schema.ocContainerFromPath(self.model, self.xpath)
         self.assertJsonModel(resp_val, model,
                              "Get response JSON does not match model")
@@ -104,11 +99,7 @@ class GetJsonCheckCompare(testbase.TestCase):
         self.assertModelXpath(self.model, self.xpath)
         self.assertIsInstance(self.want_json, dict,
                               "'want_json' is not a valid JSON object")
-        resp = self.gNMIGet(self.xpath)
-        self.assertIsNotNone(resp, "No gNMI GET response")
-        resp_val = resp.json_ietf_val
-        self.assertIsNotNone(resp_val,
-                             "The gNMI GET response is not JSON IETF")
+        resp_val = self.gNMIGetAssertJson(self.xpath)
         model = schema.ocContainerFromPath(self.model, self.xpath)
         self.assertJsonModel(resp_val, model,
                              "Get response does not match the model")

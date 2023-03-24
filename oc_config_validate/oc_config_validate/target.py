@@ -49,8 +49,10 @@ class RpcError(BaseError):
 class TestTarget():
     """gNMI Target to run tests against.
 
-    Args:
-        hostname_port: Target to connect to, as 'hostname:port'.
+    Example:
+        with target.TestTarget(ctx.tgt) as tgt:
+            tgt.gNMISet()
+            tgt.gNMIGet()
     """
 
     def __init__(self, tgt: context.Target):
@@ -105,29 +107,36 @@ class TestTarget():
         if root_ca:
             self.root_ca = _fileReadOrNone(root_ca)
 
-    def _gNMIConnnect(self):
-        """Create a gNMI connection."""
-        if self.stub:
-            return
+    def gNMIConnect(self):
+        """Create a gNMI connection to the target."""
         if self.notls:
-            self.channel = gnmi_pb2_grpc.grpc.insecure_channel(self.address)
+            self.channel = grpc.insecure_channel(self.address)
         else:
             creds = self._buildCredentials()
             logging.debug("creds: %s", creds)
             if self.host_tls_override:
-                self.channel = gnmi_pb2_grpc.grpc.secure_channel(
+                self.channel = grpc.secure_channel(
                     self.address, creds,
                     (('grpc.ssl_target_name_override',
                       self.host_tls_override,),))
             else:
-                self.channel = gnmi_pb2_grpc.grpc.secure_channel(
+                self.channel = grpc.secure_channel(
                     self.address, creds)
         self.stub = gnmi_pb2_grpc.gNMIStub(self.channel)
 
     def gNMIClose(self):
+        """Closes the gNMI connection to the target."""
         self.channel.close()
+        self.stub = None
 
-    def _buildCredentials(self) -> gnmi_pb2_grpc.grpc.ssl_channel_credentials:
+    def __enter__(self):
+        self.gNMIConnect()
+        return self
+
+    def __exit__(self, type, value, traceback):
+        self.gNMIClose()
+
+    def _buildCredentials(self) -> grpc.ssl_channel_credentials:
         """Build credentials used in gNMI Requests.
 
         Returns:
@@ -146,12 +155,12 @@ class TestTarget():
                 raise TargetError(
                     "Unable to get Root CA from Target") from err
 
-        return gnmi_pb2_grpc.grpc.ssl_channel_credentials(
+        return grpc.ssl_channel_credentials(
             root_certificates=self.root_ca,
             private_key=self.key,
             certificate_chain=self.cert)
 
-    def _GnmiStubAuth(self) -> List[Tuple[str, str]]:
+    def _GnmiAuthMetadata(self) -> List[Tuple[str, str]]:
         """Returns the gNMI metadata used for authentication."""
         if self.username:  # User/pass supplied for Authentication.
             return [('username', self.username), ('password', self.password)]
@@ -170,12 +179,10 @@ class TestTarget():
             RpcError if unable to connect to Target.
         """
         path = schema.parsePath(xpath)
-        self._gNMIConnnect()
-        auth = self._GnmiStubAuth()
         try:
             return self.stub.Get(
                 gnmi_pb2.GetRequest(path=[path], encoding='JSON_IETF'),
-                metadata=auth)
+                metadata=self._GnmiAuthMetadata())
         except _InactiveRpcError as err:
             raise RpcError(err) from err
 
@@ -203,9 +210,8 @@ class TestTarget():
         if value:
             val = schema.pythonToTypedValue(value)
             path_val = gnmi_pb2.Update(path=path, val=val)
-        self._gNMIConnnect()
-        auth = self._GnmiStubAuth()
 
+        auth = self._GnmiAuthMetadata()
         response = None
         try:
             if set_type.lower() == 'delete':
@@ -302,8 +308,8 @@ class TestTarget():
             GnmiError if no sync_response was received, when
                 check_sync_response.
         """
-        self._gNMIConnnect()
-        auth = self._GnmiStubAuth()
+
+        auth = self._GnmiAuthMetadata()
         notifications = []
         got_sync_response = False
         try:
@@ -356,17 +362,3 @@ class TestTarget():
         request = schema.gNMISubscriptionStreamSampleRequest(
             [xpath], sample_interval)
         return self._gNMISubscribe(request, timeout=timeout)
-
-    def validate(self):
-        """Ensures the Target is defined appropriately.
-
-        Raises:
-          ValueError when the Target is not defined correctly.
-        """
-        parts = self.address.split(":")
-        if len(parts) != 2 or not bool(parts[0]) or not parts[1].isdigit():
-            raise ValueError("Needed valid target HOSTNAME:PORT")
-
-        # If using client certificates for TLS, provide key and cert
-        if not self.notls and (bool(self.key) ^ bool(self.cert)):
-            raise ValueError("TLS key and cert are both needed.")
