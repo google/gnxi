@@ -25,7 +25,7 @@ PYBINDPLUGIN=$(/usr/bin/env python -c 'import pyangbind; import os; print ("{}/p
 
 rm -fr ${MODELS_FOLDER}/*
 touch ${MODELS_FOLDER}/__init__.py
-git clone --depth 1 https://github.com/openconfig/public.git "$MODELS_FOLDER/public"
+git clone --depth 1 https://github.com/openconfig/public.git --branch "v1.0.0" --config "advice.detachedHead=false" "$MODELS_FOLDER/public"
 
 for m in $( ls -d ${MODELS_PATH}/*/ ); do
   MODELS=$(find $m -name openconfig-*.yang)
