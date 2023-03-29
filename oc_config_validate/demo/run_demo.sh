@@ -16,6 +16,15 @@ BASEDIR=$(dirname $0)
 CERTSDIR=${BASEDIR}/../../certs
 GNMI_TARGET=${BASEDIR}/../../gnmi_target/
 
+build_gnmi_target() {
+
+    if ! which go ; then
+      echo "Install golang to run the gNMI Target"
+      return 1
+    fi
+    go build -o ${BASEDIR}/ $GNMI_TARGET
+}
+
 # start_gnmi_target <gnmi_port>
 start_gnmi_target() {
 
@@ -24,9 +33,8 @@ start_gnmi_target() {
         OPTS="--notls"
     fi
 
-    echo "--- Start TARGET $OPTS"
-    go build ${GNMI_TARGET}
-    go run ${GNMI_TARGET} -bind_address ":$1" -config $BASEDIR/target_config.json --insecure $OPTS >> /dev/null 2>&1 &
+    echo "--- Start gNMI TARGET $OPTS"
+    ${BASEDIR}/gnmi_target -bind_address ":$1" -config $BASEDIR/target_config.json --insecure $OPTS >> /dev/null 2>&1 &
     sleep 10
 }
 
@@ -104,17 +112,17 @@ return 0
 }
 
 main() {
-    # check if golang is installed
-    if ! which go ; then
-      echo "Install golang to run the gNMI Target"
-      return 1
-    fi
-
+    
     if parse_options "$@"; then
         if [[ ! ( -f $CERTSDIR/target.key && -f $CERTSDIR/target.crt && -f $CERTSDIR/ca.crt ) ]]; then
           echo "--- Creating local self-signed certificates"
           ( cd $CERTSDIR && ./generate.sh >> /dev/null 2>&1 )
         fi
+        if [[ ! -f ${BASEDIR}/gnmi_target ]]; then
+            echo "--- Building gNMI TARGET"
+            build_gnmi_target
+        fi
+
         start_gnmi_target "${GNMI_PORT}"
         start_oc_config_validate "${GNMI_PORT}"
         stop_gnmi_target "${GNMI_PORT}"
