@@ -20,7 +20,9 @@ import (
 	"bytes"
 	"compress/gzip"
 	"encoding/json"
+	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"reflect"
 	"strconv"
@@ -33,6 +35,7 @@ import (
 
 	log "github.com/golang/glog"
 	"github.com/golang/protobuf/proto"
+	"github.com/openconfig/gnmi/coalesce"
 	"github.com/openconfig/gnmi/value"
 	"github.com/openconfig/ygot/util"
 	"github.com/openconfig/ygot/ygot"
@@ -48,10 +51,12 @@ type ConfigCallback func(ygot.ValidatedGoStruct) error
 var (
 	pbRootPath         = &pb.Path{}
 	supportedEncodings = []pb.Encoding{pb.Encoding_JSON, pb.Encoding_JSON_IETF}
+	subscribeSync      = &pb.SubscribeResponse{Response: &pb.SubscribeResponse_SyncResponse{SyncResponse: true}}
 )
 
 // Server struct maintains the data structure for device config and implements the interface of gnmi server. It supports Capabilities, Get, and Set APIs.
 // Typical usage:
+//
 //	g := grpc.NewServer()
 //	s, err := Server.NewServer(model, config, callback)
 //	pb.NewServer(g, s)
@@ -61,12 +66,14 @@ var (
 //
 // For a real device, apply the config changes to the hardware in the callback function.
 // Arguments:
-//		newConfig: new root config to be applied on the device.
-// func callback(newConfig ygot.ValidatedGoStruct) error {
-//		// Apply the config to your device and return nil if success. return error if fails.
-//		//
-//		// Do something ...
-// }
+//
+//	newConfig: new root config to be applied on the device.
+//
+//	func callback(newConfig ygot.ValidatedGoStruct) error {
+//			// Apply the config to your device and return nil if success. return error if fails.
+//			//
+//			// Do something ...
+//	}
 type Server struct {
 	model    *Model
 	callback ConfigCallback
@@ -619,15 +626,216 @@ func (s *Server) Set(ctx context.Context, req *pb.SetRequest) (*pb.SetResponse, 
 	}, nil
 }
 
-// Subscribe method is not implemented.
-func (s *Server) Subscribe(stream pb.GNMI_SubscribeServer) error {
-	return status.Error(codes.Unimplemented, "Subscribe is not implemented.")
-}
-
 // InternalUpdate is an experimental feature to let the server update its
 // internal states. Use it with your own risk.
 func (s *Server) InternalUpdate(fp func(config ygot.ValidatedGoStruct) error) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	return fp(s.config)
+}
+
+// Set implements the Subscribe gNMI RPC.
+func (s *Server) Subscribe(stream pb.GNMI_SubscribeServer) error {
+	var err error
+
+	c := streamClient{stream: stream}
+	c.sr, err = stream.Recv()
+
+	switch {
+	case err == io.EOF:
+		return nil
+	case err != nil:
+		return err
+	}
+
+	if c.sr.GetSubscribe() == nil {
+		return status.Errorf(codes.InvalidArgument, "request must contain a subscription %#v", c.sr)
+	}
+	if c.sr.GetSubscribe().GetAllowAggregation() {
+		return status.Error(codes.Unimplemented, "aggregation is not supported")
+	}
+	if c.sr.GetSubscribe().GetUseModels() != nil {
+		return status.Errorf(codes.Unimplemented, "subscription using use_models is not supported")
+	}
+
+	if err = s.checkEncodingAndModel(c.sr.GetSubscribe().GetEncoding(), nil); err != nil {
+		return status.Error(codes.Unimplemented, err.Error())
+	}
+
+	mode := c.sr.GetSubscribe().Mode
+
+	// This error channel accepts errors from all goroutines spawned.
+	errC := make(chan error, 3)
+	c.errC = errC
+
+	c.msgQ = coalesce.NewQueue()
+	defer c.msgQ.Close()
+
+	switch mode {
+	case pb.SubscriptionList_ONCE:
+		go func() {
+			s.doOnceSubscription(&c)
+		}()
+	case pb.SubscriptionList_POLL:
+		return status.Error(codes.Unimplemented, "mode POLL is not implemented.")
+	case pb.SubscriptionList_STREAM:
+		return status.Error(codes.Unimplemented, "mode SAMPLE is not implemented.")
+	default:
+		return status.Errorf(codes.InvalidArgument, "subscription mode %v not recognized", mode)
+	}
+	go s.doSendSubscriptionMsgs(&c)
+	return <-errC
+}
+
+// streamClient represents a Streaming client.
+type streamClient struct {
+	sr     *pb.SubscribeRequest
+	stream pb.GNMI_SubscribeServer
+	errC   chan<- error
+	msgQ   *coalesce.Queue
+}
+
+// subscribeSyncToken signals doSendSubscriptionMsgs to send subscribeSync.
+type subscribeSyncToken struct{}
+
+// doOnceSubscription processes a ONCE Subscription. It produces a single
+// Notification message for all subscribed paths.
+func (s *Server) doOnceSubscription(c *streamClient) {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+
+	var updates []*pb.Update
+	prefix := c.sr.GetSubscribe().GetPrefix()
+
+	if !c.sr.GetSubscribe().GetUpdatesOnly() {
+		for _, subscription := range c.sr.GetSubscribe().GetSubscription() {
+			fullPath := subscription.GetPath()
+			if prefix != nil {
+				fullPath = gnmiFullPath(prefix, fullPath)
+			}
+			updts, err := s.updatesFromNode(fullPath)
+			if err != nil {
+				c.errC <- err
+				return
+			}
+			updates = append(updates, updts...)
+		}
+		c.msgQ.Insert(
+			&pb.Notification{
+				Timestamp: time.Now().UnixNano(),
+				Update:    updates,
+			})
+	}
+	c.msgQ.Insert(subscribeSyncToken{})
+	c.msgQ.Close()
+}
+
+// doSendSubscriptionMsgs monitors the message queue and sends
+// Subscription Responses to the client.
+func (s *Server) doSendSubscriptionMsgs(c *streamClient) {
+	subscribeTimeout := time.NewTimer(time.Second * 5)
+	subscribeTimeout.Stop()
+
+	// If a send doesn't occur within the timeout.
+	done := make(chan struct{})
+	defer close(done)
+	go func() {
+		select {
+		case <-subscribeTimeout.C:
+			c.errC <- errors.New("subscription timed out while sending")
+		case <-done:
+		}
+	}()
+
+	for {
+		item, _, err := c.msgQ.Next(c.stream.Context())
+		if err != nil {
+			if coalesce.IsClosedQueue(err) {
+				c.errC <- nil
+			} else {
+				c.errC <- err
+			}
+			return
+		}
+		if _, ok := item.(subscribeSyncToken); ok {
+			if err = c.stream.Send(subscribeSync); err != nil {
+				c.errC <- err
+				return
+			}
+			continue
+		}
+		n, ok := item.(*pb.Notification)
+		if !ok || n == nil {
+			c.errC <- status.Errorf(codes.Internal, "invalid notification message: %v", item)
+			return
+		}
+		response := &pb.SubscribeResponse{
+			Response: &pb.SubscribeResponse_Update{
+				Update: n,
+			},
+		}
+		subscribeTimeout.Reset(time.Second * 5)
+		defer subscribeTimeout.Stop()
+		err = c.stream.Send(response)
+		if err != nil {
+			c.errC <- err
+			return
+		}
+	}
+}
+
+// updatesFromNode returns a list of Update messages for the leaf nodes found,
+// starting to walk the tree at the path.
+func (s *Server) updatesFromNode(fullPath *pb.Path) ([]*pb.Update, error) {
+	var updates []*pb.Update
+
+	nodes, err := ytypes.GetNode(s.model.schemaTreeRoot, s.config, fullPath, &ytypes.GetHandleWildcards{})
+	if len(nodes) == 0 || err != nil || util.IsValueNil(nodes[0].Data) {
+		return nil, status.Errorf(codes.NotFound, "path %v not found: %v", fullPath, err)
+	}
+	for _, node := range nodes {
+		data := node.Data
+		nodeStruct, isContainer := data.(ygot.GoStruct)
+
+		if isContainer {
+			n, err := ygot.TogNMINotifications(nodeStruct, time.Now().UnixNano(),
+				ygot.GNMINotificationsConfig{
+					UsePathElem:    true,
+					PathElemPrefix: fullPath.GetElem(),
+				})
+			if err != nil {
+				return nil, err
+			}
+			for _, up := range n[0].Update {
+				up.Path = &pb.Path{Elem: append(node.Path.GetElem(), up.Path.GetElem()...)}
+			}
+			updates = append(updates, n[0].Update...)
+			continue
+		}
+
+		var val *pb.TypedValue
+		switch kind := reflect.ValueOf(data).Kind(); kind {
+		case reflect.Ptr, reflect.Interface:
+			var err error
+			val, err = value.FromScalar(reflect.ValueOf(data).Elem().Interface())
+			if err != nil {
+				return nil, status.Errorf(codes.Internal, "leaf node %v does not contain a scalar type value: %v", fullPath, err)
+			}
+		case reflect.Int64:
+			enumMap, ok := s.model.enumData[reflect.TypeOf(data).Name()]
+			if !ok {
+				return nil, status.Error(codes.Internal, "not a GoStruct enumeration type")
+			}
+			val = &pb.TypedValue{
+				Value: &pb.TypedValue_StringVal{
+					StringVal: enumMap[reflect.ValueOf(data).Int()].Name,
+				},
+			}
+		default:
+			return nil, status.Errorf(codes.Internal, "unexpected kind of leaf node type: %v %v", node, kind)
+		}
+		updates = append(updates, &pb.Update{Path: node.Path, Val: val})
+	}
+
+	return updates, nil
 }
