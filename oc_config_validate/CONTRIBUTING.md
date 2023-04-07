@@ -21,13 +21,13 @@ python3 -m oc_config_validate --version
 python3 -m oc_config_validate -models
 ```
 
-### Update OC models
+## Update OC models
 
 To get the latest OC Models from GitHub, running `oc_config_validate/update_models.sh`.
 
 This will take some time, be patient.
 
-#### Use specific OpenConfig models
+### Use specific OpenConfig models
 
 If specific OpenConfig models need to be used, place them in a directory (here `$MODELS_DIRECTORY`) and have **pyang** create the bindings and store them in `oc_config_validate/models/` (also write their revisions in `oc_config_validate/models/versions`):
 
@@ -93,15 +93,40 @@ For your Python code, write relevant Unit tests, using the `unittest` library.
 
 Place your testing code in `py_tests/test_*.py` and run the tests with `python3 -m unittest discover py_tests`.
 
-## Updating the `oc_config_validate` PyPi package
+## Releasing new versions or `oc_config_validate`
 
-1. Update the OC models, by running `./update_models.sh`
+1. Update the OC models, by running `oc_config_validate/update_models.sh`
+1. Rebuild the gNMI generated code, with `oc_config_validate/gnmi/make_gnmi_proto_py.sh`
 1. Update the version of oc_config_validate, by editing `__init__.py`
 1. Run the demo to verify it all works, by running `demo/run_demo.sh`
-1. Run `oc_config_validate` with a real gNMI target to verify it all works.
-1. Create a cleared virtual environment and call `python3 -m build` to build the packages
-1. Upload the latest packages to TestPyPi
+1. Run `oc_config_validate` with a real gNMI target to verify it all works
 
-```
-python3 -m twine upload --verbose --repository testpypi --skip-existing dist/*
-```
+### Releasing the `oc_config_validate` PyPi package
+
+1. Create a cleared virtual environment with `virtualenv --clear <name>` and activate it with `source <name>/bin/activate`.
+1. Install the `build` and `twine` packages with `pip3 install build twine`.
+1. Call `python3 -m build` to build the packages.
+1. Verify that the package installs correctly, with `pip3 install dist/oc_config_validate-<version>.tar.gz` and `pip3 show oc_config_validate`.
+1. Verify that the package runs correctly, with `python3 -I -m oc_config_validate --version`.
+1. Upload the latest packages to TestPyPi with `python3 -m twine upload --verbose --repository testpypi --skip-existing dist/*`.
+
+### Releasing the `oc_config_validate` Docker images
+
+The Docker images take the latest code from the `master` branch of the Git repository.
+
+1. Create a Docker Image for the latest version of `oc_config_validate`, tagged with the version number and `latest`.
+
+   ```
+   cd oc_config_validate/docker
+   sudo docker build --no-cache -t joseignaciotamayo/oc_config_validate:<version> -t joseignaciotamayo/oc_config_validate:latest .
+   ```
+
+1. Verify that the docker container runs with `sudo docker run joseignaciotamayo/oc_config_validate:latest`.
+
+1. Push the Docker Images for with both tags
+
+   ```
+   sudo docker push joseignaciotamayo/oc_config_validate:<version>
+   sudo docker push joseignaciotamayo/oc_config_validate:latest
+   ```
+
