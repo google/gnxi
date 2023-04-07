@@ -211,17 +211,9 @@ def fixSubifIndex(json_value: dict):
         'index'] = int(index)
 
 
-def getOcModelsVersions() -> List[str]:
-    """Returns a list of the OC models versions used.
-
-     Returns an empty list if unable to read the models/versions file.
-     """
-    versions_file = os.path.join(
-        models.__path__[0], "versions")  # pytype: disable=unsupported-operands
-    if os.path.isfile(versions_file):
-        with open(versions_file) as f:
-            return [line.strip() for line in f]
-    return []
+def getOcModelsVersions() -> str:
+    """Returns a multi-line string of the OC models versions used."""
+    return models.__model_versions__.strip()
 
 
 def ocLeafsPaths(model: str, xpath: str) -> List[str]:

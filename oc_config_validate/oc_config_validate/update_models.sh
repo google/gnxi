@@ -27,6 +27,8 @@ rm -fr ${MODELS_FOLDER}/*
 touch ${MODELS_FOLDER}/__init__.py
 git clone --depth 1 https://github.com/openconfig/public.git --branch "v1.0.0" --config "advice.detachedHead=false" "$MODELS_FOLDER/public"
 
+echo -n "__model_versions__ = \"\"\"" > ${MODELS_FOLDER}/__init__.py
+
 for m in $( ls -d ${MODELS_PATH}/*/ ); do
   MODELS=$(find $m -name openconfig-*.yang)
   MODEL_NAME=$(basename $m | tr "-" "_")
@@ -39,7 +41,9 @@ for m in $( ls -d ${MODELS_PATH}/*/ ); do
   pyang -W none --plugindir $PYBINDPLUGIN -f pybind \
     --path "$MODELS_PATH/" --output "$MODELS_FOLDER/${MODEL_NAME}.py" ${MODELS}
   pyang -W none --plugindir $PYBINDPLUGIN -f name --name-print-revision \
-  --path "$MODELS_PATH/" ${MODELS} >> ${MODELS_FOLDER}/versions
+  --path "$MODELS_PATH/" ${MODELS} >> ${MODELS_FOLDER}/__init__.py
 done
+
+echo -n "\"\"\"" >> ${MODELS_FOLDER}/__init__.py
 
 rm -rf "$MODELS_FOLDER/public"
