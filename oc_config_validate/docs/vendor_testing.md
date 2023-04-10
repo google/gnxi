@@ -30,7 +30,7 @@ It is expected that with different software releases or hardware, the test plans
 
 Since OpenConfig models change over time – it is important to keep up-to-date with the latest models.  As OC models can change and include non-backwards compatible changes, it is important that devices adhere to schema.
 
-The OpenConfig models release versioning and release timing is described [here](https://github.com/openconfig/public/blob/master/doc/releases.md).  The oc\_config\_validate PyPi package uses the latest models bindings at the time of release.  Running `oc\_config\_validate -models` prints the OpenConfig models versions used.  Optionally,  custom model bindings can be generated when running oc\_config\_generate from source, to use specific OC models versions  – read more about updating model bindings or using custom models [here](https://github.com/google/gnxi/blob/master/oc_config_validate/docs/oc_models.md#openconfig-oc-models).
+The OpenConfig models release versioning and release timing is described [here](https://github.com/openconfig/public/blob/master/doc/releases.md).  The oc\_config\_validate PyPi package uses the latest models bindings at the time of release.  Running `oc_config_validate -models` prints the OpenConfig models versions used.  Optionally,  custom model bindings can be generated when running oc\_config\_generate from source, to use specific OC models versions  – read more about updating model bindings or using custom models [here](https://github.com/google/gnxi/blob/master/oc_config_validate/docs/oc_models.md#openconfig-oc-models).
 
 
 ### Integrate oc\_config\_validate into QA pipeline
@@ -49,7 +49,7 @@ Having the same point of reference, and sharing the results helps to create bett
 
 1. Disclose any issues found during testing
 2. Share a raw results.json that is representative of the state of the tests
-    1. If using multiple tests files (\*.yaml), share each results.json file for the given test .yaml file
+    1. If using multiple tests files (\*.yaml), share each results.json file for the given test.yaml file
 3. Provide all initial configuration files (init\_configs/\*.json) used as part of the tests
 4. Share all test files (\*.yaml)
     2. This should include all tests run.  If using customer-provided test files, inform the customer of any alterations to the tests and share the updated files back.
@@ -60,20 +60,14 @@ A possible approach for vendors is to create a small directory structure per cus
 ```
 
 /customer1
-
-  ./tests/\*.yaml
-
-  ./init\_configs/\*.json
-
-  ./results/\*.json
+  ./tests/*.yaml
+  ./init_configs/*.json
+  ./results/*.json
 
 /customer2
-
-  ./tests/\*.yaml
-
-  ./init\_configs/\*.json
-
-  ./results/\*.json
+  ./tests/*.yaml
+  ./init_configs/*.json
+  ./results/*.json
 
  ```
 
