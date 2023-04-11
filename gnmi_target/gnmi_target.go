@@ -79,6 +79,17 @@ func (s *server) Set(ctx context.Context, req *pb.SetRequest) (*pb.SetResponse, 
 	return s.Server.Set(ctx, req)
 }
 
+// Set overrides the Subscribe func of gnmi.Target to provide user auth.
+func (s *server) Subscribe(stream pb.GNMI_SubscribeServer) error {
+	msg, ok := credentials.AuthorizeUser(stream.Context())
+	if !ok {
+		log.Infof("denied a Subscribe request: %v", msg)
+		return status.Error(codes.PermissionDenied, msg)
+	}
+	log.Infof("allowed a Subscribe request: %v", msg)
+	return s.Server.Subscribe(stream)
+}
+
 func main() {
 	model := gnmi.NewModel(modeldata.ModelData,
 		reflect.TypeOf((*gostruct.Device)(nil)),

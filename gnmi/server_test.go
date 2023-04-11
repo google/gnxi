@@ -16,20 +16,27 @@ limitations under the License.
 package gnmi
 
 import (
+	"context"
 	"encoding/json"
+	"errors"
 	"reflect"
 	"testing"
+	"time"
 
 	"github.com/golang/protobuf/proto"
+	"github.com/openconfig/gnmi/coalesce"
 	"github.com/openconfig/gnmi/value"
 	"github.com/openconfig/ygot/ygot"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"google.golang.org/protobuf/testing/protocmp"
 
 	pb "github.com/openconfig/gnmi/proto/gnmi"
 
 	"github.com/google/gnxi/gnmi/modeldata"
 	"github.com/google/gnxi/gnmi/modeldata/gostruct"
+	"github.com/google/go-cmp/cmp"
+	"github.com/google/go-cmp/cmp/cmpopts"
 )
 
 var (
@@ -1158,4 +1165,331 @@ func runTestSet(t *testing.T, m *Model, tc gnmiSetTestCase) {
 	if !reflect.DeepEqual(gotConfigJSON, wantConfigJSON) {
 		t.Fatalf("got server config %v\nwant: %v", gotConfigJSON, wantConfigJSON)
 	}
+}
+
+func TestSubscribeOnce(t *testing.T) {
+	jsonConfigRoot := `{
+		"openconfig-system:system": {
+			"openconfig-openflow:openflow": {
+				"agent": {
+					"state": {
+						"failure-mode": "SECURE",
+						"max-backoff": 10
+					}
+				}
+			}
+		},
+	"openconfig-platform:components": {
+	    "component": [
+	      {
+	        "state": {
+			  "oper-status": "ACTIVE"
+	        },
+	        "name": "swpri1-1-1",
+			"config": {
+				"name": "swpri1-1-1"
+			}
+	      },
+		  {
+	        "state": {
+			  "oper-status": "INACTIVE"
+	        },
+	        "name": "swpri2-2-2",
+			"config": {
+				"name": "swpri2-2-2"
+			}
+	      }
+	    ]
+	}
+}`
+	pathAgentState := &pb.Path{
+		Elem: []*pb.PathElem{
+			&pb.PathElem{Name: "system"},
+			&pb.PathElem{Name: "openflow"},
+			&pb.PathElem{Name: "agent"},
+			&pb.PathElem{Name: "state"},
+		}}
+	pathAgentFailureMode := proto.Clone(pathAgentState).(*pb.Path)
+	pathAgentFailureMode.Elem = append(pathAgentFailureMode.Elem, &pb.PathElem{Name: "failure-mode"})
+	pathAgentMaxBackoff := proto.Clone(pathAgentState).(*pb.Path)
+	pathAgentMaxBackoff.Elem = append(pathAgentMaxBackoff.Elem, &pb.PathElem{Name: "max-backoff"})
+	pathAgentFoo := proto.Clone(pathAgentState).(*pb.Path)
+	pathAgentFoo.Elem = append(pathAgentMaxBackoff.Elem, &pb.PathElem{Name: "foo"})
+	pathComponentSw1State := &pb.Path{
+		Elem: []*pb.PathElem{
+			&pb.PathElem{Name: "components"},
+			&pb.PathElem{Name: "component", Key: map[string]string{"name": "swpri1-1-1"}},
+			&pb.PathElem{Name: "state"},
+		}}
+	pathComponentSw2Oper := &pb.Path{
+		Elem: []*pb.PathElem{
+			&pb.PathElem{Name: "components"},
+			&pb.PathElem{Name: "component", Key: map[string]string{"name": "swpri2-2-2"}},
+			&pb.PathElem{Name: "state"},
+			&pb.PathElem{Name: "oper-status"},
+		}}
+	pathComponentSw3State := &pb.Path{
+		Elem: []*pb.PathElem{
+			&pb.PathElem{Name: "components"},
+			&pb.PathElem{Name: "component", Key: map[string]string{"name": "swpri3-3-3"}},
+			&pb.PathElem{Name: "state"},
+		}}
+	pathComponentStartOper := &pb.Path{
+		Elem: []*pb.PathElem{
+			&pb.PathElem{Name: "components"},
+			&pb.PathElem{Name: "component", Key: map[string]string{"name": "*"}},
+			&pb.PathElem{Name: "state"},
+			&pb.PathElem{Name: "oper-status"},
+		}}
+	pathComponentStartState := proto.Clone(pathComponentStartOper).(*pb.Path)
+	pathComponentStartState.Elem = pathComponentStartState.Elem[:len(pathComponentStartState.Elem)-1]
+	pathComponentSw1Oper := proto.Clone(pathComponentSw1State).(*pb.Path)
+	pathComponentSw1Oper.Elem = append(pathComponentSw1Oper.Elem, &pb.PathElem{Name: "oper-status"})
+	pathComponentSw1Star := proto.Clone(pathComponentSw1State).(*pb.Path)
+	pathComponentSw1Star.Elem[len(pathComponentSw1Star.Elem)-1].Name = "*"
+
+	s, err := NewServer(model, []byte(jsonConfigRoot), nil)
+	if err != nil {
+		t.Fatalf("error in creating server: %v", err)
+	}
+
+	tests := []struct {
+		desc          string
+		subscriptions []*pb.Subscription
+		pathPrefix    *pb.Path
+		updatesOnly   bool
+		wantError     error
+		wantUpdates   []*pb.Update
+	}{{
+		desc: "Subscribe to leaf node",
+		subscriptions: []*pb.Subscription{
+			&pb.Subscription{
+				Path: pathAgentFailureMode}},
+		wantUpdates: []*pb.Update{
+			&pb.Update{
+				Path: pathAgentFailureMode,
+				Val: &pb.TypedValue{
+					Value: &pb.TypedValue_StringVal{StringVal: "SECURE"}}},
+		},
+	}, {
+		desc: "Subscribe to multiple leaf nodes",
+		subscriptions: []*pb.Subscription{
+			&pb.Subscription{
+				Path: pathAgentFailureMode},
+			&pb.Subscription{
+				Path: pathAgentMaxBackoff}},
+		wantUpdates: []*pb.Update{
+			&pb.Update{
+				Path: pathAgentFailureMode,
+				Val: &pb.TypedValue{
+					Value: &pb.TypedValue_StringVal{StringVal: "SECURE"}}},
+			&pb.Update{
+				Path: pathAgentMaxBackoff,
+				Val:  &pb.TypedValue{Value: &pb.TypedValue_UintVal{UintVal: uint64(10)}}},
+		},
+	}, {
+		desc: "Subscribe to container node",
+		subscriptions: []*pb.Subscription{
+			&pb.Subscription{
+				Path: pathAgentState}},
+		wantUpdates: []*pb.Update{
+			&pb.Update{
+				Path: pathAgentFailureMode,
+				Val: &pb.TypedValue{
+					Value: &pb.TypedValue_StringVal{StringVal: "SECURE"}}},
+			&pb.Update{
+				Path: pathAgentMaxBackoff,
+				Val:  &pb.TypedValue{Value: &pb.TypedValue_UintVal{UintVal: uint64(10)}}},
+		},
+	}, {
+		desc: "Subscribe to container and leaf nodes",
+		subscriptions: []*pb.Subscription{
+			&pb.Subscription{
+				Path: pathAgentState},
+			&pb.Subscription{
+				Path: pathAgentFailureMode,
+			},
+		},
+		wantUpdates: []*pb.Update{
+			&pb.Update{
+				Path: pathAgentFailureMode,
+				Val: &pb.TypedValue{
+					Value: &pb.TypedValue_StringVal{StringVal: "SECURE"}}},
+			&pb.Update{
+				Path: pathAgentFailureMode,
+				Val: &pb.TypedValue{
+					Value: &pb.TypedValue_StringVal{StringVal: "SECURE"}}},
+			&pb.Update{
+				Path: pathAgentMaxBackoff,
+
+				Val: &pb.TypedValue{Value: &pb.TypedValue_UintVal{UintVal: uint64(10)}}},
+		},
+	}, {
+		desc:       "Subscribe with prefix",
+		pathPrefix: pathAgentState,
+		subscriptions: []*pb.Subscription{
+			&pb.Subscription{
+				Path: &pb.Path{Elem: []*pb.PathElem{&pb.PathElem{Name: "failure-mode"}}}}},
+		wantUpdates: []*pb.Update{
+			&pb.Update{
+				Path: pathAgentFailureMode,
+				Val: &pb.TypedValue{
+					Value: &pb.TypedValue_StringVal{StringVal: "SECURE"}}},
+		},
+	}, {
+		desc: "Subscribe to keyed path",
+		subscriptions: []*pb.Subscription{
+			&pb.Subscription{
+				Path: pathComponentSw1Oper}},
+		wantUpdates: []*pb.Update{
+			&pb.Update{
+				Path: pathComponentSw1Oper,
+				Val: &pb.TypedValue{
+					Value: &pb.TypedValue_StringVal{StringVal: "ACTIVE"}}},
+		},
+	}, {
+		desc: "Subscribe to leaf node with wildcard key",
+		subscriptions: []*pb.Subscription{
+			&pb.Subscription{
+				Path: pathComponentStartOper}},
+		wantUpdates: []*pb.Update{
+			&pb.Update{
+				Path: pathComponentSw1Oper,
+				Val: &pb.TypedValue{
+					Value: &pb.TypedValue_StringVal{StringVal: "ACTIVE"}}},
+			&pb.Update{
+				Path: pathComponentSw2Oper,
+				Val: &pb.TypedValue{
+					Value: &pb.TypedValue_StringVal{StringVal: "INACTIVE"}}},
+		},
+	}, {
+		desc: "Subscribe to container node with wildcard key",
+		subscriptions: []*pb.Subscription{
+			&pb.Subscription{
+				Path: pathComponentStartState}},
+		wantUpdates: []*pb.Update{
+			&pb.Update{
+				Path: pathComponentSw1Oper,
+				Val: &pb.TypedValue{
+					Value: &pb.TypedValue_StringVal{StringVal: "ACTIVE"}}},
+			&pb.Update{
+				Path: pathComponentSw2Oper,
+				Val: &pb.TypedValue{
+					Value: &pb.TypedValue_StringVal{StringVal: "INACTIVE"}}},
+		},
+	}, {
+		desc: "Subscribe to wildcard path element",
+		subscriptions: []*pb.Subscription{
+			&pb.Subscription{
+				Path: pathComponentSw1Star}},
+		wantError: status.Errorf(codes.InvalidArgument, "No match found for path elem: <name: *>"),
+	}, {
+		desc:          "Subscribe to not-found path",
+		subscriptions: []*pb.Subscription{&pb.Subscription{Path: pathAgentFoo}},
+		wantError:     status.Errorf(codes.NotFound, "path %v not found", pathAgentFoo),
+	}, {
+		desc:          "Subscribe to not-found key",
+		subscriptions: []*pb.Subscription{&pb.Subscription{Path: pathComponentSw3State}},
+		wantError:     status.Errorf(codes.NotFound, "path %v not found", pathComponentSw3State),
+	}, {
+		desc:          "Subscribe to updates only",
+		subscriptions: []*pb.Subscription{&pb.Subscription{Path: pathAgentState}},
+		updatesOnly:   true,
+	}}
+
+	for _, test := range tests {
+		t.Run(test.desc, func(t *testing.T) {
+			runTestSubscribeOnce(t, s, test.subscriptions, test.pathPrefix, test.wantError, test.wantUpdates, test.updatesOnly)
+		})
+	}
+}
+
+// runTestSubscribeOnce requests a ONCE subscription to a path, and compares the returned Updates.
+func runTestSubscribeOnce(t *testing.T, s *Server, subscribptions []*pb.Subscription, pathPrefix *pb.Path, wantError error, wantUpdates []*pb.Update, updatesOnly bool) {
+
+	req := &pb.SubscribeRequest{
+		Request: &pb.SubscribeRequest_Subscribe{
+			Subscribe: &pb.SubscriptionList{
+				Prefix:       pathPrefix,
+				Mode:         pb.SubscriptionList_ONCE,
+				UpdatesOnly:  updatesOnly,
+				Subscription: subscribptions,
+			},
+		},
+	}
+
+	errC := make(chan error)
+	defer close(errC)
+	msgQ := coalesce.NewQueue()
+	c := &streamClient{sr: req, stream: nil, errC: errC, msgQ: msgQ}
+
+	go s.doOnceSubscription(c)
+	go func() {
+		for {
+			time.Sleep(time.Second)
+			if msgQ.IsClosed() {
+				errC <- nil
+				return
+			}
+		}
+	}()
+
+	gotErr := <-errC
+	if gotErr != nil && wantError == nil {
+		t.Fatalf("got a error, wanted nil: %v", gotErr)
+	}
+	if wantError != nil {
+		if gotErr == nil {
+			t.Fatalf("wanted an error, got nil: %v", wantError)
+		}
+		if errors.Is(gotErr, wantError) {
+			t.Fatalf("wanted error: %v, got error: %v", wantError, gotErr)
+		}
+		return
+	}
+
+	// Check response value
+	gotSync := false
+	var gotUpdates []*pb.Update
+	for {
+		msg, _, err := c.msgQ.Next(context.Background())
+		if err != nil {
+			if coalesce.IsClosedQueue(err) {
+				break
+			} else {
+				t.Fatalf("Error getting message from the queue: %v", err)
+			}
+		}
+
+		if _, ok := msg.(subscribeSyncToken); ok {
+			gotSync = true
+			continue
+		}
+
+		n, ok := msg.(*pb.Notification)
+		if !ok || n == nil {
+			t.Fatalf("invalid message in queue: %v", msg)
+		}
+		gotUpdates = n.GetUpdate()
+	}
+
+	if diff := cmp.Diff(gotUpdates, wantUpdates, protocmp.Transform(), cmpopts.SortSlices(updateLess)); diff != "" {
+		t.Errorf("Updates diff:\n%v", diff)
+	}
+	if !gotSync {
+		t.Errorf("did not receive sync_response message")
+	}
+}
+
+// updateLess compares 2 Update messages by the string comparison of their Paths.
+func updateLess(a, b *pb.Update) bool {
+	pathA, err := ygot.PathToString(a.GetPath())
+	if err != nil {
+		return false
+	}
+	pathB, err := ygot.PathToString(b.GetPath())
+	if err != nil {
+		return true
+	}
+	return pathA < pathB
 }
