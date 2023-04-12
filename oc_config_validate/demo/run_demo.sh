@@ -65,9 +65,12 @@ start_oc_config_validate() {
     if [[ "$VERBOSE" -eq 1 ]]; then
         OPTS="$OPTS --verbose"
     fi
-    echo "--- Start oc_config_validate $OPTS"
-    PYTHONPATH="$PYTHONPATH:${BASEDIR}/.." python3 -m oc_config_validate --target "localhost:$1" --tests_file $BASEDIR/tests.yaml --results_file $BASEDIR/results.json --init_config_file $BASEDIR/init_config.json --init_config_xpath "/system/config" --target_cert_as_root_ca $OPTS
-
+    for t in config telemetry; do
+      echo
+      echo "--- Run oc_config_validate $OPTS for $t"
+      echo
+      PYTHONPATH="$PYTHONPATH:${BASEDIR}/.." python3 -m oc_config_validate --target "localhost:$1" --tests_file $BASEDIR/${t}_tests.yaml --results_file $BASEDIR/${t}_results.json --init_config_file $BASEDIR/init_config.json --init_config_xpath "/system/config" --target_cert_as_root_ca $OPTS
+    done
   }
 
 parse_options() {
@@ -120,7 +123,10 @@ main() {
         fi
         if [[ ! -f ${BASEDIR}/gnmi_target ]]; then
             echo "--- Building gNMI TARGET"
-            build_gnmi_target
+            if ! build_gnmi_target; then
+              echo "ERR: Unable to build gnmi_target"
+              return 1
+            fi
         fi
 
         start_gnmi_target "${GNMI_PORT}"

@@ -1,0 +1,111 @@
+{
+  "test_target": "localhost:9339",
+  "description": "Example of test profile for oc_config_validator",
+  "labels": [
+    "FOO",
+    "BAR"
+  ],
+  "start_time_sec": 1681289933.8597178,
+  "end_time_sec": 1681289933.956127,
+  "results": [
+    {
+      "test_name": "Subscribe ONCE to System String values",
+      "success": true,
+      "duration_sec": 0,
+      "results": [
+        {
+          "test_case": "test100",
+          "test_class": "CountUpdatesCheckType",
+          "test_module": "oc_config_validate.testcases",
+          "start_time_sec": 1681289933,
+          "duration_sec": 0,
+          "result": "PASS",
+          "log": ""
+        }
+      ]
+    },
+    {
+      "test_name": "Subscribe ONCE to AAA State",
+      "success": true,
+      "duration_sec": 0,
+      "results": [
+        {
+          "test_case": "test100",
+          "test_class": "CheckLeafs",
+          "test_module": "oc_config_validate.testcases",
+          "start_time_sec": 1681289933,
+          "duration_sec": 0,
+          "result": "PASS",
+          "log": ""
+        }
+      ]
+    },
+    {
+      "test_name": "Subscribe ONCE to all Interfaces oper-status",
+      "success": true,
+      "duration_sec": 0,
+      "results": [
+        {
+          "test_case": "test100",
+          "test_class": "CountUpdatesCheckType",
+          "test_module": "oc_config_validate.testcases",
+          "start_time_sec": 1681289933,
+          "duration_sec": 0,
+          "result": "PASS",
+          "log": ""
+        }
+      ]
+    },
+    {
+      "test_name": "Bad - 2 Notifications expected",
+      "success": false,
+      "duration_sec": 0,
+      "results": [
+        {
+          "test_case": "test100",
+          "test_class": "CountUpdatesCheckType",
+          "test_module": "oc_config_validate.testcases",
+          "start_time_sec": 1681289933,
+          "duration_sec": 0,
+          "result": "FAIL",
+          "log": "\n Traceback (most recent call last):\n  File \"/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testcases/telemetry_once.py\", line 63, in test100\n    self.subscribeOnce()\n  File \"/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testcases/telemetry_once.py\", line 41, in subscribeOnce\n    self.assertEqual(\nAssertionError: 1 != 2 : Expected 2 notifications, got 1\n"
+        }
+      ]
+    },
+    {
+      "test_name": "Bad - Expected Boolean value",
+      "success": false,
+      "duration_sec": 0,
+      "results": [
+        {
+          "test_case": "test100",
+          "test_class": "CountUpdatesCheckType",
+          "test_module": "oc_config_validate.testcases",
+          "start_time_sec": 1681289933,
+          "duration_sec": 0,
+          "result": "FAIL",
+          "log": "\n Traceback (most recent call last):\n  File \"/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testcases/telemetry_once.py\", line 73, in test100\n    self.assertTrue(\nAssertionError: False is not true : Value of Update /interfaces/interface[name=mgmt]/state/enabled is not of type string_val: bool_val: true\n\n"
+        }
+      ]
+    },
+    {
+      "test_name": "Bad - Expected 3 Updates",
+      "success": false,
+      "duration_sec": 0,
+      "results": [
+        {
+          "test_case": "test100",
+          "test_class": "CountUpdatesCheckType",
+          "test_module": "oc_config_validate.testcases",
+          "start_time_sec": 1681289933,
+          "duration_sec": 0,
+          "result": "FAIL",
+          "log": "\n Traceback (most recent call last):\n  File \"/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testcases/telemetry_once.py\", line 78, in test100\n    self.assertEqual(\nAssertionError: 3 != 1 : Expected 1 Updates, got: 3\n"
+        }
+      ]
+    }
+  ],
+  "tests_pass": 3,
+  "tests_total": 6,
+  "tests_fail": 3
+}
