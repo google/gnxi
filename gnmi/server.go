@@ -20,7 +20,6 @@ import (
 	"bytes"
 	"compress/gzip"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -52,6 +51,11 @@ var (
 	pbRootPath         = &pb.Path{}
 	supportedEncodings = []pb.Encoding{pb.Encoding_JSON, pb.Encoding_JSON_IETF}
 	subscribeSync      = &pb.SubscribeResponse{Response: &pb.SubscribeResponse_SyncResponse{SyncResponse: true}}
+)
+
+const (
+	maxStreamSampleInterval = 60 * time.Second
+	minStreamSampleInterval = 1 * time.Second
 )
 
 // Server struct maintains the data structure for device config and implements the interface of gnmi server. It supports Capabilities, Get, and Set APIs.
@@ -638,7 +642,7 @@ func (s *Server) InternalUpdate(fp func(config ygot.ValidatedGoStruct) error) er
 func (s *Server) Subscribe(stream pb.GNMI_SubscribeServer) error {
 	var err error
 
-	c := streamClient{stream: stream}
+	c := &streamClient{stream: stream}
 	c.sr, err = stream.Recv()
 
 	switch {
@@ -673,17 +677,43 @@ func (s *Server) Subscribe(stream pb.GNMI_SubscribeServer) error {
 
 	switch mode {
 	case pb.SubscriptionList_ONCE:
-		go func() {
-			s.doOnceSubscription(&c)
-		}()
+		go s.doOnceSubscription(c)
 	case pb.SubscriptionList_POLL:
 		return status.Error(codes.Unimplemented, "mode POLL is not implemented.")
 	case pb.SubscriptionList_STREAM:
-		return status.Error(codes.Unimplemented, "mode SAMPLE is not implemented.")
+
+		for _, sub := range c.sr.GetSubscribe().GetSubscription() {
+			// Check for only Sample subscriptions, with valid paths and interval value.
+			if mode := sub.GetMode(); mode != pb.SubscriptionMode_SAMPLE {
+				return status.Errorf(codes.Unimplemented, "subscription mode %v not implemented", mode)
+			}
+			interval := sub.GetSampleInterval()
+			if interval > uint64(maxStreamSampleInterval.Nanoseconds()) {
+				return status.Errorf(codes.InvalidArgument, "maximum supported sampling interval is %d", maxStreamSampleInterval)
+			}
+			if interval < uint64(minStreamSampleInterval.Nanoseconds()) && interval != 0 {
+				return status.Errorf(codes.InvalidArgument, "minumum supported sampling interval is %d", minStreamSampleInterval)
+			}
+			fullPath := sub.GetPath()
+			prefix := c.sr.GetSubscribe().GetPrefix()
+			if prefix != nil {
+				fullPath = gnmiFullPath(prefix, fullPath)
+			}
+			nodes, err := ytypes.GetNode(s.model.schemaTreeRoot, s.config, fullPath, &ytypes.GetHandleWildcards{})
+			if len(nodes) == 0 || err != nil || util.IsValueNil(nodes[0].Data) {
+				return status.Errorf(codes.InvalidArgument, "path %v not found: %v", fullPath, err)
+			}
+		}
+		// Closing the done channel makes the spawed subroutines exit.
+		done := make(chan bool)
+		defer close(done)
+		for _, sub := range c.sr.GetSubscribe().GetSubscription() {
+			go s.doSampleSubscription(c, sub, done)
+		}
 	default:
 		return status.Errorf(codes.InvalidArgument, "subscription mode %v not recognized", mode)
 	}
-	go s.doSendSubscriptionMsgs(&c)
+	go s.doSendSubscriptionMsgs(c)
 	return <-errC
 }
 
@@ -697,6 +727,55 @@ type streamClient struct {
 
 // subscribeSyncToken signals doSendSubscriptionMsgs to send subscribeSync.
 type subscribeSyncToken struct{}
+
+// doSampleSubscription processes a STREAM Sampling Subscription.
+// It pushes Notification message in the queue.
+// On error or when the channel is closed, this routine exits.
+func (s *Server) doSampleSubscription(c *streamClient, sub *pb.Subscription, done <-chan bool) {
+	prefix := c.sr.GetSubscribe().GetPrefix()
+	fullPath := sub.GetPath()
+	if prefix != nil {
+		fullPath = gnmiFullPath(prefix, fullPath)
+	}
+	if !c.sr.GetSubscribe().GetUpdatesOnly() {
+		n, err := s.subscriptionUpdates(fullPath)
+		if err != nil {
+			return
+		}
+		c.msgQ.Insert(n)
+	}
+	c.msgQ.Insert(subscribeSyncToken{})
+
+	updateInterval := time.Nanosecond * time.Duration(sub.GetSampleInterval())
+	if updateInterval == 0 {
+		updateInterval = minStreamSampleInterval
+	}
+	updateTicker := time.NewTicker(updateInterval)
+	defer updateTicker.Stop()
+	for {
+		select {
+		case <-updateTicker.C:
+			n, err := s.subscriptionUpdates(fullPath)
+			if err != nil {
+				return
+			}
+			c.msgQ.Insert(n)
+		case <-done:
+			return
+		}
+	}
+}
+
+// subscriptionUpdates returns a Notification message for the path.
+func (s *Server) subscriptionUpdates(fullPath *pb.Path) (*pb.Notification, error) {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	updates, err := s.updatesFromNode(fullPath)
+	return &pb.Notification{
+		Timestamp: time.Now().UnixNano(),
+		Update:    updates,
+	}, err
+}
 
 // doOnceSubscription processes a ONCE Subscription. It produces a single
 // Notification message for all subscribed paths.
@@ -733,20 +812,7 @@ func (s *Server) doOnceSubscription(c *streamClient) {
 // doSendSubscriptionMsgs monitors the message queue and sends
 // Subscription Responses to the client.
 func (s *Server) doSendSubscriptionMsgs(c *streamClient) {
-	subscribeTimeout := time.NewTimer(time.Second * 5)
-	subscribeTimeout.Stop()
-
-	// If a send doesn't occur within the timeout.
-	done := make(chan struct{})
-	defer close(done)
-	go func() {
-		select {
-		case <-subscribeTimeout.C:
-			c.errC <- errors.New("subscription timed out while sending")
-		case <-done:
-		}
-	}()
-
+	var response *pb.SubscribeResponse
 	for {
 		item, _, err := c.msgQ.Next(c.stream.Context())
 		if err != nil {
@@ -758,24 +824,19 @@ func (s *Server) doSendSubscriptionMsgs(c *streamClient) {
 			return
 		}
 		if _, ok := item.(subscribeSyncToken); ok {
-			if err = c.stream.Send(subscribeSync); err != nil {
-				c.errC <- err
+			response = subscribeSync
+		} else {
+			n, ok := item.(*pb.Notification)
+			if !ok || n == nil {
+				c.errC <- status.Errorf(codes.Internal, "invalid notification message: %v", item)
 				return
 			}
-			continue
+			response = &pb.SubscribeResponse{
+				Response: &pb.SubscribeResponse_Update{
+					Update: n,
+				},
+			}
 		}
-		n, ok := item.(*pb.Notification)
-		if !ok || n == nil {
-			c.errC <- status.Errorf(codes.Internal, "invalid notification message: %v", item)
-			return
-		}
-		response := &pb.SubscribeResponse{
-			Response: &pb.SubscribeResponse_Update{
-				Update: n,
-			},
-		}
-		subscribeTimeout.Reset(time.Second * 5)
-		defer subscribeTimeout.Stop()
 		err = c.stream.Send(response)
 		if err != nil {
 			c.errC <- err
