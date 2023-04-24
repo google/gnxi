@@ -1481,6 +1481,198 @@ func runTestSubscribeOnce(t *testing.T, s *Server, subscribptions []*pb.Subscrip
 	}
 }
 
+func TestSubscribeSample(t *testing.T) {
+	jsonConfigRoot := `{
+		"openconfig-system:system": {
+			"openconfig-openflow:openflow": {
+				"agent": {
+					"state": {
+						"failure-mode": "SECURE",
+						"max-backoff": 10
+					}
+				}
+			}
+		}
+}`
+	pathAgentState := &pb.Path{
+		Elem: []*pb.PathElem{
+			&pb.PathElem{Name: "system"},
+			&pb.PathElem{Name: "openflow"},
+			&pb.PathElem{Name: "agent"},
+			&pb.PathElem{Name: "state"},
+		}}
+	pathAgentFailureMode := proto.Clone(pathAgentState).(*pb.Path)
+	pathAgentFailureMode.Elem = append(pathAgentFailureMode.Elem, &pb.PathElem{Name: "failure-mode"})
+	pathAgentMaxBackoff := proto.Clone(pathAgentState).(*pb.Path)
+	pathAgentMaxBackoff.Elem = append(pathAgentMaxBackoff.Elem, &pb.PathElem{Name: "max-backoff"})
+	pathAgentFoo := proto.Clone(pathAgentState).(*pb.Path)
+	pathAgentFoo.Elem = append(pathAgentMaxBackoff.Elem, &pb.PathElem{Name: "foo"})
+
+	secsToNanoSecs := func(s int) uint64 { return uint64(s * 1000000000) }
+
+	s, err := NewServer(model, []byte(jsonConfigRoot), nil)
+	if err != nil {
+		t.Fatalf("error in creating server: %v", err)
+	}
+
+	tests := []struct {
+		desc              string
+		pathPrefix        *pb.Path
+		subscription      *pb.Subscription
+		timeout           time.Duration
+		updatesOnly       bool
+		wantUpdates       []*pb.Update
+		wantNotifications int
+	}{{
+		desc: "Single Sample Subscription",
+		subscription: &pb.Subscription{
+			Mode:           pb.SubscriptionMode_SAMPLE,
+			SampleInterval: secsToNanoSecs(1),
+			Path:           pathAgentFailureMode},
+		timeout:           time.Millisecond * 3500,
+		wantNotifications: 4,
+		wantUpdates: []*pb.Update{
+			&pb.Update{
+				Path: pathAgentFailureMode,
+				Val: &pb.TypedValue{
+					Value: &pb.TypedValue_StringVal{StringVal: "SECURE"}}},
+		},
+	}, {
+		desc: "Single Subscribe to Update Only with 0 interval",
+		subscription: &pb.Subscription{
+			Mode:           pb.SubscriptionMode_SAMPLE,
+			SampleInterval: 0,
+			Path:           pathAgentState},
+		timeout:           time.Millisecond * 3500,
+		wantNotifications: 3,
+		updatesOnly:       true,
+		wantUpdates: []*pb.Update{
+			&pb.Update{
+				Path: pathAgentFailureMode,
+				Val: &pb.TypedValue{
+					Value: &pb.TypedValue_StringVal{StringVal: "SECURE"}}},
+			&pb.Update{
+				Path: pathAgentMaxBackoff,
+				Val:  &pb.TypedValue{Value: &pb.TypedValue_UintVal{UintVal: uint64(10)}}},
+		},
+	}, {
+		desc:       "Subscribe with prefix",
+		pathPrefix: pathAgentState,
+		subscription: &pb.Subscription{
+			Mode:           pb.SubscriptionMode_SAMPLE,
+			SampleInterval: secsToNanoSecs(2),
+			Path:           &pb.Path{Elem: []*pb.PathElem{&pb.PathElem{Name: "failure-mode"}}}},
+		timeout:           time.Millisecond * 4500,
+		wantNotifications: 3,
+		wantUpdates: []*pb.Update{
+			&pb.Update{
+				Path: pathAgentFailureMode,
+				Val: &pb.TypedValue{
+					Value: &pb.TypedValue_StringVal{StringVal: "SECURE"}}},
+		},
+	}}
+
+	for _, test := range tests {
+		t.Run(test.desc, func(t *testing.T) {
+			runTestSubscribeSample(t, s, test.subscription, test.pathPrefix, test.updatesOnly, test.timeout, test.wantNotifications, test.wantUpdates)
+		})
+	}
+}
+
+// runTestSubscribeSample requests STREAM sampling subscription, and compares the returned Notifications.
+func runTestSubscribeSample(t *testing.T, s *Server, subscription *pb.Subscription, pathPrefix *pb.Path, updatesOnly bool, timeout time.Duration, wantNotifications int, wantUpdates []*pb.Update,
+) {
+	req := &pb.SubscribeRequest{
+		Request: &pb.SubscribeRequest_Subscribe{
+			Subscribe: &pb.SubscriptionList{
+				Prefix:       pathPrefix,
+				Mode:         pb.SubscriptionList_STREAM,
+				UpdatesOnly:  updatesOnly,
+				Subscription: []*pb.Subscription{subscription},
+			},
+		},
+	}
+
+	sampleInterval := subscription.GetSampleInterval()
+	if sampleInterval == 0 {
+		sampleInterval = uint64(minStreamSampleInterval.Nanoseconds())
+	}
+	interval := time.Nanosecond * time.Duration(sampleInterval)
+
+	errC := make(chan error)
+	doneC := make(chan bool)
+	defer close(errC)
+	msgQ := coalesce.NewQueue()
+	c := &streamClient{sr: req, stream: nil, errC: errC, msgQ: msgQ}
+
+	go s.doSampleSubscription(c, subscription, doneC)
+
+	time.Sleep(timeout)
+	close(doneC)
+	msgQ.Close()
+
+	gotNotifications := 0
+	lastNotificationTimestamp := int64(time.Now().UnixNano())
+
+	if !updatesOnly && wantNotifications > 0 {
+		msg, _, err := c.msgQ.Next(context.Background())
+		if err != nil {
+			t.Fatalf("Error getting initial Notification from the queue: %v", err)
+		}
+		n, ok := msg.(*pb.Notification)
+		if !ok || n == nil {
+			t.Fatalf("wanted Notification message in queue, got: %v", msg)
+		}
+		lastNotificationTimestamp = n.GetTimestamp()
+		gotNotifications = gotNotifications + 1
+		if diff := cmp.Diff(n.GetUpdate(), wantUpdates, protocmp.Transform(), cmpopts.SortSlices(updateLess)); diff != "" {
+			t.Errorf("Initial Notification Updates diff:\n%v", diff)
+		}
+	}
+
+	msg, _, err := c.msgQ.Next(context.Background())
+	if err != nil {
+		t.Fatalf("Error getting sync_response from the queue: %v", err)
+	}
+	if _, ok := msg.(subscribeSyncToken); !ok {
+		t.Fatalf("did not receive sync_response message")
+	}
+
+	for {
+		msg, _, err := c.msgQ.Next(context.Background())
+		if err != nil {
+			if coalesce.IsClosedQueue(err) {
+				break
+			} else {
+				t.Fatalf("Error getting Notifications from the queue: %v", err)
+			}
+		}
+
+		if _, ok := msg.(subscribeSyncToken); ok {
+			t.Fatalf("received unexpected sync_response message")
+		}
+
+		n, ok := msg.(*pb.Notification)
+		if !ok || n == nil {
+			t.Fatalf("wanted Notification message in queue, got: %v", msg)
+		}
+		gotNotifications = gotNotifications + 1
+		timeDiff := time.Nanosecond * time.Duration(n.GetTimestamp()-lastNotificationTimestamp)
+		lastNotificationTimestamp = n.GetTimestamp()
+		if (timeDiff - interval) > interval {
+			t.Errorf("Notification messages not within sampling interval: %v", timeDiff)
+		}
+		if diff := cmp.Diff(n.GetUpdate(), wantUpdates, protocmp.Transform(), cmpopts.SortSlices(updateLess)); diff != "" {
+			t.Errorf("Notification Updates diff:\n%v", diff)
+		}
+	}
+
+	if diff := cmp.Diff(wantNotifications, gotNotifications); diff != "" {
+		t.Errorf("wanted %d Notifications, got %d", wantNotifications, gotNotifications)
+	}
+
+}
+
 // updateLess compares 2 Update messages by the string comparison of their Paths.
 func updateLess(a, b *pb.Update) bool {
 	pathA, err := ygot.PathToString(a.GetPath())
