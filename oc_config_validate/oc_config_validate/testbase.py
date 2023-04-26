@@ -303,6 +303,49 @@ class TestCase(unittest.case.TestCase):
             logging.info(*msg)
         return resp
 
+    def gNMISubsStreamOnChange(
+            self,
+            xpath: str,
+            timeout: int,
+            sync_response_callback=None) -> Tuple[
+                Optional[List[gnmi_pb2.Notification]],
+                Optional[List[gnmi_pb2.Notification]]]:
+        """Subscribes on-change and returns the Notifications received.
+
+        It returns the Updates before and after receiving a sync_response.
+
+        All Updates received are accumulated up to when the channel is
+         closed (by server, by timeout or error).
+
+        Optionally, it calls a callback function when sync_response is
+          received.
+
+        Does not support heartbeat. nor OnlyUpdates (the initial update
+          is needed for value change comparison).
+
+        Args:
+            xpath: gNMI path to subscribe to.
+            timeout: Seconds to keep the gRPC channel open.
+            sync_response_callback: Function to call upon sync_response.
+
+        Returns:
+            2 Lists of gnmi_pb2.Notification objects received,
+              before and after sync_response.
+        """
+
+        try:
+            before, after = self.test_target.gNMISubsStreamOnChange(
+                xpath, timeout, sync_response_callback)
+        except Exception as err:
+            self.log("SubscribeOnChange(%s) <= Error: %s", xpath, err)
+            return None, None
+        if LOG_GNMI:
+            msg = ("gNMI SubscribeOnChange(%s) <= %s\n", xpath,
+                   schema.notificationsJsonString(before + after))
+            self.log(*msg)
+            logging.info(*msg)
+        return before, after
+
     @classmethod
     def insertArgs(cls, test: unittest.TestCase, args: Dict[str, Any]):
         """Insert test arguments to the test.

@@ -352,3 +352,77 @@ class TestTarget():
         request = schema.gNMISubscriptionStreamSampleRequest(
             [xpath], sample_interval)
         return self._gNMISubscribe(request, timeout=timeout)
+
+    def gNMISubsStreamOnChange(
+            self,
+            xpath: str,
+            timeout: int = 30,
+            sync_response_callback=None) -> Tuple[
+                List[gnmi_pb2.Notification],
+                List[gnmi_pb2.Notification]]:
+        """Subscribes on-change and returns the Notifications received.
+
+        It returns the Updates before and after receiving a sync_response.
+
+        All Updates received are accumulated up to when the channel is
+         closed (by server, by timeout or error).
+
+        Optionally, it calls a callback function when sync_response is
+          received.
+
+        Does not support heartbeat. nor OnlyUpdates (the initial update is
+          needed for value change comparison).
+
+        Args:
+            xpath: gNMI path to subscribe to.
+            timeout: Seconds to keep the gRPC channel open.
+            sync_response_callback: Function to call upon sync_response.
+
+        Returns:
+            2 Lists of gnmi_pb2.Notification objects received,
+              before and after sync_response.
+
+        Raises:
+            RpcError if unable to connect to Target.
+            ValueError if the SubscribeResponse is invalid.
+            GnmiError if no sync_response was received, when
+                check_sync_response.
+            BaseError if callback raised an Exception.
+        """
+        before = []
+        after = []
+        got_sync_response = False
+        request = schema.gNMISubscriptionStreamOnChangeRequest(
+            [xpath])
+        try:
+            for resp in self.stub.Subscribe(
+                    iter([request]), timeout=timeout,
+                    metadata=self._GnmiAuthMetadata()):
+                if resp.sync_response:
+                    got_sync_response = True
+                    if sync_response_callback is not None:
+                        try:
+                            sync_response_callback()
+                        except Exception as err:
+                            raise BaseError("Callback %s Exception",
+                                            sync_response_callback) from err
+                elif resp.update:
+                    if got_sync_response:
+                        after.append(resp.update)
+                    else:
+                        before.append(resp.update)
+                else:
+                    raise ValueError("Invalid SubscribeResponse %s" % resp)
+        except _MultiThreadedRendezvous as err:
+            if err.code() == grpc.StatusCode.DEADLINE_EXCEEDED:
+                return before, after
+            else:
+                raise RpcError(err) from err
+        except _InactiveRpcError as err:
+            raise RpcError(err) from err
+
+        if not got_sync_response:
+            raise schema.GnmiError(
+                "No Response with sync_response was received")
+
+        return before, after
