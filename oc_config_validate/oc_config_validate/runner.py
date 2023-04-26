@@ -125,7 +125,7 @@ def makeTestSuite(test_class_name: str,
     except TestClassError as err:
         logging.error(err)
         return None
-    suite = unittest.makeSuite(test_class,
+    suite = unittest.makeSuite(test_class,  # pytype: disable=wrong-arg-types
                                sortUsing=strCmp,
                                prefix='test',
                                suiteClass=testbase.TestSuite)
@@ -134,7 +134,7 @@ def makeTestSuite(test_class_name: str,
     return suite    # pytype: disable=bad-return-type
 
 
-def _getClassFromName(class_name: str) -> Optional[testbase.TestCase]:
+def _getClassFromName(class_name: str) -> testbase.TestCase:
     """Find a class type from a string.
 
     This method interprets the class_name as module.class
