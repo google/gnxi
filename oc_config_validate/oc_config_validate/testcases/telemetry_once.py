@@ -26,7 +26,8 @@ class SubsOnceTestCase(testbase.TestCase):
             self.assertXpath(xpath)
         self.now = int(time.time())
         self.responses = self.gNMISubsOnce(self.xpaths)
-        self.assertIsNotNone(self.responses, "No gNMI Subscribe response")
+        self.assertTrue(bool(self.responses),
+                        "No gNMI Subscribe response")
 
         if self.max_delay_secs:
             for n in self.responses:

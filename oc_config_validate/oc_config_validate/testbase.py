@@ -14,7 +14,6 @@ limitations under the License.
 
 """
 
-import collections
 import copy
 import json
 import logging
@@ -276,7 +275,7 @@ class TestCase(unittest.case.TestCase):
 
     def gNMISubsStreamSample(
             self, xpath: str, sample_interval: int, timeout: int) -> Optional[
-                Dict[str, List[Tuple[int, Any]]]]:
+            List[gnmi_pb2.Notification]]:
         """Send a gNMI Subscribe message, using STREAM SAMPLE mode.
 
         Gets all the Notification messages that came as response. It returns
@@ -289,7 +288,7 @@ class TestCase(unittest.case.TestCase):
                     updates.
 
         Returns:
-          A list of Tuples (timestamp, value) received, keyed by Update path.
+          A list of Notifications received, or None if error.
         """
         try:
             resp = self.test_target.gNMISubsStreamSample(
@@ -302,13 +301,7 @@ class TestCase(unittest.case.TestCase):
                    schema.notificationsJsonString(resp))
             self.log(*msg)
             logging.info(*msg)
-        stream_updates = collections.defaultdict(list)
-        for n in resp:
-            timestamp = n.timestamp
-            for u in n.update:
-                stream_updates[schema.pathToString(u.path)].append(
-                    (timestamp, schema.typedValueToPython(u.val)))
-        return stream_updates
+        return resp
 
     @classmethod
     def insertArgs(cls, test: unittest.TestCase, args: Dict[str, Any]):
