@@ -67,3 +67,39 @@ tests:
     - "interfaces/interface[name=*]/state/oper-status"
     values_type: string_val
     updates_count: 4
+  
+- !TestCase
+  name: "Subscribe SAMPLE to AAA State"
+  class_name: telemetry_sample.CheckLeafs
+  args:
+    xpath: "system/aaa/authentication/state"
+    model: system.openconfig_system
+    sample_interval: 2
+    sample_timeout: 7
+
+- !TestCase
+  name: "Subscribe SAMPLE to all Interfaces oper-status"
+  class_name: telemetry_sample.CountUpdates
+  args:
+    xpath: "interfaces/interface[name=*]/state/oper-status"
+    update_paths_count: 3
+    sample_interval: 2
+    sample_timeout: 7
+
+- !TestCase
+  name: "Bad - Wrong model"
+  class_name: telemetry_sample.CheckLeafs
+  args:
+    xpath: "interfaces/interface[name=mgmt]/state/enabled"
+    model: system.openconfig_system
+    sample_interval: 2
+    sample_timeout: 5
+    
+- !TestCase
+  name: "Bad - Expected 4 Update Paths"
+  class_name: telemetry_sample.CountUpdates
+  args:
+    xpath: "interfaces/interface[name=*]/state/oper-status"
+    sample_interval: 2
+    sample_timeout: 5
+    update_paths_count: 4
