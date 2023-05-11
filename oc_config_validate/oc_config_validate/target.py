@@ -199,11 +199,10 @@ class TestTarget():
             A gnmi_pb2.SetResponse object.
 
         Raises:
-            TypeError if the set_type is not valid.
             RpcError if unable to connect to Target.
         """
         if set_type.lower() not in ['delete', 'update', 'replace']:
-            raise TypeError('%s is not a valid gNMI Set type' % set_type)
+            raise RpcError('%s is not a valid gNMI Set type' % set_type)
 
         path = schema.parsePath(xpath)
         path_val = None
@@ -274,10 +273,6 @@ class TestTarget():
         Args:
             file_path: Path to a JSON file with the configuration to apply.
             xpath: gNMI xpath where to apply the configuration.
-
-        Raises:
-            IOError json.JSONDecodeError if unable to read and parse the file.
-            TargetError, GnmiError or XpathError if unable to set the config.
         """
         with open(file_path, encoding="utf8") as file:
             json_data = json.load(file)
@@ -285,8 +280,7 @@ class TestTarget():
 
     def _gNMISubscribe(self,
                        request: gnmi_pb2.SubscribeRequest,
-                       timeout: int = 30,
-                       check_sync_response: bool = False
+                       timeout: int = 30
                        ) -> List[gnmi_pb2.Notification]:
         """Subscribes up to a timeout, returns the Notifications received.
 
@@ -294,10 +288,8 @@ class TestTarget():
          closed (by server, by timeout or error).
 
         Args:
-            requests: gNMI Subscription requests to set.
+            request: gNMI Subscription request to set.
             timeout: Seconds to keep the gRPC channel open.
-            check_sync_response: If True, the method errors if no Update with
-              sync_response set.
 
         Returns:
             A list of gnmi_pb2.Notification objects received.
@@ -305,8 +297,7 @@ class TestTarget():
         Raises:
             RpcError if unable to connect to Target.
             ValueError if the SubscribeResponse is invalid.
-            GnmiError if no sync_response was received, when
-                check_sync_response.
+            GnmiError if no sync_response was received.
         """
 
         auth = self._GnmiAuthMetadata()
@@ -321,10 +312,6 @@ class TestTarget():
                     notifications.append(resp.update)
                 else:
                     raise ValueError("Invalid SubscribeResponse %s" % resp)
-            if check_sync_response and not got_sync_response:
-                raise schema.GnmiError(
-                    "No Response with sync_response was received")
-            return notifications
         except _MultiThreadedRendezvous as err:
             if err.code() == grpc.StatusCode.DEADLINE_EXCEEDED:
                 return notifications
@@ -332,6 +319,10 @@ class TestTarget():
                 raise RpcError(err) from err
         except _InactiveRpcError as err:
             raise RpcError(err) from err
+        if not got_sync_response:
+            raise schema.GnmiError(
+                "No Response with sync_response was received")
+        return notifications
 
     def gNMISubsOnce(self, xpaths: List[str]) -> List[gnmi_pb2.Notification]:
         """Subscribes using ONCE mode, returns the Notifications received.
@@ -357,7 +348,6 @@ class TestTarget():
 
         Returns:
             A list of gnmi_pb2.Notification objects received.
-
         """
         request = schema.gNMISubscriptionStreamSampleRequest(
             [xpath], sample_interval)

@@ -1,5 +1,7 @@
 """Test cases based on gNMI Subscribe SAMPLE requests."""
 
+import collections
+
 from oc_config_validate import schema, testbase
 
 SECS_TO_NSEC = 1000000000
@@ -45,11 +47,18 @@ class SubsSampleTestCase(testbase.TestCase):
         self.assertArgs(["xpath", "sample_interval", "sample_timeout"])
         self.assertXpath(self.xpath)
 
-        self.responses = self.gNMISubsStreamSample(
+        notifications = self.gNMISubsStreamSample(
             self.xpath,
             self.sample_interval * SECS_TO_NSEC,
             timeout=self.sample_timeout)
-        self.assertIsNotNone(self.responses, "No gNMI Subscribe response")
+        self.assertIsNotNone(notifications, "No gNMI Subscribe response")
+
+        self.responses = collections.defaultdict(list)
+        for n in notifications:
+            timestamp = n.timestamp
+            for u in n.update:
+                self.responses[schema.pathToString(u.path)].append(
+                    (timestamp, schema.typedValueToPython(u.val)))
 
         want = (self.sample_timeout // self.sample_interval) + 1
         if self.responses:

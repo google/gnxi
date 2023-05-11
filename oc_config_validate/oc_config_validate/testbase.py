@@ -14,7 +14,6 @@ limitations under the License.
 
 """
 
-import collections
 import copy
 import json
 import logging
@@ -140,8 +139,8 @@ class TestCase(unittest.case.TestCase):
         """
         try:
             resp = self.test_target.gNMIGet(xpath)
-        except target.RpcError as err:
-            self.log("Get(%s) <= gRCP Error: %s", xpath, err)
+        except Exception as err:
+            self.log("Get(%s) <= Error: %s", xpath, err)
             return None
         try:
             resp_val = resp.notification[0].update[0].val
@@ -222,8 +221,8 @@ class TestCase(unittest.case.TestCase):
             logging.info(*msg)
         try:
             self.test_target.gNMISetUpdate(xpath, value)
-        except target.RpcError as err:
-            self.log("Set(%s) <= gRCP Error: %s", xpath, err)
+        except Exception as err:
+            self.log("Set(%s) <= Error: %s", xpath, err)
             return False
         return True
 
@@ -245,14 +244,14 @@ class TestCase(unittest.case.TestCase):
             logging.info(*msg)
         try:
             self.test_target.gNMISetDelete(xpath)
-        except target.RpcError as err:
-            self.log("Set(%s) <= gRCP Error: %s", xpath, err)
+        except Exception as err:
+            self.log("Set(%s) <= Error: %s", xpath, err)
             return False
         return True
 
     def gNMISubsOnce(self, xpaths: List[str]) -> Optional[
             List[gnmi_pb2.Notification]]:
-        """Send a gNMI Subscribe message to the test's target, using ONCE mode.
+        """Send a gNMI Subscribe message using ONCE mode.
 
         Gets all the Notification messages that came as response.
 
@@ -264,11 +263,8 @@ class TestCase(unittest.case.TestCase):
         """
         try:
             resp = self.test_target.gNMISubsOnce(xpaths)
-        except target.RpcError as err:
-            self.log("SubscribeOnce(%s) <= gRCP Error: %s", xpaths, err)
-            return None
-        if not resp:
-            self.log("SubscribeOnce(%s) <= Empty response", xpaths)
+        except Exception as err:
+            self.log("SubscribeOnce(%s) <= Error: %s", xpaths, err)
             return None
         if LOG_GNMI:
             msg = ("gNMI SubscribeOnce(%s) <= %s", xpaths,
@@ -279,8 +275,8 @@ class TestCase(unittest.case.TestCase):
 
     def gNMISubsStreamSample(
             self, xpath: str, sample_interval: int, timeout: int) -> Optional[
-                Dict[str, List[Tuple[int, Any]]]]:
-        """Send a gNMI Subscribe message to the target, using STREAM mode.
+            List[gnmi_pb2.Notification]]:
+        """Send a gNMI Subscribe message, using STREAM SAMPLE mode.
 
         Gets all the Notification messages that came as response. It returns
             a dictionary of all the Updates, keyed by Update path.
@@ -292,31 +288,20 @@ class TestCase(unittest.case.TestCase):
                     updates.
 
         Returns:
-          A list of Tuples (timestamp,  value) received, keyed by Update path.
+          A list of Notifications received, or None if error.
         """
         try:
             resp = self.test_target.gNMISubsStreamSample(
                 xpath, sample_interval, timeout)
-        except target.RpcError as err:
-            self.log("SubscribeStream(%s) <= gRCP Error: %s", xpath, err)
+        except Exception as err:
+            self.log("SubscribeStream(%s) <= Error: %s", xpath, err)
             return None
-        if not resp:
-            self.log("SubscribeStream(%s) <= Empty response", xpath)
-            return None
-
         if LOG_GNMI:
             msg = ("gNMI SubscribeSample(%s) <= %s", xpath,
                    schema.notificationsJsonString(resp))
             self.log(*msg)
             logging.info(*msg)
-
-        stream_updates = collections.defaultdict(list)
-        for n in resp:
-            timestamp = n.timestamp
-            for u in n.update:
-                stream_updates[schema.pathToString(u.path)].append(
-                    (timestamp, schema.typedValueToPython(u.val)))
-        return stream_updates
+        return resp
 
     @classmethod
     def insertArgs(cls, test: unittest.TestCase, args: Dict[str, Any]):
@@ -352,8 +337,8 @@ class TestCase(unittest.case.TestCase):
             AssertionError if any argument is not in the class.
         """
         for arg in args:
-            self.assertTrue(bool(getattr(self, arg, None)),
-                            "Missing class argument: %s" % arg)
+            self.assertIsNotNone(getattr(self, arg, None),
+                                 "Missing class argument: %s" % arg)
 
     def assertJsonModel(self, json_value: Union[str, bytes],
                         model: PybindBase, msg: str):

@@ -446,4 +446,4 @@ against the Leafs of the model (all Update paths must match an OC model Leaf).
 Args:
  *  **xpath**: gNMI path to subscribe to.
     Can contain wildcards only in keys '*'.
-*  **model**: Python binding class to check the replies against.
+ *  **model**: Python binding class to check the replies against.
