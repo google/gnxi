@@ -499,3 +499,23 @@ def gNMISubscriptionStreamSampleRequest(
             sample_interval=sample_interval) for path in paths],
         mode=gnmi_pb2.SubscriptionList.STREAM,
         encoding=encoding))
+
+
+def gNMISubscriptionStreamOnChangeRequest(
+    xpaths: List[str],
+    encoding: str = 'JSON_IETF'
+) -> gnmi_pb2.SubscribeRequest:
+    """
+    Returns a gNMI Subscription STREAM ON_CHANGE request for the xpaths.
+
+    Args:
+        xpaths: gNMI xpaths to subscribe to.
+        encoding: Encoding requested for the Updates.
+    """
+    paths = [parsePath(xpath) for xpath in xpaths]
+    return gnmi_pb2.SubscribeRequest(subscribe=gnmi_pb2.SubscriptionList(
+        subscription=[gnmi_pb2.Subscription(
+            path=path,
+            mode=gnmi_pb2.SubscriptionMode.ON_CHANGE) for path in paths],
+        mode=gnmi_pb2.SubscriptionList.STREAM,
+        encoding=encoding))

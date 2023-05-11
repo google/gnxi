@@ -86,3 +86,41 @@ tests:
     sample_interval: 30
     sample_timeout: 70
     model: "wifi.openconfig_access_points"
+
+- !TestCase
+  name: "OnChange RADIUS Counters Accepts"
+  class_name: telemetry_onchange.Subscribe
+  args:
+    xpath: "/access-points/access-point[hostname=*]/system/aaa/server-groups/server-group[name=*]/servers/server[address=*]/radius/state/counters/access-accepts"
+    timeout_secs: 20
+
+- !TestCase
+  name: "OnChange Radios State Channel Utilization"
+  class_name: telemetry_onchange.Subscribe
+  args:
+    xpath: "/access-points/access-point[hostname=*]/radios/radio[id=*][operating-frequency=*]/state/total-channel-utilization"
+    timeout_secs: 40
+    assert_all_paths_updated: True 
+
+- !TestCase
+  name: "OnChange Clients MACs"
+  class_name: telemetry_onchange.Subscribe
+  args:
+    xpath: "/access-points/access-point[hostname=*]/ssids/ssid[name=*]/clients/client[mac=*]/state"
+    timeout_secs: 60
+
+- !TestCase
+  name: "OnChange SSID State Frequency"
+  class_name: telemetry_onchange.Subscribe
+  args:
+    xpath: "/access-points/access-point[hostname=*]/ssids/ssid[name=*]/state/operating-frequency"
+    timeout_secs: 60
+
+- !TestCase
+  name: "SSIDs Counters OnChange - Set OpMode"
+  class_name: telemetry_onchange.SubscribeAndSet
+  args:
+    xpath: "/access-points/access-point[hostname=*]/ssids/ssid[name=*]/bssids/bssid[radio-id=*][bssid=*]/state/counters"
+    set_xpath:  "/access-points/access-point[hostname=ap.test.com]/ssids/ssid[name=Test]/config/opmode"
+    set_value: "WPA3_ENTERPRISE"
+    timeout_secs: 20

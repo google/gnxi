@@ -447,3 +447,34 @@ Args:
  *  **xpath**: gNMI path to subscribe to.
     Can contain wildcards only in keys '*'.
  *  **model**: Python binding class to check the replies against.
+
+### Module telemetry_onchange
+
+Uses gNMI Subscribe messages, of type STREAM, mode ON_CHANGE.
+
+####  `telemetry_onchange.Subscribe`
+
+This test subscribes to a single gNMI xpath and collects Updates up to a timeout.
+
+It checks that all Updates for a path have a different value from the previous.
+
+Args:
+ *  **xpath**: gNMI path to subscribe to.
+ *  *timeout_secs*: Seconds to wait to receive an Update after Set. Defaults to 10.
+ *  *assert_all_paths_updated*: If True, it asserts that all paths in the initial Update message
+            had a change after. Defaults to False.
+
+####  `telemetry_onchange.SubscribeAndSet`
+
+This test subscribes to a single gNMI xpath, collects the initial Updates (until receiving sync_response).
+Then it issues a gNMI Set to cause a change, and collects Updates coming after, up to a timeout.
+
+It checks that all Updates after change match an initial Update and have a different value.
+
+Args:
+ *  **xpath**: gNMI path to subscribe to.
+ *  **set_xpath**: gNMI path to change.
+ *  **set_value**: Value to change to.
+ *  *timeout_secs*: Seconds to wait to receive an Update after Set. Defaults to 10.
+ *  *assert_all_paths_updated*: If True, it asserts that all paths in the initial Update message
+            had a change after. Defaults to False.
