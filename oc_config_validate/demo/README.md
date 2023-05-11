@@ -3,9 +3,9 @@
 1. It starts an instance of [gnmmi_target](../gnmi_target) with a sample
    configuration.
 
-1. It runs `oc_config_validate` with a [sample test file](demo/tests.yaml).
+1. It runs `oc_config_validate` with [sample test files](demo/*_tests.yaml).
 
-1. It writes the results to [a file](demo/results.json).
+1. It writes the results to [JSON file](demo/*_results.json).
 
 ## On Docker
 

@@ -1,0 +1,105 @@
+!TestContext
+description: Example of test profile for oc_config_validator
+
+labels:
+- FOO
+- BAR
+
+target:
+  !Target
+  target: "localhost:8080"
+  tls_host_override: "target.com"
+
+tests:
+
+- !TestCase
+  name: "Subscribe ONCE to System String values"
+  class_name: telemetry_once.CountUpdatesCheckType
+  args:
+    xpaths: 
+    - "system/state/hostname"
+    - "system/clock/state/timezone-name"
+    values_type: string_val
+    updates_count: 2
+    max_timestamp_drift_secs: 5
+  
+- !TestCase
+  name: "Subscribe ONCE to AAA State"
+  class_name: telemetry_once.CheckLeafs
+  args:
+    xpaths:
+    - "system/aaa/authentication/state"
+    model: system.openconfig_system
+
+- !TestCase
+  name: "Subscribe ONCE to all Interfaces oper-status"
+  class_name: telemetry_once.CountUpdatesCheckType
+  args:
+    xpaths:
+    - "interfaces/interface[name=*]/state/oper-status"
+    values_type: string_val
+    updates_count: 3
+
+- !TestCase
+  name: "Bad - 2 Notifications expected"
+  class_name: telemetry_once.CountUpdatesCheckType
+  args:
+    xpaths:
+    - "interfaces/interface[name=mgmt]/state/enabled"
+    values_type: bool_val
+    updates_count: 1
+    notifications_count: 2
+
+- !TestCase
+  name: "Bad - Expected Boolean value"
+  class_name: telemetry_once.CountUpdatesCheckType
+  args:
+    xpaths: 
+    - "interfaces/interface[name=mgmt]/state/enabled"
+    values_type: string_val
+    updates_count: 1
+
+- !TestCase
+  name: "Bad - Expected 4 Updates"
+  class_name: telemetry_once.CountUpdatesCheckType
+  args:
+    xpaths: 
+    - "interfaces/interface[name=*]/state/oper-status"
+    values_type: string_val
+    updates_count: 4
+  
+- !TestCase
+  name: "Subscribe SAMPLE to AAA State"
+  class_name: telemetry_sample.CheckLeafs
+  args:
+    xpath: "system/aaa/authentication/state"
+    model: system.openconfig_system
+    sample_interval: 2
+    sample_timeout: 7
+
+- !TestCase
+  name: "Subscribe SAMPLE to all Interfaces oper-status"
+  class_name: telemetry_sample.CountUpdates
+  args:
+    xpath: "interfaces/interface[name=*]/state/oper-status"
+    update_paths_count: 3
+    sample_interval: 2
+    sample_timeout: 7
+
+- !TestCase
+  name: "Bad - Wrong model"
+  class_name: telemetry_sample.CheckLeafs
+  args:
+    xpath: "interfaces/interface[name=mgmt]/state/enabled"
+    model: system.openconfig_system
+    sample_interval: 2
+    sample_timeout: 5
+    
+- !TestCase
+  name: "Bad - Expected 4 Update Paths"
+  class_name: telemetry_sample.CountUpdates
+  args:
+    xpath: "interfaces/interface[name=*]/state/oper-status"
+    sample_interval: 2
+    sample_timeout: 5
+    update_paths_count: 4
