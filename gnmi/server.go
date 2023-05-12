@@ -766,44 +766,23 @@ func (s *Server) doSampleSubscription(c *streamClient, sub *pb.Subscription, don
 	}
 }
 
-// subscriptionUpdates returns a Notification message for the path.
-func (s *Server) subscriptionUpdates(fullPath *pb.Path) (*pb.Notification, error) {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
-	updates, err := s.updatesFromNode(fullPath)
-	return &pb.Notification{
-		Timestamp: time.Now().UnixNano(),
-		Update:    updates,
-	}, err
-}
-
 // doOnceSubscription processes a ONCE Subscription. It produces a single
-// Notification message for all subscribed paths.
+// Notification message for each Subscription.
 func (s *Server) doOnceSubscription(c *streamClient) {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
-
-	var updates []*pb.Update
 	prefix := c.sr.GetSubscribe().GetPrefix()
-
 	if !c.sr.GetSubscribe().GetUpdatesOnly() {
 		for _, subscription := range c.sr.GetSubscribe().GetSubscription() {
 			fullPath := subscription.GetPath()
 			if prefix != nil {
 				fullPath = gnmiFullPath(prefix, fullPath)
 			}
-			updts, err := s.updatesFromNode(fullPath)
+			n, err := s.subscriptionUpdates(fullPath)
 			if err != nil {
 				c.errC <- err
 				return
 			}
-			updates = append(updates, updts...)
+			c.msgQ.Insert(n)
 		}
-		c.msgQ.Insert(
-			&pb.Notification{
-				Timestamp: time.Now().UnixNano(),
-				Update:    updates,
-			})
 	}
 	c.msgQ.Insert(subscribeSyncToken{})
 	c.msgQ.Close()
@@ -843,6 +822,17 @@ func (s *Server) doSendSubscriptionMsgs(c *streamClient) {
 			return
 		}
 	}
+}
+
+// subscriptionUpdates returns a Notification message for the path.
+func (s *Server) subscriptionUpdates(fullPath *pb.Path) (*pb.Notification, error) {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	updates, err := s.updatesFromNode(fullPath)
+	return &pb.Notification{
+		Timestamp: time.Now().UnixNano(),
+		Update:    updates,
+	}, err
 }
 
 // updatesFromNode returns a list of Update messages for the leaf nodes found,

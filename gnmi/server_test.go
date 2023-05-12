@@ -1254,23 +1254,24 @@ func TestSubscribeOnce(t *testing.T) {
 	}
 
 	tests := []struct {
-		desc          string
-		subscriptions []*pb.Subscription
-		pathPrefix    *pb.Path
-		updatesOnly   bool
-		wantError     error
-		wantUpdates   []*pb.Update
+		desc              string
+		subscriptions     []*pb.Subscription
+		pathPrefix        *pb.Path
+		updatesOnly       bool
+		wantError         error
+		wantNotifications []*pb.Notification
 	}{{
 		desc: "Subscribe to leaf node",
 		subscriptions: []*pb.Subscription{
 			&pb.Subscription{
 				Path: pathAgentFailureMode}},
-		wantUpdates: []*pb.Update{
-			&pb.Update{
-				Path: pathAgentFailureMode,
-				Val: &pb.TypedValue{
-					Value: &pb.TypedValue_StringVal{StringVal: "SECURE"}}},
-		},
+		wantNotifications: []*pb.Notification{
+			&pb.Notification{
+				Update: []*pb.Update{
+					&pb.Update{
+						Path: pathAgentFailureMode,
+						Val: &pb.TypedValue{
+							Value: &pb.TypedValue_StringVal{StringVal: "SECURE"}}}}}},
 	}, {
 		desc: "Subscribe to multiple leaf nodes",
 		subscriptions: []*pb.Subscription{
@@ -1278,105 +1279,114 @@ func TestSubscribeOnce(t *testing.T) {
 				Path: pathAgentFailureMode},
 			&pb.Subscription{
 				Path: pathAgentMaxBackoff}},
-		wantUpdates: []*pb.Update{
-			&pb.Update{
-				Path: pathAgentFailureMode,
-				Val: &pb.TypedValue{
-					Value: &pb.TypedValue_StringVal{StringVal: "SECURE"}}},
-			&pb.Update{
-				Path: pathAgentMaxBackoff,
-				Val:  &pb.TypedValue{Value: &pb.TypedValue_UintVal{UintVal: uint64(10)}}},
-		},
+		wantNotifications: []*pb.Notification{
+			&pb.Notification{
+				Update: []*pb.Update{
+					&pb.Update{
+						Path: pathAgentFailureMode,
+						Val: &pb.TypedValue{
+							Value: &pb.TypedValue_StringVal{StringVal: "SECURE"}}}}},
+			&pb.Notification{
+				Update: []*pb.Update{
+					&pb.Update{
+						Path: pathAgentMaxBackoff,
+						Val:  &pb.TypedValue{Value: &pb.TypedValue_UintVal{UintVal: uint64(10)}}}}}},
 	}, {
 		desc: "Subscribe to container node",
 		subscriptions: []*pb.Subscription{
 			&pb.Subscription{
 				Path: pathAgentState}},
-		wantUpdates: []*pb.Update{
-			&pb.Update{
-				Path: pathAgentFailureMode,
-				Val: &pb.TypedValue{
-					Value: &pb.TypedValue_StringVal{StringVal: "SECURE"}}},
-			&pb.Update{
-				Path: pathAgentMaxBackoff,
-				Val:  &pb.TypedValue{Value: &pb.TypedValue_UintVal{UintVal: uint64(10)}}},
-		},
+		wantNotifications: []*pb.Notification{
+			&pb.Notification{
+				Update: []*pb.Update{
+					&pb.Update{
+						Path: pathAgentFailureMode,
+						Val: &pb.TypedValue{
+							Value: &pb.TypedValue_StringVal{StringVal: "SECURE"}}},
+					&pb.Update{
+						Path: pathAgentMaxBackoff,
+						Val:  &pb.TypedValue{Value: &pb.TypedValue_UintVal{UintVal: uint64(10)}}}}}},
 	}, {
 		desc: "Subscribe to container and leaf nodes",
 		subscriptions: []*pb.Subscription{
 			&pb.Subscription{
 				Path: pathAgentState},
 			&pb.Subscription{
-				Path: pathAgentFailureMode,
-			},
+				Path: pathAgentFailureMode},
 		},
-		wantUpdates: []*pb.Update{
-			&pb.Update{
-				Path: pathAgentFailureMode,
-				Val: &pb.TypedValue{
-					Value: &pb.TypedValue_StringVal{StringVal: "SECURE"}}},
-			&pb.Update{
-				Path: pathAgentFailureMode,
-				Val: &pb.TypedValue{
-					Value: &pb.TypedValue_StringVal{StringVal: "SECURE"}}},
-			&pb.Update{
-				Path: pathAgentMaxBackoff,
-
-				Val: &pb.TypedValue{Value: &pb.TypedValue_UintVal{UintVal: uint64(10)}}},
-		},
+		wantNotifications: []*pb.Notification{
+			&pb.Notification{
+				Update: []*pb.Update{
+					&pb.Update{
+						Path: pathAgentFailureMode,
+						Val: &pb.TypedValue{
+							Value: &pb.TypedValue_StringVal{StringVal: "SECURE"}}},
+					&pb.Update{
+						Path: pathAgentMaxBackoff,
+						Val:  &pb.TypedValue{Value: &pb.TypedValue_UintVal{UintVal: uint64(10)}}}}},
+			&pb.Notification{
+				Update: []*pb.Update{
+					&pb.Update{
+						Path: pathAgentFailureMode,
+						Val: &pb.TypedValue{
+							Value: &pb.TypedValue_StringVal{StringVal: "SECURE"}}}}}},
 	}, {
 		desc:       "Subscribe with prefix",
 		pathPrefix: pathAgentState,
 		subscriptions: []*pb.Subscription{
 			&pb.Subscription{
 				Path: &pb.Path{Elem: []*pb.PathElem{&pb.PathElem{Name: "failure-mode"}}}}},
-		wantUpdates: []*pb.Update{
-			&pb.Update{
-				Path: pathAgentFailureMode,
-				Val: &pb.TypedValue{
-					Value: &pb.TypedValue_StringVal{StringVal: "SECURE"}}},
-		},
+		wantNotifications: []*pb.Notification{
+			&pb.Notification{
+				Update: []*pb.Update{
+					&pb.Update{
+						Path: pathAgentFailureMode,
+						Val: &pb.TypedValue{
+							Value: &pb.TypedValue_StringVal{StringVal: "SECURE"}}}}}},
 	}, {
 		desc: "Subscribe to keyed path",
 		subscriptions: []*pb.Subscription{
 			&pb.Subscription{
 				Path: pathComponentSw1Oper}},
-		wantUpdates: []*pb.Update{
-			&pb.Update{
-				Path: pathComponentSw1Oper,
-				Val: &pb.TypedValue{
-					Value: &pb.TypedValue_StringVal{StringVal: "ACTIVE"}}},
-		},
+		wantNotifications: []*pb.Notification{
+			&pb.Notification{
+				Update: []*pb.Update{
+					&pb.Update{
+						Path: pathComponentSw1Oper,
+						Val: &pb.TypedValue{
+							Value: &pb.TypedValue_StringVal{StringVal: "ACTIVE"}}}}}},
 	}, {
 		desc: "Subscribe to leaf node with wildcard key",
 		subscriptions: []*pb.Subscription{
 			&pb.Subscription{
 				Path: pathComponentStartOper}},
-		wantUpdates: []*pb.Update{
-			&pb.Update{
-				Path: pathComponentSw1Oper,
-				Val: &pb.TypedValue{
-					Value: &pb.TypedValue_StringVal{StringVal: "ACTIVE"}}},
-			&pb.Update{
-				Path: pathComponentSw2Oper,
-				Val: &pb.TypedValue{
-					Value: &pb.TypedValue_StringVal{StringVal: "INACTIVE"}}},
-		},
+		wantNotifications: []*pb.Notification{
+			&pb.Notification{
+				Update: []*pb.Update{
+					&pb.Update{
+						Path: pathComponentSw1Oper,
+						Val: &pb.TypedValue{
+							Value: &pb.TypedValue_StringVal{StringVal: "ACTIVE"}}},
+					&pb.Update{
+						Path: pathComponentSw2Oper,
+						Val: &pb.TypedValue{
+							Value: &pb.TypedValue_StringVal{StringVal: "INACTIVE"}}}}}},
 	}, {
 		desc: "Subscribe to container node with wildcard key",
 		subscriptions: []*pb.Subscription{
 			&pb.Subscription{
 				Path: pathComponentStartState}},
-		wantUpdates: []*pb.Update{
-			&pb.Update{
-				Path: pathComponentSw1Oper,
-				Val: &pb.TypedValue{
-					Value: &pb.TypedValue_StringVal{StringVal: "ACTIVE"}}},
-			&pb.Update{
-				Path: pathComponentSw2Oper,
-				Val: &pb.TypedValue{
-					Value: &pb.TypedValue_StringVal{StringVal: "INACTIVE"}}},
-		},
+		wantNotifications: []*pb.Notification{
+			&pb.Notification{
+				Update: []*pb.Update{
+					&pb.Update{
+						Path: pathComponentSw1Oper,
+						Val: &pb.TypedValue{
+							Value: &pb.TypedValue_StringVal{StringVal: "ACTIVE"}}},
+					&pb.Update{
+						Path: pathComponentSw2Oper,
+						Val: &pb.TypedValue{
+							Value: &pb.TypedValue_StringVal{StringVal: "INACTIVE"}}}}}},
 	}, {
 		desc: "Subscribe to wildcard path element",
 		subscriptions: []*pb.Subscription{
@@ -1399,13 +1409,13 @@ func TestSubscribeOnce(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.desc, func(t *testing.T) {
-			runTestSubscribeOnce(t, s, test.subscriptions, test.pathPrefix, test.wantError, test.wantUpdates, test.updatesOnly)
+			runTestSubscribeOnce(t, s, test.subscriptions, test.pathPrefix, test.wantError, test.wantNotifications, test.updatesOnly)
 		})
 	}
 }
 
 // runTestSubscribeOnce requests a ONCE subscription to a path, and compares the returned Updates.
-func runTestSubscribeOnce(t *testing.T, s *Server, subscribptions []*pb.Subscription, pathPrefix *pb.Path, wantError error, wantUpdates []*pb.Update, updatesOnly bool) {
+func runTestSubscribeOnce(t *testing.T, s *Server, subscribptions []*pb.Subscription, pathPrefix *pb.Path, wantError error, wantNotifications []*pb.Notification, updatesOnly bool) {
 
 	req := &pb.SubscribeRequest{
 		Request: &pb.SubscribeRequest_Subscribe{
@@ -1450,7 +1460,7 @@ func runTestSubscribeOnce(t *testing.T, s *Server, subscribptions []*pb.Subscrip
 
 	// Check response value
 	gotSync := false
-	var gotUpdates []*pb.Update
+	var gotNotifications []*pb.Notification
 	for {
 		msg, _, err := c.msgQ.Next(context.Background())
 		if err != nil {
@@ -1470,10 +1480,11 @@ func runTestSubscribeOnce(t *testing.T, s *Server, subscribptions []*pb.Subscrip
 		if !ok || n == nil {
 			t.Fatalf("invalid message in queue: %v", msg)
 		}
-		gotUpdates = n.GetUpdate()
+		gotNotifications = append(gotNotifications, n)
 	}
-
-	if diff := cmp.Diff(gotUpdates, wantUpdates, protocmp.Transform(), cmpopts.SortSlices(updateLess)); diff != "" {
+	if diff := cmp.Diff(gotNotifications, wantNotifications, protocmp.Transform(),
+		protocmp.SortRepeated(updateLess),
+		protocmp.IgnoreFields(&pb.Notification{}, "timestamp")); diff != "" {
 		t.Errorf("Updates diff:\n%v", diff)
 	}
 	if !gotSync {
@@ -1625,7 +1636,7 @@ func runTestSubscribeSample(t *testing.T, s *Server, subscription *pb.Subscripti
 		}
 		lastNotificationTimestamp = n.GetTimestamp()
 		gotNotifications = gotNotifications + 1
-		if diff := cmp.Diff(n.GetUpdate(), wantUpdates, protocmp.Transform(), cmpopts.SortSlices(updateLess)); diff != "" {
+		if diff := cmp.Diff(n.GetUpdate(), wantUpdates, protocmp.Transform(), protocmp.SortRepeated(updateLess)); diff != "" {
 			t.Errorf("Initial Notification Updates diff:\n%v", diff)
 		}
 	}
