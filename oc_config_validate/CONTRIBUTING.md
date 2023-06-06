@@ -103,12 +103,12 @@ Place your testing code in `py_tests/test_*.py` and run the tests with `python3 
 
 ### Releasing the `oc_config_validate` PyPi package
 
-1. Create a cleared virtual environment with `virtualenv --clear <name>` and activate it with `source <name>/bin/activate`.
+1. Create a cleared virtual environment with `virtualenv --clear ${NAME?}` and activate it with `source ${NAME?}/bin/activate`.
 1. Install the `build` and `twine` packages with `pip3 install build twine`.
 1. Call `python3 -m build` to build the packages.
-1. Verify that the package installs correctly, with `pip3 install dist/oc_config_validate-<version>.tar.gz` and `pip3 show oc_config_validate`.
+1. Verify that the package installs correctly, with `pip3 install dist/oc_config_validate-${VERSION?}.tar.gz` and `pip3 show oc_config_validate`.
 1. Verify that the package runs correctly, with `python3 -I -m oc_config_validate --version`.
-1. Upload the latest packages to TestPyPi with `python3 -m twine upload --verbose --repository testpypi --skip-existing dist/*`.
+1. Upload the latest packages to PyPi with `python3 -m twine upload --verbose dist/oc_config_validate-${VERSION?}*`.
 
 ### Releasing the `oc_config_validate` Docker images
 
@@ -129,4 +129,3 @@ The Docker images take the latest code from the `master` branch of the Git repos
    sudo docker push joseignaciotamayo/oc_config_validate:<version>
    sudo docker push joseignaciotamayo/oc_config_validate:latest
    ```
-
