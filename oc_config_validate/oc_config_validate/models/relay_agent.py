@@ -32,6 +32,7 @@ class yc_config_openconfig_relay_agent__relay_agent_dhcp_config(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__enable_relay_agent',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -123,6 +124,7 @@ class yc_state_openconfig_relay_agent__relay_agent_dhcp_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__enable_relay_agent',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -215,6 +217,7 @@ option
   __slots__ = ('_path_helper', '_extmethods', '__enable',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -309,6 +312,7 @@ level
   __slots__ = ('_path_helper', '_extmethods', '__enable',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -403,6 +407,7 @@ data
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'agent-information-option'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -537,6 +542,7 @@ class yc_config_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_co
   __slots__ = ('_path_helper', '_extmethods', '__id','__enable','__helper_address',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -718,6 +724,7 @@ class yc_counters_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_
   __slots__ = ('_path_helper', '_extmethods', '__total_dropped','__invalid_opcode','__invalid_options','__bootrequest_received','__dhcp_decline_received','__dhcp_discover_received','__dhcp_inform_received','__dhcp_release_received','__dhcp_request_received','__bootrequest_sent','__bootreply_sent','__dhcp_offer_sent','__dhcp_ack_sent','__dhcp_nack_sent',)
 
   _yang_name = 'counters'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -1316,6 +1323,7 @@ class yc_state_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_sta
   __slots__ = ('_path_helper', '_extmethods', '__id','__enable','__helper_address','__counters',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -1536,6 +1544,7 @@ class yc_config_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_in
   __slots__ = ('_path_helper', '_extmethods', '__interface','__subinterface',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -1676,6 +1685,7 @@ class yc_state_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_int
   __slots__ = ('_path_helper', '_extmethods', '__interface','__subinterface',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -1811,11 +1821,24 @@ class yc_interface_ref_openconfig_relay_agent__relay_agent_dhcp_interfaces_inter
   the container is represented as a class variable - with a specific
   YANG type.
 
-  YANG Description: Reference to an interface or subinterface
+  YANG Description: Reference to an interface or subinterface. The interface
+that is being referenced is uniquely referenced based on
+the specified interface and subinterface leaves. In contexts
+where a Layer 3 interface is to be referenced, both the
+interface and subinterface leaves must be populated, as
+Layer 3 configuration within the OpenConfig models is
+associated with a subinterface. In the case where a
+Layer 2 interface is to be referenced, only the
+interface is specified.
+
+The interface/subinterface leaf tuple must be used as
+the means by which the interface is specified, regardless
+of any other context information (e.g., key in a list).
   """
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'interface-ref'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -1947,6 +1970,7 @@ option
   __slots__ = ('_path_helper', '_extmethods', '__enable','__circuit_id','__remote_id',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -2128,6 +2152,7 @@ class yc_state_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_age
   __slots__ = ('_path_helper', '_extmethods', '__enable','__circuit_id','__remote_id','__sent_circuit_id','__sent_remote_id',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -2392,6 +2417,7 @@ data
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'agent-information-option'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -2521,10 +2547,16 @@ class yc_interface_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface
 
   YANG Description: List of interfaces on which the relay agent is
 configured.
+
+The interface referenced is based on the interface and
+subinterface leaves within the interface-ref container -
+which reference an entry in the /interfaces/interface list -
+and should not rely on the value of the list key.
   """
   __slots__ = ('_path_helper', '_extmethods', '__id','__config','__state','__interface_ref','__agent_information_option',)
 
   _yang_name = 'interface'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -2686,7 +2718,19 @@ configured.
     """
     Getter method for interface_ref, mapped from YANG variable /relay_agent/dhcp/interfaces/interface/interface_ref (container)
 
-    YANG Description: Reference to an interface or subinterface
+    YANG Description: Reference to an interface or subinterface. The interface
+that is being referenced is uniquely referenced based on
+the specified interface and subinterface leaves. In contexts
+where a Layer 3 interface is to be referenced, both the
+interface and subinterface leaves must be populated, as
+Layer 3 configuration within the OpenConfig models is
+associated with a subinterface. In the case where a
+Layer 2 interface is to be referenced, only the
+interface is specified.
+
+The interface/subinterface leaf tuple must be used as
+the means by which the interface is specified, regardless
+of any other context information (e.g., key in a list).
     """
     return self.__interface_ref
       
@@ -2698,7 +2742,19 @@ configured.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_interface_ref() directly.
 
-    YANG Description: Reference to an interface or subinterface
+    YANG Description: Reference to an interface or subinterface. The interface
+that is being referenced is uniquely referenced based on
+the specified interface and subinterface leaves. In contexts
+where a Layer 3 interface is to be referenced, both the
+interface and subinterface leaves must be populated, as
+Layer 3 configuration within the OpenConfig models is
+associated with a subinterface. In the case where a
+Layer 2 interface is to be referenced, only the
+interface is specified.
+
+The interface/subinterface leaf tuple must be used as
+the means by which the interface is specified, regardless
+of any other context information (e.g., key in a list).
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -2779,6 +2835,7 @@ class yc_interfaces_openconfig_relay_agent__relay_agent_dhcp_interfaces(PybindBa
   __slots__ = ('_path_helper', '_extmethods', '__interface',)
 
   _yang_name = 'interfaces'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -2822,6 +2879,11 @@ class yc_interfaces_openconfig_relay_agent__relay_agent_dhcp_interfaces(PybindBa
 
     YANG Description: List of interfaces on which the relay agent is
 configured.
+
+The interface referenced is based on the interface and
+subinterface leaves within the interface-ref container -
+which reference an entry in the /interfaces/interface list -
+and should not rely on the value of the list key.
     """
     return self.__interface
       
@@ -2835,6 +2897,11 @@ configured.
 
     YANG Description: List of interfaces on which the relay agent is
 configured.
+
+The interface referenced is based on the interface and
+subinterface leaves within the interface-ref container -
+which reference an entry in the /interfaces/interface list -
+and should not rely on the value of the list key.
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -2872,6 +2939,7 @@ class yc_dhcp_openconfig_relay_agent__relay_agent_dhcp(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__agent_information_option','__interfaces',)
 
   _yang_name = 'dhcp'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -3082,6 +3150,7 @@ class yc_config_openconfig_relay_agent__relay_agent_dhcpv6_config(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__enable_relay_agent',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -3173,6 +3242,7 @@ class yc_state_openconfig_relay_agent__relay_agent_dhcpv6_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__enable_relay_agent',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -3264,6 +3334,7 @@ class yc_config_openconfig_relay_agent__relay_agent_dhcpv6_options_config(Pybind
   __slots__ = ('_path_helper', '_extmethods', '__enable_interface_id','__enable_remote_id',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -3405,6 +3476,7 @@ interface
   __slots__ = ('_path_helper', '_extmethods', '__enable_interface_id','__enable_remote_id',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -3545,6 +3617,7 @@ class yc_options_openconfig_relay_agent__relay_agent_dhcpv6_options(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'options'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -3677,6 +3750,7 @@ class yc_config_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_
   __slots__ = ('_path_helper', '_extmethods', '__id','__enable','__helper_address',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -3858,6 +3932,7 @@ class yc_counters_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interfac
   __slots__ = ('_path_helper', '_extmethods', '__total_dropped','__invalid_opcode','__invalid_options','__dhcpv6_solicit_received','__dhcpv6_decline_received','__dhcpv6_request_received','__dhcpv6_release_received','__dhcpv6_confirm_received','__dhcpv6_rebind_received','__dhcpv6_info_request_received','__dhcpv6_relay_reply_received','__dhcpv6_adverstise_sent','__dhcpv6_reply_sent','__dhcpv6_reconfigure_sent','__dhcpv6_relay_forw_sent',)
 
   _yang_name = 'counters'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -4519,6 +4594,7 @@ class yc_state_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_s
   __slots__ = ('_path_helper', '_extmethods', '__id','__enable','__helper_address','__counters',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -4739,6 +4815,7 @@ class yc_config_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_
   __slots__ = ('_path_helper', '_extmethods', '__interface','__subinterface',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -4879,6 +4956,7 @@ class yc_state_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_i
   __slots__ = ('_path_helper', '_extmethods', '__interface','__subinterface',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -5014,11 +5092,24 @@ class yc_interface_ref_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_int
   the container is represented as a class variable - with a specific
   YANG type.
 
-  YANG Description: Reference to an interface or subinterface
+  YANG Description: Reference to an interface or subinterface. The interface
+that is being referenced is uniquely referenced based on
+the specified interface and subinterface leaves. In contexts
+where a Layer 3 interface is to be referenced, both the
+interface and subinterface leaves must be populated, as
+Layer 3 configuration within the OpenConfig models is
+associated with a subinterface. In the case where a
+Layer 2 interface is to be referenced, only the
+interface is specified.
+
+The interface/subinterface leaf tuple must be used as
+the means by which the interface is specified, regardless
+of any other context information (e.g., key in a list).
   """
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'interface-ref'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -5149,6 +5240,7 @@ class yc_config_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_
   __slots__ = ('_path_helper', '_extmethods', '__enable_interface_id','__enable_remote_id','__interface_id','__remote_id',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -5378,6 +5470,7 @@ interface
   __slots__ = ('_path_helper', '_extmethods', '__enable_interface_id','__enable_remote_id','__interface_id','__remote_id','__sent_interface_id','__sent_remote_id',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -5688,6 +5781,7 @@ class yc_options_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'options'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -5817,10 +5911,16 @@ class yc_interface_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interfa
 
   YANG Description: List of interfaces on which the relay agent is
 configured.
+
+The interface referenced is based on the interface and
+subinterface leaves within the interface-ref container -
+which reference an entry in the /interfaces/interface list -
+and should not rely on the value of the list key.
   """
   __slots__ = ('_path_helper', '_extmethods', '__id','__config','__state','__interface_ref','__options',)
 
   _yang_name = 'interface'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -5982,7 +6082,19 @@ configured.
     """
     Getter method for interface_ref, mapped from YANG variable /relay_agent/dhcpv6/interfaces/interface/interface_ref (container)
 
-    YANG Description: Reference to an interface or subinterface
+    YANG Description: Reference to an interface or subinterface. The interface
+that is being referenced is uniquely referenced based on
+the specified interface and subinterface leaves. In contexts
+where a Layer 3 interface is to be referenced, both the
+interface and subinterface leaves must be populated, as
+Layer 3 configuration within the OpenConfig models is
+associated with a subinterface. In the case where a
+Layer 2 interface is to be referenced, only the
+interface is specified.
+
+The interface/subinterface leaf tuple must be used as
+the means by which the interface is specified, regardless
+of any other context information (e.g., key in a list).
     """
     return self.__interface_ref
       
@@ -5994,7 +6106,19 @@ configured.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_interface_ref() directly.
 
-    YANG Description: Reference to an interface or subinterface
+    YANG Description: Reference to an interface or subinterface. The interface
+that is being referenced is uniquely referenced based on
+the specified interface and subinterface leaves. In contexts
+where a Layer 3 interface is to be referenced, both the
+interface and subinterface leaves must be populated, as
+Layer 3 configuration within the OpenConfig models is
+associated with a subinterface. In the case where a
+Layer 2 interface is to be referenced, only the
+interface is specified.
+
+The interface/subinterface leaf tuple must be used as
+the means by which the interface is specified, regardless
+of any other context information (e.g., key in a list).
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -6073,6 +6197,7 @@ class yc_interfaces_openconfig_relay_agent__relay_agent_dhcpv6_interfaces(Pybind
   __slots__ = ('_path_helper', '_extmethods', '__interface',)
 
   _yang_name = 'interfaces'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -6116,6 +6241,11 @@ class yc_interfaces_openconfig_relay_agent__relay_agent_dhcpv6_interfaces(Pybind
 
     YANG Description: List of interfaces on which the relay agent is
 configured.
+
+The interface referenced is based on the interface and
+subinterface leaves within the interface-ref container -
+which reference an entry in the /interfaces/interface list -
+and should not rely on the value of the list key.
     """
     return self.__interface
       
@@ -6129,6 +6259,11 @@ configured.
 
     YANG Description: List of interfaces on which the relay agent is
 configured.
+
+The interface referenced is based on the interface and
+subinterface leaves within the interface-ref container -
+which reference an entry in the /interfaces/interface list -
+and should not rely on the value of the list key.
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -6166,6 +6301,7 @@ class yc_dhcpv6_openconfig_relay_agent__relay_agent_dhcpv6(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__options','__interfaces',)
 
   _yang_name = 'dhcpv6'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -6375,6 +6511,7 @@ operational state data
   __slots__ = ('_path_helper', '_extmethods', '__dhcp','__dhcpv6',)
 
   _yang_name = 'relay-agent'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 
@@ -6508,6 +6645,7 @@ per-interface settings.
   __slots__ = ('_path_helper', '_extmethods', '__relay_agent',)
 
   _yang_name = 'openconfig-relay-agent'
+  _yang_namespace = 'http://openconfig.net/yang/relay-agent'
 
   _pybind_generated_by = 'container'
 

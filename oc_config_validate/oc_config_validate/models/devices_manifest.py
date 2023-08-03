@@ -33,6 +33,7 @@ operational mode.
   __slots__ = ('_path_helper', '_extmethods', '__mode_id','__mode_type',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://example.net/yang/openconfig-terminal-device-properties'
 
   _pybind_generated_by = 'container'
 
@@ -167,6 +168,7 @@ class yc_state_openconfig_terminal_device_properties__operational_modes_mode_des
   __slots__ = ('_path_helper', '_extmethods', '__standard_mode',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://example.net/yang/openconfig-terminal-device-properties'
 
   _pybind_generated_by = 'container'
 
@@ -261,6 +263,7 @@ to the ITU-T G.698.2 (11/18) recommendation.
   __slots__ = ('_path_helper', '_extmethods', '__state',)
 
   _yang_name = 'G.698.2'
+  _yang_namespace = 'http://example.net/yang/openconfig-terminal-device-properties'
 
   _pybind_generated_by = 'container'
 
@@ -352,6 +355,7 @@ class yc_state_openconfig_terminal_device_properties__operational_modes_mode_des
   __slots__ = ('_path_helper', '_extmethods', '__modulation_format','__bit_rate','__baud_rate','__optical_channel_spectrum_width','__min_tx_osnr','__min_rx_osnr','__min_input_power','__max_input_power','__max_chromatic_dispersion','__max_differential_group_delay','__max_polarization_dependent_loss',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://example.net/yang/openconfig-terminal-device-properties'
 
   _pybind_generated_by = 'container'
 
@@ -875,6 +879,7 @@ class yc_state_openconfig_terminal_device_properties__operational_modes_mode_des
   __slots__ = ('_path_helper', '_extmethods', '__fec_coding','__coding_overhead','__coding_gain','__pre_fec_ber_threshold',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://example.net/yang/openconfig-terminal-device-properties'
 
   _pybind_generated_by = 'container'
 
@@ -1095,6 +1100,7 @@ gain properties.
   __slots__ = ('_path_helper', '_extmethods', '__state',)
 
   _yang_name = 'fec'
+  _yang_namespace = 'http://example.net/yang/openconfig-terminal-device-properties'
 
   _pybind_generated_by = 'container'
 
@@ -1186,6 +1192,7 @@ class yc_state_openconfig_terminal_device_properties__operational_modes_mode_des
   __slots__ = ('_path_helper', '_extmethods', '__parameter_and_unit','__up_to_boundary','__penalty_value',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://example.net/yang/openconfig-terminal-device-properties'
 
   _pybind_generated_by = 'container'
 
@@ -1363,6 +1370,7 @@ included within penalty-value attribute associated to the highest up-to-boundary
   __slots__ = ('_path_helper', '_extmethods', '__parameter_and_unit','__up_to_boundary','__state',)
 
   _yang_name = 'penalty'
+  _yang_namespace = 'http://example.net/yang/openconfig-terminal-device-properties'
 
   _pybind_generated_by = 'container'
 
@@ -1544,6 +1552,7 @@ class yc_penalties_openconfig_terminal_device_properties__operational_modes_mode
   __slots__ = ('_path_helper', '_extmethods', '__penalty',)
 
   _yang_name = 'penalties'
+  _yang_namespace = 'http://example.net/yang/openconfig-terminal-device-properties'
 
   _pybind_generated_by = 'container'
 
@@ -1647,6 +1656,7 @@ class yc_state_openconfig_terminal_device_properties__operational_modes_mode_des
   __slots__ = ('_path_helper', '_extmethods', '__pulse_shaping_type','__roll_off',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://example.net/yang/openconfig-terminal-device-properties'
 
   _pybind_generated_by = 'container'
 
@@ -1784,6 +1794,7 @@ transceiver transmission for the given operational-mode.
   __slots__ = ('_path_helper', '_extmethods', '__state',)
 
   _yang_name = 'filter'
+  _yang_namespace = 'http://example.net/yang/openconfig-terminal-device-properties'
 
   _pybind_generated_by = 'container'
 
@@ -1880,6 +1891,7 @@ while assuring optimal transmission function.
   __slots__ = ('_path_helper', '_extmethods', '__state','__fec','__penalties','__filter',)
 
   _yang_name = 'operational-mode-capabilities'
+  _yang_namespace = 'http://example.net/yang/openconfig-terminal-device-properties'
 
   _pybind_generated_by = 'container'
 
@@ -2095,6 +2107,7 @@ container.
   __slots__ = ('_path_helper', '_extmethods', '__min_central_frequency','__max_central_frequency','__grid_type','__adjustment_granularity','__min_channel_spacing','__min_output_power','__max_output_power',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://example.net/yang/openconfig-terminal-device-properties'
 
   _pybind_generated_by = 'container'
 
@@ -2444,6 +2457,7 @@ operational-mode.
   __slots__ = ('_path_helper', '_extmethods', '__state',)
 
   _yang_name = 'optical-channel-config-value-constraints'
+  _yang_namespace = 'http://example.net/yang/openconfig-terminal-device-properties'
 
   _pybind_generated_by = 'container'
 
@@ -2540,6 +2554,7 @@ the subtree underneath.
   __slots__ = ('_path_helper', '_extmethods', '__operational_mode_capabilities','__optical_channel_config_value_constraints',)
 
   _yang_name = 'explicit-mode'
+  _yang_namespace = 'http://example.net/yang/openconfig-terminal-device-properties'
 
   _pybind_generated_by = 'container'
 
@@ -2687,6 +2702,7 @@ shaping, etc.
   __slots__ = ('_path_helper', '_extmethods', '__mode_id','__state','__G_698_2','__explicit_mode',)
 
   _yang_name = 'mode-descriptor'
+  _yang_namespace = 'http://example.net/yang/openconfig-terminal-device-properties'
 
   _pybind_generated_by = 'container'
 
@@ -2915,6 +2931,7 @@ modes and its associated transmission features
   __slots__ = ('_path_helper', '_extmethods', '__mode_descriptor',)
 
   _yang_name = 'operational-modes'
+  _yang_namespace = 'http://example.net/yang/openconfig-terminal-device-properties'
 
   _pybind_generated_by = 'container'
 
@@ -3020,6 +3037,7 @@ filter characterization, CD and DGD tolerance.
   __slots__ = ('_path_helper', '_extmethods', '__operational_modes',)
 
   _yang_name = 'openconfig-terminal-device-properties'
+  _yang_namespace = 'http://example.net/yang/openconfig-terminal-device-properties'
 
   _pybind_generated_by = 'container'
 
