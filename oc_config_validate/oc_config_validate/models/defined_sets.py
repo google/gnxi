@@ -32,6 +32,7 @@ class yc_config_openconfig_defined_sets__defined_sets_ipv4_prefix_sets_ipv4_pref
   __slots__ = ('_path_helper', '_extmethods', '__name','__description','__prefix',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/defined-sets'
 
   _pybind_generated_by = 'container'
 
@@ -203,6 +204,7 @@ class yc_state_openconfig_defined_sets__defined_sets_ipv4_prefix_sets_ipv4_prefi
   __slots__ = ('_path_helper', '_extmethods', '__name','__description','__prefix',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/defined-sets'
 
   _pybind_generated_by = 'container'
 
@@ -374,6 +376,7 @@ class yc_ipv4_prefix_set_openconfig_defined_sets__defined_sets_ipv4_prefix_sets_
   __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state',)
 
   _yang_name = 'ipv4-prefix-set'
+  _yang_namespace = 'http://openconfig.net/yang/defined-sets'
 
   _pybind_generated_by = 'container'
 
@@ -548,6 +551,7 @@ class yc_ipv4_prefix_sets_openconfig_defined_sets__defined_sets_ipv4_prefix_sets
   __slots__ = ('_path_helper', '_extmethods', '__ipv4_prefix_set',)
 
   _yang_name = 'ipv4-prefix-sets'
+  _yang_namespace = 'http://openconfig.net/yang/defined-sets'
 
   _pybind_generated_by = 'container'
 
@@ -639,6 +643,7 @@ class yc_config_openconfig_defined_sets__defined_sets_ipv6_prefix_sets_ipv6_pref
   __slots__ = ('_path_helper', '_extmethods', '__name','__description','__prefix',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/defined-sets'
 
   _pybind_generated_by = 'container'
 
@@ -810,6 +815,7 @@ class yc_state_openconfig_defined_sets__defined_sets_ipv6_prefix_sets_ipv6_prefi
   __slots__ = ('_path_helper', '_extmethods', '__name','__description','__prefix',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/defined-sets'
 
   _pybind_generated_by = 'container'
 
@@ -982,6 +988,7 @@ is uniquely identified by a name
   __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state',)
 
   _yang_name = 'ipv6-prefix-set'
+  _yang_namespace = 'http://openconfig.net/yang/defined-sets'
 
   _pybind_generated_by = 'container'
 
@@ -1156,6 +1163,7 @@ class yc_ipv6_prefix_sets_openconfig_defined_sets__defined_sets_ipv6_prefix_sets
   __slots__ = ('_path_helper', '_extmethods', '__ipv6_prefix_set',)
 
   _yang_name = 'ipv6-prefix-sets'
+  _yang_namespace = 'http://openconfig.net/yang/defined-sets'
 
   _pybind_generated_by = 'container'
 
@@ -1249,6 +1257,7 @@ class yc_config_openconfig_defined_sets__defined_sets_port_sets_port_set_config(
   __slots__ = ('_path_helper', '_extmethods', '__name','__description','__port',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/defined-sets'
 
   _pybind_generated_by = 'container'
 
@@ -1420,6 +1429,7 @@ class yc_state_openconfig_defined_sets__defined_sets_port_sets_port_set_state(Py
   __slots__ = ('_path_helper', '_extmethods', '__name','__description','__port',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/defined-sets'
 
   _pybind_generated_by = 'container'
 
@@ -1592,6 +1602,7 @@ identified by its name
   __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state',)
 
   _yang_name = 'port-set'
+  _yang_namespace = 'http://openconfig.net/yang/defined-sets'
 
   _pybind_generated_by = 'container'
 
@@ -1768,6 +1779,7 @@ class yc_port_sets_openconfig_defined_sets__defined_sets_port_sets(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__port_set',)
 
   _yang_name = 'port-sets'
+  _yang_namespace = 'http://openconfig.net/yang/defined-sets'
 
   _pybind_generated_by = 'container'
 
@@ -1862,6 +1874,7 @@ config and operational state data.
   __slots__ = ('_path_helper', '_extmethods', '__ipv4_prefix_sets','__ipv6_prefix_sets','__port_sets',)
 
   _yang_name = 'defined-sets'
+  _yang_namespace = 'http://openconfig.net/yang/defined-sets'
 
   _pybind_generated_by = 'container'
 
@@ -2035,6 +2048,7 @@ rules, etc.) in the matching fields.
   __slots__ = ('_path_helper', '_extmethods', '__defined_sets',)
 
   _yang_name = 'openconfig-defined-sets'
+  _yang_namespace = 'http://openconfig.net/yang/defined-sets'
 
   _pybind_generated_by = 'container'
 

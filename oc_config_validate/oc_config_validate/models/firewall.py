@@ -32,6 +32,7 @@ class yc_config_openconfig_fw_high_availability__ha_groups_ha_group_config(Pybin
   __slots__ = ('_path_helper', '_extmethods', '__ha_enabled','__ha_mode','__ha_key','__ha_key_hashed','__ha_msg_encryption','__id','__ha_device_id','__preempt','__priority','__preempt_hold_timer','__hello_interval','__global_health_policy',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/oc-fw-ha'
 
   _pybind_generated_by = 'container'
 
@@ -600,6 +601,7 @@ class yc_state_openconfig_fw_high_availability__ha_groups_ha_group_state(PybindB
   __slots__ = ('_path_helper', '_extmethods', '__ha_enabled','__ha_mode','__ha_key','__ha_key_hashed','__ha_msg_encryption','__id','__ha_device_id','__preempt','__priority','__preempt_hold_timer','__hello_interval','__global_health_policy','__ha_state','__ha_state_last_change','__ha_config_sync','__ha_session_sync','__ha_mismatched_parameters','__global_health_status',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/oc-fw-ha'
 
   _pybind_generated_by = 'container'
 
@@ -1415,6 +1417,7 @@ link
   __slots__ = ('_path_helper', '_extmethods', '__control_link_interface','__control_link_port','__control_link_ipv4','__control_link_gateway','__control_link_ipv6','__control_link_ipv6_gateway','__control_link_peer_ipv4','__control_link_peer_ipv6',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/oc-fw-ha'
 
   _pybind_generated_by = 'container'
 
@@ -1791,6 +1794,7 @@ class yc_state_openconfig_fw_high_availability__ha_groups_ha_group_control_link_
   __slots__ = ('_path_helper', '_extmethods', '__control_link_interface','__control_link_port','__control_link_ipv4','__control_link_gateway','__control_link_ipv6','__control_link_ipv6_gateway','__control_link_peer_ipv4','__control_link_peer_ipv6',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/oc-fw-ha'
 
   _pybind_generated_by = 'container'
 
@@ -2167,6 +2171,7 @@ class yc_config_openconfig_fw_high_availability__ha_groups_ha_group_control_link
   __slots__ = ('_path_helper', '_extmethods', '__control_link_interface','__control_link_port','__control_link_ipv4','__control_link_gateway','__control_link_ipv6','__control_link_ipv6_gateway','__control_link_peer_ipv4','__control_link_peer_ipv6',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/oc-fw-ha'
 
   _pybind_generated_by = 'container'
 
@@ -2543,6 +2548,7 @@ class yc_state_openconfig_fw_high_availability__ha_groups_ha_group_control_link_
   __slots__ = ('_path_helper', '_extmethods', '__control_link_interface','__control_link_port','__control_link_ipv4','__control_link_gateway','__control_link_ipv6','__control_link_ipv6_gateway','__control_link_peer_ipv4','__control_link_peer_ipv6',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/oc-fw-ha'
 
   _pybind_generated_by = 'container'
 
@@ -2919,6 +2925,7 @@ class yc_backup_openconfig_fw_high_availability__ha_groups_ha_group_control_link
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'backup'
+  _yang_namespace = 'http://openconfig.net/yang/oc-fw-ha'
 
   _pybind_generated_by = 'container'
 
@@ -3049,6 +3056,7 @@ class yc_control_link_openconfig_fw_high_availability__ha_groups_ha_group_contro
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__backup',)
 
   _yang_name = 'control-link'
+  _yang_namespace = 'http://openconfig.net/yang/oc-fw-ha'
 
   _pybind_generated_by = 'container'
 
@@ -3220,6 +3228,7 @@ class yc_config_openconfig_fw_high_availability__ha_groups_ha_group_data_link_co
   __slots__ = ('_path_helper', '_extmethods', '__data_link_interface','__data_link_port','__data_link_ipv4','__data_link_gateway','__data_link_ipv6','__data_link_ipv6_gateway','__data_link_peer_ipv4','__data_link_peer_ipv6',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/oc-fw-ha'
 
   _pybind_generated_by = 'container'
 
@@ -3601,6 +3610,7 @@ link
   __slots__ = ('_path_helper', '_extmethods', '__data_link_interface','__data_link_port','__data_link_ipv4','__data_link_gateway','__data_link_ipv6','__data_link_ipv6_gateway','__data_link_peer_ipv4','__data_link_peer_ipv6',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/oc-fw-ha'
 
   _pybind_generated_by = 'container'
 
@@ -3981,6 +3991,7 @@ class yc_config_openconfig_fw_high_availability__ha_groups_ha_group_data_link_ba
   __slots__ = ('_path_helper', '_extmethods', '__data_link_interface','__data_link_port','__data_link_ipv4','__data_link_gateway','__data_link_ipv6','__data_link_ipv6_gateway','__data_link_peer_ipv4','__data_link_peer_ipv6',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/oc-fw-ha'
 
   _pybind_generated_by = 'container'
 
@@ -4362,6 +4373,7 @@ link
   __slots__ = ('_path_helper', '_extmethods', '__data_link_interface','__data_link_port','__data_link_ipv4','__data_link_gateway','__data_link_ipv6','__data_link_ipv6_gateway','__data_link_peer_ipv4','__data_link_peer_ipv6',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/oc-fw-ha'
 
   _pybind_generated_by = 'container'
 
@@ -4742,6 +4754,7 @@ class yc_backup_openconfig_fw_high_availability__ha_groups_ha_group_data_link_ba
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'backup'
+  _yang_namespace = 'http://openconfig.net/yang/oc-fw-ha'
 
   _pybind_generated_by = 'container'
 
@@ -4874,6 +4887,7 @@ class yc_data_link_openconfig_fw_high_availability__ha_groups_ha_group_data_link
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__backup',)
 
   _yang_name = 'data-link'
+  _yang_namespace = 'http://openconfig.net/yang/oc-fw-ha'
 
   _pybind_generated_by = 'container'
 
@@ -5045,6 +5059,7 @@ class yc_config_openconfig_fw_high_availability__ha_groups_ha_group_interface_gr
   __slots__ = ('_path_helper', '_extmethods', '__id','__monitored_interfaces','__group_policy',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/oc-fw-ha'
 
   _pybind_generated_by = 'container'
 
@@ -5216,6 +5231,7 @@ class yc_state_openconfig_fw_high_availability__ha_groups_ha_group_interface_gro
   __slots__ = ('_path_helper', '_extmethods', '__id','__monitored_interfaces','__group_policy','__group_status',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/oc-fw-ha'
 
   _pybind_generated_by = 'container'
 
@@ -5426,6 +5442,7 @@ class yc_interface_group_openconfig_fw_high_availability__ha_groups_ha_group_int
   __slots__ = ('_path_helper', '_extmethods', '__id','__config','__state',)
 
   _yang_name = 'interface-group'
+  _yang_namespace = 'http://openconfig.net/yang/oc-fw-ha'
 
   _pybind_generated_by = 'container'
 
@@ -5602,6 +5619,7 @@ class yc_interface_groups_openconfig_fw_high_availability__ha_groups_ha_group_in
   __slots__ = ('_path_helper', '_extmethods', '__interface_group',)
 
   _yang_name = 'interface-groups'
+  _yang_namespace = 'http://openconfig.net/yang/oc-fw-ha'
 
   _pybind_generated_by = 'container'
 
@@ -5693,6 +5711,7 @@ class yc_ha_group_openconfig_fw_high_availability__ha_groups_ha_group(PybindBase
   __slots__ = ('_path_helper', '_extmethods', '__id','__config','__state','__control_link','__data_link','__interface_groups',)
 
   _yang_name = 'ha-group'
+  _yang_namespace = 'http://openconfig.net/yang/oc-fw-ha'
 
   _pybind_generated_by = 'container'
 
@@ -5984,6 +6003,7 @@ class yc_ha_groups_openconfig_fw_high_availability__ha_groups(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__ha_group',)
 
   _yang_name = 'ha-groups'
+  _yang_namespace = 'http://openconfig.net/yang/oc-fw-ha'
 
   _pybind_generated_by = 'container'
 
@@ -6088,6 +6108,7 @@ for additional details
   __slots__ = ('_path_helper', '_extmethods', '__ha_groups',)
 
   _yang_name = 'openconfig-fw-high-availability'
+  _yang_namespace = 'http://openconfig.net/yang/oc-fw-ha'
 
   _pybind_generated_by = 'container'
 

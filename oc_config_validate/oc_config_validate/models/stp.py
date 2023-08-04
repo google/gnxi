@@ -46,6 +46,7 @@ class yc_config_openconfig_spanning_tree__stp_global_config(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__enabled_protocol','__bridge_assurance','__etherchannel_misconfig_guard','__bpduguard_timeout_recovery','__loop_guard','__bpdu_guard','__bpdu_filter',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -387,6 +388,7 @@ class yc_state_openconfig_spanning_tree__stp_global_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__enabled_protocol','__bridge_assurance','__etherchannel_misconfig_guard','__bpduguard_timeout_recovery','__loop_guard','__bpdu_guard','__bpdu_filter',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -728,6 +730,7 @@ class yc_global__openconfig_spanning_tree__stp_global(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
 
   _yang_name = 'global'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -858,6 +861,7 @@ class yc_config_openconfig_spanning_tree__stp_rstp_config(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__hello_time','__max_age','__forwarding_delay','__hold_count','__bridge_priority',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -1113,6 +1117,7 @@ class yc_state_openconfig_spanning_tree__stp_rstp_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__hello_time','__max_age','__forwarding_delay','__hold_count','__bridge_priority','__bridge_address','__designated_root_priority','__designated_root_address','__root_port','__root_cost','__hold_time','__topology_changes','__last_topology_change',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -1706,6 +1711,7 @@ class yc_config_openconfig_spanning_tree__stp_rstp_interfaces_interface_config(P
   __slots__ = ('_path_helper', '_extmethods', '__name','__cost','__port_priority',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -1879,6 +1885,7 @@ class yc_counters_openconfig_spanning_tree__stp_rstp_interfaces_interface_state_
   __slots__ = ('_path_helper', '_extmethods', '__bpdu_sent','__bpdu_received',)
 
   _yang_name = 'counters'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -2009,6 +2016,7 @@ class yc_state_openconfig_spanning_tree__stp_rstp_interfaces_interface_state(Pyb
   __slots__ = ('_path_helper', '_extmethods', '__name','__cost','__port_priority','__port_num','__role','__port_state','__designated_root_priority','__designated_root_address','__designated_cost','__designated_bridge_priority','__designated_bridge_address','__designated_port_priority','__designated_port_num','__forward_transisitions','__counters',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -2670,6 +2678,7 @@ class yc_interface_openconfig_spanning_tree__stp_rstp_interfaces_interface(Pybin
   __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state',)
 
   _yang_name = 'interface'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -2844,6 +2853,7 @@ class yc_interfaces_openconfig_spanning_tree__stp_rstp_interfaces(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__interface',)
 
   _yang_name = 'interfaces'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -2936,6 +2946,7 @@ data
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__interfaces',)
 
   _yang_name = 'rstp'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -3105,6 +3116,7 @@ class yc_config_openconfig_spanning_tree__stp_mstp_config(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__name','__revision','__max_hop','__hello_time','__max_age','__forwarding_delay','__hold_count',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -3440,6 +3452,7 @@ class yc_state_openconfig_spanning_tree__stp_mstp_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__name','__revision','__max_hop','__hello_time','__max_age','__forwarding_delay','__hold_count',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -3775,6 +3788,7 @@ class yc_config_openconfig_spanning_tree__stp_mstp_mst_instances_mst_instance_co
   __slots__ = ('_path_helper', '_extmethods', '__mst_id','__vlan','__bridge_priority',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -3946,6 +3960,7 @@ class yc_state_openconfig_spanning_tree__stp_mstp_mst_instances_mst_instance_sta
   __slots__ = ('_path_helper', '_extmethods', '__mst_id','__vlan','__bridge_priority','__bridge_address','__designated_root_priority','__designated_root_address','__root_port','__root_cost','__hold_time','__topology_changes','__last_topology_change',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -4455,6 +4470,7 @@ class yc_config_openconfig_spanning_tree__stp_mstp_mst_instances_mst_instance_in
   __slots__ = ('_path_helper', '_extmethods', '__name','__cost','__port_priority',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -4628,6 +4644,7 @@ class yc_counters_openconfig_spanning_tree__stp_mstp_mst_instances_mst_instance_
   __slots__ = ('_path_helper', '_extmethods', '__bpdu_sent','__bpdu_received',)
 
   _yang_name = 'counters'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -4758,6 +4775,7 @@ class yc_state_openconfig_spanning_tree__stp_mstp_mst_instances_mst_instance_int
   __slots__ = ('_path_helper', '_extmethods', '__name','__cost','__port_priority','__port_num','__role','__port_state','__designated_root_priority','__designated_root_address','__designated_cost','__designated_bridge_priority','__designated_bridge_address','__designated_port_priority','__designated_port_num','__forward_transisitions','__counters',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -5419,6 +5437,7 @@ class yc_interface_openconfig_spanning_tree__stp_mstp_mst_instances_mst_instance
   __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state',)
 
   _yang_name = 'interface'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -5593,6 +5612,7 @@ class yc_interfaces_openconfig_spanning_tree__stp_mstp_mst_instances_mst_instanc
   __slots__ = ('_path_helper', '_extmethods', '__interface',)
 
   _yang_name = 'interfaces'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -5684,6 +5704,7 @@ class yc_mst_instance_openconfig_spanning_tree__stp_mstp_mst_instances_mst_insta
   __slots__ = ('_path_helper', '_extmethods', '__mst_id','__config','__state','__interfaces',)
 
   _yang_name = 'mst-instance'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -5897,6 +5918,7 @@ class yc_mst_instances_openconfig_spanning_tree__stp_mstp_mst_instances(PybindBa
   __slots__ = ('_path_helper', '_extmethods', '__mst_instance',)
 
   _yang_name = 'mst-instances'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -5989,6 +6011,7 @@ data
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__mst_instances',)
 
   _yang_name = 'mstp'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -6158,6 +6181,7 @@ class yc_config_openconfig_spanning_tree__stp_rapid_pvst_vlan_config(PybindBase)
   __slots__ = ('_path_helper', '_extmethods', '__vlan_id','__hello_time','__max_age','__forwarding_delay','__hold_count','__bridge_priority',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -6452,6 +6476,7 @@ class yc_state_openconfig_spanning_tree__stp_rapid_pvst_vlan_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__vlan_id','__hello_time','__max_age','__forwarding_delay','__hold_count','__bridge_priority','__bridge_address','__designated_root_priority','__designated_root_address','__root_port','__root_cost','__hold_time','__topology_changes','__last_topology_change',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -7084,6 +7109,7 @@ class yc_config_openconfig_spanning_tree__stp_rapid_pvst_vlan_interfaces_interfa
   __slots__ = ('_path_helper', '_extmethods', '__name','__cost','__port_priority',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -7257,6 +7283,7 @@ class yc_counters_openconfig_spanning_tree__stp_rapid_pvst_vlan_interfaces_inter
   __slots__ = ('_path_helper', '_extmethods', '__bpdu_sent','__bpdu_received',)
 
   _yang_name = 'counters'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -7387,6 +7414,7 @@ class yc_state_openconfig_spanning_tree__stp_rapid_pvst_vlan_interfaces_interfac
   __slots__ = ('_path_helper', '_extmethods', '__name','__cost','__port_priority','__port_num','__role','__port_state','__designated_root_priority','__designated_root_address','__designated_cost','__designated_bridge_priority','__designated_bridge_address','__designated_port_priority','__designated_port_num','__forward_transisitions','__counters',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -8048,6 +8076,7 @@ class yc_interface_openconfig_spanning_tree__stp_rapid_pvst_vlan_interfaces_inte
   __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state',)
 
   _yang_name = 'interface'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -8222,6 +8251,7 @@ class yc_interfaces_openconfig_spanning_tree__stp_rapid_pvst_vlan_interfaces(Pyb
   __slots__ = ('_path_helper', '_extmethods', '__interface',)
 
   _yang_name = 'interfaces'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -8313,6 +8343,7 @@ class yc_vlan_openconfig_spanning_tree__stp_rapid_pvst_vlan(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__vlan_id','__config','__state','__interfaces',)
 
   _yang_name = 'vlan'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -8527,6 +8558,7 @@ operational data
   __slots__ = ('_path_helper', '_extmethods', '__vlan',)
 
   _yang_name = 'rapid-pvst'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -8618,6 +8650,7 @@ class yc_config_openconfig_spanning_tree__stp_interfaces_interface_config(Pybind
   __slots__ = ('_path_helper', '_extmethods', '__name','__edge_port','__link_type','__guard','__bpdu_guard','__bpdu_filter',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -8904,6 +8937,7 @@ class yc_state_openconfig_spanning_tree__stp_interfaces_interface_state(PybindBa
   __slots__ = ('_path_helper', '_extmethods', '__name','__edge_port','__link_type','__guard','__bpdu_guard','__bpdu_filter',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -9190,6 +9224,7 @@ class yc_interface_openconfig_spanning_tree__stp_interfaces_interface(PybindBase
   __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state',)
 
   _yang_name = 'interface'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -9364,6 +9399,7 @@ class yc_interfaces_openconfig_spanning_tree__stp_interfaces(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__interface',)
 
   _yang_name = 'interfaces'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -9456,6 +9492,7 @@ state data
   __slots__ = ('_path_helper', '_extmethods', '__global_','__rstp','__mstp','__rapid_pvst','__interfaces',)
 
   _yang_name = 'stp'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 
@@ -9710,6 +9747,7 @@ for the spanning tree protocol.
   __slots__ = ('_path_helper', '_extmethods', '__stp',)
 
   _yang_name = 'openconfig-spanning-tree'
+  _yang_namespace = 'http://openconfig.net/yang/spanning-tree'
 
   _pybind_generated_by = 'container'
 

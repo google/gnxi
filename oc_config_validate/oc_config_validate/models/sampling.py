@@ -49,6 +49,7 @@ class yc_config_openconfig_sampling__sampling_sflow_config(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__enabled','__agent_id_ipv4','__agent_id_ipv6','__dscp','__sample_size','__polling_interval','__ingress_sampling_rate','__egress_sampling_rate',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/sampling'
 
   _pybind_generated_by = 'container'
 
@@ -445,6 +446,7 @@ class yc_state_openconfig_sampling__sampling_sflow_state(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__enabled','__agent_id_ipv4','__agent_id_ipv6','__dscp','__sample_size','__polling_interval','__ingress_sampling_rate','__egress_sampling_rate',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/sampling'
 
   _pybind_generated_by = 'container'
 
@@ -841,6 +843,7 @@ class yc_config_openconfig_sampling__sampling_sflow_collectors_collector_config(
   __slots__ = ('_path_helper', '_extmethods', '__address','__port','__source_address','__network_instance',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/sampling'
 
   _pybind_generated_by = 'container'
 
@@ -1055,6 +1058,7 @@ class yc_state_openconfig_sampling__sampling_sflow_collectors_collector_state(Py
   __slots__ = ('_path_helper', '_extmethods', '__address','__port','__source_address','__network_instance','__packets_sent',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/sampling'
 
   _pybind_generated_by = 'container'
 
@@ -1311,6 +1315,7 @@ samples are sent to all collectors specified.
   __slots__ = ('_path_helper', '_extmethods', '__address','__port','__config','__state',)
 
   _yang_name = 'collector'
+  _yang_namespace = 'http://openconfig.net/yang/sampling'
 
   _pybind_generated_by = 'container'
 
@@ -1529,6 +1534,7 @@ class yc_collectors_openconfig_sampling__sampling_sflow_collectors(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__collector',)
 
   _yang_name = 'collectors'
+  _yang_namespace = 'http://openconfig.net/yang/sampling'
 
   _pybind_generated_by = 'container'
 
@@ -1622,6 +1628,7 @@ class yc_config_openconfig_sampling__sampling_sflow_interfaces_interface_config(
   __slots__ = ('_path_helper', '_extmethods', '__name','__enabled','__polling_interval','__ingress_sampling_rate','__egress_sampling_rate',)
 
   _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/sampling'
 
   _pybind_generated_by = 'container'
 
@@ -1905,6 +1912,7 @@ class yc_state_openconfig_sampling__sampling_sflow_interfaces_interface_state(Py
   __slots__ = ('_path_helper', '_extmethods', '__name','__enabled','__polling_interval','__ingress_sampling_rate','__egress_sampling_rate','__packets_sampled',)
 
   _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/sampling'
 
   _pybind_generated_by = 'container'
 
@@ -2227,6 +2235,7 @@ class yc_interface_openconfig_sampling__sampling_sflow_interfaces_interface(Pybi
   __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state',)
 
   _yang_name = 'interface'
+  _yang_namespace = 'http://openconfig.net/yang/sampling'
 
   _pybind_generated_by = 'container'
 
@@ -2401,6 +2410,7 @@ class yc_interfaces_openconfig_sampling__sampling_sflow_interfaces(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__interface',)
 
   _yang_name = 'interfaces'
+  _yang_namespace = 'http://openconfig.net/yang/sampling'
 
   _pybind_generated_by = 'container'
 
@@ -2492,6 +2502,7 @@ class yc_sflow_openconfig_sampling__sampling_sflow(PybindBase):
   __slots__ = ('_path_helper', '_extmethods', '__config','__state','__collectors','__interfaces',)
 
   _yang_name = 'sflow'
+  _yang_namespace = 'http://openconfig.net/yang/sampling'
 
   _pybind_generated_by = 'container'
 
@@ -2701,6 +2712,7 @@ operational state data
   __slots__ = ('_path_helper', '_extmethods', '__sflow',)
 
   _yang_name = 'sampling'
+  _yang_namespace = 'http://openconfig.net/yang/sampling'
 
   _pybind_generated_by = 'container'
 
@@ -2797,6 +2809,7 @@ NETFLOW
   __slots__ = ('_path_helper', '_extmethods', '__sampling',)
 
   _yang_name = 'openconfig-sampling'
+  _yang_namespace = 'http://openconfig.net/yang/sampling'
 
   _pybind_generated_by = 'container'
 
