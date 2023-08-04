@@ -33,11 +33,10 @@ for m in $( ls -d ${MODELS_PATH}/*/ ); do
   MODELS=$(find $m -name openconfig-*.yang)
   MODEL_NAME=$(basename $m | tr "-" "_")
   echo "Binding models in $m"
-  # Skipping Warnings due to https://github.com/openconfig/public/issues/571
-  pyang  --plugindir $PYBINDPLUGIN -f pybind \
+  pyang --plugindir $PYBINDPLUGIN -f pybind \
     --path "$MODELS_PATH/" --output "$MODELS_FOLDER/${MODEL_NAME}.py" ${MODELS}
-  pyang  --plugindir $PYBINDPLUGIN -f name --name-print-revision \
-  --path "$MODELS_PATH/" ${MODELS} >> ${MODELS_FOLDER}/__init__.py
+  pyang --plugindir $PYBINDPLUGIN -f name --name-print-revision \
+    --path "$MODELS_PATH/" ${MODELS} >> ${MODELS_FOLDER}/__init__.py
 done
 
 echo -n "\"\"\"" >> ${MODELS_FOLDER}/__init__.py
