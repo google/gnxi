@@ -15,6 +15,7 @@ openconfig-aft-state-synced@2023-04-19 (belongs-to openconfig-aft)
 openconfig-aft-network-instance@2023-04-25
 openconfig-ate-intf@2019-08-07
 openconfig-ate-flow@2022-04-29
+openconfig-bfd@2023-02-06
 openconfig-bgp-common-multiprotocol@2023-06-27 (belongs-to openconfig-bgp)
 openconfig-bgp-global@2023-06-27 (belongs-to openconfig-bgp)
 openconfig-bgp-peer-group@2023-06-27 (belongs-to openconfig-bgp)
