@@ -112,7 +112,7 @@ Place your testing code in `py_tests/test_*.py` and run the tests with `python3 
 
 ### Releasing the `oc_config_validate` Docker images
 
-The Docker images take the latest code from the `master` branch of the Git repository.
+> The Docker images are built taking the latest version of `oc_config_validate` from PyPi.
 
 1. Create a Docker Image for the latest version of `oc_config_validate`, tagged with the version number and `latest`.
 
