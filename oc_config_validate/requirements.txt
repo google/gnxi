@@ -5,7 +5,7 @@ grpcio-tools
 isort
 parameterized
 pyang
-pyangbind
+pyangbind>=0.8.3
 pycodestyle
 pyflakes
 pylama
