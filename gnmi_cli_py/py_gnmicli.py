@@ -156,8 +156,53 @@ def _path_names(xpath):
   """
   if not xpath or xpath == '/':  # A blank xpath was provided at CLI.
     return []
-  return re.split(r'''/(?=(?:[^\[\]]|\[[^\[\]]+\])*$)''',
-                  xpath.strip('/').strip('/'))  # Removes leading/trailing '/'.
+  xpath = xpath.strip().strip('/')
+  path = []
+  xpath = xpath + '/'
+  # insideBrackets is true when at least one '[' has been found and no
+  # ']' has been found. It is false when a closing ']' has been found.
+  insideBrackets = False
+  # begin marks the beginning of a path element, which is separated by
+  # '/' unclosed between '[' and ']'.
+  begin = 0
+  # end marks the end of a path element, which is separated by '/'
+  # unclosed between '[' and ']'.
+  end = 0
+
+  # Split the given string using unescaped '/'.
+  while end < len(xpath):
+    if xpath[end] == '/':
+      if not insideBrackets:
+        # Current '/' is a valid path element
+        # separator.
+        if end > begin:
+          path.append(xpath[begin:end])
+        end += 1
+        begin = end
+      else:
+        # Current '/' must be part of a List key value
+        # string.
+        end += 1
+    elif xpath[end] == '[':
+      if (end == 0 or xpath[end-1] != '\\') and not insideBrackets:
+        # Current '[' is unescacped, and is the
+        # beginning of List key-value pair(s) string.
+        insideBrackets = True
+      end += 1
+    elif xpath[end] == ']':
+      if (end == 0 or xpath[end-1] != '\\') and insideBrackets:
+        # Current ']' is unescacped, and is the end of
+        # List key-value pair(s) string.
+        insideBrackets = False
+      end += 1
+    else:
+      end += 1
+
+  if insideBrackets:
+    print("missing ] in path string: %s" % xpath)
+    return []
+
+  return path
 
 
 def _parse_path(p_names):
