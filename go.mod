@@ -22,7 +22,7 @@ require (
 	github.com/mholt/archiver/v3 v3.5.0
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/mitchellh/mapstructure v1.3.3 // indirect
-	github.com/moby/moby v24.0.6+incompatible
+	github.com/moby/moby v24.0.9+incompatible
 	github.com/moby/term v0.5.0 // indirect
 	github.com/morikuni/aec v1.0.0 // indirect
 	github.com/openconfig/gnmi v0.0.0-20220503232738-6eb133c65a13
