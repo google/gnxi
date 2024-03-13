@@ -40,7 +40,7 @@ require (
 	github.com/ulikunitz/xz v0.5.8 // indirect
 	golang.org/x/net v0.17.0
 	google.golang.org/grpc v1.56.3
-	google.golang.org/protobuf v1.30.0
+	google.golang.org/protobuf v1.33.0
 	gopkg.in/ini.v1 v1.62.0 // indirect
 	gopkg.in/yaml.v2 v2.3.0 // indirect
 	gotest.tools/v3 v3.5.1 // indirect
