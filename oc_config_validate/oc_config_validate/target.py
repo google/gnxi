@@ -267,16 +267,20 @@ class TestTarget():
         """
         return self._gNMISet(xpath, 'delete')
 
-    def gNMISetConfigFile(self, file_path: str, xpath: str):
+    def gNMISetConfigFile(self, file_path: str, xpath: str, set_replace: bool = False):
         """Apply the JSON-formated configuration to the target.
 
         Args:
             file_path: Path to a JSON file with the configuration to apply.
             xpath: gNMI xpath where to apply the configuration.
+            set_replace: If True, gNMI SetReplace is used. Else, SetUpdate is used.
         """
         with open(file_path, encoding="utf8") as file:
             json_data = json.load(file)
-        self.gNMISetUpdate(xpath, json_data)
+        if set_replace:
+            self.gNMISetReplace(xpath, json_data)
+        else:
+            self.gNMISetUpdate(xpath, json_data)
 
     def _gNMISubscribe(self,
                        request: gnmi_pb2.SubscribeRequest,
