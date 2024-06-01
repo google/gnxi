@@ -240,7 +240,7 @@ def ocLeafsPaths(model: str, xpath: str) -> List[str]:
 
     paths = []
     for leaf, val in obj.get().items():
-        if type(val) == dict:
+        if isinstance(val, dict):
             paths.extend(ocLeafsPaths(model, xpath + "/" + leaf))
         else:
             paths.append(xpath + "/" + leaf)
@@ -346,7 +346,7 @@ def notificationsJsonString(notifications: List[gnmi_pb2.Notification],
     """
     notifs = []
     for n in notifications:
-        notif = {"timestamp": n.timestamp, "updates": [None]*len(n.update)}
+        notif = {"timestamp": n.timestamp, "updates": [None] * len(n.update)}
         for i, u in enumerate(n.update):
             notif["updates"][i] = {"path": pathToString(
                 u.path), "value": typedValueToPython(u.val)}
@@ -445,7 +445,7 @@ def intersectListCmp(want: list, got: list) -> Tuple[bool, str]:
     for i in want:
         for j in got:
             matched = False
-            if type(i) != type(j):
+            if isinstance(i, type(j)):
                 continue
             if isinstance(i, dict):
                 cmp, _ = intersectCmp(i, j)
