@@ -11,6 +11,7 @@ CLIENT_TLS=0
 STOP_ON_ERROR=0
 LOG_GNMI=0
 DEBUG=0
+INIT_SET_REPLACE=0
 
 BASEDIR=$(dirname $0)
 CERTSDIR=${BASEDIR}/../../certs
@@ -65,16 +66,23 @@ start_oc_config_validate() {
     if [[ "$VERBOSE" -eq 1 ]]; then
         OPTS="$OPTS --verbose"
     fi
+    if [[ "$INIT_SET_REPLACE" -eq 1 ]]; then
+        OPTS="$OPTS --init_set_replace"
+    fi
     for t in config telemetry; do
       echo
       echo "--- Run oc_config_validate $OPTS for $t"
       echo
-      PYTHONPATH="$PYTHONPATH:${BASEDIR}/.." python3 -m oc_config_validate --target "localhost:$1" --tests_file $BASEDIR/${t}_tests.yaml --results_file $BASEDIR/${t}_results.json --init_config_file $BASEDIR/init_config.json --init_config_xpath "/system/config" --target_cert_as_root_ca $OPTS
+      PYTHONPATH="$PYTHONPATH:${BASEDIR}/.." python3 -m oc_config_validate \
+        --target "localhost:$1" --tests_file $BASEDIR/${t}_tests.yaml --results_file $BASEDIR/${t}_results.json \
+        --init_config_file $BASEDIR/system_hostname_config.json --init_config_xpath "/system/config" \
+        --target_cert_as_root_ca \
+        $OPTS
     done
   }
 
 parse_options() {
-  while getopts "p:NRCSLVh" opt; do
+  while getopts "p:NRCSLVih" opt; do
     case ${opt} in
       p )
         GNMI_PORT=$OPTARG
@@ -97,6 +105,9 @@ parse_options() {
       V )
         VERBOSE=1
         ;;
+      i )
+        INIT_SET_REPLACE=1
+        ;;
       * )
         echo "
 demo.sh [-p <gNMI Port>]
@@ -106,6 +117,7 @@ demo.sh [-p <gNMI Port>]
         [-S] # Stop on error
         [-L] # Log Gnmi messages to the test results
         [-V] # Enable verbose output
+        [-i] # Use gNMI SetReplace for initial config
 "
           return 1
         ;;

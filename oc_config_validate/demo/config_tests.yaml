@@ -42,7 +42,14 @@ tests:
   class_name: get.GetCompare
   args:
     xpath: "system/config/hostname"
-    want: "atestdevice"
+    want: "foo"
+
+- !TestCase
+  name: "Compare Domain Configured"
+  class_name: get.GetCompare
+  args:
+    xpath: "system/config/domain-name"
+    want: "foo.bar.com"
 
 - !TestCase
   name: "Compare mgmt Interface state"
