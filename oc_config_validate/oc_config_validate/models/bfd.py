@@ -7,10 +7,11 @@ from pyangbind.lib.yangtypes import YANGBool
 from pyangbind.lib.yangtypes import YANGListType
 from pyangbind.lib.yangtypes import YANGDynClass
 from pyangbind.lib.yangtypes import ReferenceType
+from pyangbind.lib.yangtypes import YANGBinary
+from pyangbind.lib.yangtypes import YANGBitsType
 from pyangbind.lib.base import PybindBase
 from collections import OrderedDict
 from decimal import Decimal
-from bitarray import bitarray
 import six
 
 # PY3 support of some PY2 keywords (needs improved)
@@ -1058,7 +1059,7 @@ of any other context information (e.g., key in a list).
 
     self._extmethods = False
     self.__config = YANGDynClass(base=yc_config_openconfig_bfd__bfd_interfaces_interface_interface_ref_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=True)
-    self.__state = YANGDynClass(base=yc_state_openconfig_bfd__bfd_interfaces_interface_interface_ref_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_bfd__bfd_interfaces_interface_interface_ref_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -1145,12 +1146,12 @@ of any other context information (e.g., key in a list).
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_state_openconfig_bfd__bfd_interfaces_interface_interface_ref_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=True)
+      t = YANGDynClass(v,base=yc_state_openconfig_bfd__bfd_interfaces_interface_interface_ref_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """state must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_state_openconfig_bfd__bfd_interfaces_interface_interface_ref_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=True)""",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_bfd__bfd_interfaces_interface_interface_ref_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)""",
         })
 
     self.__state = t
@@ -1158,10 +1159,10 @@ of any other context information (e.g., key in a list).
       self._set()
 
   def _unset_state(self):
-    self.__state = YANGDynClass(base=yc_state_openconfig_bfd__bfd_interfaces_interface_interface_ref_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_bfd__bfd_interfaces_interface_interface_ref_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)
 
   config = __builtin__.property(_get_config, _set_config)
-  state = __builtin__.property(_get_state, _set_state)
+  state = __builtin__.property(_get_state)
 
 
   _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
@@ -1343,7 +1344,7 @@ described.
   _pyangbind_elements = OrderedDict([('local_address', local_address), ('remote_address', remote_address), ('member_interface', member_interface), ])
 
 
-class yc_async_openconfig_bfd__bfd_interfaces_interface_micro_bfd_sessions_micro_bfd_session_state_async(PybindBase):
+class yc_async__openconfig_bfd__bfd_interfaces_interface_micro_bfd_sessions_micro_bfd_session_state_async(PybindBase):
   """
   This class was auto-generated by the PythonClass plugin for PYANG
   from YANG module openconfig-bfd - based on the path /bfd/interfaces/interface/micro-bfd-sessions/micro-bfd-session/state/async. Each member element of
@@ -1619,7 +1620,7 @@ class yc_state_openconfig_bfd__bfd_interfaces_interface_micro_bfd_sessions_micro
 
   YANG Description: Operational state parameters for the micro-BFD session.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__local_address','__remote_address','__member_interface','__session_state','__remote_session_state','__last_failure_time','__failure_transitions','__local_discriminator','__remote_discriminator','__local_diagnostic_code','__remote_diagnostic_code','__remote_minimum_receive_interval','__demand_mode_requested','__remote_authentication_enabled','__remote_control_plane_independent','__async',)
+  __slots__ = ('_path_helper', '_extmethods', '__local_address','__remote_address','__member_interface','__session_state','__remote_session_state','__last_failure_time','__failure_transitions','__local_discriminator','__remote_discriminator','__local_diagnostic_code','__remote_diagnostic_code','__remote_minimum_receive_interval','__demand_mode_requested','__remote_authentication_enabled','__remote_control_plane_independent','__async_',)
 
   _yang_name = 'state'
   _yang_namespace = 'http://openconfig.net/yang/bfd'
@@ -1646,7 +1647,7 @@ class yc_state_openconfig_bfd__bfd_interfaces_interface_micro_bfd_sessions_micro
     self.__demand_mode_requested = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="demand-mode-requested", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='boolean', is_config=False)
     self.__remote_authentication_enabled = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="remote-authentication-enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='boolean', is_config=False)
     self.__remote_control_plane_independent = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="remote-control-plane-independent", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='boolean', is_config=False)
-    self.__async = YANGDynClass(base=yc_async_openconfig_bfd__bfd_interfaces_interface_micro_bfd_sessions_micro_bfd_session_state_async, is_container='container', yang_name="async", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)
+    self.__async_ = YANGDynClass(base=yc_async__openconfig_bfd__bfd_interfaces_interface_micro_bfd_sessions_micro_bfd_session_state_async, is_container='container', yang_name="async", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -2264,22 +2265,22 @@ of the control plane's liveliness.
     self.__remote_control_plane_independent = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="remote-control-plane-independent", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='boolean', is_config=False)
 
 
-  def _get_async(self):
+  def _get_async_(self):
     """
-    Getter method for async, mapped from YANG variable /bfd/interfaces/interface/micro_bfd_sessions/micro_bfd_session/state/async (container)
+    Getter method for async_, mapped from YANG variable /bfd/interfaces/interface/micro_bfd_sessions/micro_bfd_session/state/async (container)
 
     YANG Description: Operational state parameters specifically relating to
 asynchronous mode of BFD.
     """
-    return self.__async
+    return self.__async_
       
-  def _set_async(self, v, load=False):
+  def _set_async_(self, v, load=False):
     """
-    Setter method for async, mapped from YANG variable /bfd/interfaces/interface/micro_bfd_sessions/micro_bfd_session/state/async (container)
+    Setter method for async_, mapped from YANG variable /bfd/interfaces/interface/micro_bfd_sessions/micro_bfd_session/state/async (container)
     If this variable is read-only (config: false) in the
-    source YANG file, then _set_async is considered as a private
+    source YANG file, then _set_async_ is considered as a private
     method. Backends looking to populate this variable should
-    do so via calling thisObj._set_async() directly.
+    do so via calling thisObj._set_async_() directly.
 
     YANG Description: Operational state parameters specifically relating to
 asynchronous mode of BFD.
@@ -2287,20 +2288,20 @@ asynchronous mode of BFD.
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_async_openconfig_bfd__bfd_interfaces_interface_micro_bfd_sessions_micro_bfd_session_state_async, is_container='container', yang_name="async", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)
+      t = YANGDynClass(v,base=yc_async__openconfig_bfd__bfd_interfaces_interface_micro_bfd_sessions_micro_bfd_session_state_async, is_container='container', yang_name="async", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
-          'error-string': """async must be of a type compatible with container""",
+          'error-string': """async_ must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_async_openconfig_bfd__bfd_interfaces_interface_micro_bfd_sessions_micro_bfd_session_state_async, is_container='container', yang_name="async", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)""",
+          'generated-type': """YANGDynClass(base=yc_async__openconfig_bfd__bfd_interfaces_interface_micro_bfd_sessions_micro_bfd_session_state_async, is_container='container', yang_name="async", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)""",
         })
 
-    self.__async = t
+    self.__async_ = t
     if hasattr(self, '_set'):
       self._set()
 
-  def _unset_async(self):
-    self.__async = YANGDynClass(base=yc_async_openconfig_bfd__bfd_interfaces_interface_micro_bfd_sessions_micro_bfd_session_state_async, is_container='container', yang_name="async", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)
+  def _unset_async_(self):
+    self.__async_ = YANGDynClass(base=yc_async__openconfig_bfd__bfd_interfaces_interface_micro_bfd_sessions_micro_bfd_session_state_async, is_container='container', yang_name="async", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)
 
   local_address = __builtin__.property(_get_local_address)
   remote_address = __builtin__.property(_get_remote_address)
@@ -2317,10 +2318,10 @@ asynchronous mode of BFD.
   demand_mode_requested = __builtin__.property(_get_demand_mode_requested)
   remote_authentication_enabled = __builtin__.property(_get_remote_authentication_enabled)
   remote_control_plane_independent = __builtin__.property(_get_remote_control_plane_independent)
-  async = __builtin__.property(_get_async)
+  async_ = __builtin__.property(_get_async_)
 
 
-  _pyangbind_elements = OrderedDict([('local_address', local_address), ('remote_address', remote_address), ('member_interface', member_interface), ('session_state', session_state), ('remote_session_state', remote_session_state), ('last_failure_time', last_failure_time), ('failure_transitions', failure_transitions), ('local_discriminator', local_discriminator), ('remote_discriminator', remote_discriminator), ('local_diagnostic_code', local_diagnostic_code), ('remote_diagnostic_code', remote_diagnostic_code), ('remote_minimum_receive_interval', remote_minimum_receive_interval), ('demand_mode_requested', demand_mode_requested), ('remote_authentication_enabled', remote_authentication_enabled), ('remote_control_plane_independent', remote_control_plane_independent), ('async', async), ])
+  _pyangbind_elements = OrderedDict([('local_address', local_address), ('remote_address', remote_address), ('member_interface', member_interface), ('session_state', session_state), ('remote_session_state', remote_session_state), ('last_failure_time', last_failure_time), ('failure_transitions', failure_transitions), ('local_discriminator', local_discriminator), ('remote_discriminator', remote_discriminator), ('local_diagnostic_code', local_diagnostic_code), ('remote_diagnostic_code', remote_diagnostic_code), ('remote_minimum_receive_interval', remote_minimum_receive_interval), ('demand_mode_requested', demand_mode_requested), ('remote_authentication_enabled', remote_authentication_enabled), ('remote_control_plane_independent', remote_control_plane_independent), ('async_', async_), ])
 
 
 class yc_micro_bfd_session_openconfig_bfd__bfd_interfaces_interface_micro_bfd_sessions_micro_bfd_session(PybindBase):
@@ -2347,7 +2348,7 @@ relating to micro-BFD session.
     self._extmethods = False
     self.__member_interface = YANGDynClass(base=six.text_type, is_leaf=True, yang_name="member-interface", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='leafref', is_config=True)
     self.__config = YANGDynClass(base=yc_config_openconfig_bfd__bfd_interfaces_interface_micro_bfd_sessions_micro_bfd_session_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=True)
-    self.__state = YANGDynClass(base=yc_state_openconfig_bfd__bfd_interfaces_interface_micro_bfd_sessions_micro_bfd_session_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_bfd__bfd_interfaces_interface_micro_bfd_sessions_micro_bfd_session_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -2478,12 +2479,12 @@ aggregate.
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_state_openconfig_bfd__bfd_interfaces_interface_micro_bfd_sessions_micro_bfd_session_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=True)
+      t = YANGDynClass(v,base=yc_state_openconfig_bfd__bfd_interfaces_interface_micro_bfd_sessions_micro_bfd_session_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """state must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_state_openconfig_bfd__bfd_interfaces_interface_micro_bfd_sessions_micro_bfd_session_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=True)""",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_bfd__bfd_interfaces_interface_micro_bfd_sessions_micro_bfd_session_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)""",
         })
 
     self.__state = t
@@ -2491,11 +2492,11 @@ aggregate.
       self._set()
 
   def _unset_state(self):
-    self.__state = YANGDynClass(base=yc_state_openconfig_bfd__bfd_interfaces_interface_micro_bfd_sessions_micro_bfd_session_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_bfd__bfd_interfaces_interface_micro_bfd_sessions_micro_bfd_session_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)
 
   member_interface = __builtin__.property(_get_member_interface, _set_member_interface)
   config = __builtin__.property(_get_config, _set_config)
-  state = __builtin__.property(_get_state, _set_state)
+  state = __builtin__.property(_get_state)
 
 
   _pyangbind_elements = OrderedDict([('member_interface', member_interface), ('config', config), ('state', state), ])
@@ -2906,7 +2907,7 @@ has transitioned into the up state.
   _pyangbind_elements = OrderedDict([('active', active), ('last_packet_transmitted', last_packet_transmitted), ('last_packet_received', last_packet_received), ('transmitted_packets', transmitted_packets), ('received_packets', received_packets), ('up_transitions', up_transitions), ])
 
 
-class yc_async_openconfig_bfd__bfd_interfaces_interface_peers_peer_state_async(PybindBase):
+class yc_async__openconfig_bfd__bfd_interfaces_interface_peers_peer_state_async(PybindBase):
   """
   This class was auto-generated by the PythonClass plugin for PYANG
   from YANG module openconfig-bfd - based on the path /bfd/interfaces/interface/peers/peer/state/async. Each member element of
@@ -3182,7 +3183,7 @@ class yc_state_openconfig_bfd__bfd_interfaces_interface_peers_peer_state(PybindB
 
   YANG Description: Operational state parameters for the BFD session.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__local_address','__remote_address','__subscribed_protocols','__session_state','__remote_session_state','__last_failure_time','__failure_transitions','__local_discriminator','__remote_discriminator','__local_diagnostic_code','__remote_diagnostic_code','__remote_minimum_receive_interval','__demand_mode_requested','__remote_authentication_enabled','__remote_control_plane_independent','__echo','__async',)
+  __slots__ = ('_path_helper', '_extmethods', '__local_address','__remote_address','__subscribed_protocols','__session_state','__remote_session_state','__last_failure_time','__failure_transitions','__local_discriminator','__remote_discriminator','__local_diagnostic_code','__remote_diagnostic_code','__remote_minimum_receive_interval','__demand_mode_requested','__remote_authentication_enabled','__remote_control_plane_independent','__echo','__async_',)
 
   _yang_name = 'state'
   _yang_namespace = 'http://openconfig.net/yang/bfd'
@@ -3196,7 +3197,7 @@ class yc_state_openconfig_bfd__bfd_interfaces_interface_peers_peer_state(PybindB
     self._extmethods = False
     self.__local_address = YANGDynClass(base=[RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])){3}'}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:))'}),], is_leaf=True, yang_name="local-address", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='oc-inet:ip-address', is_config=False)
     self.__remote_address = YANGDynClass(base=[RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])){3}'}),RestrictedClassType(base_type=six.text_type, restriction_dict={'pattern': '(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:))'}),], is_leaf=True, yang_name="remote-address", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='oc-inet:ip-address', is_config=False)
-    self.__subscribed_protocols = YANGDynClass(unique=True, base=TypedListType(allowed_type=RestrictedClassType(base_type=six.text_type, restriction_type="dict_key", restriction_arg={'BGP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:BGP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'ISIS': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:ISIS': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'OSPF': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:OSPF': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'OSPF3': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:OSPF3': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'STATIC': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:STATIC': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'DIRECTLY_CONNECTED': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:DIRECTLY_CONNECTED': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'LOCAL_AGGREGATE': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:LOCAL_AGGREGATE': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'PIM': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:PIM': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'IGMP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:IGMP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'GRIBI': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:GRIBI': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'PCEP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:PCEP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'LOCAL': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:LOCAL': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}},)), is_leaf=False, yang_name="subscribed-protocols", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='identityref', is_config=False)
+    self.__subscribed_protocols = YANGDynClass(unique=True, base=TypedListType(allowed_type=RestrictedClassType(base_type=six.text_type, restriction_type="dict_key", restriction_arg={'BGP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:BGP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:BGP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'ISIS': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:ISIS': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:ISIS': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'OSPF': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:OSPF': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:OSPF': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'OSPF3': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:OSPF3': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:OSPF3': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'STATIC': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:STATIC': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:STATIC': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'DIRECTLY_CONNECTED': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:DIRECTLY_CONNECTED': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:DIRECTLY_CONNECTED': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'LOCAL_AGGREGATE': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:LOCAL_AGGREGATE': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:LOCAL_AGGREGATE': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'PIM': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:PIM': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:PIM': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'IGMP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:IGMP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:IGMP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'GRIBI': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:GRIBI': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:GRIBI': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'PCEP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:PCEP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:PCEP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'LOCAL': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:LOCAL': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:LOCAL': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}},)), is_leaf=False, yang_name="subscribed-protocols", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='identityref', is_config=False)
     self.__session_state = YANGDynClass(base=RestrictedClassType(base_type=six.text_type,                                     restriction_type="dict_key",                                     restriction_arg={'UP': {}, 'DOWN': {}, 'ADMIN_DOWN': {}, 'INIT': {}},), is_leaf=True, yang_name="session-state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-session-state', is_config=False)
     self.__remote_session_state = YANGDynClass(base=RestrictedClassType(base_type=six.text_type,                                     restriction_type="dict_key",                                     restriction_arg={'UP': {}, 'DOWN': {}, 'ADMIN_DOWN': {}, 'INIT': {}},), is_leaf=True, yang_name="remote-session-state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-session-state', is_config=False)
     self.__last_failure_time = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="last-failure-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='oc-types:timeticks64', is_config=False)
@@ -3210,7 +3211,7 @@ class yc_state_openconfig_bfd__bfd_interfaces_interface_peers_peer_state(PybindB
     self.__remote_authentication_enabled = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="remote-authentication-enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='boolean', is_config=False)
     self.__remote_control_plane_independent = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="remote-control-plane-independent", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='boolean', is_config=False)
     self.__echo = YANGDynClass(base=yc_echo_openconfig_bfd__bfd_interfaces_interface_peers_peer_state_echo, is_container='container', yang_name="echo", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)
-    self.__async = YANGDynClass(base=yc_async_openconfig_bfd__bfd_interfaces_interface_peers_peer_state_async, is_container='container', yang_name="async", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)
+    self.__async_ = YANGDynClass(base=yc_async__openconfig_bfd__bfd_interfaces_interface_peers_peer_state_async, is_container='container', yang_name="async", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -3336,12 +3337,12 @@ this BFD session for liveliness detection.
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,unique=True, base=TypedListType(allowed_type=RestrictedClassType(base_type=six.text_type, restriction_type="dict_key", restriction_arg={'BGP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:BGP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'ISIS': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:ISIS': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'OSPF': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:OSPF': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'OSPF3': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:OSPF3': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'STATIC': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:STATIC': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'DIRECTLY_CONNECTED': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:DIRECTLY_CONNECTED': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'LOCAL_AGGREGATE': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:LOCAL_AGGREGATE': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'PIM': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:PIM': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'IGMP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:IGMP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'GRIBI': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:GRIBI': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'PCEP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:PCEP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'LOCAL': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:LOCAL': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}},)), is_leaf=False, yang_name="subscribed-protocols", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='identityref', is_config=False)
+      t = YANGDynClass(v,unique=True, base=TypedListType(allowed_type=RestrictedClassType(base_type=six.text_type, restriction_type="dict_key", restriction_arg={'BGP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:BGP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:BGP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'ISIS': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:ISIS': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:ISIS': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'OSPF': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:OSPF': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:OSPF': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'OSPF3': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:OSPF3': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:OSPF3': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'STATIC': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:STATIC': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:STATIC': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'DIRECTLY_CONNECTED': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:DIRECTLY_CONNECTED': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:DIRECTLY_CONNECTED': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'LOCAL_AGGREGATE': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:LOCAL_AGGREGATE': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:LOCAL_AGGREGATE': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'PIM': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:PIM': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:PIM': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'IGMP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:IGMP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:IGMP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'GRIBI': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:GRIBI': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:GRIBI': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'PCEP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:PCEP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:PCEP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'LOCAL': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:LOCAL': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:LOCAL': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}},)), is_leaf=False, yang_name="subscribed-protocols", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='identityref', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """subscribed_protocols must be of a type compatible with identityref""",
           'defined-type': "openconfig-bfd:identityref",
-          'generated-type': """YANGDynClass(unique=True, base=TypedListType(allowed_type=RestrictedClassType(base_type=six.text_type, restriction_type="dict_key", restriction_arg={'BGP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:BGP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'ISIS': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:ISIS': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'OSPF': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:OSPF': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'OSPF3': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:OSPF3': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'STATIC': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:STATIC': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'DIRECTLY_CONNECTED': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:DIRECTLY_CONNECTED': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'LOCAL_AGGREGATE': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:LOCAL_AGGREGATE': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'PIM': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:PIM': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'IGMP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:IGMP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'GRIBI': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:GRIBI': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'PCEP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:PCEP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'LOCAL': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:LOCAL': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}},)), is_leaf=False, yang_name="subscribed-protocols", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='identityref', is_config=False)""",
+          'generated-type': """YANGDynClass(unique=True, base=TypedListType(allowed_type=RestrictedClassType(base_type=six.text_type, restriction_type="dict_key", restriction_arg={'BGP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:BGP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:BGP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'ISIS': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:ISIS': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:ISIS': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'OSPF': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:OSPF': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:OSPF': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'OSPF3': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:OSPF3': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:OSPF3': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'STATIC': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:STATIC': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:STATIC': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'DIRECTLY_CONNECTED': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:DIRECTLY_CONNECTED': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:DIRECTLY_CONNECTED': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'LOCAL_AGGREGATE': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:LOCAL_AGGREGATE': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:LOCAL_AGGREGATE': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'PIM': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:PIM': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:PIM': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'IGMP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:IGMP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:IGMP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'GRIBI': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:GRIBI': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:GRIBI': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'PCEP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:PCEP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:PCEP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'LOCAL': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:LOCAL': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:LOCAL': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}},)), is_leaf=False, yang_name="subscribed-protocols", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='identityref', is_config=False)""",
         })
 
     self.__subscribed_protocols = t
@@ -3349,7 +3350,7 @@ this BFD session for liveliness detection.
       self._set()
 
   def _unset_subscribed_protocols(self):
-    self.__subscribed_protocols = YANGDynClass(unique=True, base=TypedListType(allowed_type=RestrictedClassType(base_type=six.text_type, restriction_type="dict_key", restriction_arg={'BGP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:BGP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'ISIS': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:ISIS': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'OSPF': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:OSPF': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'OSPF3': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:OSPF3': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'STATIC': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:STATIC': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'DIRECTLY_CONNECTED': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:DIRECTLY_CONNECTED': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'LOCAL_AGGREGATE': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:LOCAL_AGGREGATE': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'PIM': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:PIM': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'IGMP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:IGMP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'GRIBI': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:GRIBI': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'PCEP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:PCEP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'LOCAL': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:LOCAL': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}},)), is_leaf=False, yang_name="subscribed-protocols", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='identityref', is_config=False)
+    self.__subscribed_protocols = YANGDynClass(unique=True, base=TypedListType(allowed_type=RestrictedClassType(base_type=six.text_type, restriction_type="dict_key", restriction_arg={'BGP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:BGP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:BGP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'ISIS': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:ISIS': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:ISIS': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'OSPF': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:OSPF': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:OSPF': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'OSPF3': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:OSPF3': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:OSPF3': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'STATIC': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:STATIC': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:STATIC': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'DIRECTLY_CONNECTED': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:DIRECTLY_CONNECTED': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:DIRECTLY_CONNECTED': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'LOCAL_AGGREGATE': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:LOCAL_AGGREGATE': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:LOCAL_AGGREGATE': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'PIM': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:PIM': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:PIM': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'IGMP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:IGMP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:IGMP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'GRIBI': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:GRIBI': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:GRIBI': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'PCEP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:PCEP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:PCEP': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'LOCAL': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'openconfig-policy-types:LOCAL': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}, 'oc-pol-types:LOCAL': {'@module': 'openconfig-policy-types', '@namespace': 'http://openconfig.net/yang/policy-types'}},)), is_leaf=False, yang_name="subscribed-protocols", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='identityref', is_config=False)
 
 
   def _get_session_state(self):
@@ -3863,22 +3864,22 @@ echo mode of BFD.
     self.__echo = YANGDynClass(base=yc_echo_openconfig_bfd__bfd_interfaces_interface_peers_peer_state_echo, is_container='container', yang_name="echo", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)
 
 
-  def _get_async(self):
+  def _get_async_(self):
     """
-    Getter method for async, mapped from YANG variable /bfd/interfaces/interface/peers/peer/state/async (container)
+    Getter method for async_, mapped from YANG variable /bfd/interfaces/interface/peers/peer/state/async (container)
 
     YANG Description: Operational state parameters specifically relating to
 asynchronous mode of BFD.
     """
-    return self.__async
+    return self.__async_
       
-  def _set_async(self, v, load=False):
+  def _set_async_(self, v, load=False):
     """
-    Setter method for async, mapped from YANG variable /bfd/interfaces/interface/peers/peer/state/async (container)
+    Setter method for async_, mapped from YANG variable /bfd/interfaces/interface/peers/peer/state/async (container)
     If this variable is read-only (config: false) in the
-    source YANG file, then _set_async is considered as a private
+    source YANG file, then _set_async_ is considered as a private
     method. Backends looking to populate this variable should
-    do so via calling thisObj._set_async() directly.
+    do so via calling thisObj._set_async_() directly.
 
     YANG Description: Operational state parameters specifically relating to
 asynchronous mode of BFD.
@@ -3886,20 +3887,20 @@ asynchronous mode of BFD.
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_async_openconfig_bfd__bfd_interfaces_interface_peers_peer_state_async, is_container='container', yang_name="async", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)
+      t = YANGDynClass(v,base=yc_async__openconfig_bfd__bfd_interfaces_interface_peers_peer_state_async, is_container='container', yang_name="async", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
-          'error-string': """async must be of a type compatible with container""",
+          'error-string': """async_ must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_async_openconfig_bfd__bfd_interfaces_interface_peers_peer_state_async, is_container='container', yang_name="async", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)""",
+          'generated-type': """YANGDynClass(base=yc_async__openconfig_bfd__bfd_interfaces_interface_peers_peer_state_async, is_container='container', yang_name="async", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)""",
         })
 
-    self.__async = t
+    self.__async_ = t
     if hasattr(self, '_set'):
       self._set()
 
-  def _unset_async(self):
-    self.__async = YANGDynClass(base=yc_async_openconfig_bfd__bfd_interfaces_interface_peers_peer_state_async, is_container='container', yang_name="async", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)
+  def _unset_async_(self):
+    self.__async_ = YANGDynClass(base=yc_async__openconfig_bfd__bfd_interfaces_interface_peers_peer_state_async, is_container='container', yang_name="async", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)
 
   local_address = __builtin__.property(_get_local_address)
   remote_address = __builtin__.property(_get_remote_address)
@@ -3917,10 +3918,10 @@ asynchronous mode of BFD.
   remote_authentication_enabled = __builtin__.property(_get_remote_authentication_enabled)
   remote_control_plane_independent = __builtin__.property(_get_remote_control_plane_independent)
   echo = __builtin__.property(_get_echo)
-  async = __builtin__.property(_get_async)
+  async_ = __builtin__.property(_get_async_)
 
 
-  _pyangbind_elements = OrderedDict([('local_address', local_address), ('remote_address', remote_address), ('subscribed_protocols', subscribed_protocols), ('session_state', session_state), ('remote_session_state', remote_session_state), ('last_failure_time', last_failure_time), ('failure_transitions', failure_transitions), ('local_discriminator', local_discriminator), ('remote_discriminator', remote_discriminator), ('local_diagnostic_code', local_diagnostic_code), ('remote_diagnostic_code', remote_diagnostic_code), ('remote_minimum_receive_interval', remote_minimum_receive_interval), ('demand_mode_requested', demand_mode_requested), ('remote_authentication_enabled', remote_authentication_enabled), ('remote_control_plane_independent', remote_control_plane_independent), ('echo', echo), ('async', async), ])
+  _pyangbind_elements = OrderedDict([('local_address', local_address), ('remote_address', remote_address), ('subscribed_protocols', subscribed_protocols), ('session_state', session_state), ('remote_session_state', remote_session_state), ('last_failure_time', last_failure_time), ('failure_transitions', failure_transitions), ('local_discriminator', local_discriminator), ('remote_discriminator', remote_discriminator), ('local_diagnostic_code', local_diagnostic_code), ('remote_diagnostic_code', remote_diagnostic_code), ('remote_minimum_receive_interval', remote_minimum_receive_interval), ('demand_mode_requested', demand_mode_requested), ('remote_authentication_enabled', remote_authentication_enabled), ('remote_control_plane_independent', remote_control_plane_independent), ('echo', echo), ('async_', async_), ])
 
 
 class yc_peer_openconfig_bfd__bfd_interfaces_interface_peers_peer(PybindBase):
@@ -4084,7 +4085,7 @@ over this interface.
     self._path_helper = False
 
     self._extmethods = False
-    self.__peer = YANGDynClass(base=YANGListType("local_discriminator",yc_peer_openconfig_bfd__bfd_interfaces_interface_peers_peer, yang_name="peer", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='local-discriminator', extensions=None), is_container='list', yang_name="peer", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='list', is_config=True)
+    self.__peer = YANGDynClass(base=YANGListType("local_discriminator",yc_peer_openconfig_bfd__bfd_interfaces_interface_peers_peer, yang_name="peer", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='local-discriminator', extensions=None), is_container='list', yang_name="peer", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='list', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -4136,12 +4137,12 @@ remote address.
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=YANGListType("local_discriminator",yc_peer_openconfig_bfd__bfd_interfaces_interface_peers_peer, yang_name="peer", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='local-discriminator', extensions=None), is_container='list', yang_name="peer", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='list', is_config=True)
+      t = YANGDynClass(v,base=YANGListType("local_discriminator",yc_peer_openconfig_bfd__bfd_interfaces_interface_peers_peer, yang_name="peer", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='local-discriminator', extensions=None), is_container='list', yang_name="peer", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='list', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """peer must be of a type compatible with list""",
           'defined-type': "list",
-          'generated-type': """YANGDynClass(base=YANGListType("local_discriminator",yc_peer_openconfig_bfd__bfd_interfaces_interface_peers_peer, yang_name="peer", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='local-discriminator', extensions=None), is_container='list', yang_name="peer", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='list', is_config=True)""",
+          'generated-type': """YANGDynClass(base=YANGListType("local_discriminator",yc_peer_openconfig_bfd__bfd_interfaces_interface_peers_peer, yang_name="peer", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='local-discriminator', extensions=None), is_container='list', yang_name="peer", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='list', is_config=False)""",
         })
 
     self.__peer = t
@@ -4149,9 +4150,9 @@ remote address.
       self._set()
 
   def _unset_peer(self):
-    self.__peer = YANGDynClass(base=YANGListType("local_discriminator",yc_peer_openconfig_bfd__bfd_interfaces_interface_peers_peer, yang_name="peer", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='local-discriminator', extensions=None), is_container='list', yang_name="peer", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='list', is_config=True)
+    self.__peer = YANGDynClass(base=YANGListType("local_discriminator",yc_peer_openconfig_bfd__bfd_interfaces_interface_peers_peer, yang_name="peer", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='local-discriminator', extensions=None), is_container='list', yang_name="peer", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='list', is_config=False)
 
-  peer = __builtin__.property(_get_peer, _set_peer)
+  peer = __builtin__.property(_get_peer)
 
 
   _pyangbind_elements = OrderedDict([('peer', peer), ])
@@ -4184,7 +4185,7 @@ and should not rely on the value of the list key.
     self._extmethods = False
     self.__id = YANGDynClass(base=six.text_type, is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='leafref', is_config=True)
     self.__config = YANGDynClass(base=yc_config_openconfig_bfd__bfd_interfaces_interface_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=True)
-    self.__state = YANGDynClass(base=yc_state_openconfig_bfd__bfd_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_bfd__bfd_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)
     self.__interface_ref = YANGDynClass(base=yc_interface_ref_openconfig_bfd__bfd_interfaces_interface_interface_ref, is_container='container', yang_name="interface-ref", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=True)
     self.__micro_bfd_sessions = YANGDynClass(base=yc_micro_bfd_sessions_openconfig_bfd__bfd_interfaces_interface_micro_bfd_sessions, is_container='container', yang_name="micro-bfd-sessions", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=True)
     self.__peers = YANGDynClass(base=yc_peers_openconfig_bfd__bfd_interfaces_interface_peers, is_container='container', yang_name="peers", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=True)
@@ -4322,12 +4323,12 @@ interface.
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_state_openconfig_bfd__bfd_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=True)
+      t = YANGDynClass(v,base=yc_state_openconfig_bfd__bfd_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """state must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_state_openconfig_bfd__bfd_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=True)""",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_bfd__bfd_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)""",
         })
 
     self.__state = t
@@ -4335,7 +4336,7 @@ interface.
       self._set()
 
   def _unset_state(self):
-    self.__state = YANGDynClass(base=yc_state_openconfig_bfd__bfd_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_bfd__bfd_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='container', is_config=False)
 
 
   def _get_interface_ref(self):
@@ -4478,7 +4479,7 @@ over this interface.
 
   id = __builtin__.property(_get_id, _set_id)
   config = __builtin__.property(_get_config, _set_config)
-  state = __builtin__.property(_get_state, _set_state)
+  state = __builtin__.property(_get_state)
   interface_ref = __builtin__.property(_get_interface_ref, _set_interface_ref)
   micro_bfd_sessions = __builtin__.property(_get_micro_bfd_sessions, _set_micro_bfd_sessions)
   peers = __builtin__.property(_get_peers, _set_peers)

@@ -7,10 +7,11 @@ from pyangbind.lib.yangtypes import YANGBool
 from pyangbind.lib.yangtypes import YANGListType
 from pyangbind.lib.yangtypes import YANGDynClass
 from pyangbind.lib.yangtypes import ReferenceType
+from pyangbind.lib.yangtypes import YANGBinary
+from pyangbind.lib.yangtypes import YANGBitsType
 from pyangbind.lib.base import PybindBase
 from collections import OrderedDict
 from decimal import Decimal
-from bitarray import bitarray
 import six
 
 # PY3 support of some PY2 keywords (needs improved)
@@ -2017,8 +2018,8 @@ class yc_interface_openconfig_lacp__lacp_interfaces_interface(PybindBase):
     self._extmethods = False
     self.__name = YANGDynClass(base=six.text_type, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='leafref', is_config=True)
     self.__config = YANGDynClass(base=yc_config_openconfig_lacp__lacp_interfaces_interface_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=True)
-    self.__state = YANGDynClass(base=yc_state_openconfig_lacp__lacp_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=True)
-    self.__members = YANGDynClass(base=yc_members_openconfig_lacp__lacp_interfaces_interface_members, is_container='container', yang_name="members", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_lacp__lacp_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=False)
+    self.__members = YANGDynClass(base=yc_members_openconfig_lacp__lacp_interfaces_interface_members, is_container='container', yang_name="members", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -2149,12 +2150,12 @@ interface
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_state_openconfig_lacp__lacp_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=True)
+      t = YANGDynClass(v,base=yc_state_openconfig_lacp__lacp_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """state must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_state_openconfig_lacp__lacp_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=True)""",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_lacp__lacp_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=False)""",
         })
 
     self.__state = t
@@ -2162,7 +2163,7 @@ interface
       self._set()
 
   def _unset_state(self):
-    self.__state = YANGDynClass(base=yc_state_openconfig_lacp__lacp_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_lacp__lacp_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=False)
 
 
   def _get_members(self):
@@ -2190,12 +2191,12 @@ only so is labeled config false and has no config container
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_members_openconfig_lacp__lacp_interfaces_interface_members, is_container='container', yang_name="members", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=True)
+      t = YANGDynClass(v,base=yc_members_openconfig_lacp__lacp_interfaces_interface_members, is_container='container', yang_name="members", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """members must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_members_openconfig_lacp__lacp_interfaces_interface_members, is_container='container', yang_name="members", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=True)""",
+          'generated-type': """YANGDynClass(base=yc_members_openconfig_lacp__lacp_interfaces_interface_members, is_container='container', yang_name="members", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=False)""",
         })
 
     self.__members = t
@@ -2203,12 +2204,12 @@ only so is labeled config false and has no config container
       self._set()
 
   def _unset_members(self):
-    self.__members = YANGDynClass(base=yc_members_openconfig_lacp__lacp_interfaces_interface_members, is_container='container', yang_name="members", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=True)
+    self.__members = YANGDynClass(base=yc_members_openconfig_lacp__lacp_interfaces_interface_members, is_container='container', yang_name="members", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=False)
 
   name = __builtin__.property(_get_name, _set_name)
   config = __builtin__.property(_get_config, _set_config)
-  state = __builtin__.property(_get_state, _set_state)
-  members = __builtin__.property(_get_members, _set_members)
+  state = __builtin__.property(_get_state)
+  members = __builtin__.property(_get_members)
 
 
   _pyangbind_elements = OrderedDict([('name', name), ('config', config), ('state', state), ('members', members), ])
@@ -2330,7 +2331,7 @@ operation on the aggregate interface
 
     self._extmethods = False
     self.__config = YANGDynClass(base=yc_config_openconfig_lacp__lacp_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=True)
-    self.__state = YANGDynClass(base=yc_state_openconfig_lacp__lacp_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_lacp__lacp_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=False)
     self.__interfaces = YANGDynClass(base=yc_interfaces_openconfig_lacp__lacp_interfaces, is_container='container', yang_name="interfaces", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=True)
 
     load = kwargs.pop("load", None)
@@ -2418,12 +2419,12 @@ operation on the aggregate interface
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_state_openconfig_lacp__lacp_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=True)
+      t = YANGDynClass(v,base=yc_state_openconfig_lacp__lacp_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """state must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_state_openconfig_lacp__lacp_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=True)""",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_lacp__lacp_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=False)""",
         })
 
     self.__state = t
@@ -2431,7 +2432,7 @@ operation on the aggregate interface
       self._set()
 
   def _unset_state(self):
-    self.__state = YANGDynClass(base=yc_state_openconfig_lacp__lacp_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_lacp__lacp_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=False)
 
 
   def _get_interfaces(self):
@@ -2473,7 +2474,7 @@ interfaces
     self.__interfaces = YANGDynClass(base=yc_interfaces_openconfig_lacp__lacp_interfaces, is_container='container', yang_name="interfaces", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=True)
 
   config = __builtin__.property(_get_config, _set_config)
-  state = __builtin__.property(_get_state, _set_state)
+  state = __builtin__.property(_get_state)
   interfaces = __builtin__.property(_get_interfaces, _set_interfaces)
 
 
