@@ -7,10 +7,11 @@ from pyangbind.lib.yangtypes import YANGBool
 from pyangbind.lib.yangtypes import YANGListType
 from pyangbind.lib.yangtypes import YANGDynClass
 from pyangbind.lib.yangtypes import ReferenceType
+from pyangbind.lib.yangtypes import YANGBinary
+from pyangbind.lib.yangtypes import YANGBitsType
 from pyangbind.lib.base import PybindBase
 from collections import OrderedDict
 from decimal import Decimal
-from bitarray import bitarray
 import six
 
 # PY3 support of some PY2 keywords (needs improved)
@@ -387,7 +388,7 @@ class yc_ipv4_prefix_set_openconfig_defined_sets__defined_sets_ipv4_prefix_sets_
     self._extmethods = False
     self.__name = YANGDynClass(base=six.text_type, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='leafref', is_config=True)
     self.__config = YANGDynClass(base=yc_config_openconfig_defined_sets__defined_sets_ipv4_prefix_sets_ipv4_prefix_set_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='container', is_config=True)
-    self.__state = YANGDynClass(base=yc_state_openconfig_defined_sets__defined_sets_ipv4_prefix_sets_ipv4_prefix_set_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_defined_sets__defined_sets_ipv4_prefix_sets_ipv4_prefix_set_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='container', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -516,12 +517,12 @@ class yc_ipv4_prefix_set_openconfig_defined_sets__defined_sets_ipv4_prefix_sets_
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_state_openconfig_defined_sets__defined_sets_ipv4_prefix_sets_ipv4_prefix_set_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='container', is_config=True)
+      t = YANGDynClass(v,base=yc_state_openconfig_defined_sets__defined_sets_ipv4_prefix_sets_ipv4_prefix_set_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """state must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_state_openconfig_defined_sets__defined_sets_ipv4_prefix_sets_ipv4_prefix_set_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='container', is_config=True)""",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_defined_sets__defined_sets_ipv4_prefix_sets_ipv4_prefix_set_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='container', is_config=False)""",
         })
 
     self.__state = t
@@ -529,11 +530,11 @@ class yc_ipv4_prefix_set_openconfig_defined_sets__defined_sets_ipv4_prefix_sets_
       self._set()
 
   def _unset_state(self):
-    self.__state = YANGDynClass(base=yc_state_openconfig_defined_sets__defined_sets_ipv4_prefix_sets_ipv4_prefix_set_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_defined_sets__defined_sets_ipv4_prefix_sets_ipv4_prefix_set_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='container', is_config=False)
 
   name = __builtin__.property(_get_name, _set_name)
   config = __builtin__.property(_get_config, _set_config)
-  state = __builtin__.property(_get_state, _set_state)
+  state = __builtin__.property(_get_state)
 
 
   _pyangbind_elements = OrderedDict([('name', name), ('config', config), ('state', state), ])
@@ -999,7 +1000,7 @@ is uniquely identified by a name
     self._extmethods = False
     self.__name = YANGDynClass(base=six.text_type, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='leafref', is_config=True)
     self.__config = YANGDynClass(base=yc_config_openconfig_defined_sets__defined_sets_ipv6_prefix_sets_ipv6_prefix_set_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='container', is_config=True)
-    self.__state = YANGDynClass(base=yc_state_openconfig_defined_sets__defined_sets_ipv6_prefix_sets_ipv6_prefix_set_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_defined_sets__defined_sets_ipv6_prefix_sets_ipv6_prefix_set_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='container', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -1128,12 +1129,12 @@ is uniquely identified by a name
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_state_openconfig_defined_sets__defined_sets_ipv6_prefix_sets_ipv6_prefix_set_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='container', is_config=True)
+      t = YANGDynClass(v,base=yc_state_openconfig_defined_sets__defined_sets_ipv6_prefix_sets_ipv6_prefix_set_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """state must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_state_openconfig_defined_sets__defined_sets_ipv6_prefix_sets_ipv6_prefix_set_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='container', is_config=True)""",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_defined_sets__defined_sets_ipv6_prefix_sets_ipv6_prefix_set_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='container', is_config=False)""",
         })
 
     self.__state = t
@@ -1141,11 +1142,11 @@ is uniquely identified by a name
       self._set()
 
   def _unset_state(self):
-    self.__state = YANGDynClass(base=yc_state_openconfig_defined_sets__defined_sets_ipv6_prefix_sets_ipv6_prefix_set_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_defined_sets__defined_sets_ipv6_prefix_sets_ipv6_prefix_set_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='container', is_config=False)
 
   name = __builtin__.property(_get_name, _set_name)
   config = __builtin__.property(_get_config, _set_config)
-  state = __builtin__.property(_get_state, _set_state)
+  state = __builtin__.property(_get_state)
 
 
   _pyangbind_elements = OrderedDict([('name', name), ('config', config), ('state', state), ])
@@ -1613,7 +1614,7 @@ identified by its name
     self._extmethods = False
     self.__name = YANGDynClass(base=six.text_type, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='leafref', is_config=True)
     self.__config = YANGDynClass(base=yc_config_openconfig_defined_sets__defined_sets_port_sets_port_set_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='container', is_config=True)
-    self.__state = YANGDynClass(base=yc_state_openconfig_defined_sets__defined_sets_port_sets_port_set_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_defined_sets__defined_sets_port_sets_port_set_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='container', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -1744,12 +1745,12 @@ reference the set in match conditions.
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_state_openconfig_defined_sets__defined_sets_port_sets_port_set_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='container', is_config=True)
+      t = YANGDynClass(v,base=yc_state_openconfig_defined_sets__defined_sets_port_sets_port_set_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """state must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_state_openconfig_defined_sets__defined_sets_port_sets_port_set_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='container', is_config=True)""",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_defined_sets__defined_sets_port_sets_port_set_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='container', is_config=False)""",
         })
 
     self.__state = t
@@ -1757,11 +1758,11 @@ reference the set in match conditions.
       self._set()
 
   def _unset_state(self):
-    self.__state = YANGDynClass(base=yc_state_openconfig_defined_sets__defined_sets_port_sets_port_set_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_defined_sets__defined_sets_port_sets_port_set_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/defined-sets', defining_module='openconfig-defined-sets', yang_type='container', is_config=False)
 
   name = __builtin__.property(_get_name, _set_name)
   config = __builtin__.property(_get_config, _set_config)
-  state = __builtin__.property(_get_state, _set_state)
+  state = __builtin__.property(_get_state)
 
 
   _pyangbind_elements = OrderedDict([('name', name), ('config', config), ('state', state), ])

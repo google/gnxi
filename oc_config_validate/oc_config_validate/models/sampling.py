@@ -7,10 +7,11 @@ from pyangbind.lib.yangtypes import YANGBool
 from pyangbind.lib.yangtypes import YANGListType
 from pyangbind.lib.yangtypes import YANGDynClass
 from pyangbind.lib.yangtypes import ReferenceType
+from pyangbind.lib.yangtypes import YANGBinary
+from pyangbind.lib.yangtypes import YANGBitsType
 from pyangbind.lib.base import PybindBase
 from collections import OrderedDict
 from decimal import Decimal
-from bitarray import bitarray
 import six
 
 # PY3 support of some PY2 keywords (needs improved)
@@ -1327,7 +1328,7 @@ samples are sent to all collectors specified.
     self.__address = YANGDynClass(base=six.text_type, is_leaf=True, yang_name="address", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='leafref', is_config=True)
     self.__port = YANGDynClass(base=six.text_type, is_leaf=True, yang_name="port", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='leafref', is_config=True)
     self.__config = YANGDynClass(base=yc_config_openconfig_sampling__sampling_sflow_collectors_collector_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=True)
-    self.__state = YANGDynClass(base=yc_state_openconfig_sampling__sampling_sflow_collectors_collector_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_sampling__sampling_sflow_collectors_collector_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -1498,12 +1499,12 @@ samples are sent to all collectors specified.
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_state_openconfig_sampling__sampling_sflow_collectors_collector_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=True)
+      t = YANGDynClass(v,base=yc_state_openconfig_sampling__sampling_sflow_collectors_collector_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """state must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_state_openconfig_sampling__sampling_sflow_collectors_collector_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=True)""",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_sampling__sampling_sflow_collectors_collector_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=False)""",
         })
 
     self.__state = t
@@ -1511,12 +1512,12 @@ samples are sent to all collectors specified.
       self._set()
 
   def _unset_state(self):
-    self.__state = YANGDynClass(base=yc_state_openconfig_sampling__sampling_sflow_collectors_collector_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_sampling__sampling_sflow_collectors_collector_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=False)
 
   address = __builtin__.property(_get_address, _set_address)
   port = __builtin__.property(_get_port, _set_port)
   config = __builtin__.property(_get_config, _set_config)
-  state = __builtin__.property(_get_state, _set_state)
+  state = __builtin__.property(_get_state)
 
 
   _pyangbind_elements = OrderedDict([('address', address), ('port', port), ('config', config), ('state', state), ])
@@ -2246,7 +2247,7 @@ class yc_interface_openconfig_sampling__sampling_sflow_interfaces_interface(Pybi
     self._extmethods = False
     self.__name = YANGDynClass(base=six.text_type, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='leafref', is_config=True)
     self.__config = YANGDynClass(base=yc_config_openconfig_sampling__sampling_sflow_interfaces_interface_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=True)
-    self.__state = YANGDynClass(base=yc_state_openconfig_sampling__sampling_sflow_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_sampling__sampling_sflow_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -2375,12 +2376,12 @@ class yc_interface_openconfig_sampling__sampling_sflow_interfaces_interface(Pybi
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_state_openconfig_sampling__sampling_sflow_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=True)
+      t = YANGDynClass(v,base=yc_state_openconfig_sampling__sampling_sflow_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """state must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_state_openconfig_sampling__sampling_sflow_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=True)""",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_sampling__sampling_sflow_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=False)""",
         })
 
     self.__state = t
@@ -2388,11 +2389,11 @@ class yc_interface_openconfig_sampling__sampling_sflow_interfaces_interface(Pybi
       self._set()
 
   def _unset_state(self):
-    self.__state = YANGDynClass(base=yc_state_openconfig_sampling__sampling_sflow_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_sampling__sampling_sflow_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=False)
 
   name = __builtin__.property(_get_name, _set_name)
   config = __builtin__.property(_get_config, _set_config)
-  state = __builtin__.property(_get_state, _set_state)
+  state = __builtin__.property(_get_state)
 
 
   _pyangbind_elements = OrderedDict([('name', name), ('config', config), ('state', state), ])
@@ -2512,7 +2513,7 @@ class yc_sflow_openconfig_sampling__sampling_sflow(PybindBase):
 
     self._extmethods = False
     self.__config = YANGDynClass(base=yc_config_openconfig_sampling__sampling_sflow_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=True)
-    self.__state = YANGDynClass(base=yc_state_openconfig_sampling__sampling_sflow_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_sampling__sampling_sflow_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=False)
     self.__collectors = YANGDynClass(base=yc_collectors_openconfig_sampling__sampling_sflow_collectors, is_container='container', yang_name="collectors", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=True)
     self.__interfaces = YANGDynClass(base=yc_interfaces_openconfig_sampling__sampling_sflow_interfaces, is_container='container', yang_name="interfaces", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=True)
 
@@ -2601,12 +2602,12 @@ class yc_sflow_openconfig_sampling__sampling_sflow(PybindBase):
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_state_openconfig_sampling__sampling_sflow_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=True)
+      t = YANGDynClass(v,base=yc_state_openconfig_sampling__sampling_sflow_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """state must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_state_openconfig_sampling__sampling_sflow_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=True)""",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_sampling__sampling_sflow_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=False)""",
         })
 
     self.__state = t
@@ -2614,7 +2615,7 @@ class yc_sflow_openconfig_sampling__sampling_sflow(PybindBase):
       self._set()
 
   def _unset_state(self):
-    self.__state = YANGDynClass(base=yc_state_openconfig_sampling__sampling_sflow_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_sampling__sampling_sflow_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=False)
 
 
   def _get_collectors(self):
@@ -2691,7 +2692,7 @@ class yc_sflow_openconfig_sampling__sampling_sflow(PybindBase):
     self.__interfaces = YANGDynClass(base=yc_interfaces_openconfig_sampling__sampling_sflow_interfaces, is_container='container', yang_name="interfaces", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='container', is_config=True)
 
   config = __builtin__.property(_get_config, _set_config)
-  state = __builtin__.property(_get_state, _set_state)
+  state = __builtin__.property(_get_state)
   collectors = __builtin__.property(_get_collectors, _set_collectors)
   interfaces = __builtin__.property(_get_interfaces, _set_interfaces)
 

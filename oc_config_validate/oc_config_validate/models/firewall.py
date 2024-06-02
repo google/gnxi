@@ -7,10 +7,11 @@ from pyangbind.lib.yangtypes import YANGBool
 from pyangbind.lib.yangtypes import YANGListType
 from pyangbind.lib.yangtypes import YANGDynClass
 from pyangbind.lib.yangtypes import ReferenceType
+from pyangbind.lib.yangtypes import YANGBinary
+from pyangbind.lib.yangtypes import YANGBitsType
 from pyangbind.lib.base import PybindBase
 from collections import OrderedDict
 from decimal import Decimal
-from bitarray import bitarray
 import six
 
 # PY3 support of some PY2 keywords (needs improved)
@@ -626,7 +627,7 @@ class yc_state_openconfig_fw_high_availability__ha_groups_ha_group_state(PybindB
     self.__ha_state_last_change = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="ha-state-last-change", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='oc-types:timeticks64', is_config=False)
     self.__ha_config_sync = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="ha-config-sync", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='boolean', is_config=False)
     self.__ha_session_sync = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="ha-session-sync", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='boolean', is_config=False)
-    self.__ha_mismatched_parameters = YANGDynClass(unique=True, base=TypedListType(allowed_type=RestrictedClassType(base_type=six.text_type, restriction_type="dict_key", restriction_arg={'SOFTWARE_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:SOFTWARE_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'RUNNING_CONFIG_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:RUNNING_CONFIG_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'IPS_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:IPS_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'AVC_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:AVC_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}},)), is_leaf=False, yang_name="ha-mismatched-parameters", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='identityref', is_config=False)
+    self.__ha_mismatched_parameters = YANGDynClass(unique=True, base=TypedListType(allowed_type=RestrictedClassType(base_type=six.text_type, restriction_type="dict_key", restriction_arg={'SOFTWARE_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'openconfig-fw-high-availability:SOFTWARE_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:SOFTWARE_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'RUNNING_CONFIG_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'openconfig-fw-high-availability:RUNNING_CONFIG_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:RUNNING_CONFIG_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'IPS_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'openconfig-fw-high-availability:IPS_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:IPS_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'AVC_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'openconfig-fw-high-availability:AVC_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:AVC_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}},)), is_leaf=False, yang_name="ha-mismatched-parameters", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='identityref', is_config=False)
     self.__global_health_status = YANGDynClass(base=RestrictedClassType(base_type=six.text_type,                                     restriction_type="dict_key",                                     restriction_arg={'UP': {}, 'DOWN': {}},), is_leaf=True, yang_name="global-health-status", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='enumeration', is_config=False)
 
     load = kwargs.pop("load", None)
@@ -1329,12 +1330,12 @@ that an operator must fix
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,unique=True, base=TypedListType(allowed_type=RestrictedClassType(base_type=six.text_type, restriction_type="dict_key", restriction_arg={'SOFTWARE_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:SOFTWARE_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'RUNNING_CONFIG_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:RUNNING_CONFIG_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'IPS_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:IPS_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'AVC_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:AVC_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}},)), is_leaf=False, yang_name="ha-mismatched-parameters", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='identityref', is_config=False)
+      t = YANGDynClass(v,unique=True, base=TypedListType(allowed_type=RestrictedClassType(base_type=six.text_type, restriction_type="dict_key", restriction_arg={'SOFTWARE_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'openconfig-fw-high-availability:SOFTWARE_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:SOFTWARE_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'RUNNING_CONFIG_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'openconfig-fw-high-availability:RUNNING_CONFIG_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:RUNNING_CONFIG_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'IPS_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'openconfig-fw-high-availability:IPS_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:IPS_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'AVC_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'openconfig-fw-high-availability:AVC_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:AVC_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}},)), is_leaf=False, yang_name="ha-mismatched-parameters", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='identityref', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """ha_mismatched_parameters must be of a type compatible with identityref""",
           'defined-type': "openconfig-fw-high-availability:identityref",
-          'generated-type': """YANGDynClass(unique=True, base=TypedListType(allowed_type=RestrictedClassType(base_type=six.text_type, restriction_type="dict_key", restriction_arg={'SOFTWARE_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:SOFTWARE_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'RUNNING_CONFIG_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:RUNNING_CONFIG_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'IPS_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:IPS_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'AVC_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:AVC_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}},)), is_leaf=False, yang_name="ha-mismatched-parameters", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='identityref', is_config=False)""",
+          'generated-type': """YANGDynClass(unique=True, base=TypedListType(allowed_type=RestrictedClassType(base_type=six.text_type, restriction_type="dict_key", restriction_arg={'SOFTWARE_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'openconfig-fw-high-availability:SOFTWARE_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:SOFTWARE_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'RUNNING_CONFIG_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'openconfig-fw-high-availability:RUNNING_CONFIG_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:RUNNING_CONFIG_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'IPS_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'openconfig-fw-high-availability:IPS_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:IPS_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'AVC_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'openconfig-fw-high-availability:AVC_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:AVC_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}},)), is_leaf=False, yang_name="ha-mismatched-parameters", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='identityref', is_config=False)""",
         })
 
     self.__ha_mismatched_parameters = t
@@ -1342,7 +1343,7 @@ that an operator must fix
       self._set()
 
   def _unset_ha_mismatched_parameters(self):
-    self.__ha_mismatched_parameters = YANGDynClass(unique=True, base=TypedListType(allowed_type=RestrictedClassType(base_type=six.text_type, restriction_type="dict_key", restriction_arg={'SOFTWARE_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:SOFTWARE_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'RUNNING_CONFIG_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:RUNNING_CONFIG_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'IPS_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:IPS_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'AVC_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:AVC_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}},)), is_leaf=False, yang_name="ha-mismatched-parameters", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='identityref', is_config=False)
+    self.__ha_mismatched_parameters = YANGDynClass(unique=True, base=TypedListType(allowed_type=RestrictedClassType(base_type=six.text_type, restriction_type="dict_key", restriction_arg={'SOFTWARE_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'openconfig-fw-high-availability:SOFTWARE_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:SOFTWARE_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'RUNNING_CONFIG_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'openconfig-fw-high-availability:RUNNING_CONFIG_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:RUNNING_CONFIG_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'IPS_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'openconfig-fw-high-availability:IPS_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:IPS_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'AVC_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'openconfig-fw-high-availability:AVC_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}, 'oc-fw-ha:AVC_SIGNATURES_MISMATCH': {'@module': 'openconfig-fw-high-availability', '@namespace': 'http://openconfig.net/yang/oc-fw-ha'}},)), is_leaf=False, yang_name="ha-mismatched-parameters", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='identityref', is_config=False)
 
 
   def _get_global_health_status(self):
@@ -2935,7 +2936,7 @@ class yc_backup_openconfig_fw_high_availability__ha_groups_ha_group_control_link
 
     self._extmethods = False
     self.__config = YANGDynClass(base=yc_config_openconfig_fw_high_availability__ha_groups_ha_group_control_link_backup_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
-    self.__state = YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_control_link_backup_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_control_link_backup_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -3022,12 +3023,12 @@ class yc_backup_openconfig_fw_high_availability__ha_groups_ha_group_control_link
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_control_link_backup_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
+      t = YANGDynClass(v,base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_control_link_backup_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """state must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_control_link_backup_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)""",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_control_link_backup_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=False)""",
         })
 
     self.__state = t
@@ -3035,10 +3036,10 @@ class yc_backup_openconfig_fw_high_availability__ha_groups_ha_group_control_link
       self._set()
 
   def _unset_state(self):
-    self.__state = YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_control_link_backup_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_control_link_backup_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=False)
 
   config = __builtin__.property(_get_config, _set_config)
-  state = __builtin__.property(_get_state, _set_state)
+  state = __builtin__.property(_get_state)
 
 
   _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
@@ -3066,7 +3067,7 @@ class yc_control_link_openconfig_fw_high_availability__ha_groups_ha_group_contro
 
     self._extmethods = False
     self.__config = YANGDynClass(base=yc_config_openconfig_fw_high_availability__ha_groups_ha_group_control_link_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
-    self.__state = YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_control_link_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_control_link_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=False)
     self.__backup = YANGDynClass(base=yc_backup_openconfig_fw_high_availability__ha_groups_ha_group_control_link_backup, is_container='container', yang_name="backup", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
 
     load = kwargs.pop("load", None)
@@ -3156,12 +3157,12 @@ link
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_control_link_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
+      t = YANGDynClass(v,base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_control_link_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """state must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_control_link_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)""",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_control_link_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=False)""",
         })
 
     self.__state = t
@@ -3169,7 +3170,7 @@ link
       self._set()
 
   def _unset_state(self):
-    self.__state = YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_control_link_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_control_link_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=False)
 
 
   def _get_backup(self):
@@ -3209,7 +3210,7 @@ link
     self.__backup = YANGDynClass(base=yc_backup_openconfig_fw_high_availability__ha_groups_ha_group_control_link_backup, is_container='container', yang_name="backup", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
 
   config = __builtin__.property(_get_config, _set_config)
-  state = __builtin__.property(_get_state, _set_state)
+  state = __builtin__.property(_get_state)
   backup = __builtin__.property(_get_backup, _set_backup)
 
 
@@ -4764,7 +4765,7 @@ class yc_backup_openconfig_fw_high_availability__ha_groups_ha_group_data_link_ba
 
     self._extmethods = False
     self.__config = YANGDynClass(base=yc_config_openconfig_fw_high_availability__ha_groups_ha_group_data_link_backup_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
-    self.__state = YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_data_link_backup_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_data_link_backup_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -4853,12 +4854,12 @@ link
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_data_link_backup_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
+      t = YANGDynClass(v,base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_data_link_backup_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """state must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_data_link_backup_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)""",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_data_link_backup_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=False)""",
         })
 
     self.__state = t
@@ -4866,10 +4867,10 @@ link
       self._set()
 
   def _unset_state(self):
-    self.__state = YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_data_link_backup_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_data_link_backup_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=False)
 
   config = __builtin__.property(_get_config, _set_config)
-  state = __builtin__.property(_get_state, _set_state)
+  state = __builtin__.property(_get_state)
 
 
   _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
@@ -4897,7 +4898,7 @@ class yc_data_link_openconfig_fw_high_availability__ha_groups_ha_group_data_link
 
     self._extmethods = False
     self.__config = YANGDynClass(base=yc_config_openconfig_fw_high_availability__ha_groups_ha_group_data_link_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
-    self.__state = YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_data_link_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_data_link_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=False)
     self.__backup = YANGDynClass(base=yc_backup_openconfig_fw_high_availability__ha_groups_ha_group_data_link_backup, is_container='container', yang_name="backup", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
 
     load = kwargs.pop("load", None)
@@ -4987,12 +4988,12 @@ link
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_data_link_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
+      t = YANGDynClass(v,base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_data_link_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """state must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_data_link_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)""",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_data_link_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=False)""",
         })
 
     self.__state = t
@@ -5000,7 +5001,7 @@ link
       self._set()
 
   def _unset_state(self):
-    self.__state = YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_data_link_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_data_link_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=False)
 
 
   def _get_backup(self):
@@ -5040,7 +5041,7 @@ link
     self.__backup = YANGDynClass(base=yc_backup_openconfig_fw_high_availability__ha_groups_ha_group_data_link_backup, is_container='container', yang_name="backup", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
 
   config = __builtin__.property(_get_config, _set_config)
-  state = __builtin__.property(_get_state, _set_state)
+  state = __builtin__.property(_get_state)
   backup = __builtin__.property(_get_backup, _set_backup)
 
 
@@ -5453,7 +5454,7 @@ class yc_interface_group_openconfig_fw_high_availability__ha_groups_ha_group_int
     self._extmethods = False
     self.__id = YANGDynClass(base=six.text_type, is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='leafref', is_config=True)
     self.__config = YANGDynClass(base=yc_config_openconfig_fw_high_availability__ha_groups_ha_group_interface_groups_interface_group_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
-    self.__state = YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_interface_groups_interface_group_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_interface_groups_interface_group_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -5584,12 +5585,12 @@ interfaces in a logical group
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_interface_groups_interface_group_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
+      t = YANGDynClass(v,base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_interface_groups_interface_group_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """state must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_interface_groups_interface_group_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)""",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_interface_groups_interface_group_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=False)""",
         })
 
     self.__state = t
@@ -5597,11 +5598,11 @@ interfaces in a logical group
       self._set()
 
   def _unset_state(self):
-    self.__state = YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_interface_groups_interface_group_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_interface_groups_interface_group_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=False)
 
   id = __builtin__.property(_get_id, _set_id)
   config = __builtin__.property(_get_config, _set_config)
-  state = __builtin__.property(_get_state, _set_state)
+  state = __builtin__.property(_get_state)
 
 
   _pyangbind_elements = OrderedDict([('id', id), ('config', config), ('state', state), ])
@@ -5722,7 +5723,7 @@ class yc_ha_group_openconfig_fw_high_availability__ha_groups_ha_group(PybindBase
     self._extmethods = False
     self.__id = YANGDynClass(base=six.text_type, is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='leafref', is_config=True)
     self.__config = YANGDynClass(base=yc_config_openconfig_fw_high_availability__ha_groups_ha_group_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
-    self.__state = YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=False)
     self.__control_link = YANGDynClass(base=yc_control_link_openconfig_fw_high_availability__ha_groups_ha_group_control_link, is_container='container', yang_name="control-link", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
     self.__data_link = YANGDynClass(base=yc_data_link_openconfig_fw_high_availability__ha_groups_ha_group_data_link, is_container='container', yang_name="data-link", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
     self.__interface_groups = YANGDynClass(base=yc_interface_groups_openconfig_fw_high_availability__ha_groups_ha_group_interface_groups, is_container='container', yang_name="interface-groups", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
@@ -5854,12 +5855,12 @@ class yc_ha_group_openconfig_fw_high_availability__ha_groups_ha_group(PybindBase
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
+      t = YANGDynClass(v,base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """state must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)""",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=False)""",
         })
 
     self.__state = t
@@ -5867,7 +5868,7 @@ class yc_ha_group_openconfig_fw_high_availability__ha_groups_ha_group(PybindBase
       self._set()
 
   def _unset_state(self):
-    self.__state = YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_fw_high_availability__ha_groups_ha_group_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/oc-fw-ha', defining_module='openconfig-fw-high-availability', yang_type='container', is_config=False)
 
 
   def _get_control_link(self):
@@ -5982,7 +5983,7 @@ class yc_ha_group_openconfig_fw_high_availability__ha_groups_ha_group(PybindBase
 
   id = __builtin__.property(_get_id, _set_id)
   config = __builtin__.property(_get_config, _set_config)
-  state = __builtin__.property(_get_state, _set_state)
+  state = __builtin__.property(_get_state)
   control_link = __builtin__.property(_get_control_link, _set_control_link)
   data_link = __builtin__.property(_get_data_link, _set_data_link)
   interface_groups = __builtin__.property(_get_interface_groups, _set_interface_groups)
