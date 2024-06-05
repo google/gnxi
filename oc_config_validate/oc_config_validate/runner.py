@@ -203,19 +203,25 @@ def runTests(ctx: context.TestContext,
 
 def setInitConfigs(ctx: context.TestContext,
                    tgt: target.TestTarget,
-                   stop_on_error: bool = False) -> bool:
+                   stop_on_error: bool = False,
+                   set_replace: bool = False) -> bool:
     """Applies the initial configurations to the target.
 
     Args:
         ctx: A context.TestContext object.
         tgt: A target.TestTarget with a connection established.
         stop_on_error: If True, stop if there is an error.
+        set_replace: If True, gNMI SetReplace is used. Else, SetUpdate is used.
 
     Raises:
         InitConfigError if failed to apply the config. Does not raise if
         stop_on_error.
 
     """
+
+    if set_replace:
+        logging.info("Using gNMI Set Replace method for each Initial Config.")
+
     for init_config in ctx.init_configs:
         if (not getattr(init_config, "filename", None) or
                 not getattr(init_config, "xpath", None)):
@@ -225,7 +231,9 @@ def setInitConfigs(ctx: context.TestContext,
             logging.error(msg)
         try:
             schema.parsePath(init_config.xpath)
-            tgt.gNMISetConfigFile(init_config.filename, init_config.xpath)
+            tgt.gNMISetConfigFile(init_config.filename,
+                                  init_config.xpath,
+                                  set_replace)
             logging.info(f"Initial OpenConfig '{init_config.filename}' "
                          f"applied at {init_config.xpath}")
         except (IOError, json.JSONDecodeError, target.BaseError) as err:

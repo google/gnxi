@@ -103,7 +103,7 @@ class TestCase(unittest.case.TestCase):
     def phony(self):
         """A phony test method to be used for testing."""
 
-    def run(self, result):
+    def run(self, result=None):
         """Hook the result such that it can be measured and logged."""
         logging.debug('Starting test %s ...', self)
         self.result = result
@@ -542,6 +542,7 @@ class TestcaseResult():
         self.success = test_result.wasSuccessful()
         self.duration_sec = test_result.duration_sec
         self.results = []
+        # pytype: disable=wrong-arg-types
         for m in test_result.successes:
             self.results.append(MethodResult(m, 'PASS'))
         for m in test_result.failures:
@@ -550,6 +551,7 @@ class TestcaseResult():
             self.results.append(MethodResult(m, 'ERROR'))
         for m in test_result.skipped:
             self.results.append(MethodResult(m, 'SKIPPED'))
+        # pytype: enable=wrong-arg-types
 
 
 class TestRun():

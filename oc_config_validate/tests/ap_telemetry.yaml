@@ -100,7 +100,7 @@ tests:
   args:
     xpath: "/access-points/access-point[hostname=*]/radios/radio[id=*][operating-frequency=*]/state/total-channel-utilization"
     timeout_secs: 40
-    assert_all_paths_updated: True 
+    assert_all_paths_updated: True
 
 - !TestCase
   name: "OnChange Clients MACs"
@@ -121,6 +121,6 @@ tests:
   class_name: telemetry_onchange.SubscribeAndSet
   args:
     xpath: "/access-points/access-point[hostname=*]/ssids/ssid[name=*]/bssids/bssid[radio-id=*][bssid=*]/state/counters"
-    set_xpath:  "/access-points/access-point[hostname=ap.test.com]/ssids/ssid[name=Test]/config/opmode"
+    set_xpath: "/access-points/access-point[hostname=ap.test.com]/ssids/ssid[name=Test]/config/opmode"
     set_value: "WPA3_ENTERPRISE"
     timeout_secs: 20

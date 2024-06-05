@@ -95,6 +95,10 @@ def createArgsParser() -> argparse.ArgumentParser:
         help="gNMI xpath where to apply the initial config.",
         default="/")
     parser.add_argument(
+        "--init_set_replace",
+        action="store_true",
+        help="Use gNMI SetReplace method for the initial configs.")
+    parser.add_argument(
         "-results",
         "--results_file",
         type=str,
@@ -105,20 +109,28 @@ def createArgsParser() -> argparse.ArgumentParser:
         "--format",
         type=str,
         action="store",
-        help="Format "
-        "of the GetResponse to be printed. Default=JSON.",
-        choices=["json", "protobuff"],
+        help="Format of the test results file. Default=JSON.",
+        choices=formatter.SUPPORTED_FORMATS,
         default="json")
     parser.add_argument(
-        "-v", "--version", help="Print program version", action="store_true")
-    parser.add_argument(
-        "-V", "--verbose", help="Enable gRPC debugging and extra logging.",
+        "-v",
+        "--version",
+        help="Print program version",
         action="store_true")
     parser.add_argument(
-        "-models", "--oc_models_versions", help="Print OC models versions.",
+        "-V",
+        "--verbose",
+        help="Enable gRPC debugging and extra logging.",
         action="store_true")
     parser.add_argument(
-        "--no_tls", help="gRPC insecure mode.", action="store_true")
+        "-models",
+        "--oc_models_versions",
+        help="Print OC models versions.",
+        action="store_true")
+    parser.add_argument(
+        "--no_tls",
+        help="gRPC insecure mode.",
+        action="store_true")
     parser.add_argument(
         "-o",
         "--tls_host_override",
@@ -232,7 +244,7 @@ def main():  # noqa
     except ValueError as error:
         sys.exit("Invalid Target: %s" % error)
 
-    # Concatenate initial configuration paths and files
+    # Append initial configuration paths and file to Context
     if args["init_config_file"]:
         ctx.init_configs.append(context.InitConfig(args["init_config_file"],
                                                    args["init_config_xpath"]))
@@ -240,7 +252,8 @@ def main():  # noqa
     with target.TestTarget(ctx.target) as tgt:
         try:
             runner.setInitConfigs(ctx, tgt,
-                                  stop_on_error=args["stop_on_error"])
+                                  stop_on_error=args["stop_on_error"],
+                                  set_replace=args["init_set_replace"])
         except runner.InitConfigError as err:
             sys.exit("Unable to apply init config(s): %s" % err)
 
