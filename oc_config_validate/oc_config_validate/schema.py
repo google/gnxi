@@ -445,7 +445,7 @@ def intersectListCmp(want: list, got: list) -> Tuple[bool, str]:
     for i in want:
         for j in got:
             matched = False
-            if isinstance(i, type(j)):
+            if not isinstance(i, type(j)):
                 continue
             if isinstance(i, dict):
                 cmp, _ = intersectCmp(i, j)
