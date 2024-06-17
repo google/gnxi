@@ -30,14 +30,29 @@ git clone --depth 1 https://github.com/openconfig/public.git --branch "v2.3.0" -
 echo -n "__model_versions__ = \"\"\"" > ${MODELS_FOLDER}/__init__.py
 
 for m in $( ls -d ${MODELS_PATH}/*/ ); do
-  MODELS=$(find $m -name openconfig-*.yang)
+  MODELS=$(find $m -name "openconfig-*.yang")
   MODEL_NAME=$(basename $m | tr "-" "_")
-  echo "Binding models in $m"
+  echo -e "Binding models in $m. Found the following:\n$MODELS"
+  echo "Will create model: $MODEL_NAME"
   pyang --plugindir $PYBINDPLUGIN -f pybind \
     --path "$MODELS_PATH/" --output "$MODELS_FOLDER/${MODEL_NAME}.py" ${MODELS}
   pyang --plugindir $PYBINDPLUGIN -f name --name-print-revision \
     --path "$MODELS_PATH/" ${MODELS} >> ${MODELS_FOLDER}/__init__.py
 done
+
+# Create a custom wifi_arista that includes Arista vendor augments.
+curl -o ${MODELS_PATH}/wifi/arista-wifi-augments.yang https://raw.githubusercontent.com/aristanetworks/yang/master/WIFI-16.1.0/release/openconfig/models/arista-wifi-augments.yang
+for m in $( ls -d ${MODELS_PATH}/wifi/ ); do
+  MODELS=$(find $m -name "openconfig-*.yang" -o -name "arista-wifi-augments.yang")
+  MODELS_ARISTA=$(find $m -name "arista-wifi-augments.yang")
+  MODEL_NAME=$(basename $m | tr "-" "_")_arista
+  echo -e "Binding models in $m. Found the following:\n$MODELS"
+  echo "Will create model: $MODEL_NAME"
+  pyang --plugindir $PYBINDPLUGIN -f pybind \
+    --path "$MODELS_PATH/" --output "$MODELS_FOLDER/${MODEL_NAME}.py" ${MODELS}
+done
+pyang --plugindir $PYBINDPLUGIN -f name --name-print-revision \
+  --path "$MODELS_PATH/" ${MODELS_ARISTA} >> ${MODELS_FOLDER}/__init__.py
 
 echo -n "\"\"\"" >> ${MODELS_FOLDER}/__init__.py
 

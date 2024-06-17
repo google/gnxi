@@ -177,4 +177,5 @@ openconfig-wifi-mac@2023-05-26
 openconfig-ap-interfaces@2023-06-26
 openconfig-wifi-phy@2023-05-26
 openconfig-wifi-types@2022-05-26
+arista-wifi-augments@2020-05-04
 """
