@@ -39,7 +39,7 @@ The model bindings are used in tests that validate the gNMI JSON payloads agains
 
 Technically, any YANG OC model that is binded to a Python class in the `oc_config_validate.models` package can be used in testclasses. However, we suggest 2 approaches:
 
- *  Create a `custom` Python module:
+ *  Create a `custom` Python module -- A full example can be found [here](https://github.com/google/gnxi/tree/master/oc_config_validate/docs/custom_model.md), though a high level summary is below:
 
     1.  Put a few custom YANG OC models (either previous revisions, or other models altogether) in a folder named `custom` or something similar.
     1.  Use `pyang` to create a single Python file `oc_config_validate/models/custom` package that contains the custom models. See **oc_config_validate/update_models.sh**.
