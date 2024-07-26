@@ -53,7 +53,7 @@ In addition, we are not able to test the `spectratalk-pmk` leaf because the
  want to have a `SetConfigCheckState` testcase that configures and checks this
  leaf.  
 
-#### Generating the custom binding
+### Generating the custom binding
 
 We need a custom binding for our tests above to:
 
@@ -66,7 +66,7 @@ Notice how in addition to [wifi.py](https://github.com/google/gnxi/blob/master/o
  we also generate [wifi_arista.py](https://github.com/google/gnxi/blob/master/oc_config_validate/oc_config_validate/models/wifi_arista.py)
  which incorporates the vendor specific model.
 
-#### Using a vendor specific model
+### Using the custom binding
 
 We can now use our custom binding in our models folder.
 
