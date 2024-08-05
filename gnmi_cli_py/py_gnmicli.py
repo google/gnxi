@@ -126,6 +126,12 @@ def _create_parser():
                       required=False, action='store_true')
   parser.add_argument('-x', '--xpath', type=str, help='The gNMI path utilized'
                       'in the GetRequest or Subscirbe', required=True)
+  parser.add_argument('-xt', '--xpath_target', type=str, help='The gNMI prefix'
+                      'target in the GetRequest, SetRequest or Subscirbe', default=None,
+                      required=False)
+  parser.add_argument('-xo', '--xpath_origin', type=str, help='The gNMI prefix'
+                      'origin in the GetRequest, SetRequest or Subscirbe', default=None,
+                      required=False)
   parser.add_argument('-o', '--host_override', type=str, help='Use this as '
                       'Targets hostname/peername when checking it\'s'
                       'certificate CN. You can check the cert with:\nopenssl '
@@ -259,11 +265,12 @@ def _get_val(json_value):
   return val
 
 
-def _get(stub, paths, username, password):
+def _get(stub, prefix, paths, username, password):
   """Create a gNMI GetRequest.
 
   Args:
     stub: (class) gNMI Stub used to build the secure channel.
+    prefix: gNMI prefix
     paths: gNMI Path
     username: (str) Username used when building the channel.
     password: (str) Password used when building the channel.
@@ -273,16 +280,17 @@ def _get(stub, paths, username, password):
   """
   if username:  # User/pass supplied for Authentication.
     return stub.Get(
-        gnmi_pb2.GetRequest(path=[paths], encoding='JSON_IETF'),
+        gnmi_pb2.GetRequest(prefix=prefix, path=[paths], encoding='JSON_IETF'),
         metadata=[('username', username), ('password', password)])
-  return stub.Get(gnmi_pb2.GetRequest(path=[paths], encoding='JSON_IETF'))
+  return stub.Get(gnmi_pb2.GetRequest(prefix=prefix, path=[paths], encoding='JSON_IETF'))
 
 
-def _set(stub, paths, set_type, username, password, json_value):
+def _set(stub, prefix, paths, set_type, username, password, json_value):
   """Create a gNMI SetRequest.
 
   Args:
     stub: (class) gNMI Stub used to build the secure channel.
+    prefix: gNMI prefix
     paths: gNMI Path
     set_type: (str) Type of gNMI SetRequest.
     username: (str) Username used when building the channel.
@@ -300,10 +308,10 @@ def _set(stub, paths, set_type, username, password, json_value):
   if username:
     kwargs = {'metadata': [('username', username), ('password', password)]}
   if set_type == 'delete':
-    return stub.Set(gnmi_pb2.SetRequest(delete=[paths]), **kwargs)
+    return stub.Set(gnmi_pb2.SetRequest(prefix=prefix, delete=[paths]), **kwargs)
   elif set_type == 'update':
-    return stub.Set(gnmi_pb2.SetRequest(update=[path_val]), **kwargs)
-  return stub.Set(gnmi_pb2.SetRequest(replace=[path_val]), **kwargs)
+    return stub.Set(gnmi_pb2.SetRequest(prefix=prefix, update=[path_val]), **kwargs)
+  return stub.Set(gnmi_pb2.SetRequest(prefix=prefix, replace=[path_val]), **kwargs)
 
 
 def _build_creds(target, port, get_cert, certs, notls):
@@ -369,6 +377,8 @@ def main():
   json_value = args['value']
   private_key = args['private_key']
   xpath = args['xpath']
+  # Support target and origin in prefix
+  prefix = gnmi_pb2.Path(origin=args['xpath_origin'], target=args['xpath_target'])
   host_override = args['host_override']
   user = args['username']
   password = args['password']
@@ -382,7 +392,7 @@ def main():
   if mode == 'get':
     print('Performing GetRequest, encoding=JSON_IETF', 'to', target,
           ' with the following gNMI Path\n', '-'*25, '\n', paths)
-    response = _get(stub, paths, user, password)
+    response = _get(stub, prefix, paths, user, password)
     print('The GetResponse is below\n' + '-'*25 + '\n')
     if form == 'protobuff':
       print(response)
@@ -397,17 +407,17 @@ def main():
   elif mode == 'set-update':
     print('Performing SetRequest Update, encoding=JSON_IETF', ' to ', target,
           ' with the following gNMI Path\n', '-'*25, '\n', paths, json_value)
-    response = _set(stub, paths, 'update', user, password, json_value)
+    response = _set(stub, prefix, paths, 'update', user, password, json_value)
     print('The SetRequest response is below\n' + '-'*25 + '\n', response)
   elif mode == 'set-replace':
     print('Performing SetRequest Replace, encoding=JSON_IETF', ' to ', target,
           ' with the following gNMI Path\n', '-'*25, '\n', paths)
-    response = _set(stub, paths, 'replace', user, password, json_value)
+    response = _set(stub, prefix, paths, 'replace', user, password, json_value)
     print('The SetRequest response is below\n' + '-'*25 + '\n', response)
   elif mode == 'set-delete':
     print('Performing SetRequest Delete, encoding=JSON_IETF', ' to ', target,
           ' with the following gNMI Path\n', '-'*25, '\n', paths)
-    response = _set(stub, paths, 'delete', user, password, json_value)
+    response = _set(stub, prefix, paths, 'delete', user, password, json_value)
     print('The SetRequest response is below\n' + '-'*25 + '\n', response)
   elif mode == 'subscribe':
     print('This mode not available in this version')
