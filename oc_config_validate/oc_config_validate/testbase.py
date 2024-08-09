@@ -249,6 +249,27 @@ class TestCase(unittest.case.TestCase):
             return False
         return True
 
+    def gNMISetReplace(self, xpath: str, value: Any) -> bool:
+        """Send a gNMI Set Replace message to the test's target
+
+        Args:
+            xpath: The gNMI path to update.
+            value: Value to set; can be numeric, string or JSON-IETF.
+
+        Returns:
+          False if the gNMI Set did not succeed.
+        """
+        if LOG_GNMI:
+            msg = ("gNMI Set Replace(%s) => %s", xpath, value)
+            self.log(*msg)
+            logging.info(*msg)
+        try:
+            self.test_target.gNMISetReplace(xpath, value)
+        except Exception as err:
+            self.log("Set(%s) <= Error: %s", xpath, err)
+            return False
+        return True
+
     def gNMISubsOnce(self, xpaths: List[str]) -> Optional[
             List[gnmi_pb2.Notification]]:
         """Send a gNMI Subscribe message using ONCE mode.
