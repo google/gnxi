@@ -12,10 +12,12 @@ class TestCase(testbase.TestCase):
         xpath: gNMI path to write and read.
         json_value: JSON-IETF value to check, set and get.
         model: Python binding class to check the JSON reply against.
+        set_replace: True to use gNMI SetReplace instead of SetUpdate.
     """
     xpath = None
     json_value = None
     model = None
+    set_replace = False
 
     def setUp(self):
         # Check testcase arguments
@@ -27,8 +29,8 @@ class TestCase(testbase.TestCase):
         model = schema.ocContainerFromPath(self.model, self.xpath)
         self.assertJsonModel(json.dumps(self.json_value), model,
                              "JSON value to Set does not match the model")
-        # Set Update
-        self.assertTrue(self.gNMISetUpdate(self.xpath, self.json_value),
+        _gnmi_set = self.gNMISetReplace if self.set_replace else self.gNMISetUpdate
+        self.assertTrue(_gnmi_set(self.xpath, self.json_value),
                         "gNMI Set did not succeed.")
 
 
@@ -46,6 +48,7 @@ class SetGetJsonCheck(TestCase):
         xpath: gNMI path to write and read.
         json_value: JSON-IETF value to check, set and get.
         model: Python binding class to check the JSON reply against.
+        set_replace: True to use gNMI SetReplace instead of SetUpdate.
     """
 
     @testbase.retryAssertionError
@@ -72,6 +75,7 @@ class SetGetJsonCheckCompare(TestCase):
         xpath: gNMI path to write and read.
         json_value: JSON-IETF value to check set, get and compare.
         model: Python binding class to check the JSON reply against.
+        set_replace: True to use gNMI SetReplace instead of SetUpdate.
     """
 
     @testbase.retryAssertionError
@@ -83,3 +87,6 @@ class SetGetJsonCheckCompare(TestCase):
         got = json.loads(self.resp_val)
         cmp, diff = schema.intersectCmp(self.json_value, got)
         self.assertTrue(cmp, diff)
+        if self.set_replace:
+            cmp, diff = schema.intersectCmp(got, self.json_value)
+            self.assertTrue(cmp, diff)
