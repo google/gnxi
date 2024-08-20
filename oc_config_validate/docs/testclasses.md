@@ -64,6 +64,15 @@
      *  `xpath`: gNMI path to delete.
 
 
+ *  `set.SetReplace`
+
+    Sends gNMI Set Replace of an xpath with a value.
+
+    Args:
+     *  `xpath`: gNMI path to update.
+     *  `value`: Value to set; can be numeric, string or JSON-IETF.
+ 
+ 
  *  `set.JsonCheckSetUpdate`
 
     Sends gNMI Set with a schema-checked JSON-IETF value.
@@ -73,6 +82,18 @@
      *  `json_value`: JSON-IETF value to check and set.
      *  `model`: Python binding class to check the JSON reply against.
           The binding classes are in the `oc_config_validate.models` package.
+
+
+ *  `set.JsonCheckSetReplace`
+
+    Sends gNMI Set with a schema-checked JSON-IETF value.
+
+    Args:
+     *  `xpath`: gNMI path to read.
+     *  `json_value`: JSON-IETF value to check and set.
+     *  `model`: Python binding class to check the JSON reply against.
+          The binding classes are in the `oc_config_validate.models` package.
+
 
 ### Module setget
 
@@ -92,6 +113,7 @@
           The binding classes are in the `oc_config_validate.models` package.
      *  `retries`: Optional. Number of retries if the assertion fails.
      *  `retry_delay`: Optional. Delay, in seconds, between retries. Default 10.
+     *  `set_replace`: Optional. True to use gNMI SetReplace instead of SetUpdate. Default False.
 
 
  *  `setget.SetGetJsonCheckCompare`
@@ -111,6 +133,7 @@
           The binding classes are in the `oc_config_validate.models` package.
      *  `retries`: Optional. Number of retries if the assertion fails.
      *  `retry_delay`: Optional. Delay, in seconds, between retries. Default 10.
+     *  `set_replace`: Optional. True to use gNMI SetReplace instead of SetUpdate. Default False.
 
 ### Module config_state
 

@@ -70,14 +70,14 @@ tests:
       }
 
 - !TestCase
-  name: "Bad Compare mgmt Interface state JSON"
+  name: "FAIL Compare mgmt Interface state JSON"
   class_name: get.GetCompare
   args:
     xpath: "interfaces/interface[name=mgmt]/state"
     want: {"openconfig-interfaces:enabled": false}
 
 - !TestCase
-  name: "Set Hostname"
+  name: "Update Hostname"
   class_name: set.SetUpdate
   args:
     xpath: "system/config/hostname"
@@ -95,29 +95,40 @@ tests:
     }
 
 - !TestCase
-  name: "Bad model to compare System config"
+  name: "Replace System Config"
+  class_name: set.SetReplace
+  args:
+    xpath: "system/config"
+    value: {
+    "openconfig-system:hostname": "atestdevice",
+    "openconfig-system:domain-name": "foo.bar.com"
+  }
+
+- !TestCase
+  name: "FAIL Check System config - model"
   class_name: get.GetJsonCheckCompare
   args:
     xpath: "system/config"
-    model: system.openconfig_system
+    model: interfaces.openconfig_interfaces
     want_json: {
       "openconfig-system:domain-name": "foo.bar.com",
       "openconfig-system:hostname": "foobar"
     }
 
 - !TestCase
-  name: "Bad data to compare System config"
+  name: "FAIL Compare System config - data"
   class_name: get.GetJsonCheckCompare
   args:
     xpath: "system/config"
     model: system.openconfig_system
     want_json: {
       "openconfig-system:domain-name": "la.la.la.com",
-      "openconfig-system:hostname": "lalala"
+      "openconfig-system:hostname": "lalala",
+      "openconfig-system:motd-banner": "Welcome"
     }
 
 - !TestCase
-  name: "Set timezone with a valid Json blob"
+  name: "Update timezone with a valid Json blob"
   class_name: set.JsonCheckSetUpdate
   args:
     xpath: "system/clock/config"
@@ -137,7 +148,7 @@ tests:
     }
 
 - !TestCase
-  name: "Set timezone with a valid Json blob"
+  name: "Update timezone with a valid Json blob"
   class_name: setget.SetGetJsonCheck
   args:
     xpath: "system/clock/config"
@@ -147,7 +158,7 @@ tests:
     }
 
 - !TestCase
-  name: "Set timezone with a valid Json blob, and check it is Zurich"
+  name: "Update timezone with a valid Json blob, and check it is Zurich"
   class_name: setget.SetGetJsonCheckCompare
   args:
     xpath: "system/clock/config"
@@ -157,11 +168,49 @@ tests:
     }
 
 - !TestCase
-  name: "Bad Set Clock Check State"
+  name: "FAIL Update Clock Check State"
   class_name: config_state.SetConfigCheckState
   args:
     xpath: "system/clock"
     model: system.openconfig_system
     json_value: {
       "openconfig-system:timezone-name": "Europe/Paris"
+    }
+
+- !TestCase
+  name: "FAIL Replace System Config - model"
+  class_name: set.JsonCheckSetReplace
+  args:
+    xpath: "system/config"
+    model: system.openconfig_system
+    json_value: {
+      "host": "zz-tri-dev01",
+      "domain": "foo.bar.com",
+    }
+
+- !TestCase
+  name: "Replace System Config"
+  class_name: setget.SetGetJsonCheck
+  args:
+    xpath: "system/config"
+    model: system.openconfig_system
+    set_replace: True
+    json_value: {
+            "openconfig-system:hostname": "zz-tri-dev01",
+            "openconfig-system:domain-name": "foo.bar.com",
+            "openconfig-system:login-banner": "This device is for authorized use only",
+            "openconfig-system:motd-banner": "Welcome to Open vSwitch"
+        }
+
+- !TestCase
+  name: "Replace and Get System Config"
+  class_name: setget.SetGetJsonCheckCompare
+  args:
+    xpath: "system/config"
+    model: system.openconfig_system
+    set_replace: True
+    json_value: {
+      "openconfig-system:hostname": "zz-tri-dev01",
+      "openconfig-system:domain-name": "foo.bar.com",
+      "openconfig-system:motd-banner": "Welcome to Open vSwitch"
     }
