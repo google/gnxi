@@ -7,10 +7,11 @@ from pyangbind.lib.yangtypes import YANGBool
 from pyangbind.lib.yangtypes import YANGListType
 from pyangbind.lib.yangtypes import YANGDynClass
 from pyangbind.lib.yangtypes import ReferenceType
+from pyangbind.lib.yangtypes import YANGBinary
+from pyangbind.lib.yangtypes import YANGBitsType
 from pyangbind.lib.base import PybindBase
 from collections import OrderedDict
 from decimal import Decimal
-from bitarray import bitarray
 import six
 
 # PY3 support of some PY2 keywords (needs improved)
@@ -417,7 +418,7 @@ data
 
     self._extmethods = False
     self.__config = YANGDynClass(base=yc_config_openconfig_relay_agent__relay_agent_dhcp_agent_information_option_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
-    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_agent_information_option_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_agent_information_option_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -508,12 +509,12 @@ level
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_state_openconfig_relay_agent__relay_agent_dhcp_agent_information_option_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+      t = YANGDynClass(v,base=yc_state_openconfig_relay_agent__relay_agent_dhcp_agent_information_option_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """state must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_agent_information_option_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)""",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_agent_information_option_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)""",
         })
 
     self.__state = t
@@ -521,10 +522,10 @@ level
       self._set()
 
   def _unset_state(self):
-    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_agent_information_option_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_agent_information_option_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
 
   config = __builtin__.property(_get_config, _set_config)
-  state = __builtin__.property(_get_state, _set_state)
+  state = __builtin__.property(_get_state)
 
 
   _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
@@ -1848,7 +1849,7 @@ of any other context information (e.g., key in a list).
 
     self._extmethods = False
     self.__config = YANGDynClass(base=yc_config_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_interface_ref_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
-    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_interface_ref_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_interface_ref_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -1935,12 +1936,12 @@ of any other context information (e.g., key in a list).
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_state_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_interface_ref_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+      t = YANGDynClass(v,base=yc_state_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_interface_ref_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """state must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_interface_ref_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)""",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_interface_ref_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)""",
         })
 
     self.__state = t
@@ -1948,10 +1949,10 @@ of any other context information (e.g., key in a list).
       self._set()
 
   def _unset_state(self):
-    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_interface_ref_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_interface_ref_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
 
   config = __builtin__.property(_get_config, _set_config)
-  state = __builtin__.property(_get_state, _set_state)
+  state = __builtin__.property(_get_state)
 
 
   _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
@@ -2427,7 +2428,7 @@ data
 
     self._extmethods = False
     self.__config = YANGDynClass(base=yc_config_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_agent_information_option_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
-    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_agent_information_option_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_agent_information_option_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -2516,12 +2517,12 @@ option
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_state_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_agent_information_option_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+      t = YANGDynClass(v,base=yc_state_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_agent_information_option_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """state must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_agent_information_option_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)""",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_agent_information_option_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)""",
         })
 
     self.__state = t
@@ -2529,10 +2530,10 @@ option
       self._set()
 
   def _unset_state(self):
-    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_agent_information_option_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_agent_information_option_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
 
   config = __builtin__.property(_get_config, _set_config)
-  state = __builtin__.property(_get_state, _set_state)
+  state = __builtin__.property(_get_state)
 
 
   _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
@@ -2567,7 +2568,7 @@ and should not rely on the value of the list key.
     self._extmethods = False
     self.__id = YANGDynClass(base=six.text_type, is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='leafref', is_config=True)
     self.__config = YANGDynClass(base=yc_config_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
-    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
     self.__interface_ref = YANGDynClass(base=yc_interface_ref_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_interface_ref, is_container='container', yang_name="interface-ref", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
     self.__agent_information_option = YANGDynClass(base=yc_agent_information_option_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_agent_information_option, is_container='container', yang_name="agent-information-option", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
 
@@ -2698,12 +2699,12 @@ and should not rely on the value of the list key.
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_state_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+      t = YANGDynClass(v,base=yc_state_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """state must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)""",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)""",
         })
 
     self.__state = t
@@ -2711,7 +2712,7 @@ and should not rely on the value of the list key.
       self._set()
 
   def _unset_state(self):
-    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
 
 
   def _get_interface_ref(self):
@@ -2815,7 +2816,7 @@ data
 
   id = __builtin__.property(_get_id, _set_id)
   config = __builtin__.property(_get_config, _set_config)
-  state = __builtin__.property(_get_state, _set_state)
+  state = __builtin__.property(_get_state)
   interface_ref = __builtin__.property(_get_interface_ref, _set_interface_ref)
   agent_information_option = __builtin__.property(_get_agent_information_option, _set_agent_information_option)
 
@@ -2949,7 +2950,7 @@ class yc_dhcp_openconfig_relay_agent__relay_agent_dhcp(PybindBase):
 
     self._extmethods = False
     self.__config = YANGDynClass(base=yc_config_openconfig_relay_agent__relay_agent_dhcp_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
-    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
     self.__agent_information_option = YANGDynClass(base=yc_agent_information_option_openconfig_relay_agent__relay_agent_dhcp_agent_information_option, is_container='container', yang_name="agent-information-option", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
     self.__interfaces = YANGDynClass(base=yc_interfaces_openconfig_relay_agent__relay_agent_dhcp_interfaces, is_container='container', yang_name="interfaces", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
 
@@ -3038,12 +3039,12 @@ class yc_dhcp_openconfig_relay_agent__relay_agent_dhcp(PybindBase):
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_state_openconfig_relay_agent__relay_agent_dhcp_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+      t = YANGDynClass(v,base=yc_state_openconfig_relay_agent__relay_agent_dhcp_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """state must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)""",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)""",
         })
 
     self.__state = t
@@ -3051,7 +3052,7 @@ class yc_dhcp_openconfig_relay_agent__relay_agent_dhcp(PybindBase):
       self._set()
 
   def _unset_state(self):
-    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcp_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
 
 
   def _get_agent_information_option(self):
@@ -3130,7 +3131,7 @@ data
     self.__interfaces = YANGDynClass(base=yc_interfaces_openconfig_relay_agent__relay_agent_dhcp_interfaces, is_container='container', yang_name="interfaces", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
 
   config = __builtin__.property(_get_config, _set_config)
-  state = __builtin__.property(_get_state, _set_state)
+  state = __builtin__.property(_get_state)
   agent_information_option = __builtin__.property(_get_agent_information_option, _set_agent_information_option)
   interfaces = __builtin__.property(_get_interfaces, _set_interfaces)
 
@@ -3627,7 +3628,7 @@ class yc_options_openconfig_relay_agent__relay_agent_dhcpv6_options(PybindBase):
 
     self._extmethods = False
     self.__config = YANGDynClass(base=yc_config_openconfig_relay_agent__relay_agent_dhcpv6_options_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
-    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_options_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_options_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -3716,12 +3717,12 @@ interface
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_options_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+      t = YANGDynClass(v,base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_options_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """state must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_options_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)""",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_options_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)""",
         })
 
     self.__state = t
@@ -3729,10 +3730,10 @@ interface
       self._set()
 
   def _unset_state(self):
-    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_options_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_options_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
 
   config = __builtin__.property(_get_config, _set_config)
-  state = __builtin__.property(_get_state, _set_state)
+  state = __builtin__.property(_get_state)
 
 
   _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
@@ -5119,7 +5120,7 @@ of any other context information (e.g., key in a list).
 
     self._extmethods = False
     self.__config = YANGDynClass(base=yc_config_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_interface_ref_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
-    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_interface_ref_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_interface_ref_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -5206,12 +5207,12 @@ of any other context information (e.g., key in a list).
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_interface_ref_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+      t = YANGDynClass(v,base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_interface_ref_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """state must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_interface_ref_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)""",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_interface_ref_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)""",
         })
 
     self.__state = t
@@ -5219,10 +5220,10 @@ of any other context information (e.g., key in a list).
       self._set()
 
   def _unset_state(self):
-    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_interface_ref_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_interface_ref_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
 
   config = __builtin__.property(_get_config, _set_config)
-  state = __builtin__.property(_get_state, _set_state)
+  state = __builtin__.property(_get_state)
 
 
   _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
@@ -5791,7 +5792,7 @@ class yc_options_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface
 
     self._extmethods = False
     self.__config = YANGDynClass(base=yc_config_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_options_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
-    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_options_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_options_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -5880,12 +5881,12 @@ interface
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_options_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+      t = YANGDynClass(v,base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_options_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """state must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_options_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)""",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_options_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)""",
         })
 
     self.__state = t
@@ -5893,10 +5894,10 @@ interface
       self._set()
 
   def _unset_state(self):
-    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_options_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_options_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
 
   config = __builtin__.property(_get_config, _set_config)
-  state = __builtin__.property(_get_state, _set_state)
+  state = __builtin__.property(_get_state)
 
 
   _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
@@ -5931,7 +5932,7 @@ and should not rely on the value of the list key.
     self._extmethods = False
     self.__id = YANGDynClass(base=six.text_type, is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='leafref', is_config=True)
     self.__config = YANGDynClass(base=yc_config_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
-    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
     self.__interface_ref = YANGDynClass(base=yc_interface_ref_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_interface_ref, is_container='container', yang_name="interface-ref", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
     self.__options = YANGDynClass(base=yc_options_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_options, is_container='container', yang_name="options", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
 
@@ -6062,12 +6063,12 @@ and should not rely on the value of the list key.
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+      t = YANGDynClass(v,base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """state must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)""",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)""",
         })
 
     self.__state = t
@@ -6075,7 +6076,7 @@ and should not rely on the value of the list key.
       self._set()
 
   def _unset_state(self):
-    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
 
 
   def _get_interface_ref(self):
@@ -6177,7 +6178,7 @@ of any other context information (e.g., key in a list).
 
   id = __builtin__.property(_get_id, _set_id)
   config = __builtin__.property(_get_config, _set_config)
-  state = __builtin__.property(_get_state, _set_state)
+  state = __builtin__.property(_get_state)
   interface_ref = __builtin__.property(_get_interface_ref, _set_interface_ref)
   options = __builtin__.property(_get_options, _set_options)
 
@@ -6311,7 +6312,7 @@ class yc_dhcpv6_openconfig_relay_agent__relay_agent_dhcpv6(PybindBase):
 
     self._extmethods = False
     self.__config = YANGDynClass(base=yc_config_openconfig_relay_agent__relay_agent_dhcpv6_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
-    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
     self.__options = YANGDynClass(base=yc_options_openconfig_relay_agent__relay_agent_dhcpv6_options, is_container='container', yang_name="options", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
     self.__interfaces = YANGDynClass(base=yc_interfaces_openconfig_relay_agent__relay_agent_dhcpv6_interfaces, is_container='container', yang_name="interfaces", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
 
@@ -6400,12 +6401,12 @@ class yc_dhcpv6_openconfig_relay_agent__relay_agent_dhcpv6(PybindBase):
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+      t = YANGDynClass(v,base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """state must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)""",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)""",
         })
 
     self.__state = t
@@ -6413,7 +6414,7 @@ class yc_dhcpv6_openconfig_relay_agent__relay_agent_dhcpv6(PybindBase):
       self._set()
 
   def _unset_state(self):
-    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_relay_agent__relay_agent_dhcpv6_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=False)
 
 
   def _get_options(self):
@@ -6490,7 +6491,7 @@ class yc_dhcpv6_openconfig_relay_agent__relay_agent_dhcpv6(PybindBase):
     self.__interfaces = YANGDynClass(base=yc_interfaces_openconfig_relay_agent__relay_agent_dhcpv6_interfaces, is_container='container', yang_name="interfaces", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/relay-agent', defining_module='openconfig-relay-agent', yang_type='container', is_config=True)
 
   config = __builtin__.property(_get_config, _set_config)
-  state = __builtin__.property(_get_state, _set_state)
+  state = __builtin__.property(_get_state)
   options = __builtin__.property(_get_options, _set_options)
   interfaces = __builtin__.property(_get_interfaces, _set_interfaces)
 

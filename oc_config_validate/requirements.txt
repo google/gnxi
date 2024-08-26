@@ -5,7 +5,7 @@ grpcio-tools
 isort
 parameterized
 pyang
-pyangbind==0.8.2
+pyangbind>=0.8.4.post1
 pycodestyle
 pyflakes
 pylama
