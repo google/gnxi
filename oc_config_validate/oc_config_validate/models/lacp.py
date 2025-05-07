@@ -216,7 +216,7 @@ class yc_config_openconfig_lacp__lacp_interfaces_interface_config(PybindBase):
 
   YANG Description: Configuration data for each LACP aggregate interface
   """
-  __slots__ = ('_path_helper', '_extmethods', '__name','__interval','__lacp_mode','__system_id_mac','__system_priority',)
+  __slots__ = ('_path_helper', '_extmethods', '__name','__interval','__lacp_mode','__system_id_mac','__fallback','__system_priority',)
 
   _yang_name = 'config'
   _yang_namespace = 'http://openconfig.net/yang/lacp'
@@ -232,6 +232,7 @@ class yc_config_openconfig_lacp__lacp_interfaces_interface_config(PybindBase):
     self.__interval = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'FAST': {}, 'SLOW': {}},), default=str("SLOW"), is_leaf=True, yang_name="interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='lacp-period-type', is_config=True)
     self.__lacp_mode = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'ACTIVE': {}, 'PASSIVE': {}},), default=str("ACTIVE"), is_leaf=True, yang_name="lacp-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='lacp-activity-type', is_config=True)
     self.__system_id_mac = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_dict={'pattern': '[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){5}'}), is_leaf=True, yang_name="system-id-mac", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='oc-yang:mac-address', is_config=True)
+    self.__fallback = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="fallback", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='boolean', is_config=True)
     self.__system_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="system-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='uint16', is_config=True)
 
     load = kwargs.pop("load", None)
@@ -423,6 +424,49 @@ system-id
     self.__system_id_mac = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_dict={'pattern': '[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){5}'}), is_leaf=True, yang_name="system-id-mac", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='oc-yang:mac-address', is_config=True)
 
 
+  def _get_fallback(self):
+    """
+    Getter method for fallback, mapped from YANG variable /lacp/interfaces/interface/config/fallback (boolean)
+
+    YANG Description: If the fallback is set to true, current LACP interface is
+able to establish a Link Aggregation (LAG) before it receives
+LACP PDUs from its peer, and fallback to a single port active
+after the expiry of the timeout period.
+    """
+    return self.__fallback
+      
+  def _set_fallback(self, v, load=False):
+    """
+    Setter method for fallback, mapped from YANG variable /lacp/interfaces/interface/config/fallback (boolean)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fallback is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fallback() directly.
+
+    YANG Description: If the fallback is set to true, current LACP interface is
+able to establish a Link Aggregation (LAG) before it receives
+LACP PDUs from its peer, and fallback to a single port active
+after the expiry of the timeout period.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGBool, is_leaf=True, yang_name="fallback", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='boolean', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fallback must be of a type compatible with boolean""",
+          'defined-type': "boolean",
+          'generated-type': """YANGDynClass(base=YANGBool, is_leaf=True, yang_name="fallback", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='boolean', is_config=True)""",
+        })
+
+    self.__fallback = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fallback(self):
+    self.__fallback = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="fallback", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='boolean', is_config=True)
+
+
   def _get_system_priority(self):
     """
     Getter method for system_priority, mapped from YANG variable /lacp/interfaces/interface/config/system_priority (uint16)
@@ -467,10 +511,11 @@ is the controlling system.
   interval = __builtin__.property(_get_interval, _set_interval)
   lacp_mode = __builtin__.property(_get_lacp_mode, _set_lacp_mode)
   system_id_mac = __builtin__.property(_get_system_id_mac, _set_system_id_mac)
+  fallback = __builtin__.property(_get_fallback, _set_fallback)
   system_priority = __builtin__.property(_get_system_priority, _set_system_priority)
 
 
-  _pyangbind_elements = OrderedDict([('name', name), ('interval', interval), ('lacp_mode', lacp_mode), ('system_id_mac', system_id_mac), ('system_priority', system_priority), ])
+  _pyangbind_elements = OrderedDict([('name', name), ('interval', interval), ('lacp_mode', lacp_mode), ('system_id_mac', system_id_mac), ('fallback', fallback), ('system_priority', system_priority), ])
 
 
 class yc_state_openconfig_lacp__lacp_interfaces_interface_state(PybindBase):
@@ -483,7 +528,7 @@ class yc_state_openconfig_lacp__lacp_interfaces_interface_state(PybindBase):
   YANG Description: Operational state data for each LACP aggregate
 interface
   """
-  __slots__ = ('_path_helper', '_extmethods', '__name','__interval','__lacp_mode','__system_id_mac','__system_priority',)
+  __slots__ = ('_path_helper', '_extmethods', '__name','__interval','__lacp_mode','__system_id_mac','__fallback','__system_priority',)
 
   _yang_name = 'state'
   _yang_namespace = 'http://openconfig.net/yang/lacp'
@@ -499,6 +544,7 @@ interface
     self.__interval = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'FAST': {}, 'SLOW': {}},), default=str("SLOW"), is_leaf=True, yang_name="interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='lacp-period-type', is_config=False)
     self.__lacp_mode = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'ACTIVE': {}, 'PASSIVE': {}},), default=str("ACTIVE"), is_leaf=True, yang_name="lacp-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='lacp-activity-type', is_config=False)
     self.__system_id_mac = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_dict={'pattern': '[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){5}'}), is_leaf=True, yang_name="system-id-mac", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='oc-yang:mac-address', is_config=False)
+    self.__fallback = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="fallback", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='boolean', is_config=False)
     self.__system_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="system-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='uint16', is_config=False)
 
     load = kwargs.pop("load", None)
@@ -690,6 +736,49 @@ system-id
     self.__system_id_mac = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_dict={'pattern': '[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){5}'}), is_leaf=True, yang_name="system-id-mac", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='oc-yang:mac-address', is_config=False)
 
 
+  def _get_fallback(self):
+    """
+    Getter method for fallback, mapped from YANG variable /lacp/interfaces/interface/state/fallback (boolean)
+
+    YANG Description: If the fallback is set to true, current LACP interface is
+able to establish a Link Aggregation (LAG) before it receives
+LACP PDUs from its peer, and fallback to a single port active
+after the expiry of the timeout period.
+    """
+    return self.__fallback
+      
+  def _set_fallback(self, v, load=False):
+    """
+    Setter method for fallback, mapped from YANG variable /lacp/interfaces/interface/state/fallback (boolean)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fallback is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fallback() directly.
+
+    YANG Description: If the fallback is set to true, current LACP interface is
+able to establish a Link Aggregation (LAG) before it receives
+LACP PDUs from its peer, and fallback to a single port active
+after the expiry of the timeout period.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGBool, is_leaf=True, yang_name="fallback", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='boolean', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fallback must be of a type compatible with boolean""",
+          'defined-type': "boolean",
+          'generated-type': """YANGDynClass(base=YANGBool, is_leaf=True, yang_name="fallback", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='boolean', is_config=False)""",
+        })
+
+    self.__fallback = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fallback(self):
+    self.__fallback = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="fallback", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='boolean', is_config=False)
+
+
   def _get_system_priority(self):
     """
     Getter method for system_priority, mapped from YANG variable /lacp/interfaces/interface/state/system_priority (uint16)
@@ -734,10 +823,142 @@ is the controlling system.
   interval = __builtin__.property(_get_interval)
   lacp_mode = __builtin__.property(_get_lacp_mode)
   system_id_mac = __builtin__.property(_get_system_id_mac)
+  fallback = __builtin__.property(_get_fallback)
   system_priority = __builtin__.property(_get_system_priority)
 
 
-  _pyangbind_elements = OrderedDict([('name', name), ('interval', interval), ('lacp_mode', lacp_mode), ('system_id_mac', system_id_mac), ('system_priority', system_priority), ])
+  _pyangbind_elements = OrderedDict([('name', name), ('interval', interval), ('lacp_mode', lacp_mode), ('system_id_mac', system_id_mac), ('fallback', fallback), ('system_priority', system_priority), ])
+
+
+class yc_config_openconfig_lacp__lacp_interfaces_interface_members_member_config(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-lacp - based on the path /lacp/interfaces/interface/members/member/config. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Operational state data for aggregate members
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__interface','__port_priority',)
+
+  _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/lacp'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__interface = YANGDynClass(base=str, is_leaf=True, yang_name="interface", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='oc-if:base-interface-ref', is_config=True)
+    self.__port_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="port-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='uint16', is_config=True)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['lacp', 'interfaces', 'interface', 'members', 'member', 'config']
+
+  def _get_interface(self):
+    """
+    Getter method for interface, mapped from YANG variable /lacp/interfaces/interface/members/member/config/interface (oc-if:base-interface-ref)
+
+    YANG Description: Reference to interface member of the LACP aggregate
+    """
+    return self.__interface
+      
+  def _set_interface(self, v, load=False):
+    """
+    Setter method for interface, mapped from YANG variable /lacp/interfaces/interface/members/member/config/interface (oc-if:base-interface-ref)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_interface is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_interface() directly.
+
+    YANG Description: Reference to interface member of the LACP aggregate
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="interface", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='oc-if:base-interface-ref', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """interface must be of a type compatible with oc-if:base-interface-ref""",
+          'defined-type': "oc-if:base-interface-ref",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="interface", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='oc-if:base-interface-ref', is_config=True)""",
+        })
+
+    self.__interface = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_interface(self):
+    self.__interface = YANGDynClass(base=str, is_leaf=True, yang_name="interface", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='oc-if:base-interface-ref', is_config=True)
+
+
+  def _get_port_priority(self):
+    """
+    Getter method for port_priority, mapped from YANG variable /lacp/interfaces/interface/members/member/config/port_priority (uint16)
+
+    YANG Description: Member interface's priority in its aggregate interface.
+    """
+    return self.__port_priority
+      
+  def _set_port_priority(self, v, load=False):
+    """
+    Setter method for port_priority, mapped from YANG variable /lacp/interfaces/interface/members/member/config/port_priority (uint16)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_port_priority is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_port_priority() directly.
+
+    YANG Description: Member interface's priority in its aggregate interface.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="port-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='uint16', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """port_priority must be of a type compatible with uint16""",
+          'defined-type': "uint16",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="port-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='uint16', is_config=True)""",
+        })
+
+    self.__port_priority = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_port_priority(self):
+    self.__port_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="port-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='uint16', is_config=True)
+
+  interface = __builtin__.property(_get_interface, _set_interface)
+  port_priority = __builtin__.property(_get_port_priority, _set_port_priority)
+
+
+  _pyangbind_elements = OrderedDict([('interface', interface), ('port_priority', port_priority), ])
 
 
 class yc_counters_openconfig_lacp__lacp_interfaces_interface_members_member_state_counters(PybindBase):
@@ -1087,7 +1308,7 @@ class yc_state_openconfig_lacp__lacp_interfaces_interface_members_member_state(P
 
   YANG Description: Operational state data for aggregate members
   """
-  __slots__ = ('_path_helper', '_extmethods', '__interface','__activity','__timeout','__synchronization','__aggregatable','__collecting','__distributing','__system_id','__oper_key','__partner_id','__partner_key','__port_num','__partner_port_num','__last_change','__counters',)
+  __slots__ = ('_path_helper', '_extmethods', '__interface','__port_priority','__activity','__timeout','__synchronization','__aggregatable','__collecting','__distributing','__system_id','__oper_key','__partner_id','__partner_key','__port_num','__partner_port_num','__partner_port_priority','__last_change','__counters',)
 
   _yang_name = 'state'
   _yang_namespace = 'http://openconfig.net/yang/lacp'
@@ -1100,6 +1321,7 @@ class yc_state_openconfig_lacp__lacp_interfaces_interface_members_member_state(P
 
     self._extmethods = False
     self.__interface = YANGDynClass(base=str, is_leaf=True, yang_name="interface", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='oc-if:base-interface-ref', is_config=False)
+    self.__port_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="port-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='uint16', is_config=False)
     self.__activity = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'ACTIVE': {}, 'PASSIVE': {}},), is_leaf=True, yang_name="activity", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='lacp-activity-type', is_config=False)
     self.__timeout = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'LONG': {}, 'SHORT': {}},), is_leaf=True, yang_name="timeout", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='lacp-timeout-type', is_config=False)
     self.__synchronization = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'IN_SYNC': {}, 'OUT_SYNC': {}},), is_leaf=True, yang_name="synchronization", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='lacp-synchronization-type', is_config=False)
@@ -1112,6 +1334,7 @@ class yc_state_openconfig_lacp__lacp_interfaces_interface_members_member_state(P
     self.__partner_key = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="partner-key", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='uint16', is_config=False)
     self.__port_num = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="port-num", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='uint16', is_config=False)
     self.__partner_port_num = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="partner-port-num", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='uint16', is_config=False)
+    self.__partner_port_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="partner-port-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='uint16', is_config=False)
     self.__last_change = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="last-change", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='oc-types:timeticks64', is_config=False)
     self.__counters = YANGDynClass(base=yc_counters_openconfig_lacp__lacp_interfaces_interface_members_member_state_counters, is_container='container', yang_name="counters", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=False)
 
@@ -1177,6 +1400,43 @@ class yc_state_openconfig_lacp__lacp_interfaces_interface_members_member_state(P
 
   def _unset_interface(self):
     self.__interface = YANGDynClass(base=str, is_leaf=True, yang_name="interface", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='oc-if:base-interface-ref', is_config=False)
+
+
+  def _get_port_priority(self):
+    """
+    Getter method for port_priority, mapped from YANG variable /lacp/interfaces/interface/members/member/state/port_priority (uint16)
+
+    YANG Description: Member interface's priority in its aggregate interface.
+    """
+    return self.__port_priority
+      
+  def _set_port_priority(self, v, load=False):
+    """
+    Setter method for port_priority, mapped from YANG variable /lacp/interfaces/interface/members/member/state/port_priority (uint16)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_port_priority is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_port_priority() directly.
+
+    YANG Description: Member interface's priority in its aggregate interface.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="port-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='uint16', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """port_priority must be of a type compatible with uint16""",
+          'defined-type': "uint16",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="port-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='uint16', is_config=False)""",
+        })
+
+    self.__port_priority = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_port_priority(self):
+    self.__port_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="port-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='uint16', is_config=False)
 
 
   def _get_activity(self):
@@ -1645,6 +1905,43 @@ port
     self.__partner_port_num = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="partner-port-num", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='uint16', is_config=False)
 
 
+  def _get_partner_port_priority(self):
+    """
+    Getter method for partner_port_priority, mapped from YANG variable /lacp/interfaces/interface/members/member/state/partner_port_priority (uint16)
+
+    YANG Description: Member interface partner's priority in its aggregate interface.
+    """
+    return self.__partner_port_priority
+      
+  def _set_partner_port_priority(self, v, load=False):
+    """
+    Setter method for partner_port_priority, mapped from YANG variable /lacp/interfaces/interface/members/member/state/partner_port_priority (uint16)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_partner_port_priority is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_partner_port_priority() directly.
+
+    YANG Description: Member interface partner's priority in its aggregate interface.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="partner-port-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='uint16', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """partner_port_priority must be of a type compatible with uint16""",
+          'defined-type': "uint16",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="partner-port-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='uint16', is_config=False)""",
+        })
+
+    self.__partner_port_priority = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_partner_port_priority(self):
+    self.__partner_port_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="partner-port-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='uint16', is_config=False)
+
+
   def _get_last_change(self):
     """
     Getter method for last_change, mapped from YANG variable /lacp/interfaces/interface/members/member/state/last_change (oc-types:timeticks64)
@@ -1731,6 +2028,7 @@ timestamp in nanoseconds relative to the Unix Epoch
     self.__counters = YANGDynClass(base=yc_counters_openconfig_lacp__lacp_interfaces_interface_members_member_state_counters, is_container='container', yang_name="counters", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=False)
 
   interface = __builtin__.property(_get_interface)
+  port_priority = __builtin__.property(_get_port_priority)
   activity = __builtin__.property(_get_activity)
   timeout = __builtin__.property(_get_timeout)
   synchronization = __builtin__.property(_get_synchronization)
@@ -1743,11 +2041,12 @@ timestamp in nanoseconds relative to the Unix Epoch
   partner_key = __builtin__.property(_get_partner_key)
   port_num = __builtin__.property(_get_port_num)
   partner_port_num = __builtin__.property(_get_partner_port_num)
+  partner_port_priority = __builtin__.property(_get_partner_port_priority)
   last_change = __builtin__.property(_get_last_change)
   counters = __builtin__.property(_get_counters)
 
 
-  _pyangbind_elements = OrderedDict([('interface', interface), ('activity', activity), ('timeout', timeout), ('synchronization', synchronization), ('aggregatable', aggregatable), ('collecting', collecting), ('distributing', distributing), ('system_id', system_id), ('oper_key', oper_key), ('partner_id', partner_id), ('partner_key', partner_key), ('port_num', port_num), ('partner_port_num', partner_port_num), ('last_change', last_change), ('counters', counters), ])
+  _pyangbind_elements = OrderedDict([('interface', interface), ('port_priority', port_priority), ('activity', activity), ('timeout', timeout), ('synchronization', synchronization), ('aggregatable', aggregatable), ('collecting', collecting), ('distributing', distributing), ('system_id', system_id), ('oper_key', oper_key), ('partner_id', partner_id), ('partner_key', partner_key), ('port_num', port_num), ('partner_port_num', partner_port_num), ('partner_port_priority', partner_port_priority), ('last_change', last_change), ('counters', counters), ])
 
 
 class yc_member_openconfig_lacp__lacp_interfaces_interface_members_member(PybindBase):
@@ -1758,11 +2057,9 @@ class yc_member_openconfig_lacp__lacp_interfaces_interface_members_member(Pybind
   YANG type.
 
   YANG Description: List of member interfaces and their associated status for
-a LACP-controlled aggregate interface.  Member list is not
-configurable here -- each interface indicates items
-its participation in the LAG.
+a LACP-controlled aggregate interface
   """
-  __slots__ = ('_path_helper', '_extmethods', '__interface','__state',)
+  __slots__ = ('_path_helper', '_extmethods', '__interface','__config','__state',)
 
   _yang_name = 'member'
   _yang_namespace = 'http://openconfig.net/yang/lacp'
@@ -1774,7 +2071,8 @@ its participation in the LAG.
     self._path_helper = False
 
     self._extmethods = False
-    self.__interface = YANGDynClass(base=str, is_leaf=True, yang_name="interface", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='leafref', is_config=False)
+    self.__interface = YANGDynClass(base=str, is_leaf=True, yang_name="interface", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='leafref', is_config=True)
+    self.__config = YANGDynClass(base=yc_config_openconfig_lacp__lacp_interfaces_interface_members_member_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=True)
     self.__state = YANGDynClass(base=yc_state_openconfig_lacp__lacp_interfaces_interface_members_member_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=False)
 
     load = kwargs.pop("load", None)
@@ -1830,12 +2128,12 @@ its participation in the LAG.
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="interface", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='leafref', is_config=False)
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="interface", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='leafref', is_config=True)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """interface must be of a type compatible with leafref""",
           'defined-type': "leafref",
-          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="interface", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='leafref', is_config=False)""",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="interface", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='leafref', is_config=True)""",
         })
 
     self.__interface = t
@@ -1843,7 +2141,44 @@ its participation in the LAG.
       self._set()
 
   def _unset_interface(self):
-    self.__interface = YANGDynClass(base=str, is_leaf=True, yang_name="interface", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='leafref', is_config=False)
+    self.__interface = YANGDynClass(base=str, is_leaf=True, yang_name="interface", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='leafref', is_config=True)
+
+
+  def _get_config(self):
+    """
+    Getter method for config, mapped from YANG variable /lacp/interfaces/interface/members/member/config (container)
+
+    YANG Description: Operational state data for aggregate members
+    """
+    return self.__config
+      
+  def _set_config(self, v, load=False):
+    """
+    Setter method for config, mapped from YANG variable /lacp/interfaces/interface/members/member/config (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_config is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_config() directly.
+
+    YANG Description: Operational state data for aggregate members
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_config_openconfig_lacp__lacp_interfaces_interface_members_member_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """config must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_config_openconfig_lacp__lacp_interfaces_interface_members_member_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=True)""",
+        })
+
+    self.__config = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_config(self):
+    self.__config = YANGDynClass(base=yc_config_openconfig_lacp__lacp_interfaces_interface_members_member_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=True)
 
 
   def _get_state(self):
@@ -1882,11 +2217,12 @@ its participation in the LAG.
   def _unset_state(self):
     self.__state = YANGDynClass(base=yc_state_openconfig_lacp__lacp_interfaces_interface_members_member_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=False)
 
-  interface = __builtin__.property(_get_interface)
+  interface = __builtin__.property(_get_interface, _set_interface)
+  config = __builtin__.property(_get_config, _set_config)
   state = __builtin__.property(_get_state)
 
 
-  _pyangbind_elements = OrderedDict([('interface', interface), ('state', state), ])
+  _pyangbind_elements = OrderedDict([('interface', interface), ('config', config), ('state', state), ])
 
 
 class yc_members_openconfig_lacp__lacp_interfaces_interface_members(PybindBase):
@@ -1896,9 +2232,8 @@ class yc_members_openconfig_lacp__lacp_interfaces_interface_members(PybindBase):
   the container is represented as a class variable - with a specific
   YANG type.
 
-  YANG Description: Enclosing container for the list of members interfaces of
-the aggregate. This list is considered operational state
-only so is labeled config false and has no config container
+  YANG Description: Configuration and operational state of the aggregate member
+    interfaces
   """
   __slots__ = ('_path_helper', '_extmethods', '__member',)
 
@@ -1912,7 +2247,7 @@ only so is labeled config false and has no config container
     self._path_helper = False
 
     self._extmethods = False
-    self.__member = YANGDynClass(base=YANGListType("interface",yc_member_openconfig_lacp__lacp_interfaces_interface_members_member, yang_name="member", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='interface', extensions=None), is_container='list', yang_name="member", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='list', is_config=False)
+    self.__member = YANGDynClass(base=YANGListType("interface",yc_member_openconfig_lacp__lacp_interfaces_interface_members_member, yang_name="member", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='interface', extensions=None), is_container='list', yang_name="member", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='list', is_config=True)
 
     load = kwargs.pop("load", None)
     if args:
@@ -1946,9 +2281,7 @@ only so is labeled config false and has no config container
     Getter method for member, mapped from YANG variable /lacp/interfaces/interface/members/member (list)
 
     YANG Description: List of member interfaces and their associated status for
-a LACP-controlled aggregate interface.  Member list is not
-configurable here -- each interface indicates items
-its participation in the LAG.
+a LACP-controlled aggregate interface
     """
     return self.__member
       
@@ -1961,19 +2294,17 @@ its participation in the LAG.
     do so via calling thisObj._set_member() directly.
 
     YANG Description: List of member interfaces and their associated status for
-a LACP-controlled aggregate interface.  Member list is not
-configurable here -- each interface indicates items
-its participation in the LAG.
+a LACP-controlled aggregate interface
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=YANGListType("interface",yc_member_openconfig_lacp__lacp_interfaces_interface_members_member, yang_name="member", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='interface', extensions=None), is_container='list', yang_name="member", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='list', is_config=False)
+      t = YANGDynClass(v,base=YANGListType("interface",yc_member_openconfig_lacp__lacp_interfaces_interface_members_member, yang_name="member", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='interface', extensions=None), is_container='list', yang_name="member", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='list', is_config=True)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """member must be of a type compatible with list""",
           'defined-type': "list",
-          'generated-type': """YANGDynClass(base=YANGListType("interface",yc_member_openconfig_lacp__lacp_interfaces_interface_members_member, yang_name="member", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='interface', extensions=None), is_container='list', yang_name="member", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='list', is_config=False)""",
+          'generated-type': """YANGDynClass(base=YANGListType("interface",yc_member_openconfig_lacp__lacp_interfaces_interface_members_member, yang_name="member", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='interface', extensions=None), is_container='list', yang_name="member", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='list', is_config=True)""",
         })
 
     self.__member = t
@@ -1981,9 +2312,9 @@ its participation in the LAG.
       self._set()
 
   def _unset_member(self):
-    self.__member = YANGDynClass(base=YANGListType("interface",yc_member_openconfig_lacp__lacp_interfaces_interface_members_member, yang_name="member", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='interface', extensions=None), is_container='list', yang_name="member", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='list', is_config=False)
+    self.__member = YANGDynClass(base=YANGListType("interface",yc_member_openconfig_lacp__lacp_interfaces_interface_members_member, yang_name="member", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='interface', extensions=None), is_container='list', yang_name="member", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='list', is_config=True)
 
-  member = __builtin__.property(_get_member)
+  member = __builtin__.property(_get_member, _set_member)
 
 
   _pyangbind_elements = OrderedDict([('member', member), ])
@@ -2013,7 +2344,7 @@ class yc_interface_openconfig_lacp__lacp_interfaces_interface(PybindBase):
     self.__name = YANGDynClass(base=str, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='leafref', is_config=True)
     self.__config = YANGDynClass(base=yc_config_openconfig_lacp__lacp_interfaces_interface_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=True)
     self.__state = YANGDynClass(base=yc_state_openconfig_lacp__lacp_interfaces_interface_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=False)
-    self.__members = YANGDynClass(base=yc_members_openconfig_lacp__lacp_interfaces_interface_members, is_container='container', yang_name="members", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=False)
+    self.__members = YANGDynClass(base=yc_members_openconfig_lacp__lacp_interfaces_interface_members, is_container='container', yang_name="members", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=True)
 
     load = kwargs.pop("load", None)
     if args:
@@ -2164,9 +2495,8 @@ interface
     """
     Getter method for members, mapped from YANG variable /lacp/interfaces/interface/members (container)
 
-    YANG Description: Enclosing container for the list of members interfaces of
-the aggregate. This list is considered operational state
-only so is labeled config false and has no config container
+    YANG Description: Configuration and operational state of the aggregate member
+    interfaces
     """
     return self.__members
       
@@ -2178,19 +2508,18 @@ only so is labeled config false and has no config container
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_members() directly.
 
-    YANG Description: Enclosing container for the list of members interfaces of
-the aggregate. This list is considered operational state
-only so is labeled config false and has no config container
+    YANG Description: Configuration and operational state of the aggregate member
+    interfaces
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=yc_members_openconfig_lacp__lacp_interfaces_interface_members, is_container='container', yang_name="members", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=False)
+      t = YANGDynClass(v,base=yc_members_openconfig_lacp__lacp_interfaces_interface_members, is_container='container', yang_name="members", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=True)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """members must be of a type compatible with container""",
           'defined-type': "container",
-          'generated-type': """YANGDynClass(base=yc_members_openconfig_lacp__lacp_interfaces_interface_members, is_container='container', yang_name="members", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=False)""",
+          'generated-type': """YANGDynClass(base=yc_members_openconfig_lacp__lacp_interfaces_interface_members, is_container='container', yang_name="members", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=True)""",
         })
 
     self.__members = t
@@ -2198,12 +2527,12 @@ only so is labeled config false and has no config container
       self._set()
 
   def _unset_members(self):
-    self.__members = YANGDynClass(base=yc_members_openconfig_lacp__lacp_interfaces_interface_members, is_container='container', yang_name="members", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=False)
+    self.__members = YANGDynClass(base=yc_members_openconfig_lacp__lacp_interfaces_interface_members, is_container='container', yang_name="members", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='container', is_config=True)
 
   name = __builtin__.property(_get_name, _set_name)
   config = __builtin__.property(_get_config, _set_config)
   state = __builtin__.property(_get_state)
-  members = __builtin__.property(_get_members)
+  members = __builtin__.property(_get_members, _set_members)
 
 
   _pyangbind_elements = OrderedDict([('name', name), ('config', config), ('state', state), ('members', members), ])
