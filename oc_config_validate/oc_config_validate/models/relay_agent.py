@@ -1626,7 +1626,7 @@ to indicate the base interface.
     YANG Description: Reference to a subinterface -- this requires the base
 interface to be specified using the interface leaf in
 this container.  If only a reference to a base interface
-is requuired, this leaf should not be set.
+is required, this leaf should not be set.
     """
     return self.__subinterface
       
@@ -1641,7 +1641,7 @@ is requuired, this leaf should not be set.
     YANG Description: Reference to a subinterface -- this requires the base
 interface to be specified using the interface leaf in
 this container.  If only a reference to a base interface
-is requuired, this leaf should not be set.
+is required, this leaf should not be set.
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -1767,7 +1767,7 @@ to indicate the base interface.
     YANG Description: Reference to a subinterface -- this requires the base
 interface to be specified using the interface leaf in
 this container.  If only a reference to a base interface
-is requuired, this leaf should not be set.
+is required, this leaf should not be set.
     """
     return self.__subinterface
       
@@ -1782,7 +1782,7 @@ is requuired, this leaf should not be set.
     YANG Description: Reference to a subinterface -- this requires the base
 interface to be specified using the interface leaf in
 this container.  If only a reference to a base interface
-is requuired, this leaf should not be set.
+is required, this leaf should not be set.
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -4897,7 +4897,7 @@ to indicate the base interface.
     YANG Description: Reference to a subinterface -- this requires the base
 interface to be specified using the interface leaf in
 this container.  If only a reference to a base interface
-is requuired, this leaf should not be set.
+is required, this leaf should not be set.
     """
     return self.__subinterface
       
@@ -4912,7 +4912,7 @@ is requuired, this leaf should not be set.
     YANG Description: Reference to a subinterface -- this requires the base
 interface to be specified using the interface leaf in
 this container.  If only a reference to a base interface
-is requuired, this leaf should not be set.
+is required, this leaf should not be set.
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -5038,7 +5038,7 @@ to indicate the base interface.
     YANG Description: Reference to a subinterface -- this requires the base
 interface to be specified using the interface leaf in
 this container.  If only a reference to a base interface
-is requuired, this leaf should not be set.
+is required, this leaf should not be set.
     """
     return self.__subinterface
       
@@ -5053,7 +5053,7 @@ is requuired, this leaf should not be set.
     YANG Description: Reference to a subinterface -- this requires the base
 interface to be specified using the interface leaf in
 this container.  If only a reference to a base interface
-is requuired, this leaf should not be set.
+is required, this leaf should not be set.
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)

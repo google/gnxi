@@ -37,7 +37,7 @@ interface.
     self._path_helper = False
 
     self._extmethods = False
-    self.__id = YANGDynClass(base=str, is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='string', is_config=True)
+    self.__id = YANGDynClass(base=str, is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='oc-if:interface-id', is_config=True)
     self.__enabled = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='boolean', is_config=True)
     self.__local_address = YANGDynClass(base=[RestrictedClassType(base_type=str, restriction_dict={'pattern': '([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])){3}'}),RestrictedClassType(base_type=str, restriction_dict={'pattern': '(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:))'}),], is_leaf=True, yang_name="local-address", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='oc-inet:ip-address', is_config=True)
     self.__desired_minimum_tx_interval = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="desired-minimum-tx-interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint32', is_config=True)
@@ -74,7 +74,7 @@ interface.
 
   def _get_id(self):
     """
-    Getter method for id, mapped from YANG variable /bfd/interfaces/interface/config/id (string)
+    Getter method for id, mapped from YANG variable /bfd/interfaces/interface/config/id (oc-if:interface-id)
 
     YANG Description: A unique identifier for the interface.
     """
@@ -82,7 +82,7 @@ interface.
       
   def _set_id(self, v, load=False):
     """
-    Setter method for id, mapped from YANG variable /bfd/interfaces/interface/config/id (string)
+    Setter method for id, mapped from YANG variable /bfd/interfaces/interface/config/id (oc-if:interface-id)
     If this variable is read-only (config: false) in the
     source YANG file, then _set_id is considered as a private
     method. Backends looking to populate this variable should
@@ -93,12 +93,12 @@ interface.
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='string', is_config=True)
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='oc-if:interface-id', is_config=True)
     except (TypeError, ValueError):
       raise ValueError({
-          'error-string': """id must be of a type compatible with string""",
-          'defined-type': "string",
-          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='string', is_config=True)""",
+          'error-string': """id must be of a type compatible with oc-if:interface-id""",
+          'defined-type': "oc-if:interface-id",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='oc-if:interface-id', is_config=True)""",
         })
 
     self.__id = t
@@ -106,7 +106,7 @@ interface.
       self._set()
 
   def _unset_id(self):
-    self.__id = YANGDynClass(base=str, is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='string', is_config=True)
+    self.__id = YANGDynClass(base=str, is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='oc-if:interface-id', is_config=True)
 
 
   def _get_enabled(self):
@@ -198,8 +198,8 @@ packets that the operator desires. This value is advertised to
 the peer, however the actual interval used is specified by
 taking the maximum of desired-minimum-tx-interval and the
 value of the remote required-minimum-receive interval value.
-
 This value is specified as an integer number of microseconds.
+The value 0 is reserved and cannot be used.
     """
     return self.__desired_minimum_tx_interval
       
@@ -216,8 +216,8 @@ packets that the operator desires. This value is advertised to
 the peer, however the actual interval used is specified by
 taking the maximum of desired-minimum-tx-interval and the
 value of the remote required-minimum-receive interval value.
-
 This value is specified as an integer number of microseconds.
+The value 0 is reserved and cannot be used.
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -398,7 +398,7 @@ interface.
     self._path_helper = False
 
     self._extmethods = False
-    self.__id = YANGDynClass(base=str, is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='string', is_config=False)
+    self.__id = YANGDynClass(base=str, is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='oc-if:interface-id', is_config=False)
     self.__enabled = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='boolean', is_config=False)
     self.__local_address = YANGDynClass(base=[RestrictedClassType(base_type=str, restriction_dict={'pattern': '([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])){3}'}),RestrictedClassType(base_type=str, restriction_dict={'pattern': '(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:))'}),], is_leaf=True, yang_name="local-address", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='oc-inet:ip-address', is_config=False)
     self.__desired_minimum_tx_interval = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="desired-minimum-tx-interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint32', is_config=False)
@@ -435,7 +435,7 @@ interface.
 
   def _get_id(self):
     """
-    Getter method for id, mapped from YANG variable /bfd/interfaces/interface/state/id (string)
+    Getter method for id, mapped from YANG variable /bfd/interfaces/interface/state/id (oc-if:interface-id)
 
     YANG Description: A unique identifier for the interface.
     """
@@ -443,7 +443,7 @@ interface.
       
   def _set_id(self, v, load=False):
     """
-    Setter method for id, mapped from YANG variable /bfd/interfaces/interface/state/id (string)
+    Setter method for id, mapped from YANG variable /bfd/interfaces/interface/state/id (oc-if:interface-id)
     If this variable is read-only (config: false) in the
     source YANG file, then _set_id is considered as a private
     method. Backends looking to populate this variable should
@@ -454,12 +454,12 @@ interface.
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='string', is_config=False)
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='oc-if:interface-id', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
-          'error-string': """id must be of a type compatible with string""",
-          'defined-type': "string",
-          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='string', is_config=False)""",
+          'error-string': """id must be of a type compatible with oc-if:interface-id""",
+          'defined-type': "oc-if:interface-id",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='oc-if:interface-id', is_config=False)""",
         })
 
     self.__id = t
@@ -467,7 +467,7 @@ interface.
       self._set()
 
   def _unset_id(self):
-    self.__id = YANGDynClass(base=str, is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='string', is_config=False)
+    self.__id = YANGDynClass(base=str, is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='oc-if:interface-id', is_config=False)
 
 
   def _get_enabled(self):
@@ -559,8 +559,8 @@ packets that the operator desires. This value is advertised to
 the peer, however the actual interval used is specified by
 taking the maximum of desired-minimum-tx-interval and the
 value of the remote required-minimum-receive interval value.
-
 This value is specified as an integer number of microseconds.
+The value 0 is reserved and cannot be used.
     """
     return self.__desired_minimum_tx_interval
       
@@ -577,8 +577,8 @@ packets that the operator desires. This value is advertised to
 the peer, however the actual interval used is specified by
 taking the maximum of desired-minimum-tx-interval and the
 value of the remote required-minimum-receive interval value.
-
 This value is specified as an integer number of microseconds.
+The value 0 is reserved and cannot be used.
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -836,7 +836,7 @@ to indicate the base interface.
     YANG Description: Reference to a subinterface -- this requires the base
 interface to be specified using the interface leaf in
 this container.  If only a reference to a base interface
-is requuired, this leaf should not be set.
+is required, this leaf should not be set.
     """
     return self.__subinterface
       
@@ -851,7 +851,7 @@ is requuired, this leaf should not be set.
     YANG Description: Reference to a subinterface -- this requires the base
 interface to be specified using the interface leaf in
 this container.  If only a reference to a base interface
-is requuired, this leaf should not be set.
+is required, this leaf should not be set.
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -977,7 +977,7 @@ to indicate the base interface.
     YANG Description: Reference to a subinterface -- this requires the base
 interface to be specified using the interface leaf in
 this container.  If only a reference to a base interface
-is requuired, this leaf should not be set.
+is required, this leaf should not be set.
     """
     return self.__subinterface
       
@@ -992,7 +992,7 @@ is requuired, this leaf should not be set.
     YANG Description: Reference to a subinterface -- this requires the base
 interface to be specified using the interface leaf in
 this container.  If only a reference to a base interface
-is requuired, this leaf should not be set.
+is required, this leaf should not be set.
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -1563,6 +1563,10 @@ local system from the remote neighbour.
 
     YANG Description: The number of times that the adjacency with the neighbor
 has transitioned into the up state.
+
+This leaf is deprecated and will be replaced by a single
+up-transitions leaf in state container. New path:
+/bfd/interfaces/interface/peers/peer/state/up-transitions.
     """
     return self.__up_transitions
       
@@ -1576,6 +1580,10 @@ has transitioned into the up state.
 
     YANG Description: The number of times that the adjacency with the neighbor
 has transitioned into the up state.
+
+This leaf is deprecated and will be replaced by a single
+up-transitions leaf in state container. New path:
+/bfd/interfaces/interface/peers/peer/state/up-transitions.
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -1614,7 +1622,7 @@ class yc_state_openconfig_bfd__bfd_interfaces_interface_micro_bfd_sessions_micro
 
   YANG Description: Operational state parameters for the micro-BFD session.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__local_address','__remote_address','__member_interface','__session_state','__remote_session_state','__last_failure_time','__failure_transitions','__local_discriminator','__remote_discriminator','__local_diagnostic_code','__remote_diagnostic_code','__remote_minimum_receive_interval','__demand_mode_requested','__remote_authentication_enabled','__remote_control_plane_independent','__async_',)
+  __slots__ = ('_path_helper', '_extmethods', '__local_address','__remote_address','__member_interface','__session_state','__remote_session_state','__last_failure_time','__failure_transitions','__up_transitions','__local_discriminator','__remote_discriminator','__local_diagnostic_code','__remote_diagnostic_code','__remote_minimum_receive_interval','__demand_mode_requested','__remote_authentication_enabled','__remote_control_plane_independent','__async_',)
 
   _yang_name = 'state'
   _yang_namespace = 'http://openconfig.net/yang/bfd'
@@ -1633,10 +1641,11 @@ class yc_state_openconfig_bfd__bfd_interfaces_interface_micro_bfd_sessions_micro
     self.__remote_session_state = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'UP': {}, 'DOWN': {}, 'ADMIN_DOWN': {}, 'INIT': {}},), is_leaf=True, yang_name="remote-session-state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-session-state', is_config=False)
     self.__last_failure_time = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="last-failure-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='oc-types:timeticks64', is_config=False)
     self.__failure_transitions = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="failure-transitions", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint64', is_config=False)
+    self.__up_transitions = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="up-transitions", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint64', is_config=False)
     self.__local_discriminator = YANGDynClass(base=str, is_leaf=True, yang_name="local-discriminator", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='string', is_config=False)
     self.__remote_discriminator = YANGDynClass(base=str, is_leaf=True, yang_name="remote-discriminator", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='string', is_config=False)
-    self.__local_diagnostic_code = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}},), is_leaf=True, yang_name="local-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)
-    self.__remote_diagnostic_code = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}},), is_leaf=True, yang_name="remote-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)
+    self.__local_diagnostic_code = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}, 'NEIGHBOR_DOWN': {'value': 8}},), is_leaf=True, yang_name="local-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)
+    self.__remote_diagnostic_code = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}, 'NEIGHBOR_DOWN': {'value': 8}},), is_leaf=True, yang_name="remote-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)
     self.__remote_minimum_receive_interval = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="remote-minimum-receive-interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint32', is_config=False)
     self.__demand_mode_requested = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="demand-mode-requested", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='boolean', is_config=False)
     self.__remote_authentication_enabled = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="remote-authentication-enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='boolean', is_config=False)
@@ -1945,6 +1954,45 @@ out of the UP state.
     self.__failure_transitions = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="failure-transitions", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint64', is_config=False)
 
 
+  def _get_up_transitions(self):
+    """
+    Getter method for up_transitions, mapped from YANG variable /bfd/interfaces/interface/micro_bfd_sessions/micro_bfd_session/state/up_transitions (uint64)
+
+    YANG Description: The number of times that the adjacency with the neighbor
+has transitioned into the up state.
+    """
+    return self.__up_transitions
+      
+  def _set_up_transitions(self, v, load=False):
+    """
+    Setter method for up_transitions, mapped from YANG variable /bfd/interfaces/interface/micro_bfd_sessions/micro_bfd_session/state/up_transitions (uint64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_up_transitions is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_up_transitions() directly.
+
+    YANG Description: The number of times that the adjacency with the neighbor
+has transitioned into the up state.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="up-transitions", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """up_transitions must be of a type compatible with uint64""",
+          'defined-type': "uint64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="up-transitions", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint64', is_config=False)""",
+        })
+
+    self.__up_transitions = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_up_transitions(self):
+    self.__up_transitions = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="up-transitions", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint64', is_config=False)
+
+
   def _get_local_discriminator(self):
     """
     Getter method for local_discriminator, mapped from YANG variable /bfd/interfaces/interface/micro_bfd_sessions/micro_bfd_session/state/local_discriminator (string)
@@ -2046,12 +2094,12 @@ reason for failure of this BFD session.
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}},), is_leaf=True, yang_name="local-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}, 'NEIGHBOR_DOWN': {'value': 8}},), is_leaf=True, yang_name="local-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """local_diagnostic_code must be of a type compatible with bfd-diagnostic-code""",
           'defined-type': "openconfig-bfd:bfd-diagnostic-code",
-          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}},), is_leaf=True, yang_name="local-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)""",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}, 'NEIGHBOR_DOWN': {'value': 8}},), is_leaf=True, yang_name="local-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)""",
         })
 
     self.__local_diagnostic_code = t
@@ -2059,7 +2107,7 @@ reason for failure of this BFD session.
       self._set()
 
   def _unset_local_diagnostic_code(self):
-    self.__local_diagnostic_code = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}},), is_leaf=True, yang_name="local-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)
+    self.__local_diagnostic_code = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}, 'NEIGHBOR_DOWN': {'value': 8}},), is_leaf=True, yang_name="local-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)
 
 
   def _get_remote_diagnostic_code(self):
@@ -2085,12 +2133,12 @@ reason for failure of the BFD session
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}},), is_leaf=True, yang_name="remote-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}, 'NEIGHBOR_DOWN': {'value': 8}},), is_leaf=True, yang_name="remote-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """remote_diagnostic_code must be of a type compatible with bfd-diagnostic-code""",
           'defined-type': "openconfig-bfd:bfd-diagnostic-code",
-          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}},), is_leaf=True, yang_name="remote-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)""",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}, 'NEIGHBOR_DOWN': {'value': 8}},), is_leaf=True, yang_name="remote-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)""",
         })
 
     self.__remote_diagnostic_code = t
@@ -2098,7 +2146,7 @@ reason for failure of the BFD session
       self._set()
 
   def _unset_remote_diagnostic_code(self):
-    self.__remote_diagnostic_code = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}},), is_leaf=True, yang_name="remote-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)
+    self.__remote_diagnostic_code = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}, 'NEIGHBOR_DOWN': {'value': 8}},), is_leaf=True, yang_name="remote-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)
 
 
   def _get_remote_minimum_receive_interval(self):
@@ -2304,6 +2352,7 @@ asynchronous mode of BFD.
   remote_session_state = __builtin__.property(_get_remote_session_state)
   last_failure_time = __builtin__.property(_get_last_failure_time)
   failure_transitions = __builtin__.property(_get_failure_transitions)
+  up_transitions = __builtin__.property(_get_up_transitions)
   local_discriminator = __builtin__.property(_get_local_discriminator)
   remote_discriminator = __builtin__.property(_get_remote_discriminator)
   local_diagnostic_code = __builtin__.property(_get_local_diagnostic_code)
@@ -2315,7 +2364,7 @@ asynchronous mode of BFD.
   async_ = __builtin__.property(_get_async_)
 
 
-  _pyangbind_elements = OrderedDict([('local_address', local_address), ('remote_address', remote_address), ('member_interface', member_interface), ('session_state', session_state), ('remote_session_state', remote_session_state), ('last_failure_time', last_failure_time), ('failure_transitions', failure_transitions), ('local_discriminator', local_discriminator), ('remote_discriminator', remote_discriminator), ('local_diagnostic_code', local_diagnostic_code), ('remote_diagnostic_code', remote_diagnostic_code), ('remote_minimum_receive_interval', remote_minimum_receive_interval), ('demand_mode_requested', demand_mode_requested), ('remote_authentication_enabled', remote_authentication_enabled), ('remote_control_plane_independent', remote_control_plane_independent), ('async_', async_), ])
+  _pyangbind_elements = OrderedDict([('local_address', local_address), ('remote_address', remote_address), ('member_interface', member_interface), ('session_state', session_state), ('remote_session_state', remote_session_state), ('last_failure_time', last_failure_time), ('failure_transitions', failure_transitions), ('up_transitions', up_transitions), ('local_discriminator', local_discriminator), ('remote_discriminator', remote_discriminator), ('local_diagnostic_code', local_diagnostic_code), ('remote_diagnostic_code', remote_diagnostic_code), ('remote_minimum_receive_interval', remote_minimum_receive_interval), ('demand_mode_requested', demand_mode_requested), ('remote_authentication_enabled', remote_authentication_enabled), ('remote_control_plane_independent', remote_control_plane_independent), ('async_', async_), ])
 
 
 class yc_micro_bfd_session_openconfig_bfd__bfd_interfaces_interface_micro_bfd_sessions_micro_bfd_session(PybindBase):
@@ -2858,6 +2907,10 @@ local system from the remote neighbour.
 
     YANG Description: The number of times that the adjacency with the neighbor
 has transitioned into the up state.
+
+This leaf is deprecated and will be replaced by a single
+up-transitions leaf in state container. New path:
+/bfd/interfaces/interface/peers/peer/state/up-transitions.
     """
     return self.__up_transitions
       
@@ -2871,6 +2924,10 @@ has transitioned into the up state.
 
     YANG Description: The number of times that the adjacency with the neighbor
 has transitioned into the up state.
+
+This leaf is deprecated and will be replaced by a single
+up-transitions leaf in state container. New path:
+/bfd/interfaces/interface/peers/peer/state/up-transitions.
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -3126,6 +3183,10 @@ local system from the remote neighbour.
 
     YANG Description: The number of times that the adjacency with the neighbor
 has transitioned into the up state.
+
+This leaf is deprecated and will be replaced by a single
+up-transitions leaf in state container. New path:
+/bfd/interfaces/interface/peers/peer/state/up-transitions.
     """
     return self.__up_transitions
       
@@ -3139,6 +3200,10 @@ has transitioned into the up state.
 
     YANG Description: The number of times that the adjacency with the neighbor
 has transitioned into the up state.
+
+This leaf is deprecated and will be replaced by a single
+up-transitions leaf in state container. New path:
+/bfd/interfaces/interface/peers/peer/state/up-transitions.
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -3177,7 +3242,7 @@ class yc_state_openconfig_bfd__bfd_interfaces_interface_peers_peer_state(PybindB
 
   YANG Description: Operational state parameters for the BFD session.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__local_address','__remote_address','__subscribed_protocols','__session_state','__remote_session_state','__last_failure_time','__failure_transitions','__local_discriminator','__remote_discriminator','__local_diagnostic_code','__remote_diagnostic_code','__remote_minimum_receive_interval','__demand_mode_requested','__remote_authentication_enabled','__remote_control_plane_independent','__echo','__async_',)
+  __slots__ = ('_path_helper', '_extmethods', '__local_address','__remote_address','__subscribed_protocols','__session_state','__remote_session_state','__last_failure_time','__failure_transitions','__up_transitions','__local_discriminator','__remote_discriminator','__local_diagnostic_code','__remote_diagnostic_code','__remote_minimum_receive_interval','__demand_mode_requested','__remote_authentication_enabled','__remote_control_plane_independent','__echo','__async_',)
 
   _yang_name = 'state'
   _yang_namespace = 'http://openconfig.net/yang/bfd'
@@ -3196,10 +3261,11 @@ class yc_state_openconfig_bfd__bfd_interfaces_interface_peers_peer_state(PybindB
     self.__remote_session_state = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'UP': {}, 'DOWN': {}, 'ADMIN_DOWN': {}, 'INIT': {}},), is_leaf=True, yang_name="remote-session-state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-session-state', is_config=False)
     self.__last_failure_time = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="last-failure-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='oc-types:timeticks64', is_config=False)
     self.__failure_transitions = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="failure-transitions", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint64', is_config=False)
+    self.__up_transitions = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="up-transitions", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint64', is_config=False)
     self.__local_discriminator = YANGDynClass(base=str, is_leaf=True, yang_name="local-discriminator", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='string', is_config=False)
     self.__remote_discriminator = YANGDynClass(base=str, is_leaf=True, yang_name="remote-discriminator", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='string', is_config=False)
-    self.__local_diagnostic_code = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}},), is_leaf=True, yang_name="local-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)
-    self.__remote_diagnostic_code = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}},), is_leaf=True, yang_name="remote-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)
+    self.__local_diagnostic_code = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}, 'NEIGHBOR_DOWN': {'value': 8}},), is_leaf=True, yang_name="local-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)
+    self.__remote_diagnostic_code = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}, 'NEIGHBOR_DOWN': {'value': 8}},), is_leaf=True, yang_name="remote-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)
     self.__remote_minimum_receive_interval = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="remote-minimum-receive-interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint32', is_config=False)
     self.__demand_mode_requested = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="demand-mode-requested", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='boolean', is_config=False)
     self.__remote_authentication_enabled = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="remote-authentication-enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='boolean', is_config=False)
@@ -3505,6 +3571,45 @@ out of the UP state.
     self.__failure_transitions = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="failure-transitions", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint64', is_config=False)
 
 
+  def _get_up_transitions(self):
+    """
+    Getter method for up_transitions, mapped from YANG variable /bfd/interfaces/interface/peers/peer/state/up_transitions (uint64)
+
+    YANG Description: The number of times that the adjacency with the neighbor
+has transitioned into the up state.
+    """
+    return self.__up_transitions
+      
+  def _set_up_transitions(self, v, load=False):
+    """
+    Setter method for up_transitions, mapped from YANG variable /bfd/interfaces/interface/peers/peer/state/up_transitions (uint64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_up_transitions is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_up_transitions() directly.
+
+    YANG Description: The number of times that the adjacency with the neighbor
+has transitioned into the up state.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="up-transitions", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """up_transitions must be of a type compatible with uint64""",
+          'defined-type': "uint64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="up-transitions", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint64', is_config=False)""",
+        })
+
+    self.__up_transitions = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_up_transitions(self):
+    self.__up_transitions = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="up-transitions", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint64', is_config=False)
+
+
   def _get_local_discriminator(self):
     """
     Getter method for local_discriminator, mapped from YANG variable /bfd/interfaces/interface/peers/peer/state/local_discriminator (string)
@@ -3606,12 +3711,12 @@ reason for failure of this BFD session.
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}},), is_leaf=True, yang_name="local-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}, 'NEIGHBOR_DOWN': {'value': 8}},), is_leaf=True, yang_name="local-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """local_diagnostic_code must be of a type compatible with bfd-diagnostic-code""",
           'defined-type': "openconfig-bfd:bfd-diagnostic-code",
-          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}},), is_leaf=True, yang_name="local-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)""",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}, 'NEIGHBOR_DOWN': {'value': 8}},), is_leaf=True, yang_name="local-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)""",
         })
 
     self.__local_diagnostic_code = t
@@ -3619,7 +3724,7 @@ reason for failure of this BFD session.
       self._set()
 
   def _unset_local_diagnostic_code(self):
-    self.__local_diagnostic_code = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}},), is_leaf=True, yang_name="local-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)
+    self.__local_diagnostic_code = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}, 'NEIGHBOR_DOWN': {'value': 8}},), is_leaf=True, yang_name="local-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)
 
 
   def _get_remote_diagnostic_code(self):
@@ -3645,12 +3750,12 @@ reason for failure of the BFD session
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}},), is_leaf=True, yang_name="remote-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}, 'NEIGHBOR_DOWN': {'value': 8}},), is_leaf=True, yang_name="remote-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """remote_diagnostic_code must be of a type compatible with bfd-diagnostic-code""",
           'defined-type': "openconfig-bfd:bfd-diagnostic-code",
-          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}},), is_leaf=True, yang_name="remote-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)""",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}, 'NEIGHBOR_DOWN': {'value': 8}},), is_leaf=True, yang_name="remote-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)""",
         })
 
     self.__remote_diagnostic_code = t
@@ -3658,7 +3763,7 @@ reason for failure of the BFD session
       self._set()
 
   def _unset_remote_diagnostic_code(self):
-    self.__remote_diagnostic_code = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}},), is_leaf=True, yang_name="remote-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)
+    self.__remote_diagnostic_code = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'NO_DIAGNOSTIC': {'value': 0}, 'DETECTION_TIMEOUT': {'value': 1}, 'ECHO_FAILED': {'value': 2}, 'FORWARDING_RESET': {'value': 3}, 'PATH_DOWN': {'value': 4}, 'CONCATENATED_PATH_DOWN': {'value': 5}, 'ADMIN_DOWN': {'value': 6}, 'REVERSE_CONCATENATED_PATH_DOWN': {'value': 7}, 'NEIGHBOR_DOWN': {'value': 8}},), is_leaf=True, yang_name="remote-diagnostic-code", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='bfd-diagnostic-code', is_config=False)
 
 
   def _get_remote_minimum_receive_interval(self):
@@ -3903,6 +4008,7 @@ asynchronous mode of BFD.
   remote_session_state = __builtin__.property(_get_remote_session_state)
   last_failure_time = __builtin__.property(_get_last_failure_time)
   failure_transitions = __builtin__.property(_get_failure_transitions)
+  up_transitions = __builtin__.property(_get_up_transitions)
   local_discriminator = __builtin__.property(_get_local_discriminator)
   remote_discriminator = __builtin__.property(_get_remote_discriminator)
   local_diagnostic_code = __builtin__.property(_get_local_diagnostic_code)
@@ -3915,7 +4021,7 @@ asynchronous mode of BFD.
   async_ = __builtin__.property(_get_async_)
 
 
-  _pyangbind_elements = OrderedDict([('local_address', local_address), ('remote_address', remote_address), ('subscribed_protocols', subscribed_protocols), ('session_state', session_state), ('remote_session_state', remote_session_state), ('last_failure_time', last_failure_time), ('failure_transitions', failure_transitions), ('local_discriminator', local_discriminator), ('remote_discriminator', remote_discriminator), ('local_diagnostic_code', local_diagnostic_code), ('remote_diagnostic_code', remote_diagnostic_code), ('remote_minimum_receive_interval', remote_minimum_receive_interval), ('demand_mode_requested', demand_mode_requested), ('remote_authentication_enabled', remote_authentication_enabled), ('remote_control_plane_independent', remote_control_plane_independent), ('echo', echo), ('async_', async_), ])
+  _pyangbind_elements = OrderedDict([('local_address', local_address), ('remote_address', remote_address), ('subscribed_protocols', subscribed_protocols), ('session_state', session_state), ('remote_session_state', remote_session_state), ('last_failure_time', last_failure_time), ('failure_transitions', failure_transitions), ('up_transitions', up_transitions), ('local_discriminator', local_discriminator), ('remote_discriminator', remote_discriminator), ('local_diagnostic_code', local_diagnostic_code), ('remote_diagnostic_code', remote_diagnostic_code), ('remote_minimum_receive_interval', remote_minimum_receive_interval), ('demand_mode_requested', demand_mode_requested), ('remote_authentication_enabled', remote_authentication_enabled), ('remote_control_plane_independent', remote_control_plane_independent), ('echo', echo), ('async_', async_), ])
 
 
 class yc_peer_openconfig_bfd__bfd_interfaces_interface_peers_peer(PybindBase):
