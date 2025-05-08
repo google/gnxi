@@ -1696,3 +1696,64 @@ func updateLess(a, b *pb.Update) bool {
 	}
 	return pathA < pathB
 }
+
+// jsonBytesEqual is a helper function to compare two json strings for
+// equality.
+func jsonBytesEqual(a, b []byte) (bool, error) {
+	var j, j2 interface{}
+	if err := json.Unmarshal(a, &j); err != nil {
+		return false, err
+	}
+	if err := json.Unmarshal(b, &j2); err != nil {
+		return false, err
+	}
+	return reflect.DeepEqual(j2, j), nil
+}
+
+// TestConfigAsJSON validates that the method `ConfigAsJSON` returns a json
+// string that meets the running configuration of the server in a fashion that
+// can be loaded back into the server.
+func TestConfigToJSON(t *testing.T) {
+        jsonConfigRoot := `{
+          "openconfig-system:system": {
+            "openconfig-openflow:openflow": {
+              "agent": {
+                "config": {
+                  "failure-mode": "SECURE",
+                  "max-backoff": 10
+                }
+              }
+            }
+          },
+          "openconfig-platform:components": {
+            "component": [
+              {
+                "config": {
+                  "name": "swpri1-1-1"
+                },
+                "name": "swpri1-1-1"
+              }
+            ]
+          }
+        }`
+
+	s, err := NewServer(model, []byte(jsonConfigRoot), nil)
+	if err != nil {
+		t.Fatalf("error in creating server: %v", err)
+	}
+
+	res, err := s.ConfigAsJSON()
+	if err != nil {
+		t.Fatalf("error in creating json from model: %v", err)
+	}
+
+	areEqual, err := jsonBytesEqual([]byte(jsonConfigRoot), []byte(res))
+	if err != nil {
+		t.Fatalf("error in comparing json bytes: %v", err)
+	}
+
+	if (!areEqual) {
+		t.Errorf("config mismatch!\n Got: %s\n Wanted: %s", res, jsonConfigRoot)
+	}
+
+}

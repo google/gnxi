@@ -22,7 +22,9 @@ import (
 	"io/ioutil"
 	"net"
 	"os"
+	"os/signal"
 	"reflect"
+	"syscall"
 
 	log "github.com/golang/glog"
 	"golang.org/x/net/context"
@@ -43,6 +45,7 @@ import (
 var (
 	bindAddr   = flag.String("bind_address", ":9339", "Bind to address:port or just :port")
 	configFile = flag.String("config", "", "IETF JSON file for target startup config")
+	saveOnExit = flag.Bool("save_on_exit", false, "Save the config before exiting the server.")
 )
 
 type server struct {
@@ -79,7 +82,7 @@ func (s *server) Set(ctx context.Context, req *pb.SetRequest) (*pb.SetResponse, 
 	return s.Server.Set(ctx, req)
 }
 
-// Set overrides the Subscribe func of gnmi.Target to provide user auth.
+// Subscribe overrides the Subscribe func of gnmi.Target to provide user auth.
 func (s *server) Subscribe(stream pb.GNMI_SubscribeServer) error {
 	msg, ok := credentials.AuthorizeUser(stream.Context())
 	if !ok {
@@ -88,6 +91,24 @@ func (s *server) Subscribe(stream pb.GNMI_SubscribeServer) error {
 	}
 	log.Infof("allowed a Subscribe request: %v", msg)
 	return s.Server.Subscribe(stream)
+}
+
+// shutdownHook saves the running config back out to the config file.
+func (s *server) shutdownHook (c chan os.Signal) {
+	sig := <- c
+	log.Infof("Gracefully stopping: %s", sig)
+	cfg, err := s.ConfigAsJSON()
+	if err != nil {
+		log.Exitf("Error getting json representation from server: %v", err)
+	}
+	if *configFile != "" {
+		err := os.WriteFile(*configFile, []byte(cfg), 0644)
+		if err != nil {
+			log.Exitf("error in writing config file: %v", err)
+		}
+	}
+	log.Infof("Config saved back out to file.")
+	os.Exit(0)
 }
 
 func main() {
@@ -132,6 +153,12 @@ func main() {
 	listen, err := net.Listen("tcp", *bindAddr)
 	if err != nil {
 		log.Exitf("failed to listen: %v", err)
+	}
+
+	if(*saveOnExit) {
+		c := make(chan os.Signal, 1)
+		signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
+		go s.shutdownHook(c)
 	}
 
 	log.Info("starting to serve")

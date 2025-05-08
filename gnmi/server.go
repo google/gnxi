@@ -296,6 +296,17 @@ func (s *Server) toGoStruct(jsonTree map[string]interface{}) (ygot.ValidatedGoSt
 	return goStruct, nil
 }
 
+// ConfigAsJSON takes the current configuration of the running server and
+// returns it in a RFC7951 compliant json string.
+func (s *Server) ConfigAsJSON() (string, error) {
+	return ygot.EmitJSON(s.config, &ygot.EmitJSONConfig{
+		Format: ygot.RFC7951,
+		RFC7951Config: &ygot.RFC7951JSONConfig{
+			AppendModuleName: true,
+		},
+	})
+}
+
 // getGNMIServiceVersion returns a pointer to the gNMI service version string.
 // The method is non-trivial because of the way it is defined in the proto file.
 func getGNMIServiceVersion() (*string, error) {
