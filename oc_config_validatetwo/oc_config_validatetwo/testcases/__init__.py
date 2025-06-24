@@ -1,0 +1,9 @@
+from oc_config_validatetwo.testcases import config_state  # noqa
+from oc_config_validatetwo.testcases import get  # noqa
+from oc_config_validatetwo.testcases import set  # noqa
+from oc_config_validatetwo.testcases import setget  # noqa
+from oc_config_validatetwo.testcases import static_route  # noqa
+from oc_config_validatetwo.testcases import subif_ip  # noqa
+from oc_config_validatetwo.testcases import telemetry_once  # noqa
+from oc_config_validatetwo.testcases import telemetry_onchange  # noqa
+from oc_config_validatetwo.testcases import telemetry_sample  # noqa
