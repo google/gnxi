@@ -342,7 +342,7 @@ Optionally, every Update messages can have its timestamp value checked
   against the local time when the Subscription message was sent. The absolute
   time drift is compared against a max value in secs.
 
-Optionally, the number of expected Notifications (equals to the amount of)
+Optionally, the number of expected Notifications (equals to the amount of
   timestamps) is checked.
 
 > If the arguments are not present in the test, the check is not performed.
@@ -363,18 +363,17 @@ All Update values are expected to be of the same Type, as 'string_val',
   'int_val', etc.
 
 Args:
- *  **xpaths**: List of gNMI paths to subscribe to. Paths can contain
-     wildcard '*'.
+ *  **xpaths**: List of gNMI paths to subscribe to. Paths can contain wildcard '*'.
  *  **updates_count**: Number of expected Update messages.
  *  **values_type**: Python type of the values of the Updates.
 
 
-####  `telemetry_once.CheckLeafs`
+####  `telemetry_once.CheckLeafsFromModel`
 
 In addition to the default checks of the module, this test checks that the
 subscription to containers updates all leafs.
 
-This test subscribes only xpaths of containers. It renders the
+**This test subscribes only xpaths of containers**. It renders the
 corresponding OC model and lists all paths to the downstream Leafs. The
 Update paths received in the Subscription reply are checked against the
 Leafs of the Model (Update paths must match an OC Model Leaf).
@@ -387,7 +386,7 @@ have all Leaf paths that the OC mode has.
 
 Args:
  *  **xpaths**: List of gNMI paths to subscribe to.
-     Paths can contain wildcards only in keys '*'.
+     Paths can contain wildcard '*' only in keys.
  *  **model**: Python binding class to check the reply against.
  *  *check_missing_model_paths*: If True, it asserts that all OC Model Leaf
      paths are in the received Updates. Defaults to False.
@@ -396,7 +395,7 @@ Args:
 
 Uses gNMI Subscribe messages, of type STREAM, mode SAMPLE.
 
-This test subscribes to a single gNMI xpath, request sampled streaming
+This test subscribes to a **single gNMI xpath**, request sampled streaming
 telemetry and keep accumulating responses up to a timeout.
 After the timeout, it checks that all returned paths have the same number of
 updates, and that the time interval between updates is the requested value
@@ -409,10 +408,19 @@ interval for 65 secs. The Target replies with Updates for several paths
 65 secs, the test checks that all paths have 5 updates, and for each path,
 that the timestamp difference of updates is 15 secs.
 
+The following Subscription Updates will pass this test:
+
  Update path | Time
  ----------- | ----
  `/<root>/<container>/<leaf1>` | Update[t0] >> Update[t15] >> Update[t30] >> ...
  `/<root>/<container>/<leaf2>` | Update[t0] >> Update[t18] >> Update[t25] >> ...
+
+The following Subscription Updates will FAIL this test:
+
+Update path | Time
+ ----------- | ----
+`/<root>/<container>/<leaf1>` | Update[t0] |             | Update[t30] |
+`/<root>/<container>/<leaf2>` |            | Update[t15] | Update[t29] |
 
 > These checks do not validate the values returned on the updates.
 > Use telemetry_once.* for that.
@@ -423,53 +431,62 @@ Args:
  *  *max_timestamp_drift_secs*: Maximum drift for the timestamp(s) in the
     reply. Defaults to 1 sec.
 
-####  `telemetry_sample.CountUpdates`
+####  `telemetry_sample.CountUpdatePaths`
 
 In addition to the default checks of the module, this test checks the
 Subscription to the xpath produces Updates for a determined number of paths.
 
 E.g:
 Suppose the test is subscribing to an xpath `/<root>/<container>`, with 15 secs
-interval for 65 secs, expecting 3 Update paths. After collecting subscription
+interval for 65 secs, **expecting 3 Update paths**. After collecting subscription
 responses for 65 secs, the test checks that there are Updates for 3 xpaths.
 
-Update path | t0 | t15 | t30 | t45 | t60
------------ | -- | --- | --- | --- | ---
-`/<root>/<container>/<leaf1>` | value | value | value | value | value
-`/<root>/<container>/<leaf2>` |       | value | value |       |
-`/<root>/<container>/<leaf3>` | value |       | value |       | value
+The following Subscription Updates will FAIL this test:
+
+Update path | Time
+ ----------- | ----
+`/<root>/<container>/<leaf1>` | Update[t0] | Update[t15] | Update[t30] |
+`/<root>/<container>/<leaf2>` | Update[t0] | Update[t15] | Update[t29] |
 
 Args:
  *  **xpath**: gNMI path to subscribe to. Path can contain wildcards '*'.
  * **update_paths_count**: Number of expected distinct Update paths.
 
-####  `telemetry_sample.CheckLeafs`
+####  `telemetry_sample.CheckLeafsFromModel`
 
 In addition to the default checks of the module, this test checks that the
 subscription to a container updates all leafs under it.
 
+**This test subscribes only xpaths of containers**. 
 It renders the corresponding OC model and lists all paths to the downstream
 Leafs. The Update paths received in the Subscription replies are checked
 against the Leafs of the model (all Update paths must match an OC model Leaf).
 
- E.g:
- Suppose the test is subscribing to an xpath `/<root>/<container>/state`, with
- 15 secs interval for 65 secs. After collecting subscription responses for 65
- secs, the test checks that all Update paths are valid in the given OC model,
- and that there are updates for all paths.
+Optionally, use `check_missing_model_paths` to assert that all OC model paths
+are present in the Updates. Usually, the Subscription replies might not
+have all Leaf paths that the OC mode has.
 
- Update path | t0 | t15 | t30 | t45 | t60
- ----------- | -- | --- | --- | --- | ---
- `/<root>/<container>/state/<leaf1>` | value | value | value | value | value
- `/<root>/<container>/state/<leaf2>` |       | value | value |       |
- `/<root>/<container>/state/<leaf3>` | value |       | value |       | value
+E.g:
+Suppose the test is subscribing to an xpath `/<root>/<container>`, with
+15 secs interval for 65 secs. After collecting subscription responses for 65
+secs, the test checks that all Update paths are valid in the given OC model,
+and that there are updates for all paths.
+
+The following Subscription Updates will FAIL this test:
+
+Update path | Time
+ ----------- | ----
+`/<root>/<container>/<leaf1>` | Update[t0] | Update[t15] | Update[t30] |
+`/<root>/<container>/<not_a_leaf_in_model>` | Update[t0] | Update[t15] | Update[t29] |
 
 > This check does NOT check the type of the values returned.
 
 Args:
  *  **xpath**: gNMI path to subscribe to.
-    Can contain wildcards only in keys '*'.
+    Can contain wildcard '*' only in keys.
  *  **model**: Python binding class to check the replies against.
+ *  *check_missing_model_paths*: If True, it asserts that all OC Model Leaf
+     paths are in the received Updates. Defaults to False.
 
 ### Module telemetry_onchange
 
