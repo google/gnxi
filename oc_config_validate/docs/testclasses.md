@@ -362,6 +362,8 @@ the Subscription.
 All Update values are expected to be of the same Type, as 'string_val',
   'int_val', etc.
 
+> This Testclass might not be useful for testing paths to Containers, as it has several Leafs of likely different value types.
+
 Args:
  *  **xpaths**: List of gNMI paths to subscribe to. Paths can contain wildcard '*'.
  *  **updates_count**: Number of expected Update messages.
