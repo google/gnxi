@@ -243,8 +243,8 @@ on the network device.
     """
     Getter method for sample_size, mapped from YANG variable /sampling/sflow/config/sample_size (uint16)
 
-    YANG Description: Sets the maximum number of bytes to be copied from a
-sampled packet.
+    YANG Description: Sets the maximum number of bytes to be copied from a sampled
+packet (content within one specific sample of a packet).
     """
     return self.__sample_size
       
@@ -256,8 +256,8 @@ sampled packet.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_sample_size() directly.
 
-    YANG Description: Sets the maximum number of bytes to be copied from a
-sampled packet.
+    YANG Description: Sets the maximum number of bytes to be copied from a sampled
+packet (content within one specific sample of a packet).
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -640,8 +640,8 @@ on the network device.
     """
     Getter method for sample_size, mapped from YANG variable /sampling/sflow/state/sample_size (uint16)
 
-    YANG Description: Sets the maximum number of bytes to be copied from a
-sampled packet.
+    YANG Description: Sets the maximum number of bytes to be copied from a sampled
+packet (content within one specific sample of a packet).
     """
     return self.__sample_size
       
@@ -653,8 +653,8 @@ sampled packet.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_sample_size() directly.
 
-    YANG Description: Sets the maximum number of bytes to be copied from a
-sampled packet.
+    YANG Description: Sets the maximum number of bytes to be copied from a sampled
+packet (content within one specific sample of a packet).
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -835,7 +835,7 @@ class yc_config_openconfig_sampling__sampling_sflow_collectors_collector_config(
 
   YANG Description: Configuration data for sFlow collectors.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__address','__port','__source_address','__network_instance',)
+  __slots__ = ('_path_helper', '_extmethods', '__address','__port','__source_address','__max_datagram_size','__network_instance',)
 
   _yang_name = 'config'
   _yang_namespace = 'http://openconfig.net/yang/sampling'
@@ -850,6 +850,7 @@ class yc_config_openconfig_sampling__sampling_sflow_collectors_collector_config(
     self.__address = YANGDynClass(base=[RestrictedClassType(base_type=str, restriction_dict={'pattern': '([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])){3}'}),RestrictedClassType(base_type=str, restriction_dict={'pattern': '(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:))'}),], is_leaf=True, yang_name="address", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='oc-inet:ip-address', is_config=True)
     self.__port = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), default=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16)(6343), is_leaf=True, yang_name="port", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='oc-inet:port-number', is_config=True)
     self.__source_address = YANGDynClass(base=[RestrictedClassType(base_type=str, restriction_dict={'pattern': '([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])){3}'}),RestrictedClassType(base_type=str, restriction_dict={'pattern': '(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:))'}),], is_leaf=True, yang_name="source-address", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='oc-inet:ip-address', is_config=True)
+    self.__max_datagram_size = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="max-datagram-size", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='uint16', is_config=True)
     self.__network_instance = YANGDynClass(base=str, is_leaf=True, yang_name="network-instance", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='oc-netinst:network-instance-ref', is_config=True)
 
     load = kwargs.pop("load", None)
@@ -992,6 +993,47 @@ to sFlow collectors.
     self.__source_address = YANGDynClass(base=[RestrictedClassType(base_type=str, restriction_dict={'pattern': '([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])){3}'}),RestrictedClassType(base_type=str, restriction_dict={'pattern': '(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:))'}),], is_leaf=True, yang_name="source-address", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='oc-inet:ip-address', is_config=True)
 
 
+  def _get_max_datagram_size(self):
+    """
+    Getter method for max_datagram_size, mapped from YANG variable /sampling/sflow/collectors/collector/config/max_datagram_size (uint16)
+
+    YANG Description: Sets the maximum size (in bytes) of the sFlow payload itself,
+before it's encapsulated in a UDP packet sent to this collector.
+This value does not include UDP or IP headers.
+    """
+    return self.__max_datagram_size
+      
+  def _set_max_datagram_size(self, v, load=False):
+    """
+    Setter method for max_datagram_size, mapped from YANG variable /sampling/sflow/collectors/collector/config/max_datagram_size (uint16)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_max_datagram_size is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_max_datagram_size() directly.
+
+    YANG Description: Sets the maximum size (in bytes) of the sFlow payload itself,
+before it's encapsulated in a UDP packet sent to this collector.
+This value does not include UDP or IP headers.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="max-datagram-size", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='uint16', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """max_datagram_size must be of a type compatible with uint16""",
+          'defined-type': "uint16",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="max-datagram-size", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='uint16', is_config=True)""",
+        })
+
+    self.__max_datagram_size = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_max_datagram_size(self):
+    self.__max_datagram_size = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="max-datagram-size", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='uint16', is_config=True)
+
+
   def _get_network_instance(self):
     """
     Getter method for network_instance, mapped from YANG variable /sampling/sflow/collectors/collector/config/network_instance (oc-netinst:network-instance-ref)
@@ -1035,10 +1077,11 @@ is reachable in the default network instance.
   address = __builtin__.property(_get_address, _set_address)
   port = __builtin__.property(_get_port, _set_port)
   source_address = __builtin__.property(_get_source_address, _set_source_address)
+  max_datagram_size = __builtin__.property(_get_max_datagram_size, _set_max_datagram_size)
   network_instance = __builtin__.property(_get_network_instance, _set_network_instance)
 
 
-  _pyangbind_elements = OrderedDict([('address', address), ('port', port), ('source_address', source_address), ('network_instance', network_instance), ])
+  _pyangbind_elements = OrderedDict([('address', address), ('port', port), ('source_address', source_address), ('max_datagram_size', max_datagram_size), ('network_instance', network_instance), ])
 
 
 class yc_state_openconfig_sampling__sampling_sflow_collectors_collector_state(PybindBase):
@@ -1050,7 +1093,7 @@ class yc_state_openconfig_sampling__sampling_sflow_collectors_collector_state(Py
 
   YANG Description: Operational state data for sFlow collectors.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__address','__port','__source_address','__network_instance','__packets_sent',)
+  __slots__ = ('_path_helper', '_extmethods', '__address','__port','__source_address','__max_datagram_size','__network_instance','__packets_sent',)
 
   _yang_name = 'state'
   _yang_namespace = 'http://openconfig.net/yang/sampling'
@@ -1065,6 +1108,7 @@ class yc_state_openconfig_sampling__sampling_sflow_collectors_collector_state(Py
     self.__address = YANGDynClass(base=[RestrictedClassType(base_type=str, restriction_dict={'pattern': '([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])){3}'}),RestrictedClassType(base_type=str, restriction_dict={'pattern': '(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:))'}),], is_leaf=True, yang_name="address", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='oc-inet:ip-address', is_config=False)
     self.__port = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), default=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16)(6343), is_leaf=True, yang_name="port", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='oc-inet:port-number', is_config=False)
     self.__source_address = YANGDynClass(base=[RestrictedClassType(base_type=str, restriction_dict={'pattern': '([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])){3}'}),RestrictedClassType(base_type=str, restriction_dict={'pattern': '(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:))'}),], is_leaf=True, yang_name="source-address", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='oc-inet:ip-address', is_config=False)
+    self.__max_datagram_size = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="max-datagram-size", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='uint16', is_config=False)
     self.__network_instance = YANGDynClass(base=str, is_leaf=True, yang_name="network-instance", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='oc-netinst:network-instance-ref', is_config=False)
     self.__packets_sent = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="packets-sent", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='oc-yang:counter64', is_config=False)
 
@@ -1208,6 +1252,47 @@ to sFlow collectors.
     self.__source_address = YANGDynClass(base=[RestrictedClassType(base_type=str, restriction_dict={'pattern': '([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])){3}'}),RestrictedClassType(base_type=str, restriction_dict={'pattern': '(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:))'}),], is_leaf=True, yang_name="source-address", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='oc-inet:ip-address', is_config=False)
 
 
+  def _get_max_datagram_size(self):
+    """
+    Getter method for max_datagram_size, mapped from YANG variable /sampling/sflow/collectors/collector/state/max_datagram_size (uint16)
+
+    YANG Description: Sets the maximum size (in bytes) of the sFlow payload itself,
+before it's encapsulated in a UDP packet sent to this collector.
+This value does not include UDP or IP headers.
+    """
+    return self.__max_datagram_size
+      
+  def _set_max_datagram_size(self, v, load=False):
+    """
+    Setter method for max_datagram_size, mapped from YANG variable /sampling/sflow/collectors/collector/state/max_datagram_size (uint16)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_max_datagram_size is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_max_datagram_size() directly.
+
+    YANG Description: Sets the maximum size (in bytes) of the sFlow payload itself,
+before it's encapsulated in a UDP packet sent to this collector.
+This value does not include UDP or IP headers.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="max-datagram-size", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='uint16', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """max_datagram_size must be of a type compatible with uint16""",
+          'defined-type': "uint16",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="max-datagram-size", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='uint16', is_config=False)""",
+        })
+
+    self.__max_datagram_size = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_max_datagram_size(self):
+    self.__max_datagram_size = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="max-datagram-size", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/sampling/sflow', defining_module='openconfig-sampling-sflow', yang_type='uint16', is_config=False)
+
+
   def _get_network_instance(self):
     """
     Getter method for network_instance, mapped from YANG variable /sampling/sflow/collectors/collector/state/network_instance (oc-netinst:network-instance-ref)
@@ -1290,11 +1375,12 @@ collector.
   address = __builtin__.property(_get_address)
   port = __builtin__.property(_get_port)
   source_address = __builtin__.property(_get_source_address)
+  max_datagram_size = __builtin__.property(_get_max_datagram_size)
   network_instance = __builtin__.property(_get_network_instance)
   packets_sent = __builtin__.property(_get_packets_sent)
 
 
-  _pyangbind_elements = OrderedDict([('address', address), ('port', port), ('source_address', source_address), ('network_instance', network_instance), ('packets_sent', packets_sent), ])
+  _pyangbind_elements = OrderedDict([('address', address), ('port', port), ('source_address', source_address), ('max_datagram_size', max_datagram_size), ('network_instance', network_instance), ('packets_sent', packets_sent), ])
 
 
 class yc_collector_openconfig_sampling__sampling_sflow_collectors_collector(PybindBase):
