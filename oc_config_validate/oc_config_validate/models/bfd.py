@@ -1878,9 +1878,9 @@ control packet.
     """
     Getter method for last_failure_time, mapped from YANG variable /bfd/interfaces/interface/micro_bfd_sessions/micro_bfd_session/state/last_failure_time (oc-types:timeticks64)
 
-    YANG Description: The time of the last transition of the BFD session out of
-the UP state, expressed as the number of nanoseconds since
-the Unix epoch.
+    YANG Description: The time of the last transition of the BFD session from the UP state
+to the DOWN state, expressed as the number of nanoseconds since
+the Unix epoch. This does not include UP to ADMIN_DOWN transitions
     """
     return self.__last_failure_time
       
@@ -1892,9 +1892,9 @@ the Unix epoch.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_last_failure_time() directly.
 
-    YANG Description: The time of the last transition of the BFD session out of
-the UP state, expressed as the number of nanoseconds since
-the Unix epoch.
+    YANG Description: The time of the last transition of the BFD session from the UP state
+to the DOWN state, expressed as the number of nanoseconds since
+the Unix epoch. This does not include UP to ADMIN_DOWN transitions
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -1920,7 +1920,8 @@ the Unix epoch.
     Getter method for failure_transitions, mapped from YANG variable /bfd/interfaces/interface/micro_bfd_sessions/micro_bfd_session/state/failure_transitions (uint64)
 
     YANG Description: The number of times that the BFD session has transitioned
-out of the UP state.
+from the UP state to the DOWN state. This does not include
+UP to ADMIN_DOWN transitions
     """
     return self.__failure_transitions
       
@@ -1933,7 +1934,8 @@ out of the UP state.
     do so via calling thisObj._set_failure_transitions() directly.
 
     YANG Description: The number of times that the BFD session has transitioned
-out of the UP state.
+from the UP state to the DOWN state. This does not include
+UP to ADMIN_DOWN transitions
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -3495,9 +3497,9 @@ control packet.
     """
     Getter method for last_failure_time, mapped from YANG variable /bfd/interfaces/interface/peers/peer/state/last_failure_time (oc-types:timeticks64)
 
-    YANG Description: The time of the last transition of the BFD session out of
-the UP state, expressed as the number of nanoseconds since
-the Unix epoch.
+    YANG Description: The time of the last transition of the BFD session from the UP state
+to the DOWN state, expressed as the number of nanoseconds since
+the Unix epoch. This does not include UP to ADMIN_DOWN transitions
     """
     return self.__last_failure_time
       
@@ -3509,9 +3511,9 @@ the Unix epoch.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_last_failure_time() directly.
 
-    YANG Description: The time of the last transition of the BFD session out of
-the UP state, expressed as the number of nanoseconds since
-the Unix epoch.
+    YANG Description: The time of the last transition of the BFD session from the UP state
+to the DOWN state, expressed as the number of nanoseconds since
+the Unix epoch. This does not include UP to ADMIN_DOWN transitions
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -3537,7 +3539,8 @@ the Unix epoch.
     Getter method for failure_transitions, mapped from YANG variable /bfd/interfaces/interface/peers/peer/state/failure_transitions (uint64)
 
     YANG Description: The number of times that the BFD session has transitioned
-out of the UP state.
+from the UP state to the DOWN state. This does not include
+UP to ADMIN_DOWN transitions
     """
     return self.__failure_transitions
       
@@ -3550,7 +3553,8 @@ out of the UP state.
     do so via calling thisObj._set_failure_transitions() directly.
 
     YANG Description: The number of times that the BFD session has transitioned
-out of the UP state.
+from the UP state to the DOWN state. This does not include
+UP to ADMIN_DOWN transitions
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)

@@ -3,30 +3,30 @@ openconfig-icmpv4-types@2023-01-26
 openconfig-icmpv6-types@2023-05-02
 openconfig-acl@2023-02-06
 openconfig-packet-match@2023-03-01
-openconfig-aft-state-synced@2024-09-19 (belongs-to openconfig-aft)
+openconfig-aft-state-synced@2025-03-12 (belongs-to openconfig-aft)
 openconfig-aft-types@2025-01-28
 openconfig-aft-network-instance@2023-04-25
-openconfig-aft-ipv4@2024-09-19 (belongs-to openconfig-aft)
-openconfig-aft-ipv6@2024-09-19 (belongs-to openconfig-aft)
-openconfig-aft@2024-09-19
+openconfig-aft-ipv4@2025-03-12 (belongs-to openconfig-aft)
+openconfig-aft-ipv6@2025-03-12 (belongs-to openconfig-aft)
+openconfig-aft@2025-03-12
 openconfig-aft-summary@2024-01-12
-openconfig-aft-ethernet@2024-09-19 (belongs-to openconfig-aft)
-openconfig-aft-pf@2024-09-19 (belongs-to openconfig-aft)
-openconfig-aft-common@2024-09-19 (belongs-to openconfig-aft)
-openconfig-aft-mpls@2024-09-19 (belongs-to openconfig-aft)
+openconfig-aft-ethernet@2025-03-12 (belongs-to openconfig-aft)
+openconfig-aft-pf@2025-03-12 (belongs-to openconfig-aft)
+openconfig-aft-common@2025-03-12 (belongs-to openconfig-aft)
+openconfig-aft-mpls@2025-03-12 (belongs-to openconfig-aft)
 openconfig-ate-flow@2022-04-29
 openconfig-ate-intf@2019-08-07
-openconfig-bfd@2025-02-05
+openconfig-bfd@2025-03-18
 openconfig-bgp-policy@2024-11-13
-openconfig-bgp-global@2024-09-06 (belongs-to openconfig-bgp)
-openconfig-bgp-neighbor@2024-09-06 (belongs-to openconfig-bgp)
-openconfig-bgp-common@2024-09-06 (belongs-to openconfig-bgp)
-openconfig-bgp-common-multiprotocol@2024-09-06 (belongs-to openconfig-bgp)
-openconfig-bgp-peer-group@2024-09-06 (belongs-to openconfig-bgp)
+openconfig-bgp-global@2025-04-18 (belongs-to openconfig-bgp)
+openconfig-bgp-neighbor@2025-04-18 (belongs-to openconfig-bgp)
+openconfig-bgp-common@2025-04-18 (belongs-to openconfig-bgp)
+openconfig-bgp-common-multiprotocol@2025-04-18 (belongs-to openconfig-bgp)
+openconfig-bgp-peer-group@2025-04-18 (belongs-to openconfig-bgp)
 openconfig-bgp-errors@2024-09-06 (belongs-to openconfig-bgp-types)
-openconfig-bgp-common-structure@2024-09-06 (belongs-to openconfig-bgp)
+openconfig-bgp-common-structure@2025-04-18 (belongs-to openconfig-bgp)
 openconfig-bgp-types@2024-09-06
-openconfig-bgp@2024-09-06
+openconfig-bgp@2025-04-18
 openconfig-module-catalog@2018-11-21
 openconfig-catalog-types@2018-11-21
 openconfig-defined-sets@2022-12-14
@@ -47,13 +47,13 @@ openconfig-gnsi@2024-02-13
 openconfig-gnsi-credentialz@2024-09-10
 openconfig-gribi@2021-04-06
 openconfig-grpc-types@2024-05-29
-openconfig-if-aggregate@2022-06-28
+openconfig-if-aggregate@2025-04-22
 openconfig-if-ethernet-ext@2018-11-21
 openconfig-interfaces@2024-12-05
 openconfig-if-poe@2018-11-21
 openconfig-if-8021x@2020-01-28
 openconfig-if-ethernet@2024-09-17
-openconfig-if-ip@2024-05-28
+openconfig-if-ip@2025-05-12
 openconfig-if-rates@2024-04-02
 openconfig-if-sdn-ext@2024-02-21
 openconfig-if-tunnel@2018-11-21
@@ -69,7 +69,8 @@ openconfig-keychain@2024-05-30
 openconfig-lacp@2024-09-24
 openconfig-lldp-types@2018-11-21
 openconfig-lldp@2018-11-21
-openconfig-local-routing@2022-11-01
+openconfig-local-routing@2025-07-01
+openconfig-local-routing-network-instance@2025-07-01
 openconfig-macsec@2025-01-02
 openconfig-macsec-types@2019-07-01
 openconfig-mpls-te@2024-06-19 (belongs-to openconfig-mpls)
@@ -84,13 +85,14 @@ openconfig-igmp@2023-02-03
 openconfig-pim@2024-12-06
 openconfig-igmp-types@2018-11-21
 openconfig-pim-types@2024-05-31
+openconfig-network-instance-static@2025-02-20
 openconfig-network-instance-l3@2022-11-08
 openconfig-network-instance-policy@2024-09-19
 openconfig-network-instance-types@2021-07-14
-openconfig-network-instance-l2@2024-02-27 (belongs-to openconfig-network-instance)
+openconfig-network-instance-l2@2025-03-26 (belongs-to openconfig-network-instance)
 openconfig-evpn-types@2021-06-21
 openconfig-evpn@2024-08-14
-openconfig-network-instance@2024-02-27
+openconfig-network-instance@2025-03-26
 openconfig-programming-errors@2022-10-11
 openconfig-oam@2024-09-11
 openconfig-oam-cfm@2024-09-11
@@ -106,12 +108,18 @@ openconfig-transport-line-connectivity@2019-06-27
 openconfig-optical-attenuator@2024-07-10
 openconfig-channel-monitor@2024-04-04
 openconfig-optical-amplifier@2019-12-06
+openconfig-ospfv3-area-interface@2025-02-13
 openconfig-ospfv2@2024-06-17
 openconfig-ospfv2-lsdb@2024-06-17 (belongs-to openconfig-ospfv2)
+openconfig-ospf@2025-02-13
+openconfig-ospf-area@2025-02-13 (belongs-to openconfig-ospf)
+openconfig-ospf-area-interface@2025-02-13 (belongs-to openconfig-ospf)
 openconfig-ospfv2-area-interface@2024-06-17 (belongs-to openconfig-ospfv2)
 openconfig-ospfv2-area@2024-06-17 (belongs-to openconfig-ospfv2)
-openconfig-ospf-types@2018-11-21
+openconfig-ospf-types@2025-02-13
 openconfig-ospfv2-common@2024-06-17 (belongs-to openconfig-ospfv2)
+openconfig-ospf-common@2025-02-13 (belongs-to openconfig-ospf)
+openconfig-ospf-global@2025-02-13 (belongs-to openconfig-ospf)
 openconfig-ospfv2-global@2024-06-17 (belongs-to openconfig-ospfv2)
 openconfig-ospf-policy@2018-11-21
 openconfig-p4rt@2023-12-13
@@ -157,7 +165,7 @@ openconfig-rib-bgp-table-attributes@2022-12-20 (belongs-to openconfig-rib-bgp)
 openconfig-rib-bgp-shared-attributes@2022-12-20 (belongs-to openconfig-rib-bgp)
 openconfig-rib-bgp@2022-12-20
 openconfig-rib-bgp-attributes@2022-12-20 (belongs-to openconfig-rib-bgp)
-openconfig-sampling-sflow@2022-06-21
+openconfig-sampling-sflow@2025-05-13
 openconfig-sampling@2022-06-21
 openconfig-srte-policy@2021-07-28
 openconfig-rsvp-sr-ext@2019-07-09
@@ -191,7 +199,7 @@ openconfig-vlan-types@2022-05-24
 openconfig-vlan@2023-02-07
 openconfig-wifi-types@2024-04-25
 openconfig-access-points@2023-06-26
-openconfig-wifi-phy@2024-07-10
+openconfig-wifi-phy@2025-04-08
 openconfig-ap-interfaces@2023-08-10
 openconfig-ap-manager@2023-05-26
 openconfig-wifi-mac@2024-08-22
