@@ -69,17 +69,17 @@ class SubsSampleTestCase(testbase.TestCase):
                     f"{got} Updates for path {path}, wanted {want}")
                 if len(updates) > 1:
                     timestamp_0, _ = updates[0]
-                    timeline = [0]
+                    timeline = []
                     for timestamp_1, _ in updates[1:]:
                         timestamp_diff = timestamp_1 - timestamp_0
-                        timeline.append(timestamp_diff)
+                        timeline.append(timestamp_diff / SECS_TO_NSEC)
                         self.assertTrue(
                             _isTimestampDiffOk(
                                 timestamp_diff,
                                 self.sample_interval * SECS_TO_NSEC,
                                 self.max_timestamp_drift_secs * SECS_TO_NSEC),
-                            f"Update timestamps for '{path}' out of interval: "
-                            f"{timeline} diff in nsecs")
+                            f"Subscribe updates for '{path}' received out of sample interval {self.sample_interval} secs, "
+                            f"received updates intervals: {timeline}")
                         timestamp_0 = timestamp_1
 
 
