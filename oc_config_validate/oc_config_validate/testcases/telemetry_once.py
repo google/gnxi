@@ -83,6 +83,7 @@ class CountUpdatesCheckType(SubsOnceTestCase):
             updates, self.updates_count,
             f"Expected {self.updates_count} Updates, got: {updates}")
 
+
 class CountUpdatePaths(SubsOnceTestCase):
     """Subscribes ONCE and checks the returned update paths.
 
@@ -104,15 +105,13 @@ class CountUpdatePaths(SubsOnceTestCase):
         for n in self.responses:
             for u in n.update:
                 self.update_paths.add(schema.pathToString(u.path))
-        
+
         self.assertEqual(
             len(self.update_paths), self.update_paths_count,
             f"Expected {self.update_paths_count} Update paths, "
             f"got: {self.update_paths}")
-                
-        
-        
-        
+
+
 class CheckLeafsFromModel(SubsOnceTestCase):
     """Subscribes ONCE and checks the updates againts the OC model.
 

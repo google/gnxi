@@ -340,6 +340,7 @@ class TestCountUpdatesCheckType(telemetry_once.CountUpdatesCheckType):
         ]
         self.testSubscribeOnce()
 
+
 @mock.patch('oc_config_validate.testbase.TestCase.gNMISubsOnce')
 class TestCountUpdatePaths(telemetry_once.CountUpdatePaths):
     """Test for CountUpdatePaths class."""
@@ -481,9 +482,9 @@ class TestCountUpdatePaths(telemetry_once.CountUpdatePaths):
             self.response_interface_status
         ]
         with self.assertRaisesRegex(
-            AssertionError, 
+            AssertionError,
             re.compile(
-            r"3 != 4 : Expected 4 Update paths, got: .*")            ):
+                r"3 != 4 : Expected 4 Update paths, got: .*")):
             self.testSubscribeOnce()
 
         self.update_paths_count = 1
