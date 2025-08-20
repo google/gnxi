@@ -29,6 +29,13 @@ class SubsOnceTestCase(testbase.TestCase):
         self.assertTrue(bool(self.responses),
                         "No gNMI Subscribe response")
 
+        for n in self.responses:
+            for u in n.update:
+                got_path = schema.pathToString(u.path)
+                self.assertTrue(
+                    schema.isPathInRequestedPaths(got_path, self.xpaths),
+                    f"Unexpected update path {got_path} for subscription to {self.xpaths}")
+
         if self.max_delay_secs:
             for n in self.responses:
                 timestamp_diff = (n.timestamp // 1000000000) - self.now
@@ -57,7 +64,7 @@ class CountUpdatesCheckType(SubsOnceTestCase):
     values_type = None
     updates_count = None
 
-    def test100(self):
+    def testSubscribeOnce(self):
         """"""
         self.assertArgs(["xpaths", "values_type", "updates_count"])
 
@@ -67,10 +74,6 @@ class CountUpdatesCheckType(SubsOnceTestCase):
         for n in self.responses:
             updates += len(n.update)
             for u in n.update:
-                got_path = schema.pathToString(u.path)
-                self.assertTrue(
-                    schema.isPathInRequestedPaths(got_path, self.xpaths),
-                    f"Unexpected update path {got_path} for subscription")
                 self.assertTrue(
                     u.val.HasField(self.values_type),
                     f"Value of Update {schema.pathToString(u.path)} "
@@ -80,8 +83,37 @@ class CountUpdatesCheckType(SubsOnceTestCase):
             updates, self.updates_count,
             f"Expected {self.updates_count} Updates, got: {updates}")
 
+class CountUpdatePaths(SubsOnceTestCase):
+    """Subscribes ONCE and checks the returned update paths.
 
-class CheckLeafs(SubsOnceTestCase):
+    This tests that a Subscription reports all Update paths.
+
+    Args:
+        xpaths: List of gNMI paths to subscribe to. Can contain wildcards.
+        paths_count: Number of expected disctinct Update paths.
+    """
+    update_paths_count = None
+
+    def testSubscribeOnce(self):
+        """"""
+        self.assertArgs(["xpaths", "update_paths_count"])
+        self.subscribeOnce()
+
+        self.update_paths = set()
+
+        for n in self.responses:
+            for u in n.update:
+                self.update_paths.add(schema.pathToString(u.path))
+        
+        self.assertEqual(
+            len(self.update_paths), self.update_paths_count,
+            f"Expected {self.update_paths_count} Update paths, "
+            f"got: {self.update_paths}")
+                
+        
+        
+        
+class CheckLeafsFromModel(SubsOnceTestCase):
     """Subscribes ONCE and checks the updates againts the OC model.
 
     All arguments are read from the Test YAML description.
@@ -96,7 +128,7 @@ class CheckLeafs(SubsOnceTestCase):
     model = None
     check_missing_model_paths = False
 
-    def test100(self):
+    def testSubscribeOnce(self):
         """"""
         self.assertArgs(["xpaths", "model"])
 
@@ -115,10 +147,10 @@ class CheckLeafs(SubsOnceTestCase):
             len(got_updates), 0,
             "There are no Updates as reply to the Subscription")
 
-        got_paths = []
+        got_paths = set()
         for u in got_updates:
             got_path = schema.pathToString(u.path)
-            got_paths.append(got_path)
+            got_paths.add(got_path)
             self.assertTrue(
                 schema.isPathInRequestedPaths(got_path, want_paths),
                 f"Unexpected update path {got_path} for subscription")
