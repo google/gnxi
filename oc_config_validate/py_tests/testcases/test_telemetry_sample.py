@@ -29,6 +29,73 @@ unittest.TestLoader.testMethodPrefix = 'check'
 mock.patch.TEST_PREFIX = 'check'
 
 
+updates_interface_status = [
+    gnmi_pb2.Update(
+        path=gnmi_pb2.Path(elem=[
+            gnmi_pb2.PathElem(name='interfaces'),
+            gnmi_pb2.PathElem(
+                name='interface', key={'name': 'eth0'}),
+            gnmi_pb2.PathElem(name='state'),
+            gnmi_pb2.PathElem(name='oper-status')
+        ]),
+        val=gnmi_pb2.TypedValue(string_val='UP')
+    ),
+    gnmi_pb2.Update(
+        path=gnmi_pb2.Path(elem=[
+            gnmi_pb2.PathElem(name='interfaces'),
+            gnmi_pb2.PathElem(
+                name='interface', key={'name': 'eth1'}),
+            gnmi_pb2.PathElem(name='state'),
+            gnmi_pb2.PathElem(name='oper-status')
+        ]),
+        val=gnmi_pb2.TypedValue(string_val='DOWN')
+    ),
+    gnmi_pb2.Update(
+        path=gnmi_pb2.Path(elem=[
+            gnmi_pb2.PathElem(name='interfaces'),
+            gnmi_pb2.PathElem(
+                name='interface', key={'name': 'mgmt'}),
+            gnmi_pb2.PathElem(name='state'),
+            gnmi_pb2.PathElem(name='oper-status')
+        ]),
+        val=gnmi_pb2.TypedValue(string_val='UP')
+    )
+]
+
+updates_interface_eth0_state = [
+    gnmi_pb2.Update(
+        path=gnmi_pb2.Path(elem=[
+            gnmi_pb2.PathElem(name='interfaces'),
+            gnmi_pb2.PathElem(
+                name='interface', key={'name': 'eth0'}),
+            gnmi_pb2.PathElem(name='state'),
+            gnmi_pb2.PathElem(name='oper-status')
+        ]),
+        val=gnmi_pb2.TypedValue(string_val='UP')
+    ),
+    gnmi_pb2.Update(
+        path=gnmi_pb2.Path(elem=[
+            gnmi_pb2.PathElem(name='interfaces'),
+            gnmi_pb2.PathElem(
+                name='interface', key={'name': 'eth0'}),
+            gnmi_pb2.PathElem(name='state'),
+            gnmi_pb2.PathElem(name='mtu')
+        ]),
+        val=gnmi_pb2.TypedValue(int_val=1500)
+    ),
+    gnmi_pb2.Update(
+        path=gnmi_pb2.Path(elem=[
+            gnmi_pb2.PathElem(name='interfaces'),
+            gnmi_pb2.PathElem(
+                name='interface', key={'name': 'eth0'}),
+            gnmi_pb2.PathElem(name='state'),
+            gnmi_pb2.PathElem(name='enabled')
+        ]),
+        val=gnmi_pb2.TypedValue(bool_val=True)
+    )
+]
+
+
 @mock.patch('oc_config_validate.testbase.TestCase.gNMISubsStreamSample')
 class TestSubsSampleTestCase(telemetry_sample.SubsSampleTestCase):
     """Test for SubsSampleTestCase class."""
@@ -37,40 +104,6 @@ class TestSubsSampleTestCase(telemetry_sample.SubsSampleTestCase):
         self.xpath = '/interfaces/interface[name=*]/state/oper-status'
         self.sample_interval = 10
         self.sample_timeout = 35
-
-        # In Setup, so every test has a known set of updates to work with.
-        self.updates_interface_status = [
-            gnmi_pb2.Update(
-                path=gnmi_pb2.Path(elem=[
-                    gnmi_pb2.PathElem(name='interfaces'),
-                    gnmi_pb2.PathElem(
-                        name='interface', key={'name': 'eth0'}),
-                    gnmi_pb2.PathElem(name='state'),
-                    gnmi_pb2.PathElem(name='oper-status')
-                ]),
-                val=gnmi_pb2.TypedValue(string_val='UP')
-            ),
-            gnmi_pb2.Update(
-                path=gnmi_pb2.Path(elem=[
-                    gnmi_pb2.PathElem(name='interfaces'),
-                    gnmi_pb2.PathElem(
-                        name='interface', key={'name': 'eth1'}),
-                    gnmi_pb2.PathElem(name='state'),
-                    gnmi_pb2.PathElem(name='oper-status')
-                ]),
-                val=gnmi_pb2.TypedValue(string_val='DOWN')
-            ),
-            gnmi_pb2.Update(
-                path=gnmi_pb2.Path(elem=[
-                    gnmi_pb2.PathElem(name='interfaces'),
-                    gnmi_pb2.PathElem(
-                        name='interface', key={'name': 'mgmt'}),
-                    gnmi_pb2.PathElem(name='state'),
-                    gnmi_pb2.PathElem(name='oper-status')
-                ]),
-                val=gnmi_pb2.TypedValue(string_val='UP')
-            )
-        ]
 
     def check_bad_args(self, mock_gNMISubsStreamSample):
         """Test that subscribeSample raises an error for missing arguments."""
@@ -114,21 +147,20 @@ class TestSubsSampleTestCase(telemetry_sample.SubsSampleTestCase):
 
     def check_bad_updates(self, mock_gNMISubsStreamSample):
         """Test that subscribeSample raises an error when missing updates for a path."""
-
         self.max_timestamp_drift_secs = 10
         now = int(time.time())
         mock_gNMISubsStreamSample.return_value = [
             gnmi_pb2.Notification(
                 timestamp=now * 1000000000,
-                update=self.updates_interface_status
+                update=updates_interface_status
             ),
             gnmi_pb2.Notification(
                 timestamp=(now + 11) * 1000000000,
-                update=self.updates_interface_status[1:]
+                update=updates_interface_status[1:]
             ),
             gnmi_pb2.Notification(
                 timestamp=(now + 22) * 1000000000,
-                update=self.updates_interface_status
+                update=updates_interface_status
             )
         ]
         with self.assertRaisesRegex(
@@ -141,23 +173,23 @@ class TestSubsSampleTestCase(telemetry_sample.SubsSampleTestCase):
         mock_gNMISubsStreamSample.return_value = [
             gnmi_pb2.Notification(
                 timestamp=now * 1000000000,
-                update=self.updates_interface_status
+                update=updates_interface_status
             ),
             gnmi_pb2.Notification(
                 timestamp=(now + 8) * 1000000000,
-                update=self.updates_interface_status
+                update=updates_interface_status
             ),
             gnmi_pb2.Notification(
                 timestamp=(now + 16) * 1000000000,
-                update=self.updates_interface_status
+                update=updates_interface_status
             ),
             gnmi_pb2.Notification(
                 timestamp=(now + 24) * 1000000000,
-                update=self.updates_interface_status
+                update=updates_interface_status
             ),
             gnmi_pb2.Notification(
                 timestamp=(now + 32) * 1000000000,
-                update=self.updates_interface_status
+                update=updates_interface_status
             )
         ]
         with self.assertRaisesRegex(
@@ -173,19 +205,19 @@ class TestSubsSampleTestCase(telemetry_sample.SubsSampleTestCase):
         mock_gNMISubsStreamSample.return_value = [
             gnmi_pb2.Notification(
                 timestamp=now * 1000000000,
-                update=self.updates_interface_status
+                update=updates_interface_status
             ),
             gnmi_pb2.Notification(
                 timestamp=(now + 10) * 1000000000,
-                update=self.updates_interface_status
+                update=updates_interface_status
             ),
             gnmi_pb2.Notification(
                 timestamp=(now + 22) * 1000000000,
-                update=self.updates_interface_status
+                update=updates_interface_status
             ),
             gnmi_pb2.Notification(
                 timestamp=(now + 30) * 1000000000,
-                update=self.updates_interface_status
+                update=updates_interface_status
             )
         ]
         with self.assertRaisesRegex(
@@ -202,20 +234,19 @@ class TestSubsSampleTestCase(telemetry_sample.SubsSampleTestCase):
 
     def check_bad_update_path(self, mock_gNMISubsStreamSample):
         """Test subscribeOnce when the path of an update is not as subscribed."""
-
         now = int(time.time())
         mock_gNMISubsStreamSample.return_value = mock_gNMISubsStreamSample.return_value = [
             gnmi_pb2.Notification(
                 timestamp=now * 1000000000,
-                update=self.updates_interface_status
+                update=updates_interface_status
             ),
             gnmi_pb2.Notification(
                 timestamp=(now + 11) * 1000000000,
-                update=self.updates_interface_status
+                update=updates_interface_status
             ),
             gnmi_pb2.Notification(
                 timestamp=(now + 22) * 1000000000,
-                update=self.updates_interface_status + [
+                update=updates_interface_status + [
                     gnmi_pb2.Update(
                         path=gnmi_pb2.Path(elem=[
                             gnmi_pb2.PathElem(name='system'),
@@ -228,10 +259,9 @@ class TestSubsSampleTestCase(telemetry_sample.SubsSampleTestCase):
             ),
             gnmi_pb2.Notification(
                 timestamp=(now + 31) * 1000000000,
-                update=self.updates_interface_status
+                update=updates_interface_status
             ),
         ]
-
         with self.assertRaisesRegex(
                 AssertionError,
                 "False is not true : "
@@ -240,24 +270,23 @@ class TestSubsSampleTestCase(telemetry_sample.SubsSampleTestCase):
 
     def check_ok(self, mock_gNMISubsStreamSample):
         """Test that subscribeSample works as expected."""
-
         now = int(time.time())
         mock_gNMISubsStreamSample.return_value = [
             gnmi_pb2.Notification(
                 timestamp=now * 1000000000,
-                update=self.updates_interface_status
+                update=updates_interface_status
             ),
             gnmi_pb2.Notification(
                 timestamp=(now + 11) * 1000000000,
-                update=self.updates_interface_status
+                update=updates_interface_status
             ),
             gnmi_pb2.Notification(
                 timestamp=(now + 20) * 1000000000,
-                update=self.updates_interface_status
+                update=updates_interface_status
             ),
             gnmi_pb2.Notification(
                 timestamp=(now + 29) * 1000000000,
-                update=self.updates_interface_status
+                update=updates_interface_status
             )
         ]
         self.subscribeSample()
@@ -272,43 +301,8 @@ class TestCountUpdatePaths(telemetry_sample.CountUpdatePaths):
         self.sample_timeout = 30
         self.xpath = '/interfaces/interface[name=*]/state/oper-status'
 
-        # In Setup, so every test has a known set of updates to work with.
-        self.updates_interface_status = [
-            gnmi_pb2.Update(
-                path=gnmi_pb2.Path(elem=[
-                    gnmi_pb2.PathElem(name='interfaces'),
-                    gnmi_pb2.PathElem(
-                        name='interface', key={'name': 'eth0'}),
-                    gnmi_pb2.PathElem(name='state'),
-                    gnmi_pb2.PathElem(name='oper-status')
-                ]),
-                val=gnmi_pb2.TypedValue(string_val='UP')
-            ),
-            gnmi_pb2.Update(
-                path=gnmi_pb2.Path(elem=[
-                    gnmi_pb2.PathElem(name='interfaces'),
-                    gnmi_pb2.PathElem(
-                        name='interface', key={'name': 'eth1'}),
-                    gnmi_pb2.PathElem(name='state'),
-                    gnmi_pb2.PathElem(name='oper-status')
-                ]),
-                val=gnmi_pb2.TypedValue(string_val='DOWN')
-            ),
-            gnmi_pb2.Update(
-                path=gnmi_pb2.Path(elem=[
-                    gnmi_pb2.PathElem(name='interfaces'),
-                    gnmi_pb2.PathElem(
-                        name='interface', key={'name': 'mgmt'}),
-                    gnmi_pb2.PathElem(name='state'),
-                    gnmi_pb2.PathElem(name='oper-status')
-                ]),
-                val=gnmi_pb2.TypedValue(string_val='UP')
-            )
-        ]
-
     def check_bad_args(self, mock_gNMISubsStreamSample):
         """Test that CountUpdatePaths raises an error for missing arguments."""
-
         with self.assertRaises(AssertionError):
             self.testSubscribeSample()
 
@@ -317,25 +311,23 @@ class TestCountUpdatePaths(telemetry_sample.CountUpdatePaths):
     def check_bad_count_updates(self, mock_gNMISubsStreamSample):
         """Test CountUpdatePaths when the update paths are not as expected."""
         self.update_paths_count = 3
-
         now = int(time.time())
-
         mock_gNMISubsStreamSample.return_value = [
             gnmi_pb2.Notification(
                 timestamp=now * 1000000000,
-                update=self.updates_interface_status[2:]
+                update=updates_interface_status[2:]
             ),
             gnmi_pb2.Notification(
                 timestamp=(now + 10) * 1000000000,
-                update=self.updates_interface_status[2:]
+                update=updates_interface_status[2:]
             ),
             gnmi_pb2.Notification(
                 timestamp=(now + 20) * 1000000000,
-                update=self.updates_interface_status[2:]
+                update=updates_interface_status[2:]
             ),
             gnmi_pb2.Notification(
                 timestamp=(now + 30) * 1000000000,
-                update=self.updates_interface_status[2:]
+                update=updates_interface_status[2:]
             )
         ]
         with self.assertRaisesRegex(
@@ -349,27 +341,160 @@ class TestCountUpdatePaths(telemetry_sample.CountUpdatePaths):
         """Test that CountUpdatePaths works as expected."""
         self.update_paths_count = 3
         now = int(time.time())
+        mock_gNMISubsStreamSample.return_value = [
+            gnmi_pb2.Notification(
+                timestamp=now * 1000000000,
+                update=updates_interface_status
+            ),
+            gnmi_pb2.Notification(
+                timestamp=(now + 11) * 1000000000,
+                update=updates_interface_status
+            ),
+            gnmi_pb2.Notification(
+                timestamp=(now + 20) * 1000000000,
+                update=updates_interface_status
+            ),
+            gnmi_pb2.Notification(
+                timestamp=(now + 30) * 1000000000,
+                update=updates_interface_status
+            )
+        ]
+        self.testSubscribeSample()
+
+
+@mock.patch('oc_config_validate.testbase.TestCase.gNMISubsStreamSample')
+class TestCheckLeafsFromModel(telemetry_sample.CheckLeafsFromModel):
+    """Test for CheckLeafsFromModel class."""
+
+    def setUp(self):
+        self.sample_interval = 10
+        self.sample_timeout = 30
+        self.xpath = '/interfaces/interface[name=*]/state'
+        self.model = "interfaces.openconfig_interfaces"
+
+    def check_bad_args(self, mock_gNMISubsStreamSample):
+        """Test that CheckLeafsFromModel raises an error for missing argument."""
+        self.model = None
+        with self.assertRaises(AssertionError):
+            self.testSubscribeSample()
+
+        self.model = "interfaces.openconfig_interfaces"
+        self.xpath = None
+        with self.assertRaises(AssertionError):
+            self.testSubscribeSample()
+
+        mock_gNMISubsStreamSample.assert_not_called()
+
+    def check_ok(self, mock_gNMISubsStreamSample):
+        """Test that CheckLeafsFromModel works as expected."""
+        now = int(time.time())
 
         mock_gNMISubsStreamSample.return_value = [
             gnmi_pb2.Notification(
                 timestamp=now * 1000000000,
-                update=self.updates_interface_status
+                update=updates_interface_status
             ),
             gnmi_pb2.Notification(
                 timestamp=(now + 11) * 1000000000,
-                update=self.updates_interface_status
+                update=updates_interface_status
             ),
             gnmi_pb2.Notification(
                 timestamp=(now + 20) * 1000000000,
-                update=self.updates_interface_status
+                update=updates_interface_status
             ),
             gnmi_pb2.Notification(
                 timestamp=(now + 30) * 1000000000,
-                update=self.updates_interface_status
+                update=updates_interface_status
+            )
+        ]
+        self.testSubscribeSample()
+
+        mock_gNMISubsStreamSample.return_value = [
+            gnmi_pb2.Notification(
+                timestamp=now * 1000000000,
+                update=updates_interface_eth0_state
+            ),
+            gnmi_pb2.Notification(
+                timestamp=(now + 11) * 1000000000,
+                update=updates_interface_eth0_state
+            ),
+            gnmi_pb2.Notification(
+                timestamp=(now + 20) * 1000000000,
+                update=updates_interface_eth0_state
+            ),
+            gnmi_pb2.Notification(
+                timestamp=(now + 30) * 1000000000,
+                update=updates_interface_eth0_state
+            )
+        ]
+        self.testSubscribeSample()
+
+    def check_missing_paths(self, mock_gNMISubsStreamSample):
+        """Test that CheckLeafsFromModel works as expected with missing paths from model."""
+        self.check_missing_model_paths = True
+        now = int(time.time())
+        mock_gNMISubsStreamSample.return_value = [
+            gnmi_pb2.Notification(
+                timestamp=now * 1000000000,
+                update=updates_interface_status
+            ),
+            gnmi_pb2.Notification(
+                timestamp=(now + 11) * 1000000000,
+                update=updates_interface_status
+            ),
+            gnmi_pb2.Notification(
+                timestamp=(now + 20) * 1000000000,
+                update=updates_interface_status
+            ),
+            gnmi_pb2.Notification(
+                timestamp=(now + 30) * 1000000000,
+                update=updates_interface_status
+            )
+        ]
+        with self.assertRaisesRegex(
+            AssertionError,
+                "Missing update path for OC model interfaces.openconfig_interfaces"):
+            self.testSubscribeSample()
+
+    def check_bad_model(self, mock_gNMISubsStreamSample):
+        """Test that CheckLeafsFromModel raises an error for bad model."""
+        now = int(time.time())
+        mock_gNMISubsStreamSample.return_value = [
+            gnmi_pb2.Notification(
+                timestamp=now * 1000000000,
+                update=updates_interface_status
+            ),
+            gnmi_pb2.Notification(
+                timestamp=(now + 11) * 1000000000,
+                update=updates_interface_status
+            ),
+            gnmi_pb2.Notification(
+                timestamp=(now + 20) * 1000000000,
+                update=updates_interface_status
+            ),
+            gnmi_pb2.Notification(
+                timestamp=(now + 30) * 1000000000,
+                update=updates_interface_status
             )
         ]
 
-        self.testSubscribeSample()
+        self.xpath = '/interfaces/interface[name=*]/state/oper-status'
+        with self.assertRaisesRegex(
+                AssertionError,
+                "/state/oper-status is not a valid container class"):
+            self.testSubscribeSample()
+
+        self.model = "bad_model"
+        with self.assertRaisesRegex(
+                AssertionError,
+                "bad_model is not module.class"):
+            self.testSubscribeSample()
+
+        self.model = "system.openconfig_system"
+        with self.assertRaisesRegex(
+                AssertionError,
+                "'openconfig_system' object has no attribute 'interfaces'"):
+            self.testSubscribeSample()
 
 
 if __name__ == '__main__':

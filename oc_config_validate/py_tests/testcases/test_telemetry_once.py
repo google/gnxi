@@ -14,6 +14,7 @@ limitations under the License.
 
 """
 
+import copy
 import re
 import time
 import unittest
@@ -27,6 +28,118 @@ from oc_config_validate.testcases import telemetry_once
 # Use 'check' instead of 'test', not to mix with test methods in oc_config_validate.testcases
 unittest.TestLoader.testMethodPrefix = 'check'
 mock.patch.TEST_PREFIX = 'check'
+
+response_hostname = gnmi_pb2.Notification(
+    timestamp=(int(time.time())) * 1000000000,
+    update=[
+        gnmi_pb2.Update(
+            path=gnmi_pb2.Path(elem=[
+                gnmi_pb2.PathElem(name='system'),
+                gnmi_pb2.PathElem(name='state'),
+                gnmi_pb2.PathElem(name='hostname')
+            ]),
+            val=gnmi_pb2.TypedValue(string_val='localhost')
+        )
+    ]
+)
+
+response_interface_eth0_enabled = gnmi_pb2.Notification(
+    timestamp=(int(time.time())) * 1000000000,
+    update=[
+        gnmi_pb2.Update(
+            path=gnmi_pb2.Path(elem=[
+                gnmi_pb2.PathElem(name='interfaces'),
+                gnmi_pb2.PathElem(
+                    name='interface', key={'name': 'eth0'}),
+                gnmi_pb2.PathElem(name='config'),
+                gnmi_pb2.PathElem(name='enabled')
+            ]),
+            val=gnmi_pb2.TypedValue(bool_val=True)
+        ),
+        gnmi_pb2.Update(
+            path=gnmi_pb2.Path(elem=[
+                gnmi_pb2.PathElem(name='interfaces'),
+                gnmi_pb2.PathElem(
+                    name='interface', key={'name': 'eth0'}),
+                gnmi_pb2.PathElem(name='state'),
+                gnmi_pb2.PathElem(name='enabled')
+            ]),
+            val=gnmi_pb2.TypedValue(bool_val=False)
+        )
+    ]
+)
+
+response_interface_eth0_state = gnmi_pb2.Notification(
+    timestamp=(int(time.time())) * 1000000000,
+    update=[
+        gnmi_pb2.Update(
+            path=gnmi_pb2.Path(elem=[
+                gnmi_pb2.PathElem(name='interfaces'),
+                gnmi_pb2.PathElem(
+                    name='interface', key={'name': 'eth0'}),
+                gnmi_pb2.PathElem(name='state'),
+                gnmi_pb2.PathElem(name='oper-status')
+            ]),
+            val=gnmi_pb2.TypedValue(string_val='UP')
+        ),
+        gnmi_pb2.Update(
+            path=gnmi_pb2.Path(elem=[
+                gnmi_pb2.PathElem(name='interfaces'),
+                gnmi_pb2.PathElem(
+                    name='interface', key={'name': 'eth0'}),
+                gnmi_pb2.PathElem(name='state'),
+                gnmi_pb2.PathElem(name='mtu')
+            ]),
+            val=gnmi_pb2.TypedValue(int_val=1500)
+        ),
+        gnmi_pb2.Update(
+            path=gnmi_pb2.Path(elem=[
+                gnmi_pb2.PathElem(name='interfaces'),
+                gnmi_pb2.PathElem(
+                    name='interface', key={'name': 'eth0'}),
+                gnmi_pb2.PathElem(name='state'),
+                gnmi_pb2.PathElem(name='enabled')
+            ]),
+            val=gnmi_pb2.TypedValue(bool_val=True)
+        )
+    ]
+)
+
+response_interface_status = gnmi_pb2.Notification(
+    timestamp=(int(time.time())) * 1000000000,
+    update=[
+        gnmi_pb2.Update(
+            path=gnmi_pb2.Path(elem=[
+                gnmi_pb2.PathElem(name='interfaces'),
+                gnmi_pb2.PathElem(
+                    name='interface', key={'name': 'eth0'}),
+                gnmi_pb2.PathElem(name='state'),
+                gnmi_pb2.PathElem(name='oper-status')
+            ]),
+            val=gnmi_pb2.TypedValue(string_val='UP')
+        ),
+        gnmi_pb2.Update(
+            path=gnmi_pb2.Path(elem=[
+                gnmi_pb2.PathElem(name='interfaces'),
+                gnmi_pb2.PathElem(
+                    name='interface', key={'name': 'eth1'}),
+                gnmi_pb2.PathElem(name='state'),
+                gnmi_pb2.PathElem(name='oper-status')
+            ]),
+            val=gnmi_pb2.TypedValue(string_val='DOWN')
+        ),
+        gnmi_pb2.Update(
+            path=gnmi_pb2.Path(elem=[
+                gnmi_pb2.PathElem(name='interfaces'),
+                gnmi_pb2.PathElem(
+                    name='interface', key={'name': 'mgmt'}),
+                gnmi_pb2.PathElem(name='state'),
+                gnmi_pb2.PathElem(name='oper-status')
+            ]),
+            val=gnmi_pb2.TypedValue(string_val='UP')
+        )
+    ]
+)
 
 
 @mock.patch('oc_config_validate.testbase.TestCase.gNMISubsOnce')
@@ -65,12 +178,13 @@ class TestSubsOnceTestCase(telemetry_once.SubsOnceTestCase):
             gnmi_pb2.Notification(
                 timestamp=(int(time.time()) + 10) * 1000000000)  # 10 second later
         ] * got
-        with self.assertRaisesRegex(AssertionError, f"Expected {want} notifications, got {got}"):
+        with self.assertRaisesRegex(
+                AssertionError,
+                f"Expected {want} notifications, got {got}"):
             self.subscribeOnce()
 
     def check_bad_update_path(self, mock_gNMISubsOnce):
         """Test subscribeOnce when the path of an update is not as subscribed."""
-
         self.xpaths = ['/interfaces/interface[name=*]/state/oper-status']
         mock_gNMISubsOnce.return_value = [
             gnmi_pb2.Notification(
@@ -93,15 +207,12 @@ class TestSubsOnceTestCase(telemetry_once.SubsOnceTestCase):
                                 gnmi_pb2.PathElem(name='system'),
                                 gnmi_pb2.PathElem(name='state'),
                                 gnmi_pb2.PathElem(name='hostname')],
-
                         ),
                         val=gnmi_pb2.TypedValue(string_val='localhost')
 
                     )
                 ])
-
         ]
-
         with self.assertRaisesRegex(
                 AssertionError,
                 "False is not true : "
@@ -132,119 +243,6 @@ class TestSubsOnceTestCase(telemetry_once.SubsOnceTestCase):
 class TestCountUpdatesCheckType(telemetry_once.CountUpdatesCheckType):
     """Test for CountUpdatesCheckType class."""
 
-    def setUp(self):
-
-        self.response_hostname = gnmi_pb2.Notification(
-            timestamp=(int(time.time())) * 1000000000,
-            update=[
-                gnmi_pb2.Update(
-                    path=gnmi_pb2.Path(elem=[
-                        gnmi_pb2.PathElem(name='system'),
-                        gnmi_pb2.PathElem(name='state'),
-                        gnmi_pb2.PathElem(name='hostname')
-                    ]),
-                    val=gnmi_pb2.TypedValue(string_val='localhost')
-                )
-            ]
-        )
-
-        self.response_interface_status = gnmi_pb2.Notification(
-            timestamp=(int(time.time())) * 1000000000,
-            update=[
-                gnmi_pb2.Update(
-                    path=gnmi_pb2.Path(elem=[
-                        gnmi_pb2.PathElem(name='interfaces'),
-                        gnmi_pb2.PathElem(
-                            name='interface', key={'name': 'eth0'}),
-                        gnmi_pb2.PathElem(name='state'),
-                        gnmi_pb2.PathElem(name='oper-status')
-                    ]),
-                    val=gnmi_pb2.TypedValue(string_val='UP')
-                ),
-                gnmi_pb2.Update(
-                    path=gnmi_pb2.Path(elem=[
-                        gnmi_pb2.PathElem(name='interfaces'),
-                        gnmi_pb2.PathElem(
-                            name='interface', key={'name': 'eth1'}),
-                        gnmi_pb2.PathElem(name='state'),
-                        gnmi_pb2.PathElem(name='oper-status')
-                    ]),
-                    val=gnmi_pb2.TypedValue(string_val='DOWN')
-                ),
-                gnmi_pb2.Update(
-                    path=gnmi_pb2.Path(elem=[
-                        gnmi_pb2.PathElem(name='interfaces'),
-                        gnmi_pb2.PathElem(
-                            name='interface', key={'name': 'mgmt'}),
-                        gnmi_pb2.PathElem(name='state'),
-                        gnmi_pb2.PathElem(name='oper-status')
-                    ]),
-                    val=gnmi_pb2.TypedValue(string_val='UP')
-                )
-            ]
-        )
-        self.response_interface_eth0_enabled = gnmi_pb2.Notification(
-            timestamp=(int(time.time())) * 1000000000,
-            update=[
-                gnmi_pb2.Update(
-                    path=gnmi_pb2.Path(elem=[
-                        gnmi_pb2.PathElem(name='interfaces'),
-                        gnmi_pb2.PathElem(
-                            name='interface', key={'name': 'eth0'}),
-                        gnmi_pb2.PathElem(name='config'),
-                        gnmi_pb2.PathElem(name='enabled')
-                    ]),
-                    val=gnmi_pb2.TypedValue(bool_val=True)
-                ),
-                gnmi_pb2.Update(
-                    path=gnmi_pb2.Path(elem=[
-                        gnmi_pb2.PathElem(name='interfaces'),
-                        gnmi_pb2.PathElem(
-                            name='interface', key={'name': 'eth0'}),
-                        gnmi_pb2.PathElem(name='state'),
-                        gnmi_pb2.PathElem(name='enabled')
-                    ]),
-                    val=gnmi_pb2.TypedValue(bool_val=False)
-                )
-            ]
-        )
-
-        self.response_interface_eth0_state = gnmi_pb2.Notification(
-            timestamp=(int(time.time())) * 1000000000,
-            update=[
-                gnmi_pb2.Update(
-                    path=gnmi_pb2.Path(elem=[
-                        gnmi_pb2.PathElem(name='interfaces'),
-                        gnmi_pb2.PathElem(
-                            name='interface', key={'name': 'eth0'}),
-                        gnmi_pb2.PathElem(name='state'),
-                        gnmi_pb2.PathElem(name='oper-status')
-                    ]),
-                    val=gnmi_pb2.TypedValue(string_val='UP')
-                ),
-                gnmi_pb2.Update(
-                    path=gnmi_pb2.Path(elem=[
-                        gnmi_pb2.PathElem(name='interfaces'),
-                        gnmi_pb2.PathElem(
-                            name='interface', key={'name': 'eth0'}),
-                        gnmi_pb2.PathElem(name='state'),
-                        gnmi_pb2.PathElem(name='mtu')
-                    ]),
-                    val=gnmi_pb2.TypedValue(int_val=1500)
-                ),
-                gnmi_pb2.Update(
-                    path=gnmi_pb2.Path(elem=[
-                        gnmi_pb2.PathElem(name='interfaces'),
-                        gnmi_pb2.PathElem(
-                            name='interface', key={'name': 'eth0'}),
-                        gnmi_pb2.PathElem(name='state'),
-                        gnmi_pb2.PathElem(name='enabled')
-                    ]),
-                    val=gnmi_pb2.TypedValue(bool_val=True)
-                )
-            ]
-        )
-
     def check_bad_args(self, mock_gNMISubsOnce):
         """Test that CountUpdatesCheckType raises an error for missing arguments."""
         with self.assertRaises(AssertionError):
@@ -270,26 +268,23 @@ class TestCountUpdatesCheckType(telemetry_once.CountUpdatesCheckType):
         self.updates_count = 3
         self.values_type = 'string_val'
         self.xpaths = ['/system/state/hostname']
-        mock_gNMISubsOnce.return_value = [
-            self.response_hostname
-        ]
+        mock_gNMISubsOnce.return_value = [response_hostname]
         with self.assertRaisesRegex(AssertionError, "1 != 3 : Expected 3 Updates, got: 1"):
             self.testSubscribeOnce()
 
         self.updates_count = 1
         self.xpaths = ['/interfaces/interface[name=*]/state/oper-status']
-        mock_gNMISubsOnce.return_value = [
-            self.response_interface_status
-        ]
+        mock_gNMISubsOnce.return_value = [response_interface_status]
         with self.assertRaisesRegex(AssertionError, "3 != 1 : Expected 1 Updates, got: 3"):
             self.testSubscribeOnce()
 
     def check_bad_type(self, mock_gNMISubsOnce):
         """Test CountUpdatesCheckType when the value type is not as expected."""
-
         self.values_type = 'string_val'
         self.updates_count = 3
         self.xpaths = ['/interfaces/interface[name=*]/state/oper-status']
+        self.response_interface_status = copy.deepcopy(
+            response_interface_status)
         self.response_interface_status.update[1].val.ClearField('string_val')
         self.response_interface_status.update[1].val.int_val = 1
 
@@ -305,13 +300,10 @@ class TestCountUpdatesCheckType(telemetry_once.CountUpdatesCheckType):
 
     def check_container(self, mock_gNMISubsOnce):
         """Test CountUpdatesCheckType when the path of an update is a container."""
-
         self.xpaths = ['/interfaces/interface[name=eth0]/state']
         self.values_type = 'string_val'
         self.updates_count = 3
-        mock_gNMISubsOnce.return_value = [
-            self.response_interface_eth0_state
-        ]
+        mock_gNMISubsOnce.return_value = [response_interface_eth0_state]
         with self.assertRaisesRegex(
                 AssertionError,
                 re.compile(r"False is not true : "
@@ -327,8 +319,8 @@ class TestCountUpdatesCheckType(telemetry_once.CountUpdatesCheckType):
         self.updates_count = 4
         self.values_type = 'string_val'
         mock_gNMISubsOnce.return_value = [
-            self.response_interface_status,
-            self.response_hostname
+            response_interface_status,
+            response_hostname
         ]
         self.testSubscribeOnce()
 
@@ -336,7 +328,7 @@ class TestCountUpdatesCheckType(telemetry_once.CountUpdatesCheckType):
         self.updates_count = 2
         self.values_type = 'bool_val'
         mock_gNMISubsOnce.return_value = [
-            self.response_interface_eth0_enabled
+            response_interface_eth0_enabled
         ]
         self.testSubscribeOnce()
 
@@ -344,119 +336,6 @@ class TestCountUpdatesCheckType(telemetry_once.CountUpdatesCheckType):
 @mock.patch('oc_config_validate.testbase.TestCase.gNMISubsOnce')
 class TestCountUpdatePaths(telemetry_once.CountUpdatePaths):
     """Test for CountUpdatePaths class."""
-
-    def setUp(self):
-
-        self.response_hostname = gnmi_pb2.Notification(
-            timestamp=(int(time.time())) * 1000000000,
-            update=[
-                gnmi_pb2.Update(
-                    path=gnmi_pb2.Path(elem=[
-                        gnmi_pb2.PathElem(name='system'),
-                        gnmi_pb2.PathElem(name='state'),
-                        gnmi_pb2.PathElem(name='hostname')
-                    ]),
-                    val=gnmi_pb2.TypedValue(string_val='localhost')
-                )
-            ]
-        )
-
-        self.response_interface_status = gnmi_pb2.Notification(
-            timestamp=(int(time.time())) * 1000000000,
-            update=[
-                gnmi_pb2.Update(
-                    path=gnmi_pb2.Path(elem=[
-                        gnmi_pb2.PathElem(name='interfaces'),
-                        gnmi_pb2.PathElem(
-                            name='interface', key={'name': 'eth0'}),
-                        gnmi_pb2.PathElem(name='state'),
-                        gnmi_pb2.PathElem(name='oper-status')
-                    ]),
-                    val=gnmi_pb2.TypedValue(string_val='UP')
-                ),
-                gnmi_pb2.Update(
-                    path=gnmi_pb2.Path(elem=[
-                        gnmi_pb2.PathElem(name='interfaces'),
-                        gnmi_pb2.PathElem(
-                            name='interface', key={'name': 'eth1'}),
-                        gnmi_pb2.PathElem(name='state'),
-                        gnmi_pb2.PathElem(name='oper-status')
-                    ]),
-                    val=gnmi_pb2.TypedValue(string_val='DOWN')
-                ),
-                gnmi_pb2.Update(
-                    path=gnmi_pb2.Path(elem=[
-                        gnmi_pb2.PathElem(name='interfaces'),
-                        gnmi_pb2.PathElem(
-                            name='interface', key={'name': 'mgmt'}),
-                        gnmi_pb2.PathElem(name='state'),
-                        gnmi_pb2.PathElem(name='oper-status')
-                    ]),
-                    val=gnmi_pb2.TypedValue(string_val='UP')
-                )
-            ]
-        )
-        self.response_interface_eth0_enabled = gnmi_pb2.Notification(
-            timestamp=(int(time.time())) * 1000000000,
-            update=[
-                gnmi_pb2.Update(
-                    path=gnmi_pb2.Path(elem=[
-                        gnmi_pb2.PathElem(name='interfaces'),
-                        gnmi_pb2.PathElem(
-                            name='interface', key={'name': 'eth0'}),
-                        gnmi_pb2.PathElem(name='config'),
-                        gnmi_pb2.PathElem(name='enabled')
-                    ]),
-                    val=gnmi_pb2.TypedValue(bool_val=True)
-                ),
-                gnmi_pb2.Update(
-                    path=gnmi_pb2.Path(elem=[
-                        gnmi_pb2.PathElem(name='interfaces'),
-                        gnmi_pb2.PathElem(
-                            name='interface', key={'name': 'eth0'}),
-                        gnmi_pb2.PathElem(name='state'),
-                        gnmi_pb2.PathElem(name='enabled')
-                    ]),
-                    val=gnmi_pb2.TypedValue(bool_val=False)
-                )
-            ]
-        )
-
-        self.response_interface_eth0_state = gnmi_pb2.Notification(
-            timestamp=(int(time.time())) * 1000000000,
-            update=[
-                gnmi_pb2.Update(
-                    path=gnmi_pb2.Path(elem=[
-                        gnmi_pb2.PathElem(name='interfaces'),
-                        gnmi_pb2.PathElem(
-                            name='interface', key={'name': 'eth0'}),
-                        gnmi_pb2.PathElem(name='state'),
-                        gnmi_pb2.PathElem(name='oper-status')
-                    ]),
-                    val=gnmi_pb2.TypedValue(string_val='UP')
-                ),
-                gnmi_pb2.Update(
-                    path=gnmi_pb2.Path(elem=[
-                        gnmi_pb2.PathElem(name='interfaces'),
-                        gnmi_pb2.PathElem(
-                            name='interface', key={'name': 'eth0'}),
-                        gnmi_pb2.PathElem(name='state'),
-                        gnmi_pb2.PathElem(name='mtu')
-                    ]),
-                    val=gnmi_pb2.TypedValue(int_val=1500)
-                ),
-                gnmi_pb2.Update(
-                    path=gnmi_pb2.Path(elem=[
-                        gnmi_pb2.PathElem(name='interfaces'),
-                        gnmi_pb2.PathElem(
-                            name='interface', key={'name': 'eth0'}),
-                        gnmi_pb2.PathElem(name='state'),
-                        gnmi_pb2.PathElem(name='enabled')
-                    ]),
-                    val=gnmi_pb2.TypedValue(bool_val=True)
-                )
-            ]
-        )
 
     def check_bad_args(self, mock_gNMISubsOnce):
         """Test that CountUpdatePaths raises an error for missing argument."""
@@ -478,9 +357,7 @@ class TestCountUpdatePaths(telemetry_once.CountUpdatePaths):
         """Test CountUpdatePaths when the updates are not as expected."""
         self.update_paths_count = 4
         self.xpaths = ['/interfaces/interface[name=*]/state/oper-status']
-        mock_gNMISubsOnce.return_value = [
-            self.response_interface_status
-        ]
+        mock_gNMISubsOnce.return_value = [response_interface_status]
         with self.assertRaisesRegex(
             AssertionError,
             re.compile(
@@ -490,8 +367,8 @@ class TestCountUpdatePaths(telemetry_once.CountUpdatePaths):
         self.update_paths_count = 1
         self.xpaths = ['/system/state']
         mock_gNMISubsOnce.return_value = [
-            self.response_hostname,
-            self.response_hostname,
+            response_hostname,
+            response_hostname,
         ]
         self.testSubscribeOnce()
 
@@ -502,11 +379,77 @@ class TestCountUpdatePaths(telemetry_once.CountUpdatePaths):
             '/interfaces/interface[name=*]/state/oper-status']
         self.update_paths_count = 5
         mock_gNMISubsOnce.return_value = [
-            self.response_interface_status,
-            self.response_interface_eth0_enabled,
-            self.response_interface_status,
+            response_interface_status,
+            response_interface_eth0_enabled,
+            response_interface_status,
         ]
         self.testSubscribeOnce()
+
+
+@mock.patch('oc_config_validate.testbase.TestCase.gNMISubsOnce')
+class TestCheckLeafsFromModel(telemetry_once.CheckLeafsFromModel):
+    """Test for CheckLeafsFromModel class."""
+
+    def check_bad_args(self, mock_gNMISubsOnce):
+        """Test that CheckLeafsFromModel raises an error for missing argument."""
+        with self.assertRaises(AssertionError):
+            self.testSubscribeOnce()
+
+        self.xpaths = ['/valid/path']
+        with self.assertRaises(AssertionError):
+            self.testSubscribeOnce()
+
+        self.model = "interfaces.openconfig_interfaces"
+        self.xpaths = None
+        with self.assertRaises(AssertionError):
+            self.testSubscribeOnce()
+
+        mock_gNMISubsOnce.assert_not_called()
+
+    def check_ok(self, mock_gNMISubsOnce):
+        """Test that CheckLeafsFromModel works as expected."""
+        self.xpaths = ['/interfaces/interface[name=eth0]/state']
+        self.model = "interfaces.openconfig_interfaces"
+        mock_gNMISubsOnce.return_value = [response_interface_eth0_state]
+        self.testSubscribeOnce()
+
+        self.xpaths = ['/interfaces/interface[name=*]/state']
+        self.model = "interfaces.openconfig_interfaces"
+        mock_gNMISubsOnce.return_value = [response_interface_status]
+        self.testSubscribeOnce()
+
+    def check_missing_paths(self, mock_gNMISubsOnce):
+        """Test that CheckLeafsFromModel works as expected with missing paths from model."""
+        self.check_missing_model_paths = True
+        self.xpaths = ['/interfaces/interface[name=eth0]/state']
+        self.model = "interfaces.openconfig_interfaces"
+        mock_gNMISubsOnce.return_value = [response_interface_eth0_state]
+        with self.assertRaisesRegex(
+                AssertionError,
+                "Missing update path for OC model interfaces.openconfig_interfaces"):
+            self.testSubscribeOnce()
+
+    def check_bad_model(self, mock_gNMISubsOnce):
+        """Test that CheckLeafsFromModel raises an error for bad model."""
+        self.xpaths = ['/interfaces/interface[name=eth0]/state']
+        self.model = "bad_model"
+        with self.assertRaisesRegex(
+            AssertionError,
+                "bad_model is not module.class"):
+            self.testSubscribeOnce()
+
+        self.model = "system.openconfig_system"
+        with self.assertRaisesRegex(
+            AssertionError,
+                "'openconfig_system' object has no attribute 'interfaces'"):
+            self.testSubscribeOnce()
+
+        self.xpaths = ['/system/state/hostname']
+        mock_gNMISubsOnce.return_value = [response_hostname]
+        with self.assertRaisesRegex(
+            AssertionError,
+                "system.openconfig_system:/system/state/hostname is not a valid container class"):
+            self.testSubscribeOnce()
 
 
 if __name__ == '__main__':

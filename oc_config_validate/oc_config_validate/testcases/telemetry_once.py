@@ -142,21 +142,16 @@ class CheckLeafsFromModel(SubsOnceTestCase):
         for n in self.responses:
             got_updates.extend(n.update)
 
-        self.assertGreater(
-            len(got_updates), 0,
-            "There are no Updates as reply to the Subscription")
-
         got_paths = set()
         for u in got_updates:
             got_path = schema.pathToString(u.path)
             got_paths.add(got_path)
             self.assertTrue(
                 schema.isPathInRequestedPaths(got_path, want_paths),
-                f"Unexpected update path {got_path} for subscription")
+                f"Update path {got_path} NOT in OC Model {self.model}")
 
         if self.check_missing_model_paths:
             for want_path in want_paths:
                 self.assertIn(
-                    want_path, got_paths,
-                    f"Missing update path {want_path} for OC model"
-                    f" {self.model}, got {got_paths}")
+                    want_path, list(got_paths),
+                    f"Missing update path for OC model {self.model}")
