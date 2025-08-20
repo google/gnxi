@@ -25,11 +25,20 @@ tests:
   
 - !TestCase
   name: "Subscribe ONCE to AAA State"
-  class_name: telemetry_once.CheckLeafs
+  class_name: telemetry_once.CheckLeafsFromModel
   args:
     xpaths:
-    - "system/aaa/authentication/state"
+    - "/system/aaa/authentication/state"
     model: system.openconfig_system
+
+- !TestCase
+  name: "Subscribe ONCE to Interfaces Counters"
+  class_name: telemetry_once.CheckLeafsFromModel
+  args:
+    xpaths:
+    - "interfaces/interface[name=mgmt]/state"
+    model: interfaces.openconfig_interfaces
+    check_missing_model_paths: true
 
 - !TestCase
   name: "Subscribe ONCE to all Interfaces oper-status"
@@ -55,31 +64,41 @@ tests:
   class_name: telemetry_once.CountUpdatesCheckType
   args:
     xpaths: 
-    - "interfaces/interface[name=mgmt]/state/enabled"
-    values_type: string_val
+    - "interfaces/interface[name=mgmt]/state/oper-status"
+    values_type: bool_val
     updates_count: 1
 
 - !TestCase
   name: "Bad - Expected 4 Updates"
-  class_name: telemetry_once.CountUpdatesCheckType
+  class_name: telemetry_once.CountUpdatePaths
   args:
     xpaths: 
     - "interfaces/interface[name=*]/state/oper-status"
-    values_type: string_val
-    updates_count: 4
+    update_paths_count: 4
   
 - !TestCase
   name: "Subscribe SAMPLE to AAA State"
-  class_name: telemetry_sample.CheckLeafs
+  class_name: telemetry_sample.CheckLeafsFromModel
   args:
-    xpath: "system/aaa/authentication/state"
+    xpath: "/system/aaa/authentication/state"
     model: system.openconfig_system
+    check_missing_model_paths: true
+    sample_interval: 2
+    sample_timeout: 7
+
+- !TestCase
+  name: "Subscribe SAMPLE to Interfaces Counters"
+  class_name: telemetry_sample.CheckLeafsFromModel
+  args:
+    xpath: "interfaces/interface[name=mgmt]/state"
+    model: interfaces.openconfig_interfaces
+    check_missing_model_paths: true
     sample_interval: 2
     sample_timeout: 7
 
 - !TestCase
   name: "Subscribe SAMPLE to all Interfaces oper-status"
-  class_name: telemetry_sample.CountUpdates
+  class_name: telemetry_sample.CountUpdatePaths
   args:
     xpath: "interfaces/interface[name=*]/state/oper-status"
     update_paths_count: 3
@@ -88,7 +107,7 @@ tests:
 
 - !TestCase
   name: "Bad - Wrong model"
-  class_name: telemetry_sample.CheckLeafs
+  class_name: telemetry_sample.CheckLeafsFromModel
   args:
     xpath: "interfaces/interface[name=mgmt]/state/enabled"
     model: system.openconfig_system
@@ -97,7 +116,7 @@ tests:
     
 - !TestCase
   name: "Bad - Expected 4 Update Paths"
-  class_name: telemetry_sample.CountUpdates
+  class_name: telemetry_sample.CountUpdatePaths
   args:
     xpath: "interfaces/interface[name=*]/state/oper-status"
     sample_interval: 2
