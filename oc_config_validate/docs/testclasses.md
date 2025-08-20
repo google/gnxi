@@ -352,6 +352,19 @@ Args:
   *  *max_timestamp_drift_secs*: Maximum drift for the timestamp(s).
 
 
+####  `telemetry_once.CountUpdatePaths`
+
+In addition to the default checks of the module, this test checks the
+Subscription to the xpaths produces Updates for a determined number of distinct paths.
+
+> If multiple Notifications and/or Updates are received for the same path, it is counted regardless as only 1 distinct path.
+
+Args:
+ *  **xpaths**: List of gNMI paths to subscribe to. Paths can contain
+     wildcard '*', as `/interaces/interface[name=*]/state/oper-status` or `/interaces/interface[name=eth0]/*/enabled`.
+ * **update_paths_count**: Number of expected distinct Update paths.
+
+
 ####  `telemetry_once.CountUpdatesCheckType`
 
 In addition to the default checks of the module, this test checks that the
