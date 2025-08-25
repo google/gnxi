@@ -91,7 +91,7 @@ class CountUpdatePaths(SubsOnceTestCase):
 
     Args:
         xpaths: List of gNMI paths to subscribe to. Can contain wildcards.
-        paths_count: Number of expected disctinct Update paths.
+        update_paths_count: Number of expected disctinct Update paths.
     """
     update_paths_count = None
 
