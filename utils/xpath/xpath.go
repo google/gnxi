@@ -23,16 +23,17 @@ import (
 )
 
 var (
-	idPattern = `[a-zA-Z_][a-zA-Z\d\_\-\.]*`
+	idPattern     = `[a-zA-Z_][a-zA-Z\d\_\-\.]*`
+	nodeIdPattern = `(?:` + idPattern + `:)?` + idPattern
 	// YANG identifiers must follow RFC 6020:
 	// https://tools.ietf.org/html/rfc6020#section-6.2.
-	idRe = regexp.MustCompile(`^(?:`+idPattern+`:)?` + idPattern + `$`)
+	idRe = regexp.MustCompile(`^` + nodeIdPattern + `$`)
 	// The sting representation of List key value pairs must follow the
 	// following pattern: [key=value], where key is the List key leaf name,
 	// and value is the string representation of key leaf value.
 	kvRe = regexp.MustCompile(`^\[` +
 		// Key leaf name must be a valid YANG identifier.
-		idPattern + `=` +
+		nodeIdPattern + `=` +
 		// Key leaf value must be a non-empty string, which may contain
 		// newlines. Use (?s) to turn on s flag to match newlines.
 		`((?s).+)` +
