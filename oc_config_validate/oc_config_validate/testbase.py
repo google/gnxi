@@ -32,6 +32,8 @@ from oc_config_validate.gnmi import gnmi_pb2  # type: ignore
 # Switch to enable logging of gNMI messages in the testcase logs.
 LOG_GNMI = False
 
+LOG_TIMESTAMP_PREFIX = "[%.2fs]"
+
 
 def failfast(method):
     """Wrap a test to stop upon failure."""
@@ -100,6 +102,25 @@ class TestCase(unittest.case.TestCase):
     duration_sec = 0
     start_time_sec = 0
 
+    def log_gnmi(self, formatter, *args):
+        """Optionally logs a timestamped message during a test.
+
+        The timestamp is the time since the test started, in seconds.
+
+        It logs also to STDOUT as INFO.
+
+        Args:
+            formatter: The base python string formatter.
+            *args: The formatter parameters. Allows logging messages during
+                test executions.
+        """
+        if LOG_GNMI:
+            timestamp = int(time.time() - self.start_time_sec)
+            if self.result:
+                self.result.log(LOG_TIMESTAMP_PREFIX +
+                                formatter, timestamp, *args)
+            logging.info(LOG_TIMESTAMP_PREFIX + formatter, timestamp, *args)
+
     def phony(self):
         """A phony test method to be used for testing."""
 
@@ -137,20 +158,18 @@ class TestCase(unittest.case.TestCase):
         Returns:
             A single response value, or None if error.
         """
+        self.log_gnmi("gNMI Get(%s) => ", xpath)
         try:
             resp = self.test_target.gNMIGet(xpath)
         except Exception as err:
-            self.log("Get(%s) <= Error: %s", xpath, err)
+            self.log("gNMI Get(%s) <= Error: %s", xpath, err)
             return None
         try:
             resp_val = resp.notification[0].update[0].val
         except IndexError:
-            self.log("Get(%s) <= Bad response: %s", xpath, resp)
+            self.log("gNMI Get(%s) <= Bad response: %s", xpath, resp)
             return None
-        if LOG_GNMI:
-            msg = ("gNMI Get(%s) <= %s", xpath, resp_val)
-            self.log(*msg)
-            logging.info(*msg)
+        self.log_gnmi("gNMI Get(%s) <= %s", xpath, resp_val)
         return resp_val
 
     def gNMIGetAssertJson(self, xpath: str) -> Union[str, bytes]:
@@ -215,14 +234,11 @@ class TestCase(unittest.case.TestCase):
         Returns:
           False if the gNMI Set did not succeed.
         """
-        if LOG_GNMI:
-            msg = ("gNMI Set Update(%s) => %s", xpath, value)
-            self.log(*msg)
-            logging.info(*msg)
+        self.log_gnmi("gNMI Set Update(%s) => %s", xpath, value)
         try:
             self.test_target.gNMISetUpdate(xpath, value)
         except Exception as err:
-            self.log("Set(%s) <= Error: %s", xpath, err)
+            self.log("gNMI Set Update(%s) <= Error: %s", xpath, err)
             return False
         return True
 
@@ -238,14 +254,11 @@ class TestCase(unittest.case.TestCase):
         Returns:
             A single response value, or None if error.
         """
-        if LOG_GNMI:
-            msg = ("gNMI Set Delete(%s) =>", xpath)
-            self.log(*msg)
-            logging.info(*msg)
+        self.log_gnmi("gNMI Set Delete(%s) =>", xpath)
         try:
             self.test_target.gNMISetDelete(xpath)
         except Exception as err:
-            self.log("Set(%s) <= Error: %s", xpath, err)
+            self.log("gNMI Set Delete(%s) <= Error: %s", xpath, err)
             return False
         return True
 
@@ -259,14 +272,11 @@ class TestCase(unittest.case.TestCase):
         Returns:
           False if the gNMI Set did not succeed.
         """
-        if LOG_GNMI:
-            msg = ("gNMI Set Replace(%s) => %s", xpath, value)
-            self.log(*msg)
-            logging.info(*msg)
+        self.log("gNMI Set Replace(%s) => %s", xpath, value)
         try:
             self.test_target.gNMISetReplace(xpath, value)
         except Exception as err:
-            self.log("Set(%s) <= Error: %s", xpath, err)
+            self.log("gNMI Set Replace(%s) <= Error: %s", xpath, err)
             return False
         return True
 
@@ -282,16 +292,15 @@ class TestCase(unittest.case.TestCase):
         Returns:
           A list of Notifications received, or None if error.
         """
+        self.log_gnmi("gNMI Subscribe Once(%s) => ", xpaths)
         try:
             resp = self.test_target.gNMISubsOnce(xpaths)
         except Exception as err:
-            self.log("SubscribeOnce(%s) <= Error: %s", xpaths, err)
+            self.log("gNMI Subscribe Once(%s) <= Error: %s", xpaths, err)
             return None
-        if LOG_GNMI:
-            msg = ("gNMI SubscribeOnce(%s) <= %s", xpaths,
-                   schema.notificationsJsonString(resp))
-            self.log(*msg)
-            logging.info(*msg)
+
+        self.log_gnmi("gNMI Subscribe Once(%s) <= %s", xpaths,
+                      schema.notificationsJsonString(resp))
         return resp
 
     def gNMISubsStreamSample(
@@ -311,17 +320,15 @@ class TestCase(unittest.case.TestCase):
         Returns:
           A list of Notifications received, or None if error.
         """
+        self.log_gnmi("gNMI Subscribe Sample(%s) =>", xpath)
         try:
             resp = self.test_target.gNMISubsStreamSample(
                 xpath, sample_interval, timeout)
         except Exception as err:
-            self.log("SubscribeStream(%s) <= Error: %s", xpath, err)
+            self.log("gNMI Subscribe Sample(%s) <= Error: %s", xpath, err)
             return None
-        if LOG_GNMI:
-            msg = ("gNMI SubscribeSample(%s) <= %s", xpath,
-                   schema.notificationsJsonString(resp))
-            self.log(*msg)
-            logging.info(*msg)
+        self.log_gnmi("gNMI Subscribe Sample(%s) <= %s", xpath,
+                      schema.notificationsJsonString(resp))
         return resp
 
     def gNMISubsStreamOnChange(
@@ -353,18 +360,15 @@ class TestCase(unittest.case.TestCase):
             2 Lists of gnmi_pb2.Notification objects received,
               before and after sync_response.
         """
-
+        self.log_gnmi("gNMI Subscribe OnChange(%s) =>\n", xpath)
         try:
             before, after = self.test_target.gNMISubsStreamOnChange(
                 xpath, timeout, sync_response_callback)
         except Exception as err:
-            self.log("SubscribeOnChange(%s) <= Error: %s", xpath, err)
+            self.log("gNMI Subscribe OnChange(%s) <= Error: %s", xpath, err)
             return None, None
-        if LOG_GNMI:
-            msg = ("gNMI SubscribeOnChange(%s) <= %s\n", xpath,
-                   schema.notificationsJsonString(before + after))
-            self.log(*msg)
-            logging.info(*msg)
+        self.log_gnmi("gNMI Subscribe OnChange(%s) <= %s\n", xpath,
+                      schema.notificationsJsonString(before + after))
         return before, after
 
     @classmethod
@@ -492,7 +496,7 @@ class TestResult(unittest.TestResult):
             *args: The formatter parameters. Allows logging messages during
                 test executions.
         """
-        self.log_message += formatter % args + '\n'
+        self.log_message += (formatter % args) + '\n'
 
     def startTest(self, test: TestCase):  # pytype: disable=signature-mismatch
         """Clean the log before every test."""

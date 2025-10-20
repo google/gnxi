@@ -113,7 +113,6 @@ class TestTarget():
             self.channel = grpc.insecure_channel(self.address)
         else:
             creds = self._buildCredentials()
-            logging.debug("creds: %s", creds)
             if self.host_tls_override:
                 self.channel = grpc.secure_channel(
                     self.address, creds,

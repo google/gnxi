@@ -116,7 +116,9 @@ looking for:
            [--target_cert_as_root_ca | --root_ca_cert FILE ] \
            [--cert_chain FILE --private_key FILE]
            [-init INIT_CONFIG_FILE -xpath INIT_CONFIG_XPATH] \
-           [--verbose] [--log_gnmi] [--stop_on_error]
+           [--gnmi_set_cooldown_secs GNMI_SET_COOLDOWN_SECS] \
+           [--log_gnmi] [--stop_on_error] \
+           [--verbose]
     ```
 
     For an example:
@@ -163,12 +165,33 @@ Run `python3 -m oc_config_validate -models` to get a list of the versions (revis
 #### Timing in gNMI Sets and Gets
 
 The Target can take some time to process configurations done via gNMI Set messages. By default, `oc_config_validate` waits 10 seconds after a successful gNMI Set message.
-This time is customized with the `gnmi_set_cooldown_secs` option in the targe configuration or in a command line argument.
+This time is customized with the `gnmi_set_cooldown_secs` option in the target configuration or in a command line argument.
 
 Similarly, the Target can take some time to show the expected values in a gNMI Get message.
 Some testcases have a retry mechanism, that will repeat the gNMI Get message and comparisons (against an OC model, against an expected JSON text, or both) until it succeeds or times out.
 
 See [here](https://github.com/google/gnxi/blob/master/oc_config_validate/docs/testclasses.md) for more details.
+
+#### Timestamped Logging gNMI messages
+
+With `log_gnmi` option in the command line argument, all gNMI Messages sent and received are logged with a relative timestamp to the beginning of the test.
+
+The gNMI messages logs are in the format `[<relative_time_secs>]gNMI <Operation>(<xpath(s)>) =>|=< <[values]>`. E.g.:
+
+```
+[0.00s]gNMI Subscribe Sample(interfaces/interface[name=*]/state/oper-status) =>
+[5.00s]gNMI Subscribe Sample(interfaces/interface[name=*]/state/oper-status) <= [
+  {
+    "timestamp": 1754947845878668496, ... 
+
+INFO(testbase.py:120):[0.00s]gNMI Set Update(system/clock/config) => {'openconfig-system:timezone-name': 'Europe/Paris'}
+INFO(testbase.py:120):[2.00s]gNMI Get(system/clock/state) => 
+INFO(testbase.py:120):[2.00s]gNMI Get(system/clock/state) <= json_ietf_val: "{\"openconfig-system:timezone-name\":\"Europe/Stockholm\"}"
+```
+
+The messages are logged to the TestCase results and also to STDOUT, as INFO. 
+
+> Because the TestCase results logs are printed to STDOUT upon test failure, the gNMI messages will be seen twice in SDTOUT for failed test.
 
 ## Copyright
 
