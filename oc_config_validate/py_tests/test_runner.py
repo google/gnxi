@@ -15,6 +15,7 @@ limitations under the License.
 """
 
 import unittest
+from unittest import mock
 
 from oc_config_validate import context, runner, target, testcases
 
@@ -44,7 +45,8 @@ class TestGetTestSuites(unittest.TestCase):
             self.assertEqual(getattr(t, "arg1", None), "foo")
             self.assertEqual(getattr(t, "arg2", None), "bar")
 
-    def test_getTestSuites_error(self):
+    @mock.patch('logging.error')    # Avoid logging errors in the test output
+    def test_getTestSuites_error(self, mock_error_log):
         tgt = target.TestTarget(context.Target())
         tests = [
             context.TestCase("notAClass",

@@ -51,7 +51,7 @@ class SubsSampleTestCase(testbase.TestCase):
             self.xpath,
             self.sample_interval * SECS_TO_NSEC,
             timeout=self.sample_timeout)
-        self.assertIsNotNone(notifications, "No gNMI Subscribe response")
+        self.assertTrue(bool(notifications), "No gNMI Subscribe response")
 
         self.responses = collections.defaultdict(list)
         for n in notifications:
@@ -63,10 +63,13 @@ class SubsSampleTestCase(testbase.TestCase):
         want = (self.sample_timeout // self.sample_interval) + 1
         if self.responses:
             for path, updates in self.responses.items():
+                self.assertTrue(
+                    schema.isPathInRequestedPaths(path, [self.xpath]),
+                    f"Unexpected update path {path} for subscription to {self.xpath}")
                 got = len(updates)
                 self.assertEqual(
                     got, want,
-                    f"{got} Updates for path {path}, wanted {want}")
+                    f"{got} Updates for {path}, wanted {want}")
                 if len(updates) > 1:
                     timestamp_0, _ = updates[0]
                     timeline = []
@@ -78,19 +81,20 @@ class SubsSampleTestCase(testbase.TestCase):
                                 timestamp_diff,
                                 self.sample_interval * SECS_TO_NSEC,
                                 self.max_timestamp_drift_secs * SECS_TO_NSEC),
-                            f"Subscribe updates for '{path}' received out of sample interval {self.sample_interval} secs, "
+                            f"Subscribe updates for '{path}' received out of "
+                            f"sample interval {self.sample_interval} secs, "
                             f"received updates intervals: {timeline}")
                         timestamp_0 = timestamp_1
 
 
-class CountUpdates(SubsSampleTestCase):
+class CountUpdatePaths(SubsSampleTestCase):
     """Subscribes SAMPLE and checks the returned update paths.
 
     This tests that a Subscription consistenly reports all Update paths.
 
     Args:
         xpath: gNMI paths to subscribe to. Can contain wildcards.
-        updates_count: Number of expected disctinct Update paths, per reply.
+        update_paths_count: Number of expected disctinct Update paths.
     """
     update_paths_count = None
 
@@ -102,10 +106,10 @@ class CountUpdates(SubsSampleTestCase):
         self.assertEqual(
             got_paths, self.update_paths_count,
             f"Expected {self.update_paths_count} Update paths, "
-            f"got: {got_paths}")
+            f"got: {list(self.responses.keys())}")
 
 
-class CheckLeafs(SubsSampleTestCase):
+class CheckLeafsFromModel(SubsSampleTestCase):
     """Subscribes SAMPLE and checks the updates againts the state OC model.
 
     Tests that a Sample Subscription consistenly reports all Update paths, and
@@ -115,22 +119,31 @@ class CheckLeafs(SubsSampleTestCase):
         xpath: gNMI paths to subscribe to. Can contain wildcards only on the
           keys.
         model: Python binding class to check the replies against.
+        check_missing_model_paths: If True, missing OC Model leaf paths in the
+                                   Updates replies are checked.
     """
     model = None
+    check_missing_model_paths = False
 
     def testSubscribeSample(self):
         """"""
         self.assertArgs(["model", "xpath"])
 
         self.assertModelXpath(self.model, self.xpath)
+        want_paths = schema.ocLeafsPaths(self.model, self.xpath)
+        got_paths = []
 
         self.subscribeSample()
 
-        got_paths = len(self.responses)
-        self.assertGreater(got_paths, 0,
-                           "There are no Update replies to the Subscription")
-        if self.responses:
-            for path, _ in self.responses.items():
-                self.assertTrue(
-                    schema.isPathInRequestedPaths(path, [self.xpath]),
-                    f"Unexpected update path {path} for subscription")
+        got_paths = list(self.responses.keys())
+
+        for got_path in got_paths:
+            self.assertTrue(
+                schema.isPathInRequestedPaths(got_path, want_paths),
+                f"Update path {got_path} NOT in OC Model {self.model}")
+
+        if self.check_missing_model_paths:
+            for want_path in want_paths:
+                self.assertIn(
+                    want_path, got_paths,
+                    f"Missing update path for OC model {self.model}")

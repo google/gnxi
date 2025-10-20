@@ -124,18 +124,23 @@ class TestParsePaths(unittest.TestCase):
     @parameterized.expand([
         ("_full_path",
          "/protocols/protocol[identifier=BGP][name=bgp]/bgp/global",
-         True),
-        ("_root_path", "/", True),
-        ("_basic_path", "/system", True),
+         True,
+         "/protocols/protocol[identifier=BGP][name=bgp]/bgp/global"),
+        ("_root_path", "/", True, "/"),
+        ("_basic_path", "/system", True, "/system"),
+        ("_unrooted_path", "system/state", True, "/system/state"),
+        ("_appended_path", "/system/state/", True, "/system/state"),
         ("_bad_index",
          "/network-instances/network-instance[default]",
-         False)
+         False,
+         "")
     ])
-    def test_pathStrings(self, name, path_str, is_ok):
+    def test_pathStrings(self, name, path_str, is_ok, parsed_path_string):
         self.assertEqual(schema.isPathOK(path_str), is_ok, name)
         if is_ok:
             got_obj = schema.parsePath(path_str)
-            self.assertEqual(path_str, schema.pathToString(got_obj), name)
+            self.assertEqual(parsed_path_string,
+                             schema.pathToString(got_obj), name)
 
 
 class TestisPathInRequestedPathsRequestedPaths(unittest.TestCase):

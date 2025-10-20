@@ -5,8 +5,8 @@
     "FOO",
     "BAR"
   ],
-  "start_time_sec": 1683576220.4079309,
-  "end_time_sec": 1683576239.5437305,
+  "start_time_sec": 1755724191.3355515,
+  "end_time_sec": 1755724218.7348504,
   "results": [
     {
       "test_name": "Subscribe ONCE to System String values",
@@ -14,10 +14,10 @@
       "duration_sec": 0,
       "results": [
         {
-          "test_case": "test100",
+          "test_case": "testSubscribeOnce",
           "test_class": "CountUpdatesCheckType",
           "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1683576220,
+          "start_time_sec": 1755724191,
           "duration_sec": 0,
           "result": "PASS",
           "log": ""
@@ -30,13 +30,29 @@
       "duration_sec": 0,
       "results": [
         {
-          "test_case": "test100",
-          "test_class": "CheckLeafs",
+          "test_case": "testSubscribeOnce",
+          "test_class": "CheckLeafsFromModel",
           "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1683576220,
+          "start_time_sec": 1755724191,
           "duration_sec": 0,
           "result": "PASS",
           "log": ""
+        }
+      ]
+    },
+    {
+      "test_name": "Subscribe ONCE to Interfaces Counters",
+      "success": false,
+      "duration_sec": 0,
+      "results": [
+        {
+          "test_case": "testSubscribeOnce",
+          "test_class": "CheckLeafsFromModel",
+          "test_module": "oc_config_validate.testcases",
+          "start_time_sec": 1755724191,
+          "duration_sec": 0,
+          "result": "FAIL",
+          "log": "\n Traceback (most recent call last):\n  File \"/home/joseignaciotamayo/gnxi/oc_config_validate/oc_config_validate/testcases/telemetry_once.py\", line 159, in testSubscribeOnce\n    self.assertIn(\nAssertionError: '/interfaces/interface[name=mgmt]/state/name' not found in {'/interfaces/interface[name=mgmt]/state/oper-status'} : Missing update path /interfaces/interface[name=mgmt]/state/name for OC model interfaces.openconfig_interfaces, got {'/interfaces/interface[name=mgmt]/state/oper-status'}\n"
         }
       ]
     },
@@ -46,10 +62,10 @@
       "duration_sec": 0,
       "results": [
         {
-          "test_case": "test100",
+          "test_case": "testSubscribeOnce",
           "test_class": "CountUpdatesCheckType",
           "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1683576220,
+          "start_time_sec": 1755724191,
           "duration_sec": 0,
           "result": "PASS",
           "log": ""
@@ -62,13 +78,13 @@
       "duration_sec": 0,
       "results": [
         {
-          "test_case": "test100",
+          "test_case": "testSubscribeOnce",
           "test_class": "CountUpdatesCheckType",
           "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1683576220,
+          "start_time_sec": 1755724191,
           "duration_sec": 0,
           "result": "FAIL",
-          "log": "\n Traceback (most recent call last):\n  File \"/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testcases/telemetry_once.py\", line 63, in test100\n    self.subscribeOnce()\n  File \"/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testcases/telemetry_once.py\", line 41, in subscribeOnce\n    self.assertEqual(\nAssertionError: 1 != 2 : Expected 2 notifications, got 1\n"
+          "log": "\n Traceback (most recent call last):\n  File \"/home/joseignaciotamayo/gnxi/oc_config_validate/oc_config_validate/testcases/telemetry_once.py\", line 71, in testSubscribeOnce\n    self.subscribeOnce()\n  File \"/home/joseignaciotamayo/gnxi/oc_config_validate/oc_config_validate/testcases/telemetry_once.py\", line 49, in subscribeOnce\n    self.assertEqual(\nAssertionError: 1 != 2 : Expected 2 notifications, got 1\n"
         }
       ]
     },
@@ -78,13 +94,13 @@
       "duration_sec": 0,
       "results": [
         {
-          "test_case": "test100",
+          "test_case": "testSubscribeOnce",
           "test_class": "CountUpdatesCheckType",
           "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1683576220,
+          "start_time_sec": 1755724191,
           "duration_sec": 0,
           "result": "FAIL",
-          "log": "\n Traceback (most recent call last):\n  File \"/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testcases/telemetry_once.py\", line 73, in test100\n    self.assertTrue(\nAssertionError: False is not true : Value of Update /interfaces/interface[name=mgmt]/state/enabled is not of type string_val: bool_val: true\n\n"
+          "log": "\n Traceback (most recent call last):\n  File \"/home/joseignaciotamayo/gnxi/oc_config_validate/oc_config_validate/testcases/telemetry_once.py\", line 77, in testSubscribeOnce\n    self.assertTrue(\nAssertionError: False is not true : Value of Update /interfaces/interface[name=mgmt]/state/oper-status is not of type bool_val: string_val: \"UP\"\n\n"
         }
       ]
     },
@@ -94,29 +110,45 @@
       "duration_sec": 0,
       "results": [
         {
-          "test_case": "test100",
-          "test_class": "CountUpdatesCheckType",
+          "test_case": "testSubscribeOnce",
+          "test_class": "CountUpdatePaths",
           "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1683576220,
+          "start_time_sec": 1755724191,
           "duration_sec": 0,
           "result": "FAIL",
-          "log": "\n Traceback (most recent call last):\n  File \"/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testcases/telemetry_once.py\", line 78, in test100\n    self.assertEqual(\nAssertionError: 3 != 4 : Expected 4 Updates, got: 3\n"
+          "log": "\n Traceback (most recent call last):\n  File \"/home/joseignaciotamayo/gnxi/oc_config_validate/oc_config_validate/testcases/telemetry_once.py\", line 109, in testSubscribeOnce\n    self.assertEqual(\nAssertionError: 3 != 4 : Expected 4 Update paths, got: {'/interfaces/interface[name=FortyGigabitEthernet1/1/2]/state/oper-status', '/interfaces/interface[name=FortyGigabitEthernet1/1/1]/state/oper-status', '/interfaces/interface[name=mgmt]/state/oper-status'}\n"
         }
       ]
     },
     {
       "test_name": "Subscribe SAMPLE to AAA State",
       "success": true,
+      "duration_sec": 8,
+      "results": [
+        {
+          "test_case": "testSubscribeSample",
+          "test_class": "CheckLeafsFromModel",
+          "test_module": "oc_config_validate.testcases",
+          "start_time_sec": 1755724191,
+          "duration_sec": 8,
+          "result": "PASS",
+          "log": ""
+        }
+      ]
+    },
+    {
+      "test_name": "Subscribe SAMPLE to Interfaces Counters",
+      "success": false,
       "duration_sec": 7,
       "results": [
         {
           "test_case": "testSubscribeSample",
-          "test_class": "CheckLeafs",
+          "test_class": "CheckLeafsFromModel",
           "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1683576220,
+          "start_time_sec": 1755724199,
           "duration_sec": 7,
-          "result": "PASS",
-          "log": ""
+          "result": "FAIL",
+          "log": "\n Traceback (most recent call last):\n  File \"/home/joseignaciotamayo/gnxi/oc_config_validate/oc_config_validate/testcases/telemetry_sample.py\", line 136, in testSubscribeSample\n    self.subscribeSample()\n  File \"/home/joseignaciotamayo/gnxi/oc_config_validate/oc_config_validate/testcases/telemetry_sample.py\", line 70, in subscribeSample\n    self.assertEqual(\nAssertionError: 8 != 4 : 8 Updates for /interfaces/interface[name=mgmt]/state/oper-status, wanted 4\n"
         }
       ]
     },
@@ -127,9 +159,9 @@
       "results": [
         {
           "test_case": "testSubscribeSample",
-          "test_class": "CountUpdates",
+          "test_class": "CountUpdatePaths",
           "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1683576227,
+          "start_time_sec": 1755724206,
           "duration_sec": 7,
           "result": "PASS",
           "log": ""
@@ -143,12 +175,12 @@
       "results": [
         {
           "test_case": "testSubscribeSample",
-          "test_class": "CheckLeafs",
+          "test_class": "CheckLeafsFromModel",
           "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1683576234,
+          "start_time_sec": 1755724213,
           "duration_sec": 0,
           "result": "FAIL",
-          "log": "\n Traceback (most recent call last):\n  File \"/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testcases/telemetry_sample.py\", line 116, in testSubscribeSample\n    self.assertModelXpath(self.model, self.xpath)\n  File \"/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testbase.py\", line 422, in assertModelXpath\n    self.assertTrue(\nAssertionError: False is not true : xpath interfaces/interface[name=mgmt]/state/enabled does not point to a container in model system.openconfig_system: 'openconfig_system' object has no attribute 'interfaces'\n"
+          "log": "\n Traceback (most recent call last):\n  File \"/home/joseignaciotamayo/gnxi/oc_config_validate/oc_config_validate/testcases/telemetry_sample.py\", line 132, in testSubscribeSample\n    self.assertModelXpath(self.model, self.xpath)\n  File \"/home/joseignaciotamayo/gnxi/oc_config_validate/oc_config_validate/testbase.py\", line 471, in assertModelXpath\n    self.assertTrue(\nAssertionError: False is not true : xpath interfaces/interface[name=mgmt]/state/enabled does not point to a container in model system.openconfig_system: 'openconfig_system' object has no attribute 'interfaces'\n"
         }
       ]
     },
@@ -159,17 +191,17 @@
       "results": [
         {
           "test_case": "testSubscribeSample",
-          "test_class": "CountUpdates",
+          "test_class": "CountUpdatePaths",
           "test_module": "oc_config_validate.testcases",
-          "start_time_sec": 1683576234,
+          "start_time_sec": 1755724213,
           "duration_sec": 5,
           "result": "FAIL",
-          "log": "\n Traceback (most recent call last):\n  File \"/home/itamayo/gnxi/oc_config_validate/oc_config_validate/testcases/telemetry_sample.py\", line 93, in testSubscribeSample\n    self.assertEqual(\nAssertionError: 3 != 4 : Expected 4 Update paths, got: 3\n"
+          "log": "\n Traceback (most recent call last):\n  File \"/home/joseignaciotamayo/gnxi/oc_config_validate/oc_config_validate/testcases/telemetry_sample.py\", line 106, in testSubscribeSample\n    self.assertEqual(\nAssertionError: 3 != 4 : Expected 4 Update paths, got: ['/interfaces/interface[name=FortyGigabitEthernet1/1/1]/state/oper-status', '/interfaces/interface[name=FortyGigabitEthernet1/1/2]/state/oper-status', '/interfaces/interface[name=mgmt]/state/oper-status']\n"
         }
       ]
     }
   ],
   "tests_pass": 5,
-  "tests_total": 10,
-  "tests_fail": 5
+  "tests_total": 12,
+  "tests_fail": 7
 }

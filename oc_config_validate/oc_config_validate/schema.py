@@ -243,7 +243,7 @@ def ocLeafsPaths(model: str, xpath: str) -> List[str]:
         if isinstance(val, dict):
             paths.extend(ocLeafsPaths(model, xpath + "/" + leaf))
         else:
-            paths.append(xpath + "/" + leaf)
+            paths.append(pathToString(parsePath(xpath + "/" + leaf)))
     return paths
 
 
