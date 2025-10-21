@@ -394,7 +394,7 @@ Update paths received in the Subscription reply are checked against the
 Leafs of the Model (Update paths must match an OC Model Leaf).
 
 Optionally, use `check_missing_model_paths` to assert that all OC model paths
-are present in the Updates. Usually, the Subscription replies might not
+are present in the Updates. The Subscription replies might not
 have all Leaf paths that the OC mode has.
 
 > This check does NOT check the type of the values returned.
@@ -405,6 +405,21 @@ Args:
  *  **model**: Python binding class to check the reply against.
  *  *check_missing_model_paths*: If True, it asserts that all OC Model Leaf
      paths are in the received Updates. Defaults to False.
+
+####  `telemetry_once.CheckLeafsFromList`
+
+In addition to the default checks of the module, this test checks that the
+subscription responses have all expected update paths.
+
+The Update paths received in the Subscription reply are checked against the
+provided list of paths in the test. The Subscription reply must have all paths
+in the list.
+
+> This check does NOT check the type of the values returned.
+
+Args:
+ *  **xpaths**: List of gNMI paths to subscribe to.
+ *  **update_paths**: List of gNMI paths that the Subscription response must have.
 
 ### Module telemetry_sample
 

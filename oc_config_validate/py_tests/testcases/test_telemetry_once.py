@@ -418,6 +418,29 @@ class TestCheckLeafsFromModel(telemetry_once.CheckLeafsFromModel):
         mock_gNMISubsOnce.return_value = [response_interface_status]
         self.testSubscribeOnce()
 
+    def check_path_not_in_model(self, mock_gNMISubsOnce):
+        """Test that CheckLeafsFromModel fails as expected."""
+        self.xpaths = ['/interfaces/interface[name=eth0]/state']
+        self.model = "interfaces.openconfig_interfaces"
+        mock_gNMISubsOnce.return_value = [gnmi_pb2.Notification(
+            timestamp=(int(time.time())) * 1000000000,
+            update=[
+                gnmi_pb2.Update(
+                    path=gnmi_pb2.Path(elem=[
+                        gnmi_pb2.PathElem(name='interfaces'),
+                        gnmi_pb2.PathElem(
+                            name='interface', key={'name': 'eth0'}),
+                        gnmi_pb2.PathElem(name='state'),
+                        gnmi_pb2.PathElem(name='foo')
+                    ]),
+                    val=gnmi_pb2.TypedValue(string_val='bar')
+                )])]
+        with self.assertRaisesRegex(
+                AssertionError,
+                "Update path /interfaces/interface\\[name=eth0\\]/state/foo "
+                "NOT in OC Model interfaces.openconfig_interfaces"):
+            self.testSubscribeOnce()
+
     def check_missing_paths(self, mock_gNMISubsOnce):
         """Test that CheckLeafsFromModel works as expected with missing paths from model."""
         self.check_missing_model_paths = True
@@ -449,6 +472,67 @@ class TestCheckLeafsFromModel(telemetry_once.CheckLeafsFromModel):
         with self.assertRaisesRegex(
             AssertionError,
                 "system.openconfig_system:/system/state/hostname is not a valid container class"):
+            self.testSubscribeOnce()
+
+
+@mock.patch('oc_config_validate.testbase.TestCase.gNMISubsOnce')
+class TestCheckLeafsFromList(telemetry_once.CheckLeafsFromList):
+    """Test for CheckLeafsFromList class."""
+
+    def check_bad_args(self, mock_gNMISubsOnce):
+        """Test that CheckLeafsFromList raises an error for missing argument."""
+        with self.assertRaises(AssertionError):
+            self.testSubscribeOnce()
+
+        self.xpaths = ['/valid/path']
+        with self.assertRaises(AssertionError):
+            self.testSubscribeOnce()
+
+        self.update_paths = ['/valid/update/path']
+        self.xpaths = None
+        with self.assertRaises(AssertionError):
+            self.testSubscribeOnce()
+
+        mock_gNMISubsOnce.assert_not_called()
+
+    def check_ok(self, mock_gNMISubsOnce):
+        """Test that CheckLeafsFromList works as expected."""
+        self.xpaths = ['/interfaces/interface[name=eth0]/state']
+        self.update_paths = ['/interfaces/interface[name=eth0]/state/oper-status',
+                             '/interfaces/interface[name=eth0]/state/enabled']
+        mock_gNMISubsOnce.return_value = [response_interface_eth0_state]
+        self.testSubscribeOnce()
+
+        self.xpaths = ['/interfaces/interface[name=*]/state']
+        self.update_paths = ['/interfaces/interface[name=eth0]/state/oper-status',
+                             '/interfaces/interface[name=eth1]/state/oper-status']
+        mock_gNMISubsOnce.return_value = [response_interface_status]
+        self.testSubscribeOnce()
+
+        self.xpaths = ['/interfaces/interface[name=eth0]/state']
+        self.update_paths = []
+        mock_gNMISubsOnce.return_value = [response_interface_eth0_state]
+        self.testSubscribeOnce()
+
+    def check_missing_paths(self, mock_gNMISubsOnce):
+        """Test that CheckLeafsFromList works as expected with missing paths from list."""
+
+        self.xpaths = ['/interfaces/interface[name=eth0]/state']
+        self.update_paths = ['/interfaces/interface[name=eth0]/state/oper-status',
+                             '/interfaces/interface[name=eth0]/state/admin-status']
+        mock_gNMISubsOnce.return_value = [response_interface_eth0_state]
+        with self.assertRaisesRegex(
+                AssertionError,
+                "Missing update path"):
+            self.testSubscribeOnce()
+
+        self.xpaths = ['/interfaces/interface[name=*]/state/oper-status']
+        self.update_paths = ['/interfaces/interface[name=eth0]/state/oper-status',
+                             '/interfaces/interface[name=eth1]/state/oper-status',
+                             '/interfaces/interface[name=eth2]/state/oper-status']
+        mock_gNMISubsOnce.return_value = [response_interface_status]
+        with self.assertRaises(
+                AssertionError):
             self.testSubscribeOnce()
 
 
