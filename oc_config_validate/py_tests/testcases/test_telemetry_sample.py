@@ -574,7 +574,7 @@ class TestCheckLeafsFromList(telemetry_sample.CheckLeafsFromList):
 
     def check_missing_paths(self, mock_gNMISubsStreamSample):
         """Test that CheckLeafsFromList works as expected with missing paths from list."""
-        
+
         now = int(time.time())
         self.update_paths = ['/interfaces/interface[name=eth0]/state/oper-status',
                              '/interfaces/interface[name=eth1]/state/oper-status',
@@ -626,7 +626,7 @@ class TestCheckLeafsFromList(telemetry_sample.CheckLeafsFromList):
             AssertionError,
                 "Missing update path"):
             self.testSubscribeSample()
-        
+
 
 if __name__ == '__main__':
     unittest.main()

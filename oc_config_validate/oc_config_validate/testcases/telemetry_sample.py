@@ -172,4 +172,4 @@ class CheckLeafsFromList(SubsSampleTestCase):
         for want_path in self.update_paths:
             self.assertIn(
                 want_path, got_paths,
-                f"Missing update path")
+                "Missing update path")
