@@ -417,6 +417,8 @@ in the list.
 
 > This check does NOT check the type of the values returned.
 
+> Update paths not in the list of expected paths are ignored.
+
 Args:
  *  **xpaths**: List of gNMI paths to subscribe to.
  *  **update_paths**: List of gNMI paths that the Subscription response must have.
@@ -512,11 +514,43 @@ Update path | Time
 > This check does NOT check the type of the values returned.
 
 Args:
- *  **xpath**: gNMI path to subscribe to.
-    Can contain wildcard '*' only in keys.
+ *  **xpath**: gNMI path to subscribe to. Can contain wildcard '*' only in keys.
  *  **model**: Python binding class to check the replies against.
  *  *check_missing_model_paths*: If True, it asserts that all OC Model Leaf
      paths are in the received Updates. Defaults to False.
+
+####  `telemetry_sample.CheckLeafsFromList`
+
+In addition to the default checks of the module, this test checks that the
+subscription updates have all have the expected paths in the responses.
+
+E.g:
+Suppose the test is subscribing to an xpath `/<root>/<container>`, with
+15 secs interval for 65 secs. After collecting subscription responses for 65
+secs, the test checks that there are updates for all paths listed in the test.
+
+Assuming the test expects a Updates for 2 paths `[/<root>/<container>/<leaf1>, /<root>/<container>/<leaf2>]`, the following Subscription Updates will FAIL this test:
+
+Update path | Time
+ ----------- | ----
+`/<root>/<container>/<leaf1>` | Update[t0] | Update[t15] | Update[t30] |
+`/<root>/<container>/<leaf_not_listed>` | Update[t0] | Update[t15] | Update[t30] |
+
+In the same condition, the following Subscription Updates will PASS this test:
+
+Update path | Time
+ ----------- | ----
+`/<root>/<container>/<leaf1>` | Update[t0] | Update[t15] | Update[t30] |
+`/<root>/<container>/<leaf2>` | Update[t0] | Update[t15] | Update[t30] |
+`/<root>/<container>/<leaf_not_listed>` | Update[t0] | Update[t15] | Update[t30] |
+
+> This check does NOT check the type of the values returned.
+
+> Update paths not in the list of expected paths are ignored.
+
+Args:
+ *  **xpath**: gNMI paths to subscribe to. Can contain wildcard '*' only in keys.
+ *  **update_paths**: List of gNMI paths that the Subscription response must have.
 
 ### Module telemetry_onchange
 

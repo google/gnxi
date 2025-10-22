@@ -93,7 +93,7 @@ class CountUpdatePaths(SubsSampleTestCase):
     This tests that a Subscription consistenly reports all Update paths.
 
     Args:
-        xpath: gNMI paths to subscribe to. Can contain wildcards.
+        xpath: gNMI path to subscribe to. Can contain wildcards.
         update_paths_count: Number of expected disctinct Update paths.
     """
     update_paths_count = None
@@ -116,7 +116,7 @@ class CheckLeafsFromModel(SubsSampleTestCase):
     that the paths corresponds to Leafs in the OC model.
 
     Args:
-        xpath: gNMI paths to subscribe to. Can contain wildcards only on the
+        xpath: gNMI path to subscribe to. Can contain wildcards only on the
           keys.
         model: Python binding class to check the replies against.
         check_missing_model_paths: If True, missing OC Model leaf paths in the
@@ -147,3 +147,29 @@ class CheckLeafsFromModel(SubsSampleTestCase):
                 self.assertIn(
                     want_path, got_paths,
                     f"Missing update path for OC model {self.model}")
+
+
+class CheckLeafsFromList(SubsSampleTestCase):
+    """Subscribes SAMPLE and checks the updates againts a list of expeted paths.
+
+    Tests that a Sample Subscription consistenly reports all Update paths, and
+    that the all paths listed as expected are there.
+
+    Args:
+        xpath: gNMI paths to subscribe to. Can contain wildcard '*' only in keys.
+        update_paths: List of gNMI paths that the Subscription responses must have.
+    """
+    update_paths = None
+
+    def testSubscribeSample(self):
+        """"""
+        self.assertArgs(["update_paths", "xpath"])
+
+        self.subscribeSample()
+
+        got_paths = list(self.responses.keys())
+
+        for want_path in self.update_paths:
+            self.assertIn(
+                want_path, got_paths,
+                f"Missing update path")
