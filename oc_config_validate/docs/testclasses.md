@@ -522,7 +522,7 @@ Args:
 ####  `telemetry_sample.CheckLeafsFromList`
 
 In addition to the default checks of the module, this test checks that the
-subscription updates have all have the expected paths in the responses.
+subscription updates have all the expected paths in the responses.
 
 E.g:
 Suppose the test is subscribing to an xpath `/<root>/<container>`, with
