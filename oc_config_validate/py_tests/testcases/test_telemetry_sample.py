@@ -497,5 +497,136 @@ class TestCheckLeafsFromModel(telemetry_sample.CheckLeafsFromModel):
             self.testSubscribeSample()
 
 
+@mock.patch('oc_config_validate.testbase.TestCase.gNMISubsStreamSample')
+class TestCheckLeafsFromList(telemetry_sample.CheckLeafsFromList):
+    """Test for CheckLeafsFromList class."""
+
+    def setUp(self):
+        self.sample_interval = 10
+        self.sample_timeout = 30
+        self.xpath = '/interfaces/interface[name=*]/state'
+
+    def check_bad_args(self, mock_gNMISubsStreamSample):
+        """Test that CheckLeafsFromList raises an error for missing argument."""
+        self.xpath = None
+        with self.assertRaises(AssertionError):
+            self.testSubscribeSample()
+
+        self.xpath = '/valid/path'
+        with self.assertRaises(AssertionError):
+            self.testSubscribeSample()
+
+        self.update_paths = ['/valid/update/path']
+        self.xpath = None
+        with self.assertRaises(AssertionError):
+            self.testSubscribeSample()
+
+        mock_gNMISubsStreamSample.assert_not_called()
+
+    def check_ok(self, mock_gNMISubsStreamSample):
+        """Test that CheckLeafsFromList works as expected."""
+        now = int(time.time())
+
+        self.update_paths = ['/interfaces/interface[name=eth0]/state/oper-status',
+                             '/interfaces/interface[name=eth1]/state/oper-status']
+
+        mock_gNMISubsStreamSample.return_value = [
+            gnmi_pb2.Notification(
+                timestamp=now * 1000000000,
+                update=updates_interface_status
+            ),
+            gnmi_pb2.Notification(
+                timestamp=(now + 11) * 1000000000,
+                update=updates_interface_status
+            ),
+            gnmi_pb2.Notification(
+                timestamp=(now + 20) * 1000000000,
+                update=updates_interface_status
+            ),
+            gnmi_pb2.Notification(
+                timestamp=(now + 30) * 1000000000,
+                update=updates_interface_status
+            )
+        ]
+        self.testSubscribeSample()
+
+        self.update_paths = ['/interfaces/interface[name=eth0]/state/oper-status',
+                             '/interfaces/interface[name=eth0]/state/enabled']
+        mock_gNMISubsStreamSample.return_value = [
+            gnmi_pb2.Notification(
+                timestamp=now * 1000000000,
+                update=updates_interface_eth0_state
+            ),
+            gnmi_pb2.Notification(
+                timestamp=(now + 11) * 1000000000,
+                update=updates_interface_eth0_state
+            ),
+            gnmi_pb2.Notification(
+                timestamp=(now + 20) * 1000000000,
+                update=updates_interface_eth0_state
+            ),
+            gnmi_pb2.Notification(
+                timestamp=(now + 30) * 1000000000,
+                update=updates_interface_eth0_state
+            )
+        ]
+        self.testSubscribeSample()
+
+    def check_missing_paths(self, mock_gNMISubsStreamSample):
+        """Test that CheckLeafsFromList works as expected with missing paths from list."""
+
+        now = int(time.time())
+        self.update_paths = ['/interfaces/interface[name=eth0]/state/oper-status',
+                             '/interfaces/interface[name=eth1]/state/oper-status',
+                             '/interfaces/interface[name=eth2]/state/oper-status']
+        mock_gNMISubsStreamSample.return_value = [
+            gnmi_pb2.Notification(
+                timestamp=now * 1000000000,
+                update=updates_interface_status
+            ),
+            gnmi_pb2.Notification(
+                timestamp=(now + 11) * 1000000000,
+                update=updates_interface_status
+            ),
+            gnmi_pb2.Notification(
+                timestamp=(now + 20) * 1000000000,
+                update=updates_interface_status
+            ),
+            gnmi_pb2.Notification(
+                timestamp=(now + 30) * 1000000000,
+                update=updates_interface_status
+            )
+        ]
+        with self.assertRaisesRegex(
+            AssertionError,
+                "Missing update path"):
+            self.testSubscribeSample()
+
+        self.update_paths = ['/interfaces/interface[name=eth0]/state/oper-status',
+                             '/interfaces/interface[name=eth0]/state/admin-status']
+        mock_gNMISubsStreamSample.return_value = [
+            gnmi_pb2.Notification(
+                timestamp=now * 1000000000,
+                update=updates_interface_eth0_state
+            ),
+            gnmi_pb2.Notification(
+                timestamp=(now + 11) * 1000000000,
+                update=updates_interface_eth0_state
+            ),
+            gnmi_pb2.Notification(
+                timestamp=(now + 20) * 1000000000,
+                update=updates_interface_eth0_state
+            ),
+            gnmi_pb2.Notification(
+                timestamp=(now + 30) * 1000000000,
+                update=updates_interface_eth0_state
+            )
+        ]
+        with self.assertRaisesRegex(
+            AssertionError,
+                "Missing update path"):
+            self.testSubscribeSample()
+
+
 if __name__ == '__main__':
     unittest.main()

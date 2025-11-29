@@ -155,3 +155,35 @@ class CheckLeafsFromModel(SubsOnceTestCase):
                 self.assertIn(
                     want_path, list(got_paths),
                     f"Missing update path for OC model {self.model}")
+
+
+class CheckLeafsFromList(SubsOnceTestCase):
+    """Subscribes ONCE and checks the updates againts a list of expected paths.
+
+    All arguments are read from the Test YAML description.
+
+    Args:
+        xpaths: List of gNMI paths to subscribe to.
+        update_paths: List of gNMI paths that the Subscription response must have.
+    """
+    update_paths = None
+
+    def testSubscribeOnce(self):
+        """"""
+        self.assertArgs(["xpaths", "update_paths"])
+
+        self.subscribeOnce()
+
+        got_updates = []
+        for n in self.responses:
+            got_updates.extend(n.update)
+
+        got_paths = set()
+        for u in got_updates:
+            got_path = schema.pathToString(u.path)
+            got_paths.add(got_path)
+
+        for want_path in self.update_paths:
+            self.assertIn(
+                want_path, list(got_paths),
+                "Missing update path")
