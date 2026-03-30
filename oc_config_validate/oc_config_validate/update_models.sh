@@ -25,7 +25,7 @@ PYBINDPLUGIN=$(/usr/bin/env python -c 'import pyangbind; import os; print ("{}/p
 
 rm -fr ${MODELS_FOLDER}/*
 touch ${MODELS_FOLDER}/__init__.py
-git clone --depth 1 https://github.com/openconfig/public.git --branch "v5.3.0" --config "advice.detachedHead=false" "$MODELS_FOLDER/public"
+git clone --depth 1 https://github.com/openconfig/public.git --branch "v5.6.0" --config "advice.detachedHead=false" "$MODELS_FOLDER/public"
 
 echo -n "__model_versions__ = \"\"\"" > ${MODELS_FOLDER}/__init__.py
 
