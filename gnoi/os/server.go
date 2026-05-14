@@ -25,6 +25,9 @@ import (
 )
 
 var receiveChunkSizeAck uint64 = 12000000
+// maxOSImageSize limits the maximum size of an OS image accepted by ReceiveOS
+// to prevent unbounded memory allocation (DoS).
+const maxOSImageSize = 1 << 30 // 1GB
 
 // Server is an OS Management service.
 type Server struct {
@@ -179,6 +182,9 @@ func ReceiveOS(stream pb.OS_InstallServer) (*bytes.Buffer, error) {
 		switch in.Request.(type) {
 		case *pb.InstallRequest_TransferContent:
 			bb.Write(in.GetTransferContent())
+			if bb.Len() > maxOSImageSize {
+				return nil, errors.New("OS image exceeds maximum size")
+			}
 		case *pb.InstallRequest_TransferEnd:
 			log.V(1).Info("InstallRequest:\n", proto.MarshalTextString(in))
 			return bb, nil
