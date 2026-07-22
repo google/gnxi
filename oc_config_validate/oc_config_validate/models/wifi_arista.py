@@ -17957,7 +17957,7 @@ class arista_wifi_augments(PybindBase):
 
   YANG Description: This module contains OpenConfig augments for Arista WiFi Access Point.
 
-Copyright (c) 2020 Arista Networks, Inc. All rights reserved.
+Copyright (c) 2026 Arista Networks, Inc. All rights reserved.
   """
   __slots__ = ('_path_helper', '_extmethods', '__arista_aps',)
 
@@ -22754,7 +22754,7 @@ class yc_config_openconfig_access_points__access_points_access_point_ssids_ssid_
 
   YANG Description: Configurable items at the global, SSID level
   """
-  __slots__ = ('_path_helper', '_extmethods', '__name','__enabled','__hidden','__default_vlan','__vlan_list','__operating_frequency','__basic_data_rates_2g','__supported_data_rates_2g','__basic_data_rates_5g','__supported_data_rates_5g','__basic_data_rates_6g','__supported_data_rates_6g','__broadcast_filter','__multicast_filter','__ipv6_ndp_filter','__ipv6_ndp_filter_timer','__station_isolation','__opmode','__wpa2_psk','__wpa3_psk','__server_group','__dva','__dhcp_required','__qbss_load','__advertise_apname','__csa','__ptk_timeout','__gtk_timeout','__dot11k','__okc','__mfp','__remote_bridging','__tunnel_id','__enable_rtt',)
+  __slots__ = ('_path_helper', '_extmethods', '__name','__enabled','__hidden','__default_vlan','__vlan_list','__operating_frequency','__basic_data_rates_2g','__supported_data_rates_2g','__basic_data_rates_5g','__supported_data_rates_5g','__basic_data_rates_6g','__supported_data_rates_6g','__broadcast_filter','__multicast_filter','__ipv6_ndp_filter','__ipv6_ndp_filter_timer','__station_isolation','__opmode','__wpa2_psk','__wpa3_psk','__server_group','__dva','__dhcp_required','__qbss_load','__advertise_apname','__csa','__ptk_timeout','__gtk_timeout','__dot11k','__okc','__mfp','__remote_bridging','__tunnel_id','__enable_rtt','__vlan_name','__fallback_vlan_id','__arista_op_mode','__nas_identifier','__called_station_id','__mac_caching',)
 
   _yang_name = 'config'
   _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
@@ -22800,6 +22800,12 @@ class yc_config_openconfig_access_points__access_points_access_point_ssids_ssid_
     self.__remote_bridging = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="remote-bridging", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=True)
     self.__tunnel_id = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="tunnel-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint8', is_config=True)
     self.__enable_rtt = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="enable-rtt", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=True)
+    self.__vlan_name = YANGDynClass(base=str, is_leaf=True, yang_name="vlan-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+    self.__fallback_vlan_id = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="fallback-vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=True)
+    self.__arista_op_mode = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'WPA2_UPSK': {}, 'WPA3_UPSK': {}, 'WPA3_TRANSITION_UPSK': {}},), is_leaf=True, yang_name="arista-op-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=True)
+    self.__nas_identifier = YANGDynClass(base=str, is_leaf=True, yang_name="nas-identifier", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+    self.__called_station_id = YANGDynClass(base=str, is_leaf=True, yang_name="called-station-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+    self.__mac_caching = YANGDynClass(base=YANGBool, default=YANGBool("true"), is_leaf=True, yang_name="mac-caching", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=True)
 
     load = kwargs.pop("load", None)
     if args:
@@ -24133,6 +24139,248 @@ a DHCP exchange has occurred.
   def _unset_enable_rtt(self):
     self.__enable_rtt = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="enable-rtt", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=True)
 
+
+  def _get_vlan_name(self):
+    """
+    Getter method for vlan_name, mapped from YANG variable /access_points/access_point/ssids/ssid/config/vlan_name (string)
+
+    YANG Description: Name of VLAN
+    """
+    return self.__vlan_name
+      
+  def _set_vlan_name(self, v, load=False):
+    """
+    Setter method for vlan_name, mapped from YANG variable /access_points/access_point/ssids/ssid/config/vlan_name (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_vlan_name is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_vlan_name() directly.
+
+    YANG Description: Name of VLAN
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="vlan-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """vlan_name must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="vlan-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)""",
+        })
+
+    self.__vlan_name = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_vlan_name(self):
+    self.__vlan_name = YANGDynClass(base=str, is_leaf=True, yang_name="vlan-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+
+
+  def _get_fallback_vlan_id(self):
+    """
+    Getter method for fallback_vlan_id, mapped from YANG variable /access_points/access_point/ssids/ssid/config/fallback_vlan_id (uint32)
+
+    YANG Description: VLAN to fallback to when the primary VLAN mapping cannot be identified or fails
+    """
+    return self.__fallback_vlan_id
+      
+  def _set_fallback_vlan_id(self, v, load=False):
+    """
+    Setter method for fallback_vlan_id, mapped from YANG variable /access_points/access_point/ssids/ssid/config/fallback_vlan_id (uint32)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fallback_vlan_id is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fallback_vlan_id() directly.
+
+    YANG Description: VLAN to fallback to when the primary VLAN mapping cannot be identified or fails
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="fallback-vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fallback_vlan_id must be of a type compatible with uint32""",
+          'defined-type': "uint32",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="fallback-vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=True)""",
+        })
+
+    self.__fallback_vlan_id = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fallback_vlan_id(self):
+    self.__fallback_vlan_id = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="fallback-vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=True)
+
+
+  def _get_arista_op_mode(self):
+    """
+    Getter method for arista_op_mode, mapped from YANG variable /access_points/access_point/ssids/ssid/config/arista_op_mode (enumeration)
+
+    YANG Description: Arista specific operation mode
+    """
+    return self.__arista_op_mode
+      
+  def _set_arista_op_mode(self, v, load=False):
+    """
+    Setter method for arista_op_mode, mapped from YANG variable /access_points/access_point/ssids/ssid/config/arista_op_mode (enumeration)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_arista_op_mode is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_arista_op_mode() directly.
+
+    YANG Description: Arista specific operation mode
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'WPA2_UPSK': {}, 'WPA3_UPSK': {}, 'WPA3_TRANSITION_UPSK': {}},), is_leaf=True, yang_name="arista-op-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """arista_op_mode must be of a type compatible with enumeration""",
+          'defined-type': "arista-wifi-augments:enumeration",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'WPA2_UPSK': {}, 'WPA3_UPSK': {}, 'WPA3_TRANSITION_UPSK': {}},), is_leaf=True, yang_name="arista-op-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=True)""",
+        })
+
+    self.__arista_op_mode = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_arista_op_mode(self):
+    self.__arista_op_mode = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'WPA2_UPSK': {}, 'WPA3_UPSK': {}, 'WPA3_TRANSITION_UPSK': {}},), is_leaf=True, yang_name="arista-op-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=True)
+
+
+  def _get_nas_identifier(self):
+    """
+    Getter method for nas_identifier, mapped from YANG variable /access_points/access_point/ssids/ssid/config/nas_identifier (string)
+
+    YANG Description: RADIUS NAS-Identifier associated with this SSID.
+Supports dynamic tokens:
+ %m - Access Point Ethernet MAC
+ %s - SSID
+ %n - Device Name
+ %l - Location Tag.
+    """
+    return self.__nas_identifier
+      
+  def _set_nas_identifier(self, v, load=False):
+    """
+    Setter method for nas_identifier, mapped from YANG variable /access_points/access_point/ssids/ssid/config/nas_identifier (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_nas_identifier is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_nas_identifier() directly.
+
+    YANG Description: RADIUS NAS-Identifier associated with this SSID.
+Supports dynamic tokens:
+ %m - Access Point Ethernet MAC
+ %s - SSID
+ %n - Device Name
+ %l - Location Tag.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="nas-identifier", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """nas_identifier must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="nas-identifier", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)""",
+        })
+
+    self.__nas_identifier = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_nas_identifier(self):
+    self.__nas_identifier = YANGDynClass(base=str, is_leaf=True, yang_name="nas-identifier", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+
+
+  def _get_called_station_id(self):
+    """
+    Getter method for called_station_id, mapped from YANG variable /access_points/access_point/ssids/ssid/config/called_station_id (string)
+
+    YANG Description: RADIUS Called-Station-Id associated with this SSID.
+Supports dynamic tokens:
+ %m - Access Point Ethernet MAC
+ %s - SSID
+ %n - Device Name
+ %l - Location Tag.
+    """
+    return self.__called_station_id
+      
+  def _set_called_station_id(self, v, load=False):
+    """
+    Setter method for called_station_id, mapped from YANG variable /access_points/access_point/ssids/ssid/config/called_station_id (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_called_station_id is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_called_station_id() directly.
+
+    YANG Description: RADIUS Called-Station-Id associated with this SSID.
+Supports dynamic tokens:
+ %m - Access Point Ethernet MAC
+ %s - SSID
+ %n - Device Name
+ %l - Location Tag.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="called-station-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """called_station_id must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="called-station-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)""",
+        })
+
+    self.__called_station_id = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_called_station_id(self):
+    self.__called_station_id = YANGDynClass(base=str, is_leaf=True, yang_name="called-station-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+
+
+  def _get_mac_caching(self):
+    """
+    Getter method for mac_caching, mapped from YANG variable /access_points/access_point/ssids/ssid/config/mac_caching (boolean)
+
+    YANG Description: Enable mac caching. Default is true for secondary MAC authentication and UPSK security modes.
+    """
+    return self.__mac_caching
+      
+  def _set_mac_caching(self, v, load=False):
+    """
+    Setter method for mac_caching, mapped from YANG variable /access_points/access_point/ssids/ssid/config/mac_caching (boolean)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_mac_caching is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_mac_caching() directly.
+
+    YANG Description: Enable mac caching. Default is true for secondary MAC authentication and UPSK security modes.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGBool, default=YANGBool("true"), is_leaf=True, yang_name="mac-caching", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """mac_caching must be of a type compatible with boolean""",
+          'defined-type': "boolean",
+          'generated-type': """YANGDynClass(base=YANGBool, default=YANGBool("true"), is_leaf=True, yang_name="mac-caching", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=True)""",
+        })
+
+    self.__mac_caching = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_mac_caching(self):
+    self.__mac_caching = YANGDynClass(base=YANGBool, default=YANGBool("true"), is_leaf=True, yang_name="mac-caching", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=True)
+
   name = __builtin__.property(_get_name, _set_name)
   enabled = __builtin__.property(_get_enabled, _set_enabled)
   hidden = __builtin__.property(_get_hidden, _set_hidden)
@@ -24167,9 +24415,15 @@ a DHCP exchange has occurred.
   remote_bridging = __builtin__.property(_get_remote_bridging, _set_remote_bridging)
   tunnel_id = __builtin__.property(_get_tunnel_id, _set_tunnel_id)
   enable_rtt = __builtin__.property(_get_enable_rtt, _set_enable_rtt)
+  vlan_name = __builtin__.property(_get_vlan_name, _set_vlan_name)
+  fallback_vlan_id = __builtin__.property(_get_fallback_vlan_id, _set_fallback_vlan_id)
+  arista_op_mode = __builtin__.property(_get_arista_op_mode, _set_arista_op_mode)
+  nas_identifier = __builtin__.property(_get_nas_identifier, _set_nas_identifier)
+  called_station_id = __builtin__.property(_get_called_station_id, _set_called_station_id)
+  mac_caching = __builtin__.property(_get_mac_caching, _set_mac_caching)
 
 
-  _pyangbind_elements = OrderedDict([('name', name), ('enabled', enabled), ('hidden', hidden), ('default_vlan', default_vlan), ('vlan_list', vlan_list), ('operating_frequency', operating_frequency), ('basic_data_rates_2g', basic_data_rates_2g), ('supported_data_rates_2g', supported_data_rates_2g), ('basic_data_rates_5g', basic_data_rates_5g), ('supported_data_rates_5g', supported_data_rates_5g), ('basic_data_rates_6g', basic_data_rates_6g), ('supported_data_rates_6g', supported_data_rates_6g), ('broadcast_filter', broadcast_filter), ('multicast_filter', multicast_filter), ('ipv6_ndp_filter', ipv6_ndp_filter), ('ipv6_ndp_filter_timer', ipv6_ndp_filter_timer), ('station_isolation', station_isolation), ('opmode', opmode), ('wpa2_psk', wpa2_psk), ('wpa3_psk', wpa3_psk), ('server_group', server_group), ('dva', dva), ('dhcp_required', dhcp_required), ('qbss_load', qbss_load), ('advertise_apname', advertise_apname), ('csa', csa), ('ptk_timeout', ptk_timeout), ('gtk_timeout', gtk_timeout), ('dot11k', dot11k), ('okc', okc), ('mfp', mfp), ('remote_bridging', remote_bridging), ('tunnel_id', tunnel_id), ('enable_rtt', enable_rtt), ])
+  _pyangbind_elements = OrderedDict([('name', name), ('enabled', enabled), ('hidden', hidden), ('default_vlan', default_vlan), ('vlan_list', vlan_list), ('operating_frequency', operating_frequency), ('basic_data_rates_2g', basic_data_rates_2g), ('supported_data_rates_2g', supported_data_rates_2g), ('basic_data_rates_5g', basic_data_rates_5g), ('supported_data_rates_5g', supported_data_rates_5g), ('basic_data_rates_6g', basic_data_rates_6g), ('supported_data_rates_6g', supported_data_rates_6g), ('broadcast_filter', broadcast_filter), ('multicast_filter', multicast_filter), ('ipv6_ndp_filter', ipv6_ndp_filter), ('ipv6_ndp_filter_timer', ipv6_ndp_filter_timer), ('station_isolation', station_isolation), ('opmode', opmode), ('wpa2_psk', wpa2_psk), ('wpa3_psk', wpa3_psk), ('server_group', server_group), ('dva', dva), ('dhcp_required', dhcp_required), ('qbss_load', qbss_load), ('advertise_apname', advertise_apname), ('csa', csa), ('ptk_timeout', ptk_timeout), ('gtk_timeout', gtk_timeout), ('dot11k', dot11k), ('okc', okc), ('mfp', mfp), ('remote_bridging', remote_bridging), ('tunnel_id', tunnel_id), ('enable_rtt', enable_rtt), ('vlan_name', vlan_name), ('fallback_vlan_id', fallback_vlan_id), ('arista_op_mode', arista_op_mode), ('nas_identifier', nas_identifier), ('called_station_id', called_station_id), ('mac_caching', mac_caching), ])
 
 
 class yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_state(PybindBase):
@@ -24181,7 +24435,7 @@ class yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_s
 
   YANG Description: Operational state data at the SSID level
   """
-  __slots__ = ('_path_helper', '_extmethods', '__name','__enabled','__hidden','__default_vlan','__vlan_list','__operating_frequency','__basic_data_rates_2g','__supported_data_rates_2g','__basic_data_rates_5g','__supported_data_rates_5g','__basic_data_rates_6g','__supported_data_rates_6g','__broadcast_filter','__multicast_filter','__ipv6_ndp_filter','__ipv6_ndp_filter_timer','__station_isolation','__opmode','__wpa2_psk','__wpa3_psk','__server_group','__dva','__dhcp_required','__qbss_load','__advertise_apname','__csa','__ptk_timeout','__gtk_timeout','__dot11k','__okc','__mfp','__remote_bridging','__tunnel_id','__enable_rtt',)
+  __slots__ = ('_path_helper', '_extmethods', '__name','__enabled','__hidden','__default_vlan','__vlan_list','__operating_frequency','__basic_data_rates_2g','__supported_data_rates_2g','__basic_data_rates_5g','__supported_data_rates_5g','__basic_data_rates_6g','__supported_data_rates_6g','__broadcast_filter','__multicast_filter','__ipv6_ndp_filter','__ipv6_ndp_filter_timer','__station_isolation','__opmode','__wpa2_psk','__wpa3_psk','__server_group','__dva','__dhcp_required','__qbss_load','__advertise_apname','__csa','__ptk_timeout','__gtk_timeout','__dot11k','__okc','__mfp','__remote_bridging','__tunnel_id','__enable_rtt','__vlan_name','__fallback_vlan_id','__arista_op_mode','__nas_identifier','__called_station_id','__mac_caching',)
 
   _yang_name = 'state'
   _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
@@ -24227,6 +24481,12 @@ class yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_s
     self.__remote_bridging = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="remote-bridging", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=False)
     self.__tunnel_id = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="tunnel-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint8', is_config=False)
     self.__enable_rtt = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="enable-rtt", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=False)
+    self.__vlan_name = YANGDynClass(base=str, is_leaf=True, yang_name="vlan-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+    self.__fallback_vlan_id = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="fallback-vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=False)
+    self.__arista_op_mode = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'WPA2_UPSK': {}, 'WPA3_UPSK': {}, 'WPA3_TRANSITION_UPSK': {}},), is_leaf=True, yang_name="arista-op-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=False)
+    self.__nas_identifier = YANGDynClass(base=str, is_leaf=True, yang_name="nas-identifier", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+    self.__called_station_id = YANGDynClass(base=str, is_leaf=True, yang_name="called-station-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+    self.__mac_caching = YANGDynClass(base=YANGBool, default=YANGBool("true"), is_leaf=True, yang_name="mac-caching", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -25560,6 +25820,248 @@ a DHCP exchange has occurred.
   def _unset_enable_rtt(self):
     self.__enable_rtt = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="enable-rtt", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=False)
 
+
+  def _get_vlan_name(self):
+    """
+    Getter method for vlan_name, mapped from YANG variable /access_points/access_point/ssids/ssid/state/vlan_name (string)
+
+    YANG Description: Name of VLAN
+    """
+    return self.__vlan_name
+      
+  def _set_vlan_name(self, v, load=False):
+    """
+    Setter method for vlan_name, mapped from YANG variable /access_points/access_point/ssids/ssid/state/vlan_name (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_vlan_name is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_vlan_name() directly.
+
+    YANG Description: Name of VLAN
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="vlan-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """vlan_name must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="vlan-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)""",
+        })
+
+    self.__vlan_name = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_vlan_name(self):
+    self.__vlan_name = YANGDynClass(base=str, is_leaf=True, yang_name="vlan-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+
+
+  def _get_fallback_vlan_id(self):
+    """
+    Getter method for fallback_vlan_id, mapped from YANG variable /access_points/access_point/ssids/ssid/state/fallback_vlan_id (uint32)
+
+    YANG Description: VLAN to fallback to when the primary VLAN mapping cannot be identified or fails
+    """
+    return self.__fallback_vlan_id
+      
+  def _set_fallback_vlan_id(self, v, load=False):
+    """
+    Setter method for fallback_vlan_id, mapped from YANG variable /access_points/access_point/ssids/ssid/state/fallback_vlan_id (uint32)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fallback_vlan_id is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fallback_vlan_id() directly.
+
+    YANG Description: VLAN to fallback to when the primary VLAN mapping cannot be identified or fails
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="fallback-vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fallback_vlan_id must be of a type compatible with uint32""",
+          'defined-type': "uint32",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="fallback-vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=False)""",
+        })
+
+    self.__fallback_vlan_id = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fallback_vlan_id(self):
+    self.__fallback_vlan_id = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="fallback-vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=False)
+
+
+  def _get_arista_op_mode(self):
+    """
+    Getter method for arista_op_mode, mapped from YANG variable /access_points/access_point/ssids/ssid/state/arista_op_mode (enumeration)
+
+    YANG Description: Arista specific operation mode
+    """
+    return self.__arista_op_mode
+      
+  def _set_arista_op_mode(self, v, load=False):
+    """
+    Setter method for arista_op_mode, mapped from YANG variable /access_points/access_point/ssids/ssid/state/arista_op_mode (enumeration)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_arista_op_mode is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_arista_op_mode() directly.
+
+    YANG Description: Arista specific operation mode
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'WPA2_UPSK': {}, 'WPA3_UPSK': {}, 'WPA3_TRANSITION_UPSK': {}},), is_leaf=True, yang_name="arista-op-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """arista_op_mode must be of a type compatible with enumeration""",
+          'defined-type': "arista-wifi-augments:enumeration",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'WPA2_UPSK': {}, 'WPA3_UPSK': {}, 'WPA3_TRANSITION_UPSK': {}},), is_leaf=True, yang_name="arista-op-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=False)""",
+        })
+
+    self.__arista_op_mode = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_arista_op_mode(self):
+    self.__arista_op_mode = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'WPA2_UPSK': {}, 'WPA3_UPSK': {}, 'WPA3_TRANSITION_UPSK': {}},), is_leaf=True, yang_name="arista-op-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=False)
+
+
+  def _get_nas_identifier(self):
+    """
+    Getter method for nas_identifier, mapped from YANG variable /access_points/access_point/ssids/ssid/state/nas_identifier (string)
+
+    YANG Description: RADIUS NAS-Identifier associated with this SSID.
+Supports dynamic tokens:
+ %m - Access Point Ethernet MAC
+ %s - SSID
+ %n - Device Name
+ %l - Location Tag.
+    """
+    return self.__nas_identifier
+      
+  def _set_nas_identifier(self, v, load=False):
+    """
+    Setter method for nas_identifier, mapped from YANG variable /access_points/access_point/ssids/ssid/state/nas_identifier (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_nas_identifier is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_nas_identifier() directly.
+
+    YANG Description: RADIUS NAS-Identifier associated with this SSID.
+Supports dynamic tokens:
+ %m - Access Point Ethernet MAC
+ %s - SSID
+ %n - Device Name
+ %l - Location Tag.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="nas-identifier", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """nas_identifier must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="nas-identifier", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)""",
+        })
+
+    self.__nas_identifier = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_nas_identifier(self):
+    self.__nas_identifier = YANGDynClass(base=str, is_leaf=True, yang_name="nas-identifier", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+
+
+  def _get_called_station_id(self):
+    """
+    Getter method for called_station_id, mapped from YANG variable /access_points/access_point/ssids/ssid/state/called_station_id (string)
+
+    YANG Description: RADIUS Called-Station-Id associated with this SSID.
+Supports dynamic tokens:
+ %m - Access Point Ethernet MAC
+ %s - SSID
+ %n - Device Name
+ %l - Location Tag.
+    """
+    return self.__called_station_id
+      
+  def _set_called_station_id(self, v, load=False):
+    """
+    Setter method for called_station_id, mapped from YANG variable /access_points/access_point/ssids/ssid/state/called_station_id (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_called_station_id is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_called_station_id() directly.
+
+    YANG Description: RADIUS Called-Station-Id associated with this SSID.
+Supports dynamic tokens:
+ %m - Access Point Ethernet MAC
+ %s - SSID
+ %n - Device Name
+ %l - Location Tag.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="called-station-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """called_station_id must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="called-station-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)""",
+        })
+
+    self.__called_station_id = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_called_station_id(self):
+    self.__called_station_id = YANGDynClass(base=str, is_leaf=True, yang_name="called-station-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+
+
+  def _get_mac_caching(self):
+    """
+    Getter method for mac_caching, mapped from YANG variable /access_points/access_point/ssids/ssid/state/mac_caching (boolean)
+
+    YANG Description: Enable mac caching. Default is true for secondary MAC authentication and UPSK security modes.
+    """
+    return self.__mac_caching
+      
+  def _set_mac_caching(self, v, load=False):
+    """
+    Setter method for mac_caching, mapped from YANG variable /access_points/access_point/ssids/ssid/state/mac_caching (boolean)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_mac_caching is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_mac_caching() directly.
+
+    YANG Description: Enable mac caching. Default is true for secondary MAC authentication and UPSK security modes.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGBool, default=YANGBool("true"), is_leaf=True, yang_name="mac-caching", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """mac_caching must be of a type compatible with boolean""",
+          'defined-type': "boolean",
+          'generated-type': """YANGDynClass(base=YANGBool, default=YANGBool("true"), is_leaf=True, yang_name="mac-caching", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=False)""",
+        })
+
+    self.__mac_caching = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_mac_caching(self):
+    self.__mac_caching = YANGDynClass(base=YANGBool, default=YANGBool("true"), is_leaf=True, yang_name="mac-caching", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=False)
+
   name = __builtin__.property(_get_name)
   enabled = __builtin__.property(_get_enabled)
   hidden = __builtin__.property(_get_hidden)
@@ -25594,9 +26096,15 @@ a DHCP exchange has occurred.
   remote_bridging = __builtin__.property(_get_remote_bridging)
   tunnel_id = __builtin__.property(_get_tunnel_id)
   enable_rtt = __builtin__.property(_get_enable_rtt)
+  vlan_name = __builtin__.property(_get_vlan_name)
+  fallback_vlan_id = __builtin__.property(_get_fallback_vlan_id)
+  arista_op_mode = __builtin__.property(_get_arista_op_mode)
+  nas_identifier = __builtin__.property(_get_nas_identifier)
+  called_station_id = __builtin__.property(_get_called_station_id)
+  mac_caching = __builtin__.property(_get_mac_caching)
 
 
-  _pyangbind_elements = OrderedDict([('name', name), ('enabled', enabled), ('hidden', hidden), ('default_vlan', default_vlan), ('vlan_list', vlan_list), ('operating_frequency', operating_frequency), ('basic_data_rates_2g', basic_data_rates_2g), ('supported_data_rates_2g', supported_data_rates_2g), ('basic_data_rates_5g', basic_data_rates_5g), ('supported_data_rates_5g', supported_data_rates_5g), ('basic_data_rates_6g', basic_data_rates_6g), ('supported_data_rates_6g', supported_data_rates_6g), ('broadcast_filter', broadcast_filter), ('multicast_filter', multicast_filter), ('ipv6_ndp_filter', ipv6_ndp_filter), ('ipv6_ndp_filter_timer', ipv6_ndp_filter_timer), ('station_isolation', station_isolation), ('opmode', opmode), ('wpa2_psk', wpa2_psk), ('wpa3_psk', wpa3_psk), ('server_group', server_group), ('dva', dva), ('dhcp_required', dhcp_required), ('qbss_load', qbss_load), ('advertise_apname', advertise_apname), ('csa', csa), ('ptk_timeout', ptk_timeout), ('gtk_timeout', gtk_timeout), ('dot11k', dot11k), ('okc', okc), ('mfp', mfp), ('remote_bridging', remote_bridging), ('tunnel_id', tunnel_id), ('enable_rtt', enable_rtt), ])
+  _pyangbind_elements = OrderedDict([('name', name), ('enabled', enabled), ('hidden', hidden), ('default_vlan', default_vlan), ('vlan_list', vlan_list), ('operating_frequency', operating_frequency), ('basic_data_rates_2g', basic_data_rates_2g), ('supported_data_rates_2g', supported_data_rates_2g), ('basic_data_rates_5g', basic_data_rates_5g), ('supported_data_rates_5g', supported_data_rates_5g), ('basic_data_rates_6g', basic_data_rates_6g), ('supported_data_rates_6g', supported_data_rates_6g), ('broadcast_filter', broadcast_filter), ('multicast_filter', multicast_filter), ('ipv6_ndp_filter', ipv6_ndp_filter), ('ipv6_ndp_filter_timer', ipv6_ndp_filter_timer), ('station_isolation', station_isolation), ('opmode', opmode), ('wpa2_psk', wpa2_psk), ('wpa3_psk', wpa3_psk), ('server_group', server_group), ('dva', dva), ('dhcp_required', dhcp_required), ('qbss_load', qbss_load), ('advertise_apname', advertise_apname), ('csa', csa), ('ptk_timeout', ptk_timeout), ('gtk_timeout', gtk_timeout), ('dot11k', dot11k), ('okc', okc), ('mfp', mfp), ('remote_bridging', remote_bridging), ('tunnel_id', tunnel_id), ('enable_rtt', enable_rtt), ('vlan_name', vlan_name), ('fallback_vlan_id', fallback_vlan_id), ('arista_op_mode', arista_op_mode), ('nas_identifier', nas_identifier), ('called_station_id', called_station_id), ('mac_caching', mac_caching), ])
 
 
 class yc_rx_data_dist_openconfig_access_points__access_points_access_point_ssids_ssid_bssids_bssid_state_counters_rx_data_dist(PybindBase):
@@ -35568,6 +36076,2182 @@ state container.
   _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
 
 
+class yc_config_openconfig_access_points__access_points_access_point_ssids_ssid_secondary_mac_auth_config(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/ssids/ssid/secondary-mac-auth/config. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Configuration for secondary MAC authentication
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__stay_connected_on_auth_failure_enabled','__failure_role','__method',)
+
+  _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__stay_connected_on_auth_failure_enabled = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="stay-connected-on-auth-failure-enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=True)
+    self.__failure_role = YANGDynClass(base=str, is_leaf=True, yang_name="failure-role", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+    self.__method = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'GOOGLE_INTEGRATION': {}, 'RADIUS_MAC_AUTHENTICATION': {}},), is_leaf=True, yang_name="method", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=True)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'ssids', 'ssid', 'secondary-mac-auth', 'config']
+
+  def _get_stay_connected_on_auth_failure_enabled(self):
+    """
+    Getter method for stay_connected_on_auth_failure_enabled, mapped from YANG variable /access_points/access_point/ssids/ssid/secondary_mac_auth/config/stay_connected_on_auth_failure_enabled (boolean)
+
+    YANG Description: Indicates whether stay connected feature is enabled for this SSID.
+    """
+    return self.__stay_connected_on_auth_failure_enabled
+      
+  def _set_stay_connected_on_auth_failure_enabled(self, v, load=False):
+    """
+    Setter method for stay_connected_on_auth_failure_enabled, mapped from YANG variable /access_points/access_point/ssids/ssid/secondary_mac_auth/config/stay_connected_on_auth_failure_enabled (boolean)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_stay_connected_on_auth_failure_enabled is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_stay_connected_on_auth_failure_enabled() directly.
+
+    YANG Description: Indicates whether stay connected feature is enabled for this SSID.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="stay-connected-on-auth-failure-enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """stay_connected_on_auth_failure_enabled must be of a type compatible with boolean""",
+          'defined-type': "boolean",
+          'generated-type': """YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="stay-connected-on-auth-failure-enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=True)""",
+        })
+
+    self.__stay_connected_on_auth_failure_enabled = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_stay_connected_on_auth_failure_enabled(self):
+    self.__stay_connected_on_auth_failure_enabled = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="stay-connected-on-auth-failure-enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=True)
+
+
+  def _get_failure_role(self):
+    """
+    Getter method for failure_role, mapped from YANG variable /access_points/access_point/ssids/ssid/secondary_mac_auth/config/failure_role (string)
+
+    YANG Description: Default role needs to be configured when secondary auth fails.
+    """
+    return self.__failure_role
+      
+  def _set_failure_role(self, v, load=False):
+    """
+    Setter method for failure_role, mapped from YANG variable /access_points/access_point/ssids/ssid/secondary_mac_auth/config/failure_role (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_failure_role is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_failure_role() directly.
+
+    YANG Description: Default role needs to be configured when secondary auth fails.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="failure-role", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """failure_role must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="failure-role", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)""",
+        })
+
+    self.__failure_role = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_failure_role(self):
+    self.__failure_role = YANGDynClass(base=str, is_leaf=True, yang_name="failure-role", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+
+
+  def _get_method(self):
+    """
+    Getter method for method, mapped from YANG variable /access_points/access_point/ssids/ssid/secondary_mac_auth/config/method (enumeration)
+
+    YANG Description: RADIUS MAC Authentication is the only currently supported method
+    """
+    return self.__method
+      
+  def _set_method(self, v, load=False):
+    """
+    Setter method for method, mapped from YANG variable /access_points/access_point/ssids/ssid/secondary_mac_auth/config/method (enumeration)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_method is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_method() directly.
+
+    YANG Description: RADIUS MAC Authentication is the only currently supported method
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'GOOGLE_INTEGRATION': {}, 'RADIUS_MAC_AUTHENTICATION': {}},), is_leaf=True, yang_name="method", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """method must be of a type compatible with enumeration""",
+          'defined-type': "arista-wifi-augments:enumeration",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'GOOGLE_INTEGRATION': {}, 'RADIUS_MAC_AUTHENTICATION': {}},), is_leaf=True, yang_name="method", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=True)""",
+        })
+
+    self.__method = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_method(self):
+    self.__method = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'GOOGLE_INTEGRATION': {}, 'RADIUS_MAC_AUTHENTICATION': {}},), is_leaf=True, yang_name="method", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=True)
+
+  stay_connected_on_auth_failure_enabled = __builtin__.property(_get_stay_connected_on_auth_failure_enabled, _set_stay_connected_on_auth_failure_enabled)
+  failure_role = __builtin__.property(_get_failure_role, _set_failure_role)
+  method = __builtin__.property(_get_method, _set_method)
+
+
+  _pyangbind_elements = OrderedDict([('stay_connected_on_auth_failure_enabled', stay_connected_on_auth_failure_enabled), ('failure_role', failure_role), ('method', method), ])
+
+
+class yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_secondary_mac_auth_state(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/ssids/ssid/secondary-mac-auth/state. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: State for secondary MAC authentication
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__stay_connected_on_auth_failure_enabled','__failure_role','__method',)
+
+  _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__stay_connected_on_auth_failure_enabled = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="stay-connected-on-auth-failure-enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=False)
+    self.__failure_role = YANGDynClass(base=str, is_leaf=True, yang_name="failure-role", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+    self.__method = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'GOOGLE_INTEGRATION': {}, 'RADIUS_MAC_AUTHENTICATION': {}},), is_leaf=True, yang_name="method", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'ssids', 'ssid', 'secondary-mac-auth', 'state']
+
+  def _get_stay_connected_on_auth_failure_enabled(self):
+    """
+    Getter method for stay_connected_on_auth_failure_enabled, mapped from YANG variable /access_points/access_point/ssids/ssid/secondary_mac_auth/state/stay_connected_on_auth_failure_enabled (boolean)
+
+    YANG Description: Indicates whether stay connected feature is enabled for this SSID.
+    """
+    return self.__stay_connected_on_auth_failure_enabled
+      
+  def _set_stay_connected_on_auth_failure_enabled(self, v, load=False):
+    """
+    Setter method for stay_connected_on_auth_failure_enabled, mapped from YANG variable /access_points/access_point/ssids/ssid/secondary_mac_auth/state/stay_connected_on_auth_failure_enabled (boolean)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_stay_connected_on_auth_failure_enabled is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_stay_connected_on_auth_failure_enabled() directly.
+
+    YANG Description: Indicates whether stay connected feature is enabled for this SSID.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="stay-connected-on-auth-failure-enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """stay_connected_on_auth_failure_enabled must be of a type compatible with boolean""",
+          'defined-type': "boolean",
+          'generated-type': """YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="stay-connected-on-auth-failure-enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=False)""",
+        })
+
+    self.__stay_connected_on_auth_failure_enabled = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_stay_connected_on_auth_failure_enabled(self):
+    self.__stay_connected_on_auth_failure_enabled = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="stay-connected-on-auth-failure-enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=False)
+
+
+  def _get_failure_role(self):
+    """
+    Getter method for failure_role, mapped from YANG variable /access_points/access_point/ssids/ssid/secondary_mac_auth/state/failure_role (string)
+
+    YANG Description: Default role needs to be configured when secondary auth fails.
+    """
+    return self.__failure_role
+      
+  def _set_failure_role(self, v, load=False):
+    """
+    Setter method for failure_role, mapped from YANG variable /access_points/access_point/ssids/ssid/secondary_mac_auth/state/failure_role (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_failure_role is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_failure_role() directly.
+
+    YANG Description: Default role needs to be configured when secondary auth fails.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="failure-role", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """failure_role must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="failure-role", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)""",
+        })
+
+    self.__failure_role = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_failure_role(self):
+    self.__failure_role = YANGDynClass(base=str, is_leaf=True, yang_name="failure-role", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+
+
+  def _get_method(self):
+    """
+    Getter method for method, mapped from YANG variable /access_points/access_point/ssids/ssid/secondary_mac_auth/state/method (enumeration)
+
+    YANG Description: RADIUS MAC Authentication is the only currently supported method
+    """
+    return self.__method
+      
+  def _set_method(self, v, load=False):
+    """
+    Setter method for method, mapped from YANG variable /access_points/access_point/ssids/ssid/secondary_mac_auth/state/method (enumeration)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_method is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_method() directly.
+
+    YANG Description: RADIUS MAC Authentication is the only currently supported method
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'GOOGLE_INTEGRATION': {}, 'RADIUS_MAC_AUTHENTICATION': {}},), is_leaf=True, yang_name="method", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """method must be of a type compatible with enumeration""",
+          'defined-type': "arista-wifi-augments:enumeration",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'GOOGLE_INTEGRATION': {}, 'RADIUS_MAC_AUTHENTICATION': {}},), is_leaf=True, yang_name="method", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=False)""",
+        })
+
+    self.__method = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_method(self):
+    self.__method = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'GOOGLE_INTEGRATION': {}, 'RADIUS_MAC_AUTHENTICATION': {}},), is_leaf=True, yang_name="method", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=False)
+
+  stay_connected_on_auth_failure_enabled = __builtin__.property(_get_stay_connected_on_auth_failure_enabled)
+  failure_role = __builtin__.property(_get_failure_role)
+  method = __builtin__.property(_get_method)
+
+
+  _pyangbind_elements = OrderedDict([('stay_connected_on_auth_failure_enabled', stay_connected_on_auth_failure_enabled), ('failure_role', failure_role), ('method', method), ])
+
+
+class yc_secondary_mac_auth_openconfig_access_points__access_points_access_point_ssids_ssid_secondary_mac_auth(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/ssids/ssid/secondary-mac-auth. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Contains all the fields required to configure secondary mac authentication
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
+
+  _yang_name = 'secondary-mac-auth'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__config = YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_ssids_ssid_secondary_mac_auth_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_secondary_mac_auth_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'ssids', 'ssid', 'secondary-mac-auth']
+
+  def _get_config(self):
+    """
+    Getter method for config, mapped from YANG variable /access_points/access_point/ssids/ssid/secondary_mac_auth/config (container)
+
+    YANG Description: Configuration for secondary MAC authentication
+    """
+    return self.__config
+      
+  def _set_config(self, v, load=False):
+    """
+    Setter method for config, mapped from YANG variable /access_points/access_point/ssids/ssid/secondary_mac_auth/config (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_config is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_config() directly.
+
+    YANG Description: Configuration for secondary MAC authentication
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_config_openconfig_access_points__access_points_access_point_ssids_ssid_secondary_mac_auth_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """config must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_ssids_ssid_secondary_mac_auth_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)""",
+        })
+
+    self.__config = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_config(self):
+    self.__config = YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_ssids_ssid_secondary_mac_auth_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+
+
+  def _get_state(self):
+    """
+    Getter method for state, mapped from YANG variable /access_points/access_point/ssids/ssid/secondary_mac_auth/state (container)
+
+    YANG Description: State for secondary MAC authentication
+    """
+    return self.__state
+      
+  def _set_state(self, v, load=False):
+    """
+    Setter method for state, mapped from YANG variable /access_points/access_point/ssids/ssid/secondary_mac_auth/state (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_state is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_state() directly.
+
+    YANG Description: State for secondary MAC authentication
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_secondary_mac_auth_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """state must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_secondary_mac_auth_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)""",
+        })
+
+    self.__state = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_state(self):
+    self.__state = YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_secondary_mac_auth_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)
+
+  config = __builtin__.property(_get_config, _set_config)
+  state = __builtin__.property(_get_state)
+
+
+  _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
+
+
+class yc_config_openconfig_access_points__access_points_access_point_ssids_ssid_radius_credential_config(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/ssids/ssid/radius-credential/config. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Configuration for RADIUS credentials
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__user_name','__password',)
+
+  _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__user_name = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'MAC_ADDRESS_WITHOUT_DELIMITER': {}, 'MAC_ADDRESS_WITH_HYPHEN': {}, 'MAC_ADDRESS_WITH_COLON': {}, 'MAC_ADDRESS_WITH_SINGLE_HYPHEN': {}},), is_leaf=True, yang_name="user-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=True)
+    self.__password = YANGDynClass(base=[RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'MAC_ADDRESS_WITHOUT_DELIMITER': {}, 'MAC_ADDRESS_WITH_HYPHEN': {}, 'MAC_ADDRESS_WITH_COLON': {}, 'MAC_ADDRESS_WITH_SINGLE_HYPHEN': {}},),RestrictedClassType(base_type=str, restriction_dict={'length': ['1..250']}),], is_leaf=True, yang_name="password", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='union', is_config=True)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'ssids', 'ssid', 'radius-credential', 'config']
+
+  def _get_user_name(self):
+    """
+    Getter method for user_name, mapped from YANG variable /access_points/access_point/ssids/ssid/radius_credential/config/user_name (enumeration)
+
+    YANG Description: Radius user name
+    """
+    return self.__user_name
+      
+  def _set_user_name(self, v, load=False):
+    """
+    Setter method for user_name, mapped from YANG variable /access_points/access_point/ssids/ssid/radius_credential/config/user_name (enumeration)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_user_name is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_user_name() directly.
+
+    YANG Description: Radius user name
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'MAC_ADDRESS_WITHOUT_DELIMITER': {}, 'MAC_ADDRESS_WITH_HYPHEN': {}, 'MAC_ADDRESS_WITH_COLON': {}, 'MAC_ADDRESS_WITH_SINGLE_HYPHEN': {}},), is_leaf=True, yang_name="user-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """user_name must be of a type compatible with enumeration""",
+          'defined-type': "arista-wifi-augments:enumeration",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'MAC_ADDRESS_WITHOUT_DELIMITER': {}, 'MAC_ADDRESS_WITH_HYPHEN': {}, 'MAC_ADDRESS_WITH_COLON': {}, 'MAC_ADDRESS_WITH_SINGLE_HYPHEN': {}},), is_leaf=True, yang_name="user-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=True)""",
+        })
+
+    self.__user_name = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_user_name(self):
+    self.__user_name = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'MAC_ADDRESS_WITHOUT_DELIMITER': {}, 'MAC_ADDRESS_WITH_HYPHEN': {}, 'MAC_ADDRESS_WITH_COLON': {}, 'MAC_ADDRESS_WITH_SINGLE_HYPHEN': {}},), is_leaf=True, yang_name="user-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=True)
+
+
+  def _get_password(self):
+    """
+    Getter method for password, mapped from YANG variable /access_points/access_point/ssids/ssid/radius_credential/config/password (union)
+
+    YANG Description: Radius password - can be a MAC address format or a custom string
+    """
+    return self.__password
+      
+  def _set_password(self, v, load=False):
+    """
+    Setter method for password, mapped from YANG variable /access_points/access_point/ssids/ssid/radius_credential/config/password (union)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_password is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_password() directly.
+
+    YANG Description: Radius password - can be a MAC address format or a custom string
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=[RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'MAC_ADDRESS_WITHOUT_DELIMITER': {}, 'MAC_ADDRESS_WITH_HYPHEN': {}, 'MAC_ADDRESS_WITH_COLON': {}, 'MAC_ADDRESS_WITH_SINGLE_HYPHEN': {}},),RestrictedClassType(base_type=str, restriction_dict={'length': ['1..250']}),], is_leaf=True, yang_name="password", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='union', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """password must be of a type compatible with union""",
+          'defined-type': "arista-wifi-augments:union",
+          'generated-type': """YANGDynClass(base=[RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'MAC_ADDRESS_WITHOUT_DELIMITER': {}, 'MAC_ADDRESS_WITH_HYPHEN': {}, 'MAC_ADDRESS_WITH_COLON': {}, 'MAC_ADDRESS_WITH_SINGLE_HYPHEN': {}},),RestrictedClassType(base_type=str, restriction_dict={'length': ['1..250']}),], is_leaf=True, yang_name="password", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='union', is_config=True)""",
+        })
+
+    self.__password = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_password(self):
+    self.__password = YANGDynClass(base=[RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'MAC_ADDRESS_WITHOUT_DELIMITER': {}, 'MAC_ADDRESS_WITH_HYPHEN': {}, 'MAC_ADDRESS_WITH_COLON': {}, 'MAC_ADDRESS_WITH_SINGLE_HYPHEN': {}},),RestrictedClassType(base_type=str, restriction_dict={'length': ['1..250']}),], is_leaf=True, yang_name="password", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='union', is_config=True)
+
+  user_name = __builtin__.property(_get_user_name, _set_user_name)
+  password = __builtin__.property(_get_password, _set_password)
+
+
+  _pyangbind_elements = OrderedDict([('user_name', user_name), ('password', password), ])
+
+
+class yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_radius_credential_state(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/ssids/ssid/radius-credential/state. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: State for RADIUS credentials
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__user_name','__password',)
+
+  _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__user_name = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'MAC_ADDRESS_WITHOUT_DELIMITER': {}, 'MAC_ADDRESS_WITH_HYPHEN': {}, 'MAC_ADDRESS_WITH_COLON': {}, 'MAC_ADDRESS_WITH_SINGLE_HYPHEN': {}},), is_leaf=True, yang_name="user-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=False)
+    self.__password = YANGDynClass(base=[RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'MAC_ADDRESS_WITHOUT_DELIMITER': {}, 'MAC_ADDRESS_WITH_HYPHEN': {}, 'MAC_ADDRESS_WITH_COLON': {}, 'MAC_ADDRESS_WITH_SINGLE_HYPHEN': {}},),RestrictedClassType(base_type=str, restriction_dict={'length': ['1..250']}),], is_leaf=True, yang_name="password", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='union', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'ssids', 'ssid', 'radius-credential', 'state']
+
+  def _get_user_name(self):
+    """
+    Getter method for user_name, mapped from YANG variable /access_points/access_point/ssids/ssid/radius_credential/state/user_name (enumeration)
+
+    YANG Description: Radius user name
+    """
+    return self.__user_name
+      
+  def _set_user_name(self, v, load=False):
+    """
+    Setter method for user_name, mapped from YANG variable /access_points/access_point/ssids/ssid/radius_credential/state/user_name (enumeration)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_user_name is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_user_name() directly.
+
+    YANG Description: Radius user name
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'MAC_ADDRESS_WITHOUT_DELIMITER': {}, 'MAC_ADDRESS_WITH_HYPHEN': {}, 'MAC_ADDRESS_WITH_COLON': {}, 'MAC_ADDRESS_WITH_SINGLE_HYPHEN': {}},), is_leaf=True, yang_name="user-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """user_name must be of a type compatible with enumeration""",
+          'defined-type': "arista-wifi-augments:enumeration",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'MAC_ADDRESS_WITHOUT_DELIMITER': {}, 'MAC_ADDRESS_WITH_HYPHEN': {}, 'MAC_ADDRESS_WITH_COLON': {}, 'MAC_ADDRESS_WITH_SINGLE_HYPHEN': {}},), is_leaf=True, yang_name="user-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=False)""",
+        })
+
+    self.__user_name = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_user_name(self):
+    self.__user_name = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'MAC_ADDRESS_WITHOUT_DELIMITER': {}, 'MAC_ADDRESS_WITH_HYPHEN': {}, 'MAC_ADDRESS_WITH_COLON': {}, 'MAC_ADDRESS_WITH_SINGLE_HYPHEN': {}},), is_leaf=True, yang_name="user-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=False)
+
+
+  def _get_password(self):
+    """
+    Getter method for password, mapped from YANG variable /access_points/access_point/ssids/ssid/radius_credential/state/password (union)
+
+    YANG Description: Radius password - can be a MAC address format or a custom string
+    """
+    return self.__password
+      
+  def _set_password(self, v, load=False):
+    """
+    Setter method for password, mapped from YANG variable /access_points/access_point/ssids/ssid/radius_credential/state/password (union)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_password is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_password() directly.
+
+    YANG Description: Radius password - can be a MAC address format or a custom string
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=[RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'MAC_ADDRESS_WITHOUT_DELIMITER': {}, 'MAC_ADDRESS_WITH_HYPHEN': {}, 'MAC_ADDRESS_WITH_COLON': {}, 'MAC_ADDRESS_WITH_SINGLE_HYPHEN': {}},),RestrictedClassType(base_type=str, restriction_dict={'length': ['1..250']}),], is_leaf=True, yang_name="password", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='union', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """password must be of a type compatible with union""",
+          'defined-type': "arista-wifi-augments:union",
+          'generated-type': """YANGDynClass(base=[RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'MAC_ADDRESS_WITHOUT_DELIMITER': {}, 'MAC_ADDRESS_WITH_HYPHEN': {}, 'MAC_ADDRESS_WITH_COLON': {}, 'MAC_ADDRESS_WITH_SINGLE_HYPHEN': {}},),RestrictedClassType(base_type=str, restriction_dict={'length': ['1..250']}),], is_leaf=True, yang_name="password", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='union', is_config=False)""",
+        })
+
+    self.__password = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_password(self):
+    self.__password = YANGDynClass(base=[RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'MAC_ADDRESS_WITHOUT_DELIMITER': {}, 'MAC_ADDRESS_WITH_HYPHEN': {}, 'MAC_ADDRESS_WITH_COLON': {}, 'MAC_ADDRESS_WITH_SINGLE_HYPHEN': {}},),RestrictedClassType(base_type=str, restriction_dict={'length': ['1..250']}),], is_leaf=True, yang_name="password", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='union', is_config=False)
+
+  user_name = __builtin__.property(_get_user_name)
+  password = __builtin__.property(_get_password)
+
+
+  _pyangbind_elements = OrderedDict([('user_name', user_name), ('password', password), ])
+
+
+class yc_radius_credential_openconfig_access_points__access_points_access_point_ssids_ssid_radius_credential(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/ssids/ssid/radius-credential. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Contains user credentials to be used on RADIUS auth server.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
+
+  _yang_name = 'radius-credential'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__config = YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_ssids_ssid_radius_credential_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_radius_credential_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'ssids', 'ssid', 'radius-credential']
+
+  def _get_config(self):
+    """
+    Getter method for config, mapped from YANG variable /access_points/access_point/ssids/ssid/radius_credential/config (container)
+
+    YANG Description: Configuration for RADIUS credentials
+    """
+    return self.__config
+      
+  def _set_config(self, v, load=False):
+    """
+    Setter method for config, mapped from YANG variable /access_points/access_point/ssids/ssid/radius_credential/config (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_config is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_config() directly.
+
+    YANG Description: Configuration for RADIUS credentials
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_config_openconfig_access_points__access_points_access_point_ssids_ssid_radius_credential_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """config must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_ssids_ssid_radius_credential_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)""",
+        })
+
+    self.__config = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_config(self):
+    self.__config = YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_ssids_ssid_radius_credential_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+
+
+  def _get_state(self):
+    """
+    Getter method for state, mapped from YANG variable /access_points/access_point/ssids/ssid/radius_credential/state (container)
+
+    YANG Description: State for RADIUS credentials
+    """
+    return self.__state
+      
+  def _set_state(self, v, load=False):
+    """
+    Setter method for state, mapped from YANG variable /access_points/access_point/ssids/ssid/radius_credential/state (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_state is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_state() directly.
+
+    YANG Description: State for RADIUS credentials
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_radius_credential_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """state must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_radius_credential_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)""",
+        })
+
+    self.__state = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_state(self):
+    self.__state = YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_radius_credential_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)
+
+  config = __builtin__.property(_get_config, _set_config)
+  state = __builtin__.property(_get_state)
+
+
+  _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
+
+
+class yc_config_openconfig_access_points__access_points_access_point_ssids_ssid_upsk_config(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/ssids/ssid/upsk/config. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Configuration for UPSK
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__user_private_network','__identity_lookup',)
+
+  _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__user_private_network = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="user-private-network", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=True)
+    self.__identity_lookup = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="identity-lookup", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=True)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'ssids', 'ssid', 'upsk', 'config']
+
+  def _get_user_private_network(self):
+    """
+    Getter method for user_private_network, mapped from YANG variable /access_points/access_point/ssids/ssid/upsk/config/user_private_network (boolean)
+
+    YANG Description: Enable UPSK isolation to generate unique PSKs for each user's devices and implement the isolation according to PSK
+    """
+    return self.__user_private_network
+      
+  def _set_user_private_network(self, v, load=False):
+    """
+    Setter method for user_private_network, mapped from YANG variable /access_points/access_point/ssids/ssid/upsk/config/user_private_network (boolean)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_user_private_network is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_user_private_network() directly.
+
+    YANG Description: Enable UPSK isolation to generate unique PSKs for each user's devices and implement the isolation according to PSK
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="user-private-network", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """user_private_network must be of a type compatible with boolean""",
+          'defined-type': "boolean",
+          'generated-type': """YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="user-private-network", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=True)""",
+        })
+
+    self.__user_private_network = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_user_private_network(self):
+    self.__user_private_network = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="user-private-network", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=True)
+
+
+  def _get_identity_lookup(self):
+    """
+    Getter method for identity_lookup, mapped from YANG variable /access_points/access_point/ssids/ssid/upsk/config/identity_lookup (boolean)
+
+    YANG Description: Enable this setting to auto register a new client using the generated UPSK password
+    """
+    return self.__identity_lookup
+      
+  def _set_identity_lookup(self, v, load=False):
+    """
+    Setter method for identity_lookup, mapped from YANG variable /access_points/access_point/ssids/ssid/upsk/config/identity_lookup (boolean)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_identity_lookup is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_identity_lookup() directly.
+
+    YANG Description: Enable this setting to auto register a new client using the generated UPSK password
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="identity-lookup", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """identity_lookup must be of a type compatible with boolean""",
+          'defined-type': "boolean",
+          'generated-type': """YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="identity-lookup", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=True)""",
+        })
+
+    self.__identity_lookup = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_identity_lookup(self):
+    self.__identity_lookup = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="identity-lookup", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=True)
+
+  user_private_network = __builtin__.property(_get_user_private_network, _set_user_private_network)
+  identity_lookup = __builtin__.property(_get_identity_lookup, _set_identity_lookup)
+
+
+  _pyangbind_elements = OrderedDict([('user_private_network', user_private_network), ('identity_lookup', identity_lookup), ])
+
+
+class yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_upsk_state(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/ssids/ssid/upsk/state. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: State for UPSK
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__user_private_network','__identity_lookup',)
+
+  _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__user_private_network = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="user-private-network", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=False)
+    self.__identity_lookup = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="identity-lookup", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'ssids', 'ssid', 'upsk', 'state']
+
+  def _get_user_private_network(self):
+    """
+    Getter method for user_private_network, mapped from YANG variable /access_points/access_point/ssids/ssid/upsk/state/user_private_network (boolean)
+
+    YANG Description: Enable UPSK isolation to generate unique PSKs for each user's devices and implement the isolation according to PSK
+    """
+    return self.__user_private_network
+      
+  def _set_user_private_network(self, v, load=False):
+    """
+    Setter method for user_private_network, mapped from YANG variable /access_points/access_point/ssids/ssid/upsk/state/user_private_network (boolean)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_user_private_network is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_user_private_network() directly.
+
+    YANG Description: Enable UPSK isolation to generate unique PSKs for each user's devices and implement the isolation according to PSK
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="user-private-network", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """user_private_network must be of a type compatible with boolean""",
+          'defined-type': "boolean",
+          'generated-type': """YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="user-private-network", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=False)""",
+        })
+
+    self.__user_private_network = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_user_private_network(self):
+    self.__user_private_network = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="user-private-network", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=False)
+
+
+  def _get_identity_lookup(self):
+    """
+    Getter method for identity_lookup, mapped from YANG variable /access_points/access_point/ssids/ssid/upsk/state/identity_lookup (boolean)
+
+    YANG Description: Enable this setting to auto register a new client using the generated UPSK password
+    """
+    return self.__identity_lookup
+      
+  def _set_identity_lookup(self, v, load=False):
+    """
+    Setter method for identity_lookup, mapped from YANG variable /access_points/access_point/ssids/ssid/upsk/state/identity_lookup (boolean)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_identity_lookup is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_identity_lookup() directly.
+
+    YANG Description: Enable this setting to auto register a new client using the generated UPSK password
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="identity-lookup", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """identity_lookup must be of a type compatible with boolean""",
+          'defined-type': "boolean",
+          'generated-type': """YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="identity-lookup", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=False)""",
+        })
+
+    self.__identity_lookup = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_identity_lookup(self):
+    self.__identity_lookup = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="identity-lookup", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=False)
+
+  user_private_network = __builtin__.property(_get_user_private_network)
+  identity_lookup = __builtin__.property(_get_identity_lookup)
+
+
+  _pyangbind_elements = OrderedDict([('user_private_network', user_private_network), ('identity_lookup', identity_lookup), ])
+
+
+class yc_upsk_openconfig_access_points__access_points_access_point_ssids_ssid_upsk(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/ssids/ssid/upsk. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Contains UPSK and UPSK isolation feature attributes
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
+
+  _yang_name = 'upsk'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__config = YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_ssids_ssid_upsk_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_upsk_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'ssids', 'ssid', 'upsk']
+
+  def _get_config(self):
+    """
+    Getter method for config, mapped from YANG variable /access_points/access_point/ssids/ssid/upsk/config (container)
+
+    YANG Description: Configuration for UPSK
+    """
+    return self.__config
+      
+  def _set_config(self, v, load=False):
+    """
+    Setter method for config, mapped from YANG variable /access_points/access_point/ssids/ssid/upsk/config (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_config is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_config() directly.
+
+    YANG Description: Configuration for UPSK
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_config_openconfig_access_points__access_points_access_point_ssids_ssid_upsk_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """config must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_ssids_ssid_upsk_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)""",
+        })
+
+    self.__config = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_config(self):
+    self.__config = YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_ssids_ssid_upsk_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+
+
+  def _get_state(self):
+    """
+    Getter method for state, mapped from YANG variable /access_points/access_point/ssids/ssid/upsk/state (container)
+
+    YANG Description: State for UPSK
+    """
+    return self.__state
+      
+  def _set_state(self, v, load=False):
+    """
+    Setter method for state, mapped from YANG variable /access_points/access_point/ssids/ssid/upsk/state (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_state is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_state() directly.
+
+    YANG Description: State for UPSK
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_upsk_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """state must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_upsk_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)""",
+        })
+
+    self.__state = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_state(self):
+    self.__state = YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_upsk_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)
+
+  config = __builtin__.property(_get_config, _set_config)
+  state = __builtin__.property(_get_state)
+
+
+  _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
+
+
+class yc_config_openconfig_access_points__access_points_access_point_ssids_ssid_role_configs_role_config_config(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/ssids/ssid/role-configs/role-config/config. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Config container for role configuration
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__id','__rule_type','__vendor_id','__attribute_id','__operand','__value','__role_name',)
+
+  _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__id = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=True)
+    self.__rule_type = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'IEEE802_1x_Default_VSA': {}, 'IEEE802_1x_Custom_VSA': {}},), is_leaf=True, yang_name="rule-type", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=True)
+    self.__vendor_id = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), default=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32)(16901), is_leaf=True, yang_name="vendor-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=True)
+    self.__attribute_id = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), default=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32)(7), is_leaf=True, yang_name="attribute-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=True)
+    self.__operand = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'MATCH': {}, 'CONTAINS': {}, 'EQUALS': {}},), is_leaf=True, yang_name="operand", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=True)
+    self.__value = YANGDynClass(base=str, is_leaf=True, yang_name="value", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+    self.__role_name = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_dict={'length': ['1..64']}), is_leaf=True, yang_name="role-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'ssids', 'ssid', 'role-configs', 'role-config', 'config']
+
+  def _get_id(self):
+    """
+    Getter method for id, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/config/id (uint32)
+
+    YANG Description: Unique ID used as reference for the role profile configuration
+    """
+    return self.__id
+      
+  def _set_id(self, v, load=False):
+    """
+    Setter method for id, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/config/id (uint32)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_id is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_id() directly.
+
+    YANG Description: Unique ID used as reference for the role profile configuration
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """id must be of a type compatible with uint32""",
+          'defined-type': "uint32",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=True)""",
+        })
+
+    self.__id = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_id(self):
+    self.__id = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=True)
+
+
+  def _get_rule_type(self):
+    """
+    Getter method for rule_type, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/config/rule_type (enumeration)
+
+    YANG Description: Type of the rule.
+    """
+    return self.__rule_type
+      
+  def _set_rule_type(self, v, load=False):
+    """
+    Setter method for rule_type, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/config/rule_type (enumeration)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_rule_type is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_rule_type() directly.
+
+    YANG Description: Type of the rule.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'IEEE802_1x_Default_VSA': {}, 'IEEE802_1x_Custom_VSA': {}},), is_leaf=True, yang_name="rule-type", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """rule_type must be of a type compatible with enumeration""",
+          'defined-type': "arista-wifi-augments:enumeration",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'IEEE802_1x_Default_VSA': {}, 'IEEE802_1x_Custom_VSA': {}},), is_leaf=True, yang_name="rule-type", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=True)""",
+        })
+
+    self.__rule_type = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_rule_type(self):
+    self.__rule_type = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'IEEE802_1x_Default_VSA': {}, 'IEEE802_1x_Custom_VSA': {}},), is_leaf=True, yang_name="rule-type", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=True)
+
+
+  def _get_vendor_id(self):
+    """
+    Getter method for vendor_id, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/config/vendor_id (uint32)
+
+    YANG Description: Vendor ID for custom VSA (required when rule-type is IEEE802_1x_Custom_VSA)
+    """
+    return self.__vendor_id
+      
+  def _set_vendor_id(self, v, load=False):
+    """
+    Setter method for vendor_id, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/config/vendor_id (uint32)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_vendor_id is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_vendor_id() directly.
+
+    YANG Description: Vendor ID for custom VSA (required when rule-type is IEEE802_1x_Custom_VSA)
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), default=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32)(16901), is_leaf=True, yang_name="vendor-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """vendor_id must be of a type compatible with uint32""",
+          'defined-type': "uint32",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), default=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32)(16901), is_leaf=True, yang_name="vendor-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=True)""",
+        })
+
+    self.__vendor_id = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_vendor_id(self):
+    self.__vendor_id = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), default=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32)(16901), is_leaf=True, yang_name="vendor-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=True)
+
+
+  def _get_attribute_id(self):
+    """
+    Getter method for attribute_id, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/config/attribute_id (uint32)
+
+    YANG Description: Attribute ID for custom VSA (required when rule-type is IEEE802_1x_Custom_VSA)
+    """
+    return self.__attribute_id
+      
+  def _set_attribute_id(self, v, load=False):
+    """
+    Setter method for attribute_id, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/config/attribute_id (uint32)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_attribute_id is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_attribute_id() directly.
+
+    YANG Description: Attribute ID for custom VSA (required when rule-type is IEEE802_1x_Custom_VSA)
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), default=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32)(7), is_leaf=True, yang_name="attribute-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """attribute_id must be of a type compatible with uint32""",
+          'defined-type': "uint32",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), default=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32)(7), is_leaf=True, yang_name="attribute-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=True)""",
+        })
+
+    self.__attribute_id = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_attribute_id(self):
+    self.__attribute_id = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), default=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32)(7), is_leaf=True, yang_name="attribute-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=True)
+
+
+  def _get_operand(self):
+    """
+    Getter method for operand, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/config/operand (enumeration)
+
+    YANG Description: Operand to apply for evaluation.
+    """
+    return self.__operand
+      
+  def _set_operand(self, v, load=False):
+    """
+    Setter method for operand, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/config/operand (enumeration)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_operand is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_operand() directly.
+
+    YANG Description: Operand to apply for evaluation.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'MATCH': {}, 'CONTAINS': {}, 'EQUALS': {}},), is_leaf=True, yang_name="operand", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """operand must be of a type compatible with enumeration""",
+          'defined-type': "arista-wifi-augments:enumeration",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'MATCH': {}, 'CONTAINS': {}, 'EQUALS': {}},), is_leaf=True, yang_name="operand", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=True)""",
+        })
+
+    self.__operand = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_operand(self):
+    self.__operand = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'MATCH': {}, 'CONTAINS': {}, 'EQUALS': {}},), is_leaf=True, yang_name="operand", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=True)
+
+
+  def _get_value(self):
+    """
+    Getter method for value, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/config/value (string)
+
+    YANG Description: Value to be checked. Can represent string, number, or other based on rule type.
+    """
+    return self.__value
+      
+  def _set_value(self, v, load=False):
+    """
+    Setter method for value, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/config/value (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_value is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_value() directly.
+
+    YANG Description: Value to be checked. Can represent string, number, or other based on rule type.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="value", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """value must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="value", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)""",
+        })
+
+    self.__value = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_value(self):
+    self.__value = YANGDynClass(base=str, is_leaf=True, yang_name="value", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+
+
+  def _get_role_name(self):
+    """
+    Getter method for role_name, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/config/role_name (string)
+
+    YANG Description: Name of the role associated with this rule.
+    """
+    return self.__role_name
+      
+  def _set_role_name(self, v, load=False):
+    """
+    Setter method for role_name, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/config/role_name (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_role_name is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_role_name() directly.
+
+    YANG Description: Name of the role associated with this rule.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=str, restriction_dict={'length': ['1..64']}), is_leaf=True, yang_name="role-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """role_name must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=str, restriction_dict={'length': ['1..64']}), is_leaf=True, yang_name="role-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)""",
+        })
+
+    self.__role_name = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_role_name(self):
+    self.__role_name = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_dict={'length': ['1..64']}), is_leaf=True, yang_name="role-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+
+  id = __builtin__.property(_get_id, _set_id)
+  rule_type = __builtin__.property(_get_rule_type, _set_rule_type)
+  vendor_id = __builtin__.property(_get_vendor_id, _set_vendor_id)
+  attribute_id = __builtin__.property(_get_attribute_id, _set_attribute_id)
+  operand = __builtin__.property(_get_operand, _set_operand)
+  value = __builtin__.property(_get_value, _set_value)
+  role_name = __builtin__.property(_get_role_name, _set_role_name)
+
+
+  _pyangbind_elements = OrderedDict([('id', id), ('rule_type', rule_type), ('vendor_id', vendor_id), ('attribute_id', attribute_id), ('operand', operand), ('value', value), ('role_name', role_name), ])
+
+
+class yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_role_configs_role_config_state(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/ssids/ssid/role-configs/role-config/state. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: State container for role configuration
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__id','__rule_type','__vendor_id','__attribute_id','__operand','__value','__role_name',)
+
+  _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__id = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=False)
+    self.__rule_type = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'IEEE802_1x_Default_VSA': {}, 'IEEE802_1x_Custom_VSA': {}},), is_leaf=True, yang_name="rule-type", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=False)
+    self.__vendor_id = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), default=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32)(16901), is_leaf=True, yang_name="vendor-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=False)
+    self.__attribute_id = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), default=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32)(7), is_leaf=True, yang_name="attribute-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=False)
+    self.__operand = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'MATCH': {}, 'CONTAINS': {}, 'EQUALS': {}},), is_leaf=True, yang_name="operand", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=False)
+    self.__value = YANGDynClass(base=str, is_leaf=True, yang_name="value", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+    self.__role_name = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_dict={'length': ['1..64']}), is_leaf=True, yang_name="role-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'ssids', 'ssid', 'role-configs', 'role-config', 'state']
+
+  def _get_id(self):
+    """
+    Getter method for id, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/state/id (uint32)
+
+    YANG Description: Unique ID used as reference for the role profile configuration
+    """
+    return self.__id
+      
+  def _set_id(self, v, load=False):
+    """
+    Setter method for id, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/state/id (uint32)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_id is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_id() directly.
+
+    YANG Description: Unique ID used as reference for the role profile configuration
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """id must be of a type compatible with uint32""",
+          'defined-type': "uint32",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=False)""",
+        })
+
+    self.__id = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_id(self):
+    self.__id = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=False)
+
+
+  def _get_rule_type(self):
+    """
+    Getter method for rule_type, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/state/rule_type (enumeration)
+
+    YANG Description: Type of the rule.
+    """
+    return self.__rule_type
+      
+  def _set_rule_type(self, v, load=False):
+    """
+    Setter method for rule_type, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/state/rule_type (enumeration)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_rule_type is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_rule_type() directly.
+
+    YANG Description: Type of the rule.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'IEEE802_1x_Default_VSA': {}, 'IEEE802_1x_Custom_VSA': {}},), is_leaf=True, yang_name="rule-type", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """rule_type must be of a type compatible with enumeration""",
+          'defined-type': "arista-wifi-augments:enumeration",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'IEEE802_1x_Default_VSA': {}, 'IEEE802_1x_Custom_VSA': {}},), is_leaf=True, yang_name="rule-type", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=False)""",
+        })
+
+    self.__rule_type = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_rule_type(self):
+    self.__rule_type = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'IEEE802_1x_Default_VSA': {}, 'IEEE802_1x_Custom_VSA': {}},), is_leaf=True, yang_name="rule-type", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=False)
+
+
+  def _get_vendor_id(self):
+    """
+    Getter method for vendor_id, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/state/vendor_id (uint32)
+
+    YANG Description: Vendor ID for custom VSA (required when rule-type is IEEE802_1x_Custom_VSA)
+    """
+    return self.__vendor_id
+      
+  def _set_vendor_id(self, v, load=False):
+    """
+    Setter method for vendor_id, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/state/vendor_id (uint32)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_vendor_id is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_vendor_id() directly.
+
+    YANG Description: Vendor ID for custom VSA (required when rule-type is IEEE802_1x_Custom_VSA)
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), default=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32)(16901), is_leaf=True, yang_name="vendor-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """vendor_id must be of a type compatible with uint32""",
+          'defined-type': "uint32",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), default=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32)(16901), is_leaf=True, yang_name="vendor-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=False)""",
+        })
+
+    self.__vendor_id = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_vendor_id(self):
+    self.__vendor_id = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), default=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32)(16901), is_leaf=True, yang_name="vendor-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=False)
+
+
+  def _get_attribute_id(self):
+    """
+    Getter method for attribute_id, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/state/attribute_id (uint32)
+
+    YANG Description: Attribute ID for custom VSA (required when rule-type is IEEE802_1x_Custom_VSA)
+    """
+    return self.__attribute_id
+      
+  def _set_attribute_id(self, v, load=False):
+    """
+    Setter method for attribute_id, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/state/attribute_id (uint32)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_attribute_id is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_attribute_id() directly.
+
+    YANG Description: Attribute ID for custom VSA (required when rule-type is IEEE802_1x_Custom_VSA)
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), default=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32)(7), is_leaf=True, yang_name="attribute-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """attribute_id must be of a type compatible with uint32""",
+          'defined-type': "uint32",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), default=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32)(7), is_leaf=True, yang_name="attribute-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=False)""",
+        })
+
+    self.__attribute_id = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_attribute_id(self):
+    self.__attribute_id = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), default=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32)(7), is_leaf=True, yang_name="attribute-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=False)
+
+
+  def _get_operand(self):
+    """
+    Getter method for operand, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/state/operand (enumeration)
+
+    YANG Description: Operand to apply for evaluation.
+    """
+    return self.__operand
+      
+  def _set_operand(self, v, load=False):
+    """
+    Setter method for operand, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/state/operand (enumeration)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_operand is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_operand() directly.
+
+    YANG Description: Operand to apply for evaluation.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'MATCH': {}, 'CONTAINS': {}, 'EQUALS': {}},), is_leaf=True, yang_name="operand", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """operand must be of a type compatible with enumeration""",
+          'defined-type': "arista-wifi-augments:enumeration",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'MATCH': {}, 'CONTAINS': {}, 'EQUALS': {}},), is_leaf=True, yang_name="operand", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=False)""",
+        })
+
+    self.__operand = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_operand(self):
+    self.__operand = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'MATCH': {}, 'CONTAINS': {}, 'EQUALS': {}},), is_leaf=True, yang_name="operand", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=False)
+
+
+  def _get_value(self):
+    """
+    Getter method for value, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/state/value (string)
+
+    YANG Description: Value to be checked. Can represent string, number, or other based on rule type.
+    """
+    return self.__value
+      
+  def _set_value(self, v, load=False):
+    """
+    Setter method for value, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/state/value (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_value is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_value() directly.
+
+    YANG Description: Value to be checked. Can represent string, number, or other based on rule type.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="value", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """value must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="value", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)""",
+        })
+
+    self.__value = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_value(self):
+    self.__value = YANGDynClass(base=str, is_leaf=True, yang_name="value", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+
+
+  def _get_role_name(self):
+    """
+    Getter method for role_name, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/state/role_name (string)
+
+    YANG Description: Name of the role associated with this rule.
+    """
+    return self.__role_name
+      
+  def _set_role_name(self, v, load=False):
+    """
+    Setter method for role_name, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/state/role_name (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_role_name is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_role_name() directly.
+
+    YANG Description: Name of the role associated with this rule.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=str, restriction_dict={'length': ['1..64']}), is_leaf=True, yang_name="role-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """role_name must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=str, restriction_dict={'length': ['1..64']}), is_leaf=True, yang_name="role-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)""",
+        })
+
+    self.__role_name = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_role_name(self):
+    self.__role_name = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_dict={'length': ['1..64']}), is_leaf=True, yang_name="role-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+
+  id = __builtin__.property(_get_id)
+  rule_type = __builtin__.property(_get_rule_type)
+  vendor_id = __builtin__.property(_get_vendor_id)
+  attribute_id = __builtin__.property(_get_attribute_id)
+  operand = __builtin__.property(_get_operand)
+  value = __builtin__.property(_get_value)
+  role_name = __builtin__.property(_get_role_name)
+
+
+  _pyangbind_elements = OrderedDict([('id', id), ('rule_type', rule_type), ('vendor_id', vendor_id), ('attribute_id', attribute_id), ('operand', operand), ('value', value), ('role_name', role_name), ])
+
+
+class yc_role_config_openconfig_access_points__access_points_access_point_ssids_ssid_role_configs_role_config(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/ssids/ssid/role-configs/role-config. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: List of role configurations
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__id','__config','__state',)
+
+  _yang_name = 'role-config'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__id = YANGDynClass(base=str, is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='leafref', is_config=True)
+    self.__config = YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_ssids_ssid_role_configs_role_config_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_role_configs_role_config_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'ssids', 'ssid', 'role-configs', 'role-config']
+
+  def _get_id(self):
+    """
+    Getter method for id, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/id (leafref)
+
+    YANG Description: Each role config is key'd by a unique ID.
+    """
+    return self.__id
+      
+  def _set_id(self, v, load=False):
+    """
+    Setter method for id, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/id (leafref)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_id is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_id() directly.
+
+    YANG Description: Each role config is key'd by a unique ID.
+    """
+    parent = getattr(self, "_parent", None)
+    if parent is not None and load is False:
+      raise AttributeError("Cannot set keys directly when" +
+                             " within an instantiated list")
+
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='leafref', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """id must be of a type compatible with leafref""",
+          'defined-type': "leafref",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='leafref', is_config=True)""",
+        })
+
+    self.__id = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_id(self):
+    self.__id = YANGDynClass(base=str, is_leaf=True, yang_name="id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='leafref', is_config=True)
+
+
+  def _get_config(self):
+    """
+    Getter method for config, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/config (container)
+
+    YANG Description: Config container for role configuration
+    """
+    return self.__config
+      
+  def _set_config(self, v, load=False):
+    """
+    Setter method for config, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/config (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_config is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_config() directly.
+
+    YANG Description: Config container for role configuration
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_config_openconfig_access_points__access_points_access_point_ssids_ssid_role_configs_role_config_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """config must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_ssids_ssid_role_configs_role_config_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)""",
+        })
+
+    self.__config = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_config(self):
+    self.__config = YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_ssids_ssid_role_configs_role_config_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+
+
+  def _get_state(self):
+    """
+    Getter method for state, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/state (container)
+
+    YANG Description: State container for role configuration
+    """
+    return self.__state
+      
+  def _set_state(self, v, load=False):
+    """
+    Setter method for state, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config/state (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_state is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_state() directly.
+
+    YANG Description: State container for role configuration
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_role_configs_role_config_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """state must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_role_configs_role_config_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)""",
+        })
+
+    self.__state = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_state(self):
+    self.__state = YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_role_configs_role_config_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)
+
+  id = __builtin__.property(_get_id, _set_id)
+  config = __builtin__.property(_get_config, _set_config)
+  state = __builtin__.property(_get_state)
+
+
+  _pyangbind_elements = OrderedDict([('id', id), ('config', config), ('state', state), ])
+
+
+class yc_role_configs_openconfig_access_points__access_points_access_point_ssids_ssid_role_configs(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/ssids/ssid/role-configs. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Top level container for role configurations
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__role_config',)
+
+  _yang_name = 'role-configs'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__role_config = YANGDynClass(base=YANGListType("id",yc_role_config_openconfig_access_points__access_points_access_point_ssids_ssid_role_configs_role_config, yang_name="role-config", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='id', extensions=None), is_container='list', yang_name="role-config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='list', is_config=True)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'ssids', 'ssid', 'role-configs']
+
+  def _get_role_config(self):
+    """
+    Getter method for role_config, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config (list)
+
+    YANG Description: List of role configurations
+    """
+    return self.__role_config
+      
+  def _set_role_config(self, v, load=False):
+    """
+    Setter method for role_config, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs/role_config (list)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_role_config is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_role_config() directly.
+
+    YANG Description: List of role configurations
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGListType("id",yc_role_config_openconfig_access_points__access_points_access_point_ssids_ssid_role_configs_role_config, yang_name="role-config", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='id', extensions=None), is_container='list', yang_name="role-config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='list', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """role_config must be of a type compatible with list""",
+          'defined-type': "list",
+          'generated-type': """YANGDynClass(base=YANGListType("id",yc_role_config_openconfig_access_points__access_points_access_point_ssids_ssid_role_configs_role_config, yang_name="role-config", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='id', extensions=None), is_container='list', yang_name="role-config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='list', is_config=True)""",
+        })
+
+    self.__role_config = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_role_config(self):
+    self.__role_config = YANGDynClass(base=YANGListType("id",yc_role_config_openconfig_access_points__access_points_access_point_ssids_ssid_role_configs_role_config, yang_name="role-config", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='id', extensions=None), is_container='list', yang_name="role-config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='list', is_config=True)
+
+  role_config = __builtin__.property(_get_role_config, _set_role_config)
+
+
+  _pyangbind_elements = OrderedDict([('role_config', role_config), ])
+
+
 class yc_ssid_openconfig_access_points__access_points_access_point_ssids_ssid(PybindBase):
   """
   This class was auto-generated by the PythonClass plugin for PYANG
@@ -35577,7 +38261,7 @@ class yc_ssid_openconfig_access_points__access_points_access_point_ssids_ssid(Py
 
   YANG Description: The list of named SSIDs on the APs.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state','__bssids','__wmm','__dot11r','__dot11v','__clients','__dot1x_timers','__band_steering','__mlo',)
+  __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state','__bssids','__wmm','__dot11r','__dot11v','__clients','__dot1x_timers','__band_steering','__mlo','__secondary_mac_auth','__radius_credential','__upsk','__role_configs',)
 
   _yang_name = 'ssid'
   _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
@@ -35600,6 +38284,10 @@ class yc_ssid_openconfig_access_points__access_points_access_point_ssids_ssid(Py
     self.__dot1x_timers = YANGDynClass(base=yc_dot1x_timers_openconfig_access_points__access_points_access_point_ssids_ssid_dot1x_timers, is_container='container', yang_name="dot1x-timers", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='container', is_config=True)
     self.__band_steering = YANGDynClass(base=yc_band_steering_openconfig_access_points__access_points_access_point_ssids_ssid_band_steering, is_container='container', yang_name="band-steering", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='container', is_config=True)
     self.__mlo = YANGDynClass(base=yc_mlo_openconfig_access_points__access_points_access_point_ssids_ssid_mlo, is_container='container', yang_name="mlo", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='container', is_config=True)
+    self.__secondary_mac_auth = YANGDynClass(base=yc_secondary_mac_auth_openconfig_access_points__access_points_access_point_ssids_ssid_secondary_mac_auth, is_container='container', yang_name="secondary-mac-auth", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    self.__radius_credential = YANGDynClass(base=yc_radius_credential_openconfig_access_points__access_points_access_point_ssids_ssid_radius_credential, is_container='container', yang_name="radius-credential", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    self.__upsk = YANGDynClass(base=yc_upsk_openconfig_access_points__access_points_access_point_ssids_ssid_upsk, is_container='container', yang_name="upsk", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    self.__role_configs = YANGDynClass(base=yc_role_configs_openconfig_access_points__access_points_access_point_ssids_ssid_role_configs, is_container='container', yang_name="role-configs", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
 
     load = kwargs.pop("load", None)
     if args:
@@ -36051,6 +38739,154 @@ state container.
   def _unset_mlo(self):
     self.__mlo = YANGDynClass(base=yc_mlo_openconfig_access_points__access_points_access_point_ssids_ssid_mlo, is_container='container', yang_name="mlo", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='container', is_config=True)
 
+
+  def _get_secondary_mac_auth(self):
+    """
+    Getter method for secondary_mac_auth, mapped from YANG variable /access_points/access_point/ssids/ssid/secondary_mac_auth (container)
+
+    YANG Description: Contains all the fields required to configure secondary mac authentication
+    """
+    return self.__secondary_mac_auth
+      
+  def _set_secondary_mac_auth(self, v, load=False):
+    """
+    Setter method for secondary_mac_auth, mapped from YANG variable /access_points/access_point/ssids/ssid/secondary_mac_auth (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_secondary_mac_auth is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_secondary_mac_auth() directly.
+
+    YANG Description: Contains all the fields required to configure secondary mac authentication
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_secondary_mac_auth_openconfig_access_points__access_points_access_point_ssids_ssid_secondary_mac_auth, is_container='container', yang_name="secondary-mac-auth", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """secondary_mac_auth must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_secondary_mac_auth_openconfig_access_points__access_points_access_point_ssids_ssid_secondary_mac_auth, is_container='container', yang_name="secondary-mac-auth", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)""",
+        })
+
+    self.__secondary_mac_auth = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_secondary_mac_auth(self):
+    self.__secondary_mac_auth = YANGDynClass(base=yc_secondary_mac_auth_openconfig_access_points__access_points_access_point_ssids_ssid_secondary_mac_auth, is_container='container', yang_name="secondary-mac-auth", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+
+
+  def _get_radius_credential(self):
+    """
+    Getter method for radius_credential, mapped from YANG variable /access_points/access_point/ssids/ssid/radius_credential (container)
+
+    YANG Description: Contains user credentials to be used on RADIUS auth server.
+    """
+    return self.__radius_credential
+      
+  def _set_radius_credential(self, v, load=False):
+    """
+    Setter method for radius_credential, mapped from YANG variable /access_points/access_point/ssids/ssid/radius_credential (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_radius_credential is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_radius_credential() directly.
+
+    YANG Description: Contains user credentials to be used on RADIUS auth server.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_radius_credential_openconfig_access_points__access_points_access_point_ssids_ssid_radius_credential, is_container='container', yang_name="radius-credential", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """radius_credential must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_radius_credential_openconfig_access_points__access_points_access_point_ssids_ssid_radius_credential, is_container='container', yang_name="radius-credential", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)""",
+        })
+
+    self.__radius_credential = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_radius_credential(self):
+    self.__radius_credential = YANGDynClass(base=yc_radius_credential_openconfig_access_points__access_points_access_point_ssids_ssid_radius_credential, is_container='container', yang_name="radius-credential", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+
+
+  def _get_upsk(self):
+    """
+    Getter method for upsk, mapped from YANG variable /access_points/access_point/ssids/ssid/upsk (container)
+
+    YANG Description: Contains UPSK and UPSK isolation feature attributes
+    """
+    return self.__upsk
+      
+  def _set_upsk(self, v, load=False):
+    """
+    Setter method for upsk, mapped from YANG variable /access_points/access_point/ssids/ssid/upsk (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_upsk is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_upsk() directly.
+
+    YANG Description: Contains UPSK and UPSK isolation feature attributes
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_upsk_openconfig_access_points__access_points_access_point_ssids_ssid_upsk, is_container='container', yang_name="upsk", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """upsk must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_upsk_openconfig_access_points__access_points_access_point_ssids_ssid_upsk, is_container='container', yang_name="upsk", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)""",
+        })
+
+    self.__upsk = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_upsk(self):
+    self.__upsk = YANGDynClass(base=yc_upsk_openconfig_access_points__access_points_access_point_ssids_ssid_upsk, is_container='container', yang_name="upsk", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+
+
+  def _get_role_configs(self):
+    """
+    Getter method for role_configs, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs (container)
+
+    YANG Description: Top level container for role configurations
+    """
+    return self.__role_configs
+      
+  def _set_role_configs(self, v, load=False):
+    """
+    Setter method for role_configs, mapped from YANG variable /access_points/access_point/ssids/ssid/role_configs (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_role_configs is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_role_configs() directly.
+
+    YANG Description: Top level container for role configurations
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_role_configs_openconfig_access_points__access_points_access_point_ssids_ssid_role_configs, is_container='container', yang_name="role-configs", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """role_configs must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_role_configs_openconfig_access_points__access_points_access_point_ssids_ssid_role_configs, is_container='container', yang_name="role-configs", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)""",
+        })
+
+    self.__role_configs = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_role_configs(self):
+    self.__role_configs = YANGDynClass(base=yc_role_configs_openconfig_access_points__access_points_access_point_ssids_ssid_role_configs, is_container='container', yang_name="role-configs", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+
   name = __builtin__.property(_get_name, _set_name)
   config = __builtin__.property(_get_config, _set_config)
   state = __builtin__.property(_get_state)
@@ -36062,9 +38898,13 @@ state container.
   dot1x_timers = __builtin__.property(_get_dot1x_timers, _set_dot1x_timers)
   band_steering = __builtin__.property(_get_band_steering, _set_band_steering)
   mlo = __builtin__.property(_get_mlo, _set_mlo)
+  secondary_mac_auth = __builtin__.property(_get_secondary_mac_auth, _set_secondary_mac_auth)
+  radius_credential = __builtin__.property(_get_radius_credential, _set_radius_credential)
+  upsk = __builtin__.property(_get_upsk, _set_upsk)
+  role_configs = __builtin__.property(_get_role_configs, _set_role_configs)
 
 
-  _pyangbind_elements = OrderedDict([('name', name), ('config', config), ('state', state), ('bssids', bssids), ('wmm', wmm), ('dot11r', dot11r), ('dot11v', dot11v), ('clients', clients), ('dot1x_timers', dot1x_timers), ('band_steering', band_steering), ('mlo', mlo), ])
+  _pyangbind_elements = OrderedDict([('name', name), ('config', config), ('state', state), ('bssids', bssids), ('wmm', wmm), ('dot11r', dot11r), ('dot11v', dot11v), ('clients', clients), ('dot1x_timers', dot1x_timers), ('band_steering', band_steering), ('mlo', mlo), ('secondary_mac_auth', secondary_mac_auth), ('radius_credential', radius_credential), ('upsk', upsk), ('role_configs', role_configs), ])
 
 
 class yc_ssids_openconfig_access_points__access_points_access_point_ssids(PybindBase):
@@ -36169,7 +39009,7 @@ class yc_config_openconfig_access_points__access_points_access_point_system_conf
 
   YANG Description: Global configuration data for the system
   """
-  __slots__ = ('_path_helper', '_extmethods', '__hostname','__domain_name','__login_banner','__motd_banner',)
+  __slots__ = ('_path_helper', '_extmethods', '__hostname','__domain_name','__login_banner','__motd_banner','__mtu_size','__location',)
 
   _yang_name = 'config'
   _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
@@ -36185,6 +39025,8 @@ class yc_config_openconfig_access_points__access_points_access_point_system_conf
     self.__domain_name = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_dict={'pattern': '(((([a-zA-Z0-9_]([a-zA-Z0-9\\-_]){0,61})?[a-zA-Z0-9]\\.)*([a-zA-Z0-9_]([a-zA-Z0-9\\-_]){0,61})?[a-zA-Z0-9]\\.?)|\\.)', 'length': ['1..253']}), is_leaf=True, yang_name="domain-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='oc-inet:domain-name', is_config=True)
     self.__login_banner = YANGDynClass(base=str, is_leaf=True, yang_name="login-banner", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='string', is_config=True)
     self.__motd_banner = YANGDynClass(base=str, is_leaf=True, yang_name="motd-banner", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='string', is_config=True)
+    self.__mtu_size = YANGDynClass(base=RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1500..9000']}), is_leaf=True, yang_name="mtu-size", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint16', is_config=True)
+    self.__location = YANGDynClass(base=str, default=str(""), is_leaf=True, yang_name="location", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
 
     load = kwargs.pop("load", None)
     if args:
@@ -36372,13 +39214,89 @@ last login timestamp, etc.
   def _unset_motd_banner(self):
     self.__motd_banner = YANGDynClass(base=str, is_leaf=True, yang_name="motd-banner", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='string', is_config=True)
 
+
+  def _get_mtu_size(self):
+    """
+    Getter method for mtu_size, mapped from YANG variable /access_points/access_point/system/config/mtu_size (uint16)
+
+    YANG Description: Maximum Transmission Unit (MTU) size for the system
+    """
+    return self.__mtu_size
+      
+  def _set_mtu_size(self, v, load=False):
+    """
+    Setter method for mtu_size, mapped from YANG variable /access_points/access_point/system/config/mtu_size (uint16)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_mtu_size is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_mtu_size() directly.
+
+    YANG Description: Maximum Transmission Unit (MTU) size for the system
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1500..9000']}), is_leaf=True, yang_name="mtu-size", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint16', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """mtu_size must be of a type compatible with uint16""",
+          'defined-type': "uint16",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1500..9000']}), is_leaf=True, yang_name="mtu-size", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint16', is_config=True)""",
+        })
+
+    self.__mtu_size = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_mtu_size(self):
+    self.__mtu_size = YANGDynClass(base=RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), restriction_dict={'range': ['1500..9000']}), is_leaf=True, yang_name="mtu-size", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint16', is_config=True)
+
+
+  def _get_location(self):
+    """
+    Getter method for location, mapped from YANG variable /access_points/access_point/system/config/location (string)
+
+    YANG Description: Configured physical or logical location of the AP (e.g., Building/Floor/Room). Default: empty string.
+    """
+    return self.__location
+      
+  def _set_location(self, v, load=False):
+    """
+    Setter method for location, mapped from YANG variable /access_points/access_point/system/config/location (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_location is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_location() directly.
+
+    YANG Description: Configured physical or logical location of the AP (e.g., Building/Floor/Room). Default: empty string.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, default=str(""), is_leaf=True, yang_name="location", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """location must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, default=str(""), is_leaf=True, yang_name="location", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)""",
+        })
+
+    self.__location = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_location(self):
+    self.__location = YANGDynClass(base=str, default=str(""), is_leaf=True, yang_name="location", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+
   hostname = __builtin__.property(_get_hostname, _set_hostname)
   domain_name = __builtin__.property(_get_domain_name, _set_domain_name)
   login_banner = __builtin__.property(_get_login_banner, _set_login_banner)
   motd_banner = __builtin__.property(_get_motd_banner, _set_motd_banner)
+  mtu_size = __builtin__.property(_get_mtu_size, _set_mtu_size)
+  location = __builtin__.property(_get_location, _set_location)
 
 
-  _pyangbind_elements = OrderedDict([('hostname', hostname), ('domain_name', domain_name), ('login_banner', login_banner), ('motd_banner', motd_banner), ])
+  _pyangbind_elements = OrderedDict([('hostname', hostname), ('domain_name', domain_name), ('login_banner', login_banner), ('motd_banner', motd_banner), ('mtu_size', mtu_size), ('location', location), ])
 
 
 class yc_state_openconfig_access_points__access_points_access_point_system_state(PybindBase):
@@ -36390,7 +39308,7 @@ class yc_state_openconfig_access_points__access_points_access_point_system_state
 
   YANG Description: Global operational state data for the system
   """
-  __slots__ = ('_path_helper', '_extmethods', '__hostname','__domain_name','__login_banner','__motd_banner','__current_datetime','__up_time','__boot_time','__software_version','__last_configuration_timestamp',)
+  __slots__ = ('_path_helper', '_extmethods', '__hostname','__domain_name','__login_banner','__motd_banner','__current_datetime','__up_time','__boot_time','__software_version','__last_configuration_timestamp','__mtu_size','__location',)
 
   _yang_name = 'state'
   _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
@@ -36411,6 +39329,8 @@ class yc_state_openconfig_access_points__access_points_access_point_system_state
     self.__boot_time = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="boot-time", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='oc-types:timeticks64', is_config=False)
     self.__software_version = YANGDynClass(base=str, is_leaf=True, yang_name="software-version", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='string', is_config=False)
     self.__last_configuration_timestamp = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="last-configuration-timestamp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='oc-types:timeticks64', is_config=False)
+    self.__mtu_size = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="mtu-size", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint16', is_config=False)
+    self.__location = YANGDynClass(base=str, default=str(""), is_leaf=True, yang_name="location", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -36801,6 +39721,80 @@ nanoseconds relative to the Unix Epoch (Jan 1, 1970 00:00:00 UTC).
   def _unset_last_configuration_timestamp(self):
     self.__last_configuration_timestamp = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="last-configuration-timestamp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='oc-types:timeticks64', is_config=False)
 
+
+  def _get_mtu_size(self):
+    """
+    Getter method for mtu_size, mapped from YANG variable /access_points/access_point/system/state/mtu_size (uint16)
+
+    YANG Description: Maximum Transmission Unit (MTU) size for the system
+    """
+    return self.__mtu_size
+      
+  def _set_mtu_size(self, v, load=False):
+    """
+    Setter method for mtu_size, mapped from YANG variable /access_points/access_point/system/state/mtu_size (uint16)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_mtu_size is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_mtu_size() directly.
+
+    YANG Description: Maximum Transmission Unit (MTU) size for the system
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="mtu-size", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint16', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """mtu_size must be of a type compatible with uint16""",
+          'defined-type': "uint16",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="mtu-size", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint16', is_config=False)""",
+        })
+
+    self.__mtu_size = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_mtu_size(self):
+    self.__mtu_size = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="mtu-size", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint16', is_config=False)
+
+
+  def _get_location(self):
+    """
+    Getter method for location, mapped from YANG variable /access_points/access_point/system/state/location (string)
+
+    YANG Description: Reported physical or logical location of the AP. Default: empty string.
+    """
+    return self.__location
+      
+  def _set_location(self, v, load=False):
+    """
+    Setter method for location, mapped from YANG variable /access_points/access_point/system/state/location (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_location is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_location() directly.
+
+    YANG Description: Reported physical or logical location of the AP. Default: empty string.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, default=str(""), is_leaf=True, yang_name="location", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """location must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, default=str(""), is_leaf=True, yang_name="location", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)""",
+        })
+
+    self.__location = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_location(self):
+    self.__location = YANGDynClass(base=str, default=str(""), is_leaf=True, yang_name="location", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+
   hostname = __builtin__.property(_get_hostname)
   domain_name = __builtin__.property(_get_domain_name)
   login_banner = __builtin__.property(_get_login_banner)
@@ -36810,9 +39804,11 @@ nanoseconds relative to the Unix Epoch (Jan 1, 1970 00:00:00 UTC).
   boot_time = __builtin__.property(_get_boot_time)
   software_version = __builtin__.property(_get_software_version)
   last_configuration_timestamp = __builtin__.property(_get_last_configuration_timestamp)
+  mtu_size = __builtin__.property(_get_mtu_size)
+  location = __builtin__.property(_get_location)
 
 
-  _pyangbind_elements = OrderedDict([('hostname', hostname), ('domain_name', domain_name), ('login_banner', login_banner), ('motd_banner', motd_banner), ('current_datetime', current_datetime), ('up_time', up_time), ('boot_time', boot_time), ('software_version', software_version), ('last_configuration_timestamp', last_configuration_timestamp), ])
+  _pyangbind_elements = OrderedDict([('hostname', hostname), ('domain_name', domain_name), ('login_banner', login_banner), ('motd_banner', motd_banner), ('current_datetime', current_datetime), ('up_time', up_time), ('boot_time', boot_time), ('software_version', software_version), ('last_configuration_timestamp', last_configuration_timestamp), ('mtu_size', mtu_size), ('location', location), ])
 
 
 class yc_state_openconfig_access_points__access_points_access_point_system_mount_points_mount_point_state(PybindBase):
@@ -68790,6 +71786,2477 @@ class yc_tunnels_openconfig_access_points__access_points_access_point_tunnels(Py
 
 
   _pyangbind_elements = OrderedDict([('tunnel', tunnel), ])
+
+
+class yc_config_openconfig_access_points__access_points_access_point_role_profiles_role_profile_config(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/role-profiles/role-profile/config. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Role profile configuration
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__name','__use_ssid_settings',)
+
+  _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__name = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_dict={'length': ['1..64']}), is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+    self.__use_ssid_settings = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="use-ssid-settings", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=True)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'role-profiles', 'role-profile', 'config']
+
+  def _get_name(self):
+    """
+    Getter method for name, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/config/name (string)
+
+    YANG Description: Name of role profile
+    """
+    return self.__name
+      
+  def _set_name(self, v, load=False):
+    """
+    Setter method for name, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/config/name (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_name is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_name() directly.
+
+    YANG Description: Name of role profile
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=str, restriction_dict={'length': ['1..64']}), is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """name must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=str, restriction_dict={'length': ['1..64']}), is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)""",
+        })
+
+    self.__name = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_name(self):
+    self.__name = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_dict={'length': ['1..64']}), is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+
+
+  def _get_use_ssid_settings(self):
+    """
+    Getter method for use_ssid_settings, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/config/use_ssid_settings (boolean)
+
+    YANG Description: Use SSID settings in absence of role specific settings
+    """
+    return self.__use_ssid_settings
+      
+  def _set_use_ssid_settings(self, v, load=False):
+    """
+    Setter method for use_ssid_settings, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/config/use_ssid_settings (boolean)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_use_ssid_settings is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_use_ssid_settings() directly.
+
+    YANG Description: Use SSID settings in absence of role specific settings
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="use-ssid-settings", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """use_ssid_settings must be of a type compatible with boolean""",
+          'defined-type': "boolean",
+          'generated-type': """YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="use-ssid-settings", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=True)""",
+        })
+
+    self.__use_ssid_settings = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_use_ssid_settings(self):
+    self.__use_ssid_settings = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="use-ssid-settings", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=True)
+
+  name = __builtin__.property(_get_name, _set_name)
+  use_ssid_settings = __builtin__.property(_get_use_ssid_settings, _set_use_ssid_settings)
+
+
+  _pyangbind_elements = OrderedDict([('name', name), ('use_ssid_settings', use_ssid_settings), ])
+
+
+class yc_state_openconfig_access_points__access_points_access_point_role_profiles_role_profile_state(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/role-profiles/role-profile/state. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Role profile state
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__name','__use_ssid_settings',)
+
+  _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__name = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_dict={'length': ['1..64']}), is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+    self.__use_ssid_settings = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="use-ssid-settings", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'role-profiles', 'role-profile', 'state']
+
+  def _get_name(self):
+    """
+    Getter method for name, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/state/name (string)
+
+    YANG Description: Name of role profile
+    """
+    return self.__name
+      
+  def _set_name(self, v, load=False):
+    """
+    Setter method for name, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/state/name (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_name is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_name() directly.
+
+    YANG Description: Name of role profile
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=str, restriction_dict={'length': ['1..64']}), is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """name must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=str, restriction_dict={'length': ['1..64']}), is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)""",
+        })
+
+    self.__name = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_name(self):
+    self.__name = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_dict={'length': ['1..64']}), is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+
+
+  def _get_use_ssid_settings(self):
+    """
+    Getter method for use_ssid_settings, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/state/use_ssid_settings (boolean)
+
+    YANG Description: Use SSID settings in absence of role specific settings
+    """
+    return self.__use_ssid_settings
+      
+  def _set_use_ssid_settings(self, v, load=False):
+    """
+    Setter method for use_ssid_settings, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/state/use_ssid_settings (boolean)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_use_ssid_settings is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_use_ssid_settings() directly.
+
+    YANG Description: Use SSID settings in absence of role specific settings
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="use-ssid-settings", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """use_ssid_settings must be of a type compatible with boolean""",
+          'defined-type': "boolean",
+          'generated-type': """YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="use-ssid-settings", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=False)""",
+        })
+
+    self.__use_ssid_settings = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_use_ssid_settings(self):
+    self.__use_ssid_settings = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="use-ssid-settings", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='boolean', is_config=False)
+
+  name = __builtin__.property(_get_name)
+  use_ssid_settings = __builtin__.property(_get_use_ssid_settings)
+
+
+  _pyangbind_elements = OrderedDict([('name', name), ('use_ssid_settings', use_ssid_settings), ])
+
+
+class yc_config_openconfig_access_points__access_points_access_point_role_profiles_role_profile_vlan_config(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/role-profiles/role-profile/vlan/config. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: VLAN configuration
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__vlan_id','__vlan_name','__fallback_vlan_id',)
+
+  _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__vlan_id = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=True)
+    self.__vlan_name = YANGDynClass(base=str, is_leaf=True, yang_name="vlan-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+    self.__fallback_vlan_id = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="fallback-vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=True)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'role-profiles', 'role-profile', 'vlan', 'config']
+
+  def _get_vlan_id(self):
+    """
+    Getter method for vlan_id, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/vlan/config/vlan_id (uint32)
+
+    YANG Description: VLAN ID
+    """
+    return self.__vlan_id
+      
+  def _set_vlan_id(self, v, load=False):
+    """
+    Setter method for vlan_id, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/vlan/config/vlan_id (uint32)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_vlan_id is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_vlan_id() directly.
+
+    YANG Description: VLAN ID
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """vlan_id must be of a type compatible with uint32""",
+          'defined-type': "uint32",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=True)""",
+        })
+
+    self.__vlan_id = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_vlan_id(self):
+    self.__vlan_id = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=True)
+
+
+  def _get_vlan_name(self):
+    """
+    Getter method for vlan_name, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/vlan/config/vlan_name (string)
+
+    YANG Description: VLAN Name to be configured for role
+    """
+    return self.__vlan_name
+      
+  def _set_vlan_name(self, v, load=False):
+    """
+    Setter method for vlan_name, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/vlan/config/vlan_name (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_vlan_name is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_vlan_name() directly.
+
+    YANG Description: VLAN Name to be configured for role
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="vlan-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """vlan_name must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="vlan-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)""",
+        })
+
+    self.__vlan_name = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_vlan_name(self):
+    self.__vlan_name = YANGDynClass(base=str, is_leaf=True, yang_name="vlan-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+
+
+  def _get_fallback_vlan_id(self):
+    """
+    Getter method for fallback_vlan_id, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/vlan/config/fallback_vlan_id (uint32)
+
+    YANG Description: VLAN to fallback to when the primary VLAN mapping cannot be identified or fails
+    """
+    return self.__fallback_vlan_id
+      
+  def _set_fallback_vlan_id(self, v, load=False):
+    """
+    Setter method for fallback_vlan_id, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/vlan/config/fallback_vlan_id (uint32)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fallback_vlan_id is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fallback_vlan_id() directly.
+
+    YANG Description: VLAN to fallback to when the primary VLAN mapping cannot be identified or fails
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="fallback-vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fallback_vlan_id must be of a type compatible with uint32""",
+          'defined-type': "uint32",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="fallback-vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=True)""",
+        })
+
+    self.__fallback_vlan_id = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fallback_vlan_id(self):
+    self.__fallback_vlan_id = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="fallback-vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=True)
+
+  vlan_id = __builtin__.property(_get_vlan_id, _set_vlan_id)
+  vlan_name = __builtin__.property(_get_vlan_name, _set_vlan_name)
+  fallback_vlan_id = __builtin__.property(_get_fallback_vlan_id, _set_fallback_vlan_id)
+
+
+  _pyangbind_elements = OrderedDict([('vlan_id', vlan_id), ('vlan_name', vlan_name), ('fallback_vlan_id', fallback_vlan_id), ])
+
+
+class yc_state_openconfig_access_points__access_points_access_point_role_profiles_role_profile_vlan_state(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/role-profiles/role-profile/vlan/state. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: VLAN state
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__vlan_id','__vlan_name','__fallback_vlan_id',)
+
+  _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__vlan_id = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=False)
+    self.__vlan_name = YANGDynClass(base=str, is_leaf=True, yang_name="vlan-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+    self.__fallback_vlan_id = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="fallback-vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'role-profiles', 'role-profile', 'vlan', 'state']
+
+  def _get_vlan_id(self):
+    """
+    Getter method for vlan_id, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/vlan/state/vlan_id (uint32)
+
+    YANG Description: VLAN ID
+    """
+    return self.__vlan_id
+      
+  def _set_vlan_id(self, v, load=False):
+    """
+    Setter method for vlan_id, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/vlan/state/vlan_id (uint32)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_vlan_id is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_vlan_id() directly.
+
+    YANG Description: VLAN ID
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """vlan_id must be of a type compatible with uint32""",
+          'defined-type': "uint32",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=False)""",
+        })
+
+    self.__vlan_id = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_vlan_id(self):
+    self.__vlan_id = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=False)
+
+
+  def _get_vlan_name(self):
+    """
+    Getter method for vlan_name, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/vlan/state/vlan_name (string)
+
+    YANG Description: VLAN Name to be configured for role
+    """
+    return self.__vlan_name
+      
+  def _set_vlan_name(self, v, load=False):
+    """
+    Setter method for vlan_name, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/vlan/state/vlan_name (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_vlan_name is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_vlan_name() directly.
+
+    YANG Description: VLAN Name to be configured for role
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="vlan-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """vlan_name must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="vlan-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)""",
+        })
+
+    self.__vlan_name = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_vlan_name(self):
+    self.__vlan_name = YANGDynClass(base=str, is_leaf=True, yang_name="vlan-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+
+
+  def _get_fallback_vlan_id(self):
+    """
+    Getter method for fallback_vlan_id, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/vlan/state/fallback_vlan_id (uint32)
+
+    YANG Description: VLAN to fallback to when the primary VLAN mapping cannot be identified or fails
+    """
+    return self.__fallback_vlan_id
+      
+  def _set_fallback_vlan_id(self, v, load=False):
+    """
+    Setter method for fallback_vlan_id, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/vlan/state/fallback_vlan_id (uint32)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fallback_vlan_id is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fallback_vlan_id() directly.
+
+    YANG Description: VLAN to fallback to when the primary VLAN mapping cannot be identified or fails
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="fallback-vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fallback_vlan_id must be of a type compatible with uint32""",
+          'defined-type': "uint32",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="fallback-vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=False)""",
+        })
+
+    self.__fallback_vlan_id = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fallback_vlan_id(self):
+    self.__fallback_vlan_id = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="fallback-vlan-id", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='uint32', is_config=False)
+
+  vlan_id = __builtin__.property(_get_vlan_id)
+  vlan_name = __builtin__.property(_get_vlan_name)
+  fallback_vlan_id = __builtin__.property(_get_fallback_vlan_id)
+
+
+  _pyangbind_elements = OrderedDict([('vlan_id', vlan_id), ('vlan_name', vlan_name), ('fallback_vlan_id', fallback_vlan_id), ])
+
+
+class yc_vlan_openconfig_access_points__access_points_access_point_role_profiles_role_profile_vlan(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/role-profiles/role-profile/vlan. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: VLAN to be configured for role
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
+
+  _yang_name = 'vlan'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__config = YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_role_profiles_role_profile_vlan_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_role_profiles_role_profile_vlan_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'role-profiles', 'role-profile', 'vlan']
+
+  def _get_config(self):
+    """
+    Getter method for config, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/vlan/config (container)
+
+    YANG Description: VLAN configuration
+    """
+    return self.__config
+      
+  def _set_config(self, v, load=False):
+    """
+    Setter method for config, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/vlan/config (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_config is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_config() directly.
+
+    YANG Description: VLAN configuration
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_config_openconfig_access_points__access_points_access_point_role_profiles_role_profile_vlan_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """config must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_role_profiles_role_profile_vlan_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)""",
+        })
+
+    self.__config = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_config(self):
+    self.__config = YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_role_profiles_role_profile_vlan_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+
+
+  def _get_state(self):
+    """
+    Getter method for state, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/vlan/state (container)
+
+    YANG Description: VLAN state
+    """
+    return self.__state
+      
+  def _set_state(self, v, load=False):
+    """
+    Setter method for state, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/vlan/state (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_state is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_state() directly.
+
+    YANG Description: VLAN state
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_state_openconfig_access_points__access_points_access_point_role_profiles_role_profile_vlan_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """state must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_role_profiles_role_profile_vlan_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)""",
+        })
+
+    self.__state = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_state(self):
+    self.__state = YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_role_profiles_role_profile_vlan_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)
+
+  config = __builtin__.property(_get_config, _set_config)
+  state = __builtin__.property(_get_state)
+
+
+  _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
+
+
+class yc_config_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_config(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/role-profiles/role-profile/redirection/config. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Redirection configuration
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__redirection_type','__static_redirection_url',)
+
+  _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__redirection_type = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'STATIC': {}, 'DYNAMIC': {}},), is_leaf=True, yang_name="redirection-type", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=True)
+    self.__static_redirection_url = YANGDynClass(base=str, is_leaf=True, yang_name="static-redirection-url", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'role-profiles', 'role-profile', 'redirection', 'config']
+
+  def _get_redirection_type(self):
+    """
+    Getter method for redirection_type, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/config/redirection_type (enumeration)
+
+    YANG Description: Type of redirection
+    """
+    return self.__redirection_type
+      
+  def _set_redirection_type(self, v, load=False):
+    """
+    Setter method for redirection_type, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/config/redirection_type (enumeration)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_redirection_type is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_redirection_type() directly.
+
+    YANG Description: Type of redirection
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'STATIC': {}, 'DYNAMIC': {}},), is_leaf=True, yang_name="redirection-type", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """redirection_type must be of a type compatible with enumeration""",
+          'defined-type': "arista-wifi-augments:enumeration",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'STATIC': {}, 'DYNAMIC': {}},), is_leaf=True, yang_name="redirection-type", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=True)""",
+        })
+
+    self.__redirection_type = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_redirection_type(self):
+    self.__redirection_type = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'STATIC': {}, 'DYNAMIC': {}},), is_leaf=True, yang_name="redirection-type", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=True)
+
+
+  def _get_static_redirection_url(self):
+    """
+    Getter method for static_redirection_url, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/config/static_redirection_url (string)
+
+    YANG Description: Static redirection URL
+    """
+    return self.__static_redirection_url
+      
+  def _set_static_redirection_url(self, v, load=False):
+    """
+    Setter method for static_redirection_url, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/config/static_redirection_url (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_static_redirection_url is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_static_redirection_url() directly.
+
+    YANG Description: Static redirection URL
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="static-redirection-url", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """static_redirection_url must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="static-redirection-url", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)""",
+        })
+
+    self.__static_redirection_url = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_static_redirection_url(self):
+    self.__static_redirection_url = YANGDynClass(base=str, is_leaf=True, yang_name="static-redirection-url", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+
+  redirection_type = __builtin__.property(_get_redirection_type, _set_redirection_type)
+  static_redirection_url = __builtin__.property(_get_static_redirection_url, _set_static_redirection_url)
+
+
+  _pyangbind_elements = OrderedDict([('redirection_type', redirection_type), ('static_redirection_url', static_redirection_url), ])
+
+
+class yc_state_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_state(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/role-profiles/role-profile/redirection/state. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Redirection state
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__redirection_type','__static_redirection_url',)
+
+  _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__redirection_type = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'STATIC': {}, 'DYNAMIC': {}},), is_leaf=True, yang_name="redirection-type", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=False)
+    self.__static_redirection_url = YANGDynClass(base=str, is_leaf=True, yang_name="static-redirection-url", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'role-profiles', 'role-profile', 'redirection', 'state']
+
+  def _get_redirection_type(self):
+    """
+    Getter method for redirection_type, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/state/redirection_type (enumeration)
+
+    YANG Description: Type of redirection
+    """
+    return self.__redirection_type
+      
+  def _set_redirection_type(self, v, load=False):
+    """
+    Setter method for redirection_type, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/state/redirection_type (enumeration)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_redirection_type is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_redirection_type() directly.
+
+    YANG Description: Type of redirection
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'STATIC': {}, 'DYNAMIC': {}},), is_leaf=True, yang_name="redirection-type", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """redirection_type must be of a type compatible with enumeration""",
+          'defined-type': "arista-wifi-augments:enumeration",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'STATIC': {}, 'DYNAMIC': {}},), is_leaf=True, yang_name="redirection-type", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=False)""",
+        })
+
+    self.__redirection_type = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_redirection_type(self):
+    self.__redirection_type = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'STATIC': {}, 'DYNAMIC': {}},), is_leaf=True, yang_name="redirection-type", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='enumeration', is_config=False)
+
+
+  def _get_static_redirection_url(self):
+    """
+    Getter method for static_redirection_url, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/state/static_redirection_url (string)
+
+    YANG Description: Static redirection URL
+    """
+    return self.__static_redirection_url
+      
+  def _set_static_redirection_url(self, v, load=False):
+    """
+    Setter method for static_redirection_url, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/state/static_redirection_url (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_static_redirection_url is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_static_redirection_url() directly.
+
+    YANG Description: Static redirection URL
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="static-redirection-url", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """static_redirection_url must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="static-redirection-url", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)""",
+        })
+
+    self.__static_redirection_url = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_static_redirection_url(self):
+    self.__static_redirection_url = YANGDynClass(base=str, is_leaf=True, yang_name="static-redirection-url", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+
+  redirection_type = __builtin__.property(_get_redirection_type)
+  static_redirection_url = __builtin__.property(_get_static_redirection_url)
+
+
+  _pyangbind_elements = OrderedDict([('redirection_type', redirection_type), ('static_redirection_url', static_redirection_url), ])
+
+
+class yc_config_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_https_redirection_config(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/role-profiles/role-profile/redirection/https-redirection/config. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: HTTPS redirection configuration
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__common_name','__organization','__organization_unit',)
+
+  _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__common_name = YANGDynClass(base=str, default=str("www.arista.com"), is_leaf=True, yang_name="common-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+    self.__organization = YANGDynClass(base=str, default=str("Arista Networks"), is_leaf=True, yang_name="organization", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+    self.__organization_unit = YANGDynClass(base=str, default=str("Arista Networks"), is_leaf=True, yang_name="organization-unit", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'role-profiles', 'role-profile', 'redirection', 'https-redirection', 'config']
+
+  def _get_common_name(self):
+    """
+    Getter method for common_name, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/https_redirection/config/common_name (string)
+
+    YANG Description: CN of certificate
+    """
+    return self.__common_name
+      
+  def _set_common_name(self, v, load=False):
+    """
+    Setter method for common_name, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/https_redirection/config/common_name (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_common_name is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_common_name() directly.
+
+    YANG Description: CN of certificate
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, default=str("www.arista.com"), is_leaf=True, yang_name="common-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """common_name must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, default=str("www.arista.com"), is_leaf=True, yang_name="common-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)""",
+        })
+
+    self.__common_name = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_common_name(self):
+    self.__common_name = YANGDynClass(base=str, default=str("www.arista.com"), is_leaf=True, yang_name="common-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+
+
+  def _get_organization(self):
+    """
+    Getter method for organization, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/https_redirection/config/organization (string)
+
+    YANG Description: Organization of certificate
+    """
+    return self.__organization
+      
+  def _set_organization(self, v, load=False):
+    """
+    Setter method for organization, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/https_redirection/config/organization (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_organization is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_organization() directly.
+
+    YANG Description: Organization of certificate
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, default=str("Arista Networks"), is_leaf=True, yang_name="organization", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """organization must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, default=str("Arista Networks"), is_leaf=True, yang_name="organization", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)""",
+        })
+
+    self.__organization = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_organization(self):
+    self.__organization = YANGDynClass(base=str, default=str("Arista Networks"), is_leaf=True, yang_name="organization", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+
+
+  def _get_organization_unit(self):
+    """
+    Getter method for organization_unit, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/https_redirection/config/organization_unit (string)
+
+    YANG Description: Organization unit of certificate
+    """
+    return self.__organization_unit
+      
+  def _set_organization_unit(self, v, load=False):
+    """
+    Setter method for organization_unit, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/https_redirection/config/organization_unit (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_organization_unit is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_organization_unit() directly.
+
+    YANG Description: Organization unit of certificate
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, default=str("Arista Networks"), is_leaf=True, yang_name="organization-unit", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """organization_unit must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, default=str("Arista Networks"), is_leaf=True, yang_name="organization-unit", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)""",
+        })
+
+    self.__organization_unit = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_organization_unit(self):
+    self.__organization_unit = YANGDynClass(base=str, default=str("Arista Networks"), is_leaf=True, yang_name="organization-unit", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+
+  common_name = __builtin__.property(_get_common_name, _set_common_name)
+  organization = __builtin__.property(_get_organization, _set_organization)
+  organization_unit = __builtin__.property(_get_organization_unit, _set_organization_unit)
+
+
+  _pyangbind_elements = OrderedDict([('common_name', common_name), ('organization', organization), ('organization_unit', organization_unit), ])
+
+
+class yc_state_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_https_redirection_state(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/role-profiles/role-profile/redirection/https-redirection/state. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: HTTPS redirection state
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__common_name','__organization','__organization_unit',)
+
+  _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__common_name = YANGDynClass(base=str, default=str("www.arista.com"), is_leaf=True, yang_name="common-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+    self.__organization = YANGDynClass(base=str, default=str("Arista Networks"), is_leaf=True, yang_name="organization", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+    self.__organization_unit = YANGDynClass(base=str, default=str("Arista Networks"), is_leaf=True, yang_name="organization-unit", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'role-profiles', 'role-profile', 'redirection', 'https-redirection', 'state']
+
+  def _get_common_name(self):
+    """
+    Getter method for common_name, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/https_redirection/state/common_name (string)
+
+    YANG Description: CN of certificate
+    """
+    return self.__common_name
+      
+  def _set_common_name(self, v, load=False):
+    """
+    Setter method for common_name, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/https_redirection/state/common_name (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_common_name is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_common_name() directly.
+
+    YANG Description: CN of certificate
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, default=str("www.arista.com"), is_leaf=True, yang_name="common-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """common_name must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, default=str("www.arista.com"), is_leaf=True, yang_name="common-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)""",
+        })
+
+    self.__common_name = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_common_name(self):
+    self.__common_name = YANGDynClass(base=str, default=str("www.arista.com"), is_leaf=True, yang_name="common-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+
+
+  def _get_organization(self):
+    """
+    Getter method for organization, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/https_redirection/state/organization (string)
+
+    YANG Description: Organization of certificate
+    """
+    return self.__organization
+      
+  def _set_organization(self, v, load=False):
+    """
+    Setter method for organization, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/https_redirection/state/organization (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_organization is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_organization() directly.
+
+    YANG Description: Organization of certificate
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, default=str("Arista Networks"), is_leaf=True, yang_name="organization", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """organization must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, default=str("Arista Networks"), is_leaf=True, yang_name="organization", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)""",
+        })
+
+    self.__organization = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_organization(self):
+    self.__organization = YANGDynClass(base=str, default=str("Arista Networks"), is_leaf=True, yang_name="organization", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+
+
+  def _get_organization_unit(self):
+    """
+    Getter method for organization_unit, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/https_redirection/state/organization_unit (string)
+
+    YANG Description: Organization unit of certificate
+    """
+    return self.__organization_unit
+      
+  def _set_organization_unit(self, v, load=False):
+    """
+    Setter method for organization_unit, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/https_redirection/state/organization_unit (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_organization_unit is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_organization_unit() directly.
+
+    YANG Description: Organization unit of certificate
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, default=str("Arista Networks"), is_leaf=True, yang_name="organization-unit", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """organization_unit must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, default=str("Arista Networks"), is_leaf=True, yang_name="organization-unit", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)""",
+        })
+
+    self.__organization_unit = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_organization_unit(self):
+    self.__organization_unit = YANGDynClass(base=str, default=str("Arista Networks"), is_leaf=True, yang_name="organization-unit", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+
+  common_name = __builtin__.property(_get_common_name)
+  organization = __builtin__.property(_get_organization)
+  organization_unit = __builtin__.property(_get_organization_unit)
+
+
+  _pyangbind_elements = OrderedDict([('common_name', common_name), ('organization', organization), ('organization_unit', organization_unit), ])
+
+
+class yc_https_redirection_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_https_redirection(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/role-profiles/role-profile/redirection/https-redirection. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: HTTPS redirection
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
+
+  _yang_name = 'https-redirection'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__config = YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_https_redirection_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_https_redirection_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'role-profiles', 'role-profile', 'redirection', 'https-redirection']
+
+  def _get_config(self):
+    """
+    Getter method for config, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/https_redirection/config (container)
+
+    YANG Description: HTTPS redirection configuration
+    """
+    return self.__config
+      
+  def _set_config(self, v, load=False):
+    """
+    Setter method for config, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/https_redirection/config (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_config is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_config() directly.
+
+    YANG Description: HTTPS redirection configuration
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_config_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_https_redirection_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """config must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_https_redirection_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)""",
+        })
+
+    self.__config = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_config(self):
+    self.__config = YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_https_redirection_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+
+
+  def _get_state(self):
+    """
+    Getter method for state, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/https_redirection/state (container)
+
+    YANG Description: HTTPS redirection state
+    """
+    return self.__state
+      
+  def _set_state(self, v, load=False):
+    """
+    Setter method for state, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/https_redirection/state (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_state is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_state() directly.
+
+    YANG Description: HTTPS redirection state
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_state_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_https_redirection_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """state must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_https_redirection_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)""",
+        })
+
+    self.__state = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_state(self):
+    self.__state = YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_https_redirection_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)
+
+  config = __builtin__.property(_get_config, _set_config)
+  state = __builtin__.property(_get_state)
+
+
+  _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
+
+
+class yc_config_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_allowed_websites_allowed_website_config(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/role-profiles/role-profile/redirection/allowed-websites/allowed-website/config. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: URL to allow
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__url',)
+
+  _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__url = YANGDynClass(base=str, is_leaf=True, yang_name="url", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'role-profiles', 'role-profile', 'redirection', 'allowed-websites', 'allowed-website', 'config']
+
+  def _get_url(self):
+    """
+    Getter method for url, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/allowed_websites/allowed_website/config/url (string)
+
+    YANG Description: URL to allow
+    """
+    return self.__url
+      
+  def _set_url(self, v, load=False):
+    """
+    Setter method for url, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/allowed_websites/allowed_website/config/url (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_url is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_url() directly.
+
+    YANG Description: URL to allow
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="url", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """url must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="url", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)""",
+        })
+
+    self.__url = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_url(self):
+    self.__url = YANGDynClass(base=str, is_leaf=True, yang_name="url", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=True)
+
+  url = __builtin__.property(_get_url, _set_url)
+
+
+  _pyangbind_elements = OrderedDict([('url', url), ])
+
+
+class yc_state_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_allowed_websites_allowed_website_state(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/role-profiles/role-profile/redirection/allowed-websites/allowed-website/state. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: URL to allow
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__url',)
+
+  _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__url = YANGDynClass(base=str, is_leaf=True, yang_name="url", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'role-profiles', 'role-profile', 'redirection', 'allowed-websites', 'allowed-website', 'state']
+
+  def _get_url(self):
+    """
+    Getter method for url, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/allowed_websites/allowed_website/state/url (string)
+
+    YANG Description: URL to allow
+    """
+    return self.__url
+      
+  def _set_url(self, v, load=False):
+    """
+    Setter method for url, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/allowed_websites/allowed_website/state/url (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_url is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_url() directly.
+
+    YANG Description: URL to allow
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="url", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """url must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="url", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)""",
+        })
+
+    self.__url = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_url(self):
+    self.__url = YANGDynClass(base=str, is_leaf=True, yang_name="url", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='string', is_config=False)
+
+  url = __builtin__.property(_get_url)
+
+
+  _pyangbind_elements = OrderedDict([('url', url), ])
+
+
+class yc_allowed_website_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_allowed_websites_allowed_website(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/role-profiles/role-profile/redirection/allowed-websites/allowed-website. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: List of all allowed websites
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__url','__config','__state',)
+
+  _yang_name = 'allowed-website'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__url = YANGDynClass(base=str, is_leaf=True, yang_name="url", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='leafref', is_config=True)
+    self.__config = YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_allowed_websites_allowed_website_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_allowed_websites_allowed_website_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'role-profiles', 'role-profile', 'redirection', 'allowed-websites', 'allowed-website']
+
+  def _get_url(self):
+    """
+    Getter method for url, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/allowed_websites/allowed_website/url (leafref)
+
+    YANG Description: Each allowed website is key'd by a unique url.
+    """
+    return self.__url
+      
+  def _set_url(self, v, load=False):
+    """
+    Setter method for url, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/allowed_websites/allowed_website/url (leafref)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_url is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_url() directly.
+
+    YANG Description: Each allowed website is key'd by a unique url.
+    """
+    parent = getattr(self, "_parent", None)
+    if parent is not None and load is False:
+      raise AttributeError("Cannot set keys directly when" +
+                             " within an instantiated list")
+
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="url", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='leafref', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """url must be of a type compatible with leafref""",
+          'defined-type': "leafref",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="url", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='leafref', is_config=True)""",
+        })
+
+    self.__url = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_url(self):
+    self.__url = YANGDynClass(base=str, is_leaf=True, yang_name="url", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='leafref', is_config=True)
+
+
+  def _get_config(self):
+    """
+    Getter method for config, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/allowed_websites/allowed_website/config (container)
+
+    YANG Description: URL to allow
+    """
+    return self.__config
+      
+  def _set_config(self, v, load=False):
+    """
+    Setter method for config, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/allowed_websites/allowed_website/config (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_config is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_config() directly.
+
+    YANG Description: URL to allow
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_config_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_allowed_websites_allowed_website_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """config must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_allowed_websites_allowed_website_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)""",
+        })
+
+    self.__config = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_config(self):
+    self.__config = YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_allowed_websites_allowed_website_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+
+
+  def _get_state(self):
+    """
+    Getter method for state, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/allowed_websites/allowed_website/state (container)
+
+    YANG Description: URL to allow
+    """
+    return self.__state
+      
+  def _set_state(self, v, load=False):
+    """
+    Setter method for state, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/allowed_websites/allowed_website/state (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_state is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_state() directly.
+
+    YANG Description: URL to allow
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_state_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_allowed_websites_allowed_website_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """state must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_allowed_websites_allowed_website_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)""",
+        })
+
+    self.__state = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_state(self):
+    self.__state = YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_allowed_websites_allowed_website_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)
+
+  url = __builtin__.property(_get_url, _set_url)
+  config = __builtin__.property(_get_config, _set_config)
+  state = __builtin__.property(_get_state)
+
+
+  _pyangbind_elements = OrderedDict([('url', url), ('config', config), ('state', state), ])
+
+
+class yc_allowed_websites_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_allowed_websites(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/role-profiles/role-profile/redirection/allowed-websites. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Container for allowed websites
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__allowed_website',)
+
+  _yang_name = 'allowed-websites'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__allowed_website = YANGDynClass(base=YANGListType("url",yc_allowed_website_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_allowed_websites_allowed_website, yang_name="allowed-website", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='url', extensions=None), is_container='list', yang_name="allowed-website", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='list', is_config=True)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'role-profiles', 'role-profile', 'redirection', 'allowed-websites']
+
+  def _get_allowed_website(self):
+    """
+    Getter method for allowed_website, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/allowed_websites/allowed_website (list)
+
+    YANG Description: List of all allowed websites
+    """
+    return self.__allowed_website
+      
+  def _set_allowed_website(self, v, load=False):
+    """
+    Setter method for allowed_website, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/allowed_websites/allowed_website (list)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_allowed_website is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_allowed_website() directly.
+
+    YANG Description: List of all allowed websites
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGListType("url",yc_allowed_website_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_allowed_websites_allowed_website, yang_name="allowed-website", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='url', extensions=None), is_container='list', yang_name="allowed-website", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='list', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """allowed_website must be of a type compatible with list""",
+          'defined-type': "list",
+          'generated-type': """YANGDynClass(base=YANGListType("url",yc_allowed_website_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_allowed_websites_allowed_website, yang_name="allowed-website", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='url', extensions=None), is_container='list', yang_name="allowed-website", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='list', is_config=True)""",
+        })
+
+    self.__allowed_website = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_allowed_website(self):
+    self.__allowed_website = YANGDynClass(base=YANGListType("url",yc_allowed_website_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_allowed_websites_allowed_website, yang_name="allowed-website", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='url', extensions=None), is_container='list', yang_name="allowed-website", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='list', is_config=True)
+
+  allowed_website = __builtin__.property(_get_allowed_website, _set_allowed_website)
+
+
+  _pyangbind_elements = OrderedDict([('allowed_website', allowed_website), ])
+
+
+class yc_redirection_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/role-profiles/role-profile/redirection. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Redirection related configuration
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__config','__state','__https_redirection','__allowed_websites',)
+
+  _yang_name = 'redirection'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__config = YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)
+    self.__https_redirection = YANGDynClass(base=yc_https_redirection_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_https_redirection, is_container='container', yang_name="https-redirection", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    self.__allowed_websites = YANGDynClass(base=yc_allowed_websites_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_allowed_websites, is_container='container', yang_name="allowed-websites", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'role-profiles', 'role-profile', 'redirection']
+
+  def _get_config(self):
+    """
+    Getter method for config, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/config (container)
+
+    YANG Description: Redirection configuration
+    """
+    return self.__config
+      
+  def _set_config(self, v, load=False):
+    """
+    Setter method for config, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/config (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_config is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_config() directly.
+
+    YANG Description: Redirection configuration
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_config_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """config must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)""",
+        })
+
+    self.__config = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_config(self):
+    self.__config = YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+
+
+  def _get_state(self):
+    """
+    Getter method for state, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/state (container)
+
+    YANG Description: Redirection state
+    """
+    return self.__state
+      
+  def _set_state(self, v, load=False):
+    """
+    Setter method for state, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/state (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_state is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_state() directly.
+
+    YANG Description: Redirection state
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_state_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """state must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)""",
+        })
+
+    self.__state = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_state(self):
+    self.__state = YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)
+
+
+  def _get_https_redirection(self):
+    """
+    Getter method for https_redirection, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/https_redirection (container)
+
+    YANG Description: HTTPS redirection
+    """
+    return self.__https_redirection
+      
+  def _set_https_redirection(self, v, load=False):
+    """
+    Setter method for https_redirection, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/https_redirection (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_https_redirection is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_https_redirection() directly.
+
+    YANG Description: HTTPS redirection
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_https_redirection_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_https_redirection, is_container='container', yang_name="https-redirection", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """https_redirection must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_https_redirection_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_https_redirection, is_container='container', yang_name="https-redirection", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)""",
+        })
+
+    self.__https_redirection = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_https_redirection(self):
+    self.__https_redirection = YANGDynClass(base=yc_https_redirection_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_https_redirection, is_container='container', yang_name="https-redirection", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+
+
+  def _get_allowed_websites(self):
+    """
+    Getter method for allowed_websites, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/allowed_websites (container)
+
+    YANG Description: Container for allowed websites
+    """
+    return self.__allowed_websites
+      
+  def _set_allowed_websites(self, v, load=False):
+    """
+    Setter method for allowed_websites, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection/allowed_websites (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_allowed_websites is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_allowed_websites() directly.
+
+    YANG Description: Container for allowed websites
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_allowed_websites_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_allowed_websites, is_container='container', yang_name="allowed-websites", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """allowed_websites must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_allowed_websites_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_allowed_websites, is_container='container', yang_name="allowed-websites", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)""",
+        })
+
+    self.__allowed_websites = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_allowed_websites(self):
+    self.__allowed_websites = YANGDynClass(base=yc_allowed_websites_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection_allowed_websites, is_container='container', yang_name="allowed-websites", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+
+  config = __builtin__.property(_get_config, _set_config)
+  state = __builtin__.property(_get_state)
+  https_redirection = __builtin__.property(_get_https_redirection, _set_https_redirection)
+  allowed_websites = __builtin__.property(_get_allowed_websites, _set_allowed_websites)
+
+
+  _pyangbind_elements = OrderedDict([('config', config), ('state', state), ('https_redirection', https_redirection), ('allowed_websites', allowed_websites), ])
+
+
+class yc_role_profile_openconfig_access_points__access_points_access_point_role_profiles_role_profile(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/role-profiles/role-profile. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Role profiles applied to access point
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state','__vlan','__redirection',)
+
+  _yang_name = 'role-profile'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__name = YANGDynClass(base=str, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='leafref', is_config=True)
+    self.__config = YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_role_profiles_role_profile_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_role_profiles_role_profile_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)
+    self.__vlan = YANGDynClass(base=yc_vlan_openconfig_access_points__access_points_access_point_role_profiles_role_profile_vlan, is_container='container', yang_name="vlan", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    self.__redirection = YANGDynClass(base=yc_redirection_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection, is_container='container', yang_name="redirection", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'role-profiles', 'role-profile']
+
+  def _get_name(self):
+    """
+    Getter method for name, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/name (leafref)
+
+    YANG Description: Each role profile is key'd by a unique name.
+    """
+    return self.__name
+      
+  def _set_name(self, v, load=False):
+    """
+    Setter method for name, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/name (leafref)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_name is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_name() directly.
+
+    YANG Description: Each role profile is key'd by a unique name.
+    """
+    parent = getattr(self, "_parent", None)
+    if parent is not None and load is False:
+      raise AttributeError("Cannot set keys directly when" +
+                             " within an instantiated list")
+
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='leafref', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """name must be of a type compatible with leafref""",
+          'defined-type': "leafref",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='leafref', is_config=True)""",
+        })
+
+    self.__name = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_name(self):
+    self.__name = YANGDynClass(base=str, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='leafref', is_config=True)
+
+
+  def _get_config(self):
+    """
+    Getter method for config, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/config (container)
+
+    YANG Description: Role profile configuration
+    """
+    return self.__config
+      
+  def _set_config(self, v, load=False):
+    """
+    Setter method for config, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/config (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_config is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_config() directly.
+
+    YANG Description: Role profile configuration
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_config_openconfig_access_points__access_points_access_point_role_profiles_role_profile_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """config must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_role_profiles_role_profile_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)""",
+        })
+
+    self.__config = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_config(self):
+    self.__config = YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_role_profiles_role_profile_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+
+
+  def _get_state(self):
+    """
+    Getter method for state, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/state (container)
+
+    YANG Description: Role profile state
+    """
+    return self.__state
+      
+  def _set_state(self, v, load=False):
+    """
+    Setter method for state, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/state (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_state is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_state() directly.
+
+    YANG Description: Role profile state
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_state_openconfig_access_points__access_points_access_point_role_profiles_role_profile_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """state must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_role_profiles_role_profile_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)""",
+        })
+
+    self.__state = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_state(self):
+    self.__state = YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_role_profiles_role_profile_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=False)
+
+
+  def _get_vlan(self):
+    """
+    Getter method for vlan, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/vlan (container)
+
+    YANG Description: VLAN to be configured for role
+    """
+    return self.__vlan
+      
+  def _set_vlan(self, v, load=False):
+    """
+    Setter method for vlan, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/vlan (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_vlan is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_vlan() directly.
+
+    YANG Description: VLAN to be configured for role
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_vlan_openconfig_access_points__access_points_access_point_role_profiles_role_profile_vlan, is_container='container', yang_name="vlan", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """vlan must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_vlan_openconfig_access_points__access_points_access_point_role_profiles_role_profile_vlan, is_container='container', yang_name="vlan", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)""",
+        })
+
+    self.__vlan = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_vlan(self):
+    self.__vlan = YANGDynClass(base=yc_vlan_openconfig_access_points__access_points_access_point_role_profiles_role_profile_vlan, is_container='container', yang_name="vlan", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+
+
+  def _get_redirection(self):
+    """
+    Getter method for redirection, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection (container)
+
+    YANG Description: Redirection related configuration
+    """
+    return self.__redirection
+      
+  def _set_redirection(self, v, load=False):
+    """
+    Setter method for redirection, mapped from YANG variable /access_points/access_point/role_profiles/role_profile/redirection (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_redirection is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_redirection() directly.
+
+    YANG Description: Redirection related configuration
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_redirection_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection, is_container='container', yang_name="redirection", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """redirection must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_redirection_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection, is_container='container', yang_name="redirection", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)""",
+        })
+
+    self.__redirection = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_redirection(self):
+    self.__redirection = YANGDynClass(base=yc_redirection_openconfig_access_points__access_points_access_point_role_profiles_role_profile_redirection, is_container='container', yang_name="redirection", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+
+  name = __builtin__.property(_get_name, _set_name)
+  config = __builtin__.property(_get_config, _set_config)
+  state = __builtin__.property(_get_state)
+  vlan = __builtin__.property(_get_vlan, _set_vlan)
+  redirection = __builtin__.property(_get_redirection, _set_redirection)
+
+
+  _pyangbind_elements = OrderedDict([('name', name), ('config', config), ('state', state), ('vlan', vlan), ('redirection', redirection), ])
+
+
+class yc_role_profiles_openconfig_access_points__access_points_access_point_role_profiles(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/role-profiles. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Top level container for role profiles
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__role_profile',)
+
+  _yang_name = 'role-profiles'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__role_profile = YANGDynClass(base=YANGListType("name",yc_role_profile_openconfig_access_points__access_points_access_point_role_profiles_role_profile, yang_name="role-profile", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='name', extensions=None), is_container='list', yang_name="role-profile", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='list', is_config=True)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'role-profiles']
+
+  def _get_role_profile(self):
+    """
+    Getter method for role_profile, mapped from YANG variable /access_points/access_point/role_profiles/role_profile (list)
+
+    YANG Description: Role profiles applied to access point
+    """
+    return self.__role_profile
+      
+  def _set_role_profile(self, v, load=False):
+    """
+    Setter method for role_profile, mapped from YANG variable /access_points/access_point/role_profiles/role_profile (list)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_role_profile is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_role_profile() directly.
+
+    YANG Description: Role profiles applied to access point
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGListType("name",yc_role_profile_openconfig_access_points__access_points_access_point_role_profiles_role_profile, yang_name="role-profile", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='name', extensions=None), is_container='list', yang_name="role-profile", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='list', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """role_profile must be of a type compatible with list""",
+          'defined-type': "list",
+          'generated-type': """YANGDynClass(base=YANGListType("name",yc_role_profile_openconfig_access_points__access_points_access_point_role_profiles_role_profile, yang_name="role-profile", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='name', extensions=None), is_container='list', yang_name="role-profile", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='list', is_config=True)""",
+        })
+
+    self.__role_profile = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_role_profile(self):
+    self.__role_profile = YANGDynClass(base=YANGListType("name",yc_role_profile_openconfig_access_points__access_points_access_point_role_profiles_role_profile, yang_name="role-profile", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='name', extensions=None), is_container='list', yang_name="role-profile", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='list', is_config=True)
+
+  role_profile = __builtin__.property(_get_role_profile, _set_role_profile)
+
+
+  _pyangbind_elements = OrderedDict([('role_profile', role_profile), ])
 
 
 class yc_config_openconfig_access_points__access_points_access_point_interfaces_interface_config(PybindBase):
@@ -105709,7 +111176,7 @@ class yc_access_point_openconfig_access_points__access_points_access_point(Pybin
   YANG Description: Configuration and state data for the access point referenced in the
 list entry.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__hostname','__config','__state','__radios','__ssids','__system','__assigned_ap_managers','__tunnels','__interfaces',)
+  __slots__ = ('_path_helper', '_extmethods', '__hostname','__config','__state','__radios','__ssids','__system','__assigned_ap_managers','__tunnels','__role_profiles','__interfaces',)
 
   _yang_name = 'access-point'
   _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
@@ -105729,6 +111196,7 @@ list entry.
     self.__system = YANGDynClass(base=yc_system_openconfig_access_points__access_points_access_point_system, is_container='container', yang_name="system", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='container', is_config=True)
     self.__assigned_ap_managers = YANGDynClass(base=yc_assigned_ap_managers_openconfig_access_points__access_points_access_point_assigned_ap_managers, is_container='container', yang_name="assigned-ap-managers", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='container', is_config=True)
     self.__tunnels = YANGDynClass(base=yc_tunnels_openconfig_access_points__access_points_access_point_tunnels, is_container='container', yang_name="tunnels", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    self.__role_profiles = YANGDynClass(base=yc_role_profiles_openconfig_access_points__access_points_access_point_role_profiles, is_container='container', yang_name="role-profiles", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
     self.__interfaces = YANGDynClass(base=yc_interfaces_openconfig_access_points__access_points_access_point_interfaces, is_container='container', yang_name="interfaces", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='container', is_config=True)
 
     load = kwargs.pop("load", None)
@@ -106067,6 +111535,43 @@ Secondary, Tertiary etc.
     self.__tunnels = YANGDynClass(base=yc_tunnels_openconfig_access_points__access_points_access_point_tunnels, is_container='container', yang_name="tunnels", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
 
 
+  def _get_role_profiles(self):
+    """
+    Getter method for role_profiles, mapped from YANG variable /access_points/access_point/role_profiles (container)
+
+    YANG Description: Top level container for role profiles
+    """
+    return self.__role_profiles
+      
+  def _set_role_profiles(self, v, load=False):
+    """
+    Setter method for role_profiles, mapped from YANG variable /access_points/access_point/role_profiles (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_role_profiles is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_role_profiles() directly.
+
+    YANG Description: Top level container for role profiles
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_role_profiles_openconfig_access_points__access_points_access_point_role_profiles, is_container='container', yang_name="role-profiles", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """role_profiles must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_role_profiles_openconfig_access_points__access_points_access_point_role_profiles, is_container='container', yang_name="role-profiles", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)""",
+        })
+
+    self.__role_profiles = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_role_profiles(self):
+    self.__role_profiles = YANGDynClass(base=yc_role_profiles_openconfig_access_points__access_points_access_point_role_profiles, is_container='container', yang_name="role-profiles", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://arista.com/yang/openconfig/wifi/augments', defining_module='arista-wifi-augments', yang_type='container', is_config=True)
+
+
   def _get_interfaces(self):
     """
     Getter method for interfaces, mapped from YANG variable /access_points/access_point/interfaces (container)
@@ -106113,10 +111618,11 @@ configuration and state data.
   system = __builtin__.property(_get_system, _set_system)
   assigned_ap_managers = __builtin__.property(_get_assigned_ap_managers, _set_assigned_ap_managers)
   tunnels = __builtin__.property(_get_tunnels, _set_tunnels)
+  role_profiles = __builtin__.property(_get_role_profiles, _set_role_profiles)
   interfaces = __builtin__.property(_get_interfaces, _set_interfaces)
 
 
-  _pyangbind_elements = OrderedDict([('hostname', hostname), ('config', config), ('state', state), ('radios', radios), ('ssids', ssids), ('system', system), ('assigned_ap_managers', assigned_ap_managers), ('tunnels', tunnels), ('interfaces', interfaces), ])
+  _pyangbind_elements = OrderedDict([('hostname', hostname), ('config', config), ('state', state), ('radios', radios), ('ssids', ssids), ('system', system), ('assigned_ap_managers', assigned_ap_managers), ('tunnels', tunnels), ('role_profiles', role_profiles), ('interfaces', interfaces), ])
 
 
 class yc_access_points_openconfig_access_points__access_points(PybindBase):
