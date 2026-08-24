@@ -16162,7 +16162,7 @@ class yc_config_openconfig_system__system_ssh_server_config(PybindBase):
 
   YANG Description: Configuration data for the system ssh server
   """
-  __slots__ = ('_path_helper', '_extmethods', '__enable','__protocol_version','__timeout','__rate_limit','__session_limit',)
+  __slots__ = ('_path_helper', '_extmethods', '__enable','__protocol_version','__host_certificate','__timeout','__rate_limit','__session_limit',)
 
   _yang_name = 'config'
   _yang_namespace = 'http://openconfig.net/yang/system'
@@ -16176,6 +16176,7 @@ class yc_config_openconfig_system__system_ssh_server_config(PybindBase):
     self._extmethods = False
     self.__enable = YANGDynClass(base=YANGBool, default=YANGBool("true"), is_leaf=True, yang_name="enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system', defining_module='openconfig-system', yang_type='boolean', is_config=True)
     self.__protocol_version = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'V2': {}, 'V1': {}, 'V1_V2': {}},), default=str("V2"), is_leaf=True, yang_name="protocol-version", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system', defining_module='openconfig-system', yang_type='enumeration', is_config=True)
+    self.__host_certificate = YANGDynClass(base=str, is_leaf=True, yang_name="host-certificate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system', defining_module='openconfig-system', yang_type='string', is_config=True)
     self.__timeout = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="timeout", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system', defining_module='openconfig-system', yang_type='uint16', is_config=True)
     self.__rate_limit = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="rate-limit", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system', defining_module='openconfig-system', yang_type='uint16', is_config=True)
     self.__session_limit = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="session-limit", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system', defining_module='openconfig-system', yang_type='uint16', is_config=True)
@@ -16281,6 +16282,43 @@ default.
 
   def _unset_protocol_version(self):
     self.__protocol_version = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'V2': {}, 'V1': {}, 'V1_V2': {}},), default=str("V2"), is_leaf=True, yang_name="protocol-version", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system', defining_module='openconfig-system', yang_type='enumeration', is_config=True)
+
+
+  def _get_host_certificate(self):
+    """
+    Getter method for host_certificate, mapped from YANG variable /system/ssh_server/config/host_certificate (string)
+
+    YANG Description: SSH Host Certificate string. This is the full content of an openssh host certificate
+    """
+    return self.__host_certificate
+      
+  def _set_host_certificate(self, v, load=False):
+    """
+    Setter method for host_certificate, mapped from YANG variable /system/ssh_server/config/host_certificate (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_host_certificate is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_host_certificate() directly.
+
+    YANG Description: SSH Host Certificate string. This is the full content of an openssh host certificate
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="host-certificate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system', defining_module='openconfig-system', yang_type='string', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """host_certificate must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="host-certificate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system', defining_module='openconfig-system', yang_type='string', is_config=True)""",
+        })
+
+    self.__host_certificate = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_host_certificate(self):
+    self.__host_certificate = YANGDynClass(base=str, is_leaf=True, yang_name="host-certificate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system', defining_module='openconfig-system', yang_type='string', is_config=True)
 
 
   def _get_timeout(self):
@@ -16403,12 +16441,13 @@ telnet, ...)
 
   enable = __builtin__.property(_get_enable, _set_enable)
   protocol_version = __builtin__.property(_get_protocol_version, _set_protocol_version)
+  host_certificate = __builtin__.property(_get_host_certificate, _set_host_certificate)
   timeout = __builtin__.property(_get_timeout, _set_timeout)
   rate_limit = __builtin__.property(_get_rate_limit, _set_rate_limit)
   session_limit = __builtin__.property(_get_session_limit, _set_session_limit)
 
 
-  _pyangbind_elements = OrderedDict([('enable', enable), ('protocol_version', protocol_version), ('timeout', timeout), ('rate_limit', rate_limit), ('session_limit', session_limit), ])
+  _pyangbind_elements = OrderedDict([('enable', enable), ('protocol_version', protocol_version), ('host_certificate', host_certificate), ('timeout', timeout), ('rate_limit', rate_limit), ('session_limit', session_limit), ])
 
 
 class yc_state_openconfig_system__system_ssh_server_state(PybindBase):
@@ -16420,7 +16459,7 @@ class yc_state_openconfig_system__system_ssh_server_state(PybindBase):
 
   YANG Description: Operational state data for the system ssh server
   """
-  __slots__ = ('_path_helper', '_extmethods', '__enable','__protocol_version','__timeout','__rate_limit','__session_limit',)
+  __slots__ = ('_path_helper', '_extmethods', '__enable','__protocol_version','__host_certificate','__timeout','__rate_limit','__session_limit',)
 
   _yang_name = 'state'
   _yang_namespace = 'http://openconfig.net/yang/system'
@@ -16434,6 +16473,7 @@ class yc_state_openconfig_system__system_ssh_server_state(PybindBase):
     self._extmethods = False
     self.__enable = YANGDynClass(base=YANGBool, default=YANGBool("true"), is_leaf=True, yang_name="enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system', defining_module='openconfig-system', yang_type='boolean', is_config=False)
     self.__protocol_version = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'V2': {}, 'V1': {}, 'V1_V2': {}},), default=str("V2"), is_leaf=True, yang_name="protocol-version", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system', defining_module='openconfig-system', yang_type='enumeration', is_config=False)
+    self.__host_certificate = YANGDynClass(base=str, is_leaf=True, yang_name="host-certificate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system', defining_module='openconfig-system', yang_type='string', is_config=False)
     self.__timeout = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="timeout", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system', defining_module='openconfig-system', yang_type='uint16', is_config=False)
     self.__rate_limit = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="rate-limit", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system', defining_module='openconfig-system', yang_type='uint16', is_config=False)
     self.__session_limit = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="session-limit", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system', defining_module='openconfig-system', yang_type='uint16', is_config=False)
@@ -16539,6 +16579,43 @@ default.
 
   def _unset_protocol_version(self):
     self.__protocol_version = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'V2': {}, 'V1': {}, 'V1_V2': {}},), default=str("V2"), is_leaf=True, yang_name="protocol-version", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system', defining_module='openconfig-system', yang_type='enumeration', is_config=False)
+
+
+  def _get_host_certificate(self):
+    """
+    Getter method for host_certificate, mapped from YANG variable /system/ssh_server/state/host_certificate (string)
+
+    YANG Description: SSH Host Certificate string. This is the full content of an openssh host certificate
+    """
+    return self.__host_certificate
+      
+  def _set_host_certificate(self, v, load=False):
+    """
+    Setter method for host_certificate, mapped from YANG variable /system/ssh_server/state/host_certificate (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_host_certificate is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_host_certificate() directly.
+
+    YANG Description: SSH Host Certificate string. This is the full content of an openssh host certificate
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="host-certificate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system', defining_module='openconfig-system', yang_type='string', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """host_certificate must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="host-certificate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system', defining_module='openconfig-system', yang_type='string', is_config=False)""",
+        })
+
+    self.__host_certificate = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_host_certificate(self):
+    self.__host_certificate = YANGDynClass(base=str, is_leaf=True, yang_name="host-certificate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system', defining_module='openconfig-system', yang_type='string', is_config=False)
 
 
   def _get_timeout(self):
@@ -16661,12 +16738,13 @@ telnet, ...)
 
   enable = __builtin__.property(_get_enable)
   protocol_version = __builtin__.property(_get_protocol_version)
+  host_certificate = __builtin__.property(_get_host_certificate)
   timeout = __builtin__.property(_get_timeout)
   rate_limit = __builtin__.property(_get_rate_limit)
   session_limit = __builtin__.property(_get_session_limit)
 
 
-  _pyangbind_elements = OrderedDict([('enable', enable), ('protocol_version', protocol_version), ('timeout', timeout), ('rate_limit', rate_limit), ('session_limit', session_limit), ])
+  _pyangbind_elements = OrderedDict([('enable', enable), ('protocol_version', protocol_version), ('host_certificate', host_certificate), ('timeout', timeout), ('rate_limit', rate_limit), ('session_limit', session_limit), ])
 
 
 class yc_ssh_server_openconfig_system__system_ssh_server(PybindBase):
@@ -23287,7 +23365,7 @@ class yc_state_openconfig_system__system_memory_state(PybindBase):
 
   YANG Description: Operational state data for system memory
   """
-  __slots__ = ('_path_helper', '_extmethods', '__counters','__physical','__reserved','__used','__free',)
+  __slots__ = ('_path_helper', '_extmethods', '__counters','__physical','__reserved','__used','__free','__available',)
 
   _yang_name = 'state'
   _yang_namespace = 'http://openconfig.net/yang/system'
@@ -23304,6 +23382,7 @@ class yc_state_openconfig_system__system_memory_state(PybindBase):
     self.__reserved = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="reserved", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system', defining_module='openconfig-system', yang_type='uint64', is_config=False)
     self.__used = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="used", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system', defining_module='openconfig-system', yang_type='uint64', is_config=False)
     self.__free = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="free", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system', defining_module='openconfig-system', yang_type='uint64', is_config=False)
+    self.__available = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="available", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system', defining_module='openconfig-system', yang_type='uint64', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -23518,14 +23597,60 @@ system.
   def _unset_free(self):
     self.__free = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="free", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system', defining_module='openconfig-system', yang_type='uint64', is_config=False)
 
+
+  def _get_available(self):
+    """
+    Getter method for available, mapped from YANG variable /system/memory/state/available (uint64)
+
+    YANG Description: The amount of memory that is available for use.
+
+In addition to the memory reported by free, this leaf also includes
+memory used for system caches and buffers that can be
+reclaimed by the operating system.
+    """
+    return self.__available
+      
+  def _set_available(self, v, load=False):
+    """
+    Setter method for available, mapped from YANG variable /system/memory/state/available (uint64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_available is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_available() directly.
+
+    YANG Description: The amount of memory that is available for use.
+
+In addition to the memory reported by free, this leaf also includes
+memory used for system caches and buffers that can be
+reclaimed by the operating system.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="available", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system', defining_module='openconfig-system', yang_type='uint64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """available must be of a type compatible with uint64""",
+          'defined-type': "uint64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="available", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system', defining_module='openconfig-system', yang_type='uint64', is_config=False)""",
+        })
+
+    self.__available = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_available(self):
+    self.__available = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="available", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/system', defining_module='openconfig-system', yang_type='uint64', is_config=False)
+
   counters = __builtin__.property(_get_counters)
   physical = __builtin__.property(_get_physical)
   reserved = __builtin__.property(_get_reserved)
   used = __builtin__.property(_get_used)
   free = __builtin__.property(_get_free)
+  available = __builtin__.property(_get_available)
 
 
-  _pyangbind_elements = OrderedDict([('counters', counters), ('physical', physical), ('reserved', reserved), ('used', used), ('free', free), ])
+  _pyangbind_elements = OrderedDict([('counters', counters), ('physical', physical), ('reserved', reserved), ('used', used), ('free', free), ('available', available), ])
 
 
 class yc_memory_openconfig_system__system_memory(PybindBase):

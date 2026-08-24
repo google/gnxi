@@ -218,7 +218,7 @@ class yc_config_openconfig_lacp__lacp_interfaces_interface_config(PybindBase):
 
   YANG Description: Configuration data for each LACP aggregate interface
   """
-  __slots__ = ('_path_helper', '_extmethods', '__name','__interval','__lacp_mode','__system_id_mac','__fallback','__system_priority',)
+  __slots__ = ('_path_helper', '_extmethods', '__name','__interval','__lacp_mode','__system_id_mac','__fallback','__fallback_timeout','__system_priority',)
 
   _yang_name = 'config'
   _yang_namespace = 'http://openconfig.net/yang/lacp'
@@ -235,6 +235,7 @@ class yc_config_openconfig_lacp__lacp_interfaces_interface_config(PybindBase):
     self.__lacp_mode = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'ACTIVE': {}, 'PASSIVE': {}},), default=str("ACTIVE"), is_leaf=True, yang_name="lacp-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='lacp-activity-type', is_config=True)
     self.__system_id_mac = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_dict={'pattern': '[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){5}'}), is_leaf=True, yang_name="system-id-mac", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='oc-yang:mac-address', is_config=True)
     self.__fallback = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="fallback", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='boolean', is_config=True)
+    self.__fallback_timeout = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="fallback-timeout", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='uint16', is_config=True)
     self.__system_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="system-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='uint16', is_config=True)
 
     load = kwargs.pop("load", None)
@@ -469,6 +470,43 @@ after the expiry of the timeout period.
     self.__fallback = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="fallback", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='boolean', is_config=True)
 
 
+  def _get_fallback_timeout(self):
+    """
+    Getter method for fallback_timeout, mapped from YANG variable /lacp/interfaces/interface/config/fallback_timeout (uint16)
+
+    YANG Description: The timeout in seconds to wait for LACP PDUs before falling back to a single port.
+    """
+    return self.__fallback_timeout
+      
+  def _set_fallback_timeout(self, v, load=False):
+    """
+    Setter method for fallback_timeout, mapped from YANG variable /lacp/interfaces/interface/config/fallback_timeout (uint16)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fallback_timeout is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fallback_timeout() directly.
+
+    YANG Description: The timeout in seconds to wait for LACP PDUs before falling back to a single port.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="fallback-timeout", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='uint16', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fallback_timeout must be of a type compatible with uint16""",
+          'defined-type': "uint16",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="fallback-timeout", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='uint16', is_config=True)""",
+        })
+
+    self.__fallback_timeout = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fallback_timeout(self):
+    self.__fallback_timeout = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="fallback-timeout", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='uint16', is_config=True)
+
+
   def _get_system_priority(self):
     """
     Getter method for system_priority, mapped from YANG variable /lacp/interfaces/interface/config/system_priority (uint16)
@@ -514,10 +552,11 @@ is the controlling system.
   lacp_mode = __builtin__.property(_get_lacp_mode, _set_lacp_mode)
   system_id_mac = __builtin__.property(_get_system_id_mac, _set_system_id_mac)
   fallback = __builtin__.property(_get_fallback, _set_fallback)
+  fallback_timeout = __builtin__.property(_get_fallback_timeout, _set_fallback_timeout)
   system_priority = __builtin__.property(_get_system_priority, _set_system_priority)
 
 
-  _pyangbind_elements = OrderedDict([('name', name), ('interval', interval), ('lacp_mode', lacp_mode), ('system_id_mac', system_id_mac), ('fallback', fallback), ('system_priority', system_priority), ])
+  _pyangbind_elements = OrderedDict([('name', name), ('interval', interval), ('lacp_mode', lacp_mode), ('system_id_mac', system_id_mac), ('fallback', fallback), ('fallback_timeout', fallback_timeout), ('system_priority', system_priority), ])
 
 
 class yc_state_openconfig_lacp__lacp_interfaces_interface_state(PybindBase):
@@ -530,7 +569,7 @@ class yc_state_openconfig_lacp__lacp_interfaces_interface_state(PybindBase):
   YANG Description: Operational state data for each LACP aggregate
 interface
   """
-  __slots__ = ('_path_helper', '_extmethods', '__name','__interval','__lacp_mode','__system_id_mac','__fallback','__system_priority',)
+  __slots__ = ('_path_helper', '_extmethods', '__name','__interval','__lacp_mode','__system_id_mac','__fallback','__fallback_timeout','__system_priority',)
 
   _yang_name = 'state'
   _yang_namespace = 'http://openconfig.net/yang/lacp'
@@ -547,6 +586,7 @@ interface
     self.__lacp_mode = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'ACTIVE': {}, 'PASSIVE': {}},), default=str("ACTIVE"), is_leaf=True, yang_name="lacp-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='lacp-activity-type', is_config=False)
     self.__system_id_mac = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_dict={'pattern': '[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){5}'}), is_leaf=True, yang_name="system-id-mac", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='oc-yang:mac-address', is_config=False)
     self.__fallback = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="fallback", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='boolean', is_config=False)
+    self.__fallback_timeout = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="fallback-timeout", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='uint16', is_config=False)
     self.__system_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="system-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='uint16', is_config=False)
 
     load = kwargs.pop("load", None)
@@ -781,6 +821,43 @@ after the expiry of the timeout period.
     self.__fallback = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="fallback", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='boolean', is_config=False)
 
 
+  def _get_fallback_timeout(self):
+    """
+    Getter method for fallback_timeout, mapped from YANG variable /lacp/interfaces/interface/state/fallback_timeout (uint16)
+
+    YANG Description: The timeout in seconds to wait for LACP PDUs before falling back to a single port.
+    """
+    return self.__fallback_timeout
+      
+  def _set_fallback_timeout(self, v, load=False):
+    """
+    Setter method for fallback_timeout, mapped from YANG variable /lacp/interfaces/interface/state/fallback_timeout (uint16)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fallback_timeout is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fallback_timeout() directly.
+
+    YANG Description: The timeout in seconds to wait for LACP PDUs before falling back to a single port.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="fallback-timeout", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='uint16', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fallback_timeout must be of a type compatible with uint16""",
+          'defined-type': "uint16",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="fallback-timeout", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='uint16', is_config=False)""",
+        })
+
+    self.__fallback_timeout = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fallback_timeout(self):
+    self.__fallback_timeout = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="fallback-timeout", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lacp', defining_module='openconfig-lacp', yang_type='uint16', is_config=False)
+
+
   def _get_system_priority(self):
     """
     Getter method for system_priority, mapped from YANG variable /lacp/interfaces/interface/state/system_priority (uint16)
@@ -826,10 +903,11 @@ is the controlling system.
   lacp_mode = __builtin__.property(_get_lacp_mode)
   system_id_mac = __builtin__.property(_get_system_id_mac)
   fallback = __builtin__.property(_get_fallback)
+  fallback_timeout = __builtin__.property(_get_fallback_timeout)
   system_priority = __builtin__.property(_get_system_priority)
 
 
-  _pyangbind_elements = OrderedDict([('name', name), ('interval', interval), ('lacp_mode', lacp_mode), ('system_id_mac', system_id_mac), ('fallback', fallback), ('system_priority', system_priority), ])
+  _pyangbind_elements = OrderedDict([('name', name), ('interval', interval), ('lacp_mode', lacp_mode), ('system_id_mac', system_id_mac), ('fallback', fallback), ('fallback_timeout', fallback_timeout), ('system_priority', system_priority), ])
 
 
 class yc_config_openconfig_lacp__lacp_interfaces_interface_members_member_config(PybindBase):
