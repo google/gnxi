@@ -2717,7 +2717,7 @@ multicast.
 
     YANG Description: Number of packets dropped by the queue due to overrun, that is tail-drop
 or AMQ (RED, WRED, etc) induced drops as indicated by the attached
-queue-management-profile
+queue-management-profile.
     """
     return self.__dropped_pkts
       
@@ -2731,7 +2731,7 @@ queue-management-profile
 
     YANG Description: Number of packets dropped by the queue due to overrun, that is tail-drop
 or AMQ (RED, WRED, etc) induced drops as indicated by the attached
-queue-management-profile
+queue-management-profile.
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -4739,7 +4739,7 @@ the system.
 
     YANG Description: Number of packets dropped by the queue due to overrun, that is tail-drop
 or AMQ (RED, WRED, etc) induced drops as indicated by the attached
-queue-management-profile
+queue-management-profile.
     """
     return self.__dropped_pkts
       
@@ -4753,7 +4753,7 @@ queue-management-profile
 
     YANG Description: Number of packets dropped by the queue due to overrun, that is tail-drop
 or AMQ (RED, WRED, etc) induced drops as indicated by the attached
-queue-management-profile
+queue-management-profile.
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -7529,7 +7529,7 @@ class yc_state_openconfig_qos__qos_interfaces_interface_output_queues_queue_stat
   YANG Description: Operational state data for the queue associated with the
 interface
   """
-  __slots__ = ('_path_helper', '_extmethods', '__name','__queue_management_profile','__max_queue_len','__avg_queue_len','__transmit_pkts','__transmit_octets','__dropped_pkts','__dropped_octets','__ecn_marked_pkts','__ecn_marked_octets','__ecn_selected_pkts','__ecn_selected_octets',)
+  __slots__ = ('_path_helper', '_extmethods', '__name','__queue_management_profile','__max_queue_len','__avg_queue_len','__transmit_pkts','__transmit_octets','__dropped_pkts','__dropped_octets','__ecn_marked_pkts','__ecn_marked_octets','__ecn_selected_pkts','__ecn_selected_octets','__dropped_trim_pkts','__trim_pkts','__out_trim_pkts',)
 
   _yang_name = 'state'
   _yang_namespace = 'http://openconfig.net/yang/qos'
@@ -7553,6 +7553,9 @@ interface
     self.__ecn_marked_octets = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="ecn-marked-octets", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
     self.__ecn_selected_pkts = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="ecn-selected-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
     self.__ecn_selected_octets = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="ecn-selected-octets", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+    self.__dropped_trim_pkts = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="dropped-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+    self.__trim_pkts = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+    self.__out_trim_pkts = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="out-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -7839,7 +7842,7 @@ multicast.
 
     YANG Description: Number of packets dropped by the queue due to overrun, that is tail-drop
 or AMQ (RED, WRED, etc) induced drops as indicated by the attached
-queue-management-profile
+queue-management-profile.
     """
     return self.__dropped_pkts
       
@@ -7853,7 +7856,7 @@ queue-management-profile
 
     YANG Description: Number of packets dropped by the queue due to overrun, that is tail-drop
 or AMQ (RED, WRED, etc) induced drops as indicated by the attached
-queue-management-profile
+queue-management-profile.
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -8086,6 +8089,127 @@ Octets are counted regardless of its ECN codepoint
   def _unset_ecn_selected_octets(self):
     self.__ecn_selected_octets = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="ecn-selected-octets", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
 
+
+  def _get_dropped_trim_pkts(self):
+    """
+    Getter method for dropped_trim_pkts, mapped from YANG variable /qos/interfaces/interface/output/queues/queue/state/dropped_trim_pkts (oc-yang:counter64)
+
+    YANG Description: The number of packets that were trimmed but dropped due to a
+failed shared buffer admission on the trim queue.
+    """
+    return self.__dropped_trim_pkts
+      
+  def _set_dropped_trim_pkts(self, v, load=False):
+    """
+    Setter method for dropped_trim_pkts, mapped from YANG variable /qos/interfaces/interface/output/queues/queue/state/dropped_trim_pkts (oc-yang:counter64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_dropped_trim_pkts is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_dropped_trim_pkts() directly.
+
+    YANG Description: The number of packets that were trimmed but dropped due to a
+failed shared buffer admission on the trim queue.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="dropped-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """dropped_trim_pkts must be of a type compatible with oc-yang:counter64""",
+          'defined-type': "oc-yang:counter64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="dropped-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)""",
+        })
+
+    self.__dropped_trim_pkts = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_dropped_trim_pkts(self):
+    self.__dropped_trim_pkts = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="dropped-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+
+
+  def _get_trim_pkts(self):
+    """
+    Getter method for trim_pkts, mapped from YANG variable /qos/interfaces/interface/output/queues/queue/state/trim_pkts (oc-yang:counter64)
+
+    YANG Description: The total number of packets that were trimmed.
+This counter includes both packets that were
+transmitted after trimming and those that were
+subsequently dropped.
+    """
+    return self.__trim_pkts
+      
+  def _set_trim_pkts(self, v, load=False):
+    """
+    Setter method for trim_pkts, mapped from YANG variable /qos/interfaces/interface/output/queues/queue/state/trim_pkts (oc-yang:counter64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_trim_pkts is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_trim_pkts() directly.
+
+    YANG Description: The total number of packets that were trimmed.
+This counter includes both packets that were
+transmitted after trimming and those that were
+subsequently dropped.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """trim_pkts must be of a type compatible with oc-yang:counter64""",
+          'defined-type': "oc-yang:counter64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)""",
+        })
+
+    self.__trim_pkts = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_trim_pkts(self):
+    self.__trim_pkts = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+
+
+  def _get_out_trim_pkts(self):
+    """
+    Getter method for out_trim_pkts, mapped from YANG variable /qos/interfaces/interface/output/queues/queue/state/out_trim_pkts (oc-yang:counter64)
+
+    YANG Description: The number of packets that were trimmed and successfully
+transmitted.
+    """
+    return self.__out_trim_pkts
+      
+  def _set_out_trim_pkts(self, v, load=False):
+    """
+    Setter method for out_trim_pkts, mapped from YANG variable /qos/interfaces/interface/output/queues/queue/state/out_trim_pkts (oc-yang:counter64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_out_trim_pkts is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_out_trim_pkts() directly.
+
+    YANG Description: The number of packets that were trimmed and successfully
+transmitted.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="out-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """out_trim_pkts must be of a type compatible with oc-yang:counter64""",
+          'defined-type': "oc-yang:counter64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="out-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)""",
+        })
+
+    self.__out_trim_pkts = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_out_trim_pkts(self):
+    self.__out_trim_pkts = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="out-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+
   name = __builtin__.property(_get_name)
   queue_management_profile = __builtin__.property(_get_queue_management_profile)
   max_queue_len = __builtin__.property(_get_max_queue_len)
@@ -8098,9 +8222,12 @@ Octets are counted regardless of its ECN codepoint
   ecn_marked_octets = __builtin__.property(_get_ecn_marked_octets)
   ecn_selected_pkts = __builtin__.property(_get_ecn_selected_pkts)
   ecn_selected_octets = __builtin__.property(_get_ecn_selected_octets)
+  dropped_trim_pkts = __builtin__.property(_get_dropped_trim_pkts)
+  trim_pkts = __builtin__.property(_get_trim_pkts)
+  out_trim_pkts = __builtin__.property(_get_out_trim_pkts)
 
 
-  _pyangbind_elements = OrderedDict([('name', name), ('queue_management_profile', queue_management_profile), ('max_queue_len', max_queue_len), ('avg_queue_len', avg_queue_len), ('transmit_pkts', transmit_pkts), ('transmit_octets', transmit_octets), ('dropped_pkts', dropped_pkts), ('dropped_octets', dropped_octets), ('ecn_marked_pkts', ecn_marked_pkts), ('ecn_marked_octets', ecn_marked_octets), ('ecn_selected_pkts', ecn_selected_pkts), ('ecn_selected_octets', ecn_selected_octets), ])
+  _pyangbind_elements = OrderedDict([('name', name), ('queue_management_profile', queue_management_profile), ('max_queue_len', max_queue_len), ('avg_queue_len', avg_queue_len), ('transmit_pkts', transmit_pkts), ('transmit_octets', transmit_octets), ('dropped_pkts', dropped_pkts), ('dropped_octets', dropped_octets), ('ecn_marked_pkts', ecn_marked_pkts), ('ecn_marked_octets', ecn_marked_octets), ('ecn_selected_pkts', ecn_selected_pkts), ('ecn_selected_octets', ecn_selected_octets), ('dropped_trim_pkts', dropped_trim_pkts), ('trim_pkts', trim_pkts), ('out_trim_pkts', out_trim_pkts), ])
 
 
 class yc_queue_openconfig_qos__qos_interfaces_interface_output_queues_queue(PybindBase):
@@ -15699,6 +15826,348 @@ within the MPLS header
   _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
 
 
+class yc_config_openconfig_qos__qos_classifiers_classifier_terms_term_conditions_fabric_config(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-qos - based on the path /qos/classifiers/classifier/terms/term/conditions/fabric/config. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Configuration parameters relating to fabric
+parameters.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__fabric_priority',)
+
+  _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/qos'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['qos', 'classifiers', 'classifier', 'terms', 'term', 'conditions', 'fabric', 'config']
+
+  def _get_fabric_priority(self):
+    """
+    Getter method for fabric_priority, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/config/fabric_priority (uint8)
+
+    YANG Description: Specifies the priority for the forwarding group for local
+transmission through the device (e.g., across the internal
+switching fabric). The priority is expressed as a numerical
+value where higher values indicate higher precedence. For
+example, traffic with fabric priority 128 is treated with
+higher priority than traffic with fabric priority 0.
+    """
+    return self.__fabric_priority
+      
+  def _set_fabric_priority(self, v, load=False):
+    """
+    Setter method for fabric_priority, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/config/fabric_priority (uint8)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fabric_priority is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fabric_priority() directly.
+
+    YANG Description: Specifies the priority for the forwarding group for local
+transmission through the device (e.g., across the internal
+switching fabric). The priority is expressed as a numerical
+value where higher values indicate higher precedence. For
+example, traffic with fabric priority 128 is treated with
+higher priority than traffic with fabric priority 0.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fabric_priority must be of a type compatible with uint8""",
+          'defined-type': "uint8",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)""",
+        })
+
+    self.__fabric_priority = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fabric_priority(self):
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+
+  fabric_priority = __builtin__.property(_get_fabric_priority, _set_fabric_priority)
+
+
+  _pyangbind_elements = OrderedDict([('fabric_priority', fabric_priority), ])
+
+
+class yc_state_openconfig_qos__qos_classifiers_classifier_terms_term_conditions_fabric_state(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-qos - based on the path /qos/classifiers/classifier/terms/term/conditions/fabric/state. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Operational state parameters relating to fabric
+parameters.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__fabric_priority',)
+
+  _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/qos'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['qos', 'classifiers', 'classifier', 'terms', 'term', 'conditions', 'fabric', 'state']
+
+  def _get_fabric_priority(self):
+    """
+    Getter method for fabric_priority, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/state/fabric_priority (uint8)
+
+    YANG Description: Specifies the priority for the forwarding group for local
+transmission through the device (e.g., across the internal
+switching fabric). The priority is expressed as a numerical
+value where higher values indicate higher precedence. For
+example, traffic with fabric priority 128 is treated with
+higher priority than traffic with fabric priority 0.
+    """
+    return self.__fabric_priority
+      
+  def _set_fabric_priority(self, v, load=False):
+    """
+    Setter method for fabric_priority, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/state/fabric_priority (uint8)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fabric_priority is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fabric_priority() directly.
+
+    YANG Description: Specifies the priority for the forwarding group for local
+transmission through the device (e.g., across the internal
+switching fabric). The priority is expressed as a numerical
+value where higher values indicate higher precedence. For
+example, traffic with fabric priority 128 is treated with
+higher priority than traffic with fabric priority 0.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fabric_priority must be of a type compatible with uint8""",
+          'defined-type': "uint8",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)""",
+        })
+
+    self.__fabric_priority = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fabric_priority(self):
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+
+  fabric_priority = __builtin__.property(_get_fabric_priority)
+
+
+  _pyangbind_elements = OrderedDict([('fabric_priority', fabric_priority), ])
+
+
+class yc_fabric_openconfig_qos__qos_classifiers_classifier_terms_term_conditions_fabric(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-qos - based on the path /qos/classifiers/classifier/terms/term/conditions/fabric. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Enclosing container for managing device-specific fabric
+attributes.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
+
+  _yang_name = 'fabric'
+  _yang_namespace = 'http://openconfig.net/yang/qos'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__config = YANGDynClass(base=yc_config_openconfig_qos__qos_classifiers_classifier_terms_term_conditions_fabric_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_qos__qos_classifiers_classifier_terms_term_conditions_fabric_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['qos', 'classifiers', 'classifier', 'terms', 'term', 'conditions', 'fabric']
+
+  def _get_config(self):
+    """
+    Getter method for config, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/config (container)
+
+    YANG Description: Configuration parameters relating to fabric
+parameters.
+    """
+    return self.__config
+      
+  def _set_config(self, v, load=False):
+    """
+    Setter method for config, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/config (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_config is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_config() directly.
+
+    YANG Description: Configuration parameters relating to fabric
+parameters.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_config_openconfig_qos__qos_classifiers_classifier_terms_term_conditions_fabric_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """config must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_config_openconfig_qos__qos_classifiers_classifier_terms_term_conditions_fabric_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)""",
+        })
+
+    self.__config = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_config(self):
+    self.__config = YANGDynClass(base=yc_config_openconfig_qos__qos_classifiers_classifier_terms_term_conditions_fabric_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+
+
+  def _get_state(self):
+    """
+    Getter method for state, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/state (container)
+
+    YANG Description: Operational state parameters relating to fabric
+parameters.
+    """
+    return self.__state
+      
+  def _set_state(self, v, load=False):
+    """
+    Setter method for state, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/state (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_state is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_state() directly.
+
+    YANG Description: Operational state parameters relating to fabric
+parameters.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_state_openconfig_qos__qos_classifiers_classifier_terms_term_conditions_fabric_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """state must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_qos__qos_classifiers_classifier_terms_term_conditions_fabric_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)""",
+        })
+
+    self.__state = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_state(self):
+    self.__state = YANGDynClass(base=yc_state_openconfig_qos__qos_classifiers_classifier_terms_term_conditions_fabric_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)
+
+  config = __builtin__.property(_get_config, _set_config)
+  state = __builtin__.property(_get_state)
+
+
+  _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
+
+
 class yc_conditions_openconfig_qos__qos_classifiers_classifier_terms_term_conditions(PybindBase):
   """
   This class was auto-generated by the PythonClass plugin for PYANG
@@ -15710,7 +16179,7 @@ class yc_conditions_openconfig_qos__qos_classifiers_classifier_terms_term_condit
 the criteria specified within the match condition to be considered
 matching the term.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__l2','__ipv4','__ipv6','__transport','__mpls',)
+  __slots__ = ('_path_helper', '_extmethods', '__l2','__ipv4','__ipv6','__transport','__mpls','__fabric',)
 
   _yang_name = 'conditions'
   _yang_namespace = 'http://openconfig.net/yang/qos'
@@ -15727,6 +16196,7 @@ matching the term.
     self.__ipv6 = YANGDynClass(base=yc_ipv6_openconfig_qos__qos_classifiers_classifier_terms_term_conditions_ipv6, is_container='container', yang_name="ipv6", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
     self.__transport = YANGDynClass(base=yc_transport_openconfig_qos__qos_classifiers_classifier_terms_term_conditions_transport, is_container='container', yang_name="transport", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
     self.__mpls = YANGDynClass(base=yc_mpls_openconfig_qos__qos_classifiers_classifier_terms_term_conditions_mpls, is_container='container', yang_name="mpls", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    self.__fabric = YANGDynClass(base=yc_fabric_openconfig_qos__qos_classifiers_classifier_terms_term_conditions_fabric, is_container='container', yang_name="fabric", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
 
     load = kwargs.pop("load", None)
     if args:
@@ -15939,14 +16409,54 @@ matching the term.
   def _unset_mpls(self):
     self.__mpls = YANGDynClass(base=yc_mpls_openconfig_qos__qos_classifiers_classifier_terms_term_conditions_mpls, is_container='container', yang_name="mpls", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
 
+
+  def _get_fabric(self):
+    """
+    Getter method for fabric, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric (container)
+
+    YANG Description: Enclosing container for managing device-specific fabric
+attributes.
+    """
+    return self.__fabric
+      
+  def _set_fabric(self, v, load=False):
+    """
+    Setter method for fabric, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fabric is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fabric() directly.
+
+    YANG Description: Enclosing container for managing device-specific fabric
+attributes.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_fabric_openconfig_qos__qos_classifiers_classifier_terms_term_conditions_fabric, is_container='container', yang_name="fabric", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fabric must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_fabric_openconfig_qos__qos_classifiers_classifier_terms_term_conditions_fabric, is_container='container', yang_name="fabric", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)""",
+        })
+
+    self.__fabric = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fabric(self):
+    self.__fabric = YANGDynClass(base=yc_fabric_openconfig_qos__qos_classifiers_classifier_terms_term_conditions_fabric, is_container='container', yang_name="fabric", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+
   l2 = __builtin__.property(_get_l2, _set_l2)
   ipv4 = __builtin__.property(_get_ipv4, _set_ipv4)
   ipv6 = __builtin__.property(_get_ipv6, _set_ipv6)
   transport = __builtin__.property(_get_transport, _set_transport)
   mpls = __builtin__.property(_get_mpls, _set_mpls)
+  fabric = __builtin__.property(_get_fabric, _set_fabric)
 
 
-  _pyangbind_elements = OrderedDict([('l2', l2), ('ipv4', ipv4), ('ipv6', ipv6), ('transport', transport), ('mpls', mpls), ])
+  _pyangbind_elements = OrderedDict([('l2', l2), ('ipv4', ipv4), ('ipv6', ipv6), ('transport', transport), ('mpls', mpls), ('fabric', fabric), ])
 
 
 class yc_config_openconfig_qos__qos_classifiers_classifier_terms_term_actions_config(PybindBase):
@@ -26320,7 +26830,7 @@ class yc_config_openconfig_qos__qos_buffer_allocation_profiles_buffer_allocation
   YANG Description: Configuration parameters relating to a queue within a buffer allocation
 profile.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__name','__dedicated_buffer','__dedicated_buffer_temporal','__use_shared_buffer','__shared_buffer_limit_type','__static_shared_buffer_limit','__static_shared_buffer_limit_temporal','__dynamic_limit_scaling_factor',)
+  __slots__ = ('_path_helper', '_extmethods', '__name','__dedicated_buffer','__dedicated_buffer_temporal','__use_shared_buffer','__shared_buffer_limit_type','__static_shared_buffer_limit','__static_shared_buffer_limit_temporal','__dynamic_limit_scaling_factor','__trim_enable',)
 
   _yang_name = 'config'
   _yang_namespace = 'http://openconfig.net/yang/qos'
@@ -26340,6 +26850,7 @@ profile.
     self.__static_shared_buffer_limit = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="static-shared-buffer-limit", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint32', is_config=True)
     self.__static_shared_buffer_limit_temporal = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="static-shared-buffer-limit-temporal", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint32', is_config=True)
     self.__dynamic_limit_scaling_factor = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['-2147483648..2147483647']}, int_size=32), is_leaf=True, yang_name="dynamic-limit-scaling-factor", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='int32', is_config=True)
+    self.__trim_enable = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=True)
 
     load = kwargs.pop("load", None)
     if args:
@@ -26717,6 +27228,55 @@ current usage is 79MB which is < 80MB, the packet is queued.
   def _unset_dynamic_limit_scaling_factor(self):
     self.__dynamic_limit_scaling_factor = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['-2147483648..2147483647']}, int_size=32), is_leaf=True, yang_name="dynamic-limit-scaling-factor", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='int32', is_config=True)
 
+
+  def _get_trim_enable(self):
+    """
+    Getter method for trim_enable, mapped from YANG variable /qos/buffer_allocation_profiles/buffer_allocation_profile/queues/queue/config/trim_enable (boolean)
+
+    YANG Description: Flag to enable packet trimming per queue. If leaf is set
+to false, the packet should be completely discarded,
+without preserving any part of the data. If leaf is set to
+true, the packet must be trimmed instead of discarded.
+Typically, this involves truncating the payload while
+preserving the packet header for notification or
+diagnostic purposes.
+    """
+    return self.__trim_enable
+      
+  def _set_trim_enable(self, v, load=False):
+    """
+    Setter method for trim_enable, mapped from YANG variable /qos/buffer_allocation_profiles/buffer_allocation_profile/queues/queue/config/trim_enable (boolean)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_trim_enable is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_trim_enable() directly.
+
+    YANG Description: Flag to enable packet trimming per queue. If leaf is set
+to false, the packet should be completely discarded,
+without preserving any part of the data. If leaf is set to
+true, the packet must be trimmed instead of discarded.
+Typically, this involves truncating the payload while
+preserving the packet header for notification or
+diagnostic purposes.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """trim_enable must be of a type compatible with boolean""",
+          'defined-type': "boolean",
+          'generated-type': """YANGDynClass(base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=True)""",
+        })
+
+    self.__trim_enable = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_trim_enable(self):
+    self.__trim_enable = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=True)
+
   name = __builtin__.property(_get_name, _set_name)
   dedicated_buffer = __builtin__.property(_get_dedicated_buffer, _set_dedicated_buffer)
   dedicated_buffer_temporal = __builtin__.property(_get_dedicated_buffer_temporal, _set_dedicated_buffer_temporal)
@@ -26725,9 +27285,10 @@ current usage is 79MB which is < 80MB, the packet is queued.
   static_shared_buffer_limit = __builtin__.property(_get_static_shared_buffer_limit, _set_static_shared_buffer_limit)
   static_shared_buffer_limit_temporal = __builtin__.property(_get_static_shared_buffer_limit_temporal, _set_static_shared_buffer_limit_temporal)
   dynamic_limit_scaling_factor = __builtin__.property(_get_dynamic_limit_scaling_factor, _set_dynamic_limit_scaling_factor)
+  trim_enable = __builtin__.property(_get_trim_enable, _set_trim_enable)
 
 
-  _pyangbind_elements = OrderedDict([('name', name), ('dedicated_buffer', dedicated_buffer), ('dedicated_buffer_temporal', dedicated_buffer_temporal), ('use_shared_buffer', use_shared_buffer), ('shared_buffer_limit_type', shared_buffer_limit_type), ('static_shared_buffer_limit', static_shared_buffer_limit), ('static_shared_buffer_limit_temporal', static_shared_buffer_limit_temporal), ('dynamic_limit_scaling_factor', dynamic_limit_scaling_factor), ])
+  _pyangbind_elements = OrderedDict([('name', name), ('dedicated_buffer', dedicated_buffer), ('dedicated_buffer_temporal', dedicated_buffer_temporal), ('use_shared_buffer', use_shared_buffer), ('shared_buffer_limit_type', shared_buffer_limit_type), ('static_shared_buffer_limit', static_shared_buffer_limit), ('static_shared_buffer_limit_temporal', static_shared_buffer_limit_temporal), ('dynamic_limit_scaling_factor', dynamic_limit_scaling_factor), ('trim_enable', trim_enable), ])
 
 
 class yc_state_openconfig_qos__qos_buffer_allocation_profiles_buffer_allocation_profile_queues_queue_state(PybindBase):
@@ -26740,7 +27301,7 @@ class yc_state_openconfig_qos__qos_buffer_allocation_profiles_buffer_allocation_
   YANG Description: Operational state parameters relating to a queue wtihin a buffer allocation
 profile.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__name','__dedicated_buffer','__dedicated_buffer_temporal','__use_shared_buffer','__shared_buffer_limit_type','__static_shared_buffer_limit','__static_shared_buffer_limit_temporal','__dynamic_limit_scaling_factor',)
+  __slots__ = ('_path_helper', '_extmethods', '__name','__dedicated_buffer','__dedicated_buffer_temporal','__use_shared_buffer','__shared_buffer_limit_type','__static_shared_buffer_limit','__static_shared_buffer_limit_temporal','__dynamic_limit_scaling_factor','__trim_enable',)
 
   _yang_name = 'state'
   _yang_namespace = 'http://openconfig.net/yang/qos'
@@ -26760,6 +27321,7 @@ profile.
     self.__static_shared_buffer_limit = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="static-shared-buffer-limit", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint32', is_config=False)
     self.__static_shared_buffer_limit_temporal = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="static-shared-buffer-limit-temporal", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint32', is_config=False)
     self.__dynamic_limit_scaling_factor = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['-2147483648..2147483647']}, int_size=32), is_leaf=True, yang_name="dynamic-limit-scaling-factor", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='int32', is_config=False)
+    self.__trim_enable = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -27137,6 +27699,55 @@ current usage is 79MB which is < 80MB, the packet is queued.
   def _unset_dynamic_limit_scaling_factor(self):
     self.__dynamic_limit_scaling_factor = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['-2147483648..2147483647']}, int_size=32), is_leaf=True, yang_name="dynamic-limit-scaling-factor", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='int32', is_config=False)
 
+
+  def _get_trim_enable(self):
+    """
+    Getter method for trim_enable, mapped from YANG variable /qos/buffer_allocation_profiles/buffer_allocation_profile/queues/queue/state/trim_enable (boolean)
+
+    YANG Description: Flag to enable packet trimming per queue. If leaf is set
+to false, the packet should be completely discarded,
+without preserving any part of the data. If leaf is set to
+true, the packet must be trimmed instead of discarded.
+Typically, this involves truncating the payload while
+preserving the packet header for notification or
+diagnostic purposes.
+    """
+    return self.__trim_enable
+      
+  def _set_trim_enable(self, v, load=False):
+    """
+    Setter method for trim_enable, mapped from YANG variable /qos/buffer_allocation_profiles/buffer_allocation_profile/queues/queue/state/trim_enable (boolean)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_trim_enable is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_trim_enable() directly.
+
+    YANG Description: Flag to enable packet trimming per queue. If leaf is set
+to false, the packet should be completely discarded,
+without preserving any part of the data. If leaf is set to
+true, the packet must be trimmed instead of discarded.
+Typically, this involves truncating the payload while
+preserving the packet header for notification or
+diagnostic purposes.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """trim_enable must be of a type compatible with boolean""",
+          'defined-type': "boolean",
+          'generated-type': """YANGDynClass(base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=False)""",
+        })
+
+    self.__trim_enable = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_trim_enable(self):
+    self.__trim_enable = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=False)
+
   name = __builtin__.property(_get_name)
   dedicated_buffer = __builtin__.property(_get_dedicated_buffer)
   dedicated_buffer_temporal = __builtin__.property(_get_dedicated_buffer_temporal)
@@ -27145,9 +27756,10 @@ current usage is 79MB which is < 80MB, the packet is queued.
   static_shared_buffer_limit = __builtin__.property(_get_static_shared_buffer_limit)
   static_shared_buffer_limit_temporal = __builtin__.property(_get_static_shared_buffer_limit_temporal)
   dynamic_limit_scaling_factor = __builtin__.property(_get_dynamic_limit_scaling_factor)
+  trim_enable = __builtin__.property(_get_trim_enable)
 
 
-  _pyangbind_elements = OrderedDict([('name', name), ('dedicated_buffer', dedicated_buffer), ('dedicated_buffer_temporal', dedicated_buffer_temporal), ('use_shared_buffer', use_shared_buffer), ('shared_buffer_limit_type', shared_buffer_limit_type), ('static_shared_buffer_limit', static_shared_buffer_limit), ('static_shared_buffer_limit_temporal', static_shared_buffer_limit_temporal), ('dynamic_limit_scaling_factor', dynamic_limit_scaling_factor), ])
+  _pyangbind_elements = OrderedDict([('name', name), ('dedicated_buffer', dedicated_buffer), ('dedicated_buffer_temporal', dedicated_buffer_temporal), ('use_shared_buffer', use_shared_buffer), ('shared_buffer_limit_type', shared_buffer_limit_type), ('static_shared_buffer_limit', static_shared_buffer_limit), ('static_shared_buffer_limit_temporal', static_shared_buffer_limit_temporal), ('dynamic_limit_scaling_factor', dynamic_limit_scaling_factor), ('trim_enable', trim_enable), ])
 
 
 class yc_queue_openconfig_qos__qos_buffer_allocation_profiles_buffer_allocation_profile_queues_queue(PybindBase):
@@ -27997,7 +28609,7 @@ class yc_config_openconfig_qos__qos_queue_management_profiles_queue_management_p
     """
     Getter method for min_threshold, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/wred/uniform/config/min_threshold (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -28012,7 +28624,7 @@ max-threshold-percent.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -28083,7 +28695,7 @@ min-threshold-percent and max-threshold-percent.
     """
     Getter method for min_threshold_percent, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/wred/uniform/config/min_threshold_percent (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -28098,7 +28710,7 @@ max-threshold.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold_percent() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -28436,7 +29048,7 @@ class yc_state_openconfig_qos__qos_queue_management_profiles_queue_management_pr
     """
     Getter method for min_threshold, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/wred/uniform/state/min_threshold (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -28451,7 +29063,7 @@ max-threshold-percent.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -28522,7 +29134,7 @@ min-threshold-percent and max-threshold-percent.
     """
     Getter method for min_threshold_percent, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/wred/uniform/state/min_threshold_percent (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -28537,7 +29149,7 @@ max-threshold.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold_percent() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -29100,7 +29712,7 @@ class yc_config_openconfig_qos__qos_queue_management_profiles_queue_management_p
     """
     Getter method for min_threshold, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/red/uniform/config/min_threshold (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -29115,7 +29727,7 @@ max-threshold-percent.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -29186,7 +29798,7 @@ min-threshold-percent and max-threshold-percent.
     """
     Getter method for min_threshold_percent, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/red/uniform/config/min_threshold_percent (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -29201,7 +29813,7 @@ max-threshold.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold_percent() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -29433,7 +30045,7 @@ class yc_state_openconfig_qos__qos_queue_management_profiles_queue_management_pr
     """
     Getter method for min_threshold, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/red/uniform/state/min_threshold (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -29448,7 +30060,7 @@ max-threshold-percent.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -29519,7 +30131,7 @@ min-threshold-percent and max-threshold-percent.
     """
     Getter method for min_threshold_percent, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/red/uniform/state/min_threshold_percent (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -29534,7 +30146,7 @@ max-threshold.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold_percent() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -30299,6 +30911,418 @@ whether RED, or WRED is applied to manage the queue's occupancy.
   _pyangbind_elements = OrderedDict([('queue_management_profile', queue_management_profile), ])
 
 
+class yc_config_openconfig_qos__qos_packet_trim_config(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-qos - based on the path /qos/packet-trim/config. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Configuration data for switch level packet
+trimming parameters.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__symmetric_dscp','__fabric_priority',)
+
+  _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/qos'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__symmetric_dscp = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['qos', 'packet-trim', 'config']
+
+  def _get_symmetric_dscp(self):
+    """
+    Getter method for symmetric_dscp, mapped from YANG variable /qos/packet_trim/config/symmetric_dscp (uint8)
+
+    YANG Description: The DSCP value for the notification packet
+(sometimes called a 'symmetric packet') sent back
+to the source when a packet is trimmed.
+    """
+    return self.__symmetric_dscp
+      
+  def _set_symmetric_dscp(self, v, load=False):
+    """
+    Setter method for symmetric_dscp, mapped from YANG variable /qos/packet_trim/config/symmetric_dscp (uint8)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_symmetric_dscp is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_symmetric_dscp() directly.
+
+    YANG Description: The DSCP value for the notification packet
+(sometimes called a 'symmetric packet') sent back
+to the source when a packet is trimmed.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """symmetric_dscp must be of a type compatible with uint8""",
+          'defined-type': "uint8",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)""",
+        })
+
+    self.__symmetric_dscp = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_symmetric_dscp(self):
+    self.__symmetric_dscp = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+
+
+  def _get_fabric_priority(self):
+    """
+    Getter method for fabric_priority, mapped from YANG variable /qos/packet_trim/config/fabric_priority (uint8)
+
+    YANG Description: Traffic class used to transmit trimmed
+packets.
+    """
+    return self.__fabric_priority
+      
+  def _set_fabric_priority(self, v, load=False):
+    """
+    Setter method for fabric_priority, mapped from YANG variable /qos/packet_trim/config/fabric_priority (uint8)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fabric_priority is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fabric_priority() directly.
+
+    YANG Description: Traffic class used to transmit trimmed
+packets.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fabric_priority must be of a type compatible with uint8""",
+          'defined-type': "uint8",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)""",
+        })
+
+    self.__fabric_priority = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fabric_priority(self):
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+
+  symmetric_dscp = __builtin__.property(_get_symmetric_dscp, _set_symmetric_dscp)
+  fabric_priority = __builtin__.property(_get_fabric_priority, _set_fabric_priority)
+
+
+  _pyangbind_elements = OrderedDict([('symmetric_dscp', symmetric_dscp), ('fabric_priority', fabric_priority), ])
+
+
+class yc_state_openconfig_qos__qos_packet_trim_state(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-qos - based on the path /qos/packet-trim/state. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Operational state data for switch level packet
+trimming parameters.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__symmetric_dscp','__fabric_priority',)
+
+  _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/qos'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__symmetric_dscp = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['qos', 'packet-trim', 'state']
+
+  def _get_symmetric_dscp(self):
+    """
+    Getter method for symmetric_dscp, mapped from YANG variable /qos/packet_trim/state/symmetric_dscp (uint8)
+
+    YANG Description: The DSCP value for the notification packet
+(sometimes called a 'symmetric packet') sent back
+to the source when a packet is trimmed.
+    """
+    return self.__symmetric_dscp
+      
+  def _set_symmetric_dscp(self, v, load=False):
+    """
+    Setter method for symmetric_dscp, mapped from YANG variable /qos/packet_trim/state/symmetric_dscp (uint8)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_symmetric_dscp is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_symmetric_dscp() directly.
+
+    YANG Description: The DSCP value for the notification packet
+(sometimes called a 'symmetric packet') sent back
+to the source when a packet is trimmed.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """symmetric_dscp must be of a type compatible with uint8""",
+          'defined-type': "uint8",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)""",
+        })
+
+    self.__symmetric_dscp = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_symmetric_dscp(self):
+    self.__symmetric_dscp = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+
+
+  def _get_fabric_priority(self):
+    """
+    Getter method for fabric_priority, mapped from YANG variable /qos/packet_trim/state/fabric_priority (uint8)
+
+    YANG Description: Traffic class used to transmit trimmed
+packets.
+    """
+    return self.__fabric_priority
+      
+  def _set_fabric_priority(self, v, load=False):
+    """
+    Setter method for fabric_priority, mapped from YANG variable /qos/packet_trim/state/fabric_priority (uint8)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fabric_priority is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fabric_priority() directly.
+
+    YANG Description: Traffic class used to transmit trimmed
+packets.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fabric_priority must be of a type compatible with uint8""",
+          'defined-type': "uint8",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)""",
+        })
+
+    self.__fabric_priority = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fabric_priority(self):
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+
+  symmetric_dscp = __builtin__.property(_get_symmetric_dscp)
+  fabric_priority = __builtin__.property(_get_fabric_priority)
+
+
+  _pyangbind_elements = OrderedDict([('symmetric_dscp', symmetric_dscp), ('fabric_priority', fabric_priority), ])
+
+
+class yc_packet_trim_openconfig_qos__qos_packet_trim(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-qos - based on the path /qos/packet-trim. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Container for switch level packet trimming
+parameters.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
+
+  _yang_name = 'packet-trim'
+  _yang_namespace = 'http://openconfig.net/yang/qos'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__config = YANGDynClass(base=yc_config_openconfig_qos__qos_packet_trim_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_qos__qos_packet_trim_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['qos', 'packet-trim']
+
+  def _get_config(self):
+    """
+    Getter method for config, mapped from YANG variable /qos/packet_trim/config (container)
+
+    YANG Description: Configuration data for switch level packet
+trimming parameters.
+    """
+    return self.__config
+      
+  def _set_config(self, v, load=False):
+    """
+    Setter method for config, mapped from YANG variable /qos/packet_trim/config (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_config is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_config() directly.
+
+    YANG Description: Configuration data for switch level packet
+trimming parameters.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_config_openconfig_qos__qos_packet_trim_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """config must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_config_openconfig_qos__qos_packet_trim_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)""",
+        })
+
+    self.__config = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_config(self):
+    self.__config = YANGDynClass(base=yc_config_openconfig_qos__qos_packet_trim_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+
+
+  def _get_state(self):
+    """
+    Getter method for state, mapped from YANG variable /qos/packet_trim/state (container)
+
+    YANG Description: Operational state data for switch level packet
+trimming parameters.
+    """
+    return self.__state
+      
+  def _set_state(self, v, load=False):
+    """
+    Setter method for state, mapped from YANG variable /qos/packet_trim/state (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_state is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_state() directly.
+
+    YANG Description: Operational state data for switch level packet
+trimming parameters.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_state_openconfig_qos__qos_packet_trim_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """state must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_qos__qos_packet_trim_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)""",
+        })
+
+    self.__state = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_state(self):
+    self.__state = YANGDynClass(base=yc_state_openconfig_qos__qos_packet_trim_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)
+
+  config = __builtin__.property(_get_config, _set_config)
+  state = __builtin__.property(_get_state)
+
+
+  _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
+
+
 class yc_qos_openconfig_qos__qos(PybindBase):
   """
   This class was auto-generated by the PythonClass plugin for PYANG
@@ -30308,7 +31332,7 @@ class yc_qos_openconfig_qos__qos(PybindBase):
 
   YANG Description: Top-level container for QoS data
   """
-  __slots__ = ('_path_helper', '_extmethods', '__interfaces','__classifiers','__forwarding_groups','__queues','__scheduler_policies','__buffer_allocation_profiles','__queue_management_profiles',)
+  __slots__ = ('_path_helper', '_extmethods', '__interfaces','__classifiers','__forwarding_groups','__queues','__scheduler_policies','__buffer_allocation_profiles','__queue_management_profiles','__packet_trim',)
 
   _yang_name = 'qos'
   _yang_namespace = 'http://openconfig.net/yang/qos'
@@ -30327,6 +31351,7 @@ class yc_qos_openconfig_qos__qos(PybindBase):
     self.__scheduler_policies = YANGDynClass(base=yc_scheduler_policies_openconfig_qos__qos_scheduler_policies, is_container='container', yang_name="scheduler-policies", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
     self.__buffer_allocation_profiles = YANGDynClass(base=yc_buffer_allocation_profiles_openconfig_qos__qos_buffer_allocation_profiles, is_container='container', yang_name="buffer-allocation-profiles", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
     self.__queue_management_profiles = YANGDynClass(base=yc_queue_management_profiles_openconfig_qos__qos_queue_management_profiles, is_container='container', yang_name="queue-management-profiles", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    self.__packet_trim = YANGDynClass(base=yc_packet_trim_openconfig_qos__qos_packet_trim, is_container='container', yang_name="packet-trim", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
 
     load = kwargs.pop("load", None)
     if args:
@@ -30615,6 +31640,45 @@ queue management profiles.
   def _unset_queue_management_profiles(self):
     self.__queue_management_profiles = YANGDynClass(base=yc_queue_management_profiles_openconfig_qos__qos_queue_management_profiles, is_container='container', yang_name="queue-management-profiles", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
 
+
+  def _get_packet_trim(self):
+    """
+    Getter method for packet_trim, mapped from YANG variable /qos/packet_trim (container)
+
+    YANG Description: Container for switch level packet trimming
+parameters.
+    """
+    return self.__packet_trim
+      
+  def _set_packet_trim(self, v, load=False):
+    """
+    Setter method for packet_trim, mapped from YANG variable /qos/packet_trim (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_packet_trim is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_packet_trim() directly.
+
+    YANG Description: Container for switch level packet trimming
+parameters.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_packet_trim_openconfig_qos__qos_packet_trim, is_container='container', yang_name="packet-trim", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """packet_trim must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_packet_trim_openconfig_qos__qos_packet_trim, is_container='container', yang_name="packet-trim", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)""",
+        })
+
+    self.__packet_trim = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_packet_trim(self):
+    self.__packet_trim = YANGDynClass(base=yc_packet_trim_openconfig_qos__qos_packet_trim, is_container='container', yang_name="packet-trim", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+
   interfaces = __builtin__.property(_get_interfaces, _set_interfaces)
   classifiers = __builtin__.property(_get_classifiers, _set_classifiers)
   forwarding_groups = __builtin__.property(_get_forwarding_groups, _set_forwarding_groups)
@@ -30622,9 +31686,10 @@ queue management profiles.
   scheduler_policies = __builtin__.property(_get_scheduler_policies, _set_scheduler_policies)
   buffer_allocation_profiles = __builtin__.property(_get_buffer_allocation_profiles, _set_buffer_allocation_profiles)
   queue_management_profiles = __builtin__.property(_get_queue_management_profiles, _set_queue_management_profiles)
+  packet_trim = __builtin__.property(_get_packet_trim, _set_packet_trim)
 
 
-  _pyangbind_elements = OrderedDict([('interfaces', interfaces), ('classifiers', classifiers), ('forwarding_groups', forwarding_groups), ('queues', queues), ('scheduler_policies', scheduler_policies), ('buffer_allocation_profiles', buffer_allocation_profiles), ('queue_management_profiles', queue_management_profiles), ])
+  _pyangbind_elements = OrderedDict([('interfaces', interfaces), ('classifiers', classifiers), ('forwarding_groups', forwarding_groups), ('queues', queues), ('scheduler_policies', scheduler_policies), ('buffer_allocation_profiles', buffer_allocation_profiles), ('queue_management_profiles', queue_management_profiles), ('packet_trim', packet_trim), ])
 
 
 class openconfig_qos(PybindBase):
@@ -33278,7 +34343,7 @@ multicast.
 
     YANG Description: Number of packets dropped by the queue due to overrun, that is tail-drop
 or AMQ (RED, WRED, etc) induced drops as indicated by the attached
-queue-management-profile
+queue-management-profile.
     """
     return self.__dropped_pkts
       
@@ -33292,7 +34357,7 @@ queue-management-profile
 
     YANG Description: Number of packets dropped by the queue due to overrun, that is tail-drop
 or AMQ (RED, WRED, etc) induced drops as indicated by the attached
-queue-management-profile
+queue-management-profile.
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -35300,7 +36365,7 @@ the system.
 
     YANG Description: Number of packets dropped by the queue due to overrun, that is tail-drop
 or AMQ (RED, WRED, etc) induced drops as indicated by the attached
-queue-management-profile
+queue-management-profile.
     """
     return self.__dropped_pkts
       
@@ -35314,7 +36379,7 @@ queue-management-profile
 
     YANG Description: Number of packets dropped by the queue due to overrun, that is tail-drop
 or AMQ (RED, WRED, etc) induced drops as indicated by the attached
-queue-management-profile
+queue-management-profile.
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -38090,7 +39155,7 @@ class yc_state_openconfig_qos_interfaces__qos_interfaces_interface_output_queues
   YANG Description: Operational state data for the queue associated with the
 interface
   """
-  __slots__ = ('_path_helper', '_extmethods', '__name','__queue_management_profile','__max_queue_len','__avg_queue_len','__transmit_pkts','__transmit_octets','__dropped_pkts','__dropped_octets','__ecn_marked_pkts','__ecn_marked_octets','__ecn_selected_pkts','__ecn_selected_octets',)
+  __slots__ = ('_path_helper', '_extmethods', '__name','__queue_management_profile','__max_queue_len','__avg_queue_len','__transmit_pkts','__transmit_octets','__dropped_pkts','__dropped_octets','__ecn_marked_pkts','__ecn_marked_octets','__ecn_selected_pkts','__ecn_selected_octets','__dropped_trim_pkts','__trim_pkts','__out_trim_pkts',)
 
   _yang_name = 'state'
   _yang_namespace = 'http://openconfig.net/yang/qos'
@@ -38114,6 +39179,9 @@ interface
     self.__ecn_marked_octets = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="ecn-marked-octets", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
     self.__ecn_selected_pkts = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="ecn-selected-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
     self.__ecn_selected_octets = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="ecn-selected-octets", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+    self.__dropped_trim_pkts = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="dropped-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+    self.__trim_pkts = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+    self.__out_trim_pkts = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="out-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -38400,7 +39468,7 @@ multicast.
 
     YANG Description: Number of packets dropped by the queue due to overrun, that is tail-drop
 or AMQ (RED, WRED, etc) induced drops as indicated by the attached
-queue-management-profile
+queue-management-profile.
     """
     return self.__dropped_pkts
       
@@ -38414,7 +39482,7 @@ queue-management-profile
 
     YANG Description: Number of packets dropped by the queue due to overrun, that is tail-drop
 or AMQ (RED, WRED, etc) induced drops as indicated by the attached
-queue-management-profile
+queue-management-profile.
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -38647,6 +39715,127 @@ Octets are counted regardless of its ECN codepoint
   def _unset_ecn_selected_octets(self):
     self.__ecn_selected_octets = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="ecn-selected-octets", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
 
+
+  def _get_dropped_trim_pkts(self):
+    """
+    Getter method for dropped_trim_pkts, mapped from YANG variable /qos/interfaces/interface/output/queues/queue/state/dropped_trim_pkts (oc-yang:counter64)
+
+    YANG Description: The number of packets that were trimmed but dropped due to a
+failed shared buffer admission on the trim queue.
+    """
+    return self.__dropped_trim_pkts
+      
+  def _set_dropped_trim_pkts(self, v, load=False):
+    """
+    Setter method for dropped_trim_pkts, mapped from YANG variable /qos/interfaces/interface/output/queues/queue/state/dropped_trim_pkts (oc-yang:counter64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_dropped_trim_pkts is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_dropped_trim_pkts() directly.
+
+    YANG Description: The number of packets that were trimmed but dropped due to a
+failed shared buffer admission on the trim queue.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="dropped-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """dropped_trim_pkts must be of a type compatible with oc-yang:counter64""",
+          'defined-type': "oc-yang:counter64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="dropped-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)""",
+        })
+
+    self.__dropped_trim_pkts = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_dropped_trim_pkts(self):
+    self.__dropped_trim_pkts = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="dropped-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+
+
+  def _get_trim_pkts(self):
+    """
+    Getter method for trim_pkts, mapped from YANG variable /qos/interfaces/interface/output/queues/queue/state/trim_pkts (oc-yang:counter64)
+
+    YANG Description: The total number of packets that were trimmed.
+This counter includes both packets that were
+transmitted after trimming and those that were
+subsequently dropped.
+    """
+    return self.__trim_pkts
+      
+  def _set_trim_pkts(self, v, load=False):
+    """
+    Setter method for trim_pkts, mapped from YANG variable /qos/interfaces/interface/output/queues/queue/state/trim_pkts (oc-yang:counter64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_trim_pkts is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_trim_pkts() directly.
+
+    YANG Description: The total number of packets that were trimmed.
+This counter includes both packets that were
+transmitted after trimming and those that were
+subsequently dropped.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """trim_pkts must be of a type compatible with oc-yang:counter64""",
+          'defined-type': "oc-yang:counter64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)""",
+        })
+
+    self.__trim_pkts = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_trim_pkts(self):
+    self.__trim_pkts = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+
+
+  def _get_out_trim_pkts(self):
+    """
+    Getter method for out_trim_pkts, mapped from YANG variable /qos/interfaces/interface/output/queues/queue/state/out_trim_pkts (oc-yang:counter64)
+
+    YANG Description: The number of packets that were trimmed and successfully
+transmitted.
+    """
+    return self.__out_trim_pkts
+      
+  def _set_out_trim_pkts(self, v, load=False):
+    """
+    Setter method for out_trim_pkts, mapped from YANG variable /qos/interfaces/interface/output/queues/queue/state/out_trim_pkts (oc-yang:counter64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_out_trim_pkts is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_out_trim_pkts() directly.
+
+    YANG Description: The number of packets that were trimmed and successfully
+transmitted.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="out-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """out_trim_pkts must be of a type compatible with oc-yang:counter64""",
+          'defined-type': "oc-yang:counter64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="out-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)""",
+        })
+
+    self.__out_trim_pkts = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_out_trim_pkts(self):
+    self.__out_trim_pkts = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="out-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+
   name = __builtin__.property(_get_name)
   queue_management_profile = __builtin__.property(_get_queue_management_profile)
   max_queue_len = __builtin__.property(_get_max_queue_len)
@@ -38659,9 +39848,12 @@ Octets are counted regardless of its ECN codepoint
   ecn_marked_octets = __builtin__.property(_get_ecn_marked_octets)
   ecn_selected_pkts = __builtin__.property(_get_ecn_selected_pkts)
   ecn_selected_octets = __builtin__.property(_get_ecn_selected_octets)
+  dropped_trim_pkts = __builtin__.property(_get_dropped_trim_pkts)
+  trim_pkts = __builtin__.property(_get_trim_pkts)
+  out_trim_pkts = __builtin__.property(_get_out_trim_pkts)
 
 
-  _pyangbind_elements = OrderedDict([('name', name), ('queue_management_profile', queue_management_profile), ('max_queue_len', max_queue_len), ('avg_queue_len', avg_queue_len), ('transmit_pkts', transmit_pkts), ('transmit_octets', transmit_octets), ('dropped_pkts', dropped_pkts), ('dropped_octets', dropped_octets), ('ecn_marked_pkts', ecn_marked_pkts), ('ecn_marked_octets', ecn_marked_octets), ('ecn_selected_pkts', ecn_selected_pkts), ('ecn_selected_octets', ecn_selected_octets), ])
+  _pyangbind_elements = OrderedDict([('name', name), ('queue_management_profile', queue_management_profile), ('max_queue_len', max_queue_len), ('avg_queue_len', avg_queue_len), ('transmit_pkts', transmit_pkts), ('transmit_octets', transmit_octets), ('dropped_pkts', dropped_pkts), ('dropped_octets', dropped_octets), ('ecn_marked_pkts', ecn_marked_pkts), ('ecn_marked_octets', ecn_marked_octets), ('ecn_selected_pkts', ecn_selected_pkts), ('ecn_selected_octets', ecn_selected_octets), ('dropped_trim_pkts', dropped_trim_pkts), ('trim_pkts', trim_pkts), ('out_trim_pkts', out_trim_pkts), ])
 
 
 class yc_queue_openconfig_qos_interfaces__qos_interfaces_interface_output_queues_queue(PybindBase):
@@ -46260,6 +47452,348 @@ within the MPLS header
   _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
 
 
+class yc_config_openconfig_qos_interfaces__qos_classifiers_classifier_terms_term_conditions_fabric_config(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-qos-interfaces - based on the path /qos/classifiers/classifier/terms/term/conditions/fabric/config. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Configuration parameters relating to fabric
+parameters.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__fabric_priority',)
+
+  _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/qos'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['qos', 'classifiers', 'classifier', 'terms', 'term', 'conditions', 'fabric', 'config']
+
+  def _get_fabric_priority(self):
+    """
+    Getter method for fabric_priority, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/config/fabric_priority (uint8)
+
+    YANG Description: Specifies the priority for the forwarding group for local
+transmission through the device (e.g., across the internal
+switching fabric). The priority is expressed as a numerical
+value where higher values indicate higher precedence. For
+example, traffic with fabric priority 128 is treated with
+higher priority than traffic with fabric priority 0.
+    """
+    return self.__fabric_priority
+      
+  def _set_fabric_priority(self, v, load=False):
+    """
+    Setter method for fabric_priority, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/config/fabric_priority (uint8)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fabric_priority is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fabric_priority() directly.
+
+    YANG Description: Specifies the priority for the forwarding group for local
+transmission through the device (e.g., across the internal
+switching fabric). The priority is expressed as a numerical
+value where higher values indicate higher precedence. For
+example, traffic with fabric priority 128 is treated with
+higher priority than traffic with fabric priority 0.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fabric_priority must be of a type compatible with uint8""",
+          'defined-type': "uint8",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)""",
+        })
+
+    self.__fabric_priority = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fabric_priority(self):
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+
+  fabric_priority = __builtin__.property(_get_fabric_priority, _set_fabric_priority)
+
+
+  _pyangbind_elements = OrderedDict([('fabric_priority', fabric_priority), ])
+
+
+class yc_state_openconfig_qos_interfaces__qos_classifiers_classifier_terms_term_conditions_fabric_state(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-qos-interfaces - based on the path /qos/classifiers/classifier/terms/term/conditions/fabric/state. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Operational state parameters relating to fabric
+parameters.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__fabric_priority',)
+
+  _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/qos'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['qos', 'classifiers', 'classifier', 'terms', 'term', 'conditions', 'fabric', 'state']
+
+  def _get_fabric_priority(self):
+    """
+    Getter method for fabric_priority, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/state/fabric_priority (uint8)
+
+    YANG Description: Specifies the priority for the forwarding group for local
+transmission through the device (e.g., across the internal
+switching fabric). The priority is expressed as a numerical
+value where higher values indicate higher precedence. For
+example, traffic with fabric priority 128 is treated with
+higher priority than traffic with fabric priority 0.
+    """
+    return self.__fabric_priority
+      
+  def _set_fabric_priority(self, v, load=False):
+    """
+    Setter method for fabric_priority, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/state/fabric_priority (uint8)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fabric_priority is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fabric_priority() directly.
+
+    YANG Description: Specifies the priority for the forwarding group for local
+transmission through the device (e.g., across the internal
+switching fabric). The priority is expressed as a numerical
+value where higher values indicate higher precedence. For
+example, traffic with fabric priority 128 is treated with
+higher priority than traffic with fabric priority 0.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fabric_priority must be of a type compatible with uint8""",
+          'defined-type': "uint8",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)""",
+        })
+
+    self.__fabric_priority = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fabric_priority(self):
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+
+  fabric_priority = __builtin__.property(_get_fabric_priority)
+
+
+  _pyangbind_elements = OrderedDict([('fabric_priority', fabric_priority), ])
+
+
+class yc_fabric_openconfig_qos_interfaces__qos_classifiers_classifier_terms_term_conditions_fabric(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-qos-interfaces - based on the path /qos/classifiers/classifier/terms/term/conditions/fabric. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Enclosing container for managing device-specific fabric
+attributes.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
+
+  _yang_name = 'fabric'
+  _yang_namespace = 'http://openconfig.net/yang/qos'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__config = YANGDynClass(base=yc_config_openconfig_qos_interfaces__qos_classifiers_classifier_terms_term_conditions_fabric_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_qos_interfaces__qos_classifiers_classifier_terms_term_conditions_fabric_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['qos', 'classifiers', 'classifier', 'terms', 'term', 'conditions', 'fabric']
+
+  def _get_config(self):
+    """
+    Getter method for config, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/config (container)
+
+    YANG Description: Configuration parameters relating to fabric
+parameters.
+    """
+    return self.__config
+      
+  def _set_config(self, v, load=False):
+    """
+    Setter method for config, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/config (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_config is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_config() directly.
+
+    YANG Description: Configuration parameters relating to fabric
+parameters.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_config_openconfig_qos_interfaces__qos_classifiers_classifier_terms_term_conditions_fabric_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """config must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_config_openconfig_qos_interfaces__qos_classifiers_classifier_terms_term_conditions_fabric_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)""",
+        })
+
+    self.__config = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_config(self):
+    self.__config = YANGDynClass(base=yc_config_openconfig_qos_interfaces__qos_classifiers_classifier_terms_term_conditions_fabric_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+
+
+  def _get_state(self):
+    """
+    Getter method for state, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/state (container)
+
+    YANG Description: Operational state parameters relating to fabric
+parameters.
+    """
+    return self.__state
+      
+  def _set_state(self, v, load=False):
+    """
+    Setter method for state, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/state (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_state is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_state() directly.
+
+    YANG Description: Operational state parameters relating to fabric
+parameters.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_state_openconfig_qos_interfaces__qos_classifiers_classifier_terms_term_conditions_fabric_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """state must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_qos_interfaces__qos_classifiers_classifier_terms_term_conditions_fabric_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)""",
+        })
+
+    self.__state = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_state(self):
+    self.__state = YANGDynClass(base=yc_state_openconfig_qos_interfaces__qos_classifiers_classifier_terms_term_conditions_fabric_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)
+
+  config = __builtin__.property(_get_config, _set_config)
+  state = __builtin__.property(_get_state)
+
+
+  _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
+
+
 class yc_conditions_openconfig_qos_interfaces__qos_classifiers_classifier_terms_term_conditions(PybindBase):
   """
   This class was auto-generated by the PythonClass plugin for PYANG
@@ -46271,7 +47805,7 @@ class yc_conditions_openconfig_qos_interfaces__qos_classifiers_classifier_terms_
 the criteria specified within the match condition to be considered
 matching the term.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__l2','__ipv4','__ipv6','__transport','__mpls',)
+  __slots__ = ('_path_helper', '_extmethods', '__l2','__ipv4','__ipv6','__transport','__mpls','__fabric',)
 
   _yang_name = 'conditions'
   _yang_namespace = 'http://openconfig.net/yang/qos'
@@ -46288,6 +47822,7 @@ matching the term.
     self.__ipv6 = YANGDynClass(base=yc_ipv6_openconfig_qos_interfaces__qos_classifiers_classifier_terms_term_conditions_ipv6, is_container='container', yang_name="ipv6", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
     self.__transport = YANGDynClass(base=yc_transport_openconfig_qos_interfaces__qos_classifiers_classifier_terms_term_conditions_transport, is_container='container', yang_name="transport", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
     self.__mpls = YANGDynClass(base=yc_mpls_openconfig_qos_interfaces__qos_classifiers_classifier_terms_term_conditions_mpls, is_container='container', yang_name="mpls", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    self.__fabric = YANGDynClass(base=yc_fabric_openconfig_qos_interfaces__qos_classifiers_classifier_terms_term_conditions_fabric, is_container='container', yang_name="fabric", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
 
     load = kwargs.pop("load", None)
     if args:
@@ -46500,14 +48035,54 @@ matching the term.
   def _unset_mpls(self):
     self.__mpls = YANGDynClass(base=yc_mpls_openconfig_qos_interfaces__qos_classifiers_classifier_terms_term_conditions_mpls, is_container='container', yang_name="mpls", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
 
+
+  def _get_fabric(self):
+    """
+    Getter method for fabric, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric (container)
+
+    YANG Description: Enclosing container for managing device-specific fabric
+attributes.
+    """
+    return self.__fabric
+      
+  def _set_fabric(self, v, load=False):
+    """
+    Setter method for fabric, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fabric is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fabric() directly.
+
+    YANG Description: Enclosing container for managing device-specific fabric
+attributes.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_fabric_openconfig_qos_interfaces__qos_classifiers_classifier_terms_term_conditions_fabric, is_container='container', yang_name="fabric", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fabric must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_fabric_openconfig_qos_interfaces__qos_classifiers_classifier_terms_term_conditions_fabric, is_container='container', yang_name="fabric", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)""",
+        })
+
+    self.__fabric = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fabric(self):
+    self.__fabric = YANGDynClass(base=yc_fabric_openconfig_qos_interfaces__qos_classifiers_classifier_terms_term_conditions_fabric, is_container='container', yang_name="fabric", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+
   l2 = __builtin__.property(_get_l2, _set_l2)
   ipv4 = __builtin__.property(_get_ipv4, _set_ipv4)
   ipv6 = __builtin__.property(_get_ipv6, _set_ipv6)
   transport = __builtin__.property(_get_transport, _set_transport)
   mpls = __builtin__.property(_get_mpls, _set_mpls)
+  fabric = __builtin__.property(_get_fabric, _set_fabric)
 
 
-  _pyangbind_elements = OrderedDict([('l2', l2), ('ipv4', ipv4), ('ipv6', ipv6), ('transport', transport), ('mpls', mpls), ])
+  _pyangbind_elements = OrderedDict([('l2', l2), ('ipv4', ipv4), ('ipv6', ipv6), ('transport', transport), ('mpls', mpls), ('fabric', fabric), ])
 
 
 class yc_config_openconfig_qos_interfaces__qos_classifiers_classifier_terms_term_actions_config(PybindBase):
@@ -56881,7 +58456,7 @@ class yc_config_openconfig_qos_interfaces__qos_buffer_allocation_profiles_buffer
   YANG Description: Configuration parameters relating to a queue within a buffer allocation
 profile.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__name','__dedicated_buffer','__dedicated_buffer_temporal','__use_shared_buffer','__shared_buffer_limit_type','__static_shared_buffer_limit','__static_shared_buffer_limit_temporal','__dynamic_limit_scaling_factor',)
+  __slots__ = ('_path_helper', '_extmethods', '__name','__dedicated_buffer','__dedicated_buffer_temporal','__use_shared_buffer','__shared_buffer_limit_type','__static_shared_buffer_limit','__static_shared_buffer_limit_temporal','__dynamic_limit_scaling_factor','__trim_enable',)
 
   _yang_name = 'config'
   _yang_namespace = 'http://openconfig.net/yang/qos'
@@ -56901,6 +58476,7 @@ profile.
     self.__static_shared_buffer_limit = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="static-shared-buffer-limit", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint32', is_config=True)
     self.__static_shared_buffer_limit_temporal = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="static-shared-buffer-limit-temporal", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint32', is_config=True)
     self.__dynamic_limit_scaling_factor = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['-2147483648..2147483647']}, int_size=32), is_leaf=True, yang_name="dynamic-limit-scaling-factor", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='int32', is_config=True)
+    self.__trim_enable = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=True)
 
     load = kwargs.pop("load", None)
     if args:
@@ -57278,6 +58854,55 @@ current usage is 79MB which is < 80MB, the packet is queued.
   def _unset_dynamic_limit_scaling_factor(self):
     self.__dynamic_limit_scaling_factor = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['-2147483648..2147483647']}, int_size=32), is_leaf=True, yang_name="dynamic-limit-scaling-factor", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='int32', is_config=True)
 
+
+  def _get_trim_enable(self):
+    """
+    Getter method for trim_enable, mapped from YANG variable /qos/buffer_allocation_profiles/buffer_allocation_profile/queues/queue/config/trim_enable (boolean)
+
+    YANG Description: Flag to enable packet trimming per queue. If leaf is set
+to false, the packet should be completely discarded,
+without preserving any part of the data. If leaf is set to
+true, the packet must be trimmed instead of discarded.
+Typically, this involves truncating the payload while
+preserving the packet header for notification or
+diagnostic purposes.
+    """
+    return self.__trim_enable
+      
+  def _set_trim_enable(self, v, load=False):
+    """
+    Setter method for trim_enable, mapped from YANG variable /qos/buffer_allocation_profiles/buffer_allocation_profile/queues/queue/config/trim_enable (boolean)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_trim_enable is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_trim_enable() directly.
+
+    YANG Description: Flag to enable packet trimming per queue. If leaf is set
+to false, the packet should be completely discarded,
+without preserving any part of the data. If leaf is set to
+true, the packet must be trimmed instead of discarded.
+Typically, this involves truncating the payload while
+preserving the packet header for notification or
+diagnostic purposes.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """trim_enable must be of a type compatible with boolean""",
+          'defined-type': "boolean",
+          'generated-type': """YANGDynClass(base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=True)""",
+        })
+
+    self.__trim_enable = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_trim_enable(self):
+    self.__trim_enable = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=True)
+
   name = __builtin__.property(_get_name, _set_name)
   dedicated_buffer = __builtin__.property(_get_dedicated_buffer, _set_dedicated_buffer)
   dedicated_buffer_temporal = __builtin__.property(_get_dedicated_buffer_temporal, _set_dedicated_buffer_temporal)
@@ -57286,9 +58911,10 @@ current usage is 79MB which is < 80MB, the packet is queued.
   static_shared_buffer_limit = __builtin__.property(_get_static_shared_buffer_limit, _set_static_shared_buffer_limit)
   static_shared_buffer_limit_temporal = __builtin__.property(_get_static_shared_buffer_limit_temporal, _set_static_shared_buffer_limit_temporal)
   dynamic_limit_scaling_factor = __builtin__.property(_get_dynamic_limit_scaling_factor, _set_dynamic_limit_scaling_factor)
+  trim_enable = __builtin__.property(_get_trim_enable, _set_trim_enable)
 
 
-  _pyangbind_elements = OrderedDict([('name', name), ('dedicated_buffer', dedicated_buffer), ('dedicated_buffer_temporal', dedicated_buffer_temporal), ('use_shared_buffer', use_shared_buffer), ('shared_buffer_limit_type', shared_buffer_limit_type), ('static_shared_buffer_limit', static_shared_buffer_limit), ('static_shared_buffer_limit_temporal', static_shared_buffer_limit_temporal), ('dynamic_limit_scaling_factor', dynamic_limit_scaling_factor), ])
+  _pyangbind_elements = OrderedDict([('name', name), ('dedicated_buffer', dedicated_buffer), ('dedicated_buffer_temporal', dedicated_buffer_temporal), ('use_shared_buffer', use_shared_buffer), ('shared_buffer_limit_type', shared_buffer_limit_type), ('static_shared_buffer_limit', static_shared_buffer_limit), ('static_shared_buffer_limit_temporal', static_shared_buffer_limit_temporal), ('dynamic_limit_scaling_factor', dynamic_limit_scaling_factor), ('trim_enable', trim_enable), ])
 
 
 class yc_state_openconfig_qos_interfaces__qos_buffer_allocation_profiles_buffer_allocation_profile_queues_queue_state(PybindBase):
@@ -57301,7 +58927,7 @@ class yc_state_openconfig_qos_interfaces__qos_buffer_allocation_profiles_buffer_
   YANG Description: Operational state parameters relating to a queue wtihin a buffer allocation
 profile.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__name','__dedicated_buffer','__dedicated_buffer_temporal','__use_shared_buffer','__shared_buffer_limit_type','__static_shared_buffer_limit','__static_shared_buffer_limit_temporal','__dynamic_limit_scaling_factor',)
+  __slots__ = ('_path_helper', '_extmethods', '__name','__dedicated_buffer','__dedicated_buffer_temporal','__use_shared_buffer','__shared_buffer_limit_type','__static_shared_buffer_limit','__static_shared_buffer_limit_temporal','__dynamic_limit_scaling_factor','__trim_enable',)
 
   _yang_name = 'state'
   _yang_namespace = 'http://openconfig.net/yang/qos'
@@ -57321,6 +58947,7 @@ profile.
     self.__static_shared_buffer_limit = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="static-shared-buffer-limit", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint32', is_config=False)
     self.__static_shared_buffer_limit_temporal = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="static-shared-buffer-limit-temporal", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint32', is_config=False)
     self.__dynamic_limit_scaling_factor = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['-2147483648..2147483647']}, int_size=32), is_leaf=True, yang_name="dynamic-limit-scaling-factor", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='int32', is_config=False)
+    self.__trim_enable = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -57698,6 +59325,55 @@ current usage is 79MB which is < 80MB, the packet is queued.
   def _unset_dynamic_limit_scaling_factor(self):
     self.__dynamic_limit_scaling_factor = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['-2147483648..2147483647']}, int_size=32), is_leaf=True, yang_name="dynamic-limit-scaling-factor", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='int32', is_config=False)
 
+
+  def _get_trim_enable(self):
+    """
+    Getter method for trim_enable, mapped from YANG variable /qos/buffer_allocation_profiles/buffer_allocation_profile/queues/queue/state/trim_enable (boolean)
+
+    YANG Description: Flag to enable packet trimming per queue. If leaf is set
+to false, the packet should be completely discarded,
+without preserving any part of the data. If leaf is set to
+true, the packet must be trimmed instead of discarded.
+Typically, this involves truncating the payload while
+preserving the packet header for notification or
+diagnostic purposes.
+    """
+    return self.__trim_enable
+      
+  def _set_trim_enable(self, v, load=False):
+    """
+    Setter method for trim_enable, mapped from YANG variable /qos/buffer_allocation_profiles/buffer_allocation_profile/queues/queue/state/trim_enable (boolean)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_trim_enable is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_trim_enable() directly.
+
+    YANG Description: Flag to enable packet trimming per queue. If leaf is set
+to false, the packet should be completely discarded,
+without preserving any part of the data. If leaf is set to
+true, the packet must be trimmed instead of discarded.
+Typically, this involves truncating the payload while
+preserving the packet header for notification or
+diagnostic purposes.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """trim_enable must be of a type compatible with boolean""",
+          'defined-type': "boolean",
+          'generated-type': """YANGDynClass(base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=False)""",
+        })
+
+    self.__trim_enable = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_trim_enable(self):
+    self.__trim_enable = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=False)
+
   name = __builtin__.property(_get_name)
   dedicated_buffer = __builtin__.property(_get_dedicated_buffer)
   dedicated_buffer_temporal = __builtin__.property(_get_dedicated_buffer_temporal)
@@ -57706,9 +59382,10 @@ current usage is 79MB which is < 80MB, the packet is queued.
   static_shared_buffer_limit = __builtin__.property(_get_static_shared_buffer_limit)
   static_shared_buffer_limit_temporal = __builtin__.property(_get_static_shared_buffer_limit_temporal)
   dynamic_limit_scaling_factor = __builtin__.property(_get_dynamic_limit_scaling_factor)
+  trim_enable = __builtin__.property(_get_trim_enable)
 
 
-  _pyangbind_elements = OrderedDict([('name', name), ('dedicated_buffer', dedicated_buffer), ('dedicated_buffer_temporal', dedicated_buffer_temporal), ('use_shared_buffer', use_shared_buffer), ('shared_buffer_limit_type', shared_buffer_limit_type), ('static_shared_buffer_limit', static_shared_buffer_limit), ('static_shared_buffer_limit_temporal', static_shared_buffer_limit_temporal), ('dynamic_limit_scaling_factor', dynamic_limit_scaling_factor), ])
+  _pyangbind_elements = OrderedDict([('name', name), ('dedicated_buffer', dedicated_buffer), ('dedicated_buffer_temporal', dedicated_buffer_temporal), ('use_shared_buffer', use_shared_buffer), ('shared_buffer_limit_type', shared_buffer_limit_type), ('static_shared_buffer_limit', static_shared_buffer_limit), ('static_shared_buffer_limit_temporal', static_shared_buffer_limit_temporal), ('dynamic_limit_scaling_factor', dynamic_limit_scaling_factor), ('trim_enable', trim_enable), ])
 
 
 class yc_queue_openconfig_qos_interfaces__qos_buffer_allocation_profiles_buffer_allocation_profile_queues_queue(PybindBase):
@@ -58558,7 +60235,7 @@ class yc_config_openconfig_qos_interfaces__qos_queue_management_profiles_queue_m
     """
     Getter method for min_threshold, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/wred/uniform/config/min_threshold (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -58573,7 +60250,7 @@ max-threshold-percent.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -58644,7 +60321,7 @@ min-threshold-percent and max-threshold-percent.
     """
     Getter method for min_threshold_percent, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/wred/uniform/config/min_threshold_percent (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -58659,7 +60336,7 @@ max-threshold.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold_percent() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -58997,7 +60674,7 @@ class yc_state_openconfig_qos_interfaces__qos_queue_management_profiles_queue_ma
     """
     Getter method for min_threshold, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/wred/uniform/state/min_threshold (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -59012,7 +60689,7 @@ max-threshold-percent.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -59083,7 +60760,7 @@ min-threshold-percent and max-threshold-percent.
     """
     Getter method for min_threshold_percent, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/wred/uniform/state/min_threshold_percent (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -59098,7 +60775,7 @@ max-threshold.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold_percent() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -59661,7 +61338,7 @@ class yc_config_openconfig_qos_interfaces__qos_queue_management_profiles_queue_m
     """
     Getter method for min_threshold, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/red/uniform/config/min_threshold (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -59676,7 +61353,7 @@ max-threshold-percent.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -59747,7 +61424,7 @@ min-threshold-percent and max-threshold-percent.
     """
     Getter method for min_threshold_percent, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/red/uniform/config/min_threshold_percent (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -59762,7 +61439,7 @@ max-threshold.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold_percent() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -59994,7 +61671,7 @@ class yc_state_openconfig_qos_interfaces__qos_queue_management_profiles_queue_ma
     """
     Getter method for min_threshold, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/red/uniform/state/min_threshold (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -60009,7 +61686,7 @@ max-threshold-percent.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -60080,7 +61757,7 @@ min-threshold-percent and max-threshold-percent.
     """
     Getter method for min_threshold_percent, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/red/uniform/state/min_threshold_percent (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -60095,7 +61772,7 @@ max-threshold.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold_percent() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -60860,6 +62537,418 @@ whether RED, or WRED is applied to manage the queue's occupancy.
   _pyangbind_elements = OrderedDict([('queue_management_profile', queue_management_profile), ])
 
 
+class yc_config_openconfig_qos_interfaces__qos_packet_trim_config(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-qos-interfaces - based on the path /qos/packet-trim/config. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Configuration data for switch level packet
+trimming parameters.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__symmetric_dscp','__fabric_priority',)
+
+  _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/qos'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__symmetric_dscp = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['qos', 'packet-trim', 'config']
+
+  def _get_symmetric_dscp(self):
+    """
+    Getter method for symmetric_dscp, mapped from YANG variable /qos/packet_trim/config/symmetric_dscp (uint8)
+
+    YANG Description: The DSCP value for the notification packet
+(sometimes called a 'symmetric packet') sent back
+to the source when a packet is trimmed.
+    """
+    return self.__symmetric_dscp
+      
+  def _set_symmetric_dscp(self, v, load=False):
+    """
+    Setter method for symmetric_dscp, mapped from YANG variable /qos/packet_trim/config/symmetric_dscp (uint8)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_symmetric_dscp is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_symmetric_dscp() directly.
+
+    YANG Description: The DSCP value for the notification packet
+(sometimes called a 'symmetric packet') sent back
+to the source when a packet is trimmed.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """symmetric_dscp must be of a type compatible with uint8""",
+          'defined-type': "uint8",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)""",
+        })
+
+    self.__symmetric_dscp = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_symmetric_dscp(self):
+    self.__symmetric_dscp = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+
+
+  def _get_fabric_priority(self):
+    """
+    Getter method for fabric_priority, mapped from YANG variable /qos/packet_trim/config/fabric_priority (uint8)
+
+    YANG Description: Traffic class used to transmit trimmed
+packets.
+    """
+    return self.__fabric_priority
+      
+  def _set_fabric_priority(self, v, load=False):
+    """
+    Setter method for fabric_priority, mapped from YANG variable /qos/packet_trim/config/fabric_priority (uint8)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fabric_priority is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fabric_priority() directly.
+
+    YANG Description: Traffic class used to transmit trimmed
+packets.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fabric_priority must be of a type compatible with uint8""",
+          'defined-type': "uint8",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)""",
+        })
+
+    self.__fabric_priority = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fabric_priority(self):
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+
+  symmetric_dscp = __builtin__.property(_get_symmetric_dscp, _set_symmetric_dscp)
+  fabric_priority = __builtin__.property(_get_fabric_priority, _set_fabric_priority)
+
+
+  _pyangbind_elements = OrderedDict([('symmetric_dscp', symmetric_dscp), ('fabric_priority', fabric_priority), ])
+
+
+class yc_state_openconfig_qos_interfaces__qos_packet_trim_state(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-qos-interfaces - based on the path /qos/packet-trim/state. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Operational state data for switch level packet
+trimming parameters.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__symmetric_dscp','__fabric_priority',)
+
+  _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/qos'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__symmetric_dscp = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['qos', 'packet-trim', 'state']
+
+  def _get_symmetric_dscp(self):
+    """
+    Getter method for symmetric_dscp, mapped from YANG variable /qos/packet_trim/state/symmetric_dscp (uint8)
+
+    YANG Description: The DSCP value for the notification packet
+(sometimes called a 'symmetric packet') sent back
+to the source when a packet is trimmed.
+    """
+    return self.__symmetric_dscp
+      
+  def _set_symmetric_dscp(self, v, load=False):
+    """
+    Setter method for symmetric_dscp, mapped from YANG variable /qos/packet_trim/state/symmetric_dscp (uint8)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_symmetric_dscp is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_symmetric_dscp() directly.
+
+    YANG Description: The DSCP value for the notification packet
+(sometimes called a 'symmetric packet') sent back
+to the source when a packet is trimmed.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """symmetric_dscp must be of a type compatible with uint8""",
+          'defined-type': "uint8",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)""",
+        })
+
+    self.__symmetric_dscp = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_symmetric_dscp(self):
+    self.__symmetric_dscp = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+
+
+  def _get_fabric_priority(self):
+    """
+    Getter method for fabric_priority, mapped from YANG variable /qos/packet_trim/state/fabric_priority (uint8)
+
+    YANG Description: Traffic class used to transmit trimmed
+packets.
+    """
+    return self.__fabric_priority
+      
+  def _set_fabric_priority(self, v, load=False):
+    """
+    Setter method for fabric_priority, mapped from YANG variable /qos/packet_trim/state/fabric_priority (uint8)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fabric_priority is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fabric_priority() directly.
+
+    YANG Description: Traffic class used to transmit trimmed
+packets.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fabric_priority must be of a type compatible with uint8""",
+          'defined-type': "uint8",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)""",
+        })
+
+    self.__fabric_priority = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fabric_priority(self):
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+
+  symmetric_dscp = __builtin__.property(_get_symmetric_dscp)
+  fabric_priority = __builtin__.property(_get_fabric_priority)
+
+
+  _pyangbind_elements = OrderedDict([('symmetric_dscp', symmetric_dscp), ('fabric_priority', fabric_priority), ])
+
+
+class yc_packet_trim_openconfig_qos_interfaces__qos_packet_trim(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-qos-interfaces - based on the path /qos/packet-trim. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Container for switch level packet trimming
+parameters.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
+
+  _yang_name = 'packet-trim'
+  _yang_namespace = 'http://openconfig.net/yang/qos'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__config = YANGDynClass(base=yc_config_openconfig_qos_interfaces__qos_packet_trim_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_qos_interfaces__qos_packet_trim_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['qos', 'packet-trim']
+
+  def _get_config(self):
+    """
+    Getter method for config, mapped from YANG variable /qos/packet_trim/config (container)
+
+    YANG Description: Configuration data for switch level packet
+trimming parameters.
+    """
+    return self.__config
+      
+  def _set_config(self, v, load=False):
+    """
+    Setter method for config, mapped from YANG variable /qos/packet_trim/config (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_config is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_config() directly.
+
+    YANG Description: Configuration data for switch level packet
+trimming parameters.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_config_openconfig_qos_interfaces__qos_packet_trim_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """config must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_config_openconfig_qos_interfaces__qos_packet_trim_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)""",
+        })
+
+    self.__config = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_config(self):
+    self.__config = YANGDynClass(base=yc_config_openconfig_qos_interfaces__qos_packet_trim_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+
+
+  def _get_state(self):
+    """
+    Getter method for state, mapped from YANG variable /qos/packet_trim/state (container)
+
+    YANG Description: Operational state data for switch level packet
+trimming parameters.
+    """
+    return self.__state
+      
+  def _set_state(self, v, load=False):
+    """
+    Setter method for state, mapped from YANG variable /qos/packet_trim/state (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_state is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_state() directly.
+
+    YANG Description: Operational state data for switch level packet
+trimming parameters.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_state_openconfig_qos_interfaces__qos_packet_trim_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """state must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_qos_interfaces__qos_packet_trim_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)""",
+        })
+
+    self.__state = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_state(self):
+    self.__state = YANGDynClass(base=yc_state_openconfig_qos_interfaces__qos_packet_trim_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)
+
+  config = __builtin__.property(_get_config, _set_config)
+  state = __builtin__.property(_get_state)
+
+
+  _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
+
+
 class yc_qos_openconfig_qos_interfaces__qos(PybindBase):
   """
   This class was auto-generated by the PythonClass plugin for PYANG
@@ -60869,7 +62958,7 @@ class yc_qos_openconfig_qos_interfaces__qos(PybindBase):
 
   YANG Description: Top-level container for QoS data
   """
-  __slots__ = ('_path_helper', '_extmethods', '__interfaces','__classifiers','__forwarding_groups','__queues','__scheduler_policies','__buffer_allocation_profiles','__queue_management_profiles',)
+  __slots__ = ('_path_helper', '_extmethods', '__interfaces','__classifiers','__forwarding_groups','__queues','__scheduler_policies','__buffer_allocation_profiles','__queue_management_profiles','__packet_trim',)
 
   _yang_name = 'qos'
   _yang_namespace = 'http://openconfig.net/yang/qos'
@@ -60888,6 +62977,7 @@ class yc_qos_openconfig_qos_interfaces__qos(PybindBase):
     self.__scheduler_policies = YANGDynClass(base=yc_scheduler_policies_openconfig_qos_interfaces__qos_scheduler_policies, is_container='container', yang_name="scheduler-policies", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
     self.__buffer_allocation_profiles = YANGDynClass(base=yc_buffer_allocation_profiles_openconfig_qos_interfaces__qos_buffer_allocation_profiles, is_container='container', yang_name="buffer-allocation-profiles", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
     self.__queue_management_profiles = YANGDynClass(base=yc_queue_management_profiles_openconfig_qos_interfaces__qos_queue_management_profiles, is_container='container', yang_name="queue-management-profiles", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    self.__packet_trim = YANGDynClass(base=yc_packet_trim_openconfig_qos_interfaces__qos_packet_trim, is_container='container', yang_name="packet-trim", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
 
     load = kwargs.pop("load", None)
     if args:
@@ -61176,6 +63266,45 @@ queue management profiles.
   def _unset_queue_management_profiles(self):
     self.__queue_management_profiles = YANGDynClass(base=yc_queue_management_profiles_openconfig_qos_interfaces__qos_queue_management_profiles, is_container='container', yang_name="queue-management-profiles", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
 
+
+  def _get_packet_trim(self):
+    """
+    Getter method for packet_trim, mapped from YANG variable /qos/packet_trim (container)
+
+    YANG Description: Container for switch level packet trimming
+parameters.
+    """
+    return self.__packet_trim
+      
+  def _set_packet_trim(self, v, load=False):
+    """
+    Setter method for packet_trim, mapped from YANG variable /qos/packet_trim (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_packet_trim is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_packet_trim() directly.
+
+    YANG Description: Container for switch level packet trimming
+parameters.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_packet_trim_openconfig_qos_interfaces__qos_packet_trim, is_container='container', yang_name="packet-trim", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """packet_trim must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_packet_trim_openconfig_qos_interfaces__qos_packet_trim, is_container='container', yang_name="packet-trim", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)""",
+        })
+
+    self.__packet_trim = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_packet_trim(self):
+    self.__packet_trim = YANGDynClass(base=yc_packet_trim_openconfig_qos_interfaces__qos_packet_trim, is_container='container', yang_name="packet-trim", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+
   interfaces = __builtin__.property(_get_interfaces, _set_interfaces)
   classifiers = __builtin__.property(_get_classifiers, _set_classifiers)
   forwarding_groups = __builtin__.property(_get_forwarding_groups, _set_forwarding_groups)
@@ -61183,9 +63312,10 @@ queue management profiles.
   scheduler_policies = __builtin__.property(_get_scheduler_policies, _set_scheduler_policies)
   buffer_allocation_profiles = __builtin__.property(_get_buffer_allocation_profiles, _set_buffer_allocation_profiles)
   queue_management_profiles = __builtin__.property(_get_queue_management_profiles, _set_queue_management_profiles)
+  packet_trim = __builtin__.property(_get_packet_trim, _set_packet_trim)
 
 
-  _pyangbind_elements = OrderedDict([('interfaces', interfaces), ('classifiers', classifiers), ('forwarding_groups', forwarding_groups), ('queues', queues), ('scheduler_policies', scheduler_policies), ('buffer_allocation_profiles', buffer_allocation_profiles), ('queue_management_profiles', queue_management_profiles), ])
+  _pyangbind_elements = OrderedDict([('interfaces', interfaces), ('classifiers', classifiers), ('forwarding_groups', forwarding_groups), ('queues', queues), ('scheduler_policies', scheduler_policies), ('buffer_allocation_profiles', buffer_allocation_profiles), ('queue_management_profiles', queue_management_profiles), ('packet_trim', packet_trim), ])
 
 
 class openconfig_qos_interfaces(PybindBase):
@@ -63840,7 +65970,7 @@ multicast.
 
     YANG Description: Number of packets dropped by the queue due to overrun, that is tail-drop
 or AMQ (RED, WRED, etc) induced drops as indicated by the attached
-queue-management-profile
+queue-management-profile.
     """
     return self.__dropped_pkts
       
@@ -63854,7 +65984,7 @@ queue-management-profile
 
     YANG Description: Number of packets dropped by the queue due to overrun, that is tail-drop
 or AMQ (RED, WRED, etc) induced drops as indicated by the attached
-queue-management-profile
+queue-management-profile.
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -65862,7 +67992,7 @@ the system.
 
     YANG Description: Number of packets dropped by the queue due to overrun, that is tail-drop
 or AMQ (RED, WRED, etc) induced drops as indicated by the attached
-queue-management-profile
+queue-management-profile.
     """
     return self.__dropped_pkts
       
@@ -65876,7 +68006,7 @@ queue-management-profile
 
     YANG Description: Number of packets dropped by the queue due to overrun, that is tail-drop
 or AMQ (RED, WRED, etc) induced drops as indicated by the attached
-queue-management-profile
+queue-management-profile.
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -68652,7 +70782,7 @@ class yc_state_openconfig_qos_elements__qos_interfaces_interface_output_queues_q
   YANG Description: Operational state data for the queue associated with the
 interface
   """
-  __slots__ = ('_path_helper', '_extmethods', '__name','__queue_management_profile','__max_queue_len','__avg_queue_len','__transmit_pkts','__transmit_octets','__dropped_pkts','__dropped_octets','__ecn_marked_pkts','__ecn_marked_octets','__ecn_selected_pkts','__ecn_selected_octets',)
+  __slots__ = ('_path_helper', '_extmethods', '__name','__queue_management_profile','__max_queue_len','__avg_queue_len','__transmit_pkts','__transmit_octets','__dropped_pkts','__dropped_octets','__ecn_marked_pkts','__ecn_marked_octets','__ecn_selected_pkts','__ecn_selected_octets','__dropped_trim_pkts','__trim_pkts','__out_trim_pkts',)
 
   _yang_name = 'state'
   _yang_namespace = 'http://openconfig.net/yang/qos'
@@ -68676,6 +70806,9 @@ interface
     self.__ecn_marked_octets = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="ecn-marked-octets", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
     self.__ecn_selected_pkts = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="ecn-selected-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
     self.__ecn_selected_octets = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="ecn-selected-octets", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+    self.__dropped_trim_pkts = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="dropped-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+    self.__trim_pkts = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+    self.__out_trim_pkts = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="out-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -68962,7 +71095,7 @@ multicast.
 
     YANG Description: Number of packets dropped by the queue due to overrun, that is tail-drop
 or AMQ (RED, WRED, etc) induced drops as indicated by the attached
-queue-management-profile
+queue-management-profile.
     """
     return self.__dropped_pkts
       
@@ -68976,7 +71109,7 @@ queue-management-profile
 
     YANG Description: Number of packets dropped by the queue due to overrun, that is tail-drop
 or AMQ (RED, WRED, etc) induced drops as indicated by the attached
-queue-management-profile
+queue-management-profile.
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -69209,6 +71342,127 @@ Octets are counted regardless of its ECN codepoint
   def _unset_ecn_selected_octets(self):
     self.__ecn_selected_octets = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="ecn-selected-octets", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
 
+
+  def _get_dropped_trim_pkts(self):
+    """
+    Getter method for dropped_trim_pkts, mapped from YANG variable /qos/interfaces/interface/output/queues/queue/state/dropped_trim_pkts (oc-yang:counter64)
+
+    YANG Description: The number of packets that were trimmed but dropped due to a
+failed shared buffer admission on the trim queue.
+    """
+    return self.__dropped_trim_pkts
+      
+  def _set_dropped_trim_pkts(self, v, load=False):
+    """
+    Setter method for dropped_trim_pkts, mapped from YANG variable /qos/interfaces/interface/output/queues/queue/state/dropped_trim_pkts (oc-yang:counter64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_dropped_trim_pkts is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_dropped_trim_pkts() directly.
+
+    YANG Description: The number of packets that were trimmed but dropped due to a
+failed shared buffer admission on the trim queue.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="dropped-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """dropped_trim_pkts must be of a type compatible with oc-yang:counter64""",
+          'defined-type': "oc-yang:counter64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="dropped-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)""",
+        })
+
+    self.__dropped_trim_pkts = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_dropped_trim_pkts(self):
+    self.__dropped_trim_pkts = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="dropped-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+
+
+  def _get_trim_pkts(self):
+    """
+    Getter method for trim_pkts, mapped from YANG variable /qos/interfaces/interface/output/queues/queue/state/trim_pkts (oc-yang:counter64)
+
+    YANG Description: The total number of packets that were trimmed.
+This counter includes both packets that were
+transmitted after trimming and those that were
+subsequently dropped.
+    """
+    return self.__trim_pkts
+      
+  def _set_trim_pkts(self, v, load=False):
+    """
+    Setter method for trim_pkts, mapped from YANG variable /qos/interfaces/interface/output/queues/queue/state/trim_pkts (oc-yang:counter64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_trim_pkts is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_trim_pkts() directly.
+
+    YANG Description: The total number of packets that were trimmed.
+This counter includes both packets that were
+transmitted after trimming and those that were
+subsequently dropped.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """trim_pkts must be of a type compatible with oc-yang:counter64""",
+          'defined-type': "oc-yang:counter64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)""",
+        })
+
+    self.__trim_pkts = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_trim_pkts(self):
+    self.__trim_pkts = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+
+
+  def _get_out_trim_pkts(self):
+    """
+    Getter method for out_trim_pkts, mapped from YANG variable /qos/interfaces/interface/output/queues/queue/state/out_trim_pkts (oc-yang:counter64)
+
+    YANG Description: The number of packets that were trimmed and successfully
+transmitted.
+    """
+    return self.__out_trim_pkts
+      
+  def _set_out_trim_pkts(self, v, load=False):
+    """
+    Setter method for out_trim_pkts, mapped from YANG variable /qos/interfaces/interface/output/queues/queue/state/out_trim_pkts (oc-yang:counter64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_out_trim_pkts is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_out_trim_pkts() directly.
+
+    YANG Description: The number of packets that were trimmed and successfully
+transmitted.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="out-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """out_trim_pkts must be of a type compatible with oc-yang:counter64""",
+          'defined-type': "oc-yang:counter64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="out-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)""",
+        })
+
+    self.__out_trim_pkts = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_out_trim_pkts(self):
+    self.__out_trim_pkts = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="out-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+
   name = __builtin__.property(_get_name)
   queue_management_profile = __builtin__.property(_get_queue_management_profile)
   max_queue_len = __builtin__.property(_get_max_queue_len)
@@ -69221,9 +71475,12 @@ Octets are counted regardless of its ECN codepoint
   ecn_marked_octets = __builtin__.property(_get_ecn_marked_octets)
   ecn_selected_pkts = __builtin__.property(_get_ecn_selected_pkts)
   ecn_selected_octets = __builtin__.property(_get_ecn_selected_octets)
+  dropped_trim_pkts = __builtin__.property(_get_dropped_trim_pkts)
+  trim_pkts = __builtin__.property(_get_trim_pkts)
+  out_trim_pkts = __builtin__.property(_get_out_trim_pkts)
 
 
-  _pyangbind_elements = OrderedDict([('name', name), ('queue_management_profile', queue_management_profile), ('max_queue_len', max_queue_len), ('avg_queue_len', avg_queue_len), ('transmit_pkts', transmit_pkts), ('transmit_octets', transmit_octets), ('dropped_pkts', dropped_pkts), ('dropped_octets', dropped_octets), ('ecn_marked_pkts', ecn_marked_pkts), ('ecn_marked_octets', ecn_marked_octets), ('ecn_selected_pkts', ecn_selected_pkts), ('ecn_selected_octets', ecn_selected_octets), ])
+  _pyangbind_elements = OrderedDict([('name', name), ('queue_management_profile', queue_management_profile), ('max_queue_len', max_queue_len), ('avg_queue_len', avg_queue_len), ('transmit_pkts', transmit_pkts), ('transmit_octets', transmit_octets), ('dropped_pkts', dropped_pkts), ('dropped_octets', dropped_octets), ('ecn_marked_pkts', ecn_marked_pkts), ('ecn_marked_octets', ecn_marked_octets), ('ecn_selected_pkts', ecn_selected_pkts), ('ecn_selected_octets', ecn_selected_octets), ('dropped_trim_pkts', dropped_trim_pkts), ('trim_pkts', trim_pkts), ('out_trim_pkts', out_trim_pkts), ])
 
 
 class yc_queue_openconfig_qos_elements__qos_interfaces_interface_output_queues_queue(PybindBase):
@@ -76822,6 +79079,348 @@ within the MPLS header
   _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
 
 
+class yc_config_openconfig_qos_elements__qos_classifiers_classifier_terms_term_conditions_fabric_config(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-qos-elements - based on the path /qos/classifiers/classifier/terms/term/conditions/fabric/config. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Configuration parameters relating to fabric
+parameters.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__fabric_priority',)
+
+  _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/qos'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['qos', 'classifiers', 'classifier', 'terms', 'term', 'conditions', 'fabric', 'config']
+
+  def _get_fabric_priority(self):
+    """
+    Getter method for fabric_priority, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/config/fabric_priority (uint8)
+
+    YANG Description: Specifies the priority for the forwarding group for local
+transmission through the device (e.g., across the internal
+switching fabric). The priority is expressed as a numerical
+value where higher values indicate higher precedence. For
+example, traffic with fabric priority 128 is treated with
+higher priority than traffic with fabric priority 0.
+    """
+    return self.__fabric_priority
+      
+  def _set_fabric_priority(self, v, load=False):
+    """
+    Setter method for fabric_priority, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/config/fabric_priority (uint8)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fabric_priority is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fabric_priority() directly.
+
+    YANG Description: Specifies the priority for the forwarding group for local
+transmission through the device (e.g., across the internal
+switching fabric). The priority is expressed as a numerical
+value where higher values indicate higher precedence. For
+example, traffic with fabric priority 128 is treated with
+higher priority than traffic with fabric priority 0.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fabric_priority must be of a type compatible with uint8""",
+          'defined-type': "uint8",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)""",
+        })
+
+    self.__fabric_priority = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fabric_priority(self):
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+
+  fabric_priority = __builtin__.property(_get_fabric_priority, _set_fabric_priority)
+
+
+  _pyangbind_elements = OrderedDict([('fabric_priority', fabric_priority), ])
+
+
+class yc_state_openconfig_qos_elements__qos_classifiers_classifier_terms_term_conditions_fabric_state(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-qos-elements - based on the path /qos/classifiers/classifier/terms/term/conditions/fabric/state. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Operational state parameters relating to fabric
+parameters.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__fabric_priority',)
+
+  _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/qos'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['qos', 'classifiers', 'classifier', 'terms', 'term', 'conditions', 'fabric', 'state']
+
+  def _get_fabric_priority(self):
+    """
+    Getter method for fabric_priority, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/state/fabric_priority (uint8)
+
+    YANG Description: Specifies the priority for the forwarding group for local
+transmission through the device (e.g., across the internal
+switching fabric). The priority is expressed as a numerical
+value where higher values indicate higher precedence. For
+example, traffic with fabric priority 128 is treated with
+higher priority than traffic with fabric priority 0.
+    """
+    return self.__fabric_priority
+      
+  def _set_fabric_priority(self, v, load=False):
+    """
+    Setter method for fabric_priority, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/state/fabric_priority (uint8)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fabric_priority is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fabric_priority() directly.
+
+    YANG Description: Specifies the priority for the forwarding group for local
+transmission through the device (e.g., across the internal
+switching fabric). The priority is expressed as a numerical
+value where higher values indicate higher precedence. For
+example, traffic with fabric priority 128 is treated with
+higher priority than traffic with fabric priority 0.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fabric_priority must be of a type compatible with uint8""",
+          'defined-type': "uint8",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)""",
+        })
+
+    self.__fabric_priority = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fabric_priority(self):
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+
+  fabric_priority = __builtin__.property(_get_fabric_priority)
+
+
+  _pyangbind_elements = OrderedDict([('fabric_priority', fabric_priority), ])
+
+
+class yc_fabric_openconfig_qos_elements__qos_classifiers_classifier_terms_term_conditions_fabric(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-qos-elements - based on the path /qos/classifiers/classifier/terms/term/conditions/fabric. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Enclosing container for managing device-specific fabric
+attributes.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
+
+  _yang_name = 'fabric'
+  _yang_namespace = 'http://openconfig.net/yang/qos'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__config = YANGDynClass(base=yc_config_openconfig_qos_elements__qos_classifiers_classifier_terms_term_conditions_fabric_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_qos_elements__qos_classifiers_classifier_terms_term_conditions_fabric_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['qos', 'classifiers', 'classifier', 'terms', 'term', 'conditions', 'fabric']
+
+  def _get_config(self):
+    """
+    Getter method for config, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/config (container)
+
+    YANG Description: Configuration parameters relating to fabric
+parameters.
+    """
+    return self.__config
+      
+  def _set_config(self, v, load=False):
+    """
+    Setter method for config, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/config (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_config is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_config() directly.
+
+    YANG Description: Configuration parameters relating to fabric
+parameters.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_config_openconfig_qos_elements__qos_classifiers_classifier_terms_term_conditions_fabric_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """config must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_config_openconfig_qos_elements__qos_classifiers_classifier_terms_term_conditions_fabric_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)""",
+        })
+
+    self.__config = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_config(self):
+    self.__config = YANGDynClass(base=yc_config_openconfig_qos_elements__qos_classifiers_classifier_terms_term_conditions_fabric_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+
+
+  def _get_state(self):
+    """
+    Getter method for state, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/state (container)
+
+    YANG Description: Operational state parameters relating to fabric
+parameters.
+    """
+    return self.__state
+      
+  def _set_state(self, v, load=False):
+    """
+    Setter method for state, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/state (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_state is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_state() directly.
+
+    YANG Description: Operational state parameters relating to fabric
+parameters.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_state_openconfig_qos_elements__qos_classifiers_classifier_terms_term_conditions_fabric_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """state must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_qos_elements__qos_classifiers_classifier_terms_term_conditions_fabric_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)""",
+        })
+
+    self.__state = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_state(self):
+    self.__state = YANGDynClass(base=yc_state_openconfig_qos_elements__qos_classifiers_classifier_terms_term_conditions_fabric_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)
+
+  config = __builtin__.property(_get_config, _set_config)
+  state = __builtin__.property(_get_state)
+
+
+  _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
+
+
 class yc_conditions_openconfig_qos_elements__qos_classifiers_classifier_terms_term_conditions(PybindBase):
   """
   This class was auto-generated by the PythonClass plugin for PYANG
@@ -76833,7 +79432,7 @@ class yc_conditions_openconfig_qos_elements__qos_classifiers_classifier_terms_te
 the criteria specified within the match condition to be considered
 matching the term.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__l2','__ipv4','__ipv6','__transport','__mpls',)
+  __slots__ = ('_path_helper', '_extmethods', '__l2','__ipv4','__ipv6','__transport','__mpls','__fabric',)
 
   _yang_name = 'conditions'
   _yang_namespace = 'http://openconfig.net/yang/qos'
@@ -76850,6 +79449,7 @@ matching the term.
     self.__ipv6 = YANGDynClass(base=yc_ipv6_openconfig_qos_elements__qos_classifiers_classifier_terms_term_conditions_ipv6, is_container='container', yang_name="ipv6", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
     self.__transport = YANGDynClass(base=yc_transport_openconfig_qos_elements__qos_classifiers_classifier_terms_term_conditions_transport, is_container='container', yang_name="transport", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
     self.__mpls = YANGDynClass(base=yc_mpls_openconfig_qos_elements__qos_classifiers_classifier_terms_term_conditions_mpls, is_container='container', yang_name="mpls", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    self.__fabric = YANGDynClass(base=yc_fabric_openconfig_qos_elements__qos_classifiers_classifier_terms_term_conditions_fabric, is_container='container', yang_name="fabric", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
 
     load = kwargs.pop("load", None)
     if args:
@@ -77062,14 +79662,54 @@ matching the term.
   def _unset_mpls(self):
     self.__mpls = YANGDynClass(base=yc_mpls_openconfig_qos_elements__qos_classifiers_classifier_terms_term_conditions_mpls, is_container='container', yang_name="mpls", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
 
+
+  def _get_fabric(self):
+    """
+    Getter method for fabric, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric (container)
+
+    YANG Description: Enclosing container for managing device-specific fabric
+attributes.
+    """
+    return self.__fabric
+      
+  def _set_fabric(self, v, load=False):
+    """
+    Setter method for fabric, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fabric is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fabric() directly.
+
+    YANG Description: Enclosing container for managing device-specific fabric
+attributes.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_fabric_openconfig_qos_elements__qos_classifiers_classifier_terms_term_conditions_fabric, is_container='container', yang_name="fabric", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fabric must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_fabric_openconfig_qos_elements__qos_classifiers_classifier_terms_term_conditions_fabric, is_container='container', yang_name="fabric", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)""",
+        })
+
+    self.__fabric = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fabric(self):
+    self.__fabric = YANGDynClass(base=yc_fabric_openconfig_qos_elements__qos_classifiers_classifier_terms_term_conditions_fabric, is_container='container', yang_name="fabric", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+
   l2 = __builtin__.property(_get_l2, _set_l2)
   ipv4 = __builtin__.property(_get_ipv4, _set_ipv4)
   ipv6 = __builtin__.property(_get_ipv6, _set_ipv6)
   transport = __builtin__.property(_get_transport, _set_transport)
   mpls = __builtin__.property(_get_mpls, _set_mpls)
+  fabric = __builtin__.property(_get_fabric, _set_fabric)
 
 
-  _pyangbind_elements = OrderedDict([('l2', l2), ('ipv4', ipv4), ('ipv6', ipv6), ('transport', transport), ('mpls', mpls), ])
+  _pyangbind_elements = OrderedDict([('l2', l2), ('ipv4', ipv4), ('ipv6', ipv6), ('transport', transport), ('mpls', mpls), ('fabric', fabric), ])
 
 
 class yc_config_openconfig_qos_elements__qos_classifiers_classifier_terms_term_actions_config(PybindBase):
@@ -87443,7 +90083,7 @@ class yc_config_openconfig_qos_elements__qos_buffer_allocation_profiles_buffer_a
   YANG Description: Configuration parameters relating to a queue within a buffer allocation
 profile.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__name','__dedicated_buffer','__dedicated_buffer_temporal','__use_shared_buffer','__shared_buffer_limit_type','__static_shared_buffer_limit','__static_shared_buffer_limit_temporal','__dynamic_limit_scaling_factor',)
+  __slots__ = ('_path_helper', '_extmethods', '__name','__dedicated_buffer','__dedicated_buffer_temporal','__use_shared_buffer','__shared_buffer_limit_type','__static_shared_buffer_limit','__static_shared_buffer_limit_temporal','__dynamic_limit_scaling_factor','__trim_enable',)
 
   _yang_name = 'config'
   _yang_namespace = 'http://openconfig.net/yang/qos'
@@ -87463,6 +90103,7 @@ profile.
     self.__static_shared_buffer_limit = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="static-shared-buffer-limit", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint32', is_config=True)
     self.__static_shared_buffer_limit_temporal = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="static-shared-buffer-limit-temporal", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint32', is_config=True)
     self.__dynamic_limit_scaling_factor = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['-2147483648..2147483647']}, int_size=32), is_leaf=True, yang_name="dynamic-limit-scaling-factor", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='int32', is_config=True)
+    self.__trim_enable = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=True)
 
     load = kwargs.pop("load", None)
     if args:
@@ -87840,6 +90481,55 @@ current usage is 79MB which is < 80MB, the packet is queued.
   def _unset_dynamic_limit_scaling_factor(self):
     self.__dynamic_limit_scaling_factor = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['-2147483648..2147483647']}, int_size=32), is_leaf=True, yang_name="dynamic-limit-scaling-factor", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='int32', is_config=True)
 
+
+  def _get_trim_enable(self):
+    """
+    Getter method for trim_enable, mapped from YANG variable /qos/buffer_allocation_profiles/buffer_allocation_profile/queues/queue/config/trim_enable (boolean)
+
+    YANG Description: Flag to enable packet trimming per queue. If leaf is set
+to false, the packet should be completely discarded,
+without preserving any part of the data. If leaf is set to
+true, the packet must be trimmed instead of discarded.
+Typically, this involves truncating the payload while
+preserving the packet header for notification or
+diagnostic purposes.
+    """
+    return self.__trim_enable
+      
+  def _set_trim_enable(self, v, load=False):
+    """
+    Setter method for trim_enable, mapped from YANG variable /qos/buffer_allocation_profiles/buffer_allocation_profile/queues/queue/config/trim_enable (boolean)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_trim_enable is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_trim_enable() directly.
+
+    YANG Description: Flag to enable packet trimming per queue. If leaf is set
+to false, the packet should be completely discarded,
+without preserving any part of the data. If leaf is set to
+true, the packet must be trimmed instead of discarded.
+Typically, this involves truncating the payload while
+preserving the packet header for notification or
+diagnostic purposes.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """trim_enable must be of a type compatible with boolean""",
+          'defined-type': "boolean",
+          'generated-type': """YANGDynClass(base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=True)""",
+        })
+
+    self.__trim_enable = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_trim_enable(self):
+    self.__trim_enable = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=True)
+
   name = __builtin__.property(_get_name, _set_name)
   dedicated_buffer = __builtin__.property(_get_dedicated_buffer, _set_dedicated_buffer)
   dedicated_buffer_temporal = __builtin__.property(_get_dedicated_buffer_temporal, _set_dedicated_buffer_temporal)
@@ -87848,9 +90538,10 @@ current usage is 79MB which is < 80MB, the packet is queued.
   static_shared_buffer_limit = __builtin__.property(_get_static_shared_buffer_limit, _set_static_shared_buffer_limit)
   static_shared_buffer_limit_temporal = __builtin__.property(_get_static_shared_buffer_limit_temporal, _set_static_shared_buffer_limit_temporal)
   dynamic_limit_scaling_factor = __builtin__.property(_get_dynamic_limit_scaling_factor, _set_dynamic_limit_scaling_factor)
+  trim_enable = __builtin__.property(_get_trim_enable, _set_trim_enable)
 
 
-  _pyangbind_elements = OrderedDict([('name', name), ('dedicated_buffer', dedicated_buffer), ('dedicated_buffer_temporal', dedicated_buffer_temporal), ('use_shared_buffer', use_shared_buffer), ('shared_buffer_limit_type', shared_buffer_limit_type), ('static_shared_buffer_limit', static_shared_buffer_limit), ('static_shared_buffer_limit_temporal', static_shared_buffer_limit_temporal), ('dynamic_limit_scaling_factor', dynamic_limit_scaling_factor), ])
+  _pyangbind_elements = OrderedDict([('name', name), ('dedicated_buffer', dedicated_buffer), ('dedicated_buffer_temporal', dedicated_buffer_temporal), ('use_shared_buffer', use_shared_buffer), ('shared_buffer_limit_type', shared_buffer_limit_type), ('static_shared_buffer_limit', static_shared_buffer_limit), ('static_shared_buffer_limit_temporal', static_shared_buffer_limit_temporal), ('dynamic_limit_scaling_factor', dynamic_limit_scaling_factor), ('trim_enable', trim_enable), ])
 
 
 class yc_state_openconfig_qos_elements__qos_buffer_allocation_profiles_buffer_allocation_profile_queues_queue_state(PybindBase):
@@ -87863,7 +90554,7 @@ class yc_state_openconfig_qos_elements__qos_buffer_allocation_profiles_buffer_al
   YANG Description: Operational state parameters relating to a queue wtihin a buffer allocation
 profile.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__name','__dedicated_buffer','__dedicated_buffer_temporal','__use_shared_buffer','__shared_buffer_limit_type','__static_shared_buffer_limit','__static_shared_buffer_limit_temporal','__dynamic_limit_scaling_factor',)
+  __slots__ = ('_path_helper', '_extmethods', '__name','__dedicated_buffer','__dedicated_buffer_temporal','__use_shared_buffer','__shared_buffer_limit_type','__static_shared_buffer_limit','__static_shared_buffer_limit_temporal','__dynamic_limit_scaling_factor','__trim_enable',)
 
   _yang_name = 'state'
   _yang_namespace = 'http://openconfig.net/yang/qos'
@@ -87883,6 +90574,7 @@ profile.
     self.__static_shared_buffer_limit = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="static-shared-buffer-limit", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint32', is_config=False)
     self.__static_shared_buffer_limit_temporal = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="static-shared-buffer-limit-temporal", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint32', is_config=False)
     self.__dynamic_limit_scaling_factor = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['-2147483648..2147483647']}, int_size=32), is_leaf=True, yang_name="dynamic-limit-scaling-factor", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='int32', is_config=False)
+    self.__trim_enable = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -88260,6 +90952,55 @@ current usage is 79MB which is < 80MB, the packet is queued.
   def _unset_dynamic_limit_scaling_factor(self):
     self.__dynamic_limit_scaling_factor = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['-2147483648..2147483647']}, int_size=32), is_leaf=True, yang_name="dynamic-limit-scaling-factor", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='int32', is_config=False)
 
+
+  def _get_trim_enable(self):
+    """
+    Getter method for trim_enable, mapped from YANG variable /qos/buffer_allocation_profiles/buffer_allocation_profile/queues/queue/state/trim_enable (boolean)
+
+    YANG Description: Flag to enable packet trimming per queue. If leaf is set
+to false, the packet should be completely discarded,
+without preserving any part of the data. If leaf is set to
+true, the packet must be trimmed instead of discarded.
+Typically, this involves truncating the payload while
+preserving the packet header for notification or
+diagnostic purposes.
+    """
+    return self.__trim_enable
+      
+  def _set_trim_enable(self, v, load=False):
+    """
+    Setter method for trim_enable, mapped from YANG variable /qos/buffer_allocation_profiles/buffer_allocation_profile/queues/queue/state/trim_enable (boolean)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_trim_enable is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_trim_enable() directly.
+
+    YANG Description: Flag to enable packet trimming per queue. If leaf is set
+to false, the packet should be completely discarded,
+without preserving any part of the data. If leaf is set to
+true, the packet must be trimmed instead of discarded.
+Typically, this involves truncating the payload while
+preserving the packet header for notification or
+diagnostic purposes.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """trim_enable must be of a type compatible with boolean""",
+          'defined-type': "boolean",
+          'generated-type': """YANGDynClass(base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=False)""",
+        })
+
+    self.__trim_enable = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_trim_enable(self):
+    self.__trim_enable = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=False)
+
   name = __builtin__.property(_get_name)
   dedicated_buffer = __builtin__.property(_get_dedicated_buffer)
   dedicated_buffer_temporal = __builtin__.property(_get_dedicated_buffer_temporal)
@@ -88268,9 +91009,10 @@ current usage is 79MB which is < 80MB, the packet is queued.
   static_shared_buffer_limit = __builtin__.property(_get_static_shared_buffer_limit)
   static_shared_buffer_limit_temporal = __builtin__.property(_get_static_shared_buffer_limit_temporal)
   dynamic_limit_scaling_factor = __builtin__.property(_get_dynamic_limit_scaling_factor)
+  trim_enable = __builtin__.property(_get_trim_enable)
 
 
-  _pyangbind_elements = OrderedDict([('name', name), ('dedicated_buffer', dedicated_buffer), ('dedicated_buffer_temporal', dedicated_buffer_temporal), ('use_shared_buffer', use_shared_buffer), ('shared_buffer_limit_type', shared_buffer_limit_type), ('static_shared_buffer_limit', static_shared_buffer_limit), ('static_shared_buffer_limit_temporal', static_shared_buffer_limit_temporal), ('dynamic_limit_scaling_factor', dynamic_limit_scaling_factor), ])
+  _pyangbind_elements = OrderedDict([('name', name), ('dedicated_buffer', dedicated_buffer), ('dedicated_buffer_temporal', dedicated_buffer_temporal), ('use_shared_buffer', use_shared_buffer), ('shared_buffer_limit_type', shared_buffer_limit_type), ('static_shared_buffer_limit', static_shared_buffer_limit), ('static_shared_buffer_limit_temporal', static_shared_buffer_limit_temporal), ('dynamic_limit_scaling_factor', dynamic_limit_scaling_factor), ('trim_enable', trim_enable), ])
 
 
 class yc_queue_openconfig_qos_elements__qos_buffer_allocation_profiles_buffer_allocation_profile_queues_queue(PybindBase):
@@ -89120,7 +91862,7 @@ class yc_config_openconfig_qos_elements__qos_queue_management_profiles_queue_man
     """
     Getter method for min_threshold, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/wred/uniform/config/min_threshold (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -89135,7 +91877,7 @@ max-threshold-percent.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -89206,7 +91948,7 @@ min-threshold-percent and max-threshold-percent.
     """
     Getter method for min_threshold_percent, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/wred/uniform/config/min_threshold_percent (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -89221,7 +91963,7 @@ max-threshold.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold_percent() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -89559,7 +92301,7 @@ class yc_state_openconfig_qos_elements__qos_queue_management_profiles_queue_mana
     """
     Getter method for min_threshold, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/wred/uniform/state/min_threshold (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -89574,7 +92316,7 @@ max-threshold-percent.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -89645,7 +92387,7 @@ min-threshold-percent and max-threshold-percent.
     """
     Getter method for min_threshold_percent, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/wred/uniform/state/min_threshold_percent (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -89660,7 +92402,7 @@ max-threshold.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold_percent() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -90223,7 +92965,7 @@ class yc_config_openconfig_qos_elements__qos_queue_management_profiles_queue_man
     """
     Getter method for min_threshold, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/red/uniform/config/min_threshold (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -90238,7 +92980,7 @@ max-threshold-percent.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -90309,7 +93051,7 @@ min-threshold-percent and max-threshold-percent.
     """
     Getter method for min_threshold_percent, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/red/uniform/config/min_threshold_percent (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -90324,7 +93066,7 @@ max-threshold.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold_percent() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -90556,7 +93298,7 @@ class yc_state_openconfig_qos_elements__qos_queue_management_profiles_queue_mana
     """
     Getter method for min_threshold, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/red/uniform/state/min_threshold (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -90571,7 +93313,7 @@ max-threshold-percent.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -90642,7 +93384,7 @@ min-threshold-percent and max-threshold-percent.
     """
     Getter method for min_threshold_percent, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/red/uniform/state/min_threshold_percent (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -90657,7 +93399,7 @@ max-threshold.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold_percent() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -91422,6 +94164,418 @@ whether RED, or WRED is applied to manage the queue's occupancy.
   _pyangbind_elements = OrderedDict([('queue_management_profile', queue_management_profile), ])
 
 
+class yc_config_openconfig_qos_elements__qos_packet_trim_config(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-qos-elements - based on the path /qos/packet-trim/config. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Configuration data for switch level packet
+trimming parameters.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__symmetric_dscp','__fabric_priority',)
+
+  _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/qos'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__symmetric_dscp = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['qos', 'packet-trim', 'config']
+
+  def _get_symmetric_dscp(self):
+    """
+    Getter method for symmetric_dscp, mapped from YANG variable /qos/packet_trim/config/symmetric_dscp (uint8)
+
+    YANG Description: The DSCP value for the notification packet
+(sometimes called a 'symmetric packet') sent back
+to the source when a packet is trimmed.
+    """
+    return self.__symmetric_dscp
+      
+  def _set_symmetric_dscp(self, v, load=False):
+    """
+    Setter method for symmetric_dscp, mapped from YANG variable /qos/packet_trim/config/symmetric_dscp (uint8)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_symmetric_dscp is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_symmetric_dscp() directly.
+
+    YANG Description: The DSCP value for the notification packet
+(sometimes called a 'symmetric packet') sent back
+to the source when a packet is trimmed.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """symmetric_dscp must be of a type compatible with uint8""",
+          'defined-type': "uint8",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)""",
+        })
+
+    self.__symmetric_dscp = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_symmetric_dscp(self):
+    self.__symmetric_dscp = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+
+
+  def _get_fabric_priority(self):
+    """
+    Getter method for fabric_priority, mapped from YANG variable /qos/packet_trim/config/fabric_priority (uint8)
+
+    YANG Description: Traffic class used to transmit trimmed
+packets.
+    """
+    return self.__fabric_priority
+      
+  def _set_fabric_priority(self, v, load=False):
+    """
+    Setter method for fabric_priority, mapped from YANG variable /qos/packet_trim/config/fabric_priority (uint8)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fabric_priority is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fabric_priority() directly.
+
+    YANG Description: Traffic class used to transmit trimmed
+packets.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fabric_priority must be of a type compatible with uint8""",
+          'defined-type': "uint8",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)""",
+        })
+
+    self.__fabric_priority = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fabric_priority(self):
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+
+  symmetric_dscp = __builtin__.property(_get_symmetric_dscp, _set_symmetric_dscp)
+  fabric_priority = __builtin__.property(_get_fabric_priority, _set_fabric_priority)
+
+
+  _pyangbind_elements = OrderedDict([('symmetric_dscp', symmetric_dscp), ('fabric_priority', fabric_priority), ])
+
+
+class yc_state_openconfig_qos_elements__qos_packet_trim_state(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-qos-elements - based on the path /qos/packet-trim/state. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Operational state data for switch level packet
+trimming parameters.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__symmetric_dscp','__fabric_priority',)
+
+  _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/qos'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__symmetric_dscp = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['qos', 'packet-trim', 'state']
+
+  def _get_symmetric_dscp(self):
+    """
+    Getter method for symmetric_dscp, mapped from YANG variable /qos/packet_trim/state/symmetric_dscp (uint8)
+
+    YANG Description: The DSCP value for the notification packet
+(sometimes called a 'symmetric packet') sent back
+to the source when a packet is trimmed.
+    """
+    return self.__symmetric_dscp
+      
+  def _set_symmetric_dscp(self, v, load=False):
+    """
+    Setter method for symmetric_dscp, mapped from YANG variable /qos/packet_trim/state/symmetric_dscp (uint8)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_symmetric_dscp is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_symmetric_dscp() directly.
+
+    YANG Description: The DSCP value for the notification packet
+(sometimes called a 'symmetric packet') sent back
+to the source when a packet is trimmed.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """symmetric_dscp must be of a type compatible with uint8""",
+          'defined-type': "uint8",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)""",
+        })
+
+    self.__symmetric_dscp = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_symmetric_dscp(self):
+    self.__symmetric_dscp = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+
+
+  def _get_fabric_priority(self):
+    """
+    Getter method for fabric_priority, mapped from YANG variable /qos/packet_trim/state/fabric_priority (uint8)
+
+    YANG Description: Traffic class used to transmit trimmed
+packets.
+    """
+    return self.__fabric_priority
+      
+  def _set_fabric_priority(self, v, load=False):
+    """
+    Setter method for fabric_priority, mapped from YANG variable /qos/packet_trim/state/fabric_priority (uint8)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fabric_priority is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fabric_priority() directly.
+
+    YANG Description: Traffic class used to transmit trimmed
+packets.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fabric_priority must be of a type compatible with uint8""",
+          'defined-type': "uint8",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)""",
+        })
+
+    self.__fabric_priority = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fabric_priority(self):
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+
+  symmetric_dscp = __builtin__.property(_get_symmetric_dscp)
+  fabric_priority = __builtin__.property(_get_fabric_priority)
+
+
+  _pyangbind_elements = OrderedDict([('symmetric_dscp', symmetric_dscp), ('fabric_priority', fabric_priority), ])
+
+
+class yc_packet_trim_openconfig_qos_elements__qos_packet_trim(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-qos-elements - based on the path /qos/packet-trim. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Container for switch level packet trimming
+parameters.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
+
+  _yang_name = 'packet-trim'
+  _yang_namespace = 'http://openconfig.net/yang/qos'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__config = YANGDynClass(base=yc_config_openconfig_qos_elements__qos_packet_trim_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_qos_elements__qos_packet_trim_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['qos', 'packet-trim']
+
+  def _get_config(self):
+    """
+    Getter method for config, mapped from YANG variable /qos/packet_trim/config (container)
+
+    YANG Description: Configuration data for switch level packet
+trimming parameters.
+    """
+    return self.__config
+      
+  def _set_config(self, v, load=False):
+    """
+    Setter method for config, mapped from YANG variable /qos/packet_trim/config (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_config is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_config() directly.
+
+    YANG Description: Configuration data for switch level packet
+trimming parameters.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_config_openconfig_qos_elements__qos_packet_trim_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """config must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_config_openconfig_qos_elements__qos_packet_trim_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)""",
+        })
+
+    self.__config = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_config(self):
+    self.__config = YANGDynClass(base=yc_config_openconfig_qos_elements__qos_packet_trim_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+
+
+  def _get_state(self):
+    """
+    Getter method for state, mapped from YANG variable /qos/packet_trim/state (container)
+
+    YANG Description: Operational state data for switch level packet
+trimming parameters.
+    """
+    return self.__state
+      
+  def _set_state(self, v, load=False):
+    """
+    Setter method for state, mapped from YANG variable /qos/packet_trim/state (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_state is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_state() directly.
+
+    YANG Description: Operational state data for switch level packet
+trimming parameters.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_state_openconfig_qos_elements__qos_packet_trim_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """state must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_qos_elements__qos_packet_trim_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)""",
+        })
+
+    self.__state = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_state(self):
+    self.__state = YANGDynClass(base=yc_state_openconfig_qos_elements__qos_packet_trim_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)
+
+  config = __builtin__.property(_get_config, _set_config)
+  state = __builtin__.property(_get_state)
+
+
+  _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
+
+
 class yc_qos_openconfig_qos_elements__qos(PybindBase):
   """
   This class was auto-generated by the PythonClass plugin for PYANG
@@ -91431,7 +94585,7 @@ class yc_qos_openconfig_qos_elements__qos(PybindBase):
 
   YANG Description: Top-level container for QoS data
   """
-  __slots__ = ('_path_helper', '_extmethods', '__interfaces','__classifiers','__forwarding_groups','__queues','__scheduler_policies','__buffer_allocation_profiles','__queue_management_profiles',)
+  __slots__ = ('_path_helper', '_extmethods', '__interfaces','__classifiers','__forwarding_groups','__queues','__scheduler_policies','__buffer_allocation_profiles','__queue_management_profiles','__packet_trim',)
 
   _yang_name = 'qos'
   _yang_namespace = 'http://openconfig.net/yang/qos'
@@ -91450,6 +94604,7 @@ class yc_qos_openconfig_qos_elements__qos(PybindBase):
     self.__scheduler_policies = YANGDynClass(base=yc_scheduler_policies_openconfig_qos_elements__qos_scheduler_policies, is_container='container', yang_name="scheduler-policies", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
     self.__buffer_allocation_profiles = YANGDynClass(base=yc_buffer_allocation_profiles_openconfig_qos_elements__qos_buffer_allocation_profiles, is_container='container', yang_name="buffer-allocation-profiles", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
     self.__queue_management_profiles = YANGDynClass(base=yc_queue_management_profiles_openconfig_qos_elements__qos_queue_management_profiles, is_container='container', yang_name="queue-management-profiles", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    self.__packet_trim = YANGDynClass(base=yc_packet_trim_openconfig_qos_elements__qos_packet_trim, is_container='container', yang_name="packet-trim", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
 
     load = kwargs.pop("load", None)
     if args:
@@ -91738,6 +94893,45 @@ queue management profiles.
   def _unset_queue_management_profiles(self):
     self.__queue_management_profiles = YANGDynClass(base=yc_queue_management_profiles_openconfig_qos_elements__qos_queue_management_profiles, is_container='container', yang_name="queue-management-profiles", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
 
+
+  def _get_packet_trim(self):
+    """
+    Getter method for packet_trim, mapped from YANG variable /qos/packet_trim (container)
+
+    YANG Description: Container for switch level packet trimming
+parameters.
+    """
+    return self.__packet_trim
+      
+  def _set_packet_trim(self, v, load=False):
+    """
+    Setter method for packet_trim, mapped from YANG variable /qos/packet_trim (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_packet_trim is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_packet_trim() directly.
+
+    YANG Description: Container for switch level packet trimming
+parameters.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_packet_trim_openconfig_qos_elements__qos_packet_trim, is_container='container', yang_name="packet-trim", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """packet_trim must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_packet_trim_openconfig_qos_elements__qos_packet_trim, is_container='container', yang_name="packet-trim", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)""",
+        })
+
+    self.__packet_trim = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_packet_trim(self):
+    self.__packet_trim = YANGDynClass(base=yc_packet_trim_openconfig_qos_elements__qos_packet_trim, is_container='container', yang_name="packet-trim", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+
   interfaces = __builtin__.property(_get_interfaces, _set_interfaces)
   classifiers = __builtin__.property(_get_classifiers, _set_classifiers)
   forwarding_groups = __builtin__.property(_get_forwarding_groups, _set_forwarding_groups)
@@ -91745,9 +94939,10 @@ queue management profiles.
   scheduler_policies = __builtin__.property(_get_scheduler_policies, _set_scheduler_policies)
   buffer_allocation_profiles = __builtin__.property(_get_buffer_allocation_profiles, _set_buffer_allocation_profiles)
   queue_management_profiles = __builtin__.property(_get_queue_management_profiles, _set_queue_management_profiles)
+  packet_trim = __builtin__.property(_get_packet_trim, _set_packet_trim)
 
 
-  _pyangbind_elements = OrderedDict([('interfaces', interfaces), ('classifiers', classifiers), ('forwarding_groups', forwarding_groups), ('queues', queues), ('scheduler_policies', scheduler_policies), ('buffer_allocation_profiles', buffer_allocation_profiles), ('queue_management_profiles', queue_management_profiles), ])
+  _pyangbind_elements = OrderedDict([('interfaces', interfaces), ('classifiers', classifiers), ('forwarding_groups', forwarding_groups), ('queues', queues), ('scheduler_policies', scheduler_policies), ('buffer_allocation_profiles', buffer_allocation_profiles), ('queue_management_profiles', queue_management_profiles), ('packet_trim', packet_trim), ])
 
 
 class openconfig_qos_elements(PybindBase):
@@ -94414,7 +97609,7 @@ multicast.
 
     YANG Description: Number of packets dropped by the queue due to overrun, that is tail-drop
 or AMQ (RED, WRED, etc) induced drops as indicated by the attached
-queue-management-profile
+queue-management-profile.
     """
     return self.__dropped_pkts
       
@@ -94428,7 +97623,7 @@ queue-management-profile
 
     YANG Description: Number of packets dropped by the queue due to overrun, that is tail-drop
 or AMQ (RED, WRED, etc) induced drops as indicated by the attached
-queue-management-profile
+queue-management-profile.
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -96436,7 +99631,7 @@ the system.
 
     YANG Description: Number of packets dropped by the queue due to overrun, that is tail-drop
 or AMQ (RED, WRED, etc) induced drops as indicated by the attached
-queue-management-profile
+queue-management-profile.
     """
     return self.__dropped_pkts
       
@@ -96450,7 +99645,7 @@ queue-management-profile
 
     YANG Description: Number of packets dropped by the queue due to overrun, that is tail-drop
 or AMQ (RED, WRED, etc) induced drops as indicated by the attached
-queue-management-profile
+queue-management-profile.
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -99226,7 +102421,7 @@ class yc_state_openconfig_qos_mem_mgmt__qos_interfaces_interface_output_queues_q
   YANG Description: Operational state data for the queue associated with the
 interface
   """
-  __slots__ = ('_path_helper', '_extmethods', '__name','__queue_management_profile','__max_queue_len','__avg_queue_len','__transmit_pkts','__transmit_octets','__dropped_pkts','__dropped_octets','__ecn_marked_pkts','__ecn_marked_octets','__ecn_selected_pkts','__ecn_selected_octets',)
+  __slots__ = ('_path_helper', '_extmethods', '__name','__queue_management_profile','__max_queue_len','__avg_queue_len','__transmit_pkts','__transmit_octets','__dropped_pkts','__dropped_octets','__ecn_marked_pkts','__ecn_marked_octets','__ecn_selected_pkts','__ecn_selected_octets','__dropped_trim_pkts','__trim_pkts','__out_trim_pkts',)
 
   _yang_name = 'state'
   _yang_namespace = 'http://openconfig.net/yang/qos'
@@ -99250,6 +102445,9 @@ interface
     self.__ecn_marked_octets = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="ecn-marked-octets", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
     self.__ecn_selected_pkts = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="ecn-selected-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
     self.__ecn_selected_octets = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="ecn-selected-octets", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+    self.__dropped_trim_pkts = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="dropped-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+    self.__trim_pkts = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+    self.__out_trim_pkts = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="out-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -99536,7 +102734,7 @@ multicast.
 
     YANG Description: Number of packets dropped by the queue due to overrun, that is tail-drop
 or AMQ (RED, WRED, etc) induced drops as indicated by the attached
-queue-management-profile
+queue-management-profile.
     """
     return self.__dropped_pkts
       
@@ -99550,7 +102748,7 @@ queue-management-profile
 
     YANG Description: Number of packets dropped by the queue due to overrun, that is tail-drop
 or AMQ (RED, WRED, etc) induced drops as indicated by the attached
-queue-management-profile
+queue-management-profile.
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -99783,6 +102981,127 @@ Octets are counted regardless of its ECN codepoint
   def _unset_ecn_selected_octets(self):
     self.__ecn_selected_octets = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="ecn-selected-octets", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
 
+
+  def _get_dropped_trim_pkts(self):
+    """
+    Getter method for dropped_trim_pkts, mapped from YANG variable /qos/interfaces/interface/output/queues/queue/state/dropped_trim_pkts (oc-yang:counter64)
+
+    YANG Description: The number of packets that were trimmed but dropped due to a
+failed shared buffer admission on the trim queue.
+    """
+    return self.__dropped_trim_pkts
+      
+  def _set_dropped_trim_pkts(self, v, load=False):
+    """
+    Setter method for dropped_trim_pkts, mapped from YANG variable /qos/interfaces/interface/output/queues/queue/state/dropped_trim_pkts (oc-yang:counter64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_dropped_trim_pkts is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_dropped_trim_pkts() directly.
+
+    YANG Description: The number of packets that were trimmed but dropped due to a
+failed shared buffer admission on the trim queue.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="dropped-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """dropped_trim_pkts must be of a type compatible with oc-yang:counter64""",
+          'defined-type': "oc-yang:counter64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="dropped-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)""",
+        })
+
+    self.__dropped_trim_pkts = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_dropped_trim_pkts(self):
+    self.__dropped_trim_pkts = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="dropped-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+
+
+  def _get_trim_pkts(self):
+    """
+    Getter method for trim_pkts, mapped from YANG variable /qos/interfaces/interface/output/queues/queue/state/trim_pkts (oc-yang:counter64)
+
+    YANG Description: The total number of packets that were trimmed.
+This counter includes both packets that were
+transmitted after trimming and those that were
+subsequently dropped.
+    """
+    return self.__trim_pkts
+      
+  def _set_trim_pkts(self, v, load=False):
+    """
+    Setter method for trim_pkts, mapped from YANG variable /qos/interfaces/interface/output/queues/queue/state/trim_pkts (oc-yang:counter64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_trim_pkts is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_trim_pkts() directly.
+
+    YANG Description: The total number of packets that were trimmed.
+This counter includes both packets that were
+transmitted after trimming and those that were
+subsequently dropped.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """trim_pkts must be of a type compatible with oc-yang:counter64""",
+          'defined-type': "oc-yang:counter64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)""",
+        })
+
+    self.__trim_pkts = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_trim_pkts(self):
+    self.__trim_pkts = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+
+
+  def _get_out_trim_pkts(self):
+    """
+    Getter method for out_trim_pkts, mapped from YANG variable /qos/interfaces/interface/output/queues/queue/state/out_trim_pkts (oc-yang:counter64)
+
+    YANG Description: The number of packets that were trimmed and successfully
+transmitted.
+    """
+    return self.__out_trim_pkts
+      
+  def _set_out_trim_pkts(self, v, load=False):
+    """
+    Setter method for out_trim_pkts, mapped from YANG variable /qos/interfaces/interface/output/queues/queue/state/out_trim_pkts (oc-yang:counter64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_out_trim_pkts is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_out_trim_pkts() directly.
+
+    YANG Description: The number of packets that were trimmed and successfully
+transmitted.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="out-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """out_trim_pkts must be of a type compatible with oc-yang:counter64""",
+          'defined-type': "oc-yang:counter64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="out-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)""",
+        })
+
+    self.__out_trim_pkts = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_out_trim_pkts(self):
+    self.__out_trim_pkts = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="out-trim-pkts", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='oc-yang:counter64', is_config=False)
+
   name = __builtin__.property(_get_name)
   queue_management_profile = __builtin__.property(_get_queue_management_profile)
   max_queue_len = __builtin__.property(_get_max_queue_len)
@@ -99795,9 +103114,12 @@ Octets are counted regardless of its ECN codepoint
   ecn_marked_octets = __builtin__.property(_get_ecn_marked_octets)
   ecn_selected_pkts = __builtin__.property(_get_ecn_selected_pkts)
   ecn_selected_octets = __builtin__.property(_get_ecn_selected_octets)
+  dropped_trim_pkts = __builtin__.property(_get_dropped_trim_pkts)
+  trim_pkts = __builtin__.property(_get_trim_pkts)
+  out_trim_pkts = __builtin__.property(_get_out_trim_pkts)
 
 
-  _pyangbind_elements = OrderedDict([('name', name), ('queue_management_profile', queue_management_profile), ('max_queue_len', max_queue_len), ('avg_queue_len', avg_queue_len), ('transmit_pkts', transmit_pkts), ('transmit_octets', transmit_octets), ('dropped_pkts', dropped_pkts), ('dropped_octets', dropped_octets), ('ecn_marked_pkts', ecn_marked_pkts), ('ecn_marked_octets', ecn_marked_octets), ('ecn_selected_pkts', ecn_selected_pkts), ('ecn_selected_octets', ecn_selected_octets), ])
+  _pyangbind_elements = OrderedDict([('name', name), ('queue_management_profile', queue_management_profile), ('max_queue_len', max_queue_len), ('avg_queue_len', avg_queue_len), ('transmit_pkts', transmit_pkts), ('transmit_octets', transmit_octets), ('dropped_pkts', dropped_pkts), ('dropped_octets', dropped_octets), ('ecn_marked_pkts', ecn_marked_pkts), ('ecn_marked_octets', ecn_marked_octets), ('ecn_selected_pkts', ecn_selected_pkts), ('ecn_selected_octets', ecn_selected_octets), ('dropped_trim_pkts', dropped_trim_pkts), ('trim_pkts', trim_pkts), ('out_trim_pkts', out_trim_pkts), ])
 
 
 class yc_queue_openconfig_qos_mem_mgmt__qos_interfaces_interface_output_queues_queue(PybindBase):
@@ -107396,6 +110718,348 @@ within the MPLS header
   _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
 
 
+class yc_config_openconfig_qos_mem_mgmt__qos_classifiers_classifier_terms_term_conditions_fabric_config(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-qos-mem-mgmt - based on the path /qos/classifiers/classifier/terms/term/conditions/fabric/config. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Configuration parameters relating to fabric
+parameters.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__fabric_priority',)
+
+  _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/qos'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['qos', 'classifiers', 'classifier', 'terms', 'term', 'conditions', 'fabric', 'config']
+
+  def _get_fabric_priority(self):
+    """
+    Getter method for fabric_priority, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/config/fabric_priority (uint8)
+
+    YANG Description: Specifies the priority for the forwarding group for local
+transmission through the device (e.g., across the internal
+switching fabric). The priority is expressed as a numerical
+value where higher values indicate higher precedence. For
+example, traffic with fabric priority 128 is treated with
+higher priority than traffic with fabric priority 0.
+    """
+    return self.__fabric_priority
+      
+  def _set_fabric_priority(self, v, load=False):
+    """
+    Setter method for fabric_priority, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/config/fabric_priority (uint8)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fabric_priority is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fabric_priority() directly.
+
+    YANG Description: Specifies the priority for the forwarding group for local
+transmission through the device (e.g., across the internal
+switching fabric). The priority is expressed as a numerical
+value where higher values indicate higher precedence. For
+example, traffic with fabric priority 128 is treated with
+higher priority than traffic with fabric priority 0.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fabric_priority must be of a type compatible with uint8""",
+          'defined-type': "uint8",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)""",
+        })
+
+    self.__fabric_priority = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fabric_priority(self):
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+
+  fabric_priority = __builtin__.property(_get_fabric_priority, _set_fabric_priority)
+
+
+  _pyangbind_elements = OrderedDict([('fabric_priority', fabric_priority), ])
+
+
+class yc_state_openconfig_qos_mem_mgmt__qos_classifiers_classifier_terms_term_conditions_fabric_state(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-qos-mem-mgmt - based on the path /qos/classifiers/classifier/terms/term/conditions/fabric/state. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Operational state parameters relating to fabric
+parameters.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__fabric_priority',)
+
+  _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/qos'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['qos', 'classifiers', 'classifier', 'terms', 'term', 'conditions', 'fabric', 'state']
+
+  def _get_fabric_priority(self):
+    """
+    Getter method for fabric_priority, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/state/fabric_priority (uint8)
+
+    YANG Description: Specifies the priority for the forwarding group for local
+transmission through the device (e.g., across the internal
+switching fabric). The priority is expressed as a numerical
+value where higher values indicate higher precedence. For
+example, traffic with fabric priority 128 is treated with
+higher priority than traffic with fabric priority 0.
+    """
+    return self.__fabric_priority
+      
+  def _set_fabric_priority(self, v, load=False):
+    """
+    Setter method for fabric_priority, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/state/fabric_priority (uint8)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fabric_priority is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fabric_priority() directly.
+
+    YANG Description: Specifies the priority for the forwarding group for local
+transmission through the device (e.g., across the internal
+switching fabric). The priority is expressed as a numerical
+value where higher values indicate higher precedence. For
+example, traffic with fabric priority 128 is treated with
+higher priority than traffic with fabric priority 0.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fabric_priority must be of a type compatible with uint8""",
+          'defined-type': "uint8",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)""",
+        })
+
+    self.__fabric_priority = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fabric_priority(self):
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+
+  fabric_priority = __builtin__.property(_get_fabric_priority)
+
+
+  _pyangbind_elements = OrderedDict([('fabric_priority', fabric_priority), ])
+
+
+class yc_fabric_openconfig_qos_mem_mgmt__qos_classifiers_classifier_terms_term_conditions_fabric(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-qos-mem-mgmt - based on the path /qos/classifiers/classifier/terms/term/conditions/fabric. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Enclosing container for managing device-specific fabric
+attributes.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
+
+  _yang_name = 'fabric'
+  _yang_namespace = 'http://openconfig.net/yang/qos'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__config = YANGDynClass(base=yc_config_openconfig_qos_mem_mgmt__qos_classifiers_classifier_terms_term_conditions_fabric_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_qos_mem_mgmt__qos_classifiers_classifier_terms_term_conditions_fabric_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['qos', 'classifiers', 'classifier', 'terms', 'term', 'conditions', 'fabric']
+
+  def _get_config(self):
+    """
+    Getter method for config, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/config (container)
+
+    YANG Description: Configuration parameters relating to fabric
+parameters.
+    """
+    return self.__config
+      
+  def _set_config(self, v, load=False):
+    """
+    Setter method for config, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/config (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_config is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_config() directly.
+
+    YANG Description: Configuration parameters relating to fabric
+parameters.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_config_openconfig_qos_mem_mgmt__qos_classifiers_classifier_terms_term_conditions_fabric_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """config must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_config_openconfig_qos_mem_mgmt__qos_classifiers_classifier_terms_term_conditions_fabric_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)""",
+        })
+
+    self.__config = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_config(self):
+    self.__config = YANGDynClass(base=yc_config_openconfig_qos_mem_mgmt__qos_classifiers_classifier_terms_term_conditions_fabric_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+
+
+  def _get_state(self):
+    """
+    Getter method for state, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/state (container)
+
+    YANG Description: Operational state parameters relating to fabric
+parameters.
+    """
+    return self.__state
+      
+  def _set_state(self, v, load=False):
+    """
+    Setter method for state, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric/state (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_state is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_state() directly.
+
+    YANG Description: Operational state parameters relating to fabric
+parameters.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_state_openconfig_qos_mem_mgmt__qos_classifiers_classifier_terms_term_conditions_fabric_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """state must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_qos_mem_mgmt__qos_classifiers_classifier_terms_term_conditions_fabric_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)""",
+        })
+
+    self.__state = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_state(self):
+    self.__state = YANGDynClass(base=yc_state_openconfig_qos_mem_mgmt__qos_classifiers_classifier_terms_term_conditions_fabric_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)
+
+  config = __builtin__.property(_get_config, _set_config)
+  state = __builtin__.property(_get_state)
+
+
+  _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
+
+
 class yc_conditions_openconfig_qos_mem_mgmt__qos_classifiers_classifier_terms_term_conditions(PybindBase):
   """
   This class was auto-generated by the PythonClass plugin for PYANG
@@ -107407,7 +111071,7 @@ class yc_conditions_openconfig_qos_mem_mgmt__qos_classifiers_classifier_terms_te
 the criteria specified within the match condition to be considered
 matching the term.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__l2','__ipv4','__ipv6','__transport','__mpls',)
+  __slots__ = ('_path_helper', '_extmethods', '__l2','__ipv4','__ipv6','__transport','__mpls','__fabric',)
 
   _yang_name = 'conditions'
   _yang_namespace = 'http://openconfig.net/yang/qos'
@@ -107424,6 +111088,7 @@ matching the term.
     self.__ipv6 = YANGDynClass(base=yc_ipv6_openconfig_qos_mem_mgmt__qos_classifiers_classifier_terms_term_conditions_ipv6, is_container='container', yang_name="ipv6", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
     self.__transport = YANGDynClass(base=yc_transport_openconfig_qos_mem_mgmt__qos_classifiers_classifier_terms_term_conditions_transport, is_container='container', yang_name="transport", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
     self.__mpls = YANGDynClass(base=yc_mpls_openconfig_qos_mem_mgmt__qos_classifiers_classifier_terms_term_conditions_mpls, is_container='container', yang_name="mpls", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    self.__fabric = YANGDynClass(base=yc_fabric_openconfig_qos_mem_mgmt__qos_classifiers_classifier_terms_term_conditions_fabric, is_container='container', yang_name="fabric", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
 
     load = kwargs.pop("load", None)
     if args:
@@ -107636,14 +111301,54 @@ matching the term.
   def _unset_mpls(self):
     self.__mpls = YANGDynClass(base=yc_mpls_openconfig_qos_mem_mgmt__qos_classifiers_classifier_terms_term_conditions_mpls, is_container='container', yang_name="mpls", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
 
+
+  def _get_fabric(self):
+    """
+    Getter method for fabric, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric (container)
+
+    YANG Description: Enclosing container for managing device-specific fabric
+attributes.
+    """
+    return self.__fabric
+      
+  def _set_fabric(self, v, load=False):
+    """
+    Setter method for fabric, mapped from YANG variable /qos/classifiers/classifier/terms/term/conditions/fabric (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fabric is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fabric() directly.
+
+    YANG Description: Enclosing container for managing device-specific fabric
+attributes.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_fabric_openconfig_qos_mem_mgmt__qos_classifiers_classifier_terms_term_conditions_fabric, is_container='container', yang_name="fabric", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fabric must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_fabric_openconfig_qos_mem_mgmt__qos_classifiers_classifier_terms_term_conditions_fabric, is_container='container', yang_name="fabric", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)""",
+        })
+
+    self.__fabric = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fabric(self):
+    self.__fabric = YANGDynClass(base=yc_fabric_openconfig_qos_mem_mgmt__qos_classifiers_classifier_terms_term_conditions_fabric, is_container='container', yang_name="fabric", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+
   l2 = __builtin__.property(_get_l2, _set_l2)
   ipv4 = __builtin__.property(_get_ipv4, _set_ipv4)
   ipv6 = __builtin__.property(_get_ipv6, _set_ipv6)
   transport = __builtin__.property(_get_transport, _set_transport)
   mpls = __builtin__.property(_get_mpls, _set_mpls)
+  fabric = __builtin__.property(_get_fabric, _set_fabric)
 
 
-  _pyangbind_elements = OrderedDict([('l2', l2), ('ipv4', ipv4), ('ipv6', ipv6), ('transport', transport), ('mpls', mpls), ])
+  _pyangbind_elements = OrderedDict([('l2', l2), ('ipv4', ipv4), ('ipv6', ipv6), ('transport', transport), ('mpls', mpls), ('fabric', fabric), ])
 
 
 class yc_config_openconfig_qos_mem_mgmt__qos_classifiers_classifier_terms_term_actions_config(PybindBase):
@@ -118017,7 +121722,7 @@ class yc_config_openconfig_qos_mem_mgmt__qos_buffer_allocation_profiles_buffer_a
   YANG Description: Configuration parameters relating to a queue within a buffer allocation
 profile.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__name','__dedicated_buffer','__dedicated_buffer_temporal','__use_shared_buffer','__shared_buffer_limit_type','__static_shared_buffer_limit','__static_shared_buffer_limit_temporal','__dynamic_limit_scaling_factor',)
+  __slots__ = ('_path_helper', '_extmethods', '__name','__dedicated_buffer','__dedicated_buffer_temporal','__use_shared_buffer','__shared_buffer_limit_type','__static_shared_buffer_limit','__static_shared_buffer_limit_temporal','__dynamic_limit_scaling_factor','__trim_enable',)
 
   _yang_name = 'config'
   _yang_namespace = 'http://openconfig.net/yang/qos'
@@ -118037,6 +121742,7 @@ profile.
     self.__static_shared_buffer_limit = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="static-shared-buffer-limit", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint32', is_config=True)
     self.__static_shared_buffer_limit_temporal = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="static-shared-buffer-limit-temporal", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint32', is_config=True)
     self.__dynamic_limit_scaling_factor = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['-2147483648..2147483647']}, int_size=32), is_leaf=True, yang_name="dynamic-limit-scaling-factor", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='int32', is_config=True)
+    self.__trim_enable = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=True)
 
     load = kwargs.pop("load", None)
     if args:
@@ -118414,6 +122120,55 @@ current usage is 79MB which is < 80MB, the packet is queued.
   def _unset_dynamic_limit_scaling_factor(self):
     self.__dynamic_limit_scaling_factor = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['-2147483648..2147483647']}, int_size=32), is_leaf=True, yang_name="dynamic-limit-scaling-factor", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='int32', is_config=True)
 
+
+  def _get_trim_enable(self):
+    """
+    Getter method for trim_enable, mapped from YANG variable /qos/buffer_allocation_profiles/buffer_allocation_profile/queues/queue/config/trim_enable (boolean)
+
+    YANG Description: Flag to enable packet trimming per queue. If leaf is set
+to false, the packet should be completely discarded,
+without preserving any part of the data. If leaf is set to
+true, the packet must be trimmed instead of discarded.
+Typically, this involves truncating the payload while
+preserving the packet header for notification or
+diagnostic purposes.
+    """
+    return self.__trim_enable
+      
+  def _set_trim_enable(self, v, load=False):
+    """
+    Setter method for trim_enable, mapped from YANG variable /qos/buffer_allocation_profiles/buffer_allocation_profile/queues/queue/config/trim_enable (boolean)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_trim_enable is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_trim_enable() directly.
+
+    YANG Description: Flag to enable packet trimming per queue. If leaf is set
+to false, the packet should be completely discarded,
+without preserving any part of the data. If leaf is set to
+true, the packet must be trimmed instead of discarded.
+Typically, this involves truncating the payload while
+preserving the packet header for notification or
+diagnostic purposes.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """trim_enable must be of a type compatible with boolean""",
+          'defined-type': "boolean",
+          'generated-type': """YANGDynClass(base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=True)""",
+        })
+
+    self.__trim_enable = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_trim_enable(self):
+    self.__trim_enable = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=True)
+
   name = __builtin__.property(_get_name, _set_name)
   dedicated_buffer = __builtin__.property(_get_dedicated_buffer, _set_dedicated_buffer)
   dedicated_buffer_temporal = __builtin__.property(_get_dedicated_buffer_temporal, _set_dedicated_buffer_temporal)
@@ -118422,9 +122177,10 @@ current usage is 79MB which is < 80MB, the packet is queued.
   static_shared_buffer_limit = __builtin__.property(_get_static_shared_buffer_limit, _set_static_shared_buffer_limit)
   static_shared_buffer_limit_temporal = __builtin__.property(_get_static_shared_buffer_limit_temporal, _set_static_shared_buffer_limit_temporal)
   dynamic_limit_scaling_factor = __builtin__.property(_get_dynamic_limit_scaling_factor, _set_dynamic_limit_scaling_factor)
+  trim_enable = __builtin__.property(_get_trim_enable, _set_trim_enable)
 
 
-  _pyangbind_elements = OrderedDict([('name', name), ('dedicated_buffer', dedicated_buffer), ('dedicated_buffer_temporal', dedicated_buffer_temporal), ('use_shared_buffer', use_shared_buffer), ('shared_buffer_limit_type', shared_buffer_limit_type), ('static_shared_buffer_limit', static_shared_buffer_limit), ('static_shared_buffer_limit_temporal', static_shared_buffer_limit_temporal), ('dynamic_limit_scaling_factor', dynamic_limit_scaling_factor), ])
+  _pyangbind_elements = OrderedDict([('name', name), ('dedicated_buffer', dedicated_buffer), ('dedicated_buffer_temporal', dedicated_buffer_temporal), ('use_shared_buffer', use_shared_buffer), ('shared_buffer_limit_type', shared_buffer_limit_type), ('static_shared_buffer_limit', static_shared_buffer_limit), ('static_shared_buffer_limit_temporal', static_shared_buffer_limit_temporal), ('dynamic_limit_scaling_factor', dynamic_limit_scaling_factor), ('trim_enable', trim_enable), ])
 
 
 class yc_state_openconfig_qos_mem_mgmt__qos_buffer_allocation_profiles_buffer_allocation_profile_queues_queue_state(PybindBase):
@@ -118437,7 +122193,7 @@ class yc_state_openconfig_qos_mem_mgmt__qos_buffer_allocation_profiles_buffer_al
   YANG Description: Operational state parameters relating to a queue wtihin a buffer allocation
 profile.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__name','__dedicated_buffer','__dedicated_buffer_temporal','__use_shared_buffer','__shared_buffer_limit_type','__static_shared_buffer_limit','__static_shared_buffer_limit_temporal','__dynamic_limit_scaling_factor',)
+  __slots__ = ('_path_helper', '_extmethods', '__name','__dedicated_buffer','__dedicated_buffer_temporal','__use_shared_buffer','__shared_buffer_limit_type','__static_shared_buffer_limit','__static_shared_buffer_limit_temporal','__dynamic_limit_scaling_factor','__trim_enable',)
 
   _yang_name = 'state'
   _yang_namespace = 'http://openconfig.net/yang/qos'
@@ -118457,6 +122213,7 @@ profile.
     self.__static_shared_buffer_limit = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="static-shared-buffer-limit", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint32', is_config=False)
     self.__static_shared_buffer_limit_temporal = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="static-shared-buffer-limit-temporal", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint32', is_config=False)
     self.__dynamic_limit_scaling_factor = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['-2147483648..2147483647']}, int_size=32), is_leaf=True, yang_name="dynamic-limit-scaling-factor", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='int32', is_config=False)
+    self.__trim_enable = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -118834,6 +122591,55 @@ current usage is 79MB which is < 80MB, the packet is queued.
   def _unset_dynamic_limit_scaling_factor(self):
     self.__dynamic_limit_scaling_factor = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['-2147483648..2147483647']}, int_size=32), is_leaf=True, yang_name="dynamic-limit-scaling-factor", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='int32', is_config=False)
 
+
+  def _get_trim_enable(self):
+    """
+    Getter method for trim_enable, mapped from YANG variable /qos/buffer_allocation_profiles/buffer_allocation_profile/queues/queue/state/trim_enable (boolean)
+
+    YANG Description: Flag to enable packet trimming per queue. If leaf is set
+to false, the packet should be completely discarded,
+without preserving any part of the data. If leaf is set to
+true, the packet must be trimmed instead of discarded.
+Typically, this involves truncating the payload while
+preserving the packet header for notification or
+diagnostic purposes.
+    """
+    return self.__trim_enable
+      
+  def _set_trim_enable(self, v, load=False):
+    """
+    Setter method for trim_enable, mapped from YANG variable /qos/buffer_allocation_profiles/buffer_allocation_profile/queues/queue/state/trim_enable (boolean)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_trim_enable is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_trim_enable() directly.
+
+    YANG Description: Flag to enable packet trimming per queue. If leaf is set
+to false, the packet should be completely discarded,
+without preserving any part of the data. If leaf is set to
+true, the packet must be trimmed instead of discarded.
+Typically, this involves truncating the payload while
+preserving the packet header for notification or
+diagnostic purposes.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """trim_enable must be of a type compatible with boolean""",
+          'defined-type': "boolean",
+          'generated-type': """YANGDynClass(base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=False)""",
+        })
+
+    self.__trim_enable = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_trim_enable(self):
+    self.__trim_enable = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="trim-enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='boolean', is_config=False)
+
   name = __builtin__.property(_get_name)
   dedicated_buffer = __builtin__.property(_get_dedicated_buffer)
   dedicated_buffer_temporal = __builtin__.property(_get_dedicated_buffer_temporal)
@@ -118842,9 +122648,10 @@ current usage is 79MB which is < 80MB, the packet is queued.
   static_shared_buffer_limit = __builtin__.property(_get_static_shared_buffer_limit)
   static_shared_buffer_limit_temporal = __builtin__.property(_get_static_shared_buffer_limit_temporal)
   dynamic_limit_scaling_factor = __builtin__.property(_get_dynamic_limit_scaling_factor)
+  trim_enable = __builtin__.property(_get_trim_enable)
 
 
-  _pyangbind_elements = OrderedDict([('name', name), ('dedicated_buffer', dedicated_buffer), ('dedicated_buffer_temporal', dedicated_buffer_temporal), ('use_shared_buffer', use_shared_buffer), ('shared_buffer_limit_type', shared_buffer_limit_type), ('static_shared_buffer_limit', static_shared_buffer_limit), ('static_shared_buffer_limit_temporal', static_shared_buffer_limit_temporal), ('dynamic_limit_scaling_factor', dynamic_limit_scaling_factor), ])
+  _pyangbind_elements = OrderedDict([('name', name), ('dedicated_buffer', dedicated_buffer), ('dedicated_buffer_temporal', dedicated_buffer_temporal), ('use_shared_buffer', use_shared_buffer), ('shared_buffer_limit_type', shared_buffer_limit_type), ('static_shared_buffer_limit', static_shared_buffer_limit), ('static_shared_buffer_limit_temporal', static_shared_buffer_limit_temporal), ('dynamic_limit_scaling_factor', dynamic_limit_scaling_factor), ('trim_enable', trim_enable), ])
 
 
 class yc_queue_openconfig_qos_mem_mgmt__qos_buffer_allocation_profiles_buffer_allocation_profile_queues_queue(PybindBase):
@@ -119694,7 +123501,7 @@ class yc_config_openconfig_qos_mem_mgmt__qos_queue_management_profiles_queue_man
     """
     Getter method for min_threshold, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/wred/uniform/config/min_threshold (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -119709,7 +123516,7 @@ max-threshold-percent.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -119780,7 +123587,7 @@ min-threshold-percent and max-threshold-percent.
     """
     Getter method for min_threshold_percent, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/wred/uniform/config/min_threshold_percent (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -119795,7 +123602,7 @@ max-threshold.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold_percent() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -120133,7 +123940,7 @@ class yc_state_openconfig_qos_mem_mgmt__qos_queue_management_profiles_queue_mana
     """
     Getter method for min_threshold, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/wred/uniform/state/min_threshold (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -120148,7 +123955,7 @@ max-threshold-percent.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -120219,7 +124026,7 @@ min-threshold-percent and max-threshold-percent.
     """
     Getter method for min_threshold_percent, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/wred/uniform/state/min_threshold_percent (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -120234,7 +124041,7 @@ max-threshold.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold_percent() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -120797,7 +124604,7 @@ class yc_config_openconfig_qos_mem_mgmt__qos_queue_management_profiles_queue_man
     """
     Getter method for min_threshold, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/red/uniform/config/min_threshold (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -120812,7 +124619,7 @@ max-threshold-percent.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -120883,7 +124690,7 @@ min-threshold-percent and max-threshold-percent.
     """
     Getter method for min_threshold_percent, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/red/uniform/config/min_threshold_percent (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -120898,7 +124705,7 @@ max-threshold.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold_percent() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -121130,7 +124937,7 @@ class yc_state_openconfig_qos_mem_mgmt__qos_queue_management_profiles_queue_mana
     """
     Getter method for min_threshold, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/red/uniform/state/min_threshold (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -121145,7 +124952,7 @@ max-threshold-percent.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in bytes.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in bytes.
 When the average queue length is less than minth, all packets are admitted
 to the queue.  Mututally exclusive with min-threshold-percent and
 max-threshold-percent.
@@ -121216,7 +125023,7 @@ min-threshold-percent and max-threshold-percent.
     """
     Getter method for min_threshold_percent, mapped from YANG variable /qos/queue_management_profiles/queue_management_profile/red/uniform/state/min_threshold_percent (uint64)
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -121231,7 +125038,7 @@ max-threshold.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_threshold_percent() directly.
 
-    YANG Description: The mininum threshold parameter for a RED-managed queue in percent.
+    YANG Description: The minimum threshold parameter for a RED-managed queue in percent.
 When the average queue length is less than minth, all packets are
 admitted to the queue.  Mutually exclusive with min-threshold and
 max-threshold.
@@ -121996,6 +125803,418 @@ whether RED, or WRED is applied to manage the queue's occupancy.
   _pyangbind_elements = OrderedDict([('queue_management_profile', queue_management_profile), ])
 
 
+class yc_config_openconfig_qos_mem_mgmt__qos_packet_trim_config(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-qos-mem-mgmt - based on the path /qos/packet-trim/config. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Configuration data for switch level packet
+trimming parameters.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__symmetric_dscp','__fabric_priority',)
+
+  _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/qos'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__symmetric_dscp = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['qos', 'packet-trim', 'config']
+
+  def _get_symmetric_dscp(self):
+    """
+    Getter method for symmetric_dscp, mapped from YANG variable /qos/packet_trim/config/symmetric_dscp (uint8)
+
+    YANG Description: The DSCP value for the notification packet
+(sometimes called a 'symmetric packet') sent back
+to the source when a packet is trimmed.
+    """
+    return self.__symmetric_dscp
+      
+  def _set_symmetric_dscp(self, v, load=False):
+    """
+    Setter method for symmetric_dscp, mapped from YANG variable /qos/packet_trim/config/symmetric_dscp (uint8)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_symmetric_dscp is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_symmetric_dscp() directly.
+
+    YANG Description: The DSCP value for the notification packet
+(sometimes called a 'symmetric packet') sent back
+to the source when a packet is trimmed.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """symmetric_dscp must be of a type compatible with uint8""",
+          'defined-type': "uint8",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)""",
+        })
+
+    self.__symmetric_dscp = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_symmetric_dscp(self):
+    self.__symmetric_dscp = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+
+
+  def _get_fabric_priority(self):
+    """
+    Getter method for fabric_priority, mapped from YANG variable /qos/packet_trim/config/fabric_priority (uint8)
+
+    YANG Description: Traffic class used to transmit trimmed
+packets.
+    """
+    return self.__fabric_priority
+      
+  def _set_fabric_priority(self, v, load=False):
+    """
+    Setter method for fabric_priority, mapped from YANG variable /qos/packet_trim/config/fabric_priority (uint8)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fabric_priority is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fabric_priority() directly.
+
+    YANG Description: Traffic class used to transmit trimmed
+packets.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fabric_priority must be of a type compatible with uint8""",
+          'defined-type': "uint8",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)""",
+        })
+
+    self.__fabric_priority = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fabric_priority(self):
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=True)
+
+  symmetric_dscp = __builtin__.property(_get_symmetric_dscp, _set_symmetric_dscp)
+  fabric_priority = __builtin__.property(_get_fabric_priority, _set_fabric_priority)
+
+
+  _pyangbind_elements = OrderedDict([('symmetric_dscp', symmetric_dscp), ('fabric_priority', fabric_priority), ])
+
+
+class yc_state_openconfig_qos_mem_mgmt__qos_packet_trim_state(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-qos-mem-mgmt - based on the path /qos/packet-trim/state. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Operational state data for switch level packet
+trimming parameters.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__symmetric_dscp','__fabric_priority',)
+
+  _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/qos'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__symmetric_dscp = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['qos', 'packet-trim', 'state']
+
+  def _get_symmetric_dscp(self):
+    """
+    Getter method for symmetric_dscp, mapped from YANG variable /qos/packet_trim/state/symmetric_dscp (uint8)
+
+    YANG Description: The DSCP value for the notification packet
+(sometimes called a 'symmetric packet') sent back
+to the source when a packet is trimmed.
+    """
+    return self.__symmetric_dscp
+      
+  def _set_symmetric_dscp(self, v, load=False):
+    """
+    Setter method for symmetric_dscp, mapped from YANG variable /qos/packet_trim/state/symmetric_dscp (uint8)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_symmetric_dscp is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_symmetric_dscp() directly.
+
+    YANG Description: The DSCP value for the notification packet
+(sometimes called a 'symmetric packet') sent back
+to the source when a packet is trimmed.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """symmetric_dscp must be of a type compatible with uint8""",
+          'defined-type': "uint8",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)""",
+        })
+
+    self.__symmetric_dscp = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_symmetric_dscp(self):
+    self.__symmetric_dscp = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="symmetric-dscp", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+
+
+  def _get_fabric_priority(self):
+    """
+    Getter method for fabric_priority, mapped from YANG variable /qos/packet_trim/state/fabric_priority (uint8)
+
+    YANG Description: Traffic class used to transmit trimmed
+packets.
+    """
+    return self.__fabric_priority
+      
+  def _set_fabric_priority(self, v, load=False):
+    """
+    Setter method for fabric_priority, mapped from YANG variable /qos/packet_trim/state/fabric_priority (uint8)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_fabric_priority is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_fabric_priority() directly.
+
+    YANG Description: Traffic class used to transmit trimmed
+packets.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """fabric_priority must be of a type compatible with uint8""",
+          'defined-type': "uint8",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)""",
+        })
+
+    self.__fabric_priority = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_fabric_priority(self):
+    self.__fabric_priority = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), is_leaf=True, yang_name="fabric-priority", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='uint8', is_config=False)
+
+  symmetric_dscp = __builtin__.property(_get_symmetric_dscp)
+  fabric_priority = __builtin__.property(_get_fabric_priority)
+
+
+  _pyangbind_elements = OrderedDict([('symmetric_dscp', symmetric_dscp), ('fabric_priority', fabric_priority), ])
+
+
+class yc_packet_trim_openconfig_qos_mem_mgmt__qos_packet_trim(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-qos-mem-mgmt - based on the path /qos/packet-trim. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Container for switch level packet trimming
+parameters.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
+
+  _yang_name = 'packet-trim'
+  _yang_namespace = 'http://openconfig.net/yang/qos'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__config = YANGDynClass(base=yc_config_openconfig_qos_mem_mgmt__qos_packet_trim_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_qos_mem_mgmt__qos_packet_trim_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['qos', 'packet-trim']
+
+  def _get_config(self):
+    """
+    Getter method for config, mapped from YANG variable /qos/packet_trim/config (container)
+
+    YANG Description: Configuration data for switch level packet
+trimming parameters.
+    """
+    return self.__config
+      
+  def _set_config(self, v, load=False):
+    """
+    Setter method for config, mapped from YANG variable /qos/packet_trim/config (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_config is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_config() directly.
+
+    YANG Description: Configuration data for switch level packet
+trimming parameters.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_config_openconfig_qos_mem_mgmt__qos_packet_trim_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """config must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_config_openconfig_qos_mem_mgmt__qos_packet_trim_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)""",
+        })
+
+    self.__config = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_config(self):
+    self.__config = YANGDynClass(base=yc_config_openconfig_qos_mem_mgmt__qos_packet_trim_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+
+
+  def _get_state(self):
+    """
+    Getter method for state, mapped from YANG variable /qos/packet_trim/state (container)
+
+    YANG Description: Operational state data for switch level packet
+trimming parameters.
+    """
+    return self.__state
+      
+  def _set_state(self, v, load=False):
+    """
+    Setter method for state, mapped from YANG variable /qos/packet_trim/state (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_state is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_state() directly.
+
+    YANG Description: Operational state data for switch level packet
+trimming parameters.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_state_openconfig_qos_mem_mgmt__qos_packet_trim_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """state must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_qos_mem_mgmt__qos_packet_trim_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)""",
+        })
+
+    self.__state = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_state(self):
+    self.__state = YANGDynClass(base=yc_state_openconfig_qos_mem_mgmt__qos_packet_trim_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=False)
+
+  config = __builtin__.property(_get_config, _set_config)
+  state = __builtin__.property(_get_state)
+
+
+  _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
+
+
 class yc_qos_openconfig_qos_mem_mgmt__qos(PybindBase):
   """
   This class was auto-generated by the PythonClass plugin for PYANG
@@ -122005,7 +126224,7 @@ class yc_qos_openconfig_qos_mem_mgmt__qos(PybindBase):
 
   YANG Description: Top-level container for QoS data
   """
-  __slots__ = ('_path_helper', '_extmethods', '__interfaces','__classifiers','__forwarding_groups','__queues','__scheduler_policies','__buffer_allocation_profiles','__queue_management_profiles',)
+  __slots__ = ('_path_helper', '_extmethods', '__interfaces','__classifiers','__forwarding_groups','__queues','__scheduler_policies','__buffer_allocation_profiles','__queue_management_profiles','__packet_trim',)
 
   _yang_name = 'qos'
   _yang_namespace = 'http://openconfig.net/yang/qos'
@@ -122024,6 +126243,7 @@ class yc_qos_openconfig_qos_mem_mgmt__qos(PybindBase):
     self.__scheduler_policies = YANGDynClass(base=yc_scheduler_policies_openconfig_qos_mem_mgmt__qos_scheduler_policies, is_container='container', yang_name="scheduler-policies", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
     self.__buffer_allocation_profiles = YANGDynClass(base=yc_buffer_allocation_profiles_openconfig_qos_mem_mgmt__qos_buffer_allocation_profiles, is_container='container', yang_name="buffer-allocation-profiles", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
     self.__queue_management_profiles = YANGDynClass(base=yc_queue_management_profiles_openconfig_qos_mem_mgmt__qos_queue_management_profiles, is_container='container', yang_name="queue-management-profiles", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    self.__packet_trim = YANGDynClass(base=yc_packet_trim_openconfig_qos_mem_mgmt__qos_packet_trim, is_container='container', yang_name="packet-trim", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
 
     load = kwargs.pop("load", None)
     if args:
@@ -122312,6 +126532,45 @@ queue management profiles.
   def _unset_queue_management_profiles(self):
     self.__queue_management_profiles = YANGDynClass(base=yc_queue_management_profiles_openconfig_qos_mem_mgmt__qos_queue_management_profiles, is_container='container', yang_name="queue-management-profiles", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
 
+
+  def _get_packet_trim(self):
+    """
+    Getter method for packet_trim, mapped from YANG variable /qos/packet_trim (container)
+
+    YANG Description: Container for switch level packet trimming
+parameters.
+    """
+    return self.__packet_trim
+      
+  def _set_packet_trim(self, v, load=False):
+    """
+    Setter method for packet_trim, mapped from YANG variable /qos/packet_trim (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_packet_trim is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_packet_trim() directly.
+
+    YANG Description: Container for switch level packet trimming
+parameters.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_packet_trim_openconfig_qos_mem_mgmt__qos_packet_trim, is_container='container', yang_name="packet-trim", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """packet_trim must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_packet_trim_openconfig_qos_mem_mgmt__qos_packet_trim, is_container='container', yang_name="packet-trim", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)""",
+        })
+
+    self.__packet_trim = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_packet_trim(self):
+    self.__packet_trim = YANGDynClass(base=yc_packet_trim_openconfig_qos_mem_mgmt__qos_packet_trim, is_container='container', yang_name="packet-trim", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/qos', defining_module='openconfig-qos', yang_type='container', is_config=True)
+
   interfaces = __builtin__.property(_get_interfaces, _set_interfaces)
   classifiers = __builtin__.property(_get_classifiers, _set_classifiers)
   forwarding_groups = __builtin__.property(_get_forwarding_groups, _set_forwarding_groups)
@@ -122319,9 +126578,10 @@ queue management profiles.
   scheduler_policies = __builtin__.property(_get_scheduler_policies, _set_scheduler_policies)
   buffer_allocation_profiles = __builtin__.property(_get_buffer_allocation_profiles, _set_buffer_allocation_profiles)
   queue_management_profiles = __builtin__.property(_get_queue_management_profiles, _set_queue_management_profiles)
+  packet_trim = __builtin__.property(_get_packet_trim, _set_packet_trim)
 
 
-  _pyangbind_elements = OrderedDict([('interfaces', interfaces), ('classifiers', classifiers), ('forwarding_groups', forwarding_groups), ('queues', queues), ('scheduler_policies', scheduler_policies), ('buffer_allocation_profiles', buffer_allocation_profiles), ('queue_management_profiles', queue_management_profiles), ])
+  _pyangbind_elements = OrderedDict([('interfaces', interfaces), ('classifiers', classifiers), ('forwarding_groups', forwarding_groups), ('queues', queues), ('scheduler_policies', scheduler_policies), ('buffer_allocation_profiles', buffer_allocation_profiles), ('queue_management_profiles', queue_management_profiles), ('packet_trim', packet_trim), ])
 
 
 class openconfig_qos_mem_mgmt(PybindBase):

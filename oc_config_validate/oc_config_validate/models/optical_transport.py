@@ -25898,7 +25898,7 @@ class yc_state_openconfig_terminal_device__terminal_device_logical_channels_chan
 
   YANG Description: LLDP operational state data for logical channels
   """
-  __slots__ = ('_path_helper', '_extmethods', '__enabled','__snooping','__counters',)
+  __slots__ = ('_path_helper', '_extmethods', '__enabled','__snooping','__counters','__last_packet_transmitted','__last_good_packet_received',)
 
   _yang_name = 'state'
   _yang_namespace = 'http://openconfig.net/yang/terminal-device'
@@ -25913,6 +25913,8 @@ class yc_state_openconfig_terminal_device__terminal_device_logical_channels_chan
     self.__enabled = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='boolean', is_config=False)
     self.__snooping = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="snooping", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='boolean', is_config=False)
     self.__counters = YANGDynClass(base=yc_counters_openconfig_terminal_device__terminal_device_logical_channels_channel_ethernet_lldp_state_counters, is_container='container', yang_name="counters", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='container', is_config=False)
+    self.__last_packet_transmitted = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="last-packet-transmitted", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+    self.__last_good_packet_received = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="last-good-packet-received", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -26067,12 +26069,88 @@ logical channel.
   def _unset_counters(self):
     self.__counters = YANGDynClass(base=yc_counters_openconfig_terminal_device__terminal_device_logical_channels_channel_ethernet_lldp_state_counters, is_container='container', yang_name="counters", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='container', is_config=False)
 
+
+  def _get_last_packet_transmitted(self):
+    """
+    Getter method for last_packet_transmitted, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/lldp/state/last_packet_transmitted (oc-types:timeticks64)
+
+    YANG Description: Timestamp of the last LLDP packet transmitted on this interface.
+    """
+    return self.__last_packet_transmitted
+      
+  def _set_last_packet_transmitted(self, v, load=False):
+    """
+    Setter method for last_packet_transmitted, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/lldp/state/last_packet_transmitted (oc-types:timeticks64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_last_packet_transmitted is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_last_packet_transmitted() directly.
+
+    YANG Description: Timestamp of the last LLDP packet transmitted on this interface.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="last-packet-transmitted", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """last_packet_transmitted must be of a type compatible with oc-types:timeticks64""",
+          'defined-type': "oc-types:timeticks64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="last-packet-transmitted", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)""",
+        })
+
+    self.__last_packet_transmitted = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_last_packet_transmitted(self):
+    self.__last_packet_transmitted = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="last-packet-transmitted", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+
+
+  def _get_last_good_packet_received(self):
+    """
+    Getter method for last_good_packet_received, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/lldp/state/last_good_packet_received (oc-types:timeticks64)
+
+    YANG Description: Timestamp of the last valid LLDP packet received on this interface.
+    """
+    return self.__last_good_packet_received
+      
+  def _set_last_good_packet_received(self, v, load=False):
+    """
+    Setter method for last_good_packet_received, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/lldp/state/last_good_packet_received (oc-types:timeticks64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_last_good_packet_received is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_last_good_packet_received() directly.
+
+    YANG Description: Timestamp of the last valid LLDP packet received on this interface.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="last-good-packet-received", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """last_good_packet_received must be of a type compatible with oc-types:timeticks64""",
+          'defined-type': "oc-types:timeticks64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="last-good-packet-received", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)""",
+        })
+
+    self.__last_good_packet_received = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_last_good_packet_received(self):
+    self.__last_good_packet_received = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="last-good-packet-received", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='oc-types:timeticks64', is_config=False)
+
   enabled = __builtin__.property(_get_enabled)
   snooping = __builtin__.property(_get_snooping)
   counters = __builtin__.property(_get_counters)
+  last_packet_transmitted = __builtin__.property(_get_last_packet_transmitted)
+  last_good_packet_received = __builtin__.property(_get_last_good_packet_received)
 
 
-  _pyangbind_elements = OrderedDict([('enabled', enabled), ('snooping', snooping), ('counters', counters), ])
+  _pyangbind_elements = OrderedDict([('enabled', enabled), ('snooping', snooping), ('counters', counters), ('last_packet_transmitted', last_packet_transmitted), ('last_good_packet_received', last_good_packet_received), ])
 
 
 class yc_state_openconfig_terminal_device__terminal_device_logical_channels_channel_ethernet_lldp_neighbors_neighbor_state(PybindBase):
@@ -26769,7 +26847,7 @@ class yc_state_openconfig_terminal_device__terminal_device_logical_channels_chan
 
   YANG Description: Operational state data 
   """
-  __slots__ = ('_path_helper', '_extmethods', '__type','__oui','__oui_subtype','__value',)
+  __slots__ = ('_path_helper', '_extmethods', '__name','__type','__oui','__oui_subtype','__value',)
 
   _yang_name = 'state'
   _yang_namespace = 'http://openconfig.net/yang/terminal-device'
@@ -26781,6 +26859,7 @@ class yc_state_openconfig_terminal_device__terminal_device_logical_channels_chan
     self._path_helper = False
 
     self._extmethods = False
+    self.__name = YANGDynClass(base=str, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='string', is_config=False)
     self.__type = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['-2147483648..2147483647']}, int_size=32), is_leaf=True, yang_name="type", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='int32', is_config=False)
     self.__oui = YANGDynClass(base=str, is_leaf=True, yang_name="oui", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='string', is_config=False)
     self.__oui_subtype = YANGDynClass(base=str, is_leaf=True, yang_name="oui-subtype", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='string', is_config=False)
@@ -26812,6 +26891,49 @@ class yc_state_openconfig_terminal_device__terminal_device_logical_channels_chan
       return self._parent._path()+[self._yang_name]
     else:
       return ['terminal-device', 'logical-channels', 'channel', 'ethernet', 'lldp', 'neighbors', 'neighbor', 'custom-tlvs', 'tlv', 'state']
+
+  def _get_name(self):
+    """
+    Getter method for name, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/lldp/neighbors/neighbor/custom_tlvs/tlv/state/name (string)
+
+    YANG Description: Administrative name of the custom TLV for human identification
+and reference purposes, allowing operators to define a template
+once at the global level and then reference it by name elsewhere
+rather than by their numeric type, OUI, and subtype values.
+    """
+    return self.__name
+      
+  def _set_name(self, v, load=False):
+    """
+    Setter method for name, mapped from YANG variable /terminal_device/logical_channels/channel/ethernet/lldp/neighbors/neighbor/custom_tlvs/tlv/state/name (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_name is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_name() directly.
+
+    YANG Description: Administrative name of the custom TLV for human identification
+and reference purposes, allowing operators to define a template
+once at the global level and then reference it by name elsewhere
+rather than by their numeric type, OUI, and subtype values.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='string', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """name must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='string', is_config=False)""",
+        })
+
+    self.__name = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_name(self):
+    self.__name = YANGDynClass(base=str, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='string', is_config=False)
+
 
   def _get_type(self):
     """
@@ -26976,13 +27098,14 @@ instance-specific information for this TLV.
   def _unset_value(self):
     self.__value = YANGDynClass(base=YANGBinary, is_leaf=True, yang_name="value", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/terminal-device', defining_module='openconfig-terminal-device', yang_type='binary', is_config=False)
 
+  name = __builtin__.property(_get_name)
   type = __builtin__.property(_get_type)
   oui = __builtin__.property(_get_oui)
   oui_subtype = __builtin__.property(_get_oui_subtype)
   value = __builtin__.property(_get_value)
 
 
-  _pyangbind_elements = OrderedDict([('type', type), ('oui', oui), ('oui_subtype', oui_subtype), ('value', value), ])
+  _pyangbind_elements = OrderedDict([('name', name), ('type', type), ('oui', oui), ('oui_subtype', oui_subtype), ('value', value), ])
 
 
 class yc_tlv_openconfig_terminal_device__terminal_device_logical_channels_channel_ethernet_lldp_neighbors_neighbor_custom_tlvs_tlv(PybindBase):

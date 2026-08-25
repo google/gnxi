@@ -9637,7 +9637,7 @@ class yc_counters_openconfig_wifi_mac__ssids_ssid_bssids_bssid_state_counters(Py
 
   YANG Description: BSS Counters.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__rx_bss_dot11_channel_utilization','__rx_mgmt','__rx_control','__rx_data_dist','__rx_data_wmm','__rx_mcs','__rx_retries','__rx_total_frames','__rx_retries_data','__rx_total_data','__rx_retries_subframe','__rx_total_subframe','__rx_bytes_data','__tx_bss_dot11_channel_utilization','__tx_mgmt','__tx_control','__tx_data_dist','__tx_data_wmm','__tx_mcs','__tx_retries','__tx_total_frames','__tx_retries_data','__tx_total_data','__tx_retries_subframe','__tx_total_subframe','__tx_bytes_data','__bss_channel_utilization',)
+  __slots__ = ('_path_helper', '_extmethods', '__rx_bss_dot11_channel_utilization','__rx_mgmt','__rx_control','__rx_data_dist','__rx_data_wmm','__rx_mcs','__rx_retries','__rx_total_frames','__rx_retries_data','__rx_total_data','__rx_retries_subframe','__rx_total_subframe','__rx_bytes_data','__tx_bss_dot11_channel_utilization','__tx_mgmt','__tx_control','__tx_beacon','__tx_data_dist','__tx_data_wmm','__tx_mcs','__tx_retries','__tx_total_frames','__tx_retries_data','__tx_total_data','__tx_retries_subframe','__tx_total_subframe','__tx_bytes_data','__bss_channel_utilization',)
 
   _yang_name = 'counters'
   _yang_namespace = 'http://openconfig.net/yang/wifi-mac'
@@ -9665,6 +9665,7 @@ class yc_counters_openconfig_wifi_mac__ssids_ssid_bssids_bssid_state_counters(Py
     self.__tx_bss_dot11_channel_utilization = YANGDynClass(base=RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), restriction_dict={'range': ['0..100']}), is_leaf=True, yang_name="tx-bss-dot11-channel-utilization", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='oc-types:percentage', is_config=False)
     self.__tx_mgmt = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="tx-mgmt", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='oc-yang:counter64', is_config=False)
     self.__tx_control = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="tx-control", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='oc-yang:counter64', is_config=False)
+    self.__tx_beacon = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="tx-beacon", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='oc-yang:counter64', is_config=False)
     self.__tx_data_dist = YANGDynClass(base=yc_tx_data_dist_openconfig_wifi_mac__ssids_ssid_bssids_bssid_state_counters_tx_data_dist, is_container='container', yang_name="tx-data-dist", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='container', is_config=False)
     self.__tx_data_wmm = YANGDynClass(base=yc_tx_data_wmm_openconfig_wifi_mac__ssids_ssid_bssids_bssid_state_counters_tx_data_wmm, is_container='container', yang_name="tx-data-wmm", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='container', is_config=False)
     self.__tx_mcs = YANGDynClass(base=yc_tx_mcs_openconfig_wifi_mac__ssids_ssid_bssids_bssid_state_counters_tx_mcs, is_container='container', yang_name="tx-mcs", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='container', is_config=False)
@@ -10358,6 +10359,43 @@ and require retransmission.
     self.__tx_control = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="tx-control", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='oc-yang:counter64', is_config=False)
 
 
+  def _get_tx_beacon(self):
+    """
+    Getter method for tx_beacon, mapped from YANG variable /ssids/ssid/bssids/bssid/state/counters/tx_beacon (oc-yang:counter64)
+
+    YANG Description: Transmitted IEEE 802.11 beacon frames.
+    """
+    return self.__tx_beacon
+      
+  def _set_tx_beacon(self, v, load=False):
+    """
+    Setter method for tx_beacon, mapped from YANG variable /ssids/ssid/bssids/bssid/state/counters/tx_beacon (oc-yang:counter64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_tx_beacon is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_tx_beacon() directly.
+
+    YANG Description: Transmitted IEEE 802.11 beacon frames.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="tx-beacon", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='oc-yang:counter64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """tx_beacon must be of a type compatible with oc-yang:counter64""",
+          'defined-type': "oc-yang:counter64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="tx-beacon", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='oc-yang:counter64', is_config=False)""",
+        })
+
+    self.__tx_beacon = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_tx_beacon(self):
+    self.__tx_beacon = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="tx-beacon", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='oc-yang:counter64', is_config=False)
+
+
   def _get_tx_data_dist(self):
     """
     Getter method for tx_data_dist, mapped from YANG variable /ssids/ssid/bssids/bssid/state/counters/tx_data_dist (container)
@@ -10844,6 +10882,7 @@ this BSS.
   tx_bss_dot11_channel_utilization = __builtin__.property(_get_tx_bss_dot11_channel_utilization)
   tx_mgmt = __builtin__.property(_get_tx_mgmt)
   tx_control = __builtin__.property(_get_tx_control)
+  tx_beacon = __builtin__.property(_get_tx_beacon)
   tx_data_dist = __builtin__.property(_get_tx_data_dist)
   tx_data_wmm = __builtin__.property(_get_tx_data_wmm)
   tx_mcs = __builtin__.property(_get_tx_mcs)
@@ -10857,7 +10896,7 @@ this BSS.
   bss_channel_utilization = __builtin__.property(_get_bss_channel_utilization)
 
 
-  _pyangbind_elements = OrderedDict([('rx_bss_dot11_channel_utilization', rx_bss_dot11_channel_utilization), ('rx_mgmt', rx_mgmt), ('rx_control', rx_control), ('rx_data_dist', rx_data_dist), ('rx_data_wmm', rx_data_wmm), ('rx_mcs', rx_mcs), ('rx_retries', rx_retries), ('rx_total_frames', rx_total_frames), ('rx_retries_data', rx_retries_data), ('rx_total_data', rx_total_data), ('rx_retries_subframe', rx_retries_subframe), ('rx_total_subframe', rx_total_subframe), ('rx_bytes_data', rx_bytes_data), ('tx_bss_dot11_channel_utilization', tx_bss_dot11_channel_utilization), ('tx_mgmt', tx_mgmt), ('tx_control', tx_control), ('tx_data_dist', tx_data_dist), ('tx_data_wmm', tx_data_wmm), ('tx_mcs', tx_mcs), ('tx_retries', tx_retries), ('tx_total_frames', tx_total_frames), ('tx_retries_data', tx_retries_data), ('tx_total_data', tx_total_data), ('tx_retries_subframe', tx_retries_subframe), ('tx_total_subframe', tx_total_subframe), ('tx_bytes_data', tx_bytes_data), ('bss_channel_utilization', bss_channel_utilization), ])
+  _pyangbind_elements = OrderedDict([('rx_bss_dot11_channel_utilization', rx_bss_dot11_channel_utilization), ('rx_mgmt', rx_mgmt), ('rx_control', rx_control), ('rx_data_dist', rx_data_dist), ('rx_data_wmm', rx_data_wmm), ('rx_mcs', rx_mcs), ('rx_retries', rx_retries), ('rx_total_frames', rx_total_frames), ('rx_retries_data', rx_retries_data), ('rx_total_data', rx_total_data), ('rx_retries_subframe', rx_retries_subframe), ('rx_total_subframe', rx_total_subframe), ('rx_bytes_data', rx_bytes_data), ('tx_bss_dot11_channel_utilization', tx_bss_dot11_channel_utilization), ('tx_mgmt', tx_mgmt), ('tx_control', tx_control), ('tx_beacon', tx_beacon), ('tx_data_dist', tx_data_dist), ('tx_data_wmm', tx_data_wmm), ('tx_mcs', tx_mcs), ('tx_retries', tx_retries), ('tx_total_frames', tx_total_frames), ('tx_retries_data', tx_retries_data), ('tx_total_data', tx_total_data), ('tx_retries_subframe', tx_retries_subframe), ('tx_total_subframe', tx_total_subframe), ('tx_bytes_data', tx_bytes_data), ('bss_channel_utilization', bss_channel_utilization), ])
 
 
 class yc_state_openconfig_wifi_mac__ssids_ssid_bssids_bssid_state(PybindBase):
@@ -16612,6 +16651,342 @@ state container.
   _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
 
 
+class yc_config_openconfig_wifi_mac__ssids_ssid_rtt_config(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-wifi-mac - based on the path /ssids/ssid/rtt/config. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Container for RTT configuration elements.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__enabled',)
+
+  _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/wifi-mac'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__enabled = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='boolean', is_config=True)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['ssids', 'ssid', 'rtt', 'config']
+
+  def _get_enabled(self):
+    """
+    Getter method for enabled, mapped from YANG variable /ssids/ssid/rtt/config/enabled (boolean)
+
+    YANG Description: Configures whether IEEE 802.11mc Fine Timing Measurement (FTM),
+also known as Round Trip Time (RTT), is enabled for clients
+associated with this SSID. When set to 'true', the Access Point
+will respond to FTM requests from clients, allowing them to
+perform accurate distance measurements. When 'false', FTM
+responses are disabled for this SSID.
+    """
+    return self.__enabled
+      
+  def _set_enabled(self, v, load=False):
+    """
+    Setter method for enabled, mapped from YANG variable /ssids/ssid/rtt/config/enabled (boolean)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_enabled is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_enabled() directly.
+
+    YANG Description: Configures whether IEEE 802.11mc Fine Timing Measurement (FTM),
+also known as Round Trip Time (RTT), is enabled for clients
+associated with this SSID. When set to 'true', the Access Point
+will respond to FTM requests from clients, allowing them to
+perform accurate distance measurements. When 'false', FTM
+responses are disabled for this SSID.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGBool, is_leaf=True, yang_name="enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='boolean', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """enabled must be of a type compatible with boolean""",
+          'defined-type': "boolean",
+          'generated-type': """YANGDynClass(base=YANGBool, is_leaf=True, yang_name="enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='boolean', is_config=True)""",
+        })
+
+    self.__enabled = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_enabled(self):
+    self.__enabled = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='boolean', is_config=True)
+
+  enabled = __builtin__.property(_get_enabled, _set_enabled)
+
+
+  _pyangbind_elements = OrderedDict([('enabled', enabled), ])
+
+
+class yc_state_openconfig_wifi_mac__ssids_ssid_rtt_state(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-wifi-mac - based on the path /ssids/ssid/rtt/state. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Container for RTT state elements.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__enabled',)
+
+  _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/wifi-mac'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__enabled = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='boolean', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['ssids', 'ssid', 'rtt', 'state']
+
+  def _get_enabled(self):
+    """
+    Getter method for enabled, mapped from YANG variable /ssids/ssid/rtt/state/enabled (boolean)
+
+    YANG Description: Configures whether IEEE 802.11mc Fine Timing Measurement (FTM),
+also known as Round Trip Time (RTT), is enabled for clients
+associated with this SSID. When set to 'true', the Access Point
+will respond to FTM requests from clients, allowing them to
+perform accurate distance measurements. When 'false', FTM
+responses are disabled for this SSID.
+    """
+    return self.__enabled
+      
+  def _set_enabled(self, v, load=False):
+    """
+    Setter method for enabled, mapped from YANG variable /ssids/ssid/rtt/state/enabled (boolean)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_enabled is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_enabled() directly.
+
+    YANG Description: Configures whether IEEE 802.11mc Fine Timing Measurement (FTM),
+also known as Round Trip Time (RTT), is enabled for clients
+associated with this SSID. When set to 'true', the Access Point
+will respond to FTM requests from clients, allowing them to
+perform accurate distance measurements. When 'false', FTM
+responses are disabled for this SSID.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGBool, is_leaf=True, yang_name="enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='boolean', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """enabled must be of a type compatible with boolean""",
+          'defined-type': "boolean",
+          'generated-type': """YANGDynClass(base=YANGBool, is_leaf=True, yang_name="enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='boolean', is_config=False)""",
+        })
+
+    self.__enabled = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_enabled(self):
+    self.__enabled = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='boolean', is_config=False)
+
+  enabled = __builtin__.property(_get_enabled)
+
+
+  _pyangbind_elements = OrderedDict([('enabled', enabled), ])
+
+
+class yc_rtt_openconfig_wifi_mac__ssids_ssid_rtt(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-wifi-mac - based on the path /ssids/ssid/rtt. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Top-level container for RTT configuration and
+state container.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
+
+  _yang_name = 'rtt'
+  _yang_namespace = 'http://openconfig.net/yang/wifi-mac'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__config = YANGDynClass(base=yc_config_openconfig_wifi_mac__ssids_ssid_rtt_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_wifi_mac__ssids_ssid_rtt_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='container', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['ssids', 'ssid', 'rtt']
+
+  def _get_config(self):
+    """
+    Getter method for config, mapped from YANG variable /ssids/ssid/rtt/config (container)
+
+    YANG Description: Container for RTT configuration elements.
+    """
+    return self.__config
+      
+  def _set_config(self, v, load=False):
+    """
+    Setter method for config, mapped from YANG variable /ssids/ssid/rtt/config (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_config is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_config() directly.
+
+    YANG Description: Container for RTT configuration elements.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_config_openconfig_wifi_mac__ssids_ssid_rtt_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """config must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_config_openconfig_wifi_mac__ssids_ssid_rtt_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='container', is_config=True)""",
+        })
+
+    self.__config = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_config(self):
+    self.__config = YANGDynClass(base=yc_config_openconfig_wifi_mac__ssids_ssid_rtt_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='container', is_config=True)
+
+
+  def _get_state(self):
+    """
+    Getter method for state, mapped from YANG variable /ssids/ssid/rtt/state (container)
+
+    YANG Description: Container for RTT state elements.
+    """
+    return self.__state
+      
+  def _set_state(self, v, load=False):
+    """
+    Setter method for state, mapped from YANG variable /ssids/ssid/rtt/state (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_state is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_state() directly.
+
+    YANG Description: Container for RTT state elements.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_state_openconfig_wifi_mac__ssids_ssid_rtt_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='container', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """state must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_wifi_mac__ssids_ssid_rtt_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='container', is_config=False)""",
+        })
+
+    self.__state = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_state(self):
+    self.__state = YANGDynClass(base=yc_state_openconfig_wifi_mac__ssids_ssid_rtt_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='container', is_config=False)
+
+  config = __builtin__.property(_get_config, _set_config)
+  state = __builtin__.property(_get_state)
+
+
+  _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
+
+
 class yc_ssid_openconfig_wifi_mac__ssids_ssid(PybindBase):
   """
   This class was auto-generated by the PythonClass plugin for PYANG
@@ -16621,7 +16996,7 @@ class yc_ssid_openconfig_wifi_mac__ssids_ssid(PybindBase):
 
   YANG Description: The list of named SSIDs on the APs.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state','__bssids','__wmm','__dot11r','__dot11v','__clients','__dot1x_timers','__band_steering','__mlo',)
+  __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state','__bssids','__wmm','__dot11r','__dot11v','__clients','__dot1x_timers','__band_steering','__mlo','__rtt',)
 
   _yang_name = 'ssid'
   _yang_namespace = 'http://openconfig.net/yang/wifi-mac'
@@ -16644,6 +17019,7 @@ class yc_ssid_openconfig_wifi_mac__ssids_ssid(PybindBase):
     self.__dot1x_timers = YANGDynClass(base=yc_dot1x_timers_openconfig_wifi_mac__ssids_ssid_dot1x_timers, is_container='container', yang_name="dot1x-timers", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='container', is_config=True)
     self.__band_steering = YANGDynClass(base=yc_band_steering_openconfig_wifi_mac__ssids_ssid_band_steering, is_container='container', yang_name="band-steering", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='container', is_config=True)
     self.__mlo = YANGDynClass(base=yc_mlo_openconfig_wifi_mac__ssids_ssid_mlo, is_container='container', yang_name="mlo", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='container', is_config=True)
+    self.__rtt = YANGDynClass(base=yc_rtt_openconfig_wifi_mac__ssids_ssid_rtt, is_container='container', yang_name="rtt", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='container', is_config=True)
 
     load = kwargs.pop("load", None)
     if args:
@@ -17095,6 +17471,45 @@ state container.
   def _unset_mlo(self):
     self.__mlo = YANGDynClass(base=yc_mlo_openconfig_wifi_mac__ssids_ssid_mlo, is_container='container', yang_name="mlo", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='container', is_config=True)
 
+
+  def _get_rtt(self):
+    """
+    Getter method for rtt, mapped from YANG variable /ssids/ssid/rtt (container)
+
+    YANG Description: Top-level container for RTT configuration and
+state container.
+    """
+    return self.__rtt
+      
+  def _set_rtt(self, v, load=False):
+    """
+    Setter method for rtt, mapped from YANG variable /ssids/ssid/rtt (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_rtt is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_rtt() directly.
+
+    YANG Description: Top-level container for RTT configuration and
+state container.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_rtt_openconfig_wifi_mac__ssids_ssid_rtt, is_container='container', yang_name="rtt", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """rtt must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_rtt_openconfig_wifi_mac__ssids_ssid_rtt, is_container='container', yang_name="rtt", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='container', is_config=True)""",
+        })
+
+    self.__rtt = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_rtt(self):
+    self.__rtt = YANGDynClass(base=yc_rtt_openconfig_wifi_mac__ssids_ssid_rtt, is_container='container', yang_name="rtt", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi-mac', defining_module='openconfig-wifi-mac', yang_type='container', is_config=True)
+
   name = __builtin__.property(_get_name, _set_name)
   config = __builtin__.property(_get_config, _set_config)
   state = __builtin__.property(_get_state)
@@ -17106,9 +17521,10 @@ state container.
   dot1x_timers = __builtin__.property(_get_dot1x_timers, _set_dot1x_timers)
   band_steering = __builtin__.property(_get_band_steering, _set_band_steering)
   mlo = __builtin__.property(_get_mlo, _set_mlo)
+  rtt = __builtin__.property(_get_rtt, _set_rtt)
 
 
-  _pyangbind_elements = OrderedDict([('name', name), ('config', config), ('state', state), ('bssids', bssids), ('wmm', wmm), ('dot11r', dot11r), ('dot11v', dot11v), ('clients', clients), ('dot1x_timers', dot1x_timers), ('band_steering', band_steering), ('mlo', mlo), ])
+  _pyangbind_elements = OrderedDict([('name', name), ('config', config), ('state', state), ('bssids', bssids), ('wmm', wmm), ('dot11r', dot11r), ('dot11v', dot11v), ('clients', clients), ('dot1x_timers', dot1x_timers), ('band_steering', band_steering), ('mlo', mlo), ('rtt', rtt), ])
 
 
 class yc_ssids_openconfig_wifi_mac__ssids(PybindBase):
@@ -27045,7 +27461,7 @@ class yc_counters_openconfig_access_points__access_points_access_point_ssids_ssi
 
   YANG Description: BSS Counters.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__rx_bss_dot11_channel_utilization','__rx_mgmt','__rx_control','__rx_data_dist','__rx_data_wmm','__rx_mcs','__rx_retries','__rx_total_frames','__rx_retries_data','__rx_total_data','__rx_retries_subframe','__rx_total_subframe','__rx_bytes_data','__tx_bss_dot11_channel_utilization','__tx_mgmt','__tx_control','__tx_data_dist','__tx_data_wmm','__tx_mcs','__tx_retries','__tx_total_frames','__tx_retries_data','__tx_total_data','__tx_retries_subframe','__tx_total_subframe','__tx_bytes_data','__bss_channel_utilization',)
+  __slots__ = ('_path_helper', '_extmethods', '__rx_bss_dot11_channel_utilization','__rx_mgmt','__rx_control','__rx_data_dist','__rx_data_wmm','__rx_mcs','__rx_retries','__rx_total_frames','__rx_retries_data','__rx_total_data','__rx_retries_subframe','__rx_total_subframe','__rx_bytes_data','__tx_bss_dot11_channel_utilization','__tx_mgmt','__tx_control','__tx_beacon','__tx_data_dist','__tx_data_wmm','__tx_mcs','__tx_retries','__tx_total_frames','__tx_retries_data','__tx_total_data','__tx_retries_subframe','__tx_total_subframe','__tx_bytes_data','__bss_channel_utilization',)
 
   _yang_name = 'counters'
   _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
@@ -27073,6 +27489,7 @@ class yc_counters_openconfig_access_points__access_points_access_point_ssids_ssi
     self.__tx_bss_dot11_channel_utilization = YANGDynClass(base=RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), restriction_dict={'range': ['0..100']}), is_leaf=True, yang_name="tx-bss-dot11-channel-utilization", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='oc-types:percentage', is_config=False)
     self.__tx_mgmt = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="tx-mgmt", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='oc-yang:counter64', is_config=False)
     self.__tx_control = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="tx-control", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='oc-yang:counter64', is_config=False)
+    self.__tx_beacon = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="tx-beacon", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='oc-yang:counter64', is_config=False)
     self.__tx_data_dist = YANGDynClass(base=yc_tx_data_dist_openconfig_access_points__access_points_access_point_ssids_ssid_bssids_bssid_state_counters_tx_data_dist, is_container='container', yang_name="tx-data-dist", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='container', is_config=False)
     self.__tx_data_wmm = YANGDynClass(base=yc_tx_data_wmm_openconfig_access_points__access_points_access_point_ssids_ssid_bssids_bssid_state_counters_tx_data_wmm, is_container='container', yang_name="tx-data-wmm", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='container', is_config=False)
     self.__tx_mcs = YANGDynClass(base=yc_tx_mcs_openconfig_access_points__access_points_access_point_ssids_ssid_bssids_bssid_state_counters_tx_mcs, is_container='container', yang_name="tx-mcs", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='container', is_config=False)
@@ -27766,6 +28183,43 @@ and require retransmission.
     self.__tx_control = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="tx-control", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='oc-yang:counter64', is_config=False)
 
 
+  def _get_tx_beacon(self):
+    """
+    Getter method for tx_beacon, mapped from YANG variable /access_points/access_point/ssids/ssid/bssids/bssid/state/counters/tx_beacon (oc-yang:counter64)
+
+    YANG Description: Transmitted IEEE 802.11 beacon frames.
+    """
+    return self.__tx_beacon
+      
+  def _set_tx_beacon(self, v, load=False):
+    """
+    Setter method for tx_beacon, mapped from YANG variable /access_points/access_point/ssids/ssid/bssids/bssid/state/counters/tx_beacon (oc-yang:counter64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_tx_beacon is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_tx_beacon() directly.
+
+    YANG Description: Transmitted IEEE 802.11 beacon frames.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="tx-beacon", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='oc-yang:counter64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """tx_beacon must be of a type compatible with oc-yang:counter64""",
+          'defined-type': "oc-yang:counter64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="tx-beacon", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='oc-yang:counter64', is_config=False)""",
+        })
+
+    self.__tx_beacon = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_tx_beacon(self):
+    self.__tx_beacon = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="tx-beacon", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='oc-yang:counter64', is_config=False)
+
+
   def _get_tx_data_dist(self):
     """
     Getter method for tx_data_dist, mapped from YANG variable /access_points/access_point/ssids/ssid/bssids/bssid/state/counters/tx_data_dist (container)
@@ -28252,6 +28706,7 @@ this BSS.
   tx_bss_dot11_channel_utilization = __builtin__.property(_get_tx_bss_dot11_channel_utilization)
   tx_mgmt = __builtin__.property(_get_tx_mgmt)
   tx_control = __builtin__.property(_get_tx_control)
+  tx_beacon = __builtin__.property(_get_tx_beacon)
   tx_data_dist = __builtin__.property(_get_tx_data_dist)
   tx_data_wmm = __builtin__.property(_get_tx_data_wmm)
   tx_mcs = __builtin__.property(_get_tx_mcs)
@@ -28265,7 +28720,7 @@ this BSS.
   bss_channel_utilization = __builtin__.property(_get_bss_channel_utilization)
 
 
-  _pyangbind_elements = OrderedDict([('rx_bss_dot11_channel_utilization', rx_bss_dot11_channel_utilization), ('rx_mgmt', rx_mgmt), ('rx_control', rx_control), ('rx_data_dist', rx_data_dist), ('rx_data_wmm', rx_data_wmm), ('rx_mcs', rx_mcs), ('rx_retries', rx_retries), ('rx_total_frames', rx_total_frames), ('rx_retries_data', rx_retries_data), ('rx_total_data', rx_total_data), ('rx_retries_subframe', rx_retries_subframe), ('rx_total_subframe', rx_total_subframe), ('rx_bytes_data', rx_bytes_data), ('tx_bss_dot11_channel_utilization', tx_bss_dot11_channel_utilization), ('tx_mgmt', tx_mgmt), ('tx_control', tx_control), ('tx_data_dist', tx_data_dist), ('tx_data_wmm', tx_data_wmm), ('tx_mcs', tx_mcs), ('tx_retries', tx_retries), ('tx_total_frames', tx_total_frames), ('tx_retries_data', tx_retries_data), ('tx_total_data', tx_total_data), ('tx_retries_subframe', tx_retries_subframe), ('tx_total_subframe', tx_total_subframe), ('tx_bytes_data', tx_bytes_data), ('bss_channel_utilization', bss_channel_utilization), ])
+  _pyangbind_elements = OrderedDict([('rx_bss_dot11_channel_utilization', rx_bss_dot11_channel_utilization), ('rx_mgmt', rx_mgmt), ('rx_control', rx_control), ('rx_data_dist', rx_data_dist), ('rx_data_wmm', rx_data_wmm), ('rx_mcs', rx_mcs), ('rx_retries', rx_retries), ('rx_total_frames', rx_total_frames), ('rx_retries_data', rx_retries_data), ('rx_total_data', rx_total_data), ('rx_retries_subframe', rx_retries_subframe), ('rx_total_subframe', rx_total_subframe), ('rx_bytes_data', rx_bytes_data), ('tx_bss_dot11_channel_utilization', tx_bss_dot11_channel_utilization), ('tx_mgmt', tx_mgmt), ('tx_control', tx_control), ('tx_beacon', tx_beacon), ('tx_data_dist', tx_data_dist), ('tx_data_wmm', tx_data_wmm), ('tx_mcs', tx_mcs), ('tx_retries', tx_retries), ('tx_total_frames', tx_total_frames), ('tx_retries_data', tx_retries_data), ('tx_total_data', tx_total_data), ('tx_retries_subframe', tx_retries_subframe), ('tx_total_subframe', tx_total_subframe), ('tx_bytes_data', tx_bytes_data), ('bss_channel_utilization', bss_channel_utilization), ])
 
 
 class yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_bssids_bssid_state(PybindBase):
@@ -34020,6 +34475,342 @@ state container.
   _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
 
 
+class yc_config_openconfig_access_points__access_points_access_point_ssids_ssid_rtt_config(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/ssids/ssid/rtt/config. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Container for RTT configuration elements.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__enabled',)
+
+  _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__enabled = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='boolean', is_config=True)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'ssids', 'ssid', 'rtt', 'config']
+
+  def _get_enabled(self):
+    """
+    Getter method for enabled, mapped from YANG variable /access_points/access_point/ssids/ssid/rtt/config/enabled (boolean)
+
+    YANG Description: Configures whether IEEE 802.11mc Fine Timing Measurement (FTM),
+also known as Round Trip Time (RTT), is enabled for clients
+associated with this SSID. When set to 'true', the Access Point
+will respond to FTM requests from clients, allowing them to
+perform accurate distance measurements. When 'false', FTM
+responses are disabled for this SSID.
+    """
+    return self.__enabled
+      
+  def _set_enabled(self, v, load=False):
+    """
+    Setter method for enabled, mapped from YANG variable /access_points/access_point/ssids/ssid/rtt/config/enabled (boolean)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_enabled is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_enabled() directly.
+
+    YANG Description: Configures whether IEEE 802.11mc Fine Timing Measurement (FTM),
+also known as Round Trip Time (RTT), is enabled for clients
+associated with this SSID. When set to 'true', the Access Point
+will respond to FTM requests from clients, allowing them to
+perform accurate distance measurements. When 'false', FTM
+responses are disabled for this SSID.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGBool, is_leaf=True, yang_name="enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='boolean', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """enabled must be of a type compatible with boolean""",
+          'defined-type': "boolean",
+          'generated-type': """YANGDynClass(base=YANGBool, is_leaf=True, yang_name="enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='boolean', is_config=True)""",
+        })
+
+    self.__enabled = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_enabled(self):
+    self.__enabled = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='boolean', is_config=True)
+
+  enabled = __builtin__.property(_get_enabled, _set_enabled)
+
+
+  _pyangbind_elements = OrderedDict([('enabled', enabled), ])
+
+
+class yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_rtt_state(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/ssids/ssid/rtt/state. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Container for RTT state elements.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__enabled',)
+
+  _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__enabled = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='boolean', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'ssids', 'ssid', 'rtt', 'state']
+
+  def _get_enabled(self):
+    """
+    Getter method for enabled, mapped from YANG variable /access_points/access_point/ssids/ssid/rtt/state/enabled (boolean)
+
+    YANG Description: Configures whether IEEE 802.11mc Fine Timing Measurement (FTM),
+also known as Round Trip Time (RTT), is enabled for clients
+associated with this SSID. When set to 'true', the Access Point
+will respond to FTM requests from clients, allowing them to
+perform accurate distance measurements. When 'false', FTM
+responses are disabled for this SSID.
+    """
+    return self.__enabled
+      
+  def _set_enabled(self, v, load=False):
+    """
+    Setter method for enabled, mapped from YANG variable /access_points/access_point/ssids/ssid/rtt/state/enabled (boolean)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_enabled is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_enabled() directly.
+
+    YANG Description: Configures whether IEEE 802.11mc Fine Timing Measurement (FTM),
+also known as Round Trip Time (RTT), is enabled for clients
+associated with this SSID. When set to 'true', the Access Point
+will respond to FTM requests from clients, allowing them to
+perform accurate distance measurements. When 'false', FTM
+responses are disabled for this SSID.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGBool, is_leaf=True, yang_name="enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='boolean', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """enabled must be of a type compatible with boolean""",
+          'defined-type': "boolean",
+          'generated-type': """YANGDynClass(base=YANGBool, is_leaf=True, yang_name="enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='boolean', is_config=False)""",
+        })
+
+    self.__enabled = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_enabled(self):
+    self.__enabled = YANGDynClass(base=YANGBool, is_leaf=True, yang_name="enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='boolean', is_config=False)
+
+  enabled = __builtin__.property(_get_enabled)
+
+
+  _pyangbind_elements = OrderedDict([('enabled', enabled), ])
+
+
+class yc_rtt_openconfig_access_points__access_points_access_point_ssids_ssid_rtt(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-access-points - based on the path /access-points/access-point/ssids/ssid/rtt. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Top-level container for RTT configuration and
+state container.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__config','__state',)
+
+  _yang_name = 'rtt'
+  _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__config = YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_ssids_ssid_rtt_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_rtt_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='container', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['access-points', 'access-point', 'ssids', 'ssid', 'rtt']
+
+  def _get_config(self):
+    """
+    Getter method for config, mapped from YANG variable /access_points/access_point/ssids/ssid/rtt/config (container)
+
+    YANG Description: Container for RTT configuration elements.
+    """
+    return self.__config
+      
+  def _set_config(self, v, load=False):
+    """
+    Setter method for config, mapped from YANG variable /access_points/access_point/ssids/ssid/rtt/config (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_config is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_config() directly.
+
+    YANG Description: Container for RTT configuration elements.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_config_openconfig_access_points__access_points_access_point_ssids_ssid_rtt_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """config must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_ssids_ssid_rtt_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='container', is_config=True)""",
+        })
+
+    self.__config = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_config(self):
+    self.__config = YANGDynClass(base=yc_config_openconfig_access_points__access_points_access_point_ssids_ssid_rtt_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='container', is_config=True)
+
+
+  def _get_state(self):
+    """
+    Getter method for state, mapped from YANG variable /access_points/access_point/ssids/ssid/rtt/state (container)
+
+    YANG Description: Container for RTT state elements.
+    """
+    return self.__state
+      
+  def _set_state(self, v, load=False):
+    """
+    Setter method for state, mapped from YANG variable /access_points/access_point/ssids/ssid/rtt/state (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_state is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_state() directly.
+
+    YANG Description: Container for RTT state elements.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_rtt_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='container', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """state must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_rtt_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='container', is_config=False)""",
+        })
+
+    self.__state = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_state(self):
+    self.__state = YANGDynClass(base=yc_state_openconfig_access_points__access_points_access_point_ssids_ssid_rtt_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='container', is_config=False)
+
+  config = __builtin__.property(_get_config, _set_config)
+  state = __builtin__.property(_get_state)
+
+
+  _pyangbind_elements = OrderedDict([('config', config), ('state', state), ])
+
+
 class yc_ssid_openconfig_access_points__access_points_access_point_ssids_ssid(PybindBase):
   """
   This class was auto-generated by the PythonClass plugin for PYANG
@@ -34029,7 +34820,7 @@ class yc_ssid_openconfig_access_points__access_points_access_point_ssids_ssid(Py
 
   YANG Description: The list of named SSIDs on the APs.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state','__bssids','__wmm','__dot11r','__dot11v','__clients','__dot1x_timers','__band_steering','__mlo',)
+  __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state','__bssids','__wmm','__dot11r','__dot11v','__clients','__dot1x_timers','__band_steering','__mlo','__rtt',)
 
   _yang_name = 'ssid'
   _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
@@ -34052,6 +34843,7 @@ class yc_ssid_openconfig_access_points__access_points_access_point_ssids_ssid(Py
     self.__dot1x_timers = YANGDynClass(base=yc_dot1x_timers_openconfig_access_points__access_points_access_point_ssids_ssid_dot1x_timers, is_container='container', yang_name="dot1x-timers", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='container', is_config=True)
     self.__band_steering = YANGDynClass(base=yc_band_steering_openconfig_access_points__access_points_access_point_ssids_ssid_band_steering, is_container='container', yang_name="band-steering", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='container', is_config=True)
     self.__mlo = YANGDynClass(base=yc_mlo_openconfig_access_points__access_points_access_point_ssids_ssid_mlo, is_container='container', yang_name="mlo", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='container', is_config=True)
+    self.__rtt = YANGDynClass(base=yc_rtt_openconfig_access_points__access_points_access_point_ssids_ssid_rtt, is_container='container', yang_name="rtt", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='container', is_config=True)
 
     load = kwargs.pop("load", None)
     if args:
@@ -34503,6 +35295,45 @@ state container.
   def _unset_mlo(self):
     self.__mlo = YANGDynClass(base=yc_mlo_openconfig_access_points__access_points_access_point_ssids_ssid_mlo, is_container='container', yang_name="mlo", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='container', is_config=True)
 
+
+  def _get_rtt(self):
+    """
+    Getter method for rtt, mapped from YANG variable /access_points/access_point/ssids/ssid/rtt (container)
+
+    YANG Description: Top-level container for RTT configuration and
+state container.
+    """
+    return self.__rtt
+      
+  def _set_rtt(self, v, load=False):
+    """
+    Setter method for rtt, mapped from YANG variable /access_points/access_point/ssids/ssid/rtt (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_rtt is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_rtt() directly.
+
+    YANG Description: Top-level container for RTT configuration and
+state container.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_rtt_openconfig_access_points__access_points_access_point_ssids_ssid_rtt, is_container='container', yang_name="rtt", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """rtt must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_rtt_openconfig_access_points__access_points_access_point_ssids_ssid_rtt, is_container='container', yang_name="rtt", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='container', is_config=True)""",
+        })
+
+    self.__rtt = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_rtt(self):
+    self.__rtt = YANGDynClass(base=yc_rtt_openconfig_access_points__access_points_access_point_ssids_ssid_rtt, is_container='container', yang_name="rtt", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='container', is_config=True)
+
   name = __builtin__.property(_get_name, _set_name)
   config = __builtin__.property(_get_config, _set_config)
   state = __builtin__.property(_get_state)
@@ -34514,9 +35345,10 @@ state container.
   dot1x_timers = __builtin__.property(_get_dot1x_timers, _set_dot1x_timers)
   band_steering = __builtin__.property(_get_band_steering, _set_band_steering)
   mlo = __builtin__.property(_get_mlo, _set_mlo)
+  rtt = __builtin__.property(_get_rtt, _set_rtt)
 
 
-  _pyangbind_elements = OrderedDict([('name', name), ('config', config), ('state', state), ('bssids', bssids), ('wmm', wmm), ('dot11r', dot11r), ('dot11v', dot11v), ('clients', clients), ('dot1x_timers', dot1x_timers), ('band_steering', band_steering), ('mlo', mlo), ])
+  _pyangbind_elements = OrderedDict([('name', name), ('config', config), ('state', state), ('bssids', bssids), ('wmm', wmm), ('dot11r', dot11r), ('dot11v', dot11v), ('clients', clients), ('dot1x_timers', dot1x_timers), ('band_steering', band_steering), ('mlo', mlo), ('rtt', rtt), ])
 
 
 class yc_ssids_openconfig_access_points__access_points_access_point_ssids(PybindBase):
@@ -50538,7 +51370,7 @@ class yc_config_openconfig_access_points__access_points_access_point_system_ssh_
 
   YANG Description: Configuration data for the system ssh server
   """
-  __slots__ = ('_path_helper', '_extmethods', '__enable','__protocol_version','__timeout','__rate_limit','__session_limit',)
+  __slots__ = ('_path_helper', '_extmethods', '__enable','__protocol_version','__host_certificate','__timeout','__rate_limit','__session_limit',)
 
   _yang_name = 'config'
   _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
@@ -50552,6 +51384,7 @@ class yc_config_openconfig_access_points__access_points_access_point_system_ssh_
     self._extmethods = False
     self.__enable = YANGDynClass(base=YANGBool, default=YANGBool("true"), is_leaf=True, yang_name="enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='boolean', is_config=True)
     self.__protocol_version = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'V2': {}, 'V1': {}, 'V1_V2': {}},), default=str("V2"), is_leaf=True, yang_name="protocol-version", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='enumeration', is_config=True)
+    self.__host_certificate = YANGDynClass(base=str, is_leaf=True, yang_name="host-certificate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='string', is_config=True)
     self.__timeout = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="timeout", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='uint16', is_config=True)
     self.__rate_limit = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="rate-limit", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='uint16', is_config=True)
     self.__session_limit = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="session-limit", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='uint16', is_config=True)
@@ -50657,6 +51490,43 @@ default.
 
   def _unset_protocol_version(self):
     self.__protocol_version = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'V2': {}, 'V1': {}, 'V1_V2': {}},), default=str("V2"), is_leaf=True, yang_name="protocol-version", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='enumeration', is_config=True)
+
+
+  def _get_host_certificate(self):
+    """
+    Getter method for host_certificate, mapped from YANG variable /access_points/access_point/system/ssh_server/config/host_certificate (string)
+
+    YANG Description: SSH Host Certificate string. This is the full content of an openssh host certificate
+    """
+    return self.__host_certificate
+      
+  def _set_host_certificate(self, v, load=False):
+    """
+    Setter method for host_certificate, mapped from YANG variable /access_points/access_point/system/ssh_server/config/host_certificate (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_host_certificate is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_host_certificate() directly.
+
+    YANG Description: SSH Host Certificate string. This is the full content of an openssh host certificate
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="host-certificate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='string', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """host_certificate must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="host-certificate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='string', is_config=True)""",
+        })
+
+    self.__host_certificate = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_host_certificate(self):
+    self.__host_certificate = YANGDynClass(base=str, is_leaf=True, yang_name="host-certificate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='string', is_config=True)
 
 
   def _get_timeout(self):
@@ -50779,12 +51649,13 @@ telnet, ...)
 
   enable = __builtin__.property(_get_enable, _set_enable)
   protocol_version = __builtin__.property(_get_protocol_version, _set_protocol_version)
+  host_certificate = __builtin__.property(_get_host_certificate, _set_host_certificate)
   timeout = __builtin__.property(_get_timeout, _set_timeout)
   rate_limit = __builtin__.property(_get_rate_limit, _set_rate_limit)
   session_limit = __builtin__.property(_get_session_limit, _set_session_limit)
 
 
-  _pyangbind_elements = OrderedDict([('enable', enable), ('protocol_version', protocol_version), ('timeout', timeout), ('rate_limit', rate_limit), ('session_limit', session_limit), ])
+  _pyangbind_elements = OrderedDict([('enable', enable), ('protocol_version', protocol_version), ('host_certificate', host_certificate), ('timeout', timeout), ('rate_limit', rate_limit), ('session_limit', session_limit), ])
 
 
 class yc_state_openconfig_access_points__access_points_access_point_system_ssh_server_state(PybindBase):
@@ -50796,7 +51667,7 @@ class yc_state_openconfig_access_points__access_points_access_point_system_ssh_s
 
   YANG Description: Operational state data for the system ssh server
   """
-  __slots__ = ('_path_helper', '_extmethods', '__enable','__protocol_version','__timeout','__rate_limit','__session_limit',)
+  __slots__ = ('_path_helper', '_extmethods', '__enable','__protocol_version','__host_certificate','__timeout','__rate_limit','__session_limit',)
 
   _yang_name = 'state'
   _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
@@ -50810,6 +51681,7 @@ class yc_state_openconfig_access_points__access_points_access_point_system_ssh_s
     self._extmethods = False
     self.__enable = YANGDynClass(base=YANGBool, default=YANGBool("true"), is_leaf=True, yang_name="enable", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='boolean', is_config=False)
     self.__protocol_version = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'V2': {}, 'V1': {}, 'V1_V2': {}},), default=str("V2"), is_leaf=True, yang_name="protocol-version", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='enumeration', is_config=False)
+    self.__host_certificate = YANGDynClass(base=str, is_leaf=True, yang_name="host-certificate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='string', is_config=False)
     self.__timeout = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="timeout", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='uint16', is_config=False)
     self.__rate_limit = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="rate-limit", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='uint16', is_config=False)
     self.__session_limit = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="session-limit", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='uint16', is_config=False)
@@ -50915,6 +51787,43 @@ default.
 
   def _unset_protocol_version(self):
     self.__protocol_version = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'V2': {}, 'V1': {}, 'V1_V2': {}},), default=str("V2"), is_leaf=True, yang_name="protocol-version", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='enumeration', is_config=False)
+
+
+  def _get_host_certificate(self):
+    """
+    Getter method for host_certificate, mapped from YANG variable /access_points/access_point/system/ssh_server/state/host_certificate (string)
+
+    YANG Description: SSH Host Certificate string. This is the full content of an openssh host certificate
+    """
+    return self.__host_certificate
+      
+  def _set_host_certificate(self, v, load=False):
+    """
+    Setter method for host_certificate, mapped from YANG variable /access_points/access_point/system/ssh_server/state/host_certificate (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_host_certificate is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_host_certificate() directly.
+
+    YANG Description: SSH Host Certificate string. This is the full content of an openssh host certificate
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="host-certificate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='string', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """host_certificate must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="host-certificate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='string', is_config=False)""",
+        })
+
+    self.__host_certificate = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_host_certificate(self):
+    self.__host_certificate = YANGDynClass(base=str, is_leaf=True, yang_name="host-certificate", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='string', is_config=False)
 
 
   def _get_timeout(self):
@@ -51037,12 +51946,13 @@ telnet, ...)
 
   enable = __builtin__.property(_get_enable)
   protocol_version = __builtin__.property(_get_protocol_version)
+  host_certificate = __builtin__.property(_get_host_certificate)
   timeout = __builtin__.property(_get_timeout)
   rate_limit = __builtin__.property(_get_rate_limit)
   session_limit = __builtin__.property(_get_session_limit)
 
 
-  _pyangbind_elements = OrderedDict([('enable', enable), ('protocol_version', protocol_version), ('timeout', timeout), ('rate_limit', rate_limit), ('session_limit', session_limit), ])
+  _pyangbind_elements = OrderedDict([('enable', enable), ('protocol_version', protocol_version), ('host_certificate', host_certificate), ('timeout', timeout), ('rate_limit', rate_limit), ('session_limit', session_limit), ])
 
 
 class yc_ssh_server_openconfig_access_points__access_points_access_point_system_ssh_server(PybindBase):
@@ -57663,7 +58573,7 @@ class yc_state_openconfig_access_points__access_points_access_point_system_memor
 
   YANG Description: Operational state data for system memory
   """
-  __slots__ = ('_path_helper', '_extmethods', '__counters','__physical','__reserved','__used','__free',)
+  __slots__ = ('_path_helper', '_extmethods', '__counters','__physical','__reserved','__used','__free','__available',)
 
   _yang_name = 'state'
   _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
@@ -57680,6 +58590,7 @@ class yc_state_openconfig_access_points__access_points_access_point_system_memor
     self.__reserved = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="reserved", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='uint64', is_config=False)
     self.__used = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="used", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='uint64', is_config=False)
     self.__free = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="free", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='uint64', is_config=False)
+    self.__available = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="available", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='uint64', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -57894,14 +58805,60 @@ system.
   def _unset_free(self):
     self.__free = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="free", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='uint64', is_config=False)
 
+
+  def _get_available(self):
+    """
+    Getter method for available, mapped from YANG variable /access_points/access_point/system/memory/state/available (uint64)
+
+    YANG Description: The amount of memory that is available for use.
+
+In addition to the memory reported by free, this leaf also includes
+memory used for system caches and buffers that can be
+reclaimed by the operating system.
+    """
+    return self.__available
+      
+  def _set_available(self, v, load=False):
+    """
+    Setter method for available, mapped from YANG variable /access_points/access_point/system/memory/state/available (uint64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_available is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_available() directly.
+
+    YANG Description: The amount of memory that is available for use.
+
+In addition to the memory reported by free, this leaf also includes
+memory used for system caches and buffers that can be
+reclaimed by the operating system.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="available", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='uint64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """available must be of a type compatible with uint64""",
+          'defined-type': "uint64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="available", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='uint64', is_config=False)""",
+        })
+
+    self.__available = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_available(self):
+    self.__available = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="available", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/wifi/access-points', defining_module='openconfig-access-points', yang_type='uint64', is_config=False)
+
   counters = __builtin__.property(_get_counters)
   physical = __builtin__.property(_get_physical)
   reserved = __builtin__.property(_get_reserved)
   used = __builtin__.property(_get_used)
   free = __builtin__.property(_get_free)
+  available = __builtin__.property(_get_available)
 
 
-  _pyangbind_elements = OrderedDict([('counters', counters), ('physical', physical), ('reserved', reserved), ('used', used), ('free', free), ])
+  _pyangbind_elements = OrderedDict([('counters', counters), ('physical', physical), ('reserved', reserved), ('used', used), ('free', free), ('available', available), ])
 
 
 class yc_memory_openconfig_access_points__access_points_access_point_system_memory(PybindBase):
@@ -62395,7 +63352,7 @@ class yc_counters_openconfig_access_points__access_points_access_point_interface
   the container is represented as a class variable - with a specific
   YANG type.
 
-  YANG Description: A collection of interface specific statistics entitites which are
+  YANG Description: A collection of interface specific statistics entities which are
 not common to subinterfaces.
   """
   __slots__ = ('_path_helper', '_extmethods', '__in_octets','__in_pkts','__in_unicast_pkts','__in_broadcast_pkts','__in_multicast_pkts','__in_errors','__in_discards','__out_octets','__out_pkts','__out_unicast_pkts','__out_broadcast_pkts','__out_multicast_pkts','__out_discards','__out_errors','__last_clear','__in_unknown_protos','__in_fcs_errors','__carrier_transitions','__interface_transitions','__link_transitions','__resets',)
@@ -63494,7 +64451,7 @@ other times as indicated by the value of 'last-clear'.
     Getter method for resets, mapped from YANG variable /access_points/access_point/interfaces/interface/state/counters/resets (oc-yang:counter64)
 
     YANG Description: Number of times the interface hardware has been reset.  The
-triggers and effects of this event are hardware-specifc.
+triggers and effects of this event are hardware-specific.
     """
     return self.__resets
       
@@ -63507,7 +64464,7 @@ triggers and effects of this event are hardware-specifc.
     do so via calling thisObj._set_resets() directly.
 
     YANG Description: Number of times the interface hardware has been reset.  The
-triggers and effects of this event are hardware-specifc.
+triggers and effects of this event are hardware-specific.
     """
     if hasattr(v, "_utype"):
       v = v._utype(v)
@@ -64313,7 +65270,7 @@ interfaces.
     """
     Getter method for counters, mapped from YANG variable /access_points/access_point/interfaces/interface/state/counters (container)
 
-    YANG Description: A collection of interface specific statistics entitites which are
+    YANG Description: A collection of interface specific statistics entities which are
 not common to subinterfaces.
     """
     return self.__counters
@@ -64326,7 +65283,7 @@ not common to subinterfaces.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_counters() directly.
 
-    YANG Description: A collection of interface specific statistics entitites which are
+    YANG Description: A collection of interface specific statistics entities which are
 not common to subinterfaces.
     """
     if hasattr(v, "_utype"):
@@ -64393,7 +65350,7 @@ class yc_config_openconfig_access_points__access_points_access_point_interfaces_
     self.__standalone_link_training = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="standalone-link-training", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='boolean', is_config=True)
     self.__duplex_mode = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'FULL': {}, 'HALF': {}},), is_leaf=True, yang_name="duplex-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='enumeration', is_config=True)
     self.__port_speed = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_type="dict_key", restriction_arg={'SPEED_10MB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_10MB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_10MB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_100MB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_100MB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_100MB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_1GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_1GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_1GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_2500MB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_2500MB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_2500MB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_5GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_5GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_5GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_10GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_10GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_10GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_25GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_25GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_25GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_40GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_40GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_40GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_50GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_50GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_50GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_100GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_100GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_100GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_200GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_200GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_200GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_400GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_400GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_400GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_600GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_600GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_600GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_800GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_800GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_800GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_1600GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_1600GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_1600GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_UNKNOWN': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_UNKNOWN': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_UNKNOWN': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}},), is_leaf=True, yang_name="port-speed", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='identityref', is_config=True)
-    self.__fec_mode = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_type="dict_key", restriction_arg={'FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}},), is_leaf=True, yang_name="fec-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='identityref', is_config=True)
+    self.__fec_mode = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_type="dict_key", restriction_arg={'FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_LOW_LATENCY': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_LOW_LATENCY': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_LOW_LATENCY': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE_CL172': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE_CL172': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE_CL172': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE_ETC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE_ETC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE_ETC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}},), is_leaf=True, yang_name="fec-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='identityref', is_config=True)
 
     load = kwargs.pop("load", None)
     if args:
@@ -64733,12 +65690,12 @@ the interface.
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=RestrictedClassType(base_type=str, restriction_type="dict_key", restriction_arg={'FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}},), is_leaf=True, yang_name="fec-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='identityref', is_config=True)
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=str, restriction_type="dict_key", restriction_arg={'FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_LOW_LATENCY': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_LOW_LATENCY': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_LOW_LATENCY': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE_CL172': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE_CL172': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE_CL172': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE_ETC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE_ETC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE_ETC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}},), is_leaf=True, yang_name="fec-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='identityref', is_config=True)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """fec_mode must be of a type compatible with identityref""",
           'defined-type': "openconfig-ap-interfaces:identityref",
-          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=str, restriction_type="dict_key", restriction_arg={'FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}},), is_leaf=True, yang_name="fec-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='identityref', is_config=True)""",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=str, restriction_type="dict_key", restriction_arg={'FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_LOW_LATENCY': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_LOW_LATENCY': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_LOW_LATENCY': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE_CL172': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE_CL172': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE_CL172': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE_ETC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE_ETC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE_ETC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}},), is_leaf=True, yang_name="fec-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='identityref', is_config=True)""",
         })
 
     self.__fec_mode = t
@@ -64746,7 +65703,7 @@ the interface.
       self._set()
 
   def _unset_fec_mode(self):
-    self.__fec_mode = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_type="dict_key", restriction_arg={'FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}},), is_leaf=True, yang_name="fec-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='identityref', is_config=True)
+    self.__fec_mode = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_type="dict_key", restriction_arg={'FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_LOW_LATENCY': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_LOW_LATENCY': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_LOW_LATENCY': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE_CL172': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE_CL172': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE_CL172': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE_ETC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE_ETC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE_ETC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}},), is_leaf=True, yang_name="fec-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='identityref', is_config=True)
 
   mac_address = __builtin__.property(_get_mac_address, _set_mac_address)
   enable_flow_control = __builtin__.property(_get_enable_flow_control, _set_enable_flow_control)
@@ -64769,7 +65726,7 @@ class yc_counters_openconfig_access_points__access_points_access_point_interface
 
   YANG Description: Ethernet interface counters
   """
-  __slots__ = ('_path_helper', '_extmethods', '__fec_uncorrectable_blocks','__fec_corrected_blocks','__in_mac_control_frames','__in_mac_pause_frames','__in_oversize_frames','__in_undersize_frames','__in_jabber_frames','__in_fragment_frames','__in_8021q_frames','__in_crc_errors','__in_block_errors','__in_carrier_errors','__in_interrupted_tx','__in_late_collision','__in_mac_errors_rx','__in_single_collision','__in_symbol_error','__in_maxsize_exceeded','__out_mac_control_frames','__out_mac_pause_frames','__out_8021q_frames','__out_mac_errors_tx',)
+  __slots__ = ('_path_helper', '_extmethods', '__fec_uncorrectable_blocks','__fec_corrected_blocks','__in_mac_control_frames','__in_mac_pause_frames','__in_oversize_frames','__in_undersize_frames','__in_jabber_frames','__in_fragment_frames','__in_8021q_frames','__in_crc_errors','__in_block_errors','__in_carrier_errors','__in_interrupted_tx','__in_late_collision','__in_mac_errors_rx','__in_single_collision','__in_symbol_error','__in_maxsize_exceeded','__out_mac_control_frames','__out_mac_pause_frames','__out_8021q_frames','__out_mac_errors_tx','__out_vlan_filter_discards',)
 
   _yang_name = 'counters'
   _yang_namespace = 'http://openconfig.net/yang/wifi/access-points'
@@ -64803,6 +65760,7 @@ class yc_counters_openconfig_access_points__access_points_access_point_interface
     self.__out_mac_pause_frames = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="out-mac-pause-frames", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='oc-yang:counter64', is_config=False)
     self.__out_8021q_frames = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="out-8021q-frames", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='oc-yang:counter64', is_config=False)
     self.__out_mac_errors_tx = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="out-mac-errors-tx", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='oc-yang:counter64', is_config=False)
+    self.__out_vlan_filter_discards = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="out-vlan-filter-discards", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='oc-yang:counter64', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -65754,6 +66712,55 @@ oid=1.3.6.1.2.1.10.7.2.1.10
   def _unset_out_mac_errors_tx(self):
     self.__out_mac_errors_tx = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="out-mac-errors-tx", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='oc-yang:counter64', is_config=False)
 
+
+  def _get_out_vlan_filter_discards(self):
+    """
+    Getter method for out_vlan_filter_discards, mapped from YANG variable /access_points/access_point/interfaces/interface/ethernet/state/counters/out_vlan_filter_discards (oc-yang:counter64)
+
+    YANG Description: The number of outbound packets that were dropped due to
+VLAN egress filtering being enabled on the interface, where
+the packet's VLAN tag did not match the allowed VLANs.
+
+Discontinuities in the value of this counter can occur
+at re-initialization of the management system, and at
+other times as indicated by the value of 'last-clear'.
+    """
+    return self.__out_vlan_filter_discards
+      
+  def _set_out_vlan_filter_discards(self, v, load=False):
+    """
+    Setter method for out_vlan_filter_discards, mapped from YANG variable /access_points/access_point/interfaces/interface/ethernet/state/counters/out_vlan_filter_discards (oc-yang:counter64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_out_vlan_filter_discards is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_out_vlan_filter_discards() directly.
+
+    YANG Description: The number of outbound packets that were dropped due to
+VLAN egress filtering being enabled on the interface, where
+the packet's VLAN tag did not match the allowed VLANs.
+
+Discontinuities in the value of this counter can occur
+at re-initialization of the management system, and at
+other times as indicated by the value of 'last-clear'.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="out-vlan-filter-discards", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='oc-yang:counter64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """out_vlan_filter_discards must be of a type compatible with oc-yang:counter64""",
+          'defined-type': "oc-yang:counter64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="out-vlan-filter-discards", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='oc-yang:counter64', is_config=False)""",
+        })
+
+    self.__out_vlan_filter_discards = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_out_vlan_filter_discards(self):
+    self.__out_vlan_filter_discards = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="out-vlan-filter-discards", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='oc-yang:counter64', is_config=False)
+
   fec_uncorrectable_blocks = __builtin__.property(_get_fec_uncorrectable_blocks)
   fec_corrected_blocks = __builtin__.property(_get_fec_corrected_blocks)
   in_mac_control_frames = __builtin__.property(_get_in_mac_control_frames)
@@ -65776,9 +66783,10 @@ oid=1.3.6.1.2.1.10.7.2.1.10
   out_mac_pause_frames = __builtin__.property(_get_out_mac_pause_frames)
   out_8021q_frames = __builtin__.property(_get_out_8021q_frames)
   out_mac_errors_tx = __builtin__.property(_get_out_mac_errors_tx)
+  out_vlan_filter_discards = __builtin__.property(_get_out_vlan_filter_discards)
 
 
-  _pyangbind_elements = OrderedDict([('fec_uncorrectable_blocks', fec_uncorrectable_blocks), ('fec_corrected_blocks', fec_corrected_blocks), ('in_mac_control_frames', in_mac_control_frames), ('in_mac_pause_frames', in_mac_pause_frames), ('in_oversize_frames', in_oversize_frames), ('in_undersize_frames', in_undersize_frames), ('in_jabber_frames', in_jabber_frames), ('in_fragment_frames', in_fragment_frames), ('in_8021q_frames', in_8021q_frames), ('in_crc_errors', in_crc_errors), ('in_block_errors', in_block_errors), ('in_carrier_errors', in_carrier_errors), ('in_interrupted_tx', in_interrupted_tx), ('in_late_collision', in_late_collision), ('in_mac_errors_rx', in_mac_errors_rx), ('in_single_collision', in_single_collision), ('in_symbol_error', in_symbol_error), ('in_maxsize_exceeded', in_maxsize_exceeded), ('out_mac_control_frames', out_mac_control_frames), ('out_mac_pause_frames', out_mac_pause_frames), ('out_8021q_frames', out_8021q_frames), ('out_mac_errors_tx', out_mac_errors_tx), ])
+  _pyangbind_elements = OrderedDict([('fec_uncorrectable_blocks', fec_uncorrectable_blocks), ('fec_corrected_blocks', fec_corrected_blocks), ('in_mac_control_frames', in_mac_control_frames), ('in_mac_pause_frames', in_mac_pause_frames), ('in_oversize_frames', in_oversize_frames), ('in_undersize_frames', in_undersize_frames), ('in_jabber_frames', in_jabber_frames), ('in_fragment_frames', in_fragment_frames), ('in_8021q_frames', in_8021q_frames), ('in_crc_errors', in_crc_errors), ('in_block_errors', in_block_errors), ('in_carrier_errors', in_carrier_errors), ('in_interrupted_tx', in_interrupted_tx), ('in_late_collision', in_late_collision), ('in_mac_errors_rx', in_mac_errors_rx), ('in_single_collision', in_single_collision), ('in_symbol_error', in_symbol_error), ('in_maxsize_exceeded', in_maxsize_exceeded), ('out_mac_control_frames', out_mac_control_frames), ('out_mac_pause_frames', out_mac_pause_frames), ('out_8021q_frames', out_8021q_frames), ('out_mac_errors_tx', out_mac_errors_tx), ('out_vlan_filter_discards', out_vlan_filter_discards), ])
 
 
 class yc_pre_fec_ber_openconfig_access_points__access_points_access_point_interfaces_interface_ethernet_state_pre_fec_ber(PybindBase):
@@ -66512,7 +67520,7 @@ class yc_state_openconfig_access_points__access_points_access_point_interfaces_i
     self.__standalone_link_training = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="standalone-link-training", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='boolean', is_config=False)
     self.__duplex_mode = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'FULL': {}, 'HALF': {}},), is_leaf=True, yang_name="duplex-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='enumeration', is_config=False)
     self.__port_speed = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_type="dict_key", restriction_arg={'SPEED_10MB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_10MB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_10MB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_100MB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_100MB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_100MB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_1GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_1GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_1GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_2500MB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_2500MB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_2500MB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_5GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_5GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_5GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_10GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_10GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_10GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_25GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_25GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_25GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_40GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_40GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_40GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_50GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_50GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_50GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_100GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_100GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_100GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_200GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_200GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_200GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_400GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_400GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_400GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_600GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_600GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_600GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_800GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_800GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_800GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_1600GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_1600GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_1600GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_UNKNOWN': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_UNKNOWN': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_UNKNOWN': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}},), is_leaf=True, yang_name="port-speed", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='identityref', is_config=False)
-    self.__fec_mode = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_type="dict_key", restriction_arg={'FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}},), is_leaf=True, yang_name="fec-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='identityref', is_config=False)
+    self.__fec_mode = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_type="dict_key", restriction_arg={'FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_LOW_LATENCY': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_LOW_LATENCY': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_LOW_LATENCY': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE_CL172': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE_CL172': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE_CL172': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE_ETC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE_ETC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE_ETC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}},), is_leaf=True, yang_name="fec-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='identityref', is_config=False)
     self.__hw_mac_address = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_dict={'pattern': '[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){5}'}), is_leaf=True, yang_name="hw-mac-address", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='oc-yang:mac-address', is_config=False)
     self.__negotiated_duplex_mode = YANGDynClass(base=RestrictedClassType(base_type=str,                                     restriction_type="dict_key",                                     restriction_arg={'FULL': {}, 'HALF': {}},), is_leaf=True, yang_name="negotiated-duplex-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='enumeration', is_config=False)
     self.__negotiated_port_speed = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_type="dict_key", restriction_arg={'SPEED_10MB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_10MB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_10MB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_100MB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_100MB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_100MB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_1GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_1GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_1GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_2500MB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_2500MB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_2500MB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_5GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_5GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_5GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_10GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_10GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_10GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_25GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_25GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_25GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_40GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_40GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_40GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_50GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_50GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_50GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_100GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_100GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_100GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_200GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_200GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_200GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_400GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_400GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_400GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_600GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_600GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_600GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_800GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_800GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_800GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_1600GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_1600GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_1600GB': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'SPEED_UNKNOWN': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:SPEED_UNKNOWN': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:SPEED_UNKNOWN': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}},), is_leaf=True, yang_name="negotiated-port-speed", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='identityref', is_config=False)
@@ -66858,12 +67866,12 @@ the interface.
     if hasattr(v, "_utype"):
       v = v._utype(v)
     try:
-      t = YANGDynClass(v,base=RestrictedClassType(base_type=str, restriction_type="dict_key", restriction_arg={'FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}},), is_leaf=True, yang_name="fec-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='identityref', is_config=False)
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=str, restriction_type="dict_key", restriction_arg={'FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_LOW_LATENCY': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_LOW_LATENCY': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_LOW_LATENCY': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE_CL172': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE_CL172': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE_CL172': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE_ETC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE_ETC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE_ETC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}},), is_leaf=True, yang_name="fec-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='identityref', is_config=False)
     except (TypeError, ValueError):
       raise ValueError({
           'error-string': """fec_mode must be of a type compatible with identityref""",
           'defined-type': "openconfig-ap-interfaces:identityref",
-          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=str, restriction_type="dict_key", restriction_arg={'FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}},), is_leaf=True, yang_name="fec-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='identityref', is_config=False)""",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=str, restriction_type="dict_key", restriction_arg={'FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_LOW_LATENCY': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_LOW_LATENCY': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_LOW_LATENCY': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE_CL172': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE_CL172': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE_CL172': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE_ETC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE_ETC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE_ETC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}},), is_leaf=True, yang_name="fec-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='identityref', is_config=False)""",
         })
 
     self.__fec_mode = t
@@ -66871,7 +67879,7 @@ the interface.
       self._set()
 
   def _unset_fec_mode(self):
-    self.__fec_mode = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_type="dict_key", restriction_arg={'FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}},), is_leaf=True, yang_name="fec-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='identityref', is_config=False)
+    self.__fec_mode = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_type="dict_key", restriction_arg={'FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_FC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS528': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_LOW_LATENCY': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_LOW_LATENCY': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_LOW_LATENCY': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE_CL172': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE_CL172': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE_CL172': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_RS544_2X_INTERLEAVE_ETC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_RS544_2X_INTERLEAVE_ETC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_RS544_2X_INTERLEAVE_ETC': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'openconfig-if-ethernet:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}, 'oc-eth:FEC_DISABLED': {'@module': 'openconfig-if-ethernet', '@namespace': 'http://openconfig.net/yang/interfaces/ethernet'}},), is_leaf=True, yang_name="fec-mode", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/ap-interfaces', defining_module='openconfig-ap-interfaces', yang_type='identityref', is_config=False)
 
 
   def _get_hw_mac_address(self):
@@ -70583,7 +71591,7 @@ class yc_counters_openconfig_access_points__access_points_access_point_interface
   the container is represented as a class variable - with a specific
   YANG type.
 
-  YANG Description: A collection of interface specific statistics entitites which are
+  YANG Description: A collection of interface specific statistics entities which are
 not common to subinterfaces.
   """
   __slots__ = ('_path_helper', '_extmethods', '__in_octets','__in_pkts','__in_unicast_pkts','__in_broadcast_pkts','__in_multicast_pkts','__in_errors','__in_discards','__out_octets','__out_pkts','__out_unicast_pkts','__out_broadcast_pkts','__out_multicast_pkts','__out_discards','__out_errors','__last_clear','__in_unknown_protos','__in_fcs_errors','__carrier_transitions',)
@@ -72158,7 +73166,7 @@ interfaces.
     """
     Getter method for counters, mapped from YANG variable /access_points/access_point/interfaces/interface/subinterfaces/subinterface/state/counters (container)
 
-    YANG Description: A collection of interface specific statistics entitites which are
+    YANG Description: A collection of interface specific statistics entities which are
 not common to subinterfaces.
     """
     return self.__counters
@@ -72171,7 +73179,7 @@ not common to subinterfaces.
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_counters() directly.
 
-    YANG Description: A collection of interface specific statistics entitites which are
+    YANG Description: A collection of interface specific statistics entities which are
 not common to subinterfaces.
     """
     if hasattr(v, "_utype"):
@@ -84685,7 +85693,7 @@ configured / maintained
     """
     Getter method for min_links, mapped from YANG variable /access_points/access_point/interfaces/interface/aggregation/config/min_links (uint16)
 
-    YANG Description: Specifies the mininum number of member
+    YANG Description: Specifies the minimum number of member
 interfaces that must be active for the aggregate interface
 to be available
     """
@@ -84699,7 +85707,7 @@ to be available
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_links() directly.
 
-    YANG Description: Specifies the mininum number of member
+    YANG Description: Specifies the minimum number of member
 interfaces that must be active for the aggregate interface
 to be available
     """
@@ -84825,7 +85833,7 @@ configured / maintained
     """
     Getter method for min_links, mapped from YANG variable /access_points/access_point/interfaces/interface/aggregation/state/min_links (uint16)
 
-    YANG Description: Specifies the mininum number of member
+    YANG Description: Specifies the minimum number of member
 interfaces that must be active for the aggregate interface
 to be available
     """
@@ -84839,7 +85847,7 @@ to be available
     method. Backends looking to populate this variable should
     do so via calling thisObj._set_min_links() directly.
 
-    YANG Description: Specifies the mininum number of member
+    YANG Description: Specifies the minimum number of member
 interfaces that must be active for the aggregate interface
 to be available
     """

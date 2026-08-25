@@ -27,7 +27,7 @@ class yc_config_openconfig_bfd__bfd_interfaces_interface_config(PybindBase):
   YANG Description: Configuration parameters for BFD on the specified
 interface.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__id','__enabled','__local_address','__desired_minimum_tx_interval','__required_minimum_receive','__detection_multiplier','__enable_per_member_link',)
+  __slots__ = ('_path_helper', '_extmethods', '__id','__enabled','__local_address','__desired_minimum_tx_interval','__required_minimum_receive','__detection_multiplier','__enable_per_member_link','__desired_min_echo_tx_interval','__required_min_echo_rx_interval',)
 
   _yang_name = 'config'
   _yang_namespace = 'http://openconfig.net/yang/bfd'
@@ -46,6 +46,8 @@ interface.
     self.__required_minimum_receive = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="required-minimum-receive", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint32', is_config=True)
     self.__detection_multiplier = YANGDynClass(base=RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), restriction_dict={'range': ['1..max']}), is_leaf=True, yang_name="detection-multiplier", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint8', is_config=True)
     self.__enable_per_member_link = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="enable-per-member-link", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='boolean', is_config=True)
+    self.__desired_min_echo_tx_interval = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="desired-min-echo-tx-interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint32', is_config=True)
+    self.__required_min_echo_rx_interval = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="required-min-echo-rx-interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint32', is_config=True)
 
     load = kwargs.pop("load", None)
     if args:
@@ -366,6 +368,100 @@ each member interface of the aggregated Ethernet bundle.
   def _unset_enable_per_member_link(self):
     self.__enable_per_member_link = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="enable-per-member-link", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='boolean', is_config=True)
 
+
+  def _get_desired_min_echo_tx_interval(self):
+    """
+    Getter method for desired_min_echo_tx_interval, mapped from YANG variable /bfd/interfaces/interface/config/desired_min_echo_tx_interval (uint32)
+
+    YANG Description: The minimum interval between transmission of BFD echo
+packets that the operator desires. This value controls the
+transmission rate of echo packets sent by the local system.
+Setting this value to 0 disables BFD echo mode on this
+interface. This value is specified as an integer number
+of microseconds.
+    """
+    return self.__desired_min_echo_tx_interval
+      
+  def _set_desired_min_echo_tx_interval(self, v, load=False):
+    """
+    Setter method for desired_min_echo_tx_interval, mapped from YANG variable /bfd/interfaces/interface/config/desired_min_echo_tx_interval (uint32)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_desired_min_echo_tx_interval is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_desired_min_echo_tx_interval() directly.
+
+    YANG Description: The minimum interval between transmission of BFD echo
+packets that the operator desires. This value controls the
+transmission rate of echo packets sent by the local system.
+Setting this value to 0 disables BFD echo mode on this
+interface. This value is specified as an integer number
+of microseconds.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="desired-min-echo-tx-interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint32', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """desired_min_echo_tx_interval must be of a type compatible with uint32""",
+          'defined-type': "uint32",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="desired-min-echo-tx-interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint32', is_config=True)""",
+        })
+
+    self.__desired_min_echo_tx_interval = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_desired_min_echo_tx_interval(self):
+    self.__desired_min_echo_tx_interval = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="desired-min-echo-tx-interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint32', is_config=True)
+
+
+  def _get_required_min_echo_rx_interval(self):
+    """
+    Getter method for required_min_echo_rx_interval, mapped from YANG variable /bfd/interfaces/interface/config/required_min_echo_rx_interval (uint32)
+
+    YANG Description: The minimum interval between received BFD echo packets that
+this system should support. This value is advertised to the
+remote peer and allows the peer to opt-out of echo mode or
+specify receive capabilities. Setting this value to 0 indicates
+that the local system does not support receiving echo packets.
+This value is specified as an integer number of microseconds.
+    """
+    return self.__required_min_echo_rx_interval
+      
+  def _set_required_min_echo_rx_interval(self, v, load=False):
+    """
+    Setter method for required_min_echo_rx_interval, mapped from YANG variable /bfd/interfaces/interface/config/required_min_echo_rx_interval (uint32)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_required_min_echo_rx_interval is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_required_min_echo_rx_interval() directly.
+
+    YANG Description: The minimum interval between received BFD echo packets that
+this system should support. This value is advertised to the
+remote peer and allows the peer to opt-out of echo mode or
+specify receive capabilities. Setting this value to 0 indicates
+that the local system does not support receiving echo packets.
+This value is specified as an integer number of microseconds.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="required-min-echo-rx-interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint32', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """required_min_echo_rx_interval must be of a type compatible with uint32""",
+          'defined-type': "uint32",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="required-min-echo-rx-interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint32', is_config=True)""",
+        })
+
+    self.__required_min_echo_rx_interval = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_required_min_echo_rx_interval(self):
+    self.__required_min_echo_rx_interval = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="required-min-echo-rx-interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint32', is_config=True)
+
   id = __builtin__.property(_get_id, _set_id)
   enabled = __builtin__.property(_get_enabled, _set_enabled)
   local_address = __builtin__.property(_get_local_address, _set_local_address)
@@ -373,9 +469,11 @@ each member interface of the aggregated Ethernet bundle.
   required_minimum_receive = __builtin__.property(_get_required_minimum_receive, _set_required_minimum_receive)
   detection_multiplier = __builtin__.property(_get_detection_multiplier, _set_detection_multiplier)
   enable_per_member_link = __builtin__.property(_get_enable_per_member_link, _set_enable_per_member_link)
+  desired_min_echo_tx_interval = __builtin__.property(_get_desired_min_echo_tx_interval, _set_desired_min_echo_tx_interval)
+  required_min_echo_rx_interval = __builtin__.property(_get_required_min_echo_rx_interval, _set_required_min_echo_rx_interval)
 
 
-  _pyangbind_elements = OrderedDict([('id', id), ('enabled', enabled), ('local_address', local_address), ('desired_minimum_tx_interval', desired_minimum_tx_interval), ('required_minimum_receive', required_minimum_receive), ('detection_multiplier', detection_multiplier), ('enable_per_member_link', enable_per_member_link), ])
+  _pyangbind_elements = OrderedDict([('id', id), ('enabled', enabled), ('local_address', local_address), ('desired_minimum_tx_interval', desired_minimum_tx_interval), ('required_minimum_receive', required_minimum_receive), ('detection_multiplier', detection_multiplier), ('enable_per_member_link', enable_per_member_link), ('desired_min_echo_tx_interval', desired_min_echo_tx_interval), ('required_min_echo_rx_interval', required_min_echo_rx_interval), ])
 
 
 class yc_state_openconfig_bfd__bfd_interfaces_interface_state(PybindBase):
@@ -388,7 +486,7 @@ class yc_state_openconfig_bfd__bfd_interfaces_interface_state(PybindBase):
   YANG Description: Operational state parameters for BFD on the specified
 interface.
   """
-  __slots__ = ('_path_helper', '_extmethods', '__id','__enabled','__local_address','__desired_minimum_tx_interval','__required_minimum_receive','__detection_multiplier','__enable_per_member_link',)
+  __slots__ = ('_path_helper', '_extmethods', '__id','__enabled','__local_address','__desired_minimum_tx_interval','__required_minimum_receive','__detection_multiplier','__enable_per_member_link','__desired_min_echo_tx_interval','__required_min_echo_rx_interval',)
 
   _yang_name = 'state'
   _yang_namespace = 'http://openconfig.net/yang/bfd'
@@ -407,6 +505,8 @@ interface.
     self.__required_minimum_receive = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="required-minimum-receive", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint32', is_config=False)
     self.__detection_multiplier = YANGDynClass(base=RestrictedClassType(base_type=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..255']}, int_size=8), restriction_dict={'range': ['1..max']}), is_leaf=True, yang_name="detection-multiplier", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint8', is_config=False)
     self.__enable_per_member_link = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="enable-per-member-link", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='boolean', is_config=False)
+    self.__desired_min_echo_tx_interval = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="desired-min-echo-tx-interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint32', is_config=False)
+    self.__required_min_echo_rx_interval = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="required-min-echo-rx-interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint32', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -727,6 +827,100 @@ each member interface of the aggregated Ethernet bundle.
   def _unset_enable_per_member_link(self):
     self.__enable_per_member_link = YANGDynClass(base=YANGBool, default=YANGBool("false"), is_leaf=True, yang_name="enable-per-member-link", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='boolean', is_config=False)
 
+
+  def _get_desired_min_echo_tx_interval(self):
+    """
+    Getter method for desired_min_echo_tx_interval, mapped from YANG variable /bfd/interfaces/interface/state/desired_min_echo_tx_interval (uint32)
+
+    YANG Description: The minimum interval between transmission of BFD echo
+packets that the operator desires. This value controls the
+transmission rate of echo packets sent by the local system.
+Setting this value to 0 disables BFD echo mode on this
+interface. This value is specified as an integer number
+of microseconds.
+    """
+    return self.__desired_min_echo_tx_interval
+      
+  def _set_desired_min_echo_tx_interval(self, v, load=False):
+    """
+    Setter method for desired_min_echo_tx_interval, mapped from YANG variable /bfd/interfaces/interface/state/desired_min_echo_tx_interval (uint32)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_desired_min_echo_tx_interval is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_desired_min_echo_tx_interval() directly.
+
+    YANG Description: The minimum interval between transmission of BFD echo
+packets that the operator desires. This value controls the
+transmission rate of echo packets sent by the local system.
+Setting this value to 0 disables BFD echo mode on this
+interface. This value is specified as an integer number
+of microseconds.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="desired-min-echo-tx-interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint32', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """desired_min_echo_tx_interval must be of a type compatible with uint32""",
+          'defined-type': "uint32",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="desired-min-echo-tx-interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint32', is_config=False)""",
+        })
+
+    self.__desired_min_echo_tx_interval = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_desired_min_echo_tx_interval(self):
+    self.__desired_min_echo_tx_interval = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="desired-min-echo-tx-interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint32', is_config=False)
+
+
+  def _get_required_min_echo_rx_interval(self):
+    """
+    Getter method for required_min_echo_rx_interval, mapped from YANG variable /bfd/interfaces/interface/state/required_min_echo_rx_interval (uint32)
+
+    YANG Description: The minimum interval between received BFD echo packets that
+this system should support. This value is advertised to the
+remote peer and allows the peer to opt-out of echo mode or
+specify receive capabilities. Setting this value to 0 indicates
+that the local system does not support receiving echo packets.
+This value is specified as an integer number of microseconds.
+    """
+    return self.__required_min_echo_rx_interval
+      
+  def _set_required_min_echo_rx_interval(self, v, load=False):
+    """
+    Setter method for required_min_echo_rx_interval, mapped from YANG variable /bfd/interfaces/interface/state/required_min_echo_rx_interval (uint32)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_required_min_echo_rx_interval is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_required_min_echo_rx_interval() directly.
+
+    YANG Description: The minimum interval between received BFD echo packets that
+this system should support. This value is advertised to the
+remote peer and allows the peer to opt-out of echo mode or
+specify receive capabilities. Setting this value to 0 indicates
+that the local system does not support receiving echo packets.
+This value is specified as an integer number of microseconds.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="required-min-echo-rx-interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint32', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """required_min_echo_rx_interval must be of a type compatible with uint32""",
+          'defined-type': "uint32",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="required-min-echo-rx-interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint32', is_config=False)""",
+        })
+
+    self.__required_min_echo_rx_interval = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_required_min_echo_rx_interval(self):
+    self.__required_min_echo_rx_interval = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['0..4294967295']}, int_size=32), is_leaf=True, yang_name="required-min-echo-rx-interval", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/bfd', defining_module='openconfig-bfd', yang_type='uint32', is_config=False)
+
   id = __builtin__.property(_get_id)
   enabled = __builtin__.property(_get_enabled)
   local_address = __builtin__.property(_get_local_address)
@@ -734,9 +928,11 @@ each member interface of the aggregated Ethernet bundle.
   required_minimum_receive = __builtin__.property(_get_required_minimum_receive)
   detection_multiplier = __builtin__.property(_get_detection_multiplier)
   enable_per_member_link = __builtin__.property(_get_enable_per_member_link)
+  desired_min_echo_tx_interval = __builtin__.property(_get_desired_min_echo_tx_interval)
+  required_min_echo_rx_interval = __builtin__.property(_get_required_min_echo_rx_interval)
 
 
-  _pyangbind_elements = OrderedDict([('id', id), ('enabled', enabled), ('local_address', local_address), ('desired_minimum_tx_interval', desired_minimum_tx_interval), ('required_minimum_receive', required_minimum_receive), ('detection_multiplier', detection_multiplier), ('enable_per_member_link', enable_per_member_link), ])
+  _pyangbind_elements = OrderedDict([('id', id), ('enabled', enabled), ('local_address', local_address), ('desired_minimum_tx_interval', desired_minimum_tx_interval), ('required_minimum_receive', required_minimum_receive), ('detection_multiplier', detection_multiplier), ('enable_per_member_link', enable_per_member_link), ('desired_min_echo_tx_interval', desired_min_echo_tx_interval), ('required_min_echo_rx_interval', required_min_echo_rx_interval), ])
 
 
 class yc_config_openconfig_bfd__bfd_interfaces_interface_interface_ref_config(PybindBase):

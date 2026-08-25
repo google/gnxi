@@ -39,7 +39,7 @@ class yc_config_openconfig_lldp__lldp_config(PybindBase):
 
   YANG Description: Configuration data 
   """
-  __slots__ = ('_path_helper', '_extmethods', '__enabled','__hello_timer','__suppress_tlv_advertisement','__system_name','__system_description','__chassis_id','__chassis_id_type','__management_interface',)
+  __slots__ = ('_path_helper', '_extmethods', '__enabled','__hello_timer','__ttl','__suppress_tlv_advertisement','__system_name','__system_description','__chassis_id','__chassis_id_type','__management_interface',)
 
   _yang_name = 'config'
   _yang_namespace = 'http://openconfig.net/yang/lldp'
@@ -53,6 +53,7 @@ class yc_config_openconfig_lldp__lldp_config(PybindBase):
     self._extmethods = False
     self.__enabled = YANGDynClass(base=YANGBool, default=YANGBool("true"), is_leaf=True, yang_name="enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='boolean', is_config=True)
     self.__hello_timer = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="hello-timer", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='uint64', is_config=True)
+    self.__ttl = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="ttl", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='uint16', is_config=True)
     self.__suppress_tlv_advertisement = YANGDynClass(unique=True, base=TypedListType(allowed_type=RestrictedClassType(base_type=str, restriction_type="dict_key", restriction_arg={'CHASSIS_ID': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'openconfig-lldp-types:CHASSIS_ID': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'oc-lldp-types:CHASSIS_ID': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'PORT_ID': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'openconfig-lldp-types:PORT_ID': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'oc-lldp-types:PORT_ID': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'PORT_DESCRIPTION': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'openconfig-lldp-types:PORT_DESCRIPTION': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'oc-lldp-types:PORT_DESCRIPTION': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'SYSTEM_NAME': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'openconfig-lldp-types:SYSTEM_NAME': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'oc-lldp-types:SYSTEM_NAME': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'SYSTEM_DESCRIPTION': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'openconfig-lldp-types:SYSTEM_DESCRIPTION': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'oc-lldp-types:SYSTEM_DESCRIPTION': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'SYSTEM_CAPABILITIES': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'openconfig-lldp-types:SYSTEM_CAPABILITIES': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'oc-lldp-types:SYSTEM_CAPABILITIES': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'MANAGEMENT_ADDRESS': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'openconfig-lldp-types:MANAGEMENT_ADDRESS': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'oc-lldp-types:MANAGEMENT_ADDRESS': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}},)), is_leaf=False, yang_name="suppress-tlv-advertisement", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='identityref', is_config=True)
     self.__system_name = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_dict={'length': ['0..255']}), is_leaf=True, yang_name="system-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=True)
     self.__system_description = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_dict={'length': ['0..255']}), is_leaf=True, yang_name="system-description", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=True)
@@ -159,6 +160,57 @@ class yc_config_openconfig_lldp__lldp_config(PybindBase):
 
   def _unset_hello_timer(self):
     self.__hello_timer = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="hello-timer", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='uint64', is_config=True)
+
+
+  def _get_ttl(self):
+    """
+    Getter method for ttl, mapped from YANG variable /lldp/config/ttl (uint16)
+
+    YANG Description: Time-to-live value for LLDP PDUs transmitted by this system.
+This value is carried in the TTL TLV and indicates the time
+interval for which information contained in the LLDP PDU is
+valid at the receiving system.
+Note: The TTL value is independent from the hello-timer interval.
+The hello-timer controls how frequently LLDP PDUs are transmitted,
+while the TTL value indicates the validity duration of information
+contained in those PDUs at the receiving system.
+    """
+    return self.__ttl
+      
+  def _set_ttl(self, v, load=False):
+    """
+    Setter method for ttl, mapped from YANG variable /lldp/config/ttl (uint16)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_ttl is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_ttl() directly.
+
+    YANG Description: Time-to-live value for LLDP PDUs transmitted by this system.
+This value is carried in the TTL TLV and indicates the time
+interval for which information contained in the LLDP PDU is
+valid at the receiving system.
+Note: The TTL value is independent from the hello-timer interval.
+The hello-timer controls how frequently LLDP PDUs are transmitted,
+while the TTL value indicates the validity duration of information
+contained in those PDUs at the receiving system.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="ttl", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='uint16', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """ttl must be of a type compatible with uint16""",
+          'defined-type': "uint16",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="ttl", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='uint16', is_config=True)""",
+        })
+
+    self.__ttl = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_ttl(self):
+    self.__ttl = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="ttl", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='uint16', is_config=True)
 
 
   def _get_suppress_tlv_advertisement(self):
@@ -424,6 +476,7 @@ choose which interface is utilized.
 
   enabled = __builtin__.property(_get_enabled, _set_enabled)
   hello_timer = __builtin__.property(_get_hello_timer, _set_hello_timer)
+  ttl = __builtin__.property(_get_ttl, _set_ttl)
   suppress_tlv_advertisement = __builtin__.property(_get_suppress_tlv_advertisement, _set_suppress_tlv_advertisement)
   system_name = __builtin__.property(_get_system_name, _set_system_name)
   system_description = __builtin__.property(_get_system_description, _set_system_description)
@@ -432,7 +485,7 @@ choose which interface is utilized.
   management_interface = __builtin__.property(_get_management_interface, _set_management_interface)
 
 
-  _pyangbind_elements = OrderedDict([('enabled', enabled), ('hello_timer', hello_timer), ('suppress_tlv_advertisement', suppress_tlv_advertisement), ('system_name', system_name), ('system_description', system_description), ('chassis_id', chassis_id), ('chassis_id_type', chassis_id_type), ('management_interface', management_interface), ])
+  _pyangbind_elements = OrderedDict([('enabled', enabled), ('hello_timer', hello_timer), ('ttl', ttl), ('suppress_tlv_advertisement', suppress_tlv_advertisement), ('system_name', system_name), ('system_description', system_description), ('chassis_id', chassis_id), ('chassis_id_type', chassis_id_type), ('management_interface', management_interface), ])
 
 
 class yc_counters_openconfig_lldp__lldp_state_counters(PybindBase):
@@ -850,7 +903,7 @@ class yc_state_openconfig_lldp__lldp_state(PybindBase):
 
   YANG Description: Operational state data 
   """
-  __slots__ = ('_path_helper', '_extmethods', '__enabled','__hello_timer','__suppress_tlv_advertisement','__system_name','__system_description','__chassis_id','__chassis_id_type','__management_interface','__counters',)
+  __slots__ = ('_path_helper', '_extmethods', '__enabled','__hello_timer','__ttl','__suppress_tlv_advertisement','__system_name','__system_description','__chassis_id','__chassis_id_type','__management_interface','__counters',)
 
   _yang_name = 'state'
   _yang_namespace = 'http://openconfig.net/yang/lldp'
@@ -864,6 +917,7 @@ class yc_state_openconfig_lldp__lldp_state(PybindBase):
     self._extmethods = False
     self.__enabled = YANGDynClass(base=YANGBool, default=YANGBool("true"), is_leaf=True, yang_name="enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='boolean', is_config=False)
     self.__hello_timer = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="hello-timer", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='uint64', is_config=False)
+    self.__ttl = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="ttl", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='uint16', is_config=False)
     self.__suppress_tlv_advertisement = YANGDynClass(unique=True, base=TypedListType(allowed_type=RestrictedClassType(base_type=str, restriction_type="dict_key", restriction_arg={'CHASSIS_ID': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'openconfig-lldp-types:CHASSIS_ID': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'oc-lldp-types:CHASSIS_ID': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'PORT_ID': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'openconfig-lldp-types:PORT_ID': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'oc-lldp-types:PORT_ID': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'PORT_DESCRIPTION': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'openconfig-lldp-types:PORT_DESCRIPTION': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'oc-lldp-types:PORT_DESCRIPTION': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'SYSTEM_NAME': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'openconfig-lldp-types:SYSTEM_NAME': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'oc-lldp-types:SYSTEM_NAME': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'SYSTEM_DESCRIPTION': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'openconfig-lldp-types:SYSTEM_DESCRIPTION': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'oc-lldp-types:SYSTEM_DESCRIPTION': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'SYSTEM_CAPABILITIES': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'openconfig-lldp-types:SYSTEM_CAPABILITIES': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'oc-lldp-types:SYSTEM_CAPABILITIES': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'MANAGEMENT_ADDRESS': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'openconfig-lldp-types:MANAGEMENT_ADDRESS': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}, 'oc-lldp-types:MANAGEMENT_ADDRESS': {'@module': 'openconfig-lldp-types', '@namespace': 'http://openconfig.net/yang/lldp/types'}},)), is_leaf=False, yang_name="suppress-tlv-advertisement", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='identityref', is_config=False)
     self.__system_name = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_dict={'length': ['0..255']}), is_leaf=True, yang_name="system-name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=False)
     self.__system_description = YANGDynClass(base=RestrictedClassType(base_type=str, restriction_dict={'length': ['0..255']}), is_leaf=True, yang_name="system-description", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=False)
@@ -971,6 +1025,57 @@ class yc_state_openconfig_lldp__lldp_state(PybindBase):
 
   def _unset_hello_timer(self):
     self.__hello_timer = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="hello-timer", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='uint64', is_config=False)
+
+
+  def _get_ttl(self):
+    """
+    Getter method for ttl, mapped from YANG variable /lldp/state/ttl (uint16)
+
+    YANG Description: Time-to-live value for LLDP PDUs transmitted by this system.
+This value is carried in the TTL TLV and indicates the time
+interval for which information contained in the LLDP PDU is
+valid at the receiving system.
+Note: The TTL value is independent from the hello-timer interval.
+The hello-timer controls how frequently LLDP PDUs are transmitted,
+while the TTL value indicates the validity duration of information
+contained in those PDUs at the receiving system.
+    """
+    return self.__ttl
+      
+  def _set_ttl(self, v, load=False):
+    """
+    Setter method for ttl, mapped from YANG variable /lldp/state/ttl (uint16)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_ttl is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_ttl() directly.
+
+    YANG Description: Time-to-live value for LLDP PDUs transmitted by this system.
+This value is carried in the TTL TLV and indicates the time
+interval for which information contained in the LLDP PDU is
+valid at the receiving system.
+Note: The TTL value is independent from the hello-timer interval.
+The hello-timer controls how frequently LLDP PDUs are transmitted,
+while the TTL value indicates the validity duration of information
+contained in those PDUs at the receiving system.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="ttl", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='uint16', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """ttl must be of a type compatible with uint16""",
+          'defined-type': "uint16",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="ttl", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='uint16', is_config=False)""",
+        })
+
+    self.__ttl = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_ttl(self):
+    self.__ttl = YANGDynClass(base=RestrictedClassType(base_type=int, restriction_dict={'range': ['0..65535']},int_size=16), is_leaf=True, yang_name="ttl", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='uint16', is_config=False)
 
 
   def _get_suppress_tlv_advertisement(self):
@@ -1273,6 +1378,7 @@ choose which interface is utilized.
 
   enabled = __builtin__.property(_get_enabled)
   hello_timer = __builtin__.property(_get_hello_timer)
+  ttl = __builtin__.property(_get_ttl)
   suppress_tlv_advertisement = __builtin__.property(_get_suppress_tlv_advertisement)
   system_name = __builtin__.property(_get_system_name)
   system_description = __builtin__.property(_get_system_description)
@@ -1282,7 +1388,7 @@ choose which interface is utilized.
   counters = __builtin__.property(_get_counters)
 
 
-  _pyangbind_elements = OrderedDict([('enabled', enabled), ('hello_timer', hello_timer), ('suppress_tlv_advertisement', suppress_tlv_advertisement), ('system_name', system_name), ('system_description', system_description), ('chassis_id', chassis_id), ('chassis_id_type', chassis_id_type), ('management_interface', management_interface), ('counters', counters), ])
+  _pyangbind_elements = OrderedDict([('enabled', enabled), ('hello_timer', hello_timer), ('ttl', ttl), ('suppress_tlv_advertisement', suppress_tlv_advertisement), ('system_name', system_name), ('system_description', system_description), ('chassis_id', chassis_id), ('chassis_id_type', chassis_id_type), ('management_interface', management_interface), ('counters', counters), ])
 
 
 class yc_state_openconfig_lldp__lldp_mgmt_addresses_mgmt_address_state(PybindBase):
@@ -1703,7 +1809,7 @@ class yc_config_openconfig_lldp__lldp_interfaces_interface_config(PybindBase):
 
   YANG Description: Configuration data for LLDP on each interface
   """
-  __slots__ = ('_path_helper', '_extmethods', '__name','__enabled',)
+  __slots__ = ('_path_helper', '_extmethods', '__name','__enabled','__port_description','__custom_tlv_names',)
 
   _yang_name = 'config'
   _yang_namespace = 'http://openconfig.net/yang/lldp'
@@ -1717,6 +1823,8 @@ class yc_config_openconfig_lldp__lldp_interfaces_interface_config(PybindBase):
     self._extmethods = False
     self.__name = YANGDynClass(base=str, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='oc-if:base-interface-ref', is_config=True)
     self.__enabled = YANGDynClass(base=YANGBool, default=YANGBool("true"), is_leaf=True, yang_name="enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='boolean', is_config=True)
+    self.__port_description = YANGDynClass(base=str, is_leaf=True, yang_name="port-description", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=True)
+    self.__custom_tlv_names = YANGDynClass(unique=True, base=TypedListType(allowed_type=str), is_leaf=False, yang_name="custom-tlv-names", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='leafref', is_config=True)
 
     load = kwargs.pop("load", None)
     if args:
@@ -1818,11 +1926,113 @@ class yc_config_openconfig_lldp__lldp_interfaces_interface_config(PybindBase):
   def _unset_enabled(self):
     self.__enabled = YANGDynClass(base=YANGBool, default=YANGBool("true"), is_leaf=True, yang_name="enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='boolean', is_config=True)
 
+
+  def _get_port_description(self):
+    """
+    Getter method for port_description, mapped from YANG variable /lldp/interfaces/interface/config/port_description (string)
+
+    YANG Description: The binary string advertised in the 'Port Description' TLV
+(Type 3) of LLDP.
+When this leaf is populated, its value must be used as the
+advertised port description, overriding any system-generated
+strings or the generic interface description found in
+/interfaces/interface/config/description.
+
+If this leaf is not populated, the implementation
+should default to advertising the value of
+/interfaces/interface/state/description.
+    """
+    return self.__port_description
+      
+  def _set_port_description(self, v, load=False):
+    """
+    Setter method for port_description, mapped from YANG variable /lldp/interfaces/interface/config/port_description (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_port_description is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_port_description() directly.
+
+    YANG Description: The binary string advertised in the 'Port Description' TLV
+(Type 3) of LLDP.
+When this leaf is populated, its value must be used as the
+advertised port description, overriding any system-generated
+strings or the generic interface description found in
+/interfaces/interface/config/description.
+
+If this leaf is not populated, the implementation
+should default to advertising the value of
+/interfaces/interface/state/description.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="port-description", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """port_description must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="port-description", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=True)""",
+        })
+
+    self.__port_description = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_port_description(self):
+    self.__port_description = YANGDynClass(base=str, is_leaf=True, yang_name="port-description", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=True)
+
+
+  def _get_custom_tlv_names(self):
+    """
+    Getter method for custom_tlv_names, mapped from YANG variable /lldp/interfaces/interface/config/custom_tlv_names (leafref)
+
+    YANG Description: References to global custom TLV names to be advertised on this
+interface. If a custom TLV name is present in this list, the
+corresponding custom TLV will be advertised in LLDP PDUs transmitted
+on this interface. If a custom TLV name is not present in this list,
+it will not be advertised on this interface.
+    """
+    return self.__custom_tlv_names
+      
+  def _set_custom_tlv_names(self, v, load=False):
+    """
+    Setter method for custom_tlv_names, mapped from YANG variable /lldp/interfaces/interface/config/custom_tlv_names (leafref)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_custom_tlv_names is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_custom_tlv_names() directly.
+
+    YANG Description: References to global custom TLV names to be advertised on this
+interface. If a custom TLV name is present in this list, the
+corresponding custom TLV will be advertised in LLDP PDUs transmitted
+on this interface. If a custom TLV name is not present in this list,
+it will not be advertised on this interface.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,unique=True, base=TypedListType(allowed_type=str), is_leaf=False, yang_name="custom-tlv-names", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='leafref', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """custom_tlv_names must be of a type compatible with leafref""",
+          'defined-type': "leafref",
+          'generated-type': """YANGDynClass(unique=True, base=TypedListType(allowed_type=str), is_leaf=False, yang_name="custom-tlv-names", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='leafref', is_config=True)""",
+        })
+
+    self.__custom_tlv_names = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_custom_tlv_names(self):
+    self.__custom_tlv_names = YANGDynClass(unique=True, base=TypedListType(allowed_type=str), is_leaf=False, yang_name="custom-tlv-names", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='leafref', is_config=True)
+
   name = __builtin__.property(_get_name, _set_name)
   enabled = __builtin__.property(_get_enabled, _set_enabled)
+  port_description = __builtin__.property(_get_port_description, _set_port_description)
+  custom_tlv_names = __builtin__.property(_get_custom_tlv_names, _set_custom_tlv_names)
 
 
-  _pyangbind_elements = OrderedDict([('name', name), ('enabled', enabled), ])
+  _pyangbind_elements = OrderedDict([('name', name), ('enabled', enabled), ('port_description', port_description), ('custom_tlv_names', custom_tlv_names), ])
 
 
 class yc_counters_openconfig_lldp__lldp_interfaces_interface_state_counters(PybindBase):
@@ -2203,7 +2413,7 @@ class yc_state_openconfig_lldp__lldp_interfaces_interface_state(PybindBase):
 
   YANG Description: Operational state data 
   """
-  __slots__ = ('_path_helper', '_extmethods', '__name','__enabled','__counters',)
+  __slots__ = ('_path_helper', '_extmethods', '__name','__enabled','__port_description','__custom_tlv_names','__counters','__last_packet_transmitted','__last_good_packet_received',)
 
   _yang_name = 'state'
   _yang_namespace = 'http://openconfig.net/yang/lldp'
@@ -2217,7 +2427,11 @@ class yc_state_openconfig_lldp__lldp_interfaces_interface_state(PybindBase):
     self._extmethods = False
     self.__name = YANGDynClass(base=str, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='oc-if:base-interface-ref', is_config=False)
     self.__enabled = YANGDynClass(base=YANGBool, default=YANGBool("true"), is_leaf=True, yang_name="enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='boolean', is_config=False)
+    self.__port_description = YANGDynClass(base=str, is_leaf=True, yang_name="port-description", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=False)
+    self.__custom_tlv_names = YANGDynClass(unique=True, base=TypedListType(allowed_type=str), is_leaf=False, yang_name="custom-tlv-names", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='leafref', is_config=False)
     self.__counters = YANGDynClass(base=yc_counters_openconfig_lldp__lldp_interfaces_interface_state_counters, is_container='container', yang_name="counters", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='container', is_config=False)
+    self.__last_packet_transmitted = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="last-packet-transmitted", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='oc-types:timeticks64', is_config=False)
+    self.__last_good_packet_received = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="last-good-packet-received", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='oc-types:timeticks64', is_config=False)
 
     load = kwargs.pop("load", None)
     if args:
@@ -2320,6 +2534,106 @@ class yc_state_openconfig_lldp__lldp_interfaces_interface_state(PybindBase):
     self.__enabled = YANGDynClass(base=YANGBool, default=YANGBool("true"), is_leaf=True, yang_name="enabled", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='boolean', is_config=False)
 
 
+  def _get_port_description(self):
+    """
+    Getter method for port_description, mapped from YANG variable /lldp/interfaces/interface/state/port_description (string)
+
+    YANG Description: The binary string advertised in the 'Port Description' TLV
+(Type 3) of LLDP.
+When this leaf is populated, its value must be used as the
+advertised port description, overriding any system-generated
+strings or the generic interface description found in
+/interfaces/interface/config/description.
+
+If this leaf is not populated, the implementation
+should default to advertising the value of
+/interfaces/interface/state/description.
+    """
+    return self.__port_description
+      
+  def _set_port_description(self, v, load=False):
+    """
+    Setter method for port_description, mapped from YANG variable /lldp/interfaces/interface/state/port_description (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_port_description is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_port_description() directly.
+
+    YANG Description: The binary string advertised in the 'Port Description' TLV
+(Type 3) of LLDP.
+When this leaf is populated, its value must be used as the
+advertised port description, overriding any system-generated
+strings or the generic interface description found in
+/interfaces/interface/config/description.
+
+If this leaf is not populated, the implementation
+should default to advertising the value of
+/interfaces/interface/state/description.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="port-description", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """port_description must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="port-description", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=False)""",
+        })
+
+    self.__port_description = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_port_description(self):
+    self.__port_description = YANGDynClass(base=str, is_leaf=True, yang_name="port-description", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=False)
+
+
+  def _get_custom_tlv_names(self):
+    """
+    Getter method for custom_tlv_names, mapped from YANG variable /lldp/interfaces/interface/state/custom_tlv_names (leafref)
+
+    YANG Description: References to global custom TLV names to be advertised on this
+interface. If a custom TLV name is present in this list, the
+corresponding custom TLV will be advertised in LLDP PDUs transmitted
+on this interface. If a custom TLV name is not present in this list,
+it will not be advertised on this interface.
+    """
+    return self.__custom_tlv_names
+      
+  def _set_custom_tlv_names(self, v, load=False):
+    """
+    Setter method for custom_tlv_names, mapped from YANG variable /lldp/interfaces/interface/state/custom_tlv_names (leafref)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_custom_tlv_names is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_custom_tlv_names() directly.
+
+    YANG Description: References to global custom TLV names to be advertised on this
+interface. If a custom TLV name is present in this list, the
+corresponding custom TLV will be advertised in LLDP PDUs transmitted
+on this interface. If a custom TLV name is not present in this list,
+it will not be advertised on this interface.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,unique=True, base=TypedListType(allowed_type=str), is_leaf=False, yang_name="custom-tlv-names", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='leafref', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """custom_tlv_names must be of a type compatible with leafref""",
+          'defined-type': "leafref",
+          'generated-type': """YANGDynClass(unique=True, base=TypedListType(allowed_type=str), is_leaf=False, yang_name="custom-tlv-names", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='leafref', is_config=False)""",
+        })
+
+    self.__custom_tlv_names = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_custom_tlv_names(self):
+    self.__custom_tlv_names = YANGDynClass(unique=True, base=TypedListType(allowed_type=str), is_leaf=False, yang_name="custom-tlv-names", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='leafref', is_config=False)
+
+
   def _get_counters(self):
     """
     Getter method for counters, mapped from YANG variable /lldp/interfaces/interface/state/counters (container)
@@ -2356,12 +2670,90 @@ class yc_state_openconfig_lldp__lldp_interfaces_interface_state(PybindBase):
   def _unset_counters(self):
     self.__counters = YANGDynClass(base=yc_counters_openconfig_lldp__lldp_interfaces_interface_state_counters, is_container='container', yang_name="counters", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='container', is_config=False)
 
+
+  def _get_last_packet_transmitted(self):
+    """
+    Getter method for last_packet_transmitted, mapped from YANG variable /lldp/interfaces/interface/state/last_packet_transmitted (oc-types:timeticks64)
+
+    YANG Description: Timestamp of the last LLDP packet transmitted on this interface.
+    """
+    return self.__last_packet_transmitted
+      
+  def _set_last_packet_transmitted(self, v, load=False):
+    """
+    Setter method for last_packet_transmitted, mapped from YANG variable /lldp/interfaces/interface/state/last_packet_transmitted (oc-types:timeticks64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_last_packet_transmitted is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_last_packet_transmitted() directly.
+
+    YANG Description: Timestamp of the last LLDP packet transmitted on this interface.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="last-packet-transmitted", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='oc-types:timeticks64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """last_packet_transmitted must be of a type compatible with oc-types:timeticks64""",
+          'defined-type': "oc-types:timeticks64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="last-packet-transmitted", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='oc-types:timeticks64', is_config=False)""",
+        })
+
+    self.__last_packet_transmitted = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_last_packet_transmitted(self):
+    self.__last_packet_transmitted = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="last-packet-transmitted", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='oc-types:timeticks64', is_config=False)
+
+
+  def _get_last_good_packet_received(self):
+    """
+    Getter method for last_good_packet_received, mapped from YANG variable /lldp/interfaces/interface/state/last_good_packet_received (oc-types:timeticks64)
+
+    YANG Description: Timestamp of the last valid LLDP packet received on this interface.
+    """
+    return self.__last_good_packet_received
+      
+  def _set_last_good_packet_received(self, v, load=False):
+    """
+    Setter method for last_good_packet_received, mapped from YANG variable /lldp/interfaces/interface/state/last_good_packet_received (oc-types:timeticks64)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_last_good_packet_received is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_last_good_packet_received() directly.
+
+    YANG Description: Timestamp of the last valid LLDP packet received on this interface.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="last-good-packet-received", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='oc-types:timeticks64', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """last_good_packet_received must be of a type compatible with oc-types:timeticks64""",
+          'defined-type': "oc-types:timeticks64",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="last-good-packet-received", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='oc-types:timeticks64', is_config=False)""",
+        })
+
+    self.__last_good_packet_received = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_last_good_packet_received(self):
+    self.__last_good_packet_received = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range':  ['0..18446744073709551615']}, int_size=64), is_leaf=True, yang_name="last-good-packet-received", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='oc-types:timeticks64', is_config=False)
+
   name = __builtin__.property(_get_name)
   enabled = __builtin__.property(_get_enabled)
+  port_description = __builtin__.property(_get_port_description)
+  custom_tlv_names = __builtin__.property(_get_custom_tlv_names)
   counters = __builtin__.property(_get_counters)
+  last_packet_transmitted = __builtin__.property(_get_last_packet_transmitted)
+  last_good_packet_received = __builtin__.property(_get_last_good_packet_received)
 
 
-  _pyangbind_elements = OrderedDict([('name', name), ('enabled', enabled), ('counters', counters), ])
+  _pyangbind_elements = OrderedDict([('name', name), ('enabled', enabled), ('port_description', port_description), ('custom_tlv_names', custom_tlv_names), ('counters', counters), ('last_packet_transmitted', last_packet_transmitted), ('last_good_packet_received', last_good_packet_received), ])
 
 
 class yc_state_openconfig_lldp__lldp_interfaces_interface_neighbors_neighbor_state(PybindBase):
@@ -3467,7 +3859,7 @@ class yc_state_openconfig_lldp__lldp_interfaces_interface_neighbors_neighbor_cus
 
   YANG Description: Operational state data 
   """
-  __slots__ = ('_path_helper', '_extmethods', '__type','__oui','__oui_subtype','__value',)
+  __slots__ = ('_path_helper', '_extmethods', '__name','__type','__oui','__oui_subtype','__value',)
 
   _yang_name = 'state'
   _yang_namespace = 'http://openconfig.net/yang/lldp'
@@ -3479,6 +3871,7 @@ class yc_state_openconfig_lldp__lldp_interfaces_interface_neighbors_neighbor_cus
     self._path_helper = False
 
     self._extmethods = False
+    self.__name = YANGDynClass(base=str, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=False)
     self.__type = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['-2147483648..2147483647']}, int_size=32), is_leaf=True, yang_name="type", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='int32', is_config=False)
     self.__oui = YANGDynClass(base=str, is_leaf=True, yang_name="oui", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=False)
     self.__oui_subtype = YANGDynClass(base=str, is_leaf=True, yang_name="oui-subtype", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=False)
@@ -3510,6 +3903,49 @@ class yc_state_openconfig_lldp__lldp_interfaces_interface_neighbors_neighbor_cus
       return self._parent._path()+[self._yang_name]
     else:
       return ['lldp', 'interfaces', 'interface', 'neighbors', 'neighbor', 'custom-tlvs', 'tlv', 'state']
+
+  def _get_name(self):
+    """
+    Getter method for name, mapped from YANG variable /lldp/interfaces/interface/neighbors/neighbor/custom_tlvs/tlv/state/name (string)
+
+    YANG Description: Administrative name of the custom TLV for human identification
+and reference purposes, allowing operators to define a template
+once at the global level and then reference it by name elsewhere
+rather than by their numeric type, OUI, and subtype values.
+    """
+    return self.__name
+      
+  def _set_name(self, v, load=False):
+    """
+    Setter method for name, mapped from YANG variable /lldp/interfaces/interface/neighbors/neighbor/custom_tlvs/tlv/state/name (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_name is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_name() directly.
+
+    YANG Description: Administrative name of the custom TLV for human identification
+and reference purposes, allowing operators to define a template
+once at the global level and then reference it by name elsewhere
+rather than by their numeric type, OUI, and subtype values.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """name must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=False)""",
+        })
+
+    self.__name = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_name(self):
+    self.__name = YANGDynClass(base=str, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=False)
+
 
   def _get_type(self):
     """
@@ -3674,13 +4110,14 @@ instance-specific information for this TLV.
   def _unset_value(self):
     self.__value = YANGDynClass(base=YANGBinary, is_leaf=True, yang_name="value", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='binary', is_config=False)
 
+  name = __builtin__.property(_get_name)
   type = __builtin__.property(_get_type)
   oui = __builtin__.property(_get_oui)
   oui_subtype = __builtin__.property(_get_oui_subtype)
   value = __builtin__.property(_get_value)
 
 
-  _pyangbind_elements = OrderedDict([('type', type), ('oui', oui), ('oui_subtype', oui_subtype), ('value', value), ])
+  _pyangbind_elements = OrderedDict([('name', name), ('type', type), ('oui', oui), ('oui_subtype', oui_subtype), ('value', value), ])
 
 
 class yc_tlv_openconfig_lldp__lldp_interfaces_interface_neighbors_neighbor_custom_tlvs_tlv(PybindBase):
@@ -5026,6 +5463,816 @@ class yc_interfaces_openconfig_lldp__lldp_interfaces(PybindBase):
   _pyangbind_elements = OrderedDict([('interface', interface), ])
 
 
+class yc_config_openconfig_lldp__lldp_custom_tlvs_tlv_config(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-lldp - based on the path /lldp/custom-tlvs/tlv/config. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Configuration data for global custom TLVs
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__name','__type','__oui','__oui_subtype','__value',)
+
+  _yang_name = 'config'
+  _yang_namespace = 'http://openconfig.net/yang/lldp'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__name = YANGDynClass(base=str, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=True)
+    self.__type = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['-2147483648..2147483647']}, int_size=32), is_leaf=True, yang_name="type", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='int32', is_config=True)
+    self.__oui = YANGDynClass(base=str, is_leaf=True, yang_name="oui", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=True)
+    self.__oui_subtype = YANGDynClass(base=str, is_leaf=True, yang_name="oui-subtype", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=True)
+    self.__value = YANGDynClass(base=YANGBinary, is_leaf=True, yang_name="value", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='binary', is_config=True)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['lldp', 'custom-tlvs', 'tlv', 'config']
+
+  def _get_name(self):
+    """
+    Getter method for name, mapped from YANG variable /lldp/custom_tlvs/tlv/config/name (string)
+
+    YANG Description: Administrative name of the custom TLV for human identification
+and reference purposes, allowing operators to define a template
+once at the global level and then reference it by name elsewhere
+rather than by their numeric type, OUI, and subtype values.
+    """
+    return self.__name
+      
+  def _set_name(self, v, load=False):
+    """
+    Setter method for name, mapped from YANG variable /lldp/custom_tlvs/tlv/config/name (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_name is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_name() directly.
+
+    YANG Description: Administrative name of the custom TLV for human identification
+and reference purposes, allowing operators to define a template
+once at the global level and then reference it by name elsewhere
+rather than by their numeric type, OUI, and subtype values.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """name must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=True)""",
+        })
+
+    self.__name = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_name(self):
+    self.__name = YANGDynClass(base=str, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=True)
+
+
+  def _get_type(self):
+    """
+    Getter method for type, mapped from YANG variable /lldp/custom_tlvs/tlv/config/type (int32)
+
+    YANG Description: The integer value identifying the type of information
+contained in the value field.
+    """
+    return self.__type
+      
+  def _set_type(self, v, load=False):
+    """
+    Setter method for type, mapped from YANG variable /lldp/custom_tlvs/tlv/config/type (int32)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_type is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_type() directly.
+
+    YANG Description: The integer value identifying the type of information
+contained in the value field.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range': ['-2147483648..2147483647']}, int_size=32), is_leaf=True, yang_name="type", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='int32', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """type must be of a type compatible with int32""",
+          'defined-type': "int32",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['-2147483648..2147483647']}, int_size=32), is_leaf=True, yang_name="type", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='int32', is_config=True)""",
+        })
+
+    self.__type = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_type(self):
+    self.__type = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['-2147483648..2147483647']}, int_size=32), is_leaf=True, yang_name="type", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='int32', is_config=True)
+
+
+  def _get_oui(self):
+    """
+    Getter method for oui, mapped from YANG variable /lldp/custom_tlvs/tlv/config/oui (string)
+
+    YANG Description: The organizationally unique identifier field shall contain
+the organization's OUI as defined in Clause 9 of IEEE Std
+802. The high-order octet is 0 and the low-order 3 octets
+are the SMI Network Management Private Enterprise Code of
+the Vendor in network byte order, as defined in the
+'Assigned Numbers' RFC [RFC3232].
+    """
+    return self.__oui
+      
+  def _set_oui(self, v, load=False):
+    """
+    Setter method for oui, mapped from YANG variable /lldp/custom_tlvs/tlv/config/oui (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_oui is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_oui() directly.
+
+    YANG Description: The organizationally unique identifier field shall contain
+the organization's OUI as defined in Clause 9 of IEEE Std
+802. The high-order octet is 0 and the low-order 3 octets
+are the SMI Network Management Private Enterprise Code of
+the Vendor in network byte order, as defined in the
+'Assigned Numbers' RFC [RFC3232].
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="oui", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """oui must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="oui", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=True)""",
+        })
+
+    self.__oui = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_oui(self):
+    self.__oui = YANGDynClass(base=str, is_leaf=True, yang_name="oui", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=True)
+
+
+  def _get_oui_subtype(self):
+    """
+    Getter method for oui_subtype, mapped from YANG variable /lldp/custom_tlvs/tlv/config/oui_subtype (string)
+
+    YANG Description: The organizationally defined subtype field shall contain a
+unique subtype value assigned by the defining organization.
+    """
+    return self.__oui_subtype
+      
+  def _set_oui_subtype(self, v, load=False):
+    """
+    Setter method for oui_subtype, mapped from YANG variable /lldp/custom_tlvs/tlv/config/oui_subtype (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_oui_subtype is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_oui_subtype() directly.
+
+    YANG Description: The organizationally defined subtype field shall contain a
+unique subtype value assigned by the defining organization.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="oui-subtype", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """oui_subtype must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="oui-subtype", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=True)""",
+        })
+
+    self.__oui_subtype = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_oui_subtype(self):
+    self.__oui_subtype = YANGDynClass(base=str, is_leaf=True, yang_name="oui-subtype", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=True)
+
+
+  def _get_value(self):
+    """
+    Getter method for value, mapped from YANG variable /lldp/custom_tlvs/tlv/config/value (binary)
+
+    YANG Description: A variable-length octet-string containing the
+instance-specific information for this TLV.
+    """
+    return self.__value
+      
+  def _set_value(self, v, load=False):
+    """
+    Setter method for value, mapped from YANG variable /lldp/custom_tlvs/tlv/config/value (binary)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_value is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_value() directly.
+
+    YANG Description: A variable-length octet-string containing the
+instance-specific information for this TLV.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGBinary, is_leaf=True, yang_name="value", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='binary', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """value must be of a type compatible with binary""",
+          'defined-type': "binary",
+          'generated-type': """YANGDynClass(base=YANGBinary, is_leaf=True, yang_name="value", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='binary', is_config=True)""",
+        })
+
+    self.__value = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_value(self):
+    self.__value = YANGDynClass(base=YANGBinary, is_leaf=True, yang_name="value", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='binary', is_config=True)
+
+  name = __builtin__.property(_get_name, _set_name)
+  type = __builtin__.property(_get_type, _set_type)
+  oui = __builtin__.property(_get_oui, _set_oui)
+  oui_subtype = __builtin__.property(_get_oui_subtype, _set_oui_subtype)
+  value = __builtin__.property(_get_value, _set_value)
+
+
+  _pyangbind_elements = OrderedDict([('name', name), ('type', type), ('oui', oui), ('oui_subtype', oui_subtype), ('value', value), ])
+
+
+class yc_state_openconfig_lldp__lldp_custom_tlvs_tlv_state(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-lldp - based on the path /lldp/custom-tlvs/tlv/state. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Operational state data for global custom TLVs
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__name','__type','__oui','__oui_subtype','__value',)
+
+  _yang_name = 'state'
+  _yang_namespace = 'http://openconfig.net/yang/lldp'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__name = YANGDynClass(base=str, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=False)
+    self.__type = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['-2147483648..2147483647']}, int_size=32), is_leaf=True, yang_name="type", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='int32', is_config=False)
+    self.__oui = YANGDynClass(base=str, is_leaf=True, yang_name="oui", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=False)
+    self.__oui_subtype = YANGDynClass(base=str, is_leaf=True, yang_name="oui-subtype", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=False)
+    self.__value = YANGDynClass(base=YANGBinary, is_leaf=True, yang_name="value", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='binary', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['lldp', 'custom-tlvs', 'tlv', 'state']
+
+  def _get_name(self):
+    """
+    Getter method for name, mapped from YANG variable /lldp/custom_tlvs/tlv/state/name (string)
+
+    YANG Description: Administrative name of the custom TLV for human identification
+and reference purposes, allowing operators to define a template
+once at the global level and then reference it by name elsewhere
+rather than by their numeric type, OUI, and subtype values.
+    """
+    return self.__name
+      
+  def _set_name(self, v, load=False):
+    """
+    Setter method for name, mapped from YANG variable /lldp/custom_tlvs/tlv/state/name (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_name is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_name() directly.
+
+    YANG Description: Administrative name of the custom TLV for human identification
+and reference purposes, allowing operators to define a template
+once at the global level and then reference it by name elsewhere
+rather than by their numeric type, OUI, and subtype values.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """name must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=False)""",
+        })
+
+    self.__name = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_name(self):
+    self.__name = YANGDynClass(base=str, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=False)
+
+
+  def _get_type(self):
+    """
+    Getter method for type, mapped from YANG variable /lldp/custom_tlvs/tlv/state/type (int32)
+
+    YANG Description: The integer value identifying the type of information
+contained in the value field.
+    """
+    return self.__type
+      
+  def _set_type(self, v, load=False):
+    """
+    Setter method for type, mapped from YANG variable /lldp/custom_tlvs/tlv/state/type (int32)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_type is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_type() directly.
+
+    YANG Description: The integer value identifying the type of information
+contained in the value field.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=RestrictedClassType(base_type=long, restriction_dict={'range': ['-2147483648..2147483647']}, int_size=32), is_leaf=True, yang_name="type", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='int32', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """type must be of a type compatible with int32""",
+          'defined-type': "int32",
+          'generated-type': """YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['-2147483648..2147483647']}, int_size=32), is_leaf=True, yang_name="type", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='int32', is_config=False)""",
+        })
+
+    self.__type = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_type(self):
+    self.__type = YANGDynClass(base=RestrictedClassType(base_type=long, restriction_dict={'range': ['-2147483648..2147483647']}, int_size=32), is_leaf=True, yang_name="type", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='int32', is_config=False)
+
+
+  def _get_oui(self):
+    """
+    Getter method for oui, mapped from YANG variable /lldp/custom_tlvs/tlv/state/oui (string)
+
+    YANG Description: The organizationally unique identifier field shall contain
+the organization's OUI as defined in Clause 9 of IEEE Std
+802. The high-order octet is 0 and the low-order 3 octets
+are the SMI Network Management Private Enterprise Code of
+the Vendor in network byte order, as defined in the
+'Assigned Numbers' RFC [RFC3232].
+    """
+    return self.__oui
+      
+  def _set_oui(self, v, load=False):
+    """
+    Setter method for oui, mapped from YANG variable /lldp/custom_tlvs/tlv/state/oui (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_oui is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_oui() directly.
+
+    YANG Description: The organizationally unique identifier field shall contain
+the organization's OUI as defined in Clause 9 of IEEE Std
+802. The high-order octet is 0 and the low-order 3 octets
+are the SMI Network Management Private Enterprise Code of
+the Vendor in network byte order, as defined in the
+'Assigned Numbers' RFC [RFC3232].
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="oui", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """oui must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="oui", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=False)""",
+        })
+
+    self.__oui = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_oui(self):
+    self.__oui = YANGDynClass(base=str, is_leaf=True, yang_name="oui", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=False)
+
+
+  def _get_oui_subtype(self):
+    """
+    Getter method for oui_subtype, mapped from YANG variable /lldp/custom_tlvs/tlv/state/oui_subtype (string)
+
+    YANG Description: The organizationally defined subtype field shall contain a
+unique subtype value assigned by the defining organization.
+    """
+    return self.__oui_subtype
+      
+  def _set_oui_subtype(self, v, load=False):
+    """
+    Setter method for oui_subtype, mapped from YANG variable /lldp/custom_tlvs/tlv/state/oui_subtype (string)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_oui_subtype is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_oui_subtype() directly.
+
+    YANG Description: The organizationally defined subtype field shall contain a
+unique subtype value assigned by the defining organization.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="oui-subtype", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """oui_subtype must be of a type compatible with string""",
+          'defined-type': "string",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="oui-subtype", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=False)""",
+        })
+
+    self.__oui_subtype = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_oui_subtype(self):
+    self.__oui_subtype = YANGDynClass(base=str, is_leaf=True, yang_name="oui-subtype", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='string', is_config=False)
+
+
+  def _get_value(self):
+    """
+    Getter method for value, mapped from YANG variable /lldp/custom_tlvs/tlv/state/value (binary)
+
+    YANG Description: A variable-length octet-string containing the
+instance-specific information for this TLV.
+    """
+    return self.__value
+      
+  def _set_value(self, v, load=False):
+    """
+    Setter method for value, mapped from YANG variable /lldp/custom_tlvs/tlv/state/value (binary)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_value is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_value() directly.
+
+    YANG Description: A variable-length octet-string containing the
+instance-specific information for this TLV.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGBinary, is_leaf=True, yang_name="value", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='binary', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """value must be of a type compatible with binary""",
+          'defined-type': "binary",
+          'generated-type': """YANGDynClass(base=YANGBinary, is_leaf=True, yang_name="value", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='binary', is_config=False)""",
+        })
+
+    self.__value = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_value(self):
+    self.__value = YANGDynClass(base=YANGBinary, is_leaf=True, yang_name="value", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='binary', is_config=False)
+
+  name = __builtin__.property(_get_name)
+  type = __builtin__.property(_get_type)
+  oui = __builtin__.property(_get_oui)
+  oui_subtype = __builtin__.property(_get_oui_subtype)
+  value = __builtin__.property(_get_value)
+
+
+  _pyangbind_elements = OrderedDict([('name', name), ('type', type), ('oui', oui), ('oui_subtype', oui_subtype), ('value', value), ])
+
+
+class yc_tlv_openconfig_lldp__lldp_custom_tlvs_tlv(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-lldp - based on the path /lldp/custom-tlvs/tlv. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: List of global custom LLDP TLVs
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__name','__config','__state',)
+
+  _yang_name = 'tlv'
+  _yang_namespace = 'http://openconfig.net/yang/lldp'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__name = YANGDynClass(base=str, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='leafref', is_config=True)
+    self.__config = YANGDynClass(base=yc_config_openconfig_lldp__lldp_custom_tlvs_tlv_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='container', is_config=True)
+    self.__state = YANGDynClass(base=yc_state_openconfig_lldp__lldp_custom_tlvs_tlv_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='container', is_config=False)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['lldp', 'custom-tlvs', 'tlv']
+
+  def _get_name(self):
+    """
+    Getter method for name, mapped from YANG variable /lldp/custom_tlvs/tlv/name (leafref)
+
+    YANG Description: Reference to the list key
+    """
+    return self.__name
+      
+  def _set_name(self, v, load=False):
+    """
+    Setter method for name, mapped from YANG variable /lldp/custom_tlvs/tlv/name (leafref)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_name is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_name() directly.
+
+    YANG Description: Reference to the list key
+    """
+    parent = getattr(self, "_parent", None)
+    if parent is not None and load is False:
+      raise AttributeError("Cannot set keys directly when" +
+                             " within an instantiated list")
+
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=str, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='leafref', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """name must be of a type compatible with leafref""",
+          'defined-type': "leafref",
+          'generated-type': """YANGDynClass(base=str, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='leafref', is_config=True)""",
+        })
+
+    self.__name = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_name(self):
+    self.__name = YANGDynClass(base=str, is_leaf=True, yang_name="name", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, is_keyval=True, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='leafref', is_config=True)
+
+
+  def _get_config(self):
+    """
+    Getter method for config, mapped from YANG variable /lldp/custom_tlvs/tlv/config (container)
+
+    YANG Description: Configuration data for global custom TLVs
+    """
+    return self.__config
+      
+  def _set_config(self, v, load=False):
+    """
+    Setter method for config, mapped from YANG variable /lldp/custom_tlvs/tlv/config (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_config is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_config() directly.
+
+    YANG Description: Configuration data for global custom TLVs
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_config_openconfig_lldp__lldp_custom_tlvs_tlv_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """config must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_config_openconfig_lldp__lldp_custom_tlvs_tlv_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='container', is_config=True)""",
+        })
+
+    self.__config = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_config(self):
+    self.__config = YANGDynClass(base=yc_config_openconfig_lldp__lldp_custom_tlvs_tlv_config, is_container='container', yang_name="config", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='container', is_config=True)
+
+
+  def _get_state(self):
+    """
+    Getter method for state, mapped from YANG variable /lldp/custom_tlvs/tlv/state (container)
+
+    YANG Description: Operational state data for global custom TLVs
+    """
+    return self.__state
+      
+  def _set_state(self, v, load=False):
+    """
+    Setter method for state, mapped from YANG variable /lldp/custom_tlvs/tlv/state (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_state is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_state() directly.
+
+    YANG Description: Operational state data for global custom TLVs
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_state_openconfig_lldp__lldp_custom_tlvs_tlv_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='container', is_config=False)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """state must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_state_openconfig_lldp__lldp_custom_tlvs_tlv_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='container', is_config=False)""",
+        })
+
+    self.__state = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_state(self):
+    self.__state = YANGDynClass(base=yc_state_openconfig_lldp__lldp_custom_tlvs_tlv_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='container', is_config=False)
+
+  name = __builtin__.property(_get_name, _set_name)
+  config = __builtin__.property(_get_config, _set_config)
+  state = __builtin__.property(_get_state)
+
+
+  _pyangbind_elements = OrderedDict([('name', name), ('config', config), ('state', state), ])
+
+
+class yc_custom_tlvs_openconfig_lldp__lldp_custom_tlvs(PybindBase):
+  """
+  This class was auto-generated by the PythonClass plugin for PYANG
+  from YANG module openconfig-lldp - based on the path /lldp/custom-tlvs. Each member element of
+  the container is represented as a class variable - with a specific
+  YANG type.
+
+  YANG Description: Enclosing container for list of global custom TLVs.
+Implementation Note: Custom TLV OUI/subtype combinations
+MUST NOT collide with standard LLDP TLVs. Configuration
+of conflicting OUI/subtype values is not permitted.
+  """
+  __slots__ = ('_path_helper', '_extmethods', '__tlv',)
+
+  _yang_name = 'custom-tlvs'
+  _yang_namespace = 'http://openconfig.net/yang/lldp'
+
+  _pybind_generated_by = 'container'
+
+  def __init__(self, *args, **kwargs):
+
+    self._path_helper = False
+
+    self._extmethods = False
+    self.__tlv = YANGDynClass(base=YANGListType("name",yc_tlv_openconfig_lldp__lldp_custom_tlvs_tlv, yang_name="tlv", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='name', extensions=None), is_container='list', yang_name="tlv", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='list', is_config=True)
+
+    load = kwargs.pop("load", None)
+    if args:
+      if len(args) > 1:
+        raise TypeError("cannot create a YANG container with >1 argument")
+      all_attr = True
+      for e in self._pyangbind_elements:
+        if not hasattr(args[0], e):
+          all_attr = False
+          break
+      if not all_attr:
+        raise ValueError("Supplied object did not have the correct attributes")
+      for e in self._pyangbind_elements:
+        nobj = getattr(args[0], e)
+        if nobj._changed() is False:
+          continue
+        setmethod = getattr(self, "_set_%s" % e)
+        if load is None:
+          setmethod(getattr(args[0], e))
+        else:
+          setmethod(getattr(args[0], e), load=load)
+
+  def _path(self):
+    if hasattr(self, "_parent"):
+      return self._parent._path()+[self._yang_name]
+    else:
+      return ['lldp', 'custom-tlvs']
+
+  def _get_tlv(self):
+    """
+    Getter method for tlv, mapped from YANG variable /lldp/custom_tlvs/tlv (list)
+
+    YANG Description: List of global custom LLDP TLVs
+    """
+    return self.__tlv
+      
+  def _set_tlv(self, v, load=False):
+    """
+    Setter method for tlv, mapped from YANG variable /lldp/custom_tlvs/tlv (list)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_tlv is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_tlv() directly.
+
+    YANG Description: List of global custom LLDP TLVs
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=YANGListType("name",yc_tlv_openconfig_lldp__lldp_custom_tlvs_tlv, yang_name="tlv", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='name', extensions=None), is_container='list', yang_name="tlv", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='list', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """tlv must be of a type compatible with list""",
+          'defined-type': "list",
+          'generated-type': """YANGDynClass(base=YANGListType("name",yc_tlv_openconfig_lldp__lldp_custom_tlvs_tlv, yang_name="tlv", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='name', extensions=None), is_container='list', yang_name="tlv", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='list', is_config=True)""",
+        })
+
+    self.__tlv = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_tlv(self):
+    self.__tlv = YANGDynClass(base=YANGListType("name",yc_tlv_openconfig_lldp__lldp_custom_tlvs_tlv, yang_name="tlv", parent=self, is_container='list', user_ordered=False, path_helper=self._path_helper, yang_keys='name', extensions=None), is_container='list', yang_name="tlv", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='list', is_config=True)
+
+  tlv = __builtin__.property(_get_tlv, _set_tlv)
+
+
+  _pyangbind_elements = OrderedDict([('tlv', tlv), ])
+
+
 class yc_lldp_openconfig_lldp__lldp(PybindBase):
   """
   This class was auto-generated by the PythonClass plugin for PYANG
@@ -5035,7 +6282,7 @@ class yc_lldp_openconfig_lldp__lldp(PybindBase):
 
   YANG Description: Top-level container for LLDP configuration and state data
   """
-  __slots__ = ('_path_helper', '_extmethods', '__config','__state','__mgmt_addresses','__interfaces',)
+  __slots__ = ('_path_helper', '_extmethods', '__config','__state','__mgmt_addresses','__interfaces','__custom_tlvs',)
 
   _yang_name = 'lldp'
   _yang_namespace = 'http://openconfig.net/yang/lldp'
@@ -5051,6 +6298,7 @@ class yc_lldp_openconfig_lldp__lldp(PybindBase):
     self.__state = YANGDynClass(base=yc_state_openconfig_lldp__lldp_state, is_container='container', yang_name="state", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='container', is_config=False)
     self.__mgmt_addresses = YANGDynClass(base=yc_mgmt_addresses_openconfig_lldp__lldp_mgmt_addresses, is_container='container', yang_name="mgmt-addresses", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='container', is_config=False)
     self.__interfaces = YANGDynClass(base=yc_interfaces_openconfig_lldp__lldp_interfaces, is_container='container', yang_name="interfaces", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='container', is_config=True)
+    self.__custom_tlvs = YANGDynClass(base=yc_custom_tlvs_openconfig_lldp__lldp_custom_tlvs, is_container='container', yang_name="custom-tlvs", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='container', is_config=True)
 
     load = kwargs.pop("load", None)
     if args:
@@ -5226,13 +6474,57 @@ class yc_lldp_openconfig_lldp__lldp(PybindBase):
   def _unset_interfaces(self):
     self.__interfaces = YANGDynClass(base=yc_interfaces_openconfig_lldp__lldp_interfaces, is_container='container', yang_name="interfaces", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='container', is_config=True)
 
+
+  def _get_custom_tlvs(self):
+    """
+    Getter method for custom_tlvs, mapped from YANG variable /lldp/custom_tlvs (container)
+
+    YANG Description: Enclosing container for list of global custom TLVs.
+Implementation Note: Custom TLV OUI/subtype combinations
+MUST NOT collide with standard LLDP TLVs. Configuration
+of conflicting OUI/subtype values is not permitted.
+    """
+    return self.__custom_tlvs
+      
+  def _set_custom_tlvs(self, v, load=False):
+    """
+    Setter method for custom_tlvs, mapped from YANG variable /lldp/custom_tlvs (container)
+    If this variable is read-only (config: false) in the
+    source YANG file, then _set_custom_tlvs is considered as a private
+    method. Backends looking to populate this variable should
+    do so via calling thisObj._set_custom_tlvs() directly.
+
+    YANG Description: Enclosing container for list of global custom TLVs.
+Implementation Note: Custom TLV OUI/subtype combinations
+MUST NOT collide with standard LLDP TLVs. Configuration
+of conflicting OUI/subtype values is not permitted.
+    """
+    if hasattr(v, "_utype"):
+      v = v._utype(v)
+    try:
+      t = YANGDynClass(v,base=yc_custom_tlvs_openconfig_lldp__lldp_custom_tlvs, is_container='container', yang_name="custom-tlvs", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='container', is_config=True)
+    except (TypeError, ValueError):
+      raise ValueError({
+          'error-string': """custom_tlvs must be of a type compatible with container""",
+          'defined-type': "container",
+          'generated-type': """YANGDynClass(base=yc_custom_tlvs_openconfig_lldp__lldp_custom_tlvs, is_container='container', yang_name="custom-tlvs", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='container', is_config=True)""",
+        })
+
+    self.__custom_tlvs = t
+    if hasattr(self, '_set'):
+      self._set()
+
+  def _unset_custom_tlvs(self):
+    self.__custom_tlvs = YANGDynClass(base=yc_custom_tlvs_openconfig_lldp__lldp_custom_tlvs, is_container='container', yang_name="custom-tlvs", parent=self, path_helper=self._path_helper, extmethods=self._extmethods, register_paths=True, extensions=None, namespace='http://openconfig.net/yang/lldp', defining_module='openconfig-lldp', yang_type='container', is_config=True)
+
   config = __builtin__.property(_get_config, _set_config)
   state = __builtin__.property(_get_state)
   mgmt_addresses = __builtin__.property(_get_mgmt_addresses)
   interfaces = __builtin__.property(_get_interfaces, _set_interfaces)
+  custom_tlvs = __builtin__.property(_get_custom_tlvs, _set_custom_tlvs)
 
 
-  _pyangbind_elements = OrderedDict([('config', config), ('state', state), ('mgmt_addresses', mgmt_addresses), ('interfaces', interfaces), ])
+  _pyangbind_elements = OrderedDict([('config', config), ('state', state), ('mgmt_addresses', mgmt_addresses), ('interfaces', interfaces), ('custom_tlvs', custom_tlvs), ])
 
 
 class openconfig_lldp(PybindBase):
