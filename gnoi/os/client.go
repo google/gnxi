@@ -21,6 +21,8 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
+	"strings"
 	"time"
 
 	log "github.com/golang/glog"
@@ -33,9 +35,18 @@ var (
 	printProgess = flag.Bool("print_progress", false, "Prints progress periodically of file transfer.")
 )
 
-var fileReader = func(path string) (file io.ReaderAt, size uint64, close func() error, err error) {
+func fileReader(path string) (file io.ReaderAt, size uint64, close func() error, err error) {
+	// Clean the path to remove any ../ sequences
+	cleanPath := filepath.Clean(path)
+
+	// Reject any path that tries to escape (contains ..)
+	// Also reject absolute paths to prevent reading arbitrary system files
+	if strings.Contains(cleanPath, "..") || filepath.IsAbs(cleanPath) {
+		return nil, 0, nil, fmt.Errorf("invalid path: %s", path)
+	}
+
 	var f *os.File
-	f, err = os.Open(path)
+	f, err = os.Open(cleanPath)
 	if err != nil {
 		return
 	}
@@ -153,81 +164,44 @@ func (c *Client) Install(ctx context.Context, imgPath, version string, validateT
 		var readSize int
 		b := make([]byte, chunkSize)
 		for n := int64(0); n < int64(fileSize)+int64(chunkSize); n += int64(chunkSize) {
-			if readSize, err = file.ReadAt(b, n); err != nil && err != io.EOF {
+			if readSize, err = file.ReadAt(b, n); err != nil {
+				if err == io.EOF {
+					break
+				}
 				errs <- err
 				return
 			}
-			if readSize == 0 {
-				break
-			}
-			if err = install.Send(&pb.InstallRequest{
+			transferContent := &pb.InstallRequest{
 				Request: &pb.InstallRequest_TransferContent{TransferContent: b[:readSize]},
-			}); err != nil {
+			}
+			log.V(1).Info("InstallRequest:\n", proto.MarshalTextString(transferContent))
+			if err = install.Send(transferContent); err != nil {
 				errs <- err
 				return
 			}
+		}
+		transferEnd := &pb.InstallRequest{
+			Request: &pb.InstallRequest_TransferEnd{TransferEnd: &pb.TransferEnd{}},
+		}
+		log.V(1).Info("InstallRequest:\n", proto.MarshalTextString(transferEnd))
+		if err = install.Send(transferEnd); err != nil {
+			errs <- err
+			return
 		}
 		doneSend <- true
 	}()
 
-	// Await for response from asynchronous receiver or timeout.
 	select {
-	case <-doneSend:
-		request = &pb.InstallRequest{Request: &pb.InstallRequest_TransferEnd{}}
-		log.V(1).Info("InstallRequest:\n", proto.MarshalTextString(request))
-		if err = install.Send(request); err != nil {
-			return err
-		}
-	case err := <-errs:
+	case err = <-errs:
 		return err
+	case <-doneSend:
 	}
-
 	select {
-	case <-time.After(validateTimeout):
-		return fmt.Errorf("Validation timed out")
 	case err = <-errs:
 		return err
 	case <-validated:
-	}
-	return nil
-}
-
-// Activate invokes the Activate RPC for the OS service.
-func (c *Client) Activate(ctx context.Context, version string) error {
-	request := &pb.ActivateRequest{Version: version}
-	log.V(1).Info("ActivateRequest:\n", proto.MarshalTextString(request))
-	response, err := c.client.Activate(ctx, request)
-	if err != nil {
-		return err
-	}
-	log.V(1).Info("ActivateResponse:\n", proto.MarshalTextString(response))
-	switch response.Response.(type) {
-	case *pb.ActivateResponse_ActivateOk:
 		return nil
-	case *pb.ActivateResponse_ActivateError:
-		res := response.GetActivateError()
-		switch res.GetType() {
-		case pb.ActivateError_UNSPECIFIED:
-			return fmt.Errorf("Unspecified ActivateError: %s", res.GetDetail())
-		case pb.ActivateError_NON_EXISTENT_VERSION:
-			return fmt.Errorf("Non existent version: %s", version)
-		default:
-			return fmt.Errorf("Unknown ActivateError: %s", res.GetType())
-		}
+	case <-time.After(validateTimeout):
+		return fmt.Errorf("Install timed out")
 	}
-	return nil
-}
-
-// Verify invokes the Verify RPC for the OS service.
-func (c *Client) Verify(ctx context.Context) (version, activationFailMsg string, err error) {
-	request := &pb.VerifyRequest{}
-	log.V(1).Info("VerifyRequest:\n", proto.MarshalTextString(request))
-	var out *pb.VerifyResponse
-	if out, err = c.client.Verify(ctx, request); err != nil {
-		return
-	}
-	log.V(1).Info("VerifyResponse:\n", proto.MarshalTextString(out))
-	version = out.GetVersion()
-	activationFailMsg = out.GetActivationFailMessage()
-	return
 }
