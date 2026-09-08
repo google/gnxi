@@ -277,6 +277,11 @@ func TestParseElement(t *testing.T) {
 		elem:     "a[k1=v1][k2=v2]",
 		expectOK: true,
 		want:     []interface{}{"a", map[string]string{"k1": "v1", "k2": "v2"}},
+	}, {
+		desc:     "test list with xpath expression in key",
+		elem:     "interface[name=current()]",
+		expectOK: true,
+		want:     []interface{}{"interface", map[string]string{"name": "current()"}},
 	}}
 
 	for _, test := range tests {
@@ -360,6 +365,16 @@ func TestParseStringPath(t *testing.T) {
 	}, {
 		desc: "test path containing a multi-key List, second key-value pair without [ and ]",
 		path: "/a/b[k1=10]k2=abc/c",
+	}, {
+		desc:     "test path containing prefix",
+		path:     "/openconfig-interfaces:interface",
+		expectOK: true,
+		want:     []interface{}{"openconfig-interfaces:interface"},
+	}, {
+		desc:     "test path containing prefix in path and List",
+		path:     "/oc-if:interfaces/oc-if:interface[oc-if:name=current()/../interface]/oc-if:subinterfaces",
+		expectOK: true,
+		want:     []interface{}{"oc-if:interfaces", "oc-if:interface", map[string]string{"oc-if:name": "current()/../interface"}, "oc-if:subinterfaces"},
 	}}
 
 	for _, test := range tests {
