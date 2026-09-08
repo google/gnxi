@@ -18,6 +18,7 @@ package xpath
 
 import (
 	"fmt"
+	"strings"
 
 	pb "github.com/openconfig/gnmi/proto/gnmi"
 )
@@ -40,6 +41,12 @@ import (
 //    elem: <name: "state" >
 //    elem: <name: "counters" >
 func ToGNMIPath(xpath string) (*pb.Path, error) {
+	var origin string
+	i := strings.Index(xpath, ":")
+	if i != -1 {
+		origin = xpath[:i]
+		xpath = xpath[i+1:]
+	}
 	xpathElements, err := ParseStringPath(xpath)
 	if err != nil {
 		return nil, err
@@ -62,5 +69,5 @@ func ToGNMIPath(xpath string) (*pb.Path, error) {
 			return nil, fmt.Errorf("wrong data type: %T", v)
 		}
 	}
-	return &pb.Path{Elem: pbPathElements}, nil
+	return &pb.Path{Origin: origin, Elem: pbPathElements}, nil
 }
