@@ -109,18 +109,25 @@ class TestTarget():
 
     def gNMIConnect(self):
         """Create a gNMI connection to the target."""
+        # Add keepalive options to prevent intermediate proxies from dropping idle connections
+        keepalive_opts = (
+            ('grpc.keepalive_time_ms', 60000),         # Ping every 60 seconds
+            ('grpc.keepalive_timeout_ms', 20000),      # Wait 20 seconds for ack
+            ('grpc.keepalive_permit_without_calls', 1) # Allow pings even if no RPCs are active
+        )
+
         if self.notls:
-            self.channel = grpc.insecure_channel(self.address)
+            self.channel = grpc.insecure_channel(self.address, options=keepalive_opts)
         else:
             creds = self._buildCredentials()
             if self.host_tls_override:
                 self.channel = grpc.secure_channel(
                     self.address, creds,
                     (('grpc.ssl_target_name_override',
-                      self.host_tls_override,),))
+                      self.host_tls_override,),) + keepalive_opts)
             else:
                 self.channel = grpc.secure_channel(
-                    self.address, creds)
+                    self.address, creds, options=keepalive_opts)
         self.stub = gnmi_pb2_grpc.gNMIStub(self.channel)
 
     def gNMIClose(self):
@@ -186,7 +193,8 @@ class TestTarget():
             raise RpcError(err) from err
 
     def _gNMISet(self, xpath: str, set_type: str,
-                 value: Optional[Any] = None) -> gnmi_pb2.SetResponse:
+                 value: Optional[Any] = None,
+                 timeout: int = 60) -> gnmi_pb2.SetResponse:
         """Create a gNMI SetRequest.
 
         Args:
@@ -211,18 +219,34 @@ class TestTarget():
 
         auth = self._GnmiAuthMetadata()
         response = None
-        try:
-            if set_type.lower() == 'delete':
-                response = self.stub.Set(gnmi_pb2.SetRequest(delete=[path]),
-                                         metadata=auth)
-            if set_type.lower() == 'update':
-                response = self.stub.Set(gnmi_pb2.SetRequest(
-                    update=[path_val]), metadata=auth)
-            if set_type.lower() == 'replace':
-                response = self.stub.Set(gnmi_pb2.SetRequest(
-                    replace=[path_val]), metadata=auth)
-        except _InactiveRpcError as err:
-            raise RpcError(err) from err
+        max_retries = 3
+        
+        for attempt in range(1, max_retries + 1):
+            try:
+                if set_type.lower() == 'delete':
+                    response = self.stub.Set(gnmi_pb2.SetRequest(delete=[path]),
+                                             metadata=auth, timeout=timeout)
+                elif set_type.lower() == 'update':
+                    response = self.stub.Set(gnmi_pb2.SetRequest(
+                        update=[path_val]), metadata=auth, timeout=timeout)
+                elif set_type.lower() == 'replace':
+                    response = self.stub.Set(gnmi_pb2.SetRequest(
+                        replace=[path_val]), metadata=auth, timeout=timeout)
+                break
+            except _InactiveRpcError as err:
+                if (
+                    err.code() == grpc.StatusCode.DEADLINE_EXCEEDED
+                    and attempt < max_retries
+                ):
+                    logging.warning(
+                        'gNMI Set request timed out, retrying %d of %d...',
+                        set_type.upper(),
+                        attempt,
+                        max_retries,
+                    )
+                    time.sleep(5)
+                    continue
+                raise RpcError(err) from err
 
         if self.gnmi_set_cooldown_secs:
             time.sleep(self.gnmi_set_cooldown_secs)
@@ -230,7 +254,8 @@ class TestTarget():
         return response
 
     def gNMISetUpdate(self, xpath: str,
-                      value: Any) -> gnmi_pb2.SetResponse:
+                      value: Any,
+                      timeout: int = 60) -> gnmi_pb2.SetResponse:
         """Create a gNMI SetRequest Update.
 
         Args:
@@ -240,10 +265,11 @@ class TestTarget():
         Returns:
             A gnmi_pb2.SetResponse object.
         """
-        return self._gNMISet(xpath, 'update', value)
+        return self._gNMISet(xpath, 'update', value, timeout=timeout)
 
     def gNMISetReplace(self, xpath: str,
-                       value: Any) -> gnmi_pb2.SetResponse:
+                       value: Any,
+                       timeout: int = 60) -> gnmi_pb2.SetResponse:
         """Create a gNMI SetRequest Replace.
 
         Args:
@@ -253,9 +279,10 @@ class TestTarget():
         Returns:
             A gnmi_pb2.SetResponse object.
         """
-        return self._gNMISet(xpath, 'replace', value)
+        return self._gNMISet(xpath, 'replace', value, timeout=timeout)
 
-    def gNMISetDelete(self, xpath: str) -> gnmi_pb2.SetResponse:
+    def gNMISetDelete(self, xpath: str,
+                      timeout: int = 60) -> gnmi_pb2.SetResponse:
         """Create a gNMI SetRequest Delete.
 
         Args:
@@ -264,9 +291,10 @@ class TestTarget():
         Returns:
             A gnmi_pb2.SetResponse object.
         """
-        return self._gNMISet(xpath, 'delete')
+        return self._gNMISet(xpath, 'delete', timeout=timeout)
 
-    def gNMISetConfigFile(self, file_path: str, xpath: str, set_replace: bool = False):
+    def gNMISetConfigFile(self, file_path: str, xpath: str, set_replace: bool = False,
+                          timeout: int = 60):
         """Apply the JSON-formated configuration to the target.
 
         Args:
@@ -277,9 +305,9 @@ class TestTarget():
         with open(file_path, encoding="utf8") as file:
             json_data = json.load(file)
         if set_replace:
-            self.gNMISetReplace(xpath, json_data)
+            self.gNMISetReplace(xpath, json_data, timeout=timeout)
         else:
-            self.gNMISetUpdate(xpath, json_data)
+            self.gNMISetUpdate(xpath, json_data, timeout=timeout)
 
     def _gNMISubscribe(self,
                        request: gnmi_pb2.SubscribeRequest,
@@ -429,3 +457,4 @@ class TestTarget():
                 "No Response with sync_response was received")
 
         return before, after
+
